@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { CardArt } from "../cards/CardArt";
+import { DeckMap } from "./DeckMap";
 import {
   TacticalDataPanel,
   TacticalEmptyState,
@@ -150,24 +151,25 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   return (
     <div className="deck-designer">
       <section className="bruxao-designer-hero" aria-labelledby="bruxao-designer-title">
-        <div className="bruxao-designer-hero__sigil" aria-hidden="true">
-          <span>BD</span>
+        <div className="bruxao-designer-hero__core" aria-hidden="true">
+          <span>BRX</span>
           <i />
+          <b />
         </div>
         <div className="bruxao-designer-hero__copy">
-          <span className="eyebrow">Arcane tactical oracle · competitive intelligence</span>
+          <span className="eyebrow">Potter callsign · tactical deck system</span>
           <h2 id="bruxao-designer-title"><span>BRUXÃO</span> DECK DESIGNER</h2>
-          <p>Real data goes in. A sharpened list comes out. Every choice includes evidence, confidence and calculated impact.</p>
+          <p>BRUXÃO is Potter's pilot ID. This system turns competitive evidence into a connected deck map built for battle decisions.</p>
           <div className="bruxao-designer-hero__signals" aria-label="Designer capabilities">
-            <span>Competitive meta</span>
-            <span>Deep synergies</span>
-            <span>Live swaps</span>
+            <span>Deck link map</span>
+            <span>Synergy analysis</span>
+            <span>Live substitution impact</span>
           </div>
         </div>
         <div className="bruxao-designer-hero__status">
-          <small>AI CORE</small>
-          <strong>ONLINE</strong>
-          <span>VERIFIABLE EVIDENCE</span>
+          <small>PILOT ID</small>
+          <strong>POTTER</strong>
+          <span>DECK LINK ONLINE</span>
         </div>
       </section>
       <form className="deck-designer__brief tactical-data-panel" onSubmit={runAnalysis}>
@@ -338,7 +340,6 @@ function DesignerResult({
   saveMessage,
 }) {
   const groupedRows = groupDeckRows(report.rows);
-  const confidenceTone = report.confidence === "High" ? "green" : report.confidence === "Medium" ? "gold" : "red";
   return (
     <section className="deck-designer-result" aria-live="polite">
       <header className="deck-designer-result__header">
@@ -357,13 +358,7 @@ function DesignerResult({
       </header>
       {saveMessage ? <p className="deck-designer-result__save-status">{saveMessage}</p> : null}
 
-      <div className="deck-designer-result__telemetry">
-        <Telemetry label="Main deck" value={`${report.stats.mainCount} / 50`} detail="Legal card count" tone="blue" />
-        <Telemetry label="Confidence" value={report.confidence} detail={`${report.facts.exactDecklists || report.exactDeckCount || 0} exact matches`} tone={confidenceTone} />
-        <Telemetry label="Average cost" value={report.stats.averageCost} detail="Weighted main-deck curve" tone="green" />
-        <Telemetry label="Estimated price" value={`R$ ${report.stats.estimatedPriceBrl.toFixed(2)}`} detail="Lowest tracked printings" tone="gold" />
-        <Telemetry label="Evidence" value={`${report.facts.matchedDecklists} lists`} detail={`${report.facts.eventCount} events · ${report.facts.wins} wins`} />
-      </div>
+      <DeckMap report={report} onApplySubstitution={onApplySubstitution} />
 
       {(report.limitations || []).length ? (
         <div className="deck-designer-result__limitations">
@@ -372,8 +367,13 @@ function DesignerResult({
         </div>
       ) : null}
 
-      <div className="deck-designer-result__layout">
-        <div className="deck-designer-list">
+      <details className="deck-designer-manifest">
+        <summary>
+          <span>DECK MANIFEST // LIST VIEW</span>
+          <strong>{report.stats.mainCount} cards · grouped by type and cost</strong>
+        </summary>
+        <div className="deck-designer-result__layout">
+          <div className="deck-designer-list">
           <div className="deck-designer-list__legend">
             <CategoryPill category="essential" />
             <CategoryPill category="flexible" />
@@ -409,16 +409,17 @@ function DesignerResult({
             <span>10x {Object.keys(report.resource || {})[0] || "Resource"}</span>
             <small>Separate resource deck · unlimited copies under the current rules snapshot.</small>
           </section>
-        </div>
+          </div>
 
-        <aside className="deck-designer-analysis">
-          <CurvePanel stats={report.stats} />
-          <InsightPanel title="Observed facts" items={report.observedFacts} tone="fact" />
-          <InsightPanel title="Strengths · theoretical" items={report.strengths} tone="inference" />
-          <InsightPanel title="Weaknesses / risks" items={report.weaknesses} tone="risk" />
-          <MatchupPanel rows={report.matchups} />
-        </aside>
-      </div>
+          <aside className="deck-designer-analysis">
+            <CurvePanel stats={report.stats} />
+            <InsightPanel title="Observed facts" items={report.observedFacts} tone="fact" />
+            <InsightPanel title="Strengths · theoretical" items={report.strengths} tone="inference" />
+            <InsightPanel title="Weaknesses / risks" items={report.weaknesses} tone="risk" />
+            <MatchupPanel rows={report.matchups} />
+          </aside>
+        </div>
+      </details>
 
       <div className="deck-designer-result__lower-grid">
         <SynergyPanel rows={report.synergies} />
@@ -627,16 +628,6 @@ function EvidencePanel({ report }) {
         ))}
       </div>
     </TacticalDataPanel>
-  );
-}
-
-function Telemetry({ label, value, detail, tone = "neutral" }) {
-  return (
-    <article className={`designer-telemetry designer-telemetry--${tone}`}>
-      <span>{label}</span>
-      <strong>{value}</strong>
-      <small>{detail}</small>
-    </article>
   );
 }
 
