@@ -9407,6 +9407,88 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
     linear-gradient(0deg, color-mix(in srgb, var(--map-cyan) 4%, transparent) 1px, transparent 1px),
     rgba(0, 5, 14, 0.88);
   background-size: auto, auto, 44px 44px, 44px 44px, auto;
+  cursor: grab;
+  user-select: none;
+}
+
+.deck-map__canvas.is-panning {
+  cursor: grabbing;
+}
+
+.deck-map__graph-stage {
+  position: absolute;
+  inset: 0;
+  transform:
+    translate(var(--map-pan-x, 0), var(--map-pan-y, 0))
+    scale(var(--map-zoom, 1));
+  transform-origin: 50% 50%;
+  transition: transform 180ms ease-out;
+  will-change: transform;
+}
+
+.deck-map__canvas.is-panning .deck-map__graph-stage {
+  transition: none;
+}
+
+.deck-map__view-controls {
+  position: absolute;
+  z-index: 18;
+  bottom: 3.1rem;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.24rem;
+  padding: 0.3rem;
+  border: 1px solid color-mix(in srgb, var(--map-cyan) 25%, transparent);
+  background: rgba(0, 8, 19, 0.88);
+  box-shadow: 0 0 22px rgba(0, 0, 0, 0.34);
+  transform: translateX(-50%);
+  backdrop-filter: blur(8px);
+}
+
+.deck-map__view-controls button {
+  display: grid !important;
+  place-items: center;
+  min-width: 30px !important;
+  min-height: 28px !important;
+  padding: 0.28rem 0.46rem !important;
+  border-color: color-mix(in srgb, var(--map-cyan) 30%, transparent) !important;
+  color: #bcefff !important;
+  background: color-mix(in srgb, var(--map-cyan) 5%, rgba(0, 7, 17, 0.78)) !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+  font: 900 0.57rem var(--font-tech) !important;
+  white-space: nowrap;
+}
+
+.deck-map__view-controls button:first-child,
+.deck-map__view-controls button:nth-of-type(2) {
+  font-size: 0.95rem !important;
+}
+
+.deck-map__view-controls button:hover,
+.deck-map__view-controls button:focus-visible {
+  border-color: var(--map-cyan) !important;
+  color: #fff !important;
+  background: color-mix(in srgb, var(--map-cyan) 12%, rgba(0, 7, 17, 0.84)) !important;
+}
+
+.deck-map__view-controls button:disabled {
+  opacity: 0.28;
+}
+
+.deck-map__view-controls output {
+  min-width: 44px;
+  color: var(--map-cyan);
+  font: 900 0.58rem var(--font-display);
+  text-align: center;
+}
+
+.deck-map__view-controls > span {
+  padding: 0 0.35rem;
+  color: #66869b;
+  font: 800 0.48rem var(--font-tech);
+  letter-spacing: 0.08em;
 }
 
 .deck-map__canvas::before {
@@ -9709,6 +9791,17 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
     left: 0.4rem;
     justify-content: flex-start;
     transform: none;
+  }
+
+  .deck-map__view-controls {
+    right: 0.4rem;
+    bottom: 3.15rem;
+    left: auto;
+    transform: none;
+  }
+
+  .deck-map__view-controls > span {
+    display: none;
   }
 
   .deck-designer-debrief .deck-designer-analysis,

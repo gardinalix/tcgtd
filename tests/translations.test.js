@@ -14,6 +14,7 @@ test("PT-BR is the default interface language", () => {
   assert.equal(translate("AI Deck Designer", "pt-BR"), "BRUXÃO DECK DESIGNER");
   assert.equal(translate("Tactical deck map", "pt-BR"), "Mapa tático do deck");
   assert.equal(translate("MISSION PARAMETERS", "pt-BR"), "PARÂMETROS DA MISSÃO");
+  assert.equal(translate("FIT ALL", "pt-BR"), "ENQUADRAR TUDO");
 });
 
 test("English mode preserves source interface copy", () => {

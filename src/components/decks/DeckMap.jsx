@@ -2,17 +2,24 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CardArt } from "../cards/CardArt";
 import { buildDeckGraph, relatedNodeIds } from "../../services/deckDesigner/deckMapLayout.js";
 
+const MIN_ZOOM = 0.55;
+const MAX_ZOOM = 1.6;
+const FIT_ZOOM = 0.66;
+
 export function DeckMap({ report, onApplySubstitution }) {
   const graph = useMemo(() => buildDeckGraph(report.rows, report.synergies), [report.rows, report.synergies]);
   const [selectedId, setSelectedId] = useState(() => graph.nodes[0]?.id || "");
   const [hoveredId, setHoveredId] = useState("");
   const [rosterOpen, setRosterOpen] = useState(true);
   const [inspectorOpen, setInspectorOpen] = useState(false);
+  const [viewport, setViewport] = useState({ zoom: 1, x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
   const activeId = hoveredId || selectedId;
   const relatedIds = useMemo(() => relatedNodeIds(graph, activeId), [graph, activeId]);
   const rosterGroups = useMemo(() => groupRosterNodes(graph.nodes), [graph.nodes]);
   const rosterNodeRefs = useRef(new Map());
   const selectionSourceRef = useRef("");
+  const panSessionRef = useRef(null);
   const selectedNode = graph.nodes.find((node) => node.id === selectedId) || graph.nodes[0] || null;
   const selectedConnections = graph.edges.filter((edge) => edge.source === selectedNode?.id || edge.target === selectedNode?.id);
 
@@ -32,6 +39,55 @@ export function DeckMap({ report, onApplySubstitution }) {
     selectionSourceRef.current = source;
     setSelectedId(nodeId);
     if (source === "map" || source === "list") setInspectorOpen(true);
+  }
+
+  function zoomBy(delta) {
+    setViewport((current) => ({
+      ...current,
+      zoom: clamp(current.zoom + delta, MIN_ZOOM, MAX_ZOOM),
+    }));
+  }
+
+  function fitMap() {
+    setViewport({ zoom: FIT_ZOOM, x: 0, y: 0 });
+    setRosterOpen(false);
+    setInspectorOpen(false);
+  }
+
+  function resetMap() {
+    setViewport({ zoom: 1, x: 0, y: 0 });
+  }
+
+  function startPan(event) {
+    if (event.button !== 0 || event.pointerType === "touch" || event.target.closest?.("button, a")) return;
+    panSessionRef.current = {
+      pointerId: event.pointerId,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      x: viewport.x,
+      y: viewport.y,
+    };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    setIsPanning(true);
+  }
+
+  function movePan(event) {
+    const session = panSessionRef.current;
+    if (!session || session.pointerId !== event.pointerId) return;
+    const maxX = event.currentTarget.clientWidth * 0.45;
+    const maxY = event.currentTarget.clientHeight * 0.45;
+    setViewport((current) => ({
+      ...current,
+      x: clamp(session.x + event.clientX - session.clientX, -maxX, maxX),
+      y: clamp(session.y + event.clientY - session.clientY, -maxY, maxY),
+    }));
+  }
+
+  function endPan(event) {
+    if (panSessionRef.current?.pointerId !== event.pointerId) return;
+    panSessionRef.current = null;
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    setIsPanning(false);
   }
 
   return (
@@ -75,58 +131,81 @@ export function DeckMap({ report, onApplySubstitution }) {
         )}
 
         <div
-          className="deck-map__canvas"
+          className={`deck-map__canvas ${isPanning ? "is-panning" : ""}`.trim()}
           role="group"
-          aria-label="Interactive map of recommended deck cards and their relationships"
+          aria-label="Interactive map of recommended deck cards and their relationships. Drag the field to pan."
           onMouseLeave={() => setHoveredId("")}
+          onPointerDown={startPan}
+          onPointerMove={movePan}
+          onPointerUp={endPan}
+          onPointerCancel={endPan}
+          onDoubleClick={resetMap}
         >
           <div className="deck-map__scanline" aria-hidden="true" />
-          <svg className="deck-map__links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            {(graph.edges || []).map((edge) => {
-              const source = graph.nodes.find((node) => node.id === edge.source);
-              const target = graph.nodes.find((node) => node.id === edge.target);
-              if (!source || !target) return null;
-              const isActive = !activeId || edge.source === activeId || edge.target === activeId;
+          <div
+            className="deck-map__graph-stage"
+            style={{
+              "--map-zoom": viewport.zoom,
+              "--map-pan-x": `${viewport.x}px`,
+              "--map-pan-y": `${viewport.y}px`,
+            }}
+          >
+            <svg className="deck-map__links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              {(graph.edges || []).map((edge) => {
+                const source = graph.nodes.find((node) => node.id === edge.source);
+                const target = graph.nodes.find((node) => node.id === edge.target);
+                if (!source || !target) return null;
+                const isActive = !activeId || edge.source === activeId || edge.target === activeId;
+                return (
+                  <line
+                    key={edge.id}
+                    className={`deck-map__link deck-map__link--${edge.kind} ${isActive ? "is-active" : "is-dimmed"}`.trim()}
+                    x1={source.x}
+                    y1={source.y}
+                    x2={target.x}
+                    y2={target.y}
+                  />
+                );
+              })}
+            </svg>
+
+            {(graph.nodes || []).map((node) => {
+              const isActive = node.id === activeId;
+              const isSelected = node.id === selectedNode?.id;
+              const isRelated = !activeId || relatedIds.has(node.id);
               return (
-                <line
-                  key={edge.id}
-                  className={`deck-map__link deck-map__link--${edge.kind} ${isActive ? "is-active" : "is-dimmed"}`.trim()}
-                  x1={source.x}
-                  y1={source.y}
-                  x2={target.x}
-                  y2={target.y}
-                />
+                <button
+                  key={node.id}
+                  type="button"
+                  className={`deck-map-node deck-map-node--${node.row.category} ${isActive ? "is-active" : ""} ${isSelected ? "is-selected" : ""} ${isRelated ? "is-related" : "is-dimmed"}`.trim()}
+                  style={{ "--node-x": `${node.x}%`, "--node-y": `${node.y}%` }}
+                  onMouseEnter={() => setHoveredId(node.id)}
+                  onFocus={() => setHoveredId(node.id)}
+                  onBlur={() => setHoveredId("")}
+                  onClick={() => selectNode(node.id, "map")}
+                  aria-pressed={isSelected}
+                  aria-label={`${node.row.quantity} copies of ${node.row.card.cardName}. ${node.degree} connections.`}
+                >
+                  <span className="deck-map-node__orbit" aria-hidden="true" />
+                  <CardArt card={node.row.card} className="deck-map-node__art" compact />
+                  <span className="deck-map-node__qty">{node.row.quantity}x</span>
+                  <span className="deck-map-node__label">
+                    <strong>{node.row.card.cardName}</strong>
+                    <small>{node.row.card.cardNumber} · C{node.row.card.cost || "-"}</small>
+                  </span>
+                </button>
               );
             })}
-          </svg>
+          </div>
 
-          {(graph.nodes || []).map((node) => {
-            const isActive = node.id === activeId;
-            const isSelected = node.id === selectedNode?.id;
-            const isRelated = !activeId || relatedIds.has(node.id);
-            return (
-              <button
-                key={node.id}
-                type="button"
-                className={`deck-map-node deck-map-node--${node.row.category} ${isActive ? "is-active" : ""} ${isSelected ? "is-selected" : ""} ${isRelated ? "is-related" : "is-dimmed"}`.trim()}
-                style={{ "--node-x": `${node.x}%`, "--node-y": `${node.y}%` }}
-                onMouseEnter={() => setHoveredId(node.id)}
-                onFocus={() => setHoveredId(node.id)}
-                onBlur={() => setHoveredId("")}
-                onClick={() => selectNode(node.id, "map")}
-                aria-pressed={isSelected}
-                aria-label={`${node.row.quantity} copies of ${node.row.card.cardName}. ${node.degree} connections.`}
-              >
-                <span className="deck-map-node__orbit" aria-hidden="true" />
-                <CardArt card={node.row.card} className="deck-map-node__art" compact />
-                <span className="deck-map-node__qty">{node.row.quantity}x</span>
-                <span className="deck-map-node__label">
-                  <strong>{node.row.card.cardName}</strong>
-                  <small>{node.row.card.cardNumber} · C{node.row.card.cost || "-"}</small>
-                </span>
-              </button>
-            );
-          })}
+          <div className="deck-map__view-controls" role="toolbar" aria-label="Map view controls">
+            <button type="button" onClick={() => zoomBy(-0.1)} disabled={viewport.zoom <= MIN_ZOOM} aria-label="Zoom out">−</button>
+            <output aria-label="Current zoom">{Math.round(viewport.zoom * 100)}%</output>
+            <button type="button" onClick={() => zoomBy(0.1)} disabled={viewport.zoom >= MAX_ZOOM} aria-label="Zoom in">+</button>
+            <button type="button" onClick={fitMap}>FIT ALL</button>
+            <button type="button" onClick={resetMap}>1:1</button>
+            <span>DRAG TO PAN</span>
+          </div>
 
           <div className="deck-map__legend" aria-label="Connection legend">
             <span><i className="is-observed" /> Observed synergy</span>
@@ -305,4 +384,8 @@ function groupRosterNodes(nodes = []) {
     nodes: groupNodes,
     quantity: groupNodes.reduce((total, node) => total + Number(node.row.quantity || 0), 0),
   }));
+}
+
+function clamp(value, minimum, maximum) {
+  return Math.min(maximum, Math.max(minimum, value));
 }
