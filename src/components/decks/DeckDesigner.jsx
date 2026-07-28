@@ -782,6 +782,7 @@ function getHudSystemLabel() {
   if (typeof document === "undefined") return "ZERO SYSTEM // DECK LINK";
   const theme = document.body?.dataset?.theme;
   if (theme === "barbatos") return "ALAYA-VIJNANA // NEURAL LINK";
+  if (theme === "gquuuuuux") return "OMEGA PSYCOMMU SYSTEM // DECK LINK";
   if (theme === "wing-zero") return "ZERO SYSTEM // DECK LINK";
   return "MOBILE SUIT // TACTICAL LINK";
 }
