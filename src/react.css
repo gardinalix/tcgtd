@@ -7733,6 +7733,318 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
   }
 }
 
+/* BRUXÃO v3: linked manifest rail */
+.deck-map__workspace {
+  grid-template-areas: "roster canvas inspector";
+  grid-template-columns: minmax(240px, 280px) minmax(500px, 1fr) minmax(285px, 330px);
+}
+
+.deck-map-roster {
+  grid-area: roster;
+  display: flex;
+  flex-direction: column;
+  height: clamp(650px, 57vw, 820px);
+  min-width: 0;
+  overflow: hidden;
+  border-right: 1px solid color-mix(in srgb, var(--map-cyan) 18%, transparent);
+  background:
+    linear-gradient(105deg, color-mix(in srgb, var(--map-cyan) 5%, transparent), transparent 58%),
+    rgba(0, 7, 17, 0.94);
+}
+
+.deck-map-roster__header {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.2rem 0.5rem;
+  padding: 0.72rem 0.68rem 0.62rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--map-cyan) 28%, transparent);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--map-cyan) 10%, transparent), transparent),
+    rgba(0, 9, 21, 0.97);
+}
+
+.deck-map-roster__header::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  width: 38%;
+  height: 1px;
+  background: var(--map-cyan);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--map-cyan) 66%, transparent);
+  content: "";
+}
+
+.deck-map-roster__header > span {
+  overflow: hidden;
+  color: var(--map-cyan);
+  font: 900 0.58rem var(--font-display);
+  letter-spacing: 0.1em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deck-map-roster__header > strong {
+  color: #ecfbff;
+  font: 900 0.68rem var(--font-display);
+  letter-spacing: 0.06em;
+}
+
+.deck-map-roster__header > small {
+  grid-column: 1 / -1;
+  color: #6f8da2;
+  font: 700 0.52rem / 1.35 var(--font-tech);
+}
+
+.deck-map-roster__groups {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: color-mix(in srgb, var(--map-cyan) 44%, transparent) rgba(0, 4, 11, 0.72);
+  scrollbar-width: thin;
+}
+
+.deck-map-roster__group > header {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 30px;
+  padding: 0.32rem 0.58rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--map-cyan) 14%, transparent);
+  background: rgba(1, 13, 27, 0.97);
+  backdrop-filter: blur(8px);
+}
+
+.deck-map-roster__group > header h4 {
+  margin: 0;
+  color: #a5ddef;
+  font: 900 0.58rem var(--font-display);
+  letter-spacing: 0.13em;
+}
+
+.deck-map-roster__group > header span {
+  color: #66869b;
+  font: 800 0.5rem var(--font-tech);
+}
+
+.deck-map-roster__card {
+  --roster-tone: var(--map-blue);
+  position: relative;
+  display: grid !important;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.48rem;
+  width: 100%;
+  min-height: 68px !important;
+  padding: 0.32rem 0.46rem !important;
+  overflow: hidden;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--roster-tone) 12%, transparent) !important;
+  border-left: 2px solid transparent !important;
+  color: #dff8ff !important;
+  background: rgba(0, 6, 15, 0.64) !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+  text-align: left;
+  transition: opacity 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.deck-map-roster__card--essential { --roster-tone: var(--map-cyan); }
+.deck-map-roster__card--flexible { --roster-tone: var(--map-blue); }
+.deck-map-roster__card--accessible { --roster-tone: var(--map-gold); }
+.deck-map-roster__card--experimental { --roster-tone: var(--map-violet); }
+
+.deck-map-roster__card::after {
+  position: absolute;
+  top: 0;
+  right: -16px;
+  width: 38px;
+  height: 100%;
+  border-left: 1px solid color-mix(in srgb, var(--roster-tone) 26%, transparent);
+  background: color-mix(in srgb, var(--roster-tone) 4%, transparent);
+  content: "";
+  transform: skewX(-18deg);
+}
+
+.deck-map-roster__card:hover,
+.deck-map-roster__card:focus-visible,
+.deck-map-roster__card.is-active {
+  border-left-color: var(--roster-tone) !important;
+  color: #fff !important;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--roster-tone) 15%, rgba(0, 9, 21, 0.92)), rgba(0, 7, 17, 0.76) 72%) !important;
+  box-shadow: inset 12px 0 24px color-mix(in srgb, var(--roster-tone) 6%, transparent) !important;
+}
+
+.deck-map-roster__card.is-selected {
+  border-right: 2px solid color-mix(in srgb, var(--roster-tone) 70%, transparent) !important;
+}
+
+.deck-map-roster__card.is-dimmed {
+  opacity: 0.2;
+}
+
+.deck-map-roster__card.is-related:not(.is-active) {
+  opacity: 0.72;
+}
+
+.deck-map-roster__art {
+  width: 44px;
+  height: 62px;
+  min-height: 0 !important;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--roster-tone) 34%, transparent);
+  background: #020814;
+  transition: border-color 160ms ease, filter 160ms ease, transform 160ms ease;
+}
+
+.deck-map-roster__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.deck-map-roster__card.is-active .deck-map-roster__art,
+.deck-map-roster__card:hover .deck-map-roster__art,
+.deck-map-roster__card:focus-visible .deck-map-roster__art {
+  border-color: var(--roster-tone);
+  filter: saturate(1.18) drop-shadow(0 0 6px color-mix(in srgb, var(--roster-tone) 45%, transparent));
+  transform: scale(1.04);
+}
+
+.deck-map-roster__identity {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-width: 0;
+}
+
+.deck-map-roster__identity strong {
+  overflow: hidden;
+  color: #dff8ff;
+  font: 900 0.6rem var(--font-tech);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deck-map-roster__identity small,
+.deck-map-roster__identity em {
+  overflow: hidden;
+  color: #69879b;
+  font: 700 0.49rem var(--font-tech);
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deck-map-roster__identity em {
+  color: color-mix(in srgb, var(--roster-tone) 64%, #7793a5);
+  text-transform: uppercase;
+}
+
+.deck-map-roster__stats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-width: 30px;
+  text-align: center;
+}
+
+.deck-map-roster__stats b {
+  color: var(--roster-tone);
+  font: 900 0.7rem var(--font-display);
+}
+
+.deck-map-roster__stats small {
+  color: #7591a4;
+  font: 800 0.5rem var(--font-tech);
+}
+
+.deck-map__canvas {
+  grid-area: canvas;
+}
+
+.deck-map-inspector {
+  grid-area: inspector;
+  height: clamp(650px, 57vw, 820px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: color-mix(in srgb, var(--map-cyan) 44%, transparent) rgba(0, 4, 11, 0.72);
+  scrollbar-width: thin;
+}
+
+@media (max-width: 1240px) {
+  .deck-map__workspace {
+    grid-template-columns: minmax(215px, 235px) minmax(420px, 1fr) minmax(270px, 285px);
+  }
+
+  .deck-map-roster__card {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 0.38rem;
+    min-height: 61px !important;
+  }
+
+  .deck-map-roster__art {
+    width: 38px;
+    height: 53px;
+  }
+}
+
+@media (max-width: 1040px) {
+  .deck-map__workspace {
+    grid-template-areas:
+      "roster canvas"
+      "inspector inspector";
+    grid-template-columns: minmax(220px, 245px) minmax(0, 1fr);
+  }
+
+  .deck-map-roster,
+  .deck-map__canvas {
+    height: 690px;
+  }
+
+  .deck-map-inspector {
+    height: auto;
+    max-height: none;
+    border-top: 1px solid color-mix(in srgb, var(--map-cyan) 18%, transparent);
+  }
+}
+
+@media (max-width: 760px) {
+  .deck-map__workspace {
+    grid-template-areas:
+      "roster"
+      "canvas"
+      "inspector";
+    grid-template-columns: 1fr;
+  }
+
+  .deck-map-roster {
+    height: clamp(360px, 62vh, 520px);
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--map-cyan) 18%, transparent);
+  }
+
+  .deck-map-roster__card {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    min-height: 70px !important;
+  }
+
+  .deck-map-roster__art {
+    width: 46px;
+    height: 65px;
+  }
+
+  .deck-map__canvas {
+    height: 620px;
+  }
+}
+
 /* BRUXÃO identity and global language control */
 .language-switch {
   display: inline-grid;
@@ -8363,6 +8675,7 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
 
 .deck-map-node:hover,
 .deck-map-node:focus-visible,
+.deck-map-node.is-active,
 .deck-map-node.is-selected {
   z-index: 8;
   transform: translate(-50%, -50%) scale(1.12);
@@ -8467,6 +8780,7 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
 
 .deck-map-node:hover .deck-map-node__label,
 .deck-map-node:focus-visible .deck-map-node__label,
+.deck-map-node.is-active .deck-map-node__label,
 .deck-map-node.is-selected .deck-map-node__label {
   opacity: 1;
   transform: translate(-50%, 0);

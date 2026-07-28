@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CardArt } from "../cards/CardArt";
 import { buildDeckGraph, relatedNodeIds } from "../../services/deckDesigner/deckMapLayout.js";
 
@@ -8,6 +8,9 @@ export function DeckMap({ report, onApplySubstitution }) {
   const [hoveredId, setHoveredId] = useState("");
   const activeId = hoveredId || selectedId;
   const relatedIds = useMemo(() => relatedNodeIds(graph, activeId), [graph, activeId]);
+  const rosterGroups = useMemo(() => groupRosterNodes(graph.nodes), [graph.nodes]);
+  const rosterNodeRefs = useRef(new Map());
+  const selectionSourceRef = useRef("");
   const selectedNode = graph.nodes.find((node) => node.id === selectedId) || graph.nodes[0] || null;
   const selectedConnections = graph.edges.filter((edge) => edge.source === selectedNode?.id || edge.target === selectedNode?.id);
 
@@ -16,6 +19,17 @@ export function DeckMap({ report, onApplySubstitution }) {
       setSelectedId(graph.nodes[0]?.id || "");
     }
   }, [graph.nodes, selectedId]);
+
+  useEffect(() => {
+    if (selectionSourceRef.current !== "map" && selectionSourceRef.current !== "inspector") return;
+    rosterNodeRefs.current.get(selectedId)?.scrollIntoView({ block: "nearest" });
+    selectionSourceRef.current = "";
+  }, [selectedId]);
+
+  function selectNode(nodeId, source) {
+    selectionSourceRef.current = source;
+    setSelectedId(nodeId);
+  }
 
   return (
     <section className="deck-map">
@@ -34,6 +48,17 @@ export function DeckMap({ report, onApplySubstitution }) {
       </header>
 
       <div className="deck-map__workspace">
+        <DeckMapRoster
+          groups={rosterGroups}
+          activeId={activeId}
+          selectedId={selectedNode?.id || ""}
+          relatedIds={relatedIds}
+          onHover={setHoveredId}
+          onSelect={(nodeId) => selectNode(nodeId, "list")}
+          nodeRefs={rosterNodeRefs}
+          mainCount={report.stats.mainCount}
+        />
+
         <div
           className="deck-map__canvas"
           role="group"
@@ -61,18 +86,19 @@ export function DeckMap({ report, onApplySubstitution }) {
           </svg>
 
           {(graph.nodes || []).map((node) => {
+            const isActive = node.id === activeId;
             const isSelected = node.id === selectedNode?.id;
             const isRelated = !activeId || relatedIds.has(node.id);
             return (
               <button
                 key={node.id}
                 type="button"
-                className={`deck-map-node deck-map-node--${node.row.category} ${isSelected ? "is-selected" : ""} ${isRelated ? "is-related" : "is-dimmed"}`.trim()}
+                className={`deck-map-node deck-map-node--${node.row.category} ${isActive ? "is-active" : ""} ${isSelected ? "is-selected" : ""} ${isRelated ? "is-related" : "is-dimmed"}`.trim()}
                 style={{ "--node-x": `${node.x}%`, "--node-y": `${node.y}%` }}
                 onMouseEnter={() => setHoveredId(node.id)}
                 onFocus={() => setHoveredId(node.id)}
                 onBlur={() => setHoveredId("")}
-                onClick={() => setSelectedId(node.id)}
+                onClick={() => selectNode(node.id, "map")}
                 aria-pressed={isSelected}
                 aria-label={`${node.row.quantity} copies of ${node.row.card.cardName}. ${node.degree} connections.`}
               >
@@ -100,12 +126,81 @@ export function DeckMap({ report, onApplySubstitution }) {
             connections={selectedConnections}
             graph={graph}
             substitutions={report.substitutions?.[selectedNode.id] || []}
-            onSelect={setSelectedId}
+            onSelect={(nodeId) => selectNode(nodeId, "inspector")}
             onApply={(targetCardNumber) => onApplySubstitution(selectedNode.id, targetCardNumber)}
           />
         ) : null}
       </div>
     </section>
+  );
+}
+
+function DeckMapRoster({
+  groups,
+  activeId,
+  selectedId,
+  relatedIds,
+  onHover,
+  onSelect,
+  nodeRefs,
+  mainCount,
+}) {
+  return (
+    <aside
+      className="deck-map-roster"
+      aria-label="Linked deck list"
+      onMouseLeave={() => onHover("")}
+    >
+      <header className="deck-map-roster__header">
+        <span>DECK MANIFEST // LINKED</span>
+        <strong>{mainCount} / 50</strong>
+        <small>Hover or focus a card to trace it across the map.</small>
+      </header>
+      <div className="deck-map-roster__groups">
+        {groups.map((group) => (
+          <section className="deck-map-roster__group" key={group.type}>
+            <header>
+              <h4>{group.type}</h4>
+              <span>{group.quantity} cards</span>
+            </header>
+            <div>
+              {group.nodes.map((node) => {
+                const isActive = node.id === activeId;
+                const isSelected = node.id === selectedId;
+                const isRelated = !activeId || relatedIds.has(node.id);
+                return (
+                  <button
+                    ref={(element) => {
+                      if (element) nodeRefs.current.set(node.id, element);
+                      else nodeRefs.current.delete(node.id);
+                    }}
+                    type="button"
+                    key={node.id}
+                    className={`deck-map-roster__card deck-map-roster__card--${node.row.category} ${isActive ? "is-active" : ""} ${isSelected ? "is-selected" : ""} ${isRelated ? "is-related" : "is-dimmed"}`.trim()}
+                    onMouseEnter={() => onHover(node.id)}
+                    onFocus={() => onHover(node.id)}
+                    onBlur={() => onHover("")}
+                    onClick={() => onSelect(node.id)}
+                    aria-pressed={isSelected}
+                  >
+                    <CardArt card={node.row.card} className="deck-map-roster__art" compact />
+                    <span className="deck-map-roster__identity">
+                      <strong>{node.row.card.cardName}</strong>
+                      <small>{node.row.card.cardNumber}</small>
+                      <em>{node.degree} links</em>
+                    </span>
+                    <span className="deck-map-roster__stats">
+                      <b>{node.row.quantity}x</b>
+                      <small>C{node.row.card.cost || "-"}</small>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+      </div>
+    </aside>
   );
 }
 
@@ -163,4 +258,23 @@ function DeckMapInspector({ node, connections, graph, substitutions, onSelect, o
       ) : null}
     </aside>
   );
+}
+
+function groupRosterNodes(nodes = []) {
+  const grouped = new Map();
+  [...nodes]
+    .sort((left, right) =>
+      String(left.row.card.cardType).localeCompare(String(right.row.card.cardType))
+      || Number(left.row.card.cost || 0) - Number(right.row.card.cost || 0)
+      || String(left.row.card.cardName).localeCompare(String(right.row.card.cardName)))
+    .forEach((node) => {
+      const type = node.row.card.cardType || "OTHER";
+      if (!grouped.has(type)) grouped.set(type, []);
+      grouped.get(type).push(node);
+    });
+  return [...grouped].map(([type, groupNodes]) => ({
+    type,
+    nodes: groupNodes,
+    quantity: groupNodes.reduce((total, node) => total + Number(node.row.quantity || 0), 0),
+  }));
 }

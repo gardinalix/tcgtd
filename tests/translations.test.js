@@ -24,6 +24,7 @@ test("English mode preserves source interface copy", () => {
 
 test("dynamic deck telemetry is localized without changing values", () => {
   assert.equal(translate("12 cards", "pt-BR"), "12 cartas");
+  assert.equal(translate("4 links", "pt-BR"), "4 conexões");
   assert.equal(translate("Cost 4", "pt-BR"), "Custo 4");
   assert.equal(translate("3 exact matches", "pt-BR"), "3 correspondências exatas");
 });
