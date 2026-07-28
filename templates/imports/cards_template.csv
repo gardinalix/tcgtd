@@ -1,0 +1,2 @@
+card_number,card_name,set_code,color,type,rarity,cost,level,trait,link,keyword,effect_text,is_vanilla,is_promo,is_alt_art,source_url,notes
+GD01-000,Example Card,GD01,Blue,UNIT,C,2,3,Example Trait,,Blocker,Example text,FALSE,FALSE,FALSE,https://example.com,Replace this row

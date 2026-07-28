@@ -1,0 +1,406 @@
+import { getSynergiesForCard } from "../synergyAnalyzer.js";
+import {
+  cardPriceBrl,
+  clamp,
+  confidenceLabel,
+  maxCopiesForCard,
+  normalizeSearchText,
+  round,
+  uniqueBy,
+} from "./deckDesignerUtils.js";
+import { buildRecommendationRow } from "./deckRecommendationEngine.js";
+
+export const DECK_ANALYSIS_VERSION = "deck-analysis-2026-07-28";
+
+export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {}) {
+  const stats = calculateDeckStats(assembled.rows || []);
+  const synergyAnalysis = buildSynergyAnalysis(data, assembled.rows || []);
+  const substitutions = buildSubstitutions(data, assembled.rows || [], criteria);
+  const confidenceValue = overallConfidence(assembled, stats);
+  const observedFacts = buildObservedFacts(assembled, stats);
+  const inferences = buildTheoreticalInferences(assembled.rows || [], stats);
+  const weaknesses = buildWeaknesses(assembled.rows || [], stats, assembled);
+  const matchups = buildMatchupProjections(assembled.rows || [], stats);
+  const strategy = buildStrategy(criteria, assembled, stats);
+  const budgetLimit = Number(criteria.budgetBrl || 0);
+  const budgetAssessment = {
+    limitBrl: budgetLimit,
+    estimatedBrl: stats.estimatedPriceBrl,
+    withinBudget: !budgetLimit || stats.estimatedPriceBrl <= budgetLimit,
+  };
+  const limitations = [...(assembled.limitations || [])]
+    .filter((item) => !String(item).startsWith("The tracked-price estimate exceeds"));
+  if (budgetLimit && !budgetAssessment.withinBudget) {
+    limitations.push(`The tracked-price estimate exceeds the R$ ${budgetLimit.toFixed(2)} budget by R$ ${(stats.estimatedPriceBrl - budgetLimit).toFixed(2)}. Use the affordable substitutions to reduce cost.`);
+  }
+
+  return {
+    ...assembled,
+    analysisVersion: DECK_ANALYSIS_VERSION,
+    title: buildTitle(criteria),
+    strategy,
+    confidence: confidenceLabel(confidenceValue),
+    confidenceValue: round(confidenceValue, 2),
+    observedFacts,
+    inferences,
+    strengths: inferences.slice(0, 3),
+    weaknesses,
+    matchups,
+    synergies: synergyAnalysis,
+    substitutions,
+    stats,
+    budgetAssessment,
+    limitations: uniqueBy(limitations, (item) => item),
+    evidenceSummary: buildEvidenceSummary(assembled),
+    sideboard: {
+      supported: false,
+      message: "The current Gundam Card Game rules use a 50-card main deck plus a 10-card resource deck; no sideboard is modeled.",
+    },
+  };
+}
+
+export function applyRecommendedSubstitution(report, sourceCardNumber, targetCardNumber, data = {}) {
+  const sourceQuantity = Number(report.main?.[sourceCardNumber] || 0);
+  if (!sourceQuantity) return report;
+  const sourceSubstitution = (report.substitutions?.[sourceCardNumber] || [])
+    .find((item) => item.card.cardNumber === targetCardNumber);
+  if (!sourceSubstitution) return report;
+  const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
+  const targetCard = cardMap.get(targetCardNumber);
+  if (!targetCard) return report;
+
+  const nextMain = { ...report.main };
+  const existingTarget = Number(nextMain[targetCardNumber] || 0);
+  const max = maxCopiesForCard(targetCard, data.rules);
+  const moved = Math.min(sourceQuantity, Math.max(0, max - existingTarget));
+  if (!moved) return report;
+  nextMain[targetCardNumber] = existingTarget + moved;
+  if (sourceQuantity === moved) delete nextMain[sourceCardNumber];
+  else nextMain[sourceCardNumber] = sourceQuantity - moved;
+
+  const originalById = new Map((report.rows || []).map((row) => [row.card.cardNumber, row]));
+  const nextRows = Object.entries(nextMain).map(([cardNumber, quantity]) => {
+    if (originalById.has(cardNumber)) return { ...originalById.get(cardNumber), quantity };
+    const syntheticCandidate = {
+      card: cardMap.get(cardNumber),
+      source: "inferred",
+      observed: null,
+      required: false,
+      metaSignal: clamp(Math.log1p(Number(cardMap.get(cardNumber)?.recentTop8DecksUsing || 0)) / Math.log(180)),
+      expectedCopies: quantity,
+    };
+    return {
+      ...buildRecommendationRow(syntheticCandidate, quantity, report.matchedDecks?.length || 0),
+      category: sourceSubstitution.kind === "affordable" ? "accessible" : "flexible",
+      recommendationReason: `Applied as a substitution for ${cardMap.get(sourceCardNumber)?.cardName || sourceCardNumber}.`,
+    };
+  }).sort((left, right) =>
+    String(left.card.cardType).localeCompare(String(right.card.cardType))
+    || Number(left.card.cost || 99) - Number(right.card.cost || 99));
+
+  return analyzeRecommendedDeck(data, {
+    ...report,
+    main: nextMain,
+    rows: nextRows,
+    substitutionHistory: [
+      ...(report.substitutionHistory || []),
+      {
+        sourceCardNumber,
+        targetCardNumber,
+        quantity: moved,
+        appliedAt: new Date().toISOString(),
+      },
+    ],
+  }, report.criteria || {});
+}
+
+export function calculateDeckStats(rows = []) {
+  const stats = {
+    mainCount: 0,
+    averageCost: 0,
+    estimatedPriceBrl: 0,
+    curve: {},
+    types: {},
+    colors: {},
+    categories: {},
+    mechanics: {},
+  };
+  let totalCost = 0;
+  for (const row of rows) {
+    const quantity = Number(row.quantity || 0);
+    const cost = Number(row.card.cost || 0);
+    stats.mainCount += quantity;
+    totalCost += cost * quantity;
+    stats.estimatedPriceBrl += cardPriceBrl(row.card) * quantity;
+    increment(stats.curve, Number.isFinite(cost) ? String(cost) : "-", quantity);
+    increment(stats.types, row.card.cardType || "Unknown", quantity);
+    increment(stats.colors, row.card.color || "Unknown", quantity);
+    increment(stats.categories, row.category || "flexible", quantity);
+    for (const mechanic of row.card.synergyTags || []) increment(stats.mechanics, mechanic, quantity);
+  }
+  stats.averageCost = stats.mainCount ? round(totalCost / stats.mainCount, 2) : 0;
+  stats.estimatedPriceBrl = round(stats.estimatedPriceBrl, 2);
+  return stats;
+}
+
+function buildSynergyAnalysis(data, rows) {
+  const deckIds = new Set(rows.map((row) => row.card.cardNumber));
+  const anchorRows = [...rows]
+    .sort((left, right) =>
+      categoryWeight(right.category) - categoryWeight(left.category)
+      || right.confidenceValue - left.confidenceValue)
+    .slice(0, 8);
+  const pairs = [];
+  for (const row of anchorRows) {
+    const synergies = getSynergiesForCard(row.card, data, { minScore: 35 })
+      .filter((item) => deckIds.has(item.targetCardId))
+      .slice(0, 6);
+    for (const synergy of synergies) {
+      const pairId = [row.card.cardNumber, synergy.targetCardId].sort().join("__");
+      pairs.push({
+        id: pairId,
+        sourceCard: row.card,
+        targetCard: synergy.targetCard,
+        score: synergy.score,
+        confidence: synergy.coDeckCount >= 5 ? "High" : synergy.score >= 65 ? "Medium" : "Low",
+        explanation: synergy.explanation,
+        evidence: synergy.evidence,
+        coDeckCount: synergy.coDeckCount,
+        facts: synergy.coDeckCount
+          ? [`Observed together in ${synergy.coDeckCount} normalized competitive decklists.`]
+          : [],
+        inference: synergy.coDeckCount
+          ? ""
+          : "The interaction is inferred from printed text, curve, color, traits, or mechanics.",
+      });
+    }
+  }
+  return uniqueBy(pairs.sort((left, right) => right.score - left.score), (pair) => pair.id).slice(0, 8);
+}
+
+function buildSubstitutions(data, rows, criteria) {
+  const deckIds = new Set(rows.map((row) => row.card.cardNumber));
+  const selectedColors = new Set(criteria.colors || []);
+  const substitutions = {};
+  for (const row of rows.filter((item) => ["essential", "flexible"].includes(item.category))) {
+    const candidates = (data.cards || [])
+      .filter((card) => !deckIds.has(card.cardNumber))
+      .filter((card) => card.cardType === row.card.cardType)
+      .filter((card) => !selectedColors.size || selectedColors.has(card.color) || card.color === "Neutral")
+      .map((card) => compareCards(row.card, card))
+      .filter((comparison) => comparison.fitScore >= 0.45)
+      .sort((left, right) =>
+        right.fitScore - left.fitScore
+        || Number(right.kind === "affordable") - Number(left.kind === "affordable")
+        || Number(right.card.recentTop8DecksUsing || 0) - Number(left.card.recentTop8DecksUsing || 0));
+    const picked = uniqueBy([
+      candidates.find((candidate) => candidate.kind === "affordable"),
+      ...candidates,
+    ].filter(Boolean), (candidate) => candidate.card.cardNumber).slice(0, 2);
+    if (picked.length) substitutions[row.card.cardNumber] = picked;
+  }
+  return substitutions;
+}
+
+function compareCards(source, target) {
+  const sourceTraits = new Set((source.traits || []).map(normalizeSearchText));
+  const targetTraits = new Set((target.traits || []).map(normalizeSearchText));
+  const sourceTags = new Set((source.synergyTags || []).map(normalizeSearchText));
+  const targetTags = new Set((target.synergyTags || []).map(normalizeSearchText));
+  const sharedTraits = [...sourceTraits].filter((value) => targetTraits.has(value));
+  const lostTraits = [...sourceTraits].filter((value) => !targetTraits.has(value));
+  const gainedTraits = [...targetTraits].filter((value) => !sourceTraits.has(value));
+  const sharedTags = [...sourceTags].filter((value) => targetTags.has(value));
+  const lostTags = [...sourceTags].filter((value) => !targetTags.has(value));
+  const gainedTags = [...targetTags].filter((value) => !sourceTags.has(value));
+  const costDelta = Number(target.cost || 0) - Number(source.cost || 0);
+  const sourcePrice = cardPriceBrl(source);
+  const targetPrice = cardPriceBrl(target);
+  const priceDelta = round(targetPrice - sourcePrice, 2);
+  const metaDelta = Number(target.recentMetaScore || 0) - Number(source.recentMetaScore || 0);
+  const fitScore = clamp(
+    (Math.max(0, 1 - Math.abs(costDelta) / 3) * 0.34)
+    + (jaccard(sourceTags, targetTags) * 0.31)
+    + (jaccard(sourceTraits, targetTraits) * 0.2)
+    + (target.color === source.color ? 0.15 : 0),
+  );
+  const kind = targetPrice > 0 && sourcePrice > 0 && targetPrice <= sourcePrice * 0.7
+    ? "affordable"
+    : Number(target.recentTop8DecksUsing || 0) <= 2
+      ? "experimental"
+      : "flexible";
+
+  return {
+    card: target,
+    kind,
+    fitScore: round(fitScore, 2),
+    impact: {
+      costDelta,
+      priceDelta,
+      metaDelta: round(metaDelta, 1),
+      sharedTraits,
+      lostTraits,
+      gainedTraits,
+      sharedTags,
+      lostTags,
+      gainedTags,
+    },
+    gains: buildGains(target, priceDelta, costDelta, gainedTags, gainedTraits),
+    losses: buildLosses(source, metaDelta, lostTags, lostTraits),
+    synergyImpact: buildSynergyImpact(sharedTags, lostTags, sharedTraits, lostTraits),
+    recommendation: buildSubstitutionRecommendation(kind, costDelta, priceDelta),
+  };
+}
+
+function buildObservedFacts(report, stats) {
+  const sample = report.facts?.matchedDecklists || 0;
+  const facts = [
+    `${sample} normalized competitive decklist(s) entered the final evidence sample.`,
+    `${report.facts?.wins || 0} first-place finish(es) and ${report.facts?.topEight || 0} Top 8 result(s) are present in that sample.`,
+    `The proposed main deck has ${stats.mainCount} cards with an average cost of ${stats.averageCost}.`,
+  ];
+  if (report.facts?.latestEventDate) facts.push(`Latest matched event date: ${report.facts.latestEventDate}.`);
+  return facts;
+}
+
+function buildTheoreticalInferences(rows, stats) {
+  const mechanics = Object.entries(stats.mechanics).sort((left, right) => right[1] - left[1]);
+  const blockers = mechanics.find(([name]) => normalizeSearchText(name) === "blocker")?.[1] || 0;
+  const consistency = mechanics
+    .filter(([name]) => ["draw", "search"].includes(normalizeSearchText(name)))
+    .reduce((sum, [, count]) => sum + count, 0);
+  const pressure = mechanics
+    .filter(([name]) => ["damage push", "breach", "ap mod"].includes(normalizeSearchText(name)))
+    .reduce((sum, [, count]) => sum + count, 0);
+  const inferences = [];
+  if (stats.averageCost <= 3.1) inferences.push("Theoretical: the low curve should improve early deployment consistency and pressure.");
+  if (blockers >= 6) inferences.push(`Theoretical: ${blockers} cards with Blocker signals provide a meaningful defensive layer.`);
+  if (consistency >= 6) inferences.push(`Theoretical: ${consistency} draw/search-tagged slots should reduce dead hands.`);
+  if (pressure >= 6) inferences.push(`Theoretical: ${pressure} pressure-tagged slots support proactive damage conversion.`);
+  if (!inferences.length) inferences.push("Theoretical: the list prioritizes observed card adoption over a single dominant mechanic.");
+  return inferences;
+}
+
+function buildWeaknesses(rows, stats, report) {
+  const weaknesses = [];
+  const consistency = (stats.mechanics.draw || 0) + (stats.mechanics.search || 0);
+  if (stats.averageCost >= 3.5) weaknesses.push("Theoretical: the higher average cost can produce slower opening sequences.");
+  if (consistency < 5) weaknesses.push("Theoretical: limited draw/search signals may increase hand variance.");
+  if ((report.facts?.matchedDecklists || 0) < 5) weaknesses.push("Evidence risk: the relevant competitive sample is small, so flex slots are less stable.");
+  const inferred = rows.filter((row) => row.source === "inferred").reduce((sum, row) => sum + row.quantity, 0);
+  if (inferred) weaknesses.push(`Evidence risk: ${inferred} slot(s) are theoretically inferred rather than observed in the matched sample.`);
+  return weaknesses.length ? weaknesses : ["No opponent-level game data is available; hidden matchup weaknesses cannot be measured directly."];
+}
+
+function buildMatchupProjections(rows, stats) {
+  const blockers = stats.mechanics.blocker || 0;
+  const pressure = (stats.mechanics.damage_push || 0) + (stats.mechanics.breach || 0);
+  const consistency = (stats.mechanics.draw || 0) + (stats.mechanics.search || 0);
+  return [
+    {
+      opponent: "Fast pressure shells",
+      outlook: blockers >= 6 || stats.averageCost <= 3 ? "Likely stable" : "Potentially difficult",
+      confidence: "Low",
+      basis: blockers >= 6
+        ? `Theory: ${blockers} Blocker-tagged slots can absorb early attacks.`
+        : "Theory: the list has limited Blocker density; no head-to-head records are available.",
+    },
+    {
+      opponent: "Slow control / late-game shells",
+      outlook: pressure >= 7 ? "Likely favorable pressure" : "Close / unverified",
+      confidence: "Low",
+      basis: pressure >= 7
+        ? `Theory: ${pressure} pressure-tagged slots can punish slower setup.`
+        : "Theory: closing speed is not strongly signaled; no head-to-head records are available.",
+    },
+    {
+      opponent: "Resource attrition",
+      outlook: consistency >= 6 ? "Resilient on paper" : "Potentially fragile",
+      confidence: "Low",
+      basis: `Theory based on ${consistency} draw/search-tagged slots; opponent-level event data is unavailable.`,
+    },
+  ];
+}
+
+function buildStrategy(criteria, report, stats) {
+  const archetype = criteria.archetype || "selected archetype";
+  const focus = criteria.focus === "casual" ? "casual flexibility" : "competitive consistency";
+  const exact = report.exactDeckCount || 0;
+  return `${archetype} tuned for ${focus}. The shell follows weighted adoption from ${report.facts?.matchedDecklists || 0} relevant lists (${exact} exact matches), then uses official card text, curve and synergy signals to resolve flex slots. Average cost: ${stats.averageCost}.`;
+}
+
+function buildEvidenceSummary(report) {
+  const sample = report.facts?.matchedDecklists || 0;
+  return sample
+    ? `Observed evidence: ${sample} list(s), ${report.facts?.eventCount || 0} event(s). Inferences are explicitly labeled.`
+    : "No matching competitive decklists were found. Every recommendation is theoretical and confidence is reduced.";
+}
+
+function overallConfidence(report, stats) {
+  const sample = report.facts?.matchedDecklists || 0;
+  const exact = report.facts?.exactDecklists || report.exactDeckCount || 0;
+  const inferredSlots = (report.rows || [])
+    .filter((row) => row.source === "inferred")
+    .reduce((sum, row) => sum + row.quantity, 0);
+  return clamp(
+    (Math.min(1, sample / 12) * 0.52)
+    + (Math.min(1, exact / 6) * 0.25)
+    + ((1 - inferredSlots / Math.max(1, stats.mainCount)) * 0.23),
+  );
+}
+
+function buildTitle(criteria) {
+  return [criteria.archetype, criteria.unitQuery].filter(Boolean).join(" · ") || "AI-assisted deck";
+}
+
+function buildGains(target, priceDelta, costDelta, gainedTags, gainedTraits) {
+  const gains = [];
+  if (priceDelta < 0) gains.push(`Estimated saving of R$ ${Math.abs(priceDelta).toFixed(2)} per copy.`);
+  if (costDelta < 0) gains.push(`Lowers the curve by ${Math.abs(costDelta)} cost.`);
+  if (gainedTags.length) gains.push(`Adds mechanic signals: ${gainedTags.join(", ")}.`);
+  if (gainedTraits.length) gains.push(`Adds traits: ${gainedTraits.join(", ")}.`);
+  if (!gains.length) gains.push(`Offers a similar ${target.cardType} role at cost ${target.cost || "-"}.`);
+  return gains;
+}
+
+function buildLosses(source, metaDelta, lostTags, lostTraits) {
+  const losses = [];
+  if (metaDelta < 0) losses.push(`Recent meta signal falls by ${Math.abs(round(metaDelta, 1))} points.`);
+  if (lostTags.length) losses.push(`Loses mechanic signals: ${lostTags.join(", ")}.`);
+  if (lostTraits.length) losses.push(`Loses traits: ${lostTraits.join(", ")}.`);
+  if (!losses.length) losses.push(`Does not reproduce every printed interaction of ${source.cardName}; verify text-specific lines.`);
+  return losses;
+}
+
+function buildSynergyImpact(sharedTags, lostTags, sharedTraits, lostTraits) {
+  const preserved = [...sharedTags, ...sharedTraits];
+  const lost = [...lostTags, ...lostTraits];
+  if (preserved.length && !lost.length) return `Preserves the main shared signals: ${preserved.join(", ")}.`;
+  if (preserved.length && lost.length) return `Preserves ${preserved.join(", ")}, but removes ${lost.join(", ")} bridges.`;
+  if (lost.length) return `Removes ${lost.join(", ")} bridges; use only when that package is not central.`;
+  return "Role similarity is based on type, color and curve; no direct trait bridge was detected.";
+}
+
+function buildSubstitutionRecommendation(kind, costDelta, priceDelta) {
+  if (kind === "affordable") return "Recommended when budget or local availability matters more than peak observed adoption.";
+  if (kind === "experimental") return "Recommended for testing only; competitive evidence is limited.";
+  if (costDelta < 0) return "Recommended when the deck needs a faster curve.";
+  if (priceDelta < 0) return "Recommended as a lower-cost flex option.";
+  return "Recommended when its gained traits or mechanics fit the expected field.";
+}
+
+function jaccard(left, right) {
+  const union = new Set([...left, ...right]);
+  if (!union.size) return 0;
+  let overlap = 0;
+  for (const value of left) if (right.has(value)) overlap += 1;
+  return overlap / union.size;
+}
+
+function categoryWeight(category) {
+  return { essential: 4, flexible: 3, accessible: 2, experimental: 1 }[category] || 0;
+}
+
+function increment(target, key, value) {
+  target[key] = Number(target[key] || 0) + Number(value || 0);
+}

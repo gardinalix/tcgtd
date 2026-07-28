@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Neo Zeon Sleeves emblem">
+  <defs>
+    <filter id="glow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.50 0 0 0 0 1.00 0 0 0 0 0.35 0 0 0 0.75 0" result="green"/>
+      <feMerge><feMergeNode in="green"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="gold" x1="104" y1="74" x2="420" y2="430">
+      <stop stop-color="#ffe76c"/>
+      <stop offset=".45" stop-color="#d3a80c"/>
+      <stop offset="1" stop-color="#7d4b00"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#glow)">
+    <path fill="url(#gold)" stroke="#101400" stroke-width="9" stroke-linejoin="round" d="M256 70l43 61 137-49-65 88-98 19 91 26-40 48-78-15 39 50v107l-29 51-29-51V298l39-50-78 15-40-48 91-26-98-19-65-88 137 49 43-61Z"/>
+    <path d="M157 420h198" stroke="#49ff86" stroke-width="6" stroke-linecap="round" opacity=".62"/>
+    <path d="M208 448h96" stroke="#49ff86" stroke-width="4" stroke-linecap="round" opacity=".42"/>
+  </g>
+</svg>

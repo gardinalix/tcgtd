@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Experimental prototype emblem">
+  <defs>
+    <filter id="glow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 1.00 0 0 0 0 0.22 0 0 0 0 0.78 0 0 0 0.8 0" result="pink"/>
+      <feMerge><feMergeNode in="pink"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="pink" x1="80" y1="70" x2="430" y2="430">
+      <stop stop-color="#ffc3ff"/>
+      <stop offset=".45" stop-color="#ff58c8"/>
+      <stop offset="1" stop-color="#8d2cff"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#glow)">
+    <path fill="url(#pink)" d="M256 117c58-82 128-92 195-32l-24 138 66 73-52 116-139 58-46-1-46 1-139-58-52-116 66-73L57 85c67-60 137-50 199 32Z"/>
+    <path d="M156 161l61 59-82 73c-25-39-21-83 21-132Zm200 0l-61 59 82 73c25-39 21-83-21-132Z" fill="#07111f" opacity=".92"/>
+    <path d="M171 290c37 47 70 47 101 0m69 0c-37 47-70 47-101 0" fill="none" stroke="#07111f" stroke-width="18" stroke-linecap="round" opacity=".86"/>
+    <path d="M214 354l42-22 42 22-42 43-42-43Z" fill="#f5fbff" opacity=".9"/>
+    <path d="M156 456h200" stroke="#ffb4ef" stroke-width="6" stroke-linecap="round" opacity=".72"/>
+  </g>
+</svg>

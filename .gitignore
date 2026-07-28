@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+.scratch/
+*.log
+_backups/
+data/
+outputs/
+.local/
+**/__pycache__/

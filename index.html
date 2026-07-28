@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gundam Tactical Database</title>
+    <meta
+      name="description"
+      content="Build evidence-backed Gundam Card Game decks with competitive data, transparent confidence, synergy analysis, and live substitution impact."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Gundam Tactical Database · AI Deck Designer" />
+    <meta
+      property="og:description"
+      content="Competitive evidence, curve analysis, synergies, confidence, and budget-aware substitutions in one tactical deck workflow."
+    />
+    <meta property="og:image" content="__SITE_ORIGIN__/assets/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gundam Tactical Database · AI Deck Designer" />
+    <meta
+      name="twitter:description"
+      content="Design a legal 50-card deck from normalized competitive evidence and official card data."
+    />
+    <meta name="twitter:image" content="__SITE_ORIGIN__/assets/og.png" />
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-theme="wing-zero">
+    <script>
+      try {
+        const savedTheme = localStorage.getItem("gundam-tactical-theme-id");
+        const validThemes = ["wing-zero", "epyon", "unicorn", "barbatos", "kshatriya", "gquuuuuux", "aile"];
+        if (validThemes.includes(savedTheme)) document.body.dataset.theme = savedTheme;
+      } catch (error) {
+        document.body.dataset.theme = "wing-zero";
+      }
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

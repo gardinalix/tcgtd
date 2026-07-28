@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Tekkadan emblem">
+  <defs>
+    <filter id="glow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 1.00 0 0 0 0 0.16 0 0 0 0 0.08 0 0 0 0.78 0" result="red"/>
+      <feMerge><feMergeNode in="red"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="red" x1="104" y1="55" x2="412" y2="450">
+      <stop stop-color="#ff5959"/>
+      <stop offset=".48" stop-color="#e50919"/>
+      <stop offset="1" stop-color="#69000a"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#glow)">
+    <path fill="url(#red)" stroke="#12080a" stroke-width="12" stroke-linejoin="round" d="M256 27c64 51 106 117 135 191 14 36-2 71-43 101l67-8c21-2 42 7 56 23-62 40-113 83-151 131-38-17-80-26-128 0-38-48-89-91-151-131 14-16 35-25 56-23l67 8c-41-30-57-65-43-101 29-74 71-140 135-191Z"/>
+    <path d="M111 348c59 32 108 68 146 107m144-107c-59 32-108 68-146 107" fill="none" stroke="#ffb0b0" stroke-width="8" opacity=".48"/>
+    <ellipse cx="256" cy="432" rx="78" ry="25" fill="#1a0508" opacity=".7" stroke="#ff6262" stroke-width="5"/>
+  </g>
+</svg>

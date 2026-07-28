@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Vist Foundation and Londo Bell psycho-frame emblem">
+  <defs>
+    <filter id="vistGlow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.20 0 0 0 0 1.00 0 0 0 0 0.88 0 0 0 0.78 0" result="aquaGlow"/>
+      <feMerge><feMergeNode in="aquaGlow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="psychoFrame" x1="88" y1="62" x2="426" y2="452" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8fffee"/>
+      <stop offset=".5" stop-color="#3ff6dc"/>
+      <stop offset="1" stop-color="#10bfae"/>
+    </linearGradient>
+    <linearGradient id="ivory" x1="144" y1="76" x2="382" y2="432" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f5fff6"/>
+      <stop offset=".5" stop-color="#c8fff0"/>
+      <stop offset="1" stop-color="#5eead4"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#vistGlow)">
+    <circle cx="256" cy="256" r="205" fill="none" stroke="url(#psychoFrame)" stroke-width="8" opacity=".34"/>
+    <circle cx="256" cy="256" r="162" fill="none" stroke="#8fffee" stroke-width="3" stroke-dasharray="16 15" opacity=".42"/>
+    <path d="M339 91c58 42 95 111 95 188 0 128-104 232-232 232-55 0-106-19-146-52l38-45a169 169 0 0 0 108 39c96 0 174-78 174-174 0-59-29-111-74-143l37-45Z" fill="url(#psychoFrame)" opacity=".58"/>
+    <path d="M164 76 256 257l-33 25-95-179c-10-19 18-44 36-27Z" fill="url(#ivory)" stroke="#02111a" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M263 154c70 7 124 52 142 121 24 92-10 181-82 258-11 12-30 12-42 0-36-36-70-74-99-116-11-16-7-38 10-48l100-58c20-12 28-30 22-52-7-27-26-47-53-58-33-14-70-21-113-30 34-33 72-53 115-17Z" fill="url(#ivory)" stroke="#02111a" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M126 281c16-65 57-121 113-156l29 54c-43 28-74 71-87 121-5 19-22 32-41 32h-2c-26 0-18-28-12-51Z" fill="url(#psychoFrame)" opacity=".95"/>
+    <path d="M169 285c47 9 88 21 125 39l-89 52c-21 12-35 31-41 53-24-34-41-73-49-116l54-28Z" fill="#02070a" opacity=".92"/>
+    <path d="M262 229c23 13 39 34 46 62-31-19-64-33-100-42 20-17 38-24 54-20Z" fill="#02070a" opacity=".9"/>
+    <path d="M189 445h142" stroke="#8fffee" stroke-width="6" stroke-linecap="round" opacity=".65"/>
+  </g>
+</svg>

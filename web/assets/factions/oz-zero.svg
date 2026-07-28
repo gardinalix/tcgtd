@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="OZ and Zero System emblem">
+  <defs>
+    <filter id="glow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.00 0 0 0 0 0.80 0 0 0 0 1.00 0 0 0 0.85 0" result="cyan"/>
+      <feMerge><feMergeNode in="cyan"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="gold" x1="80" y1="90" x2="430" y2="410" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff4a8"/>
+      <stop offset=".45" stop-color="#f5c400"/>
+      <stop offset="1" stop-color="#b37a00"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#glow)">
+    <circle cx="256" cy="256" r="203" fill="none" stroke="#00e5ff" stroke-width="10" opacity=".42"/>
+    <circle cx="256" cy="256" r="157" fill="none" stroke="#00e5ff" stroke-width="4" stroke-dasharray="18 16" opacity=".62"/>
+    <rect x="52" y="213" width="408" height="86" fill="#010610" opacity=".86"/>
+    <path fill="url(#gold)" stroke="#07111f" stroke-width="10" stroke-linejoin="round" d="M240 79c83 0 151 67 151 150v5h111L365 373h-247l45-64h-1c-81 0-147-66-147-148S83 79 166 79h74Zm-74 79c-40 0-73 33-73 73s33 73 73 73 73-33 73-73-33-73-73-73Zm119 62c-1 47-24 88-59 114h83l63-64H263l22-50Z"/>
+    <path d="M144 409h224" stroke="#00e5ff" stroke-width="6" stroke-linecap="round" opacity=".65"/>
+  </g>
+</svg>

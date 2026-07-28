@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banco do Bruxão</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./cockpit.css" />
+  </head>
+  <body data-theme="wing-zero">
+    <div class="bg-glow bg-glow--blue"></div>
+    <div class="bg-glow bg-glow--gold"></div>
+    <div class="hud-grid" aria-hidden="true"></div>
+
+    <div class="app-shell">
+      <header class="site-header panel cockpit-panel cockpit-topbar cockpit-shell-topbar">
+        <button class="mobile-filter-toggle" type="button" data-mobile-filters>
+          Parameters
+        </button>
+
+        <button class="site-brand zero-brand" type="button" data-view-target="home">
+          <span class="site-brand__mark zero-brand__seal">Z</span>
+          <span>
+            <small>ZERO SYSTEM ACTIVE</small>
+            <strong>GUNDAM TACTICAL DATABASE</strong>
+            <em>ガンダム・タクティカル・データベース</em>
+          </span>
+        </button>
+
+        <div class="cockpit-status" id="cockpit-status">
+          <span class="status-dot"></span>
+          <strong>SYSTEM ACTIVE</strong>
+          <small>WING ZERO / ANALYSIS MODE</small>
+        </div>
+
+        <label class="global-search command-input">
+          <span>Command input</span>
+          <input
+            id="global-search-input"
+            type="search"
+            placeholder="Name, number, set, text, trait..."
+            autocomplete="off"
+          />
+        </label>
+
+        <nav class="site-nav" aria-label="Primary navigation">
+          <button type="button" data-view-button="cards" data-view-target="cards">Tactical DB</button>
+          <button type="button" data-view-button="builder" data-view-target="builder">Deck ops</button>
+          <button type="button" data-view-button="collection" data-view-target="collection">Inventory</button>
+          <button type="button" data-view-button="classification" data-view-target="classification">Evaluation</button>
+          <button type="button" data-view-button="prices" data-view-target="prices">Market</button>
+          <button type="button" data-view-button="importExport" data-view-target="importExport">I/O</button>
+        </nav>
+
+        <div class="site-header__actions cockpit-pilot-panel">
+          <span class="pilot-avatar" aria-hidden="true"></span>
+          <span class="pilot-label" id="topbar-pilot-label">PILOT: YUY</span>
+          <div class="theme-switch" role="group" aria-label="Theme system">
+            <button id="theme-wing-zero-btn" type="button" class="button-secondary" data-theme-select="wing-zero">WING ZERO</button>
+            <button id="theme-epyon-btn" type="button" class="button-secondary" data-theme-select="epyon">EPYON</button>
+            <button type="button" class="button-secondary" data-theme-select="unicorn">UNICORN</button>
+            <button type="button" class="button-secondary" data-theme-select="barbatos">BARBATOS</button>
+            <button type="button" class="button-secondary" data-theme-select="kshatriya">KSHATRIYA</button>
+            <button type="button" class="button-secondary" data-theme-select="gquuuuuux">GQUUUUUUX</button>
+            <button type="button" class="button-secondary" data-theme-select="aile">AILE STRIKE</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="command-feedback" id="command-feedback">ZERO SYSTEM :: standby</div>
+
+      <main>
+        <section class="zero-system-cockpit" data-view-panel="home">
+          <div class="cockpit-scene-bg" aria-hidden="true">
+            <span class="particle particle--one"></span>
+            <span class="particle particle--two"></span>
+            <span class="particle particle--three"></span>
+            <span class="particle particle--four"></span>
+            <span class="cockpit-beam cockpit-beam--one"></span>
+            <span class="cockpit-beam cockpit-beam--two"></span>
+            <span class="cockpit-beam cockpit-beam--three"></span>
+          </div>
+
+          <aside class="cockpit-side-panel cockpit-side-panel--left hud-panel" aria-label="Zero System status">
+            <span class="eyebrow">Zero System status</span>
+            <strong>ACTIVE</strong>
+            <div class="system-vitals">
+              <div><span>Sync level</span><strong>98.7%</strong></div>
+              <div><span>Cognitive link</span><strong>Stable</strong></div>
+              <div><span>Prediction rate</span><strong>99.1%</strong></div>
+              <div><span>Data flow</span><strong>Optimal</strong></div>
+            </div>
+          </aside>
+
+          <div class="cockpit-viewport">
+            <div class="cockpit-theme-dock gundam-mode-select" role="group" aria-label="System mode">
+              <label for="cockpit-theme-select">Gundam Link</label>
+              <select id="cockpit-theme-select" aria-label="Select Gundam">
+                <option value="wing-zero">Wing Zero / Zero Mode</option>
+                <option value="epyon">Epyon / Combat Mode</option>
+                <option value="unicorn">Unicorn / NT-D</option>
+                <option value="barbatos">Barbatos / Alaya-Vijnana</option>
+                <option value="kshatriya">Kshatriya / Funnel Control</option>
+                <option value="gquuuuuux">GQuuuuuuX / Maverick</option>
+                <option value="aile">Aile Strike / Seed Mode</option>
+              </select>
+            </div>
+
+            <div class="cockpit-hero-copy">
+              <span class="eyebrow" id="cockpit-mode-subtitle">Active mode</span>
+              <h1>
+                <span id="cockpit-mode-name">Wing Zero</span>
+                <span id="cockpit-mode-state">Zero Mode</span>
+              </h1>
+              <p id="cockpit-mode-copy">
+                Advanced neural interface connected. Analyzing combat, collection, price, and meta variables to generate tactical predictions.
+              </p>
+            </div>
+
+            <div class="zero-core zero-system-core" data-faction-core data-faction="oz-zero" aria-hidden="true">
+              <span class="zero-core__ring zero-core__ring--outer"></span>
+              <span class="zero-core__ring zero-core__ring--middle"></span>
+              <span class="zero-core__ring zero-core__ring--inner"></span>
+              <span class="zero-core__emblem">
+                <img id="cockpit-faction-logo" class="zero-core__logo" src="/assets/factions/oz-zero.svg" alt="" />
+              </span>
+            </div>
+
+            <div class="gundam-hero-visual gundam-visual" aria-label="Gundam tactical visual">
+              <div class="gundam-image-stage">
+                <img data-gundam-image data-gundam="wing-zero" src="/assets/gundams/wing-zero.png" alt="Wing Zero" onerror="this.closest('.gundam-image-stage').dataset.imageError='ERROR: '+this.getAttribute('src')+' did not load';" />
+                <img data-gundam-image data-gundam="epyon" src="/assets/gundams/epyon.png" alt="Gundam Epyon" onerror="this.closest('.gundam-image-stage').dataset.imageError='ERROR: '+this.getAttribute('src')+' did not load';" />
+                <img data-gundam-image data-gundam="unicorn" src="/assets/gundams/unicorn.png" alt="Unicorn Gundam" onerror="this.closest('.gundam-image-stage').dataset.imageError='ERROR: '+this.getAttribute('src')+' did not load';" />
+                <img data-gundam-image data-gundam="barbatos" src="/assets/gundams/Barbatos.png" alt="Gundam Barbatos" onerror="this.closest('.gundam-image-stage').dataset.imageError='ERROR: '+this.getAttribute('src')+' did not load';" />
+                <img data-gundam-image data-gundam="kshatriya" src="/assets/gundams/kshatriya.png" alt="Kshatriya" onerror="this.closest('.gundam-image-stage').dataset.imageError='ERROR: '+this.getAttribute('src')+' did not load';" />
+                <img data-gundam-image data-gundam="gquuuuuux" src="/assets/gundams/gquuuuuux.png" alt="GQuuuuuuX" onerror="this.closest('.gundam-image-stage').dataset.imageError='ERROR: '+this.getAttribute('src')+' did not load';" />
+                <img data-gundam-image data-gundam="aile" src="/assets/gundams/aile.png" alt="Aile Strike Gundam" onerror="this.closest('.gundam-image-stage').dataset.imageError='ERROR: '+this.getAttribute('src')+' did not load';" />
+                <span class="gundam-image-error" aria-live="polite"></span>
+              </div>
+              <div class="cockpit-arc cockpit-arc--outer" aria-hidden="true"></div>
+              <div class="cockpit-arc cockpit-arc--inner" aria-hidden="true"></div>
+              <div class="circular-hud" aria-hidden="true">
+                <span class="hud-ring hud-ring--one"></span>
+                <span class="hud-ring hud-ring--two"></span>
+                <span class="hud-ring hud-ring--three"></span>
+                <span class="hud-crosshair"></span>
+              </div>
+            </div>
+
+            <div class="cockpit-command-row">
+              <button type="button" class="tactical-button" data-view-target="cards">Run analysis <small>Start tactical scan</small></button>
+              <button type="button" class="button-secondary tactical-button" data-view-target="builder">Open deck ops <small>Manage decks</small></button>
+              <button type="button" class="button-secondary tactical-button" data-view-target="importExport">Import data <small>CSV, collection, decks</small></button>
+            </div>
+          </div>
+
+          <aside class="cockpit-side-panel cockpit-side-panel--right hud-panel" aria-label="Unit information">
+            <span class="eyebrow">Unit ID</span>
+            <strong id="cockpit-unit-id">XXXG-00W0</strong>
+            <div class="system-vitals">
+              <div><span>Pilot</span><strong id="cockpit-pilot">Heero Yuy</strong></div>
+              <div><span>Operation</span><strong id="cockpit-operation">Zero System</strong></div>
+              <div><span>Link status</span><strong>Active</strong></div>
+              <div><span>Battle probability</span><strong>99.1%</strong></div>
+            </div>
+          </aside>
+
+          <section class="cockpit-signal-rail" aria-label="Tactical dashboard">
+            <article class="dashboard-panel cockpit-module cockpit-module--set">
+              <div class="panel-head">
+                <h2>Latest set detected</h2>
+                <p>Newest booster/product in the database.</p>
+              </div>
+              <div class="stat-list" id="dashboard-colors"></div>
+            </article>
+
+            <article class="dashboard-panel cockpit-module cockpit-module--meta">
+              <div class="panel-head">
+                <h2>Meta Signal</h2>
+                <p>KEEP / WATCH / BULK distribution based on meta and local classification.</p>
+              </div>
+              <div class="stat-list" id="dashboard-rarities"></div>
+            </article>
+
+            <article class="dashboard-panel cockpit-module cockpit-module--price">
+              <div class="panel-head">
+                <h2>Price radar</h2>
+                <p>BRL reference, market movement, and coverage.</p>
+              </div>
+              <div class="stat-list" id="dashboard-sets"></div>
+            </article>
+
+            <article class="dashboard-panel cockpit-module cockpit-module--latest">
+              <div class="panel-head">
+                <h2>New units</h2>
+                <p>Latest cards added to the system.</p>
+              </div>
+              <div class="mini-card-grid" id="dashboard-latest"></div>
+            </article>
+
+            <article class="dashboard-panel cockpit-module cockpit-module--rating">
+              <div class="panel-head">
+                <h2>Evaluation simulator</h2>
+                <p>Rotating random card for community rating.</p>
+              </div>
+              <div id="dashboard-rating-card"></div>
+            </article>
+
+            <article class="dashboard-panel cockpit-module cockpit-module--feed">
+              <div class="panel-head">
+                <h2>System feed</h2>
+                <p>Operational database status and telemetry.</p>
+              </div>
+              <div class="system-feed" id="dashboard-system-feed">
+                <span>Database synchronized.</span>
+                <span>Global meta updated.</span>
+                <span>Market prices synchronized.</span>
+                <span>Compatibility analysis complete.</span>
+              </div>
+            </article>
+          </section>
+
+          <section class="cockpit-console" aria-label="Cockpit console">
+            <aside class="cockpit-console-panel cockpit-console-panel--filters">
+              <span class="eyebrow">Analysis parameters</span>
+              <div class="console-filter-lines">
+                <label>
+                  <span>Color</span>
+                  <select id="cockpit-filter-color" aria-label="Filter by color"></select>
+                </label>
+                <label>
+                  <span>Type</span>
+                  <select id="cockpit-filter-type" aria-label="Filter by type"></select>
+                </label>
+                <label>
+                  <span>Rarity</span>
+                  <select id="cockpit-filter-rarity" aria-label="Filter by rarity"></select>
+                </label>
+                <label>
+                  <span>Cost</span>
+                  <input id="cockpit-filter-cost" type="search" placeholder="0-10" aria-label="Filter by cost" />
+                </label>
+                <label>
+                  <span>Trait</span>
+                  <input id="cockpit-filter-trait" type="search" placeholder="All" aria-label="Filter by trait, link, or keyword" />
+                </label>
+              </div>
+              <div class="cockpit-filter-actions">
+                <button type="button" data-view-target="cards">Run analysis</button>
+                <button type="button" class="button-secondary cockpit-reset-button" data-reset-browse-filters>Reset scan</button>
+              </div>
+            </aside>
+
+            <div class="cockpit-detection-panel">
+              <span class="eyebrow">Data filter feed</span>
+              <div class="cockpit-found-count">
+                <strong id="dashboard-found-count">0</strong>
+                <span>units found</span>
+              </div>
+              <div class="dashboard-grid cockpit-summary-grid" id="dashboard-cards"></div>
+            </div>
+
+            <div class="cockpit-card-platform">
+              <div class="platform-ring" aria-hidden="true"></div>
+              <div class="hero-feature" id="hero-feature"></div>
+            </div>
+
+            <aside class="cockpit-console-panel cockpit-console-panel--classification">
+              <span class="eyebrow">Quick classification</span>
+              <div id="dashboard-classification-quick"></div>
+              <button type="button" data-view-target="classification">Edit classification</button>
+            </aside>
+
+            <aside class="cockpit-console-panel cockpit-console-panel--collection">
+              <span class="eyebrow">Collection</span>
+              <div id="dashboard-collection-radar"></div>
+              <button type="button" data-view-target="collection">View full collection</button>
+            </aside>
+          </section>
+        </section>
+
+        <section class="workspace workspace--cards" data-view-panel="cards" hidden>
+          <aside class="panel filter-panel" id="card-filter-panel">
+            <div class="panel-head">
+              <h2>Analysis parameters</h2>
+              <p>Configure the ZERO System to locate compatible units.</p>
+            </div>
+            <div class="filter-grid">
+              <label>
+                <span>Run analysis</span>
+                <input id="browse-search-input" type="search" placeholder="Ex: blocker, draw, Amuro..." />
+              </label>
+              <label>
+                <span data-i18n="filter.code">Number</span>
+                <input id="filter-code" type="search" placeholder="GD04-001" />
+              </label>
+              <label>
+                <span data-i18n="filter.pool">Pool</span>
+                <select id="browse-pool"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.set">Set</span>
+                <select id="filter-set"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.color">Color</span>
+                <select id="browse-color"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.type">Type</span>
+                <select id="browse-type"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.rarity">Rarity</span>
+                <select id="filter-rarity"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.cost">Cost</span>
+                <input id="filter-cost" type="search" placeholder="Ex: <=3" />
+              </label>
+              <label>
+                <span data-i18n="filter.level">Level</span>
+                <input id="filter-level" type="search" placeholder="Ex: 4" />
+              </label>
+              <label>
+                <span data-i18n="filter.trait">Trait / Link / Keyword</span>
+                <input id="filter-trait" type="search" placeholder="Zeon, Link, Repair..." />
+              </label>
+              <label>
+                <span data-i18n="filter.status">Collection status</span>
+                <select id="filter-status"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.classification">Classification</span>
+                <select id="filter-classification"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.playset">Keep playset</span>
+                <select id="filter-playset"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.vanilla">Vanilla card</span>
+                <select id="filter-vanilla"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.promo">Promo</span>
+                <select id="filter-promo"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.source">Source</span>
+                <select id="filter-source"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.altArt">Alternative art</span>
+                <select id="filter-alt-art"></select>
+              </label>
+              <label>
+                <span data-i18n="filter.synergy">Synergy</span>
+                <select id="browse-tag"></select>
+              </label>
+            </div>
+            <button id="reset-filters-btn" type="button" class="button-secondary">Resetar sistema</button>
+          </aside>
+
+          <main class="panel mainstage">
+            <div class="toolbar">
+              <div>
+                <span class="eyebrow">Unidades detectadas</span>
+                <h2>Tactical card database</h2>
+              </div>
+              <div class="toolbar__controls">
+                <label>
+                  <span data-i18n="filter.sort">Sort</span>
+                  <select id="browse-sort"></select>
+                </label>
+                <div class="segmented-control" role="group" aria-label="View mode">
+                  <button id="browse-view-grid-btn" type="button" data-layout-scope="browse" data-layout-mode="grid">Grid</button>
+                  <button id="browse-view-table-btn" type="button" data-layout-scope="browse" data-layout-mode="table">Table</button>
+                </div>
+              </div>
+            </div>
+            <div class="results-strip">
+              <strong id="browse-results-count">0</strong>
+              <span id="browse-results-caption">cards found</span>
+              <span id="browse-results-meta"></span>
+            </div>
+            <div id="browse-card-grid" class="card-grid"></div>
+            <div id="browse-pagination" class="pagination"></div>
+          </main>
+
+          <aside class="panel detaildock">
+            <div class="panel-head">
+              <h2 data-i18n="cards.detailTitle">Card details</h2>
+              <p data-i18n="cards.detailHelp">Art, text, market, collection, and evaluation.</p>
+            </div>
+            <div id="card-detail"></div>
+          </aside>
+        </section>
+
+        <section class="workspace workspace--builder" data-view-panel="builder" hidden>
+          <aside class="panel filter-panel">
+            <div class="panel-head">
+              <h2 data-i18n="builder.advisorTitle">Deck advisor</h2>
+              <p data-i18n="builder.advisorHelp">Cruza regras, sinergia desejada e estatísticas de meta.</p>
+            </div>
+            <div class="filter-grid">
+              <label><span data-i18n="builder.primary">Primary color</span><select id="input-primary-color"></select></label>
+              <label><span data-i18n="builder.secondary">Secondary color</span><select id="input-secondary-color"></select></label>
+              <label><span data-i18n="builder.archetype">Archetype</span><input id="input-archetype-keyword" type="search" placeholder="Barbatos, Zeon, Wing..." /></label>
+              <label><span data-i18n="builder.trait">Trait</span><input id="input-trait-keyword" type="search" placeholder="Zeon, Newtype..." /></label>
+              <label><span data-i18n="builder.synergy">Synergy</span><select id="input-synergy-tag"></select></label>
+              <label><span data-i18n="builder.type">Preferred type</span><select id="input-preferred-type"></select></label>
+              <label><span data-i18n="builder.metaWeight">Meta weight</span><input id="input-meta-weight" type="range" min="0" max="100" step="5" /><strong id="meta-weight-value"></strong></label>
+              <label><span data-i18n="builder.synergyWeight">Synergy weight</span><input id="input-synergy-weight" type="range" min="0" max="100" step="5" /><strong id="synergy-weight-value"></strong></label>
+              <label><span data-i18n="builder.template">Starter shell</span><select id="template-archetype-select"></select></label>
+            </div>
+            <div class="button-row">
+              <button id="load-core-btn" type="button" data-i18n="button.loadCore">Core</button>
+              <button id="load-support-btn" type="button" data-i18n="button.loadSupport">Core + support</button>
+              <button id="load-shell-btn" type="button" class="button-secondary" data-i18n="button.loadShell">Replace shell</button>
+            </div>
+            <div id="template-preview" class="template-preview"></div>
+            <div id="rule-list" class="rule-list"></div>
+          </aside>
+
+          <main class="panel mainstage">
+            <div class="toolbar">
+              <label class="toolbar__field toolbar__field--wide">
+                <span data-i18n="builder.deckName">Deck name</span>
+                <input id="deck-name" type="text" placeholder="Untitled Gundam deck" />
+              </label>
+              <label><span data-i18n="builder.libraryMode">Library</span><select id="library-mode"></select></label>
+              <label class="toolbar__field toolbar__field--wide">
+                <span data-i18n="builder.search">Search card</span>
+                <input id="search-input" type="search" placeholder="Name, number, effect, trait..." />
+              </label>
+            </div>
+            <div class="toolbar toolbar--compact">
+              <label><span data-i18n="filter.color">Color</span><select id="filter-color"></select></label>
+              <label><span data-i18n="filter.type">Type</span><select id="filter-type"></select></label>
+              <label><span data-i18n="filter.synergy">Synergy</span><select id="filter-tag"></select></label>
+              <label><span data-i18n="filter.sort">Sort</span><select id="sort-mode"></select></label>
+              <div class="segmented-control">
+                <button type="button" data-layout-scope="builder" data-layout-mode="grid">Grid</button>
+                <button type="button" data-layout-scope="builder" data-layout-mode="list">List</button>
+              </div>
+            </div>
+            <section class="insight-strip">
+              <div class="panel-head">
+                <h2 data-i18n="builder.suggestions">Archetype suggestions</h2>
+                <p data-i18n="builder.suggestionsHelp">Strong shells based on imported results.</p>
+              </div>
+              <div id="archetype-suggestions" class="suggestion-grid"></div>
+            </section>
+            <div class="results-strip">
+              <strong id="results-count">0</strong>
+              <span id="results-caption">cards available</span>
+              <span id="results-meta"></span>
+            </div>
+            <div id="card-grid" class="card-grid"></div>
+          </main>
+
+          <aside class="panel deckdock">
+            <div class="panel-head">
+              <h2 data-i18n="builder.console">Deck console</h2>
+              <p data-i18n="builder.consoleHelp">Legality, counts, and export.</p>
+            </div>
+            <div id="deck-preview" class="deck-preview"></div>
+            <div id="deck-summary" class="summary-grid"></div>
+            <div id="deck-issues" class="issue-list"></div>
+            <div class="export-grid">
+              <button id="copy-share-link-btn" type="button" data-i18n="button.copyShare">Copy link</button>
+              <button id="copy-msa-text-btn" type="button" data-i18n="button.copyMsa">Copy MSA</button>
+              <button id="copy-egman-url-btn" type="button" data-i18n="button.copyZumbo">Copy ZumboSim/TTS</button>
+              <button id="download-json-btn" type="button" class="button-secondary" data-i18n="button.downloadJson">Download JSON</button>
+              <button id="clear-deck-btn" type="button" class="button-secondary" data-i18n="button.clearDeck">Clear deck</button>
+            </div>
+            <div class="deck-toolbar">
+              <span data-i18n="builder.deckView">Deck view</span>
+              <div class="segmented-control">
+                <button type="button" data-layout-scope="deck" data-layout-mode="compact">Compact</button>
+                <button type="button" data-layout-scope="deck" data-layout-mode="visual">Visual</button>
+              </div>
+            </div>
+            <section class="deck-section">
+              <div class="deck-section__head"><h3>Main Deck</h3><strong id="main-deck-count">0 / 50</strong></div>
+              <div id="main-deck-list" class="deck-list"></div>
+            </section>
+            <section class="deck-section">
+              <div class="deck-section__head"><h3>Resource Deck</h3><strong id="resource-deck-count">0 / 10</strong></div>
+              <div id="resource-deck-list" class="deck-list"></div>
+            </section>
+          </aside>
+        </section>
+
+        <section class="utility-page" data-view-panel="collection" hidden>
+          <article class="panel">
+            <div class="panel-head">
+              <h2 data-i18n="collection.title">Collection</h2>
+              <p data-i18n="collection.help">Track quantity, status, notes, and binder/deck/sale decisions.</p>
+            </div>
+            <div class="dashboard-grid" id="collection-summary"></div>
+            <div id="collection-table" class="table-wrap"></div>
+          </article>
+        </section>
+
+        <section class="utility-page" data-view-panel="classification" hidden>
+          <article class="panel">
+            <div class="panel-head">
+              <h2 data-i18n="classification.title">Classification</h2>
+              <p data-i18n="classification.help">Editable categories appear as badges and feed filters/exports.</p>
+            </div>
+            <div id="classification-summary" class="classification-grid"></div>
+            <div id="classification-table" class="table-wrap"></div>
+          </article>
+        </section>
+
+        <section class="utility-page" data-view-panel="prices" hidden>
+          <article class="panel">
+            <div class="panel-head">
+              <h2 data-i18n="prices.title">Prices</h2>
+              <p data-i18n="prices.help">Prepared for Tcgcsv/TCGplayer; BRL uses the database x5 column.</p>
+            </div>
+            <div class="dashboard-grid" id="prices-summary"></div>
+            <div id="prices-table" class="table-wrap"></div>
+          </article>
+        </section>
+
+        <section class="utility-page" data-view-panel="importExport" hidden>
+          <article class="panel">
+            <div class="panel-head">
+              <h2 data-i18n="import.title">Import / Export</h2>
+              <p data-i18n="import.help">Collection CSV and lists in formats used by community tools.</p>
+            </div>
+            <div class="import-export-layout">
+              <section class="import-box">
+                <h3 data-i18n="import.csvTitle">Import collection CSV</h3>
+                <p class="microcopy" data-i18n="import.csvHelp">Accepts columns like cardNumber/code, quantity/qtd, status, classification, notes.</p>
+                <input id="import-csv-input" type="file" accept=".csv,text/csv" />
+                <textarea id="import-csv-text" placeholder="cardNumber,quantity,status,classification,notes&#10;GD01-086,4,binder,staple,"></textarea>
+                <button id="import-csv-btn" type="button" data-i18n="button.importCsv">Import CSV</button>
+              </section>
+              <section class="import-box">
+                <h3 data-i18n="import.exportTitle">Export</h3>
+                <div class="export-grid">
+                  <button id="export-collection-csv-btn" type="button" data-i18n="button.exportCollection">Collection CSV</button>
+                  <button id="export-filtered-csv-btn" type="button" data-i18n="button.exportFiltered">Filtered cards CSV</button>
+                  <button id="export-playset-csv-btn" type="button" data-i18n="button.exportPlayset">Keep playset CSV</button>
+                  <button id="export-sell-csv-btn" type="button" data-i18n="button.exportSell">Sell/trade CSV</button>
+                  <button id="copy-plain-list-btn" type="button" class="button-secondary" data-i18n="button.copyPlainList">Copy 4xGD01-086 list</button>
+                </div>
+                <textarea id="export-preview" readonly></textarea>
+              </section>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+
+    <script src="./app-data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
