@@ -9211,3 +9211,508 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
     height: 59px;
   }
 }
+
+/* BRUXÃO v4: full-field tactical HUD */
+.deck-designer__brief-frame,
+.deck-designer-debrief {
+  border: 1px solid color-mix(in srgb, #38d7ff 22%, transparent);
+  background: rgba(0, 7, 17, 0.52);
+}
+
+.deck-designer__brief-frame > summary,
+.deck-designer-debrief > summary {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 48px;
+  padding: 0.58rem 0.8rem;
+  overflow: hidden;
+  cursor: pointer;
+  list-style: none;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, #38d7ff 8%, transparent), transparent 52%),
+    rgba(0, 8, 20, 0.84);
+}
+
+.deck-designer__brief-frame > summary::-webkit-details-marker,
+.deck-designer-debrief > summary::-webkit-details-marker {
+  display: none;
+}
+
+.deck-designer__brief-frame > summary::before,
+.deck-designer-debrief > summary::before {
+  width: 24px;
+  height: 1px;
+  background: #38d7ff;
+  box-shadow: 0 0 8px #38d7ff;
+  content: "";
+}
+
+.deck-designer__brief-frame > summary > span,
+.deck-designer-debrief > summary > span {
+  color: #8feaff;
+  font: 900 0.62rem var(--font-display);
+  letter-spacing: 0.12em;
+}
+
+.deck-designer__brief-frame > summary > strong,
+.deck-designer-debrief > summary > strong {
+  overflow: hidden;
+  color: #607f94;
+  font: 800 0.56rem var(--font-tech);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deck-designer__brief-frame > summary > em {
+  color: #38d7ff;
+  font: 900 0.52rem var(--font-tech);
+  font-style: normal;
+  letter-spacing: 0.1em;
+}
+
+.deck-designer__brief-frame[open] > summary,
+.deck-designer-debrief[open] > summary {
+  border-bottom: 1px solid color-mix(in srgb, #38d7ff 18%, transparent);
+}
+
+.deck-designer__brief-frame .deck-designer__brief {
+  border: 0 !important;
+  margin: 0;
+  box-shadow: none !important;
+}
+
+.deck-designer.is-engaged .bruxao-designer-hero {
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  gap: 0.9rem;
+  min-height: 104px;
+  padding: 0.72rem 0.9rem;
+  border-color: color-mix(in srgb, #38d7ff 34%, transparent);
+  background:
+    linear-gradient(100deg, color-mix(in srgb, #38d7ff 9%, rgba(0, 8, 20, 0.92)), rgba(0, 5, 14, 0.88) 68%);
+  box-shadow: inset 3px 0 0 color-mix(in srgb, #38d7ff 58%, transparent);
+}
+
+.deck-designer.is-engaged .bruxao-designer-hero__core {
+  width: 64px;
+  height: 64px;
+}
+
+.deck-designer.is-engaged .bruxao-designer-hero__core > span {
+  font-size: 0.82rem;
+}
+
+.deck-designer.is-engaged .bruxao-designer-hero__copy h2 {
+  margin: 0.18rem 0 0;
+  font-size: clamp(1.35rem, 2.4vw, 2.35rem);
+  letter-spacing: 0.02em;
+}
+
+.deck-designer.is-engaged .bruxao-designer-hero__copy h2 span {
+  display: inline;
+  margin-right: 0.32em;
+}
+
+.deck-designer.is-engaged .bruxao-designer-hero__copy p,
+.deck-designer.is-engaged .bruxao-designer-hero__signals {
+  display: none;
+}
+
+.deck-designer.is-engaged .bruxao-designer-hero__status {
+  padding-left: 0.85rem;
+}
+
+.deck-designer-result__header {
+  padding: 0.58rem 0.15rem 0.68rem;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, #38d7ff 24%, transparent);
+  background: transparent;
+  box-shadow: none;
+}
+
+.deck-designer-result__header h2 {
+  margin-bottom: 0.2rem;
+  font-size: clamp(1rem, 1.55vw, 1.45rem);
+}
+
+.deck-designer-result__header p {
+  font-size: 0.64rem;
+}
+
+.deck-designer-result__actions button {
+  min-height: 29px !important;
+  padding: 0.34rem 0.56rem !important;
+  border-color: color-mix(in srgb, #38d7ff 24%, transparent) !important;
+  background: rgba(0, 8, 18, 0.46) !important;
+  box-shadow: none !important;
+  font-size: 0.52rem !important;
+}
+
+.deck-map {
+  min-height: clamp(720px, 72vh, 920px);
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.deck-map::before,
+.deck-map::after {
+  z-index: 40;
+}
+
+.deck-map__hudbar {
+  position: absolute;
+  z-index: 30;
+  top: 0;
+  right: 0;
+  left: 0;
+  min-height: 62px;
+  padding: 0.55rem 0.82rem;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--map-cyan) 24%, transparent);
+  background:
+    linear-gradient(90deg, rgba(0, 9, 22, 0.96), rgba(0, 10, 22, 0.7) 62%, rgba(0, 6, 15, 0.92));
+  backdrop-filter: blur(7px);
+}
+
+.deck-map__hudbar h3 {
+  font-size: clamp(0.9rem, 1.25vw, 1.18rem);
+}
+
+.deck-map__workspace {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: clamp(720px, 72vh, 920px);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--map-cyan) 30%, transparent);
+  clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 20px);
+  background: rgba(0, 4, 12, 0.9);
+}
+
+.deck-map__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background:
+    radial-gradient(circle at 50% 52%, color-mix(in srgb, var(--map-cyan) 12%, transparent), transparent 31%),
+    radial-gradient(circle at 50% 52%, transparent 0 23%, color-mix(in srgb, var(--map-cyan) 10%, transparent) 23.2% 23.35%, transparent 23.6% 39%, color-mix(in srgb, var(--map-violet) 8%, transparent) 39.2% 39.35%, transparent 39.6%),
+    linear-gradient(90deg, color-mix(in srgb, var(--map-cyan) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in srgb, var(--map-cyan) 4%, transparent) 1px, transparent 1px),
+    rgba(0, 5, 14, 0.88);
+  background-size: auto, auto, 44px 44px, 44px 44px, auto;
+}
+
+.deck-map__canvas::before {
+  width: 46%;
+}
+
+.deck-map__canvas::after {
+  width: 72%;
+}
+
+.deck-map-roster {
+  position: absolute;
+  z-index: 22;
+  top: 74px;
+  bottom: 16px;
+  left: 14px;
+  width: clamp(235px, 20vw, 286px);
+  height: auto;
+  border: 1px solid color-mix(in srgb, var(--map-cyan) 28%, transparent);
+  background:
+    linear-gradient(110deg, color-mix(in srgb, var(--map-cyan) 8%, transparent), transparent 52%),
+    rgba(0, 8, 19, 0.78);
+  box-shadow:
+    12px 0 32px rgba(0, 0, 0, 0.26),
+    inset 2px 0 0 color-mix(in srgb, var(--map-cyan) 44%, transparent);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+  backdrop-filter: blur(9px);
+  transition: background 160ms ease, box-shadow 160ms ease;
+}
+
+.deck-map-roster:hover,
+.deck-map-roster:focus-within {
+  background:
+    linear-gradient(110deg, color-mix(in srgb, var(--map-cyan) 10%, transparent), transparent 52%),
+    rgba(0, 8, 19, 0.94);
+  box-shadow:
+    18px 0 42px rgba(0, 0, 0, 0.38),
+    inset 2px 0 0 color-mix(in srgb, var(--map-cyan) 68%, transparent);
+}
+
+.deck-map-roster__header {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  min-height: 58px;
+  padding: 0.58rem 0.48rem 0.5rem 0.62rem;
+  background: rgba(0, 10, 23, 0.8);
+}
+
+.deck-map-roster__header > button,
+.deck-map-inspector > header > button {
+  display: grid !important;
+  place-items: center;
+  width: 24px;
+  min-width: 24px !important;
+  height: 24px;
+  min-height: 24px !important;
+  padding: 0 !important;
+  border: 1px solid color-mix(in srgb, var(--map-cyan) 34%, transparent) !important;
+  color: var(--map-cyan) !important;
+  background: rgba(0, 8, 18, 0.72) !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+  font: 900 1rem/1 var(--font-display) !important;
+}
+
+.deck-map-roster__header > small {
+  grid-column: 1 / -1;
+}
+
+.deck-map-roster__card {
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  min-height: 62px !important;
+  background: rgba(0, 6, 15, 0.54) !important;
+}
+
+.deck-map-roster__art {
+  width: 40px;
+  height: 56px;
+}
+
+.deck-map-inspector {
+  position: absolute;
+  z-index: 24;
+  top: 74px;
+  right: 14px;
+  width: clamp(310px, 25vw, 370px);
+  height: auto;
+  max-height: calc(100% - 128px);
+  padding: 0.72rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid color-mix(in srgb, var(--map-cyan) 30%, transparent);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--map-cyan) 8%, transparent), transparent 48%),
+    rgba(0, 8, 19, 0.88);
+  box-shadow:
+    -14px 16px 40px rgba(0, 0, 0, 0.32),
+    inset -2px 0 0 color-mix(in srgb, var(--map-violet) 50%, transparent);
+  clip-path: polygon(18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
+  backdrop-filter: blur(10px);
+}
+
+.deck-map-inspector > header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.48rem;
+}
+
+.deck-map-inspector__identity {
+  grid-template-columns: 94px minmax(0, 1fr);
+}
+
+.deck-map-inspector__art {
+  width: 92px;
+  height: 129px;
+}
+
+.deck-map-inspector__connections {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.deck-map-inspector__connections button {
+  min-height: 38px;
+}
+
+.deck-map__rail-toggle {
+  position: absolute;
+  z-index: 25;
+  top: 80px;
+  min-height: 30px !important;
+  padding: 0.4rem 0.58rem !important;
+  border-color: color-mix(in srgb, var(--map-cyan) 38%, transparent) !important;
+  color: var(--map-cyan) !important;
+  background: rgba(0, 9, 21, 0.84) !important;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.28) !important;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%) !important;
+  backdrop-filter: blur(8px);
+  font: 900 0.52rem var(--font-tech) !important;
+  letter-spacing: 0.12em;
+}
+
+.deck-map__rail-toggle--roster {
+  left: 14px;
+}
+
+.deck-map__rail-toggle--inspector {
+  right: 14px;
+}
+
+.deck-map-node {
+  width: 86px;
+  height: 120px;
+}
+
+.deck-map-node__art {
+  width: 78px;
+  height: 109px;
+}
+
+.deck-map__legend {
+  right: auto;
+  bottom: 0.7rem;
+  left: 50%;
+  justify-content: center;
+  transform: translateX(-50%);
+}
+
+.deck-designer-result__limitations {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.42rem 0.65rem;
+  border: 0;
+  border-left: 2px solid #f1c95a;
+  background: linear-gradient(90deg, rgba(80, 58, 0, 0.18), transparent);
+}
+
+.deck-designer-result__limitations strong {
+  flex: 0 0 auto;
+}
+
+.deck-designer-debrief > .deck-designer-result__layout {
+  grid-template-columns: 1fr;
+  padding: 0.7rem;
+}
+
+.deck-designer-debrief .deck-designer-analysis {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.deck-designer-debrief .deck-designer-result__lower-grid {
+  padding: 0 0.7rem 0.7rem;
+}
+
+@media (max-width: 1100px) {
+  .deck-map-roster {
+    width: 240px;
+  }
+
+  .deck-map-inspector {
+    width: 330px;
+  }
+
+  .deck-map-node {
+    width: 74px;
+    height: 104px;
+  }
+
+  .deck-map-node__art {
+    width: 66px;
+    height: 93px;
+  }
+
+  .deck-map-inspector__connections {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-designer-debrief .deck-designer-analysis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .deck-designer.is-engaged .bruxao-designer-hero {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+
+  .deck-designer.is-engaged .bruxao-designer-hero__core {
+    width: 52px;
+    height: 52px;
+  }
+
+  .deck-designer.is-engaged .bruxao-designer-hero__status {
+    display: none;
+  }
+
+  .deck-designer__brief-frame > summary,
+  .deck-designer-debrief > summary {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .deck-designer__brief-frame > summary > strong,
+  .deck-designer-debrief > summary > strong,
+  .deck-designer__brief-frame > summary > em {
+    display: none;
+  }
+
+  .deck-map,
+  .deck-map__workspace {
+    min-height: 720px;
+    height: 720px;
+  }
+
+  .deck-map__hudbar {
+    min-height: 94px;
+  }
+
+  .deck-map-roster {
+    top: 102px;
+    right: 12px;
+    bottom: 14px;
+    left: 12px;
+    width: auto;
+  }
+
+  .deck-map-inspector {
+    top: 102px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-height: calc(100% - 118px);
+  }
+
+  .deck-map__rail-toggle {
+    top: 106px;
+  }
+
+  .deck-map__rail-toggle--roster {
+    left: 12px;
+  }
+
+  .deck-map__rail-toggle--inspector {
+    right: 12px;
+  }
+
+  .deck-map-node {
+    width: 62px;
+    height: 87px;
+  }
+
+  .deck-map-node__art {
+    width: 54px;
+    height: 76px;
+  }
+
+  .deck-map__legend {
+    right: 0.4rem;
+    bottom: 0.4rem;
+    left: 0.4rem;
+    justify-content: flex-start;
+    transform: none;
+  }
+
+  .deck-designer-debrief .deck-designer-analysis,
+  .deck-designer-debrief .deck-designer-result__lower-grid {
+    grid-template-columns: 1fr;
+  }
+}

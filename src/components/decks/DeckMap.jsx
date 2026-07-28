@@ -6,6 +6,8 @@ export function DeckMap({ report, onApplySubstitution }) {
   const graph = useMemo(() => buildDeckGraph(report.rows, report.synergies), [report.rows, report.synergies]);
   const [selectedId, setSelectedId] = useState(() => graph.nodes[0]?.id || "");
   const [hoveredId, setHoveredId] = useState("");
+  const [rosterOpen, setRosterOpen] = useState(true);
+  const [inspectorOpen, setInspectorOpen] = useState(false);
   const activeId = hoveredId || selectedId;
   const relatedIds = useMemo(() => relatedNodeIds(graph, activeId), [graph, activeId]);
   const rosterGroups = useMemo(() => groupRosterNodes(graph.nodes), [graph.nodes]);
@@ -29,6 +31,7 @@ export function DeckMap({ report, onApplySubstitution }) {
   function selectNode(nodeId, source) {
     selectionSourceRef.current = source;
     setSelectedId(nodeId);
+    if (source === "map" || source === "list") setInspectorOpen(true);
   }
 
   return (
@@ -47,17 +50,29 @@ export function DeckMap({ report, onApplySubstitution }) {
         </div>
       </header>
 
-      <div className="deck-map__workspace">
-        <DeckMapRoster
-          groups={rosterGroups}
-          activeId={activeId}
-          selectedId={selectedNode?.id || ""}
-          relatedIds={relatedIds}
-          onHover={setHoveredId}
-          onSelect={(nodeId) => selectNode(nodeId, "list")}
-          nodeRefs={rosterNodeRefs}
-          mainCount={report.stats.mainCount}
-        />
+      <div className={`deck-map__workspace ${rosterOpen ? "is-roster-open" : ""} ${inspectorOpen ? "is-inspector-open" : ""}`.trim()}>
+        {!rosterOpen ? (
+          <button
+            type="button"
+            className="deck-map__rail-toggle deck-map__rail-toggle--roster"
+            onClick={() => setRosterOpen(true)}
+            aria-label="Open deck manifest"
+          >
+            MANIFEST
+          </button>
+        ) : (
+          <DeckMapRoster
+            groups={rosterGroups}
+            activeId={activeId}
+            selectedId={selectedNode?.id || ""}
+            relatedIds={relatedIds}
+            onHover={setHoveredId}
+            onSelect={(nodeId) => selectNode(nodeId, "list")}
+            onClose={() => setRosterOpen(false)}
+            nodeRefs={rosterNodeRefs}
+            mainCount={report.stats.mainCount}
+          />
+        )}
 
         <div
           className="deck-map__canvas"
@@ -120,7 +135,16 @@ export function DeckMap({ report, onApplySubstitution }) {
           </div>
         </div>
 
-        {selectedNode ? (
+        {!inspectorOpen ? (
+          <button
+            type="button"
+            className="deck-map__rail-toggle deck-map__rail-toggle--inspector"
+            onClick={() => setInspectorOpen(true)}
+            aria-label="Open selected card data"
+          >
+            NODE DATA
+          </button>
+        ) : selectedNode ? (
           <DeckMapInspector
             node={selectedNode}
             connections={selectedConnections}
@@ -128,6 +152,7 @@ export function DeckMap({ report, onApplySubstitution }) {
             substitutions={report.substitutions?.[selectedNode.id] || []}
             onSelect={(nodeId) => selectNode(nodeId, "inspector")}
             onApply={(targetCardNumber) => onApplySubstitution(selectedNode.id, targetCardNumber)}
+            onClose={() => setInspectorOpen(false)}
           />
         ) : null}
       </div>
@@ -142,6 +167,7 @@ function DeckMapRoster({
   relatedIds,
   onHover,
   onSelect,
+  onClose,
   nodeRefs,
   mainCount,
 }) {
@@ -154,6 +180,7 @@ function DeckMapRoster({
       <header className="deck-map-roster__header">
         <span>DECK MANIFEST // LINKED</span>
         <strong>{mainCount} / 50</strong>
+        <button type="button" onClick={onClose} aria-label="Close deck manifest">‹</button>
         <small>Hover or focus a card to trace it across the map.</small>
       </header>
       <div className="deck-map-roster__groups">
@@ -204,13 +231,14 @@ function DeckMapRoster({
   );
 }
 
-function DeckMapInspector({ node, connections, graph, substitutions, onSelect, onApply }) {
+function DeckMapInspector({ node, connections, graph, substitutions, onSelect, onApply, onClose }) {
   const { row } = node;
   return (
     <aside className="deck-map-inspector" aria-live="polite">
       <header>
         <span>NODE // {row.card.cardNumber}</span>
         <strong>{row.quantity}x</strong>
+        <button type="button" onClick={onClose} aria-label="Close selected card data">›</button>
       </header>
       <div className="deck-map-inspector__identity">
         <CardArt card={row.card} className="deck-map-inspector__art" />

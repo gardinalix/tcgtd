@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { CardArt } from "../cards/CardArt";
 import { DeckMap } from "./DeckMap";
 import {
   TacticalDataPanel,
@@ -44,7 +43,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [report, setReport] = useState(null);
   const [originalReport, setOriginalReport] = useState(null);
-  const [expandedCard, setExpandedCard] = useState("");
+  const [briefOpen, setBriefOpen] = useState(true);
   const [savedDeckId, setSavedDeckId] = useState("");
   const [saveMessage, setSaveMessage] = useState("");
   const archetypes = useMemo(
@@ -95,7 +94,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       const nextReport = analyzeRecommendedDeck(data, assembled, criteria);
       setReport(nextReport);
       setOriginalReport(nextReport);
-      setExpandedCard("");
+      setBriefOpen(false);
       setStatus("success");
     } catch (error) {
       setStatus("error");
@@ -149,7 +148,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   }
 
   return (
-    <div className="deck-designer">
+    <div className={`deck-designer ${report ? "is-engaged" : ""}`.trim()}>
       <section className="bruxao-designer-hero" aria-labelledby="bruxao-designer-title">
         <div className="bruxao-designer-hero__core" aria-hidden="true">
           <span>BRX</span>
@@ -172,7 +171,17 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           <span>DECK LINK ONLINE</span>
         </div>
       </section>
-      <form className="deck-designer__brief tactical-data-panel" onSubmit={runAnalysis}>
+      <details
+        className="deck-designer__brief-frame"
+        open={briefOpen}
+        onToggle={(event) => setBriefOpen(event.currentTarget.open)}
+      >
+        <summary>
+          <span>MISSION PARAMETERS</span>
+          <strong>{criteria.archetype} · {criteria.colors.join(" / ")}</strong>
+          <em>{briefOpen ? "COLLAPSE" : "RECONFIGURE"}</em>
+        </summary>
+        <form className="deck-designer__brief tactical-data-panel" onSubmit={runAnalysis}>
         <div className="deck-designer__brief-head">
           <div>
             <span className="eyebrow">01 / Mission brief</span>
@@ -296,7 +305,8 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
             {status === "loading" ? "Agent analyzing..." : report ? "Rebuild recommendation" : "Design my deck"}
           </button>
         </div>
-      </form>
+        </form>
+      </details>
 
       {status === "loading" ? <AnalysisProgress activeStage={activeStage} /> : null}
       {status === "error" ? (
@@ -310,8 +320,6 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       {status === "success" && report ? (
         <DesignerResult
           report={report}
-          expandedCard={expandedCard}
-          onToggleCard={(cardNumber) => setExpandedCard((current) => current === cardNumber ? "" : cardNumber)}
           onApplySubstitution={applySubstitution}
           onResetSubstitutions={resetSubstitutions}
           onSave={saveRecommendation}
@@ -328,8 +336,6 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
 
 function DesignerResult({
   report,
-  expandedCard,
-  onToggleCard,
   onApplySubstitution,
   onResetSubstitutions,
   onSave,
@@ -339,7 +345,6 @@ function DesignerResult({
   savedDeckId,
   saveMessage,
 }) {
-  const groupedRows = groupDeckRows(report.rows);
   return (
     <section className="deck-designer-result" aria-live="polite">
       <header className="deck-designer-result__header">
@@ -367,50 +372,12 @@ function DesignerResult({
         </div>
       ) : null}
 
-      <details className="deck-designer-manifest">
+      <details className="deck-designer-debrief">
         <summary>
-          <span>DECK MANIFEST // LIST VIEW</span>
-          <strong>{report.stats.mainCount} cards · grouped by type and cost</strong>
+          <span>TACTICAL DEBRIEF // EXPAND INTELLIGENCE</span>
+          <strong>Curve · matchups · synergies · sources</strong>
         </summary>
         <div className="deck-designer-result__layout">
-          <div className="deck-designer-list">
-          <div className="deck-designer-list__legend">
-            <CategoryPill category="essential" />
-            <CategoryPill category="flexible" />
-            <CategoryPill category="accessible" />
-            <CategoryPill category="experimental" />
-            <span className="deck-category-pill deck-category-pill--sideboard">Sideboard · not used</span>
-          </div>
-          {Object.entries(groupedRows).map(([type, costGroups]) => (
-            <section key={type} className="deck-designer-list__type">
-              <header>
-                <h3>{type}</h3>
-                <span>{sumRows(Object.values(costGroups).flat())} cards</span>
-              </header>
-              {Object.entries(costGroups).map(([cost, rows]) => (
-                <div key={`${type}-${cost}`} className="deck-designer-list__cost">
-                  <span className="deck-designer-list__cost-label">Cost {cost}</span>
-                  {rows.map((row) => (
-                    <RecommendedCardRow
-                      key={row.card.cardNumber}
-                      row={row}
-                      substitutions={report.substitutions?.[row.card.cardNumber] || []}
-                      expanded={expandedCard === row.card.cardNumber}
-                      onToggle={() => onToggleCard(row.card.cardNumber)}
-                      onApply={(targetCardNumber) => onApplySubstitution(row.card.cardNumber, targetCardNumber)}
-                    />
-                  ))}
-                </div>
-              ))}
-            </section>
-          ))}
-          <section className="deck-designer-list__resource">
-            <h3>RESOURCE DECK</h3>
-            <span>10x {Object.keys(report.resource || {})[0] || "Resource"}</span>
-            <small>Separate resource deck · unlimited copies under the current rules snapshot.</small>
-          </section>
-          </div>
-
           <aside className="deck-designer-analysis">
             <CurvePanel stats={report.stats} />
             <InsightPanel title="Observed facts" items={report.observedFacts} tone="fact" />
@@ -419,89 +386,12 @@ function DesignerResult({
             <MatchupPanel rows={report.matchups} />
           </aside>
         </div>
+        <div className="deck-designer-result__lower-grid">
+          <SynergyPanel rows={report.synergies} />
+          <EvidencePanel report={report} />
+        </div>
       </details>
-
-      <div className="deck-designer-result__lower-grid">
-        <SynergyPanel rows={report.synergies} />
-        <EvidencePanel report={report} />
-      </div>
     </section>
-  );
-}
-
-function RecommendedCardRow({ row, substitutions, expanded, onToggle, onApply }) {
-  return (
-    <article className={`recommended-card ${expanded ? "is-expanded" : ""}`.trim()}>
-      <button type="button" className="recommended-card__main" onClick={onToggle} aria-expanded={expanded}>
-        <span className="recommended-card__qty">{row.quantity}x</span>
-        <CardArt card={row.card} className="recommended-card__art" compact />
-        <span className="recommended-card__identity">
-          <strong>{row.card.cardName}</strong>
-          <em>{row.card.cardNumber} · {row.card.color} · {row.card.cost || "-"} cost</em>
-        </span>
-        <CategoryPill category={row.category} />
-        <span className={`recommendation-confidence recommendation-confidence--${row.confidence.toLowerCase()}`}>
-          {row.confidence} confidence
-        </span>
-        <span className="recommended-card__expand">{substitutions.length ? `${substitutions.length} swaps` : "Details"}</span>
-      </button>
-      {expanded ? (
-        <div className="recommended-card__details">
-          <div className="recommended-card__reason">
-            <strong>Why this card</strong>
-            <p>{row.recommendationReason}</p>
-            <span>{row.source === "observed" ? "Observed competitive fact" : "AI inference"} · {Math.round(row.usageRate * 100)}% sample adoption</span>
-          </div>
-          {substitutions.length ? (
-            <div className="recommended-card__substitutions">
-              {substitutions.map((substitution) => (
-                <SubstitutionCard
-                  key={substitution.card.cardNumber}
-                  substitution={substitution}
-                  sourceQuantity={row.quantity}
-                  onApply={() => onApply(substitution.card.cardNumber)}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="recommended-card__no-substitution">No sufficiently similar same-color replacement passed the fit threshold.</p>
-          )}
-        </div>
-      ) : null}
-    </article>
-  );
-}
-
-function SubstitutionCard({ substitution, sourceQuantity, onApply }) {
-  const impact = substitution.impact;
-  return (
-    <article className={`substitution-card substitution-card--${substitution.kind}`}>
-      <header>
-        <div>
-          <span>{substitution.kind === "affordable" ? "Affordable alternative" : substitution.kind === "experimental" ? "Experimental line" : "Flex replacement"}</span>
-          <h4>{substitution.card.cardName}</h4>
-          <em>{substitution.card.cardNumber} · fit {Math.round(substitution.fitScore * 100)}%</em>
-        </div>
-        <button type="button" onClick={onApply}>Swap {sourceQuantity}x</button>
-      </header>
-      <div className="substitution-card__impact">
-        <div>
-          <strong>Deck gains</strong>
-          {substitution.gains.map((item) => <span key={item}>{item}</span>)}
-        </div>
-        <div>
-          <strong>Deck loses</strong>
-          {substitution.losses.map((item) => <span key={item}>{item}</span>)}
-        </div>
-      </div>
-      <p><strong>Synergy impact:</strong> {substitution.synergyImpact}</p>
-      <p><strong>Use when:</strong> {substitution.recommendation}</p>
-      <footer>
-        <span>Curve {formatDelta(impact.costDelta)}</span>
-        <span>Price {formatCurrencyDelta(impact.priceDelta)}</span>
-        <span>Meta signal {formatDelta(impact.metaDelta)}</span>
-      </footer>
-    </article>
   );
 }
 
@@ -631,10 +521,6 @@ function EvidencePanel({ report }) {
   );
 }
 
-function CategoryPill({ category }) {
-  return <span className={`deck-category-pill deck-category-pill--${category}`}>{category}</span>;
-}
-
 function groupDeckRows(rows = []) {
   return rows.reduce((types, row) => {
     const type = row.card.cardType || "OTHER";
@@ -644,10 +530,6 @@ function groupDeckRows(rows = []) {
     types[type][cost].push(row);
     return types;
   }, {});
-}
-
-function sumRows(rows) {
-  return rows.reduce((sum, row) => sum + Number(row.quantity || 0), 0);
 }
 
 function inferInitialColors(value = "") {
@@ -667,16 +549,6 @@ function formatDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
   return date.toLocaleDateString(getLocaleTag(), { year: "numeric", month: "short", day: "numeric" });
-}
-
-function formatDelta(value) {
-  const number = Number(value || 0);
-  return `${number > 0 ? "+" : ""}${number}`;
-}
-
-function formatCurrencyDelta(value) {
-  const number = Number(value || 0);
-  return `${number > 0 ? "+" : number < 0 ? "-" : ""}R$ ${Math.abs(number).toFixed(2)}`;
 }
 
 function downloadReport(report, format) {
