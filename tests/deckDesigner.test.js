@@ -4,6 +4,7 @@ import {
   applyRecommendedSubstitution,
   collectDeckResearch,
   designDeck,
+  designDeckVariants,
   normalizeDeckEvidence,
 } from "../src/services/deckDesigner/index.js";
 import { buildExBurstDeckText } from "../src/domain/deckExport.js";
@@ -55,6 +56,43 @@ test("designer infers a coherent color and archetype shell from a main unit alon
   assert.equal(report.stats.mainCount, 50);
 });
 
+test("designer selects the best finish and preserves independent source-list variants", () => {
+  const data = fixtureData();
+  setDeckQuantity(data, "deck-2", "TEST-001", 3);
+  setDeckQuantity(data, "deck-2", "TEST-012", 3);
+  setDeckQuantity(data, "deck-3", "TEST-002", 3);
+  setDeckQuantity(data, "deck-3", "TEST-012", 3);
+
+  const reports = designDeckVariants(data, baseCriteria());
+
+  assert.equal(reports.length, 3);
+  assert.equal(reports[0].sourceDeck.deckId, "deck-1");
+  assert.equal(reports[0].sourceDeck.placingRank, 1);
+  assert.deepEqual(
+    reports.map((report) => report.sourceDeck.deckId),
+    ["deck-1", "deck-2", "deck-3"],
+  );
+  for (const report of reports) {
+    const sourceQuantities = Object.fromEntries(data.metaDeckCards
+      .filter((row) => row.deckId === report.sourceDeck.deckId)
+      .map((row) => [row.cardNumber, Number(row.quantity)]));
+    assert.deepEqual(report.main, sourceQuantities);
+    assert.equal(report.assemblyMode, "competitive_source");
+    assert.equal(report.stats.mainCount, 50);
+  }
+});
+
+test("an exact archetype selection does not admit a different blockers archetype", () => {
+  const data = fixtureData();
+  data.metaResults.find((result) => result.deckId === "deck-3").archetype = "The-O Blockers";
+
+  const research = collectDeckResearch(data, baseCriteria());
+
+  assert.equal(research.matchedDecks.length, 2);
+  assert.ok(research.matchedDecks.every((candidate) =>
+    candidate.result.archetype === "Freedom Blockers"));
+});
+
 test("ExBurst text export uses compact quantity and card-number rows", () => {
   const report = designDeck(fixtureData(), baseCriteria());
   const text = buildExBurstDeckText(report);
@@ -94,6 +132,8 @@ test("substitution comparison applies Lfrith to Flat and recalculates deck telem
   assert.equal(changed.main["GD04-077"], lfrith.quantity);
   assert.ok(changed.stats.estimatedPriceBrl < report.stats.estimatedPriceBrl);
   assert.equal(changed.substitutionHistory.length, 1);
+  assert.equal(changed.sourceDeck.modified, true);
+  assert.equal(changed.assemblyMode, "source_variant_modified");
 });
 
 function baseCriteria() {
@@ -107,6 +147,12 @@ function baseCriteria() {
     budgetBrl: "",
     focus: "competitive",
   };
+}
+
+function setDeckQuantity(data, deckId, cardNumber, quantity) {
+  const row = data.metaDeckCards.find((item) =>
+    item.deckId === deckId && item.cardNumber === cardNumber);
+  row.quantity = quantity;
 }
 
 function fixtureData() {

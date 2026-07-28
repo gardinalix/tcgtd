@@ -102,6 +102,8 @@ export function applyRecommendedSubstitution(report, sourceCardNumber, targetCar
     ...report,
     main: nextMain,
     rows: nextRows,
+    assemblyMode: report.sourceDeck ? "source_variant_modified" : report.assemblyMode,
+    sourceDeck: report.sourceDeck ? { ...report.sourceDeck, modified: true } : report.sourceDeck,
     substitutionHistory: [
       ...(report.substitutionHistory || []),
       {
@@ -259,6 +261,11 @@ function buildObservedFacts(report, stats) {
     `${report.facts?.wins || 0} first-place finish(es) and ${report.facts?.topEight || 0} Top 8 result(s) are present in that sample.`,
     `The proposed main deck has ${stats.mainCount} cards with an average cost of ${stats.averageCost}.`,
   ];
+  if (report.sourceDeck) {
+    facts.unshift(report.sourceDeck.modified
+      ? `This variant started from ${report.sourceDeck.playerName}'s ${report.sourceDeck.placingLabel || report.sourceDeck.placingRank} list at ${report.sourceDeck.eventName}; ${report.substitutionHistory?.length || 0} substitution(s) are currently applied.`
+      : `${report.sourceDeck.playerName} placed ${report.sourceDeck.placingLabel || report.sourceDeck.placingRank} at ${report.sourceDeck.eventName}; all ${report.sourceDeck.mainCount} registered card quantities were preserved.`);
+  }
   if (report.facts?.latestEventDate) facts.push(`Latest matched event date: ${report.facts.latestEventDate}.`);
   return facts;
 }
@@ -332,10 +339,20 @@ function buildStrategy(criteria, report, stats) {
   const archetype = criteria.archetype || "selected archetype";
   const focus = criteria.focus === "casual" ? "casual flexibility" : "competitive consistency";
   const exact = report.exactDeckCount || 0;
+  if (report.sourceDeck) {
+    return report.sourceDeck.modified
+      ? `${archetype} derived from ${report.sourceDeck.playerName}'s ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`} list at ${report.sourceDeck.eventName}, with ${report.substitutionHistory?.length || 0} applied substitution(s). Statistics and synergies reflect the modified variant. Average cost: ${stats.averageCost}.`
+      : `${archetype} as registered by ${report.sourceDeck.playerName} for ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`} at ${report.sourceDeck.eventName}. This map preserves the source list intact; AI analysis is limited to roles, synergies, risks and optional substitutions. Average cost: ${stats.averageCost}.`;
+  }
   return `${archetype} tuned for ${focus}. The shell follows weighted adoption from ${report.facts?.matchedDecklists || 0} relevant lists (${exact} exact matches), then uses official card text, curve and synergy signals to resolve flex slots. Average cost: ${stats.averageCost}.`;
 }
 
 function buildEvidenceSummary(report) {
+  if (report.sourceDeck) {
+    return report.sourceDeck.modified
+      ? `Source deck: ${report.sourceDeck.playerName}, ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`}, ${report.sourceDeck.eventName} (${report.sourceDeck.eventDate || "date unavailable"}). This local variant has substitutions and no longer exactly matches the registered list.`
+      : `Source deck: ${report.sourceDeck.playerName}, ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`}, ${report.sourceDeck.eventName} (${report.sourceDeck.eventDate || "date unavailable"}). Quantities are reproduced without cross-list averaging.`;
+  }
   const sample = report.facts?.matchedDecklists || 0;
   return sample
     ? `Observed evidence: ${sample} list(s), ${report.facts?.eventCount || 0} event(s). Inferences are explicitly labeled.`
@@ -343,6 +360,15 @@ function buildEvidenceSummary(report) {
 }
 
 function overallConfidence(report, stats) {
+  if (report.sourceDeck) {
+    const placingSignal = Number(report.sourceDeck.placingRank) === 1 ? 0.12 : 0.06;
+    const fieldSignal = report.sourceDeck.playerCount >= 128
+      ? 0.1
+      : report.sourceDeck.playerCount >= 32
+        ? 0.05
+        : 0;
+    return clamp(0.58 + placingSignal + fieldSignal);
+  }
   const sample = report.facts?.matchedDecklists || 0;
   const exact = report.facts?.exactDecklists || report.exactDeckCount || 0;
   const inferredSlots = (report.rows || [])

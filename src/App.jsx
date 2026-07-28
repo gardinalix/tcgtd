@@ -185,7 +185,9 @@ export function App() {
     const firstCompetitiveSource = (report.sources || []).find((source) => source.classification === "competitive_result")
       || report.sources?.[0];
     const deck = createSavedDeck(ownerId, {
-      name: report.title || `${report.criteria?.archetype || "AI"} recommendation`,
+      name: report.sourceDeck
+        ? `${report.title || report.criteria?.archetype || "Competitive deck"} · ${report.sourceDeck.playerName} ${report.sourceDeck.placingLabel || ""}`.trim()
+        : report.title || `${report.criteria?.archetype || "AI"} recommendation`,
       visibility: "private",
       archetype: report.criteria?.archetype || "",
       colors: report.criteria?.colors || [],
@@ -194,9 +196,11 @@ export function App() {
         report.strategy,
         ...(report.limitations || []).map((limitation) => `Limitation: ${limitation}`),
       ].filter(Boolean).join("\n"),
-      sourceName: "AI Deck Designer · normalized evidence",
-      sourceUrl: firstCompetitiveSource?.url || "",
-      externalId: `designer:${report.generatedAt || new Date().toISOString()}`,
+      sourceName: report.sourceDeck?.sourceName || "AI Deck Designer · normalized evidence",
+      sourceUrl: report.sourceDeck?.deckUrl || firstCompetitiveSource?.url || "",
+      externalId: report.sourceDeck?.deckId
+        ? `designer-source:${report.sourceDeck.deckId}`
+        : `designer:${report.generatedAt || new Date().toISOString()}`,
       designerReport: compactDeckDesign(report),
       main: report.main || {},
       resource: report.resource || {},

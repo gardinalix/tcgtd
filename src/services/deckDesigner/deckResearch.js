@@ -22,6 +22,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   const latestEventDate = data.latestEventDate || latestDate(data.metaResults || []);
   const required = findCardsByTerms(cards, criteria.requiredCards);
   const excluded = findCardsByTerms(cards, criteria.excludedCards);
+  const requiredIds = new Set(required.cards.map((card) => card.cardNumber));
   const excludedIds = new Set(excluded.cards.map((card) => card.cardNumber));
 
   const scored = (data.metaResults || [])
@@ -33,12 +34,16 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       requestedArchetype,
       requestedUnit,
       latestEventDate,
+      cardMap,
     }))
-    .filter((candidate) => candidate.deckRows.some((row) => !excludedIds.has(row.cardNumber)));
+    .filter((candidate) =>
+      [...requiredIds].every((cardNumber) =>
+        candidate.deckRows.some((row) => row.cardNumber === cardNumber))
+      && !candidate.deckRows.some((row) => excludedIds.has(row.cardNumber)));
 
   const strict = scored.filter((candidate) =>
     (!requestedColors.length || candidate.colorMatch >= 0.95)
-    && (!requestedArchetype || candidate.archetypeMatch >= 0.62)
+    && (!requestedArchetype || candidate.archetypeExactMatch)
     && (!requestedUnit || candidate.unitMatch === 1));
   const related = scored.filter((candidate) =>
     (!requestedColors.length || candidate.colorMatch >= 0.45)
@@ -54,16 +59,22 @@ export function collectDeckResearch(data = {}, criteria = {}) {
     : [];
   const candidatePool = requestedUnit && !requestedArchetype && unitAnchored.length
     ? unitAnchored
-    : strict.length >= 3
-    ? strict
-    : related.length >= 3
-      ? related
+    : strict.length
+      ? strict
+      : related.length
+        ? related
       : sameColors.length
         ? sameColors
         : scored;
+  const mainDeckSize = Number(data.rules?.mainDeckSize || 50);
   const matchedDecks = candidatePool
-    .sort((left, right) => right.relevanceScore - left.relevanceScore)
+    .filter((candidate) =>
+      candidate.mainCount === mainDeckSize
+      && candidate.knownMainCount === mainDeckSize)
+    .sort(competitiveDeckSort)
     .slice(0, 36);
+  const deckVariants = uniqueBy(matchedDecks, (candidate) => candidate.fingerprint)
+    .slice(0, 4);
   const inferredShell = inferCompetitiveShell(matchedDecks, {
     requestedColors,
     requestedArchetype,
@@ -93,7 +104,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
     }));
   const exactDecks = matchedDecks.filter((candidate) =>
     (!requestedColors.length || candidate.colorMatch >= 0.95)
-    && (!requestedArchetype || candidate.archetypeMatch >= 0.62)
+    && (!requestedArchetype || candidate.archetypeExactMatch)
     && (!requestedUnit || candidate.unitMatch === 1));
   const sourceRows = buildSources(data, matchedDecks);
   const limitations = [];
@@ -153,6 +164,8 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       matchedCards: catalogShell.matchedCards,
       weightedScore: round(inferredShell.score, 3),
     },
+    deckVariants,
+    primaryDeckId: deckVariants[0]?.result.deckId || "",
     matchedDecks,
     exactDeckCount: exactDecks.length,
     normalizedRows,
@@ -172,6 +185,71 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       catalogCards: cards.length,
     },
   };
+}
+
+export function buildDeckVariantResearch(data = {}, research = {}) {
+  return (research.deckVariants || []).map((candidate, index) => {
+    const deckId = candidate.result.deckId;
+    const normalizedRows = (research.normalizedRows || [])
+      .filter((row) => row.deckId === deckId);
+    const sourceDeck = {
+      deckId,
+      resultId: candidate.result.resultId || "",
+      eventId: candidate.result.eventId || "",
+      eventName: candidate.result.eventName || "Competitive event",
+      eventDate: candidate.result.eventDate || "",
+      eventType: candidate.result.eventType || "",
+      playerCount: Number(candidate.result.playerCount || 0),
+      playerName: candidate.result.playerName || "Unknown pilot",
+      placingLabel: candidate.result.placingLabel || "",
+      placingRank: Number(candidate.result.placingRank || 999),
+      archetype: candidate.result.archetype || research.criteria?.archetype || "",
+      colorCombination: candidate.result.colorCombination || candidate.resultColors.join("/"),
+      sourceName: candidate.result.sourceName || "",
+      sourceUrl: candidate.result.sourceUrl || "",
+      deckUrl: candidate.result.deckUrl || "",
+      mainCount: candidate.mainCount,
+      variantIndex: index,
+    };
+    const requestedColors = research.selectionInference?.requestedColors || [];
+    const requestedArchetype = research.selectionInference?.requestedArchetype || "";
+    const isExact = (!requestedColors.length || candidate.colorMatch >= 0.95)
+      && (!requestedArchetype || candidate.archetypeExactMatch)
+      && (!research.criteria?.unitQuery || candidate.unitMatch === 1);
+    const limitations = (research.limitations || [])
+      .filter((item) =>
+        !String(item).startsWith("Fewer than three relevant")
+        && !String(item).startsWith("The exact combination has a small sample")
+        && !String(item).startsWith("Auto-selected")
+        && !String(item).startsWith("No competitive shell was observed"));
+    limitations.unshift(
+      "This map reproduces one competitive decklist independently; card quantities were not averaged across different lists.",
+    );
+
+    return {
+      ...research,
+      criteria: {
+        ...research.criteria,
+        colors: candidate.resultColors,
+        archetype: candidate.result.archetype || research.criteria?.archetype || "",
+      },
+      matchedDecks: [candidate],
+      exactDeckCount: isExact ? 1 : 0,
+      normalizedRows,
+      sources: buildSources(data, [candidate]),
+      limitations,
+      sourceDeck,
+      facts: {
+        ...research.facts,
+        matchedDecklists: 1,
+        exactDecklists: isExact ? 1 : 0,
+        eventCount: candidate.result.eventId ? 1 : 0,
+        wins: Number(candidate.result.placingRank) === 1 ? 1 : 0,
+        topEight: Number(candidate.result.placingRank) <= 8 ? 1 : 0,
+        latestEventDate: candidate.result.eventDate || "",
+      },
+    };
+  });
 }
 
 function inferCatalogUnitShell(cards, requestedUnit) {
@@ -317,8 +395,14 @@ function scoreResult({
   requestedArchetype,
   requestedUnit,
   latestEventDate,
+  cardMap,
 }) {
-  const resultColors = normalizeColors(result.colorCombination);
+  const declaredColors = normalizeColors(result.colorCombination);
+  const resultColors = declaredColors.length
+    ? declaredColors
+    : [...new Set(deckRows
+      .map((row) => row.cardColor)
+      .filter((color) => color && color !== "Neutral"))].slice(0, 2);
   const colorMatch = scoreColors(requestedColors, resultColors);
   const archetypeMatch = requestedArchetype
     ? Math.max(
@@ -326,6 +410,11 @@ function scoreResult({
       normalizeSearchText(result.archetype).includes(normalizeSearchText(requestedArchetype)) ? 1 : 0,
     )
     : 0.7;
+  const normalizedRequestedArchetype = normalizeSearchText(requestedArchetype);
+  const normalizedResultArchetype = normalizeSearchText(result.archetype);
+  const archetypeExactMatch = !requestedArchetype
+    || normalizedResultArchetype === normalizedRequestedArchetype
+    || normalizedResultArchetype.startsWith(`${normalizedRequestedArchetype} `);
   const unitMatch = requestedUnit
     ? Number(deckRows.some((row) => normalizeSearchText(row.cardName).includes(requestedUnit)))
     : 0.7;
@@ -338,15 +427,47 @@ function scoreResult({
     + (finish * 0.12)
     + (recent * 0.08),
   );
+  const mainCount = deckRows.reduce((sum, row) => sum + Number(row.quantity || 0), 0);
+  const knownMainCount = deckRows
+    .filter((row) => cardMap.has(row.cardNumber))
+    .reduce((sum, row) => sum + Number(row.quantity || 0), 0);
+  const fingerprint = [...deckRows]
+    .sort((left, right) => String(left.cardNumber).localeCompare(String(right.cardNumber)))
+    .map((row) => `${row.cardNumber}:${Number(row.quantity || 0)}`)
+    .join(",");
   return {
     result,
     deckRows,
     resultColors,
     colorMatch,
     archetypeMatch,
+    archetypeExactMatch,
     unitMatch,
     relevanceScore,
+    mainCount,
+    knownMainCount,
+    fingerprint,
   };
+}
+
+function competitiveDeckSort(left, right) {
+  const leftRank = Number(left.result.placingRank || 999);
+  const rightRank = Number(right.result.placingRank || 999);
+  return leftRank - rightRank
+    || Number(right.result.playerCount || 0) - Number(left.result.playerCount || 0)
+    || eventStrength(right.result.eventType) - eventStrength(left.result.eventType)
+    || String(right.result.eventDate || "").localeCompare(String(left.result.eventDate || ""))
+    || right.relevanceScore - left.relevanceScore
+    || String(left.result.deckId).localeCompare(String(right.result.deckId));
+}
+
+function eventStrength(eventType = "") {
+  const normalized = normalizeSearchText(eventType);
+  if (normalized.includes("world")) return 5;
+  if (normalized.includes("championship") || normalized.includes("regional")) return 4;
+  if (normalized.includes("major") || normalized.includes("large")) return 3;
+  if (normalized.includes("official")) return 2;
+  return 1;
 }
 
 function scoreColors(requested, actual) {

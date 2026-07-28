@@ -11,6 +11,7 @@ import {
   analyzeRecommendedDeck,
   applyRecommendedSubstitution,
   assembleRecommendedDeck,
+  buildDeckVariantResearch,
   collectDeckResearch,
   normalizeDeckEvidence,
   scoreRecommendationPool,
@@ -21,8 +22,8 @@ import { getLocaleTag } from "../../i18n/translations.js";
 const ANALYSIS_STAGES = [
   "Collecting competitive decklists",
   "Normalizing cards, events and results",
-  "Scoring adoption, fit and constraints",
-  "Assembling the legal 50-card shell",
+  "Ranking placements and exact matches",
+  "Locking registered 50-card decklists",
   "Explaining synergies and substitutions",
 ];
 
@@ -42,8 +43,9 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   const [status, setStatus] = useState("idle");
   const [activeStage, setActiveStage] = useState(-1);
   const [errorMessage, setErrorMessage] = useState("");
-  const [report, setReport] = useState(null);
-  const [originalReport, setOriginalReport] = useState(null);
+  const [variantReports, setVariantReports] = useState([]);
+  const [originalVariantReports, setOriginalVariantReports] = useState([]);
+  const [activeVariantIndex, setActiveVariantIndex] = useState(0);
   const [briefOpen, setBriefOpen] = useState(true);
   const [savedDeckId, setSavedDeckId] = useState("");
   const [saveMessage, setSaveMessage] = useState("");
@@ -58,6 +60,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
     .filter((card) => Number(card.recentTop8DecksUsing || 0) > 0)
     .sort((left, right) => Number(right.recentTop8DecksUsing || 0) - Number(left.recentTop8DecksUsing || 0))
     .map((card) => card.cardName))].slice(0, 180), [data.cards]);
+  const report = variantReports[activeVariantIndex] || null;
 
   async function runAnalysis(event) {
     event?.preventDefault();
@@ -74,28 +77,38 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       setActiveStage(0);
       await nextFrame();
       const research = collectDeckResearch(data, criteria);
-      const resolvedCriteria = research.criteria;
+      const competitiveVariants = buildDeckVariantResearch(data, research);
+      if (!competitiveVariants.length && (data.metaResults || []).length) {
+        throw new Error("No complete registered decklist matched these filters. Remove a constraint or choose another unit/archetype.");
+      }
+      const researchSets = competitiveVariants.length ? competitiveVariants : [research];
 
       setActiveStage(1);
       await nextFrame();
-      const normalized = normalizeDeckEvidence(data, research);
+      const normalizedSets = researchSets.map((variantResearch) =>
+        normalizeDeckEvidence(data, variantResearch));
 
       setActiveStage(2);
       await nextFrame();
-      const scored = scoreRecommendationPool(data, normalized, resolvedCriteria);
+      const scoredSets = normalizedSets.map((normalized) =>
+        scoreRecommendationPool(data, normalized, normalized.criteria));
 
       setActiveStage(3);
       await nextFrame();
-      const assembled = assembleRecommendedDeck(data, scored, resolvedCriteria);
-      if (assembled.mainCount !== Number(data.rules?.mainDeckSize || 50)) {
+      const assembledSets = scoredSets.map((scored) =>
+        assembleRecommendedDeck(data, scored, scored.criteria));
+      if (assembledSets.some((assembled) =>
+        assembled.mainCount !== Number(data.rules?.mainDeckSize || 50))) {
         throw new Error("The recommendation engine could not assemble a legal main-deck size.");
       }
 
       setActiveStage(4);
       await nextFrame();
-      const nextReport = analyzeRecommendedDeck(data, assembled, resolvedCriteria);
-      setReport(nextReport);
-      setOriginalReport(nextReport);
+      const nextReports = assembledSets.map((assembled) =>
+        analyzeRecommendedDeck(data, assembled, assembled.criteria));
+      setVariantReports(nextReports);
+      setOriginalVariantReports(nextReports);
+      setActiveVariantIndex(0);
       setBriefOpen(false);
       setStatus("success");
     } catch (error) {
@@ -120,15 +133,27 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   }
 
   function applySubstitution(sourceCardNumber, targetCardNumber) {
-    setReport((current) => applyRecommendedSubstitution(current, sourceCardNumber, targetCardNumber, data));
+    setVariantReports((current) => current.map((variant, index) =>
+      index === activeVariantIndex
+        ? applyRecommendedSubstitution(variant, sourceCardNumber, targetCardNumber, data)
+        : variant));
     setSavedDeckId("");
     setSaveMessage("Deck changed. Statistics, curve and synergies were recalculated.");
   }
 
   function resetSubstitutions() {
-    setReport(originalReport);
+    setVariantReports((current) => current.map((variant, index) =>
+      index === activeVariantIndex
+        ? originalVariantReports[index]
+        : variant));
     setSavedDeckId("");
     setSaveMessage("Original recommendation restored.");
+  }
+
+  function selectVariant(index) {
+    setActiveVariantIndex(index);
+    setSavedDeckId("");
+    setSaveMessage("");
   }
 
   function saveRecommendation() {
@@ -341,6 +366,9 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       {status === "success" && report ? (
         <DesignerResult
           report={report}
+          variants={variantReports}
+          activeVariantIndex={activeVariantIndex}
+          onSelectVariant={selectVariant}
           onApplySubstitution={applySubstitution}
           onResetSubstitutions={resetSubstitutions}
           onSave={saveRecommendation}
@@ -356,6 +384,9 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
 
 function DesignerResult({
   report,
+  variants,
+  activeVariantIndex,
+  onSelectVariant,
   onApplySubstitution,
   onResetSubstitutions,
   onSave,
@@ -384,7 +415,23 @@ function DesignerResult({
       </header>
       {saveMessage ? <p className="deck-designer-result__save-status">{saveMessage}</p> : null}
 
-      <DeckMap report={report} onApplySubstitution={onApplySubstitution} />
+      <DeckVariantSelector
+        variants={variants}
+        activeVariantIndex={activeVariantIndex}
+        onSelectVariant={onSelectVariant}
+      />
+
+      <div className="deck-variant-maps">
+        {variants.map((variant, index) => (
+          <div
+            key={variant.sourceDeck?.deckId || `theoretical-${index}`}
+            className={`deck-variant-map ${index === activeVariantIndex ? "is-active" : ""}`.trim()}
+            hidden={index !== activeVariantIndex}
+          >
+            <DeckMap report={variant} onApplySubstitution={onApplySubstitution} />
+          </div>
+        ))}
+      </div>
 
       {(report.limitations || []).length ? (
         <div className="deck-designer-result__limitations">
@@ -414,6 +461,58 @@ function DesignerResult({
       </details>
       {exportLayerOpen ? (
         <ExBurstExportLayer report={report} onClose={() => setExportLayerOpen(false)} />
+      ) : null}
+    </section>
+  );
+}
+
+function DeckVariantSelector({ variants, activeVariantIndex, onSelectVariant }) {
+  const sourceVariants = variants.filter((variant) => variant.sourceDeck);
+  if (!sourceVariants.length) return null;
+  const active = variants[activeVariantIndex]?.sourceDeck;
+
+  return (
+    <section className="deck-variant-selector" aria-label="Competitive deck variants">
+      <header>
+        <div>
+          <span className="eyebrow">COMPETITIVE DECK FEED // INTACT LISTS</span>
+          <h3>Choose the source deck</h3>
+        </div>
+        <p>The primary map uses the best finish, then event size and recency. Every variant is a separate registered list—quantities and relationships never mix.</p>
+      </header>
+      <div className="deck-variant-selector__tabs" role="tablist" aria-label="Available source decks">
+        {variants.map((variant, index) => {
+          const source = variant.sourceDeck;
+          if (!source) return null;
+          const selected = index === activeVariantIndex;
+          return (
+            <button
+              key={source.deckId}
+              type="button"
+              role="tab"
+              aria-selected={selected}
+              className={selected ? "is-active" : ""}
+              onClick={() => onSelectVariant(index)}
+            >
+              <small>{index === 0 ? "PRIMARY TARGET" : `VARIANT ${String(index + 1).padStart(2, "0")}`}</small>
+              <strong>{source.placingLabel || `#${source.placingRank}`} <i>{source.playerName}</i></strong>
+              <span>{source.archetype} · {source.colorCombination}</span>
+              <em>{source.eventName} · {formatDate(source.eventDate)}</em>
+            </button>
+          );
+        })}
+      </div>
+      {active ? (
+        <footer>
+          <span>
+            <b>{active.modified ? "LOCAL VARIANT" : "LOCKED SOURCE"}</b>
+            {active.modified ? " Substitutions applied to this map only" : ` ${active.mainCount} cards reproduced from the registered list`}
+          </span>
+          <nav>
+            {active.deckUrl ? <a href={active.deckUrl} target="_blank" rel="noreferrer">Open decklist</a> : null}
+            {active.sourceUrl ? <a href={active.sourceUrl} target="_blank" rel="noreferrer">Open event source</a> : null}
+          </nav>
+        </footer>
       ) : null}
     </section>
   );
@@ -651,6 +750,8 @@ function exportPayload(report) {
     generatedAt: report.generatedAt,
     title: report.title,
     criteria: report.criteria,
+    assemblyMode: report.assemblyMode,
+    sourceDeck: report.sourceDeck,
     confidence: report.confidence,
     strategy: report.strategy,
     main: Object.fromEntries((report.rows || []).map((row) => [row.card.cardNumber, {

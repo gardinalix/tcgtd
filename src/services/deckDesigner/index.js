@@ -1,6 +1,10 @@
 import { analyzeRecommendedDeck } from "./deckAnalysis.js";
 import { assembleRecommendedDeck, scoreRecommendationPool } from "./deckRecommendationEngine.js";
-import { collectDeckResearch, normalizeDeckEvidence } from "./deckResearch.js";
+import {
+  buildDeckVariantResearch,
+  collectDeckResearch,
+  normalizeDeckEvidence,
+} from "./deckResearch.js";
 
 export {
   analyzeRecommendedDeck,
@@ -12,23 +16,34 @@ export {
   scoreRecommendationPool,
 } from "./deckRecommendationEngine.js";
 export {
+  buildDeckVariantResearch,
   collectDeckResearch,
   normalizeDeckEvidence,
 } from "./deckResearch.js";
 
 export function designDeck(data, criteria) {
+  return designDeckVariants(data, criteria)[0];
+}
+
+export function designDeckVariants(data, criteria) {
   const research = collectDeckResearch(data, criteria);
-  const resolvedCriteria = research.criteria;
-  const normalized = normalizeDeckEvidence(data, research);
-  const scored = scoreRecommendationPool(data, normalized, resolvedCriteria);
-  const assembled = assembleRecommendedDeck(data, scored, resolvedCriteria);
-  return analyzeRecommendedDeck(data, assembled, resolvedCriteria);
+  const variants = buildDeckVariantResearch(data, research);
+  const researchSets = variants.length ? variants : [research];
+  return researchSets.map((variantResearch) => {
+    const resolvedCriteria = variantResearch.criteria;
+    const normalized = normalizeDeckEvidence(data, variantResearch);
+    const scored = scoreRecommendationPool(data, normalized, resolvedCriteria);
+    const assembled = assembleRecommendedDeck(data, scored, resolvedCriteria);
+    return analyzeRecommendedDeck(data, assembled, resolvedCriteria);
+  });
 }
 
 export function compactDeckDesign(report = {}) {
   return {
     generatedAt: report.generatedAt,
     criteria: report.criteria,
+    assemblyMode: report.assemblyMode,
+    sourceDeck: report.sourceDeck,
     confidence: report.confidence,
     confidenceValue: report.confidenceValue,
     strategy: report.strategy,

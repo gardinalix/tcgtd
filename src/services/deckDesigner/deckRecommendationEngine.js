@@ -114,8 +114,11 @@ export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {})
 }
 
 export function assembleRecommendedDeck(data = {}, scored = {}, criteria = {}) {
+  if (scored.sourceDeck?.deckId) {
+    return assembleCompetitiveSourceDeck(data, scored);
+  }
   const mainDeckSize = Number(data.rules?.mainDeckSize || 50);
-  const pool = ensureViablePool(data, scored.scoredPool || [], criteria);
+  const pool = ensureViablePool(data, scored.scoredPool || [], criteria, scored.excludedCards || []);
   const quantities = {};
 
   for (const candidate of pool.filter((item) => item.required)) {
@@ -174,6 +177,49 @@ export function assembleRecommendedDeck(data = {}, scored = {}, criteria = {}) {
   };
 }
 
+function assembleCompetitiveSourceDeck(data, scored) {
+  const poolById = new Map((scored.scoredPool || [])
+    .map((candidate) => [candidate.card.cardNumber, candidate]));
+  const quantities = {};
+  for (const row of scored.normalizedRows || []) {
+    quantities[row.cardNumber] = Number(quantities[row.cardNumber] || 0) + Number(row.quantity || 0);
+  }
+  const rows = Object.entries(quantities)
+    .map(([cardNumber, quantity]) => {
+      const candidate = poolById.get(cardNumber);
+      const recommendation = buildRecommendationRow(candidate, quantity, 1);
+      if (!recommendation) return null;
+      const category = quantity >= 3
+        ? "essential"
+        : quantity === 2
+          ? "flexible"
+          : "experimental";
+      return {
+        ...recommendation,
+        category,
+        source: "observed",
+        expectedCopies: quantity,
+        recommendationReason: `${quantity}x in the selected ${scored.sourceDeck.placingLabel || "competitive"} list by ${scored.sourceDeck.playerName}; preserved exactly from the source deck.`,
+      };
+    })
+    .filter(Boolean)
+    .sort(deckRowSort);
+  const resourceCard = (data.resourceCards || [])[0];
+  const resource = resourceCard
+    ? { [resourceCard.cardNumber]: Number(data.rules?.resourceDeckSize || 10) }
+    : {};
+
+  return {
+    ...scored,
+    generatedAt: new Date().toISOString(),
+    main: quantities,
+    resource,
+    rows,
+    mainCount: sumQuantities(quantities),
+    assemblyMode: "competitive_source",
+  };
+}
+
 export function buildRecommendationRow(candidate, quantity, sampleSize) {
   if (!candidate?.card) return null;
   const usageRate = candidate.observed?.usageRate || 0;
@@ -207,11 +253,13 @@ export function buildRecommendationRow(candidate, quantity, sampleSize) {
   };
 }
 
-function ensureViablePool(data, pool, criteria) {
+function ensureViablePool(data, pool, criteria, excludedCards = []) {
   const poolIds = new Set(pool.map((candidate) => candidate.card.cardNumber));
+  const excludedIds = new Set(excludedCards.map((card) => card.cardNumber));
   const selectedColors = normalizeColors(criteria.colors);
   const fallback = (data.cards || [])
     .filter((card) => !selectedColors.length || card.color === "Neutral" || selectedColors.includes(card.color))
+    .filter((card) => !excludedIds.has(card.cardNumber))
     .filter((card) => !poolIds.has(card.cardNumber))
     .sort((left, right) =>
       Number(right.recentTop8DecksUsing || 0) - Number(left.recentTop8DecksUsing || 0)
