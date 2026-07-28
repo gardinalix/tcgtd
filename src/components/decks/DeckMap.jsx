@@ -91,9 +91,10 @@ export function DeckMap({ report, onApplySubstitution }) {
   return (
     <section className="deck-map">
       <header className="deck-map__hudbar">
-        <div>
-          <span className="eyebrow">DECK LINK MAP // LIVE</span>
-          <h3>Tactical deck map</h3>
+        <div className="deck-map__mission">
+          <span className="eyebrow">BRUXÃO // DECK LINK MAP</span>
+          <h3>{report.title || "Tactical deck map"}</h3>
+          <p>{report.strategy}</p>
         </div>
         <div className="deck-map__readouts" aria-label="Deck telemetry">
           <span><b>{report.stats.mainCount}</b> / 50 MAIN</span>
@@ -105,6 +106,15 @@ export function DeckMap({ report, onApplySubstitution }) {
       </header>
 
       <div className={`deck-map__workspace ${rosterOpen ? "is-roster-open" : ""} ${inspectorOpen ? "is-inspector-open" : ""}`.trim()}>
+        <div className="deck-map__cockpit-frame" aria-hidden="true">
+          <i className="is-north-west" />
+          <i className="is-north-east" />
+          <i className="is-south-west" />
+          <i className="is-south-east" />
+          <b className="is-horizon" />
+          <b className="is-reticle" />
+          <span>NEURAL GRID // POTTER</span>
+        </div>
         {!rosterOpen ? (
           <button
             type="button"

@@ -77,41 +77,46 @@ export function DecksPage({
   }
 
   return (
-    <TacticalPageShell className="decks-terminal-page">
-      <TacticalPageHeader
-        eyebrow="Deck ops"
-        title={workspace === "designer" ? "BRUXÃO DECK DESIGNER" : "Deck command center"}
-        subtitle={workspace === "designer"
-          ? "Research-backed deck construction with transparent evidence, confidence, synergies and live substitution impact."
-          : "Saved decks, public lists, tournament lists, sharing, duplication, and cockpit-ready deck operations."}
-        actions={(
-          <div className="button-row">
-          <button type="button" className={workspace === "designer" ? "is-active" : ""} onClick={() => setWorkspace("designer")}>BRUXÃO</button>
-          <button type="button" className={workspace === "library" ? "is-active" : ""} onClick={() => setWorkspace("library")}>Deck library</button>
-          {workspace === "library" ? <button type="button" className={scope === "mine" ? "is-active" : ""} onClick={() => setScope("mine")}>My decks</button> : null}
-          {workspace === "library" ? <button type="button" className={scope === "public" ? "is-active" : ""} onClick={() => setScope("public")}>Public / meta</button> : null}
-          {workspace === "library" ? <button type="button" onClick={onCreateDeck} disabled={!user}>New deck</button> : null}
-          {workspace === "library" ? <button type="button" className={showExBurstImport ? "is-active" : ""} onClick={() => setShowExBurstImport((current) => !current)}>Import ExBurst</button> : null}
+    <TacticalPageShell className={`decks-terminal-page ${workspace === "designer" ? "is-designer-mode" : "is-library-mode"}`}>
+      {workspace === "designer" ? (
+        <nav className="deck-designer-routebar" aria-label="Deck workspace">
+          <div>
+            <span className="eyebrow">POTTER // NEURAL DECK LINK</span>
+            <strong>BRUXÃO</strong>
           </div>
-        )}
-      />
-      <TacticalSummaryStrip>
-        {workspace === "designer" ? (
-          <>
-            <TacticalSummaryCard label="Competitive results" value={(data.metaResults || []).length.toLocaleString()} detail="Normalized event records." tone="blue" />
-            <TacticalSummaryCard label="Deck card rows" value={(data.metaDeckCards || []).length.toLocaleString()} detail="Observed quantities and co-occurrence." />
-            <TacticalSummaryCard label="Archetypes" value={(data.archetypes || []).length} detail="Scored strategic profiles." tone="gold" />
-            <TacticalSummaryCard label="Ruleset" value={`${data.rules?.mainDeckSize || 50} + ${data.rules?.resourceDeckSize || 10}`} detail="Main deck + resource deck." tone="green" />
-          </>
-        ) : (
-          <>
-            <TacticalSummaryCard label="Visible decklists" value={visibleDecks.length} detail={scope === "mine" ? "Owned by this pilot." : "Public/meta records."} tone="blue" />
-            <TacticalSummaryCard label="Local decks" value={decks.length} />
-            <TacticalSummaryCard label="Public decks" value={publicDecks.length} />
-            <TacticalSummaryCard label="Mode" value={scope === "mine" ? "Private ops" : "Meta archive"} />
-          </>
-        )}
-      </TacticalSummaryStrip>
+          <span className="deck-designer-routebar__status"><i /> SYSTEM STANDBY</span>
+          <div className="deck-designer-routebar__modes">
+            <button type="button" className="is-active" onClick={() => setWorkspace("designer")}>Deck Designer</button>
+            <button type="button" onClick={() => setWorkspace("library")}>Deck library</button>
+          </div>
+        </nav>
+      ) : (
+        <>
+          <TacticalPageHeader
+            eyebrow="Deck ops"
+            title="Deck command center"
+            subtitle="Saved decks, public lists, tournament lists, sharing, duplication, and cockpit-ready deck operations."
+            actions={(
+              <div className="button-row">
+                <button type="button" onClick={() => setWorkspace("designer")}>BRUXÃO</button>
+                <button type="button" className="is-active" onClick={() => setWorkspace("library")}>Deck library</button>
+                <button type="button" className={scope === "mine" ? "is-active" : ""} onClick={() => setScope("mine")}>My decks</button>
+                <button type="button" className={scope === "public" ? "is-active" : ""} onClick={() => setScope("public")}>Public / meta</button>
+                <button type="button" onClick={onCreateDeck} disabled={!user}>New deck</button>
+                <button type="button" className={showExBurstImport ? "is-active" : ""} onClick={() => setShowExBurstImport((current) => !current)}>Import ExBurst</button>
+              </div>
+            )}
+          />
+          <TacticalSummaryStrip>
+            <>
+              <TacticalSummaryCard label="Visible decklists" value={visibleDecks.length} detail={scope === "mine" ? "Owned by this pilot." : "Public/meta records."} tone="blue" />
+              <TacticalSummaryCard label="Local decks" value={decks.length} />
+              <TacticalSummaryCard label="Public decks" value={publicDecks.length} />
+              <TacticalSummaryCard label="Mode" value={scope === "mine" ? "Private ops" : "Meta archive"} />
+            </>
+          </TacticalSummaryStrip>
+        </>
+      )}
 
       {workspace === "designer" ? (
         <DeckDesigner

@@ -50,6 +50,8 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   const [savedDeckId, setSavedDeckId] = useState("");
   const [saveMessage, setSaveMessage] = useState("");
   const [exportLayerOpen, setExportLayerOpen] = useState(false);
+  const [hudBooting, setHudBooting] = useState(() => !prefersReducedMotion());
+  const [hudSystem] = useState(getHudSystemLabel);
   const archetypes = useMemo(
     () => [...(data.archetypes || [])].sort((left, right) =>
       Number(right.recentDecklists || 0) - Number(left.recentDecklists || 0)
@@ -62,6 +64,12 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
     .sort((left, right) => Number(right.recentTop8DecksUsing || 0) - Number(left.recentTop8DecksUsing || 0))
     .map((card) => card.cardName))].slice(0, 180), [data.cards]);
   const report = variantReports[activeVariantIndex] || null;
+
+  useEffect(() => {
+    if (!hudBooting) return undefined;
+    const timer = window.setTimeout(() => setHudBooting(false), 2300);
+    return () => window.clearTimeout(timer);
+  }, [hudBooting]);
 
   async function runAnalysis(event) {
     event?.preventDefault();
@@ -110,7 +118,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       setVariantReports(nextReports);
       setOriginalVariantReports(nextReports);
       setActiveVariantIndex(0);
-      setBriefOpen(true);
+      setBriefOpen(false);
       setStatus("success");
     } catch (error) {
       setStatus("error");
@@ -177,6 +185,9 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
 
   return (
     <div className={`deck-designer ${report ? "is-engaged" : ""}`.trim()}>
+      {hudBooting ? (
+        <HudBootSequence system={hudSystem} onSkip={() => setHudBooting(false)} />
+      ) : null}
       <section className="bruxao-designer-hero" aria-labelledby="bruxao-designer-title">
         <div className="bruxao-designer-hero__core" aria-hidden="true">
           <span>BRX</span>
@@ -391,6 +402,26 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       {exportLayerOpen && report ? (
         <ExBurstExportLayer report={report} onClose={() => setExportLayerOpen(false)} />
       ) : null}
+    </div>
+  );
+}
+
+function HudBootSequence({ system, onSkip }) {
+  return (
+    <div className="bruxao-hud-boot" role="status" aria-label={`${system} initializing`}>
+      <div className="bruxao-hud-boot__shutter bruxao-hud-boot__shutter--top" aria-hidden="true" />
+      <div className="bruxao-hud-boot__shutter bruxao-hud-boot__shutter--bottom" aria-hidden="true" />
+      <div className="bruxao-hud-boot__ignition" aria-hidden="true">
+        <i />
+        <b />
+      </div>
+      <div className="bruxao-hud-boot__scan" aria-hidden="true" />
+      <div className="bruxao-hud-boot__copy">
+        <small>{system}</small>
+        <strong>BRUXÃO</strong>
+        <span>PILOT POTTER // DECK LINK SYNCHRONIZING</span>
+      </div>
+      <button type="button" onClick={onSkip}>SKIP BOOT</button>
     </div>
   );
 }
@@ -732,6 +763,19 @@ function formatDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
   return date.toLocaleDateString(getLocaleTag(), { year: "numeric", month: "short", day: "numeric" });
+}
+
+function prefersReducedMotion() {
+  return typeof window !== "undefined"
+    && window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+}
+
+function getHudSystemLabel() {
+  if (typeof document === "undefined") return "ZERO SYSTEM // DECK LINK";
+  const theme = document.body?.dataset?.theme;
+  if (theme === "barbatos") return "ALAYA-VIJNANA // NEURAL LINK";
+  if (theme === "wing-zero") return "ZERO SYSTEM // DECK LINK";
+  return "MOBILE SUIT // TACTICAL LINK";
 }
 
 function downloadJsonReport(report) {
