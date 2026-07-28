@@ -37,15 +37,24 @@ export function collectDeckResearch(data = {}, criteria = {}) {
     .filter((candidate) => candidate.deckRows.some((row) => !excludedIds.has(row.cardNumber)));
 
   const strict = scored.filter((candidate) =>
-    candidate.colorMatch >= 0.95
+    (!requestedColors.length || candidate.colorMatch >= 0.95)
     && (!requestedArchetype || candidate.archetypeMatch >= 0.62)
     && (!requestedUnit || candidate.unitMatch === 1));
   const related = scored.filter((candidate) =>
-    candidate.colorMatch >= 0.45
+    (!requestedColors.length || candidate.colorMatch >= 0.45)
     && (!requestedArchetype || candidate.archetypeMatch >= 0.28)
     && (!requestedUnit || candidate.unitMatch === 1 || candidate.archetypeMatch >= 0.62));
-  const sameColors = scored.filter((candidate) => candidate.colorMatch >= 0.95);
-  const candidatePool = strict.length >= 3
+  const sameColors = scored.filter((candidate) =>
+    !requestedColors.length || candidate.colorMatch >= 0.95);
+  const unitAnchored = requestedUnit
+    ? scored.filter((candidate) =>
+      candidate.unitMatch === 1
+      && (!requestedColors.length || candidate.colorMatch >= 0.45)
+      && (!requestedArchetype || candidate.archetypeMatch >= 0.28))
+    : [];
+  const candidatePool = requestedUnit && !requestedArchetype && unitAnchored.length
+    ? unitAnchored
+    : strict.length >= 3
     ? strict
     : related.length >= 3
       ? related
@@ -55,6 +64,24 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   const matchedDecks = candidatePool
     .sort((left, right) => right.relevanceScore - left.relevanceScore)
     .slice(0, 36);
+  const inferredShell = inferCompetitiveShell(matchedDecks, {
+    requestedColors,
+    requestedArchetype,
+    requestedUnit,
+  });
+  const catalogShell = inferCatalogUnitShell(cards, requestedUnit);
+  const resolvedColors = requestedColors.length
+    ? requestedColors
+    : inferredShell.colors.length
+      ? inferredShell.colors
+      : catalogShell.colors;
+  const resolvedArchetype = requestedArchetype
+    || inferredShell.archetype
+    || catalogShell.archetype;
+  const hasAutoSelection = Boolean(
+    (!requestedArchetype || !requestedColors.length)
+    && (inferredShell.deckCount || catalogShell.matchedCards),
+  );
 
   const matchedDeckIds = new Set(matchedDecks.map((candidate) => candidate.result.deckId));
   const normalizedRows = (data.metaDeckCards || [])
@@ -65,7 +92,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       card: cardMap.get(row.cardNumber),
     }));
   const exactDecks = matchedDecks.filter((candidate) =>
-    candidate.colorMatch >= 0.95
+    (!requestedColors.length || candidate.colorMatch >= 0.95)
     && (!requestedArchetype || candidate.archetypeMatch >= 0.62)
     && (!requestedUnit || candidate.unitMatch === 1));
   const sourceRows = buildSources(data, matchedDecks);
@@ -86,7 +113,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
     limitations.push(`Excluded card terms not found in the official catalog snapshot: ${excluded.unresolved.join(", ")}.`);
   }
   const requiredOutsideColors = required.cards.filter((card) =>
-    requestedColors.length && card.color !== "Neutral" && !requestedColors.includes(card.color));
+    resolvedColors.length && card.color !== "Neutral" && !resolvedColors.includes(card.color));
   if (requiredOutsideColors.length) {
     limitations.push(`Required cards outside the selected colors were not included: ${requiredOutsideColors.map((card) => card.cardName).join(", ")}.`);
   }
@@ -97,14 +124,34 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   if (!matchedDecks.length) {
     limitations.push("No competitive list matched the filters. The result uses official card data and theoretical synergy only.");
   }
+  if ((!requestedArchetype || !requestedColors.length) && inferredShell.deckCount) {
+    limitations.push(
+      `Auto-selected ${resolvedArchetype || "an open strategy"} in ${resolvedColors.join("/") || "unrestricted colors"} from ${inferredShell.deckCount} competitive list(s); this shell is an evidence-weighted inference, not an official classification.`,
+    );
+  } else if (hasAutoSelection) {
+    limitations.push(
+      `No competitive shell was observed for the selected unit. ${resolvedArchetype || "The strategy"} in ${resolvedColors.join("/") || "open colors"} is a theoretical fallback inferred from the card catalog, so confidence is reduced.`,
+    );
+  }
 
   return {
     version: DECK_RESEARCH_VERSION,
     criteria: {
       ...criteria,
-      colors: requestedColors,
-      archetype: requestedArchetype,
+      colors: resolvedColors,
+      archetype: resolvedArchetype,
       unitQuery: String(criteria.unitQuery || "").trim(),
+    },
+    selectionInference: {
+      active: hasAutoSelection,
+      basis: inferredShell.deckCount ? "competitive_lists" : catalogShell.matchedCards ? "card_catalog" : "none",
+      requestedColors,
+      requestedArchetype,
+      resolvedColors,
+      resolvedArchetype,
+      supportingDecks: inferredShell.deckCount,
+      matchedCards: catalogShell.matchedCards,
+      weightedScore: round(inferredShell.score, 3),
     },
     matchedDecks,
     exactDeckCount: exactDecks.length,
@@ -124,6 +171,78 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       latestEventDate: latestDate(matchedDecks.map((item) => item.result)),
       catalogCards: cards.length,
     },
+  };
+}
+
+function inferCatalogUnitShell(cards, requestedUnit) {
+  if (!requestedUnit) return { archetype: "", colors: [], matchedCards: 0 };
+  const matches = cards
+    .filter((card) =>
+      card.cardType === "UNIT"
+      && normalizeSearchText(card.cardName).includes(requestedUnit))
+    .sort((left, right) =>
+      Number(right.recentTop8DecksUsing || 0) - Number(left.recentTop8DecksUsing || 0)
+      || Number(right.recentMetaScore || 0) - Number(left.recentMetaScore || 0));
+  const archetypeScores = new Map();
+  for (const card of matches) {
+    for (const row of card.topArchetypes || []) {
+      const label = String(row.label || "").trim();
+      if (!label) continue;
+      archetypeScores.set(label, Number(archetypeScores.get(label) || 0) + Number(row.count || 0));
+    }
+  }
+  const archetype = [...archetypeScores.entries()]
+    .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))[0]?.[0] || "";
+  const colors = [...new Set(matches
+    .map((card) => card.color)
+    .filter((color) => color && color !== "Neutral"))].slice(0, 2);
+  return { archetype, colors, matchedCards: matches.length };
+}
+
+function inferCompetitiveShell(matchedDecks, {
+  requestedColors,
+  requestedArchetype,
+  requestedUnit,
+}) {
+  const eligible = requestedUnit
+    ? matchedDecks.filter((candidate) => candidate.unitMatch === 1)
+    : matchedDecks;
+  const shells = new Map();
+
+  for (const candidate of eligible) {
+    const archetype = String(candidate.result.archetype || "").trim();
+    const colors = candidate.resultColors || normalizeColors(candidate.result.colorCombination);
+    if (!archetype && !colors.length) continue;
+    const key = `${normalizeSearchText(archetype)}|${colors.join("/")}`;
+    const current = shells.get(key) || {
+      archetype,
+      colors,
+      deckCount: 0,
+      score: 0,
+      wins: 0,
+    };
+    current.deckCount += 1;
+    current.score += Math.max(0.15, candidate.relevanceScore)
+      * placingWeight(candidate.result.placingRank);
+    if (Number(candidate.result.placingRank) === 1) current.wins += 1;
+    shells.set(key, current);
+  }
+
+  const ranked = [...shells.values()]
+    .filter((shell) =>
+      (!requestedArchetype || tokenOverlap(requestedArchetype, shell.archetype) >= 0.28)
+      && (!requestedColors.length || requestedColors.some((color) => shell.colors.includes(color))))
+    .sort((left, right) =>
+      right.score - left.score
+      || right.wins - left.wins
+      || right.deckCount - left.deckCount
+      || String(left.archetype).localeCompare(String(right.archetype)));
+
+  return ranked[0] || {
+    archetype: requestedArchetype,
+    colors: requestedColors,
+    deckCount: 0,
+    score: 0,
   };
 }
 

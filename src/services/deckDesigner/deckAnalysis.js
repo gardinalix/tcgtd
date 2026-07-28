@@ -18,7 +18,7 @@ export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {})
   const substitutions = buildSubstitutions(data, assembled.rows || [], criteria);
   const confidenceValue = overallConfidence(assembled, stats);
   const observedFacts = buildObservedFacts(assembled, stats);
-  const inferences = buildTheoreticalInferences(assembled.rows || [], stats);
+  const inferences = buildTheoreticalInferences(assembled.rows || [], stats, assembled);
   const weaknesses = buildWeaknesses(assembled.rows || [], stats, assembled);
   const matchups = buildMatchupProjections(assembled.rows || [], stats);
   const strategy = buildStrategy(criteria, assembled, stats);
@@ -263,7 +263,7 @@ function buildObservedFacts(report, stats) {
   return facts;
 }
 
-function buildTheoreticalInferences(rows, stats) {
+function buildTheoreticalInferences(rows, stats, report) {
   const mechanics = Object.entries(stats.mechanics).sort((left, right) => right[1] - left[1]);
   const blockers = mechanics.find(([name]) => normalizeSearchText(name) === "blocker")?.[1] || 0;
   const consistency = mechanics
@@ -273,6 +273,12 @@ function buildTheoreticalInferences(rows, stats) {
     .filter(([name]) => ["damage push", "breach", "ap mod"].includes(normalizeSearchText(name)))
     .reduce((sum, [, count]) => sum + count, 0);
   const inferences = [];
+  if (report.selectionInference?.active) {
+    const shell = `${report.selectionInference.resolvedArchetype || "the strategy"} in ${(report.selectionInference.resolvedColors || []).join("/") || "open colors"}`;
+    inferences.push(report.selectionInference.basis === "competitive_lists"
+      ? `Theoretical: ${shell} was selected as the strongest observed shell across ${report.selectionInference.supportingDecks} relevant list(s).`
+      : `Theoretical: ${shell} was inferred from the selected unit's catalog color and archetype signals because no matching competitive shell was observed.`);
+  }
   if (stats.averageCost <= 3.1) inferences.push("Theoretical: the low curve should improve early deployment consistency and pressure.");
   if (blockers >= 6) inferences.push(`Theoretical: ${blockers} cards with Blocker signals provide a meaningful defensive layer.`);
   if (consistency >= 6) inferences.push(`Theoretical: ${consistency} draw/search-tagged slots should reduce dead hands.`);

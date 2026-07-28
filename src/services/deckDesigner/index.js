@@ -18,10 +18,11 @@ export {
 
 export function designDeck(data, criteria) {
   const research = collectDeckResearch(data, criteria);
+  const resolvedCriteria = research.criteria;
   const normalized = normalizeDeckEvidence(data, research);
-  const scored = scoreRecommendationPool(data, normalized, criteria);
-  const assembled = assembleRecommendedDeck(data, scored, criteria);
-  return analyzeRecommendedDeck(data, assembled, criteria);
+  const scored = scoreRecommendationPool(data, normalized, resolvedCriteria);
+  const assembled = assembleRecommendedDeck(data, scored, resolvedCriteria);
+  return analyzeRecommendedDeck(data, assembled, resolvedCriteria);
 }
 
 export function compactDeckDesign(report = {}) {

@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DeckMap } from "./DeckMap";
+import { buildExBurstDeckText, downloadDeckText } from "../../domain/deckExport.js";
 import {
   TacticalDataPanel,
   TacticalEmptyState,
@@ -60,9 +61,9 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
 
   async function runAnalysis(event) {
     event?.preventDefault();
-    if (!criteria.colors.length || !criteria.archetype.trim()) {
+    if (!criteria.colors.length && !criteria.archetype.trim() && !criteria.unitQuery.trim()) {
       setStatus("error");
-      setErrorMessage("Select at least one color and an archetype or strategy.");
+      setErrorMessage("Select a color, an archetype, or a main unit so the agent has an anchor.");
       return;
     }
     setStatus("loading");
@@ -73,6 +74,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       setActiveStage(0);
       await nextFrame();
       const research = collectDeckResearch(data, criteria);
+      const resolvedCriteria = research.criteria;
 
       setActiveStage(1);
       await nextFrame();
@@ -80,18 +82,18 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
 
       setActiveStage(2);
       await nextFrame();
-      const scored = scoreRecommendationPool(data, normalized, criteria);
+      const scored = scoreRecommendationPool(data, normalized, resolvedCriteria);
 
       setActiveStage(3);
       await nextFrame();
-      const assembled = assembleRecommendedDeck(data, scored, criteria);
+      const assembled = assembleRecommendedDeck(data, scored, resolvedCriteria);
       if (assembled.mainCount !== Number(data.rules?.mainDeckSize || 50)) {
         throw new Error("The recommendation engine could not assemble a legal main-deck size.");
       }
 
       setActiveStage(4);
       await nextFrame();
-      const nextReport = analyzeRecommendedDeck(data, assembled, criteria);
+      const nextReport = analyzeRecommendedDeck(data, assembled, resolvedCriteria);
       setReport(nextReport);
       setOriginalReport(nextReport);
       setBriefOpen(false);
@@ -178,7 +180,11 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       >
         <summary>
           <span>MISSION PARAMETERS</span>
-          <strong>{criteria.archetype} · {criteria.colors.join(" / ")}</strong>
+          <strong>
+            {criteria.archetype || (criteria.unitQuery ? "AUTO STRATEGY" : "OPEN STRATEGY")}
+            {" · "}
+            {criteria.colors.join(" / ") || "AUTO COLORS"}
+          </strong>
           <em>{briefOpen ? "COLLAPSE" : "RECONFIGURE"}</em>
         </summary>
         <form className="deck-designer__brief tactical-data-panel" onSubmit={runAnalysis}>
@@ -214,7 +220,14 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
             <input
               list="deck-designer-units"
               value={criteria.unitQuery}
-              onChange={(event) => setCriteria((current) => ({ ...current, unitQuery: event.target.value }))}
+              onChange={(event) => {
+                const unitQuery = event.target.value;
+                setCriteria((current) => ({
+                  ...current,
+                  unitQuery,
+                  colors: !current.archetype.trim() && unitQuery.trim() ? [] : current.colors,
+                }));
+              }}
               placeholder="e.g. Gundam Barbatos 1st Form"
             />
             <datalist id="deck-designer-units">
@@ -222,7 +235,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
             </datalist>
           </label>
           <label>
-            <span>Archetype / strategy</span>
+            <span>Archetype / strategy <em>optional · auto when blank</em></span>
             <select
               value={criteria.archetype}
               onChange={(event) => {
@@ -232,16 +245,24 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
                 setCriteria((current) => ({
                   ...current,
                   archetype,
-                  colors: inferredColors.length ? inferredColors : current.colors,
+                  colors: inferredColors.length
+                    ? inferredColors
+                    : archetype
+                      ? current.colors
+                      : current.unitQuery.trim()
+                        ? []
+                        : current.colors,
                 }));
               }}
             >
+              <option value="">Infer the best strategy from my selection</option>
               {archetypes.map((item) => (
                 <option key={item.archetype} value={item.archetype}>
                   {item.archetype} · {item.recentDecklists || 0} recent
                 </option>
               ))}
             </select>
+            <small>Leave blank to let the agent infer a competitive color and strategy shell for the selected unit.</small>
           </label>
           <label>
             <span>Optimization focus</span>
@@ -324,8 +345,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           onResetSubstitutions={resetSubstitutions}
           onSave={saveRecommendation}
           onEdit={() => onEditDeck?.(savedDeckId)}
-          onExportText={() => downloadReport(report, "txt")}
-          onExportJson={() => downloadReport(report, "json")}
+          onExportJson={() => downloadJsonReport(report)}
           savedDeckId={savedDeckId}
           saveMessage={saveMessage}
         />
@@ -340,11 +360,12 @@ function DesignerResult({
   onResetSubstitutions,
   onSave,
   onEdit,
-  onExportText,
   onExportJson,
   savedDeckId,
   saveMessage,
 }) {
+  const [exportLayerOpen, setExportLayerOpen] = useState(false);
+
   return (
     <section className="deck-designer-result" aria-live="polite">
       <header className="deck-designer-result__header">
@@ -356,7 +377,7 @@ function DesignerResult({
         <div className="deck-designer-result__actions">
           <button type="button" onClick={onSave}>Save deck</button>
           {savedDeckId ? <button type="button" onClick={onEdit}>Edit in builder</button> : null}
-          <button type="button" onClick={onExportText}>Export TXT</button>
+          <button type="button" onClick={() => setExportLayerOpen(true)}>Export TXT</button>
           <button type="button" onClick={onExportJson}>Export JSON</button>
           {report.substitutionHistory?.length ? <button type="button" onClick={onResetSubstitutions}>Reset swaps</button> : null}
         </div>
@@ -391,7 +412,80 @@ function DesignerResult({
           <EvidencePanel report={report} />
         </div>
       </details>
+      {exportLayerOpen ? (
+        <ExBurstExportLayer report={report} onClose={() => setExportLayerOpen(false)} />
+      ) : null}
     </section>
+  );
+}
+
+function ExBurstExportLayer({ report, onClose }) {
+  const content = useMemo(() => buildExBurstDeckText(report), [report]);
+  const [copyStatus, setCopyStatus] = useState("");
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  async function copyForExBurst() {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopyStatus("List copied. Paste it into ExBurst's text import.");
+    } catch {
+      setCopyStatus("Automatic copy was blocked. Select the text and copy it manually.");
+    }
+  }
+
+  return (
+    <div
+      className="deck-export-layer"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <section
+        className="deck-export-layer__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deck-export-title"
+      >
+        <div className="deck-export-layer__scan" aria-hidden="true" />
+        <header>
+          <div>
+            <span className="eyebrow">TRANSFER LAYER // EXBURST</span>
+            <h2 id="deck-export-title">ExBurst text format</h2>
+            <p>One entry per card in <code>4xCARD-NUMBER</code> format, ready to copy or save.</p>
+          </div>
+          <button type="button" className="deck-export-layer__close" onClick={onClose} aria-label="Close export layer">×</button>
+        </header>
+        <div className="deck-export-layer__telemetry">
+          <span><small>MAIN DECK</small><strong>{report.stats?.mainCount || 0} / 50</strong></span>
+          <span><small>UNIQUE CARDS</small><strong>{report.rows?.length || 0}</strong></span>
+          <span><small>FORMAT</small><strong>EXBURST TXT</strong></span>
+        </div>
+        <label className="deck-export-layer__payload">
+          <span>DECK PAYLOAD</span>
+          <textarea
+            readOnly
+            value={content}
+            spellCheck="false"
+            onFocus={(event) => event.currentTarget.select()}
+          />
+        </label>
+        <footer>
+          <div aria-live="polite">{copyStatus || "Resource cards are managed separately from the 50-card main deck."}</div>
+          <nav aria-label="Export actions">
+            <button type="button" onClick={copyForExBurst}>Copy for ExBurst</button>
+            <button type="button" onClick={() => downloadDeckText(content, report.title)}>Download .TXT</button>
+            <a href="https://exburst.dev/gundam" target="_blank" rel="noreferrer">Open ExBurst</a>
+          </nav>
+        </footer>
+      </section>
+    </div>
   );
 }
 
@@ -521,17 +615,6 @@ function EvidencePanel({ report }) {
   );
 }
 
-function groupDeckRows(rows = []) {
-  return rows.reduce((types, row) => {
-    const type = row.card.cardType || "OTHER";
-    const cost = row.card.cost || "-";
-    if (!types[type]) types[type] = {};
-    if (!types[type][cost]) types[type][cost] = [];
-    types[type][cost].push(row);
-    return types;
-  }, {});
-}
-
 function inferInitialColors(value = "") {
   return String(value || "")
     .split("/")
@@ -551,16 +634,14 @@ function formatDate(value) {
   return date.toLocaleDateString(getLocaleTag(), { year: "numeric", month: "short", day: "numeric" });
 }
 
-function downloadReport(report, format) {
+function downloadJsonReport(report) {
   const safeTitle = String(report.title || "deck-recommendation").replace(/[^\w-]+/g, "-").toLowerCase();
-  const content = format === "json"
-    ? JSON.stringify(exportPayload(report), null, 2)
-    : buildTextExport(report);
-  const blob = new Blob([content], { type: format === "json" ? "application/json" : "text/plain" });
+  const content = JSON.stringify(exportPayload(report), null, 2);
+  const blob = new Blob([content], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `${safeTitle}.${format}`;
+  link.download = `${safeTitle}.json`;
   link.click();
   URL.revokeObjectURL(url);
 }
@@ -590,29 +671,4 @@ function exportPayload(report) {
     limitations: report.limitations,
     sources: report.sources,
   };
-}
-
-function buildTextExport(report) {
-  const groups = groupDeckRows(report.rows);
-  const lines = [
-    report.title,
-    `Generated: ${report.generatedAt}`,
-    `Confidence: ${report.confidence}`,
-    "",
-    "STRATEGY",
-    report.strategy,
-    "",
-    "MAIN DECK",
-  ];
-  for (const [type, costs] of Object.entries(groups)) {
-    lines.push("", type);
-    for (const [cost, rows] of Object.entries(costs)) {
-      lines.push(`Cost ${cost}`);
-      for (const row of rows) lines.push(`${row.quantity}x ${row.card.cardNumber} ${row.card.cardName} [${row.category}; ${row.confidence}]`);
-    }
-  }
-  lines.push("", "RESOURCE", ...Object.entries(report.resource || {}).map(([cardNumber, quantity]) => `${quantity}x ${cardNumber}`));
-  lines.push("", "SOURCES");
-  for (const source of report.sources || []) lines.push(`${source.name} | ${source.sourceDate || "no source date"} | ${source.url || "no URL"}`);
-  return lines.join("\n");
 }

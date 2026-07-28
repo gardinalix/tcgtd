@@ -6,6 +6,7 @@ import {
   designDeck,
   normalizeDeckEvidence,
 } from "../src/services/deckDesigner/index.js";
+import { buildExBurstDeckText } from "../src/domain/deckExport.js";
 
 test("research selects exact archetype/color lists and normalizes observed quantities", () => {
   const data = fixtureData();
@@ -35,6 +36,34 @@ test("designer assembles a legal deck and honors required/excluded constraints",
   for (const quantity of Object.values(report.main)) assert.ok(quantity <= 4);
   assert.deepEqual(Object.keys(report.stats.colors).sort(), ["Blue", "White"]);
   assert.ok(report.rows.every((row) => ["essential", "flexible", "experimental"].includes(row.category)));
+});
+
+test("designer infers a coherent color and archetype shell from a main unit alone", () => {
+  const data = fixtureData();
+  const report = designDeck(data, {
+    ...baseCriteria(),
+    colors: [],
+    archetype: "",
+    unitQuery: "Freedom Unit",
+  });
+
+  assert.equal(report.criteria.archetype, "Freedom Blockers");
+  assert.deepEqual(report.criteria.colors, ["Blue", "White"]);
+  assert.equal(report.selectionInference.active, true);
+  assert.equal(report.selectionInference.supportingDecks, 3);
+  assert.ok(report.main["TEST-001"] > 0);
+  assert.equal(report.stats.mainCount, 50);
+});
+
+test("ExBurst text export uses compact quantity and card-number rows", () => {
+  const report = designDeck(fixtureData(), baseCriteria());
+  const text = buildExBurstDeckText(report);
+  const lines = text.split("\n");
+
+  assert.equal(lines.length, report.rows.length);
+  assert.ok(lines.every((line) => /^\d+x[A-Z0-9-]+$/.test(line)));
+  assert.ok(lines.includes(`${report.main["GD01-086"]}xGD01-086`));
+  assert.equal(lines.reduce((sum, line) => sum + Number(line.split("x")[0]), 0), 50);
 });
 
 test("designer lowers confidence and labels limitations without competitive evidence", () => {
