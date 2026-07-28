@@ -10305,3 +10305,437 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
     scroll-snap-align: start;
   }
 }
+
+/* BRUXÃO v6: command-deck spatial HUD */
+.deck-designer__sidebar-actions {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.82rem;
+  border-top: 1px solid color-mix(in srgb, #38d7ff 22%, transparent);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, #38d7ff 6%, transparent), transparent 52%),
+    rgba(0, 7, 16, 0.78);
+}
+
+.deck-designer__sidebar-actions > button,
+.deck-designer__sidebar-actions > div > button {
+  min-height: 42px;
+  border: 1px solid color-mix(in srgb, #38d7ff 44%, transparent);
+  color: #9eeeff;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, #38d7ff 8%, transparent), transparent),
+    rgba(0, 10, 22, 0.76);
+  box-shadow: inset 0 0 18px color-mix(in srgb, #38d7ff 4%, transparent);
+  font: 900 0.62rem var(--font-tech);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.deck-designer__sidebar-actions > button:first-of-type {
+  border-color: color-mix(in srgb, #38d7ff 78%, transparent);
+  color: #001018;
+  background: linear-gradient(135deg, #54e2ff, #1495bd);
+}
+
+.deck-designer__sidebar-actions > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.deck-designer-result__source-signal {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(90px, auto));
+  align-self: stretch;
+  border: 1px solid color-mix(in srgb, #38d7ff 18%, transparent);
+  background: rgba(0, 7, 16, 0.6);
+}
+
+.deck-designer-result__source-signal > span {
+  display: grid;
+  align-content: center;
+  gap: 0.14rem;
+  min-width: 0;
+  padding: 0.45rem 0.62rem;
+  border-right: 1px solid color-mix(in srgb, #38d7ff 14%, transparent);
+}
+
+.deck-designer-result__source-signal > span:last-child {
+  border-right: 0;
+}
+
+.deck-designer-result__source-signal small {
+  color: #5b8195;
+  font: 900 0.48rem var(--font-tech);
+  letter-spacing: 0.12em;
+}
+
+.deck-designer-result__source-signal strong {
+  overflow: hidden;
+  color: #aeefff;
+  font: 900 0.66rem var(--font-display);
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (min-width: 1201px) {
+  .deck-designer.is-engaged {
+    display: grid;
+    grid-template-columns: clamp(280px, 20vw, 330px) minmax(0, 1fr);
+    grid-template-areas:
+      "hero hero"
+      "brief result";
+    align-items: start;
+    gap: 0.55rem;
+  }
+
+  .deck-designer.is-engaged > .bruxao-designer-hero {
+    grid-area: hero;
+  }
+
+  .deck-designer.is-engaged > .deck-designer__brief-frame {
+    grid-area: brief;
+    position: sticky;
+    top: 0.5rem;
+    max-height: calc(100vh - 1rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: #1daed1 rgba(0, 0, 0, 0.28);
+  }
+
+  .deck-designer.is-engaged > .deck-designer-result {
+    grid-area: result;
+    min-width: 0;
+  }
+
+  .deck-designer.is-engaged > .deck-designer-progress,
+  .deck-designer.is-engaged > .deck-designer__error {
+    grid-column: 2;
+  }
+
+  .deck-designer.is-engaged .deck-designer__brief-frame > summary {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .deck-designer.is-engaged .deck-designer__brief-frame > summary > strong,
+  .deck-designer.is-engaged .deck-designer__brief-frame > summary > em {
+    display: none;
+  }
+
+  .deck-designer.is-engaged .deck-designer__brief {
+    gap: 0.78rem;
+    padding: 0.82rem;
+  }
+
+  .deck-designer.is-engaged .deck-designer__brief-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .deck-designer.is-engaged .deck-designer__brief-head h2 {
+    font-size: 1rem;
+  }
+
+  .deck-designer.is-engaged .deck-designer__brief-head p {
+    font-size: 0.65rem;
+  }
+
+  .deck-designer.is-engaged .deck-designer__agent-status {
+    padding: 0.32rem 0.5rem;
+    font-size: 0.52rem;
+  }
+
+  .deck-designer.is-engaged .deck-designer__colors > div {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .deck-designer.is-engaged .deck-color-option {
+    min-height: 40px;
+    gap: 0.4rem;
+    padding: 0.42rem 0.5rem;
+  }
+
+  .deck-designer.is-engaged .deck-color-option strong {
+    font-size: 0.62rem;
+  }
+
+  .deck-designer.is-engaged .deck-designer__primary-fields,
+  .deck-designer.is-engaged .deck-designer__constraint-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-designer.is-engaged .deck-designer__constraint-grid .is-wide {
+    grid-column: auto;
+  }
+
+  .deck-designer.is-engaged .deck-designer__constraints summary {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.22rem;
+  }
+
+  .deck-designer.is-engaged .deck-designer__launch {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .deck-designer.is-engaged .deck-designer__launch button {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 901px) {
+  .deck-map {
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .deck-map__hudbar {
+    position: relative;
+    min-height: 58px;
+    margin-right: 340px;
+  }
+
+  .deck-map__workspace {
+    height: clamp(650px, 70vh, 790px);
+    min-height: 650px;
+    overflow: hidden;
+  }
+
+  .deck-map__canvas {
+    top: 0;
+    right: 340px;
+    bottom: 214px;
+    left: 0;
+    width: auto;
+    height: auto;
+    border-right: 1px solid color-mix(in srgb, var(--map-cyan) 20%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--map-cyan) 24%, transparent);
+  }
+
+  .deck-map-inspector {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 340px;
+    height: auto;
+    max-height: none;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
+    clip-path: none;
+    box-shadow: inset 2px 0 0 color-mix(in srgb, var(--map-violet) 30%, transparent);
+  }
+
+  .deck-map-roster {
+    top: auto;
+    right: 340px;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: 214px;
+    border-right: 1px solid color-mix(in srgb, var(--map-cyan) 20%, transparent);
+    border-bottom: 0;
+    border-left: 0;
+    clip-path: none;
+    box-shadow: inset 0 2px 0 color-mix(in srgb, var(--map-cyan) 26%, transparent);
+  }
+
+  .deck-map-roster:hover,
+  .deck-map-roster:focus-within {
+    box-shadow: inset 0 2px 0 color-mix(in srgb, var(--map-cyan) 58%, transparent);
+  }
+
+  .deck-map-roster__header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 42px;
+    padding: 0.42rem 0.62rem;
+  }
+
+  .deck-map-roster__header > button,
+  .deck-map-inspector > header > button {
+    display: none !important;
+  }
+
+  .deck-map-roster__header > small {
+    display: none;
+  }
+
+  .deck-map-roster__groups {
+    display: flex;
+    height: calc(100% - 42px);
+    gap: 1px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
+    scroll-snap-type: x proximity;
+    scrollbar-color: #1a9dc0 rgba(0, 0, 0, 0.28);
+  }
+
+  .deck-map-roster__group {
+    display: grid;
+    grid-template-rows: 28px minmax(0, 1fr);
+    flex: 0 0 auto;
+    min-width: max-content;
+    border-right: 1px solid color-mix(in srgb, var(--map-cyan) 13%, transparent);
+    scroll-snap-align: start;
+  }
+
+  .deck-map-roster__group > header {
+    min-height: 28px;
+    padding: 0.3rem 0.52rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--map-cyan) 12%, transparent);
+    background: rgba(0, 9, 20, 0.92);
+  }
+
+  .deck-map-roster__group > div {
+    display: flex;
+    min-height: 0;
+  }
+
+  .deck-map-roster__card {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-rows: 92px auto auto !important;
+    width: 104px;
+    min-height: 0 !important;
+    height: 144px;
+    align-content: end;
+    gap: 0.15rem 0.3rem;
+    padding: 0.32rem 0.38rem;
+    border-right: 1px solid color-mix(in srgb, var(--roster-tone) 18%, transparent) !important;
+    clip-path: none;
+  }
+
+  .deck-map-roster__art {
+    grid-row: 1;
+    grid-column: 1 / -1;
+    align-self: center;
+    justify-self: center;
+    width: 58px;
+    height: 82px;
+  }
+
+  .deck-map-roster__identity {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    display: block;
+    min-width: 0;
+  }
+
+  .deck-map-roster__identity strong {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 0.48rem;
+    line-height: 1.15;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .deck-map-roster__identity small,
+  .deck-map-roster__identity em {
+    display: none;
+  }
+
+  .deck-map-roster__stats {
+    grid-row: 3;
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .deck-map__rail-toggle {
+    display: block !important;
+    top: 10px;
+  }
+
+  .deck-map__rail-toggle--roster {
+    top: auto;
+    bottom: 174px;
+    left: 12px;
+  }
+
+  .deck-map__rail-toggle--inspector {
+    right: 12px;
+  }
+
+  .deck-map-inspector__identity {
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+
+  .deck-map-inspector__art {
+    width: 108px;
+    height: 152px;
+  }
+
+  .deck-map-inspector__connections {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-variant-selector {
+    margin: 0.45rem 0;
+  }
+
+  .deck-variant-selector > header {
+    padding: 0.5rem 0.72rem;
+  }
+
+  .deck-variant-selector__tabs button {
+    min-height: 78px;
+    padding: 0.52rem 0.68rem;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1200px) {
+  .deck-map__hudbar {
+    margin-right: 300px;
+  }
+
+  .deck-map__canvas,
+  .deck-map-roster {
+    right: 300px;
+  }
+
+  .deck-map-inspector {
+    width: 300px;
+  }
+
+  .deck-map-inspector__identity {
+    grid-template-columns: 90px minmax(0, 1fr);
+  }
+
+  .deck-map-inspector__art {
+    width: 86px;
+    height: 121px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .deck-designer__sidebar-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .deck-designer__sidebar-actions > .eyebrow {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .deck-designer-result__source-signal {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .deck-designer-result__source-signal > span {
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, #38d7ff 12%, transparent);
+  }
+
+  .deck-designer__sidebar-actions,
+  .deck-designer__sidebar-actions > div {
+    grid-template-columns: 1fr;
+  }
+}

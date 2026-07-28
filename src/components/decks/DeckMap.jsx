@@ -11,7 +11,7 @@ export function DeckMap({ report, onApplySubstitution }) {
   const [selectedId, setSelectedId] = useState(() => graph.nodes[0]?.id || "");
   const [hoveredId, setHoveredId] = useState("");
   const [rosterOpen, setRosterOpen] = useState(true);
-  const [inspectorOpen, setInspectorOpen] = useState(false);
+  const [inspectorOpen, setInspectorOpen] = useState(true);
   const [viewport, setViewport] = useState({ zoom: 1, x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const activeId = hoveredId || selectedId;
@@ -50,8 +50,6 @@ export function DeckMap({ report, onApplySubstitution }) {
 
   function fitMap() {
     setViewport({ zoom: FIT_ZOOM, x: 0, y: 0 });
-    setRosterOpen(false);
-    setInspectorOpen(false);
   }
 
   function resetMap() {

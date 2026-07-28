@@ -49,6 +49,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   const [briefOpen, setBriefOpen] = useState(true);
   const [savedDeckId, setSavedDeckId] = useState("");
   const [saveMessage, setSaveMessage] = useState("");
+  const [exportLayerOpen, setExportLayerOpen] = useState(false);
   const archetypes = useMemo(
     () => [...(data.archetypes || [])].sort((left, right) =>
       Number(right.recentDecklists || 0) - Number(left.recentDecklists || 0)
@@ -109,7 +110,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       setVariantReports(nextReports);
       setOriginalVariantReports(nextReports);
       setActiveVariantIndex(0);
-      setBriefOpen(false);
+      setBriefOpen(true);
       setStatus("success");
     } catch (error) {
       setStatus("error");
@@ -352,6 +353,20 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           </button>
         </div>
         </form>
+        {status === "success" && report ? (
+          <aside className="deck-designer__sidebar-actions" aria-label="Deck operations">
+            <span className="eyebrow">DECK OPERATIONS</span>
+            <button type="button" onClick={saveRecommendation}>Save deck</button>
+            {savedDeckId ? <button type="button" onClick={() => onEditDeck?.(savedDeckId)}>Edit in builder</button> : null}
+            <div>
+              <button type="button" onClick={() => setExportLayerOpen(true)}>Export TXT</button>
+              <button type="button" onClick={() => downloadJsonReport(report)}>Export JSON</button>
+            </div>
+            {report.substitutionHistory?.length ? (
+              <button type="button" onClick={resetSubstitutions}>Reset swaps</button>
+            ) : null}
+          </aside>
+        ) : null}
       </details>
 
       {status === "loading" ? <AnalysisProgress activeStage={activeStage} /> : null}
@@ -370,13 +385,11 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           activeVariantIndex={activeVariantIndex}
           onSelectVariant={selectVariant}
           onApplySubstitution={applySubstitution}
-          onResetSubstitutions={resetSubstitutions}
-          onSave={saveRecommendation}
-          onEdit={() => onEditDeck?.(savedDeckId)}
-          onExportJson={() => downloadJsonReport(report)}
-          savedDeckId={savedDeckId}
           saveMessage={saveMessage}
         />
+      ) : null}
+      {exportLayerOpen && report ? (
+        <ExBurstExportLayer report={report} onClose={() => setExportLayerOpen(false)} />
       ) : null}
     </div>
   );
@@ -388,15 +401,8 @@ function DesignerResult({
   activeVariantIndex,
   onSelectVariant,
   onApplySubstitution,
-  onResetSubstitutions,
-  onSave,
-  onEdit,
-  onExportJson,
-  savedDeckId,
   saveMessage,
 }) {
-  const [exportLayerOpen, setExportLayerOpen] = useState(false);
-
   return (
     <section className="deck-designer-result" aria-live="polite">
       <header className="deck-designer-result__header">
@@ -405,12 +411,10 @@ function DesignerResult({
           <h2>{report.title}</h2>
           <p>{report.strategy}</p>
         </div>
-        <div className="deck-designer-result__actions">
-          <button type="button" onClick={onSave}>Save deck</button>
-          {savedDeckId ? <button type="button" onClick={onEdit}>Edit in builder</button> : null}
-          <button type="button" onClick={() => setExportLayerOpen(true)}>Export TXT</button>
-          <button type="button" onClick={onExportJson}>Export JSON</button>
-          {report.substitutionHistory?.length ? <button type="button" onClick={onResetSubstitutions}>Reset swaps</button> : null}
+        <div className="deck-designer-result__source-signal">
+          <span><small>SOURCE RESULT</small><strong>{report.sourceDeck?.placingLabel || "AI MODEL"}</strong></span>
+          <span><small>PILOT</small><strong>{report.sourceDeck?.playerName || "BRUXÃO"}</strong></span>
+          <span><small>CONFIDENCE</small><strong>{report.confidence}</strong></span>
         </div>
       </header>
       {saveMessage ? <p className="deck-designer-result__save-status">{saveMessage}</p> : null}
@@ -459,9 +463,6 @@ function DesignerResult({
           <EvidencePanel report={report} />
         </div>
       </details>
-      {exportLayerOpen ? (
-        <ExBurstExportLayer report={report} onClose={() => setExportLayerOpen(false)} />
-      ) : null}
     </section>
   );
 }

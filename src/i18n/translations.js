@@ -628,6 +628,10 @@ const PT_BR = {
   "Ranking placements and exact matches": "Ranqueando colocações e correspondências exatas",
   "Locking registered 50-card decklists": "Travando decklists registradas de 50 cartas",
   "No complete registered decklist matched these filters. Remove a constraint or choose another unit/archetype.": "Nenhuma decklist registrada completa corresponde a esses filtros. Remova uma restrição ou escolha outra unidade/arquétipo.",
+  "DECK OPERATIONS": "OPERAÇÕES DO DECK",
+  "Deck operations": "Operações do deck",
+  "SOURCE RESULT": "RESULTADO DE ORIGEM",
+  "AI MODEL": "MODELO DE IA",
 };
 
 const PT_RULES = [
