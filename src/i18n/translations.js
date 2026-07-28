@@ -448,6 +448,7 @@ const PT_BR = {
   "LigaGundam low": "Menor preço LigaGundam",
   "Link": "Conexão",
   "Loading cards, market signals, deck telemetry, and meta feeds.": "Carregando cartas, sinais de mercado, telemetria de decks e feeds do meta.",
+  "HOVER / FOCUS TO ENLARGE": "PASSE / FOQUE PARA AMPLIAR",
   "Login to synchronize private and published deck lists.": "Entre para sincronizar listas privadas e publicadas.",
   "Logout securely": "Sair com segurança",
   "Low cost only": "Somente baixo custo",

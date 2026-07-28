@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { CardArt } from "../cards/CardArt";
 import { buildDeckGraph, relatedNodeIds } from "../../services/deckDesigner/deckMapLayout.js";
 
@@ -323,6 +324,12 @@ function DeckMapRoster({
 
 function DeckMapInspector({ node, connections, graph, substitutions, onSelect, onApply, onClose }) {
   const { row } = node;
+  const [cardPreviewOpen, setCardPreviewOpen] = useState(false);
+
+  useEffect(() => {
+    setCardPreviewOpen(false);
+  }, [node.id]);
+
   return (
     <aside className="deck-map-inspector" aria-live="polite">
       <header>
@@ -331,7 +338,18 @@ function DeckMapInspector({ node, connections, graph, substitutions, onSelect, o
         <button type="button" onClick={onClose} aria-label="Close selected card data">›</button>
       </header>
       <div className="deck-map-inspector__identity">
-        <CardArt card={row.card} className="deck-map-inspector__art" />
+        <figure
+          className="deck-map-inspector__art-trigger"
+          tabIndex={0}
+          aria-label={`${row.card.cardName}. Hover or focus to enlarge card art.`}
+          onMouseEnter={() => setCardPreviewOpen(true)}
+          onMouseLeave={() => setCardPreviewOpen(false)}
+          onFocus={() => setCardPreviewOpen(true)}
+          onBlur={() => setCardPreviewOpen(false)}
+        >
+          <CardArt card={row.card} className="deck-map-inspector__art" />
+          <figcaption>HOVER / FOCUS TO ENLARGE</figcaption>
+        </figure>
         <div>
           <h3>{row.card.cardName}</h3>
           <p>{row.card.cardType} · {row.card.color} · Cost {row.card.cost || "-"}</p>
@@ -341,6 +359,16 @@ function DeckMapInspector({ node, connections, graph, substitutions, onSelect, o
           </div>
         </div>
       </div>
+      {cardPreviewOpen && typeof document !== "undefined"
+        ? createPortal(
+          <div className="deck-map-inspector__art-preview" aria-hidden="true">
+            <span>{row.card.cardName}</span>
+            <CardArt card={row.card} className="deck-map-inspector__art-preview-card" />
+            <small>{row.card.cardNumber}</small>
+          </div>,
+          document.body,
+        )
+        : null}
       <section>
         <span className="deck-map-inspector__label">ROLE IN DECK</span>
         <p>{row.recommendationReason}</p>
