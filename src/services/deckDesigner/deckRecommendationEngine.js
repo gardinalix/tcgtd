@@ -8,8 +8,13 @@ import {
   round,
   tokenOverlap,
 } from "./deckDesignerUtils.js";
+import {
+  canAddCardToMain,
+  evaluateMainDeckLegality,
+  getCardCopyLimit,
+} from "../../domain/deckLegality.js";
 
-export const DECK_RECOMMENDATION_VERSION = "deck-recommendation-2026-07-28";
+export const DECK_RECOMMENDATION_VERSION = "deck-recommendation-2026-07-28-legality";
 
 export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {}) {
   const cards = data.cards || [];
@@ -28,6 +33,7 @@ export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {})
   const targetPricePerCopy = budget > 0 ? budget / Number(data.rules?.mainDeckSize || 50) : 0;
 
   const pool = cards
+    .filter((card) => getCardCopyLimit(card, data.rules) > 0)
     .filter((card) => !excludedIds.has(card.cardNumber))
     .filter((card) => !selectedColors.length || card.color === "Neutral" || selectedColors.includes(card.color))
     .map((card) => {
@@ -120,18 +126,24 @@ export function assembleRecommendedDeck(data = {}, scored = {}, criteria = {}) {
   const mainDeckSize = Number(data.rules?.mainDeckSize || 50);
   const pool = ensureViablePool(data, scored.scoredPool || [], criteria, scored.excludedCards || []);
   const quantities = {};
+  const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
 
   for (const candidate of pool.filter((item) => item.required)) {
-    quantities[candidate.card.cardNumber] = Math.min(
+    const targetQuantity = Math.min(
       maxCopiesForCard(candidate.card, data.rules),
       Math.max(1, Math.round(candidate.expectedCopies || 2)),
     );
+    for (let copy = 0; copy < targetQuantity; copy += 1) {
+      if (!canAddCardToMain(quantities, candidate.card, cardMap, data.rules)) break;
+      quantities[candidate.card.cardNumber] = Number(quantities[candidate.card.cardNumber] || 0) + 1;
+    }
   }
 
   while (sumQuantities(quantities) < mainDeckSize) {
     const next = pool
       .filter((candidate) =>
-        Number(quantities[candidate.card.cardNumber] || 0) < maxCopiesForCard(candidate.card, data.rules))
+        Number(quantities[candidate.card.cardNumber] || 0) < maxCopiesForCard(candidate.card, data.rules)
+        && canAddCardToMain(quantities, candidate.card, cardMap, data.rules))
       .map((candidate) => ({
         candidate,
         marginal: marginalCopyScore(candidate, Number(quantities[candidate.card.cardNumber] || 0), criteria),
@@ -166,6 +178,10 @@ export function assembleRecommendedDeck(data = {}, scored = {}, criteria = {}) {
   const resource = resourceCard
     ? { [resourceCard.cardNumber]: Number(data.rules?.resourceDeckSize || 10) }
     : {};
+  const legality = evaluateMainDeckLegality(quantities, cardMap, data.rules);
+  if (!legality.legal) {
+    throw new Error(`The recommendation engine produced an illegal deck: ${legality.issues.join(" ")}`);
+  }
 
   return {
     ...scored,
@@ -174,6 +190,7 @@ export function assembleRecommendedDeck(data = {}, scored = {}, criteria = {}) {
     resource,
     rows,
     mainCount: sumQuantities(quantities),
+    legality,
   };
 }
 
@@ -183,6 +200,11 @@ function assembleCompetitiveSourceDeck(data, scored) {
   const quantities = {};
   for (const row of scored.normalizedRows || []) {
     quantities[row.cardNumber] = Number(quantities[row.cardNumber] || 0) + Number(row.quantity || 0);
+  }
+  const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
+  const legality = evaluateMainDeckLegality(quantities, cardMap, data.rules);
+  if (!legality.legal) {
+    throw new Error(`The selected competitive source deck is no longer legal: ${legality.issues.join(" ")}`);
   }
   const rows = Object.entries(quantities)
     .map(([cardNumber, quantity]) => {
@@ -217,6 +239,7 @@ function assembleCompetitiveSourceDeck(data, scored) {
     rows,
     mainCount: sumQuantities(quantities),
     assemblyMode: "competitive_source",
+    legality,
   };
 }
 
@@ -258,6 +281,7 @@ function ensureViablePool(data, pool, criteria, excludedCards = []) {
   const excludedIds = new Set(excludedCards.map((card) => card.cardNumber));
   const selectedColors = normalizeColors(criteria.colors);
   const fallback = (data.cards || [])
+    .filter((card) => getCardCopyLimit(card, data.rules) > 0)
     .filter((card) => !selectedColors.length || card.color === "Neutral" || selectedColors.includes(card.color))
     .filter((card) => !excludedIds.has(card.cardNumber))
     .filter((card) => !poolIds.has(card.cardNumber))

@@ -1,3 +1,5 @@
+import { getCardCopyLimit } from "../../domain/deckLegality.js";
+
 export const DESIGNER_COLORS = ["Blue", "Green", "Red", "White", "Purple"];
 
 const COLOR_ALIASES = {
@@ -75,14 +77,7 @@ export function cardPriceBrl(card = {}) {
 }
 
 export function maxCopiesForCard(card = {}, rules = {}) {
-  const restriction = (rules.currentRestrictions || [])
-    .find((item) => item.cardNumber === card.cardNumber);
-  return Math.max(1, Number(
-    restriction?.maxCopies
-    || card.copyLimit
-    || rules.defaultCopyLimit
-    || 4,
-  ));
+  return getCardCopyLimit(card, rules);
 }
 
 export function placingWeight(rank) {
@@ -143,4 +138,3 @@ export function confidenceLabel(value) {
   if (value >= 0.46) return "Medium";
   return "Low";
 }
-

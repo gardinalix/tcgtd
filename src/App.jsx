@@ -17,6 +17,7 @@ import {
   updateUserProfileRemote,
 } from "./domain/auth";
 import { changeDeckQuantity, normalizeDeck } from "./domain/deck";
+import { canAddCardToMain, getCardCopyLimit } from "./domain/deckLegality.js";
 import { createSavedDeck, deleteDeck, duplicateDeck, normalizeImportedColors, parseDeckList, updateSavedDeck } from "./domain/deckLibrary";
 import { compactDeckDesign } from "./services/deckDesigner/index.js";
 import { parseRoute, routeFor } from "./domain/routes";
@@ -267,8 +268,12 @@ export function App() {
   }
 
   function addCardToActiveDeck(card) {
-    const max = Number(card.copyLimit || data.rules?.defaultCopyLimit || 4);
-    setDeck((current) => changeDeckQuantity(current, "main", card.cardNumber, 1, max));
+    const max = getCardCopyLimit(card, data.rules);
+    const cardMap = new Map((data.cards || []).map((item) => [item.cardNumber, item]));
+    setDeck((current) =>
+      canAddCardToMain(current.main, card, cardMap, data.rules)
+        ? changeDeckQuantity(current, "main", card.cardNumber, 1, max)
+        : current);
   }
 
   function dismissIncomingMessage() {

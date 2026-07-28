@@ -9,15 +9,25 @@ import {
   uniqueBy,
 } from "./deckDesignerUtils.js";
 import { buildRecommendationRow } from "./deckRecommendationEngine.js";
+import {
+  evaluateMainDeckLegality,
+  getCardCopyLimit,
+  quantitiesFromRows,
+} from "../../domain/deckLegality.js";
 
-export const DECK_ANALYSIS_VERSION = "deck-analysis-2026-07-28";
+export const DECK_ANALYSIS_VERSION = "deck-analysis-2026-07-28-legality";
 
 export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {}) {
   const stats = calculateDeckStats(assembled.rows || []);
+  const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
+  const legality = evaluateMainDeckLegality(assembled.main || {}, cardMap, data.rules);
   const synergyAnalysis = buildSynergyAnalysis(data, assembled.rows || []);
   const substitutions = buildSubstitutions(data, assembled.rows || [], criteria);
   const confidenceValue = overallConfidence(assembled, stats);
-  const observedFacts = buildObservedFacts(assembled, stats);
+  const observedFacts = [
+    `Legality check: ${legality.legal ? "passed" : "failed"} under the official rules effective ${legality.rulesEffectiveDate || "for the current snapshot"}.`,
+    ...buildObservedFacts(assembled, stats),
+  ];
   const inferences = buildTheoreticalInferences(assembled.rows || [], stats, assembled);
   const weaknesses = buildWeaknesses(assembled.rows || [], stats, assembled);
   const matchups = buildMatchupProjections(assembled.rows || [], stats);
@@ -50,6 +60,7 @@ export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {})
     substitutions,
     stats,
     budgetAssessment,
+    legality,
     limitations: uniqueBy(limitations, (item) => item),
     evidenceSummary: buildEvidenceSummary(assembled),
     sideboard: {
@@ -77,6 +88,7 @@ export function applyRecommendedSubstitution(report, sourceCardNumber, targetCar
   nextMain[targetCardNumber] = existingTarget + moved;
   if (sourceQuantity === moved) delete nextMain[sourceCardNumber];
   else nextMain[sourceCardNumber] = sourceQuantity - moved;
+  if (!evaluateMainDeckLegality(nextMain, cardMap, data.rules).legal) return report;
 
   const originalById = new Map((report.rows || []).map((row) => [row.card.cardNumber, row]));
   const nextRows = Object.entries(nextMain).map(([cardNumber, quantity]) => {
@@ -183,12 +195,16 @@ function buildSynergyAnalysis(data, rows) {
 function buildSubstitutions(data, rows, criteria) {
   const deckIds = new Set(rows.map((row) => row.card.cardNumber));
   const selectedColors = new Set(criteria.colors || []);
+  const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
+  const main = quantitiesFromRows(rows);
   const substitutions = {};
   for (const row of rows.filter((item) => ["essential", "flexible"].includes(item.category))) {
     const candidates = (data.cards || [])
       .filter((card) => !deckIds.has(card.cardNumber))
+      .filter((card) => getCardCopyLimit(card, data.rules) > 0)
       .filter((card) => card.cardType === row.card.cardType)
       .filter((card) => !selectedColors.size || selectedColors.has(card.color) || card.color === "Neutral")
+      .filter((card) => substitutionPreservesLegality(main, row, card, cardMap, data.rules))
       .map((card) => compareCards(row.card, card))
       .filter((comparison) => comparison.fitScore >= 0.45)
       .sort((left, right) =>
@@ -202,6 +218,24 @@ function buildSubstitutions(data, rows, criteria) {
     if (picked.length) substitutions[row.card.cardNumber] = picked;
   }
   return substitutions;
+}
+
+function substitutionPreservesLegality(main, sourceRow, targetCard, cardMap, rules) {
+  const sourceCardNumber = sourceRow.card.cardNumber;
+  const sourceQuantity = Number(main[sourceCardNumber] || 0);
+  const existingTarget = Number(main[targetCard.cardNumber] || 0);
+  const moved = Math.min(
+    sourceQuantity,
+    Math.max(0, getCardCopyLimit(targetCard, rules) - existingTarget),
+  );
+  if (!moved) return false;
+  const next = {
+    ...main,
+    [targetCard.cardNumber]: existingTarget + moved,
+  };
+  if (moved === sourceQuantity) delete next[sourceCardNumber];
+  else next[sourceCardNumber] = sourceQuantity - moved;
+  return evaluateMainDeckLegality(next, cardMap, rules).legal;
 }
 
 function compareCards(source, target) {

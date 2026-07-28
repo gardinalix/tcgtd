@@ -643,6 +643,10 @@ const PT_BR = {
   "Deck operations": "Operações do deck",
   "SOURCE RESULT": "RESULTADO DE ORIGEM",
   "AI MODEL": "MODELO DE IA",
+  "LEGAL": "VÁLIDO",
+  "ILLEGAL": "INVÁLIDO",
+  "CURRENT RULESET": "REGRAS ATUAIS",
+  "BANNED": "BANIDA",
 };
 
 const PT_RULES = [
@@ -702,6 +706,12 @@ const PT_RULES = [
   [/^The selected unit was not observed in the matched event lists;(.+)$/i, "A unidade selecionada não foi observada nas listas dos eventos correspondentes;$1"],
   [/^No opponent-level game data is available;(.+)$/i, "Não há dados de partidas por oponente;$1"],
   [/^The current Gundam Card Game rules use a 50-card main deck plus a 10-card resource deck;(.+)$/i, "As regras atuais do Gundam Card Game usam um deck principal de 50 cartas e um deck de recursos de 10 cartas;$1"],
+  [/^Legality check: passed under the official rules effective (.+)\.$/i, "Validação de legalidade: aprovada conforme as regras oficiais vigentes em $1."],
+  [/^(\d+) competitive source list\(s\) were excluded because they violate the current official banned\/restricted rules\.$/i, "$1 lista(s) competitiva(s) de origem foram excluída(s) por violar as regras oficiais atuais de banimento/restrição."],
+  [/^Required banned cards were ignored: (.+)\.$/i, "Cartas obrigatórias banidas foram ignoradas: $1."],
+  [/^(.+) \((.+)\) is banned under the current official rules\.$/i, "$1 ($2) está banida pelas regras oficiais atuais."],
+  [/^(.+) \((.+)\) is limited to (\d+) copies; current: (\d+)\.$/i, "$1 ($2) está limitada a $3 cópias; atual: $4."],
+  [/^(.+) are a banned pair and cannot be used in the same deck\.$/i, "$1 formam um par proibido e não podem ser usadas no mesmo deck."],
   [/^(.+) tuned for (competitive consistency|casual flexibility)\. The shell follows weighted adoption from (\d+) relevant lists \((\d+) exact matches\), then uses official card text, curve and synergy signals to resolve flex slots\. Average cost: ([\d.]+)\.$/i, "$1 ajustado para $2. A estrutura segue a adoção ponderada de $3 listas relevantes ($4 correspondências exatas) e usa o texto oficial, a curva e os sinais de sinergia para definir os espaços flexíveis. Custo médio: $5."],
 ];
 

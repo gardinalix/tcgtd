@@ -9,6 +9,7 @@ import {
   TacticalSummaryStrip,
 } from "../components/tactical/TacticalPageShell";
 import { changeDeckQuantity, getDeckIssues, sectionCount, buildDeckRows, buildPlainDeckList } from "../domain/deck";
+import { canAddCardToMain, getCardCopyLimit } from "../domain/deckLegality.js";
 import { parseDeckList } from "../domain/deckLibrary";
 import { filterCards } from "../utils/cardFilters";
 
@@ -29,14 +30,20 @@ export function BuilderPage({ data, deck, setDeck, onOpenSynergy }) {
   function add(card) {
     setSelectedCardNumber(card.cardNumber);
     const section = libraryMode === "resource" ? "resource" : "main";
-    const max = section === "resource" ? 99 : Number(card.copyLimit || data.rules?.defaultCopyLimit || 4);
-    setDeck((current) => changeDeckQuantity(current, section, card.cardNumber, 1, max));
+    const max = section === "resource" ? 99 : getCardCopyLimit(card, data.rules);
+    setDeck((current) =>
+      section === "resource" || canAddCardToMain(current.main, card, mainMap, data.rules)
+        ? changeDeckQuantity(current, section, card.cardNumber, 1, max)
+        : current);
   }
 
   function addMainCard(card) {
     setSelectedCardNumber(card.cardNumber);
-    const max = Number(card.copyLimit || data.rules?.defaultCopyLimit || 4);
-    setDeck((current) => changeDeckQuantity(current, "main", card.cardNumber, 1, max));
+    const max = getCardCopyLimit(card, data.rules);
+    setDeck((current) =>
+      canAddCardToMain(current.main, card, mainMap, data.rules)
+        ? changeDeckQuantity(current, "main", card.cardNumber, 1, max)
+        : current);
   }
 
   function remove(section, cardNumber) {
@@ -90,14 +97,16 @@ export function BuilderPage({ data, deck, setDeck, onOpenSynergy }) {
               <button
                 key={card.cardNumber}
                 type="button"
-                className={`react-builder-card ${selectedCard?.cardNumber === card.cardNumber ? "is-selected" : ""}`.trim()}
+                className={`react-builder-card ${selectedCard?.cardNumber === card.cardNumber ? "is-selected" : ""} ${libraryMode === "main" && getCardCopyLimit(card, data.rules) === 0 ? "is-banned" : ""}`.trim()}
                 onMouseEnter={() => setSelectedCardNumber(card.cardNumber)}
                 onFocus={() => setSelectedCardNumber(card.cardNumber)}
                 onClick={() => add(card)}
+                disabled={libraryMode === "main" && getCardCopyLimit(card, data.rules) === 0}
               >
                 <CardArt card={card} className="art-frame art-frame--mini" compact />
                 <span>{card.cardNumber}</span>
                 <strong>{card.cardName}</strong>
+                {libraryMode === "main" && getCardCopyLimit(card, data.rules) === 0 ? <em>BANNED</em> : null}
                 <PriceTag card={card} />
               </button>
             ))}

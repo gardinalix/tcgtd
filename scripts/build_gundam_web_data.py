@@ -72,6 +72,11 @@ def parse_count_list(value: object) -> list[dict]:
 
 
 def load_snapshot(snapshot_key: str, fallback_path: Path) -> dict:
+    fallback = (
+        json.loads(fallback_path.read_text(encoding="utf-8"))
+        if fallback_path.exists()
+        else {}
+    )
     if DATABASE_PATH.exists():
         try:
             with sqlite3.connect(DATABASE_PATH) as conn:
@@ -80,11 +85,14 @@ def load_snapshot(snapshot_key: str, fallback_path: Path) -> dict:
                     (snapshot_key,),
                 ).fetchone()
             if row:
-                return json.loads(row[0])
+                database = json.loads(row[0])
+                fallback_timestamp = normalize_text(fallback.get("snapshot_generated_utc"))
+                database_timestamp = normalize_text(database.get("snapshot_generated_utc"))
+                return fallback if fallback_timestamp >= database_timestamp else database
         except (sqlite3.Error, json.JSONDecodeError):
             pass
 
-    return json.loads(fallback_path.read_text(encoding="utf-8"))
+    return fallback
 
 
 def load_price_map() -> dict[str, dict]:
@@ -877,7 +885,7 @@ def build_main_cards(
             "cardType": normalize_upper(row.get("card_type")),
             "level": normalize_text(row.get("level")) or "-",
             "cost": normalize_text(row.get("cost")) or "-",
-            "copyLimit": int(row.get("copy_limit", 4) or 4),
+            "copyLimit": int(row["copy_limit"]) if str(row.get("copy_limit", "")).strip() else 4,
             "restrictionNote": normalize_text(row.get("restriction_note")),
             "recentMetaScore": float(row.get("recent_meta_score", 0) or 0),
             "overallMetaScore": float(row.get("overall_meta_score", 0) or 0),
@@ -1241,6 +1249,31 @@ def build_rules(advisor_snapshot: dict) -> dict:
                 "sourceUrl": normalize_text(row.get("source_url")),
             }
         )
+    banned_pairs = [
+        {
+            "id": normalize_text(row.get("id")),
+            "cardNumbers": [normalize_upper(value) for value in row.get("card_numbers", [])],
+            "effectiveDate": normalize_text(row.get("effective_date")),
+            "note": normalize_text(row.get("note")),
+            "sourceTitle": normalize_text(row.get("source_title")),
+            "sourceUrl": normalize_text(row.get("source_url")),
+        }
+        for row in advisor_snapshot.get("banned_pairs", [])
+    ]
+    exclusive_groups = [
+        {
+            "id": normalize_text(row.get("id")),
+            "name": normalize_text(row.get("name")),
+            "cardNumbers": [normalize_upper(value) for value in row.get("card_numbers", [])],
+            "matcher": normalize_text(row.get("matcher")),
+            "maxDistinct": int(row.get("max_distinct", 1) or 1),
+            "effectiveDate": normalize_text(row.get("effective_date")),
+            "note": normalize_text(row.get("note")),
+            "sourceTitle": normalize_text(row.get("source_title")),
+            "sourceUrl": normalize_text(row.get("source_url")),
+        }
+        for row in advisor_snapshot.get("exclusive_card_groups", [])
+    ]
 
     return {
         "mainDeckSize": 50,
@@ -1258,6 +1291,10 @@ def build_rules(advisor_snapshot: dict) -> dict:
         ],
         "officialRules": advisor_snapshot.get("official_rules", []),
         "currentRestrictions": restrictions,
+        "bannedPairs": banned_pairs,
+        "exclusiveCardGroups": exclusive_groups,
+        "legalityEffectiveDate": "2026-07-24",
+        "legalitySourceUrl": "https://www.gundam-gcg.com/en/news/01_279.html",
     }
 
 

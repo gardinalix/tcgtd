@@ -8,6 +8,43 @@ import {
   normalizeDeckEvidence,
 } from "../src/services/deckDesigner/index.js";
 import { buildExBurstDeckText } from "../src/domain/deckExport.js";
+import { evaluateMainDeckLegality } from "../src/domain/deckLegality.js";
+
+test("current official legality rules reject Anksha, excess Corsica Base, and banned pairs", () => {
+  const anksha = card("GD01-020", "Anksha", "Blue", "UNIT", 2, [], ["damage_push"], 60, 1);
+  const corsica = card("ST02-016", "Corsica Base", "Blue", "BASE", 3, [], ["base_support"], 60, 5);
+  const guntank = card("GD01-008", "Guntank", "Blue", "UNIT", 1, [], [], 60, 1);
+  const shrike = card("GD05-015", "M1 Astray Shrike", "Blue", "UNIT", 1, [], [], 60, 1);
+  const cardMap = new Map([anksha, corsica, guntank, shrike].map((item) => [item.cardNumber, item]));
+  const legality = evaluateMainDeckLegality({
+    "GD01-020": 1,
+    "ST02-016": 3,
+    "GD01-008": 4,
+    "GD05-015": 4,
+  }, cardMap, officialLegalityRules());
+
+  assert.equal(legality.legal, false);
+  assert.deepEqual(
+    legality.violations.map((item) => item.type).sort(),
+    ["banned_card", "banned_pair", "copy_limit"],
+  );
+});
+
+test("research discards an otherwise winning source deck when it contains banned Anksha", () => {
+  const data = fixtureData();
+  const anksha = card("GD01-020", "Anksha", "Blue", "UNIT", 2, [], ["damage_push"], 60, 1);
+  data.cards.push(anksha);
+  Object.assign(data.rules, officialLegalityRules());
+  replaceDeckCard(data, "deck-1", "TEST-001", anksha);
+
+  const research = collectDeckResearch(data, baseCriteria());
+  const reports = designDeckVariants(data, baseCriteria());
+
+  assert.equal(research.facts.illegalDecklistsExcluded, 1);
+  assert.ok(research.matchedDecks.every((candidate) => candidate.result.deckId !== "deck-1"));
+  assert.ok(reports.every((report) => !report.main["GD01-020"]));
+  assert.ok(reports.every((report) => report.legality.legal));
+});
 
 test("research selects exact archetype/color lists and normalizes observed quantities", () => {
   const data = fixtureData();
@@ -153,6 +190,45 @@ function setDeckQuantity(data, deckId, cardNumber, quantity) {
   const row = data.metaDeckCards.find((item) =>
     item.deckId === deckId && item.cardNumber === cardNumber);
   row.quantity = quantity;
+}
+
+function replaceDeckCard(data, deckId, sourceCardNumber, targetCard) {
+  const row = data.metaDeckCards.find((item) =>
+    item.deckId === deckId && item.cardNumber === sourceCardNumber);
+  row.cardNumber = targetCard.cardNumber;
+  row.cardName = targetCard.cardName;
+  row.cardType = targetCard.cardType;
+  row.cardColor = targetCard.color;
+}
+
+function officialLegalityRules() {
+  return {
+    mainDeckSize: 50,
+    resourceDeckSize: 10,
+    maxColors: 2,
+    defaultCopyLimit: 4,
+    legalityEffectiveDate: "2026-07-24",
+    legalitySourceUrl: "https://www.gundam-gcg.com/en/news/01_279.html",
+    currentRestrictions: [
+      {
+        cardNumber: "GD01-020",
+        cardName: "Anksha",
+        restrictionType: "Banned",
+        maxCopies: 0,
+      },
+      {
+        cardNumber: "ST02-016",
+        cardName: "Corsica Base",
+        restrictionType: "Restricted",
+        maxCopies: 2,
+      },
+    ],
+    bannedPairs: [{
+      id: "guntank-m1-astray-shrike",
+      cardNumbers: ["GD01-008", "GD05-015"],
+    }],
+    exclusiveCardGroups: [],
+  };
 }
 
 function fixtureData() {

@@ -3725,6 +3725,29 @@ body[data-view]:not([data-view="home"]) .decks-terminal-page.is-designer-mode::a
   }
 }
 
+.deck-map__readouts .is-legal b {
+  color: #62ffc0;
+  text-shadow: 0 0 8px rgba(98, 255, 192, 0.5);
+}
+
+.deck-map__readouts .is-illegal b {
+  color: #ff5d67;
+  text-shadow: 0 0 8px rgba(255, 61, 75, 0.5);
+}
+
+.react-builder-card.is-banned {
+  border-color: rgba(255, 73, 84, 0.42) !important;
+  opacity: 0.52;
+  filter: grayscale(0.7);
+  cursor: not-allowed;
+}
+
+.react-builder-card.is-banned > em {
+  color: #ff6b74;
+  font: 900 0.5rem var(--font-tech);
+  letter-spacing: 0.12em;
+}
+
 .preview-terminal-actions {
   display: flex;
   flex-wrap: wrap;

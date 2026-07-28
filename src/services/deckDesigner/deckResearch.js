@@ -9,8 +9,13 @@ import {
   tokenOverlap,
   uniqueBy,
 } from "./deckDesignerUtils.js";
+import {
+  evaluateMainDeckLegality,
+  isCardBanned,
+  quantitiesFromRows,
+} from "../../domain/deckLegality.js";
 
-export const DECK_RESEARCH_VERSION = "deck-research-2026-07-28";
+export const DECK_RESEARCH_VERSION = "deck-research-2026-07-28-legality";
 
 export function collectDeckResearch(data = {}, criteria = {}) {
   const cards = data.cards || [];
@@ -22,10 +27,12 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   const latestEventDate = data.latestEventDate || latestDate(data.metaResults || []);
   const required = findCardsByTerms(cards, criteria.requiredCards);
   const excluded = findCardsByTerms(cards, criteria.excludedCards);
-  const requiredIds = new Set(required.cards.map((card) => card.cardNumber));
+  const requiredIds = new Set(required.cards
+    .filter((card) => !isCardBanned(card, data.rules))
+    .map((card) => card.cardNumber));
   const excludedIds = new Set(excluded.cards.map((card) => card.cardNumber));
 
-  const scored = (data.metaResults || [])
+  const evaluated = (data.metaResults || [])
     .filter((result) => result.deckId && rowsByDeck.has(result.deckId))
     .map((result) => scoreResult({
       result,
@@ -36,6 +43,21 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       latestEventDate,
       cardMap,
     }))
+    .map((candidate) => ({
+      ...candidate,
+      legality: evaluateMainDeckLegality(
+        quantitiesFromRows(candidate.deckRows),
+        cardMap,
+        data.rules,
+      ),
+    }));
+  const illegalDecks = evaluated.filter((candidate) =>
+    !candidate.legality.legal
+    && (!requestedColors.length || candidate.colorMatch >= 0.45)
+    && (!requestedArchetype || candidate.archetypeMatch >= 0.28)
+    && (!requestedUnit || candidate.unitMatch === 1 || candidate.archetypeMatch >= 0.62));
+  const scored = evaluated
+    .filter((candidate) => candidate.legality.legal)
     .filter((candidate) =>
       [...requiredIds].every((cardNumber) =>
         candidate.deckRows.some((row) => row.cardNumber === cardNumber))
@@ -120,6 +142,10 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   if (required.unresolved.length) {
     limitations.push(`Required card terms not found in the official catalog snapshot: ${required.unresolved.join(", ")}.`);
   }
+  const bannedRequired = required.cards.filter((card) => isCardBanned(card, data.rules));
+  if (bannedRequired.length) {
+    limitations.push(`Required banned cards were ignored: ${bannedRequired.map((card) => `${card.cardName} (${card.cardNumber})`).join(", ")}.`);
+  }
   if (excluded.unresolved.length) {
     limitations.push(`Excluded card terms not found in the official catalog snapshot: ${excluded.unresolved.join(", ")}.`);
   }
@@ -134,6 +160,11 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   }
   if (!matchedDecks.length) {
     limitations.push("No competitive list matched the filters. The result uses official card data and theoretical synergy only.");
+  }
+  if (illegalDecks.length) {
+    limitations.push(
+      `${illegalDecks.length} competitive source list(s) were excluded because they violate the current official banned/restricted rules.`,
+    );
   }
   if ((!requestedArchetype || !requestedColors.length) && inferredShell.deckCount) {
     limitations.push(
@@ -183,6 +214,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       topEight: matchedDecks.filter((item) => Number(item.result.placingRank) <= 8).length,
       latestEventDate: latestDate(matchedDecks.map((item) => item.result)),
       catalogCards: cards.length,
+      illegalDecklistsExcluded: illegalDecks.length,
     },
   };
 }

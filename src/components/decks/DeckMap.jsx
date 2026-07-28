@@ -102,6 +102,9 @@ export function DeckMap({ report, onApplySubstitution }) {
           <span><b>{graph.edges.length}</b> CONNECTIONS</span>
           <span><b>{report.stats.averageCost}</b> AVERAGE CURVE</span>
           <span><b>{report.confidence}</b> CONFIDENCE</span>
+          <span className={report.legality?.legal ? "is-legal" : "is-illegal"}>
+            <b>{report.legality?.legal ? "LEGAL" : "ILLEGAL"}</b> CURRENT RULESET
+          </span>
         </div>
       </header>
 

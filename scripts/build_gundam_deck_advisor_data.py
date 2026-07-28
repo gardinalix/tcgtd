@@ -27,6 +27,15 @@ RESOURCE_TYPES = {"RESOURCE"}
 
 OFFICIAL_RULES = [
     {
+        "rule_area": "Current legality",
+        "rule_value": "Anksha banned; Corsica Base restricted (2); banned pairs enforced",
+        "note": "Current official list for constructed decks. Untouched starter-deck exceptions are not applicable to generated custom decks.",
+        "source_title": "Banned/Restricted Cards",
+        "source_date": "2026-07-24",
+        "source_url": "https://www.gundam-gcg.com/en/news/01_279.html",
+        "classification": "official_rule",
+    },
+    {
         "rule_area": "Main deck",
         "rule_value": "Exactly 50 cards",
         "note": "Official English deck-building guide.",
@@ -87,16 +96,65 @@ OFFICIAL_RULES = [
 
 CURRENT_RESTRICTIONS = [
     {
+        "card_number": "GD01-020",
+        "card_name": "Anksha",
+        "restriction_type": "Banned",
+        "max_copies": 0,
+        "effective_date": "2026-07-24",
+        "note": "No copies are permitted in a constructed deck under the current official list.",
+        "source_title": "Banned/Restricted Cards",
+        "source_date": "2026-07-24",
+        "source_url": "https://www.gundam-gcg.com/en/news/01_279.html",
+    },
+    {
         "card_number": "ST02-016",
         "card_name": "Corsica Base",
         "restriction_type": "Restricted",
         "max_copies": 2,
         "effective_date": "2026-04-01",
         "note": "Current official restricted card list for English-language organized play.",
-        "source_title": "Gundam Card Game Banned and Restricted Card List",
-        "source_date": "2026-03-27",
-        "source_url": "https://www.gundam-gcg.com/en/news/01_234.html",
-    }
+        "source_title": "Banned/Restricted Cards",
+        "source_date": "2026-07-24",
+        "source_url": "https://www.gundam-gcg.com/en/news/01_279.html",
+    },
+]
+
+BANNED_PAIRS = [
+    {
+        "id": "guntank-m1-astray-shrike",
+        "card_numbers": ["GD01-008", "GD05-015"],
+        "effective_date": "2026-07-24",
+        "note": "Cards A and B cannot be used in the same deck.",
+        "source_title": "Banned/Restricted Cards",
+        "source_url": "https://www.gundam-gcg.com/en/news/01_279.html",
+    },
+    {
+        "id": "amuro-mikazuki",
+        "card_numbers": ["ST01-010", "ST05-010"],
+        "effective_date": "2026-07-24",
+        "note": "Cards A and B cannot be used in the same deck.",
+        "source_title": "Banned/Restricted Cards",
+        "source_url": "https://www.gundam-gcg.com/en/news/01_279.html",
+    },
+]
+
+EXCLUSIVE_CARD_GROUPS = [
+    {
+        "id": "level2-cost1-ap2-hp2-effectless-units",
+        "name": "Lv.2 / cost 1 / AP2 / HP2 effectless Units",
+        "card_numbers": [
+            "GD01-035", "GD01-060", "GD01-085", "GD02-013", "GD02-080",
+            "GD03-032", "GD03-063", "GD04-078", "GD05-014", "GD05-027",
+            "GD05-042", "GD05-062", "GD05-077", "ST01-005", "ST04-008",
+            "ST05-004", "ST05-009", "ST06-004", "ST09-005", "ST10-005",
+        ],
+        "matcher": "level2-cost1-ap2-hp2-effectless-unit",
+        "max_distinct": 1,
+        "effective_date": "2026-07-24",
+        "note": "Only one card number matching this official stat/effect profile may be used in a constructed deck, with the normal four-copy limit.",
+        "source_title": "Banned/Restricted Cards",
+        "source_url": "https://www.gundam-gcg.com/en/news/01_279.html",
+    },
 ]
 
 SOURCE_REFERENCES = [
@@ -110,11 +168,11 @@ SOURCE_REFERENCES = [
     },
     {
         "source_category": "official_rules",
-        "source_name": "Gundam Card Game Banned and Restricted Card List",
+        "source_name": "Banned/Restricted Cards",
         "status": "active_reference",
-        "detail": "Current restricted list effective April 1, 2026.",
-        "source_date": "2026-03-27",
-        "source_url": "https://www.gundam-gcg.com/en/news/01_234.html",
+        "detail": "Current banned, restricted, and banned-pair list effective July 24, 2026.",
+        "source_date": "2026-07-24",
+        "source_url": "https://www.gundam-gcg.com/en/news/01_279.html",
     },
     {
         "source_category": "official_rules",
@@ -255,6 +313,8 @@ def main() -> None:
         },
         "official_rules": OFFICIAL_RULES,
         "current_restrictions": CURRENT_RESTRICTIONS,
+        "banned_pairs": BANNED_PAIRS,
+        "exclusive_card_groups": EXCLUSIVE_CARD_GROUPS,
         "input_options": input_options,
         "archetype_advisor_rows": archetype_rows,
         "card_advisor_rows": card_advisor_rows,
@@ -839,7 +899,11 @@ def build_card_advisor_rows(
         restriction = restrictions_by_card.get(card.card_number)
         copy_limit = int(restriction["max_copies"]) if restriction else 4
         restriction_note = (
-            f"{restriction['restriction_type']} ({restriction['max_copies']}) effective {restriction['effective_date']}"
+            (
+                f"Banned effective {restriction['effective_date']}"
+                if int(restriction["max_copies"]) == 0
+                else f"{restriction['restriction_type']} ({restriction['max_copies']}) effective {restriction['effective_date']}"
+            )
             if restriction
             else ""
         )

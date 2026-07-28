@@ -1,3 +1,5 @@
+import { evaluateMainDeckLegality } from "./deckLegality.js";
+
 export const DEFAULT_DECK = {
   name: "ZERO System Deck",
   main: {},
@@ -67,5 +69,6 @@ export function getDeckIssues(deck, rules = {}, mainMap = new Map()) {
   if (colors.size > Number(rules.maxColors || 2)) {
     issues.push(`Main deck uses ${colors.size} colors. Current limit: ${rules.maxColors || 2}.`);
   }
+  issues.push(...evaluateMainDeckLegality(deck.main, mainMap, rules).issues);
   return issues;
 }
