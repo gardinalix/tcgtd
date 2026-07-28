@@ -12393,3 +12393,472 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
     line-height: 1.4;
   }
 }
+
+/* BRUXÃO v10: open mecha cockpit for mission configuration. */
+.deck-designer__cockpit-frame {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.deck-designer__cockpit-strut,
+.deck-designer__cockpit-reticle {
+  position: absolute;
+  display: block;
+}
+
+.deck-designer__cockpit-strut {
+  top: 14%;
+  bottom: 10%;
+  width: 22%;
+  border-top: 1px solid color-mix(in srgb, #38d7ff 26%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, #38d7ff 16%, transparent);
+  opacity: 0.72;
+}
+
+.deck-designer__cockpit-strut--left {
+  left: -8%;
+  border-right: 2px solid color-mix(in srgb, #38d7ff 34%, transparent);
+  transform: skewX(-18deg);
+}
+
+.deck-designer__cockpit-strut--right {
+  right: -8%;
+  border-left: 2px solid color-mix(in srgb, #9368ff 32%, transparent);
+  transform: skewX(18deg);
+}
+
+.deck-designer__cockpit-reticle {
+  top: 50%;
+  left: 50%;
+  width: min(31vw, 390px);
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, #38d7ff 15%, transparent);
+  border-radius: 50%;
+  background:
+    linear-gradient(90deg, transparent 49.8%, color-mix(in srgb, #38d7ff 15%, transparent) 50%, transparent 50.2%),
+    linear-gradient(0deg, transparent 49.8%, color-mix(in srgb, #38d7ff 12%, transparent) 50%, transparent 50.2%),
+    repeating-radial-gradient(circle, transparent 0 40px, color-mix(in srgb, #38d7ff 7%, transparent) 41px 42px);
+  opacity: 0.62;
+  transform: translate(-50%, -42%);
+}
+
+.deck-designer__cockpit-reticle::before,
+.deck-designer__cockpit-reticle::after {
+  position: absolute;
+  border: 1px solid color-mix(in srgb, #38d7ff 18%, transparent);
+  border-radius: 50%;
+  content: "";
+}
+
+.deck-designer__cockpit-reticle::before {
+  inset: 18%;
+}
+
+.deck-designer__cockpit-reticle::after {
+  inset: 38%;
+  border-color: color-mix(in srgb, #9368ff 30%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, #9368ff 10%, transparent);
+}
+
+.deck-designer__cockpit-reticle > i,
+.deck-designer__cockpit-reticle > b {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, #38d7ff 32%, transparent), transparent);
+  content: "";
+}
+
+.deck-designer__cockpit-reticle > i {
+  top: 50%;
+  right: -18%;
+  left: -18%;
+  height: 1px;
+}
+
+.deck-designer__cockpit-reticle > b {
+  top: -18%;
+  bottom: -18%;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(transparent, color-mix(in srgb, #38d7ff 25%, transparent), transparent);
+}
+
+.deck-designer__strategy-signal {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 0.48rem;
+  min-height: 33px;
+  margin-top: 0.38rem;
+  padding: 0.38rem 0.5rem;
+  border-left: 2px solid color-mix(in srgb, #38d7ff 34%, transparent);
+  color: #7598ad !important;
+  background: linear-gradient(90deg, rgba(23, 155, 198, 0.08), transparent);
+}
+
+.deck-designer__strategy-signal > b {
+  flex: 0 0 auto;
+  color: #63ffbf;
+  font: 900 0.54rem / 1.35 var(--font-tech);
+  letter-spacing: 0.08em;
+}
+
+.deck-designer__strategy-signal > span {
+  min-width: 0;
+}
+
+.deck-designer__strategy-signal strong {
+  color: #d8f8ff;
+  font-weight: 900;
+}
+
+.deck-designer__strategy-signal.is-locked {
+  border-left-color: #4dffb8;
+  color: #99c5b3 !important;
+  background: linear-gradient(90deg, rgba(32, 211, 139, 0.11), transparent);
+}
+
+.deck-designer__strategy-signal.is-pending {
+  border-left-color: #f1c95a;
+  color: #c7aa61 !important;
+  background: linear-gradient(90deg, rgba(241, 201, 90, 0.09), transparent);
+}
+
+@media (min-width: 981px) {
+  .deck-designer:not(.is-engaged) > .deck-designer__brief-frame {
+    position: relative;
+    padding: 0 14px 14px;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  .deck-designer:not(.is-engaged) > .deck-designer__brief-frame > summary {
+    z-index: 4;
+    width: calc(100% - 34px);
+    min-height: 52px;
+    margin: 0 auto;
+    padding: 0.62rem 1rem;
+    border-top: 1px solid color-mix(in srgb, #38d7ff 30%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, #38d7ff 24%, transparent);
+    background:
+      linear-gradient(90deg, rgba(24, 177, 221, 0.1), transparent 38%, rgba(125, 83, 245, 0.06)),
+      rgba(0, 8, 19, 0.72);
+    box-shadow:
+      inset 3px 0 0 color-mix(in srgb, #38d7ff 62%, transparent),
+      inset -3px 0 0 color-mix(in srgb, #9368ff 40%, transparent);
+    clip-path: polygon(14px 0, 72% 0, calc(72% + 18px) 50%, 100% 50%, 100% 100%, 18px 100%, 0 calc(100% - 14px), 0 14px);
+  }
+
+  .deck-designer:not(.is-engaged) > .deck-designer__brief-frame > summary::after {
+    position: absolute;
+    top: 0;
+    left: 14px;
+    width: 24%;
+    height: 2px;
+    background: linear-gradient(90deg, #38d7ff, transparent);
+    box-shadow: 0 0 12px #38d7ff;
+    content: "";
+  }
+
+  .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__brief {
+    --mission-accent: #38d7ff;
+    display: grid;
+    grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.42fr) minmax(225px, 0.66fr);
+    grid-template-areas:
+      "head head head"
+      "colors fields fields"
+      "constraints constraints launch";
+    gap: 16px 18px;
+    min-height: 390px;
+    padding: 1.35rem 1.5rem 1.2rem !important;
+    overflow: hidden;
+    border: 0 !important;
+    background:
+      linear-gradient(116deg, rgba(12, 77, 110, 0.13), transparent 27%),
+      linear-gradient(244deg, rgba(100, 68, 203, 0.1), transparent 28%),
+      radial-gradient(circle at 52% 55%, rgba(15, 147, 190, 0.06), transparent 30%),
+      rgba(0, 7, 16, 0.78) !important;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--mission-accent) 40%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #9368ff 24%, transparent),
+      inset 30px 0 60px rgba(18, 121, 158, 0.035),
+      inset -30px 0 60px rgba(116, 75, 221, 0.035) !important;
+    clip-path: polygon(28px 0, calc(100% - 90px) 0, calc(100% - 62px) 18px, 100% 18px, 100% calc(100% - 28px), calc(100% - 28px) 100%, 76px 100%, 48px calc(100% - 18px), 0 calc(100% - 18px), 0 28px);
+  }
+
+  .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__brief.is-unit-locked {
+    --mission-accent: #50f5b0;
+  }
+
+  .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__brief.is-unit-pending {
+    --mission-accent: #f1c95a;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__brief::before {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 28px;
+    width: 38%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--mission-accent), transparent);
+    box-shadow: 0 0 13px color-mix(in srgb, var(--mission-accent) 64%, transparent);
+    content: "";
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__brief::after {
+    top: auto;
+    right: 7%;
+    bottom: -155px;
+    width: 320px;
+    height: 320px;
+    border-color: color-mix(in srgb, var(--mission-accent) 15%, transparent);
+    opacity: 0.48;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__brief > *:not(.deck-designer__cockpit-frame) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__brief-head {
+    grid-area: head;
+    min-height: 72px;
+    padding: 0.5rem 0.8rem 0.68rem 1rem;
+    border-left: 2px solid color-mix(in srgb, var(--mission-accent) 55%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, #38d7ff 14%, transparent);
+    background: linear-gradient(90deg, rgba(18, 145, 188, 0.07), transparent 58%);
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__brief-head h2 {
+    font-size: clamp(1.2rem, 1.65vw, 1.58rem);
+    letter-spacing: 0.055em;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__brief-head p {
+    max-width: 760px;
+    font-size: 0.72rem;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__agent-status {
+    min-width: 220px;
+    padding: 0.52rem 0.8rem;
+    border: 0;
+    border-top: 1px solid color-mix(in srgb, #50f5b0 48%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, #50f5b0 28%, transparent);
+    background:
+      linear-gradient(90deg, transparent, rgba(26, 211, 143, 0.1)),
+      rgba(0, 9, 18, 0.42);
+    box-shadow: inset -3px 0 0 rgba(80, 245, 176, 0.52);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    text-align: right;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__colors {
+    grid-area: colors;
+    align-self: stretch;
+    padding: 0.82rem 0.85rem 0.9rem;
+    border-top: 1px solid color-mix(in srgb, #38d7ff 22%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, #38d7ff 15%, transparent);
+    background:
+      linear-gradient(135deg, rgba(20, 153, 195, 0.08), transparent 54%),
+      rgba(0, 6, 15, 0.42);
+    clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__colors legend {
+    float: none;
+    width: auto;
+    margin-bottom: 0.6rem;
+    padding: 0;
+    color: #8deaff;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__colors > div {
+    grid-template-columns: repeat(2, minmax(104px, 1fr));
+    gap: 0.48rem;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-color-option {
+    min-height: 50px;
+    border-width: 1px 0;
+    background:
+      linear-gradient(100deg, color-mix(in srgb, var(--deck-color) 7%, transparent), transparent 70%),
+      rgba(0, 7, 16, 0.5);
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  }
+
+  .deck-designer:not(.is-engaged) .deck-color-option:nth-child(5) {
+    grid-column: 1 / -1;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-color-option.is-selected {
+    background:
+      linear-gradient(100deg, color-mix(in srgb, var(--deck-color) 18%, transparent), transparent 76%),
+      rgba(0, 9, 18, 0.72);
+    box-shadow:
+      inset 3px 0 0 var(--deck-color),
+      0 0 20px color-mix(in srgb, var(--deck-color) 10%, transparent);
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__primary-fields {
+    grid-area: fields;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.16fr);
+    grid-template-areas:
+      "unit strategy"
+      "focus strategy";
+    gap: 0.75rem 0.9rem;
+    min-width: 0;
+    padding: 0.82rem 0.95rem 0.9rem;
+    border-top: 1px solid color-mix(in srgb, #9368ff 18%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, #38d7ff 16%, transparent);
+    background:
+      linear-gradient(120deg, rgba(9, 92, 126, 0.065), transparent 48%, rgba(111, 74, 211, 0.055)),
+      rgba(0, 5, 14, 0.38);
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__unit-field {
+    grid-area: unit;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__strategy-field {
+    grid-area: strategy;
+    padding-left: 0.85rem;
+    border-left: 1px solid color-mix(in srgb, #9368ff 24%, transparent);
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__focus-field {
+    grid-area: focus;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__primary-fields label {
+    display: grid;
+    align-content: start;
+    min-width: 0;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__primary-fields label > span {
+    color: #85a9bc;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__primary-fields label > span em {
+    display: block;
+    margin-top: 0.14rem;
+    color: #56758a;
+    font-size: 0.52rem;
+    letter-spacing: 0.05em;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__primary-fields :is(input, select) {
+    min-height: 52px;
+    border-color: color-mix(in srgb, var(--mission-accent) 34%, transparent);
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--mission-accent) 6%, transparent), transparent 56%),
+      rgba(0, 7, 16, 0.86);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__primary-fields select:disabled {
+    border-color: color-mix(in srgb, #f1c95a 28%, transparent);
+    color: #806f49;
+    opacity: 0.76;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__constraints {
+    grid-area: constraints;
+    align-self: end;
+    margin: 0;
+    border-width: 1px 0;
+    border-color: color-mix(in srgb, #38d7ff 18%, transparent);
+    background:
+      linear-gradient(90deg, rgba(17, 133, 172, 0.07), transparent 76%),
+      rgba(0, 6, 14, 0.4);
+    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__constraints > summary {
+    min-height: 52px;
+    padding: 0.68rem 0.85rem;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__launch {
+    grid-area: launch;
+    align-self: stretch;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    min-width: 0;
+    padding: 0.8rem;
+    border-top: 1px solid color-mix(in srgb, var(--mission-accent) 28%, transparent);
+    border-right: 2px solid color-mix(in srgb, var(--mission-accent) 42%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--mission-accent) 18%, transparent);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--mission-accent) 10%, transparent), transparent 62%),
+      rgba(0, 7, 16, 0.62);
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 14px);
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__launch > div {
+    display: grid;
+    gap: 0.22rem;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__launch > div strong {
+    font-size: 0.66rem;
+    line-height: 1.35;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__launch > div span {
+    font-size: 0.58rem;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__launch > button {
+    width: 100%;
+    min-height: 62px;
+    margin-top: 0.75rem;
+    padding: 0.7rem 1rem !important;
+    border-color: color-mix(in srgb, var(--mission-accent) 56%, transparent) !important;
+    background:
+      linear-gradient(110deg, color-mix(in srgb, var(--mission-accent) 17%, transparent), transparent 64%),
+      rgba(0, 10, 21, 0.9) !important;
+    box-shadow:
+      inset 4px 0 0 color-mix(in srgb, var(--mission-accent) 72%, transparent),
+      0 0 24px color-mix(in srgb, var(--mission-accent) 11%, transparent) !important;
+    clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%) !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.07em;
+  }
+}
+
+@media (max-width: 1180px) and (min-width: 981px) {
+  .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__brief {
+    grid-template-columns: minmax(230px, 0.68fr) minmax(0, 1.32fr);
+    grid-template-areas:
+      "head head"
+      "colors fields"
+      "constraints launch";
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__agent-status {
+    min-width: 190px;
+  }
+}
+
+@media (max-width: 980px) {
+  .deck-designer__cockpit-reticle {
+    width: min(72vw, 380px);
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__primary-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__strategy-field {
+    padding-left: 0;
+    border-left: 0;
+  }
+}

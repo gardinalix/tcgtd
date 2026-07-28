@@ -17,6 +17,63 @@ import {
 
 export const DECK_RESEARCH_VERSION = "deck-research-2026-07-28-legality";
 
+export function getObservedArchetypesForUnit(data = {}, unitQuery = "") {
+  const requestedUnit = normalizeSearchText(unitQuery);
+  if (!requestedUnit) return [];
+
+  const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
+  const rowsByDeck = groupRowsByDeck(data.metaDeckCards || []);
+  const matchingDeckIds = new Set((data.metaDeckCards || [])
+    .filter((row) =>
+      row.deckId
+      && row.cardType === "UNIT"
+      && normalizeSearchText(row.cardName) === requestedUnit)
+    .map((row) => row.deckId));
+  const recentCutoffDate = String(data.recentCutoffDate || "");
+  const grouped = new Map();
+
+  for (const result of data.metaResults || []) {
+    if (!matchingDeckIds.has(result.deckId) || !rowsByDeck.has(result.deckId)) continue;
+    const legality = evaluateMainDeckLegality(
+      quantitiesFromRows(rowsByDeck.get(result.deckId)),
+      cardMap,
+      data.rules,
+    );
+    if (!legality.legal) continue;
+
+    const archetype = String(result.archetype || "").trim();
+    if (!archetype) continue;
+    if (!grouped.has(archetype)) {
+      grouped.set(archetype, {
+        archetype,
+        deckIds: new Set(),
+        recentDeckIds: new Set(),
+        colors: new Map(),
+      });
+    }
+    const entry = grouped.get(archetype);
+    entry.deckIds.add(result.deckId);
+    if (!recentCutoffDate || String(result.eventDate || "") >= recentCutoffDate) {
+      entry.recentDeckIds.add(result.deckId);
+    }
+    const colors = String(result.colorCombination || "").trim();
+    if (colors) entry.colors.set(colors, (entry.colors.get(colors) || 0) + 1);
+  }
+
+  return [...grouped.values()]
+    .map((entry) => ({
+      archetype: entry.archetype,
+      unitDecklists: entry.deckIds.size,
+      unitRecentDecklists: entry.recentDeckIds.size,
+      commonColorCombination: [...entry.colors.entries()]
+        .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))[0]?.[0] || "",
+    }))
+    .sort((left, right) =>
+      right.unitRecentDecklists - left.unitRecentDecklists
+      || right.unitDecklists - left.unitDecklists
+      || left.archetype.localeCompare(right.archetype));
+}
+
 export function collectDeckResearch(data = {}, criteria = {}) {
   const cards = data.cards || [];
   const cardMap = new Map(cards.map((card) => [card.cardNumber, card]));

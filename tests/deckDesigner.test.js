@@ -5,6 +5,7 @@ import {
   collectDeckResearch,
   designDeck,
   designDeckVariants,
+  getObservedArchetypesForUnit,
   normalizeDeckEvidence,
 } from "../src/services/deckDesigner/index.js";
 import { buildExBurstDeckText } from "../src/domain/deckExport.js";
@@ -91,6 +92,33 @@ test("designer infers a coherent color and archetype shell from a main unit alon
   assert.equal(report.selectionInference.supportingDecks, 3);
   assert.ok(report.main["TEST-001"] > 0);
   assert.equal(report.stats.mainCount, 50);
+});
+
+test("main unit exposes only archetypes observed with that unit", () => {
+  const data = fixtureData();
+  data.metaResults.find((result) => result.deckId === "deck-3").archetype = "The-O Blockers";
+
+  const options = getObservedArchetypesForUnit(data, "Freedom Unit");
+
+  assert.deepEqual(
+    options.map((option) => [option.archetype, option.unitDecklists]),
+    [["Freedom Blockers", 2], ["The-O Blockers", 1]],
+  );
+  assert.deepEqual(getObservedArchetypesForUnit(data, "Blue Vanguard"), [
+    {
+      archetype: "Freedom Blockers",
+      unitDecklists: 2,
+      unitRecentDecklists: 2,
+      commonColorCombination: "Blue/White",
+    },
+    {
+      archetype: "The-O Blockers",
+      unitDecklists: 1,
+      unitRecentDecklists: 1,
+      commonColorCombination: "Blue/White",
+    },
+  ]);
+  assert.deepEqual(getObservedArchetypesForUnit(data, "Unknown Unit"), []);
 });
 
 test("designer selects the best finish and preserves independent source-list variants", () => {

@@ -13,6 +13,7 @@ import {
   assembleRecommendedDeck,
   buildDeckVariantResearch,
   collectDeckResearch,
+  getObservedArchetypesForUnit,
   normalizeDeckEvidence,
   scoreRecommendationPool,
 } from "../../services/deckDesigner/index.js";
@@ -63,6 +64,24 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
     .filter((card) => Number(card.recentTop8DecksUsing || 0) > 0)
     .sort((left, right) => Number(right.recentTop8DecksUsing || 0) - Number(left.recentTop8DecksUsing || 0))
     .map((card) => card.cardName))].slice(0, 180), [data.cards]);
+  const selectedUnitName = useMemo(() => {
+    const requested = normalizeSelectionValue(criteria.unitQuery);
+    return requested
+      ? unitNames.find((name) => normalizeSelectionValue(name) === requested) || ""
+      : "";
+  }, [criteria.unitQuery, unitNames]);
+  const observedUnitArchetypes = useMemo(
+    () => selectedUnitName ? getObservedArchetypesForUnit(data, selectedUnitName) : [],
+    [data, selectedUnitName],
+  );
+  const availableArchetypes = useMemo(() => {
+    if (!selectedUnitName) return criteria.unitQuery.trim() ? [] : archetypes;
+    const profiles = new Map(archetypes.map((item) => [item.archetype, item]));
+    return observedUnitArchetypes.map((observed) => ({
+      ...(profiles.get(observed.archetype) || {}),
+      ...observed,
+    }));
+  }, [archetypes, criteria.unitQuery, observedUnitArchetypes, selectedUnitName]);
   const report = variantReports[activeVariantIndex] || null;
 
   useEffect(() => {
@@ -226,13 +245,21 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
         <summary>
           <span>MISSION PARAMETERS</span>
           <strong>
-            {criteria.archetype || (criteria.unitQuery ? "AUTO STRATEGY" : "OPEN STRATEGY")}
+            {criteria.archetype || (selectedUnitName ? "UNIT-LOCKED AUTO STRATEGY" : criteria.unitQuery ? "SELECT A LISTED UNIT" : "OPEN STRATEGY")}
             {" · "}
             {criteria.colors.join(" / ") || "AUTO COLORS"}
           </strong>
           <em>{briefOpen ? "COLLAPSE" : "RECONFIGURE"}</em>
         </summary>
-        <form className="deck-designer__brief tactical-data-panel" onSubmit={runAnalysis}>
+        <form
+          className={`deck-designer__brief tactical-data-panel ${selectedUnitName ? "is-unit-locked" : criteria.unitQuery.trim() ? "is-unit-pending" : ""}`.trim()}
+          onSubmit={runAnalysis}
+        >
+        <div className="deck-designer__cockpit-frame" aria-hidden="true">
+          <span className="deck-designer__cockpit-strut deck-designer__cockpit-strut--left" />
+          <span className="deck-designer__cockpit-strut deck-designer__cockpit-strut--right" />
+          <span className="deck-designer__cockpit-reticle"><i /><b /></span>
+        </div>
         <div className="deck-designer__brief-head">
           <div>
             <span className="eyebrow">01 / Mission brief</span>
@@ -260,17 +287,29 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
         </fieldset>
 
         <div className="deck-designer__primary-fields">
-          <label>
-            <span>Main unit / robot <em>optional</em></span>
+          <label className="deck-designer__unit-field">
+            <span>Main Mobile Suit <em>optional</em></span>
             <input
               list="deck-designer-units"
               value={criteria.unitQuery}
               onChange={(event) => {
                 const unitQuery = event.target.value;
+                const nextSelectedUnit = unitNames.find((name) =>
+                  normalizeSelectionValue(name) === normalizeSelectionValue(unitQuery)) || "";
+                const allowedArchetypes = nextSelectedUnit
+                  ? getObservedArchetypesForUnit(data, nextSelectedUnit)
+                  : [];
+                const preservesArchetype = allowedArchetypes.some((item) =>
+                  item.archetype === criteria.archetype);
                 setCriteria((current) => ({
                   ...current,
                   unitQuery,
-                  colors: !current.archetype.trim() && unitQuery.trim() ? [] : current.colors,
+                  archetype: preservesArchetype ? current.archetype : "",
+                  colors: preservesArchetype
+                    ? current.colors
+                    : unitQuery.trim()
+                      ? []
+                      : current.colors,
                 }));
               }}
               placeholder="e.g. Gundam Barbatos 1st Form"
@@ -279,13 +318,17 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
               {unitNames.map((name) => <option key={name} value={name} />)}
             </datalist>
           </label>
-          <label>
-            <span>Archetype / strategy <em>optional · auto when blank</em></span>
+          <label className="deck-designer__strategy-field">
+            <span>
+              Archetype / strategy
+              <em>{selectedUnitName ? "restricted to observed unit decks" : "optional · auto when blank"}</em>
+            </span>
             <select
               value={criteria.archetype}
+              disabled={Boolean(criteria.unitQuery.trim()) && !selectedUnitName}
               onChange={(event) => {
                 const archetype = event.target.value;
-                const profile = archetypes.find((item) => item.archetype === archetype);
+                const profile = availableArchetypes.find((item) => item.archetype === archetype);
                 const inferredColors = inferInitialColors(profile?.commonColorCombination);
                 setCriteria((current) => ({
                   ...current,
@@ -300,16 +343,51 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
                 }));
               }}
             >
-              <option value="">Infer the best strategy from my selection</option>
-              {archetypes.map((item) => (
+              <option value="">
+                {criteria.unitQuery.trim() && !selectedUnitName
+                  ? "Select a listed Mobile Suit first"
+                  : selectedUnitName
+                    ? "Infer the strongest observed strategy"
+                    : "Infer the best strategy from my selection"}
+              </option>
+              {availableArchetypes.map((item) => (
                 <option key={item.archetype} value={item.archetype}>
-                  {item.archetype} · {item.recentDecklists || 0} recent
+                  {item.archetype} · {selectedUnitName
+                    ? formatUnitDeckCount(item.unitDecklists)
+                    : `${item.recentDecklists || 0} recent`}
                 </option>
               ))}
             </select>
-            <small>Leave blank to let the agent infer a competitive color and strategy shell for the selected unit.</small>
+            <small className={`deck-designer__strategy-signal ${selectedUnitName ? "is-locked" : criteria.unitQuery.trim() ? "is-pending" : ""}`.trim()} aria-live="polite">
+              {selectedUnitName ? (
+                <>
+                  <b>UNIT LINKED</b>
+                  <span>
+                    {availableArchetypes.length ? (
+                      <>
+                        <strong>{availableArchetypes.length}</strong>
+                        {" "}
+                        <span>observed strategies contain</span>
+                        {" "}
+                        <strong>{selectedUnitName}</strong>.
+                      </>
+                    ) : (
+                      <>
+                        <span>No legal competitive archetype currently contains this unit.</span>
+                        {" "}
+                        <span>Automatic unit inference remains available.</span>
+                      </>
+                    )}
+                  </span>
+                </>
+              ) : criteria.unitQuery.trim() ? (
+                <span>Choose a Mobile Suit from the list to lock the strategy matrix.</span>
+              ) : (
+                <span>Leave blank to let the agent infer a competitive color and strategy shell.</span>
+              )}
+            </small>
           </label>
-          <label>
+          <label className="deck-designer__focus-field">
             <span>Optimization focus</span>
             <select
               value={criteria.focus}
@@ -760,6 +838,15 @@ function inferInitialColors(value = "") {
     .map((color) => color.trim())
     .filter((color) => DESIGNER_COLORS.includes(color))
     .slice(0, 2);
+}
+
+function normalizeSelectionValue(value = "") {
+  return String(value || "").trim().toLocaleLowerCase();
+}
+
+function formatUnitDeckCount(value) {
+  const count = Number(value || 0);
+  return `${count} ${count === 1 ? "deck" : "decks"} with unit`;
 }
 
 function nextFrame() {
