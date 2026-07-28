@@ -71,6 +71,14 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
     return () => window.clearTimeout(timer);
   }, [hudBooting]);
 
+  useEffect(() => {
+    if (status !== "success") return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [status]);
+
   async function runAnalysis(event) {
     event?.preventDefault();
     if (!criteria.colors.length && !criteria.archetype.trim() && !criteria.unitQuery.trim()) {

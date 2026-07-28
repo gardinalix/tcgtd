@@ -8,10 +8,10 @@ const FIT_ZOOM = 0.66;
 
 export function DeckMap({ report, onApplySubstitution }) {
   const graph = useMemo(() => buildDeckGraph(report.rows, report.synergies), [report.rows, report.synergies]);
-  const [selectedId, setSelectedId] = useState(() => graph.nodes[0]?.id || "");
+  const [selectedId, setSelectedId] = useState("");
   const [hoveredId, setHoveredId] = useState("");
-  const [rosterOpen, setRosterOpen] = useState(true);
-  const [inspectorOpen, setInspectorOpen] = useState(true);
+  const [rosterOpen, setRosterOpen] = useState(false);
+  const [inspectorOpen, setInspectorOpen] = useState(false);
   const [viewport, setViewport] = useState({ zoom: 1, x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const activeId = hoveredId || selectedId;
@@ -24,8 +24,8 @@ export function DeckMap({ report, onApplySubstitution }) {
   const selectedConnections = graph.edges.filter((edge) => edge.source === selectedNode?.id || edge.target === selectedNode?.id);
 
   useEffect(() => {
-    if (!graph.nodes.some((node) => node.id === selectedId)) {
-      setSelectedId(graph.nodes[0]?.id || "");
+    if (selectedId && !graph.nodes.some((node) => node.id === selectedId)) {
+      setSelectedId("");
     }
   }, [graph.nodes, selectedId]);
 
