@@ -1,4 +1,6 @@
 import { THEME_OPTIONS } from "../../data/themeConfig";
+import { useLocale } from "../../i18n/LocaleProvider";
+import { translate } from "../../i18n/translations";
 
 const NAV_ITEMS = [
   ["cards", "Cards"],
@@ -10,6 +12,7 @@ const NAV_ITEMS = [
 ];
 
 export function SiteHeader({ view, theme, user, onViewChange, onThemeChange, search, onSearchChange }) {
+  const { locale, setLocale } = useLocale();
   const systemStatus = (theme.headerSystem || `${theme.operation || theme.mode || "Tactical System"} Active`).toUpperCase();
   const systemMode = (theme.mode || theme.stateLabel || "Tactical interface").toUpperCase();
   const logoFallback = (theme.label || "G").slice(0, 1).toUpperCase();
@@ -31,23 +34,23 @@ export function SiteHeader({ view, theme, user, onViewChange, onThemeChange, sea
           <span className="zero-brand__fallback" hidden={Boolean(theme.factionLogo)}>{logoFallback}</span>
         </span>
         <span>
-          <small>{systemStatus}</small>
-          <strong>GUNDAM TACTICAL DATABASE</strong>
-          <em>{systemMode}</em>
+          <small>{translate(systemStatus)}</small>
+          <strong>{translate("GUNDAM TACTICAL DATABASE")}</strong>
+          <em>{translate(systemMode)}</em>
         </span>
       </button>
 
       <label className="global-search command-input">
-        <span>Command input</span>
+        <span>{translate("Command input")}</span>
         <input
           type="search"
-          placeholder="Name, number, set, text, trait..."
+          placeholder={translate("Name, number, set, text, trait...")}
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
         />
       </label>
 
-      <nav className="site-nav" aria-label="Primary navigation">
+      <nav className="site-nav" aria-label={translate("Primary navigation")}>
         {NAV_ITEMS.map(([id, label]) => (
           <button
             key={id}
@@ -55,15 +58,19 @@ export function SiteHeader({ view, theme, user, onViewChange, onThemeChange, sea
             className={view === id ? "is-active" : ""}
             onClick={() => onViewChange(id)}
           >
-            {label}
+            {translate(label)}
           </button>
         ))}
       </nav>
 
       <div className="site-header__actions cockpit-pilot-panel">
+        <div className="language-switch" role="group" aria-label={locale === "pt-BR" ? "Idioma" : "Language"}>
+          <button type="button" className={locale === "pt-BR" ? "is-active" : ""} onClick={() => setLocale("pt-BR")} aria-pressed={locale === "pt-BR"}>PT-BR</button>
+          <button type="button" className={locale === "en" ? "is-active" : ""} onClick={() => setLocale("en")} aria-pressed={locale === "en"}>ENG</button>
+        </div>
         <span className="pilot-avatar" aria-hidden="true" />
         <button type="button" className="pilot-label pilot-label-button" onClick={() => onViewChange("profile")}>
-          PILOT: {(user?.publicName || theme.pilot).toUpperCase()}
+          {translate("PILOT")}: {(user?.publicName || theme.pilot).toUpperCase()}
         </button>
         <select className="react-theme-select" value={theme.id} onChange={(event) => onThemeChange(event.target.value)}>
           {THEME_OPTIONS.map((option) => (

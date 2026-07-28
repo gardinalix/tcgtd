@@ -80,13 +80,13 @@ export function DecksPage({
     <TacticalPageShell className="decks-terminal-page">
       <TacticalPageHeader
         eyebrow="Deck ops"
-        title={workspace === "designer" ? "AI Deck Designer" : "Deck command center"}
+        title={workspace === "designer" ? "BRUXÃO DECK DESIGNER" : "Deck command center"}
         subtitle={workspace === "designer"
           ? "Research-backed deck construction with transparent evidence, confidence, synergies and live substitution impact."
           : "Saved decks, public lists, tournament lists, sharing, duplication, and cockpit-ready deck operations."}
         actions={(
           <div className="button-row">
-          <button type="button" className={workspace === "designer" ? "is-active" : ""} onClick={() => setWorkspace("designer")}>AI Designer</button>
+          <button type="button" className={workspace === "designer" ? "is-active" : ""} onClick={() => setWorkspace("designer")}>BRUXÃO</button>
           <button type="button" className={workspace === "library" ? "is-active" : ""} onClick={() => setWorkspace("library")}>Deck library</button>
           {workspace === "library" ? <button type="button" className={scope === "mine" ? "is-active" : ""} onClick={() => setScope("mine")}>My decks</button> : null}
           {workspace === "library" ? <button type="button" className={scope === "public" ? "is-active" : ""} onClick={() => setScope("public")}>Public / meta</button> : null}

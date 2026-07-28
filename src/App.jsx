@@ -43,6 +43,7 @@ import { SettingsPage } from "./pages/SettingsPage";
 import { SynergyMapPage } from "./pages/SynergyMapPage";
 import { SynergyPage } from "./pages/SynergyPage";
 import { DEFAULT_FILTERS } from "./utils/cardFilters";
+import { useLocale } from "./i18n/LocaleProvider";
 
 const REACT_STATE_KEY = "gundam-card-hub-react-state";
 const LEGACY_STATE_KEY = "gundam-card-hub-state";
@@ -51,6 +52,7 @@ const INCOMING_MESSAGE_DISMISS_PREFIX = "gundam-incoming-message-dismissed";
 const PRIVATE_VIEWS = new Set(["builder", "profile", "accountSettings"]);
 
 export function App() {
+  const { locale } = useLocale();
   const [data, setData] = useState(null);
   const [bootReady, setBootReady] = useState(false);
   const [showIncomingMessage, setShowIncomingMessage] = useState(false);
@@ -282,7 +284,7 @@ export function App() {
   const shouldGatePrivate = isPrivateView && !currentUser;
 
   return (
-    <div className="app-shell react-shell">
+    <div className="app-shell react-shell" data-locale={locale}>
       <SiteHeader
         view={view}
         theme={theme}

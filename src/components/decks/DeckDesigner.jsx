@@ -15,6 +15,7 @@ import {
   scoreRecommendationPool,
 } from "../../services/deckDesigner/index.js";
 import { DESIGNER_COLORS } from "../../services/deckDesigner/deckDesignerUtils.js";
+import { getLocaleTag } from "../../i18n/translations.js";
 
 const ANALYSIS_STAGES = [
   "Collecting competitive decklists",
@@ -140,7 +141,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
 
   if (!(data.cards || []).length) {
     return (
-      <TacticalDataPanel title="AI Deck Designer" subtitle="Card catalog required">
+      <TacticalDataPanel title="BRUXÃO DECK DESIGNER" subtitle="Card catalog required">
         <TacticalEmptyState title="No card data" detail="Synchronize the official card snapshot before requesting a recommendation." />
       </TacticalDataPanel>
     );
@@ -148,6 +149,27 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
 
   return (
     <div className="deck-designer">
+      <section className="bruxao-designer-hero" aria-labelledby="bruxao-designer-title">
+        <div className="bruxao-designer-hero__sigil" aria-hidden="true">
+          <span>BD</span>
+          <i />
+        </div>
+        <div className="bruxao-designer-hero__copy">
+          <span className="eyebrow">Arcane tactical oracle · competitive intelligence</span>
+          <h2 id="bruxao-designer-title"><span>BRUXÃO</span> DECK DESIGNER</h2>
+          <p>Real data goes in. A sharpened list comes out. Every choice includes evidence, confidence and calculated impact.</p>
+          <div className="bruxao-designer-hero__signals" aria-label="Designer capabilities">
+            <span>Competitive meta</span>
+            <span>Deep synergies</span>
+            <span>Live swaps</span>
+          </div>
+        </div>
+        <div className="bruxao-designer-hero__status">
+          <small>AI CORE</small>
+          <strong>ONLINE</strong>
+          <span>VERIFIABLE EVIDENCE</span>
+        </div>
+      </section>
       <form className="deck-designer__brief tactical-data-panel" onSubmit={runAnalysis}>
         <div className="deck-designer__brief-head">
           <div>
@@ -653,7 +675,7 @@ function formatDate(value) {
   if (!value) return "date unavailable";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  return date.toLocaleDateString(getLocaleTag(), { year: "numeric", month: "short", day: "numeric" });
 }
 
 function formatDelta(value) {
