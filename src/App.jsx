@@ -553,43 +553,61 @@ function dedupeBy(selector) {
 
 function IncomingMessageOverlay({ message, onClose, onOpenCards }) {
   const featured = message.cards.slice(0, 3);
+  const packageCode = message.packageCode || featured[0]?.packageCodes?.[0] || "DB";
 
   return (
     <div className="incoming-message-overlay" role="dialog" aria-modal="true" aria-label="Incoming card database transmission">
       <button type="button" className="incoming-message-overlay__backdrop" aria-label="Close incoming transmission" onClick={onClose} />
       <article className="incoming-message-overlay__panel">
         <div className="incoming-message-overlay__scan" aria-hidden="true" />
-        <button type="button" className="incoming-message-overlay__close" onClick={onClose}>Close</button>
-        <div className="incoming-message-overlay__header">
+        <div className="incoming-message-overlay__topbar">
           <span className="eyebrow">Incoming Message</span>
+          <span className="incoming-message-overlay__signal" data-no-translate>
+            {packageCode} / {String(message.cards.length).padStart(2, "0")} SYNC
+          </span>
+          <button type="button" className="incoming-message-overlay__close" aria-label="Close incoming transmission" onClick={onClose}>Close</button>
+        </div>
+
+        <div className="incoming-message-overlay__body">
+          <section className="incoming-message-overlay__header">
           <h2>New card data synchronized</h2>
           <p>
             Latest preview signal: <strong>{message.packageLabel || message.packageCode || "Unknown package"}</strong>
             {message.previewCount ? ` / ${message.previewCount} future official preview signal(s)` : ""}
           </p>
-        </div>
-        <div className="incoming-message-overlay__cards">
-          {featured.map((card, index) => (
-            <div key={card.displayId || card.previewId || card.cardNumber} className={`incoming-message-overlay__card incoming-message-overlay__card--${index + 1}`}>
-              <CardArt card={card} className="art-frame incoming-message-overlay__art" />
-              <span>{card.cardNumber}</span>
-              <strong>{card.cardName}</strong>
-              <em>{card.rarity || "Unknown rarity"} / {card.color || "No color"}</em>
+            <div className="incoming-message-overlay__list">
+              {message.cards.map((card, index) => (
+                <span key={`list-${card.displayId || card.previewId || card.cardNumber}`}>
+                  <i data-no-translate>{String(index + 1).padStart(2, "0")}</i>
+                  <b>{card.cardNumber}</b>
+                  <strong>{card.cardName}</strong>
+                  <em>{card.cardType} / {card.rarity}</em>
+                </span>
+              ))}
             </div>
-          ))}
+          </section>
+
+          <div className="incoming-message-overlay__cards">
+            <div className="incoming-message-overlay__card-grid">
+              {featured.map((card, index) => (
+                <div key={card.displayId || card.previewId || card.cardNumber} className={`incoming-message-overlay__card incoming-message-overlay__card--${index + 1}`}>
+                  <CardArt card={card} className="art-frame incoming-message-overlay__art" />
+                  <span>{card.cardNumber}</span>
+                  <strong>{card.cardName}</strong>
+                  <em>{card.rarity || "Unknown rarity"} / {card.color || "No color"}</em>
+                </div>
+              ))}
+            </div>
+            <div className="incoming-message-overlay__rail" aria-hidden="true">
+              <i />
+              <span data-no-translate>{String(featured.length).padStart(2, "0")} / {String(message.cards.length).padStart(2, "0")}</span>
+            </div>
+          </div>
         </div>
-        <div className="incoming-message-overlay__list">
-          {message.cards.map((card) => (
-            <span key={`list-${card.displayId || card.previewId || card.cardNumber}`}>
-              <b>{card.cardNumber}</b>
-              <strong>{card.cardName}</strong>
-              <em>{card.cardType} / {card.rarity}</em>
-            </span>
-          ))}
-        </div>
+
         <div className="incoming-message-overlay__actions">
-          <button type="button" onClick={onOpenCards}>Open preview radar</button>
-          <button type="button" onClick={onClose}>Continue to cockpit</button>
+          <button type="button" className="incoming-message-overlay__secondary" onClick={onClose}>Continue to cockpit</button>
+          <button type="button" className="incoming-message-overlay__primary" onClick={onOpenCards}>Open preview radar</button>
         </div>
       </article>
     </div>
