@@ -13185,3 +13185,101 @@ body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-operations-
     display: none !important;
   }
 }
+
+/*
+ * Notebook and compact viewport scrolling.
+ * The wide desktop cockpit intentionally behaves like a single HUD screen.
+ * Shorter viewports need the same modules in document flow so the page does
+ * not trap wheel, trackpad, touch, or keyboard scrolling.
+ */
+@media (max-width: 1180px), (max-width: 1500px) and (max-height: 900px) {
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100svh;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
+  }
+
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .app-shell {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100svh !important;
+    overflow: visible !important;
+  }
+
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) main {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: calc(100svh - 96px) !important;
+    overflow: visible !important;
+  }
+
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .cockpit-shell-topbar {
+    position: sticky !important;
+    inset: 0 0 auto !important;
+  }
+
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .zero-system-cockpit {
+    display: grid !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: calc(100svh - 96px) !important;
+    gap: clamp(12px, 1.4vw, 20px) !important;
+    padding: clamp(12px, 1.4vw, 20px) 0 clamp(28px, 4vw, 48px) !important;
+    overflow: visible !important;
+  }
+
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-battle-view {
+    position: relative !important;
+    inset: auto !important;
+    width: min(1780px, calc(100% - clamp(20px, 3vw, 44px))) !important;
+    height: clamp(520px, 72svh, 650px) !important;
+    min-height: 520px !important;
+    margin: 0 auto !important;
+  }
+
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-intel-strip {
+    position: relative !important;
+    inset: auto !important;
+    width: min(1780px, calc(100% - clamp(20px, 3vw, 44px))) !important;
+    height: auto !important;
+    min-height: 150px !important;
+    margin: 0 auto !important;
+  }
+
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-intel-strip .latest-winning-carousel,
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-intel-strip .latest-leaks-panel {
+    height: auto !important;
+    min-height: 150px !important;
+  }
+
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-operations-grid {
+    position: relative !important;
+    inset: auto !important;
+    width: min(1780px, calc(100% - clamp(20px, 3vw, 44px))) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 auto !important;
+    grid-auto-rows: minmax(220px, auto);
+  }
+
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-operations-grid .cockpit-console-panel,
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-operations-grid .cockpit-detection-panel,
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-operations-grid .cockpit-card-platform {
+    height: clamp(220px, 28svh, 280px) !important;
+  }
+}
+
+@media (min-width: 1181px) and (max-width: 1500px) and (max-height: 900px) {
+  body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-operations-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-areas:
+      "filters detection meta"
+      "platform feed feed" !important;
+  }
+}
