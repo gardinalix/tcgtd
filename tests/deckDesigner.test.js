@@ -5,6 +5,7 @@ import {
   collectDeckResearch,
   designDeck,
   designDeckVariants,
+  getObservedArchetypesForFilters,
   getObservedArchetypesForUnit,
   normalizeDeckEvidence,
 } from "../src/services/deckDesigner/index.js";
@@ -119,6 +120,34 @@ test("main unit exposes only archetypes observed with that unit", () => {
     },
   ]);
   assert.deepEqual(getObservedArchetypesForUnit(data, "Unknown Unit"), []);
+});
+
+test("archetype options narrow by selected colors and main unit", () => {
+  const data = fixtureData();
+  data.metaResults[0].colorCombination = "Blue/White";
+  data.metaResults[1].colorCombination = "Green/White";
+  data.metaResults[2].colorCombination = "Green/White";
+  data.metaResults[2].archetype = "The-O Blockers";
+
+  assert.deepEqual(
+    getObservedArchetypesForFilters(data, { colors: ["White", "Green"] })
+      .map((option) => [option.archetype, option.matchingDecklists]),
+    [["Freedom Blockers", 1], ["The-O Blockers", 1]],
+  );
+  assert.deepEqual(
+    getObservedArchetypesForFilters(data, {
+      unitQuery: "Freedom Unit",
+      colors: ["Blue", "White"],
+    }).map((option) => option.archetype),
+    ["Freedom Blockers"],
+  );
+  assert.deepEqual(
+    getObservedArchetypesForFilters(data, {
+      unitQuery: "Freedom Unit",
+      colors: ["Blue", "Green"],
+    }),
+    [],
+  );
 });
 
 test("designer selects the best finish and preserves independent source-list variants", () => {

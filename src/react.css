@@ -512,7 +512,8 @@
   gap: clamp(14px, 2vh, 22px);
   width: min(1080px, calc(100vw - 24px));
   max-height: min(720px, calc(100dvh - 24px));
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: clamp(18px, 2.5vw, 30px);
   border: 1px solid color-mix(in srgb, var(--incoming-tone) 48%, transparent);
   background:
@@ -625,9 +626,9 @@
 
 .incoming-message-overlay__header h2 {
   margin: 0;
-  max-width: 11ch;
-  font: 800 clamp(2.1rem, 4.4vw, 4rem) / 0.91 var(--font-display);
-  letter-spacing: 0.025em;
+  max-width: 12ch;
+  font: 800 clamp(1.9rem, 3vw, 3rem) / 0.94 var(--font-display);
+  letter-spacing: 0.015em;
   text-transform: uppercase;
   text-wrap: balance;
   text-shadow: 0 0 24px color-mix(in srgb, var(--incoming-tone) 26%, transparent);
@@ -659,9 +660,10 @@
 
 .incoming-message-overlay__card-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 176px));
+  justify-content: center;
   align-items: center;
-  gap: clamp(10px, 1.6vw, 22px);
+  gap: clamp(6px, 0.8vw, 14px);
   min-width: 0;
 }
 
@@ -854,13 +856,13 @@
   }
 
   .incoming-message-overlay__body {
-    grid-template-columns: minmax(380px, 0.78fr) minmax(620px, 1.22fr);
-    gap: clamp(52px, 5vw, 84px);
+    grid-template-columns: minmax(360px, 0.68fr) minmax(640px, 1.32fr);
+    gap: clamp(38px, 3.5vw, 60px);
   }
 
   .incoming-message-overlay__header h2 {
-    max-width: 10ch;
-    font-size: clamp(3.6rem, 4.4vw, 5.2rem);
+    max-width: 12ch;
+    font-size: clamp(2.75rem, 3.2vw, 3.85rem);
   }
 
   .incoming-message-overlay__header p {
@@ -883,7 +885,8 @@
   }
 
   .incoming-message-overlay__card-grid {
-    gap: clamp(20px, 2vw, 34px);
+    grid-template-columns: repeat(3, minmax(0, 210px));
+    gap: clamp(8px, 0.9vw, 16px);
   }
 
   .incoming-message-overlay__art {

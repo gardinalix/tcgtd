@@ -13,7 +13,7 @@ import {
   assembleRecommendedDeck,
   buildDeckVariantResearch,
   collectDeckResearch,
-  getObservedArchetypesForUnit,
+  getObservedArchetypesForFilters,
   normalizeDeckEvidence,
   scoreRecommendationPool,
 } from "../../services/deckDesigner/index.js";
@@ -70,18 +70,15 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       ? unitNames.find((name) => normalizeSelectionValue(name) === requested) || ""
       : "";
   }, [criteria.unitQuery, unitNames]);
-  const observedUnitArchetypes = useMemo(
-    () => selectedUnitName ? getObservedArchetypesForUnit(data, selectedUnitName) : [],
-    [data, selectedUnitName],
+  const availableArchetypes = useMemo(
+    () => buildAvailableArchetypes(data, archetypes, {
+      unitName: selectedUnitName,
+      unitQuery: criteria.unitQuery,
+      colors: criteria.colors,
+    }),
+    [archetypes, criteria.colors, criteria.unitQuery, data, selectedUnitName],
   );
-  const availableArchetypes = useMemo(() => {
-    if (!selectedUnitName) return criteria.unitQuery.trim() ? [] : archetypes;
-    const profiles = new Map(archetypes.map((item) => [item.archetype, item]));
-    return observedUnitArchetypes.map((observed) => ({
-      ...(profiles.get(observed.archetype) || {}),
-      ...observed,
-    }));
-  }, [archetypes, criteria.unitQuery, observedUnitArchetypes, selectedUnitName]);
+  const hasActiveArchetypeFilters = Boolean(selectedUnitName || criteria.colors.length);
   const report = variantReports[activeVariantIndex] || null;
 
   useEffect(() => {
@@ -159,11 +156,20 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
     setCriteria((current) => {
       const selected = current.colors.includes(color);
       if (!selected && current.colors.length >= Number(data.rules?.maxColors || 2)) return current;
+      const colors = selected
+        ? current.colors.filter((item) => item !== color)
+        : [...current.colors, color];
+      const nextAvailableArchetypes = buildAvailableArchetypes(data, archetypes, {
+        unitName: selectedUnitName,
+        unitQuery: current.unitQuery,
+        colors,
+      });
+      const preservesArchetype = !current.archetype
+        || nextAvailableArchetypes.some((item) => item.archetype === current.archetype);
       return {
         ...current,
-        colors: selected
-          ? current.colors.filter((item) => item !== color)
-          : [...current.colors, color],
+        colors,
+        archetype: preservesArchetype ? current.archetype : "",
       };
     });
   }
@@ -296,21 +302,20 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
                 const unitQuery = event.target.value;
                 const nextSelectedUnit = unitNames.find((name) =>
                   normalizeSelectionValue(name) === normalizeSelectionValue(unitQuery)) || "";
-                const allowedArchetypes = nextSelectedUnit
-                  ? getObservedArchetypesForUnit(data, nextSelectedUnit)
-                  : [];
-                const preservesArchetype = allowedArchetypes.some((item) =>
-                  item.archetype === criteria.archetype);
-                setCriteria((current) => ({
-                  ...current,
-                  unitQuery,
-                  archetype: preservesArchetype ? current.archetype : "",
-                  colors: preservesArchetype
-                    ? current.colors
-                    : unitQuery.trim()
-                      ? []
-                      : current.colors,
-                }));
+                setCriteria((current) => {
+                  const allowedArchetypes = buildAvailableArchetypes(data, archetypes, {
+                    unitName: nextSelectedUnit,
+                    unitQuery,
+                    colors: current.colors,
+                  });
+                  const preservesArchetype = !current.archetype
+                    || allowedArchetypes.some((item) => item.archetype === current.archetype);
+                  return {
+                    ...current,
+                    unitQuery,
+                    archetype: preservesArchetype ? current.archetype : "",
+                  };
+                });
               }}
               placeholder="e.g. Gundam Barbatos 1st Form"
             />
@@ -321,7 +326,13 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           <label className="deck-designer__strategy-field">
             <span>
               Archetype / strategy
-              <em>{selectedUnitName ? "restricted to observed unit decks" : "optional · auto when blank"}</em>
+              <em>
+                {selectedUnitName
+                  ? "restricted to observed unit decks"
+                  : criteria.colors.length
+                    ? "restricted by selected colors"
+                    : "optional · auto when blank"}
+              </em>
             </span>
             <select
               value={criteria.archetype}
@@ -333,13 +344,11 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
                 setCriteria((current) => ({
                   ...current,
                   archetype,
-                  colors: inferredColors.length
-                    ? inferredColors
-                    : archetype
-                      ? current.colors
-                      : current.unitQuery.trim()
-                        ? []
-                        : current.colors,
+                  colors: current.colors.length
+                    ? current.colors
+                    : inferredColors.length
+                      ? inferredColors
+                      : current.colors,
                 }));
               }}
             >
@@ -352,13 +361,13 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
               </option>
               {availableArchetypes.map((item) => (
                 <option key={item.archetype} value={item.archetype}>
-                  {item.archetype} · {selectedUnitName
-                    ? formatUnitDeckCount(item.unitDecklists)
+                  {item.archetype} · {hasActiveArchetypeFilters
+                    ? formatMatchingDeckCount(item.matchingDecklists)
                     : `${item.recentDecklists || 0} recent`}
                 </option>
               ))}
             </select>
-            <small className={`deck-designer__strategy-signal ${selectedUnitName ? "is-locked" : criteria.unitQuery.trim() ? "is-pending" : ""}`.trim()} aria-live="polite">
+            <small className={`deck-designer__strategy-signal ${hasActiveArchetypeFilters ? "is-locked" : criteria.unitQuery.trim() ? "is-pending" : ""}`.trim()} aria-live="polite">
               {selectedUnitName ? (
                 <>
                   <b>UNIT LINKED</b>
@@ -378,6 +387,17 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
                         <span>Automatic unit inference remains available.</span>
                       </>
                     )}
+                  </span>
+                </>
+              ) : criteria.colors.length ? (
+                <>
+                  <b>COLOR FILTER ACTIVE</b>
+                  <span>
+                    <strong>{availableArchetypes.length}</strong>
+                    {" "}
+                    <span>observed strategies match</span>
+                    {" "}
+                    <strong>{criteria.colors.join(" / ")}</strong>.
                   </span>
                 </>
               ) : criteria.unitQuery.trim() ? (
@@ -844,9 +864,23 @@ function normalizeSelectionValue(value = "") {
   return String(value || "").trim().toLocaleLowerCase();
 }
 
-function formatUnitDeckCount(value) {
+function formatMatchingDeckCount(value) {
   const count = Number(value || 0);
-  return `${count} ${count === 1 ? "deck" : "decks"} with unit`;
+  return `${count} matching ${count === 1 ? "deck" : "decks"}`;
+}
+
+function buildAvailableArchetypes(data, archetypes, { unitName = "", unitQuery = "", colors = [] } = {}) {
+  if (String(unitQuery || "").trim() && !unitName) return [];
+  if (!unitName && !colors.length) return archetypes;
+
+  const profiles = new Map(archetypes.map((item) => [item.archetype, item]));
+  return getObservedArchetypesForFilters(data, {
+    unitQuery: unitName,
+    colors,
+  }).map((observed) => ({
+    ...(profiles.get(observed.archetype) || {}),
+    ...observed,
+  }));
 }
 
 function nextFrame() {

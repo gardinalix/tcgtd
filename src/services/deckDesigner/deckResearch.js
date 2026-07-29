@@ -17,25 +17,38 @@ import {
 
 export const DECK_RESEARCH_VERSION = "deck-research-2026-07-28-legality";
 
-export function getObservedArchetypesForUnit(data = {}, unitQuery = "") {
-  const requestedUnit = normalizeSearchText(unitQuery);
-  if (!requestedUnit) return [];
-
+export function getObservedArchetypesForFilters(data = {}, filters = {}) {
+  const requestedUnit = normalizeSearchText(filters.unitQuery);
+  const requestedColors = normalizeColors(filters.colors);
+  if (!requestedUnit && !requestedColors.length) return [];
   const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
   const rowsByDeck = groupRowsByDeck(data.metaDeckCards || []);
-  const matchingDeckIds = new Set((data.metaDeckCards || [])
-    .filter((row) =>
-      row.deckId
-      && row.cardType === "UNIT"
-      && normalizeSearchText(row.cardName) === requestedUnit)
-    .map((row) => row.deckId));
+  const matchingDeckIds = requestedUnit
+    ? new Set((data.metaDeckCards || [])
+      .filter((row) =>
+        row.deckId
+        && row.cardType === "UNIT"
+        && normalizeSearchText(row.cardName) === requestedUnit)
+      .map((row) => row.deckId))
+    : null;
   const recentCutoffDate = String(data.recentCutoffDate || "");
   const grouped = new Map();
 
   for (const result of data.metaResults || []) {
-    if (!matchingDeckIds.has(result.deckId) || !rowsByDeck.has(result.deckId)) continue;
+    if (!rowsByDeck.has(result.deckId)) continue;
+    if (matchingDeckIds && !matchingDeckIds.has(result.deckId)) continue;
+    const deckRows = rowsByDeck.get(result.deckId);
+    const declaredColors = normalizeColors(result.colorCombination);
+    const resultColors = declaredColors.length
+      ? declaredColors
+      : [...new Set(deckRows
+        .map((row) => row.cardColor)
+        .filter((color) => color && color !== "Neutral"))].slice(0, 2);
+    if (requestedColors.length && !requestedColors.every((color) => resultColors.includes(color))) {
+      continue;
+    }
     const legality = evaluateMainDeckLegality(
-      quantitiesFromRows(rowsByDeck.get(result.deckId)),
+      quantitiesFromRows(deckRows),
       cardMap,
       data.rules,
     );
@@ -56,22 +69,32 @@ export function getObservedArchetypesForUnit(data = {}, unitQuery = "") {
     if (!recentCutoffDate || String(result.eventDate || "") >= recentCutoffDate) {
       entry.recentDeckIds.add(result.deckId);
     }
-    const colors = String(result.colorCombination || "").trim();
+    const colors = String(result.colorCombination || "").trim() || resultColors.join("/");
     if (colors) entry.colors.set(colors, (entry.colors.get(colors) || 0) + 1);
   }
 
   return [...grouped.values()]
     .map((entry) => ({
       archetype: entry.archetype,
-      unitDecklists: entry.deckIds.size,
-      unitRecentDecklists: entry.recentDeckIds.size,
+      matchingDecklists: entry.deckIds.size,
+      matchingRecentDecklists: entry.recentDeckIds.size,
       commonColorCombination: [...entry.colors.entries()]
         .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))[0]?.[0] || "",
     }))
     .sort((left, right) =>
-      right.unitRecentDecklists - left.unitRecentDecklists
-      || right.unitDecklists - left.unitDecklists
+      right.matchingRecentDecklists - left.matchingRecentDecklists
+      || right.matchingDecklists - left.matchingDecklists
       || left.archetype.localeCompare(right.archetype));
+}
+
+export function getObservedArchetypesForUnit(data = {}, unitQuery = "") {
+  if (!normalizeSearchText(unitQuery)) return [];
+  return getObservedArchetypesForFilters(data, { unitQuery }).map((entry) => ({
+    archetype: entry.archetype,
+    unitDecklists: entry.matchingDecklists,
+    unitRecentDecklists: entry.matchingRecentDecklists,
+    commonColorCombination: entry.commonColorCombination,
+  }));
 }
 
 export function collectDeckResearch(data = {}, criteria = {}) {

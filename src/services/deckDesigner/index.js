@@ -3,6 +3,7 @@ import { assembleRecommendedDeck, scoreRecommendationPool } from "./deckRecommen
 import {
   buildDeckVariantResearch,
   collectDeckResearch,
+  getObservedArchetypesForFilters,
   getObservedArchetypesForUnit,
   normalizeDeckEvidence,
 } from "./deckResearch.js";
@@ -19,6 +20,7 @@ export {
 export {
   buildDeckVariantResearch,
   collectDeckResearch,
+  getObservedArchetypesForFilters,
   getObservedArchetypesForUnit,
   normalizeDeckEvidence,
 } from "./deckResearch.js";
