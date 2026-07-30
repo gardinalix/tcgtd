@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CardArt } from "../cards/CardArt";
 import { buildDeckGraph, relatedNodeIds } from "../../services/deckDesigner/deckMapLayout.js";
+import { buildDrawPriorityPlan } from "../../services/deckDesigner/drawPriorityEngine.js";
 
 const MIN_ZOOM = 0.55;
 const MAX_ZOOM = 1.6;
@@ -17,6 +18,10 @@ export function DeckMap({ report, onApplySubstitution }) {
   const [viewport, setViewport] = useState({ zoom: 1, x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [draggingId, setDraggingId] = useState("");
+  const [tacticalContext, setTacticalContext] = useState({
+    turn: 3,
+    matchup: "Balanced / unknown",
+  });
   const positionedNodes = useMemo(() => graph.nodes.map((node) => ({
     ...node,
     ...(nodePositions[node.id] || {}),
@@ -32,6 +37,28 @@ export function DeckMap({ report, onApplySubstitution }) {
   const ignoreNodeClickRef = useRef("");
   const selectedNode = positionedNodes.find((node) => node.id === selectedId) || positionedNodes[0] || null;
   const selectedConnections = graph.edges.filter((edge) => edge.source === selectedNode?.id || edge.target === selectedNode?.id);
+  const matchupOptions = useMemo(() => [
+    "Balanced / unknown",
+    ...(report.matchups || []).map((item) => item.opponent).filter(Boolean),
+  ], [report.matchups]);
+  const drawPlan = useMemo(() => (
+    selectedId && selectedNode
+      ? buildDrawPriorityPlan(
+        selectedNode.row.card,
+        positionedNodes.map((node) => node.row),
+        tacticalContext,
+        positionedGraph,
+      )
+      : null
+  ), [positionedGraph, positionedNodes, selectedId, selectedNode, tacticalContext]);
+  const drawPriorityIds = useMemo(
+    () => new Set((drawPlan?.recommendations || []).map((item) => item.card.cardNumber)),
+    [drawPlan],
+  );
+  const focusedRelatedIds = useMemo(
+    () => new Set([...relatedIds, ...drawPriorityIds]),
+    [drawPriorityIds, relatedIds],
+  );
 
   useEffect(() => {
     if (selectedId && !graph.nodes.some((node) => node.id === selectedId)) {
@@ -112,14 +139,18 @@ export function DeckMap({ report, onApplySubstitution }) {
   function startNodeDrag(event, nodeId) {
     if (event.button !== 0) return;
     event.stopPropagation();
+    const canvas = event.currentTarget.closest(".deck-map__canvas");
+    const rect = canvas?.getBoundingClientRect();
+    if (!canvas || !rect?.width || !rect?.height) return;
     nodeDragSessionRef.current = {
       pointerId: event.pointerId,
       nodeId,
       clientX: event.clientX,
       clientY: event.clientY,
+      canvas,
+      rect,
       moved: false,
     };
-    event.currentTarget.setPointerCapture?.(event.pointerId);
     setDraggingId(nodeId);
   }
 
@@ -128,9 +159,11 @@ export function DeckMap({ report, onApplySubstitution }) {
     if (!session || session.pointerId !== event.pointerId) return;
     const distance = Math.hypot(event.clientX - session.clientX, event.clientY - session.clientY);
     if (!session.moved && distance < 3) return;
-    session.moved = true;
-    const canvas = event.currentTarget.closest(".deck-map__canvas");
-    const rect = canvas?.getBoundingClientRect();
+    if (!session.moved) {
+      session.moved = true;
+      session.canvas.setPointerCapture?.(event.pointerId);
+    }
+    const rect = session.rect;
     if (!rect?.width || !rect?.height) return;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
@@ -150,11 +183,33 @@ export function DeckMap({ report, onApplySubstitution }) {
   function endNodeDrag(event) {
     const session = nodeDragSessionRef.current;
     if (!session || session.pointerId !== event.pointerId) return;
-    event.stopPropagation();
     nodeDragSessionRef.current = null;
-    event.currentTarget.releasePointerCapture?.(event.pointerId);
-    if (session.moved) ignoreNodeClickRef.current = session.nodeId;
+    if (session.canvas.hasPointerCapture?.(event.pointerId)) {
+      session.canvas.releasePointerCapture(event.pointerId);
+    }
+    if (session.moved) {
+      ignoreNodeClickRef.current = session.nodeId;
+      globalThis.setTimeout(() => {
+        if (ignoreNodeClickRef.current === session.nodeId) ignoreNodeClickRef.current = "";
+      }, 0);
+    }
     setDraggingId("");
+  }
+
+  function moveCanvasPointer(event) {
+    if (nodeDragSessionRef.current) {
+      moveNode(event);
+      return;
+    }
+    movePan(event);
+  }
+
+  function endCanvasPointer(event) {
+    if (nodeDragSessionRef.current) {
+      endNodeDrag(event);
+      return;
+    }
+    endPan(event);
   }
 
   function handleNodeClick(nodeId) {
@@ -247,9 +302,9 @@ export function DeckMap({ report, onApplySubstitution }) {
           aria-label="Interactive map of recommended deck cards and their relationships. Drag a card to rearrange it, or drag the empty field to pan."
           onMouseLeave={() => setHoveredId("")}
           onPointerDown={startPan}
-          onPointerMove={movePan}
-          onPointerUp={endPan}
-          onPointerCancel={endPan}
+          onPointerMove={moveCanvasPointer}
+          onPointerUp={endCanvasPointer}
+          onPointerCancel={endCanvasPointer}
           onDoubleClick={resetMap}
         >
           <div className="deck-map__scanline" aria-hidden="true" />
@@ -271,6 +326,21 @@ export function DeckMap({ report, onApplySubstitution }) {
                   <line
                     key={edge.id}
                     className={`deck-map__link deck-map__link--${edge.kind} deck-map__link--strength-${edge.strength || "structural"} ${isActive ? "is-active" : "is-dimmed"}`.trim()}
+                    x1={source.x}
+                    y1={source.y}
+                    x2={target.x}
+                    y2={target.y}
+                  />
+                );
+              })}
+              {(drawPlan?.recommendations || []).map((recommendation) => {
+                const source = positionedNodes.find((node) => node.id === drawPlan.sourceCardNumber);
+                const target = positionedNodes.find((node) => node.id === recommendation.card.cardNumber);
+                if (!source || !target) return null;
+                return (
+                  <line
+                    key={`draw-route-${drawPlan.sourceCardNumber}-${recommendation.card.cardNumber}`}
+                    className={`deck-map__draw-route deck-map__draw-route--rank-${recommendation.rank}`}
                     x1={source.x}
                     y1={source.y}
                     x2={target.x}
@@ -307,20 +377,20 @@ export function DeckMap({ report, onApplySubstitution }) {
             {positionedNodes.map((node) => {
               const isActive = node.id === activeId;
               const isSelected = node.id === selectedNode?.id;
-              const isRelated = !activeId || relatedIds.has(node.id);
+              const drawPriority = (drawPlan?.recommendations || [])
+                .find((item) => item.card.cardNumber === node.id);
+              const isRelated = !activeId || focusedRelatedIds.has(node.id);
               return (
                 <button
                   key={node.id}
                   type="button"
-                  className={`deck-map-node deck-map-node--${node.row.category} ${isActive ? "is-active" : ""} ${isSelected ? "is-selected" : ""} ${isRelated ? "is-related" : "is-dimmed"} ${draggingId === node.id ? "is-dragging" : ""}`.trim()}
+                  className={`deck-map-node deck-map-node--${node.row.category} ${isActive ? "is-active" : ""} ${isSelected ? "is-selected" : ""} ${isRelated ? "is-related" : "is-dimmed"} ${draggingId === node.id ? "is-dragging" : ""} ${drawPriority ? "is-draw-priority" : ""}`.trim()}
                   style={{ "--node-x": `${node.x}%`, "--node-y": `${node.y}%` }}
                   onMouseEnter={() => setHoveredId(node.id)}
                   onFocus={() => setHoveredId(node.id)}
                   onBlur={() => setHoveredId("")}
                   onPointerDown={(event) => startNodeDrag(event, node.id)}
-                  onPointerMove={moveNode}
-                  onPointerUp={endNodeDrag}
-                  onPointerCancel={endNodeDrag}
+                  onDragStart={(event) => event.preventDefault()}
                   onKeyDown={(event) => moveNodeWithKeyboard(event, node)}
                   onClick={() => handleNodeClick(node.id)}
                   aria-pressed={isSelected}
@@ -329,6 +399,11 @@ export function DeckMap({ report, onApplySubstitution }) {
                   <span className="deck-map-node__orbit" aria-hidden="true" />
                   <CardArt card={node.row.card} className="deck-map-node__art" compact />
                   <span className="deck-map-node__qty">{node.row.quantity}x</span>
+                  {drawPriority ? (
+                    <span className="deck-map-node__draw-rank">
+                      {drawPlan.mode === "search" ? "TARGET" : "HIT"} #{drawPriority.rank}
+                    </span>
+                  ) : null}
                   <span className="deck-map-node__label">
                     <strong>{node.row.card.cardName}</strong>
                     <small>{node.row.card.cardNumber} · C{node.row.card.cost || "-"}</small>
@@ -355,6 +430,7 @@ export function DeckMap({ report, onApplySubstitution }) {
             <span><i className="is-observed" /> solid = observed</span>
             <span><i className="is-inferred" /> dashed = inferred</span>
             <span><i className="is-structural" /> STRUCTURE · layout only</span>
+            {drawPlan ? <span><i className="is-draw-route" /> DRAW ROUTE · contextual priority</span> : null}
           </div>
         </div>
 
@@ -372,6 +448,10 @@ export function DeckMap({ report, onApplySubstitution }) {
             node={selectedNode}
             connections={selectedConnections}
             graph={positionedGraph}
+            drawPlan={drawPlan}
+            tacticalContext={tacticalContext}
+            matchupOptions={matchupOptions}
+            onTacticalContextChange={setTacticalContext}
             substitutions={report.substitutions?.[selectedNode.id] || []}
             onSelect={(nodeId) => selectNode(nodeId, "inspector")}
             onApply={(targetCardNumber) => onApplySubstitution(selectedNode.id, targetCardNumber)}
@@ -454,7 +534,19 @@ function DeckMapRoster({
   );
 }
 
-function DeckMapInspector({ node, connections, graph, substitutions, onSelect, onApply, onClose }) {
+function DeckMapInspector({
+  node,
+  connections,
+  graph,
+  drawPlan,
+  tacticalContext,
+  matchupOptions,
+  onTacticalContextChange,
+  substitutions,
+  onSelect,
+  onApply,
+  onClose,
+}) {
   const { row } = node;
   const [cardPreviewOpen, setCardPreviewOpen] = useState(false);
 
@@ -526,6 +618,67 @@ function DeckMapInspector({ node, connections, graph, substitutions, onSelect, o
           })}
         </div>
       </section>
+      {drawPlan ? (
+        <section className="deck-map-draw-plan">
+          <span className="deck-map-inspector__label">DRAW INTELLIGENCE</span>
+          <div className="deck-map-draw-plan__context">
+            <label>
+              <span>TURN</span>
+              <select
+                value={tacticalContext.turn}
+                onChange={(event) => onTacticalContextChange((current) => ({
+                  ...current,
+                  turn: Number(event.target.value),
+                }))}
+              >
+                <option value={1}>T1</option>
+                <option value={2}>T2</option>
+                <option value={3}>T3</option>
+                <option value={4}>T4</option>
+                <option value={5}>T5+</option>
+              </select>
+            </label>
+            <label>
+              <span>MATCHUP</span>
+              <select
+                value={tacticalContext.matchup}
+                onChange={(event) => onTacticalContextChange((current) => ({
+                  ...current,
+                  matchup: event.target.value,
+                }))}
+              >
+                {matchupOptions.map((matchup) => (
+                  <option key={matchup} value={matchup}>{matchup}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <header>
+            <strong>{drawPlan.title}</strong>
+            <small>TURN {drawPlan.turn} · {drawPlan.matchup}</small>
+          </header>
+          <p>{drawPlan.disclaimer}</p>
+          <div className="deck-map-draw-plan__targets">
+            {drawPlan.recommendations.map((recommendation) => (
+              <button
+                type="button"
+                key={recommendation.card.cardNumber}
+                onClick={() => onSelect(recommendation.card.cardNumber)}
+              >
+                <b>#{recommendation.rank}</b>
+                <span>
+                  <strong>{recommendation.card.cardName}</strong>
+                  <small>{recommendation.card.cardNumber} · C{recommendation.card.cost || "-"}</small>
+                  <small className="deck-map-draw-plan__reason">
+                    {recommendation.reasons.map((reason) => <span key={reason}>{reason}</span>)}
+                  </small>
+                </span>
+                <em>{["NOW", "NEXT", "PLAN"][recommendation.rank - 1]}</em>
+              </button>
+            ))}
+          </div>
+        </section>
+      ) : null}
       {substitutions.length ? (
         <section>
           <span className="deck-map-inspector__label">SUBSTITUTIONS</span>
