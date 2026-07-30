@@ -20,7 +20,11 @@ export const DECK_ANALYSIS_VERSION = "deck-analysis-2026-07-28-legality";
 export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {}) {
   const stats = calculateDeckStats(assembled.rows || []);
   const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
-  const legality = evaluateMainDeckLegality(assembled.main || {}, cardMap, data.rules);
+  const legality = validateImportedDeck(
+    evaluateMainDeckLegality(assembled.main || {}, cardMap, data.rules),
+    assembled.importedDeck,
+    data.rules,
+  );
   const synergyAnalysis = buildSynergyAnalysis(data, assembled.rows || []);
   const substitutions = buildSubstitutions(data, assembled.rows || [], criteria);
   const confidenceValue = overallConfidence(assembled, stats);
@@ -47,7 +51,7 @@ export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {})
   return {
     ...assembled,
     analysisVersion: DECK_ANALYSIS_VERSION,
-    title: buildTitle(criteria),
+    title: buildTitle(criteria, assembled),
     strategy,
     confidence: confidenceLabel(confidenceValue),
     confidenceValue: round(confidenceValue, 2),
@@ -290,6 +294,17 @@ function compareCards(source, target) {
 
 function buildObservedFacts(report, stats) {
   const sample = report.facts?.matchedDecklists || 0;
+  if (report.importedDeck) {
+    const coverage = report.importedDeck.originalMainCount
+      ? Math.round((report.importedDeck.recognizedMainCount / report.importedDeck.originalMainCount) * 100)
+      : 0;
+    return [
+      `The pasted MSA list contains ${report.importedDeck.originalMainCount} main-deck cards across ${report.importedDeck.uniqueMainCards} unique card numbers.`,
+      `Catalog recognition covered ${report.importedDeck.recognizedMainCount} main-deck cards (${coverage}%) and ${report.importedDeck.recognizedResourceCount} resource cards.`,
+      `The analyzed main deck has an average cost of ${stats.averageCost}; every recognized imported quantity was preserved.`,
+      `${sample} normalized competitive decklist(s) were available as contextual evidence for the inferred colors and strategy.`,
+    ];
+  }
   const facts = [
     `${sample} normalized competitive decklist(s) entered the final evidence sample.`,
     `${report.facts?.wins || 0} first-place finish(es) and ${report.facts?.topEight || 0} Top 8 result(s) are present in that sample.`,
@@ -373,6 +388,9 @@ function buildStrategy(criteria, report, stats) {
   const archetype = criteria.archetype || "selected archetype";
   const focus = criteria.focus === "casual" ? "casual flexibility" : "competitive consistency";
   const exact = report.exactDeckCount || 0;
+  if (report.importedDeck) {
+    return `${report.importedDeck.name} was imported from MSA and preserved card for card. The analysis infers ${archetype} from the catalog, then evaluates curve, roles, synergies and risks without rebuilding the list. Average cost: ${stats.averageCost}.`;
+  }
   if (report.sourceDeck) {
     return report.sourceDeck.modified
       ? `${archetype} derived from ${report.sourceDeck.playerName}'s ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`} list at ${report.sourceDeck.eventName}, with ${report.substitutionHistory?.length || 0} applied substitution(s). Statistics and synergies reflect the modified variant. Average cost: ${stats.averageCost}.`
@@ -382,6 +400,9 @@ function buildStrategy(criteria, report, stats) {
 }
 
 function buildEvidenceSummary(report) {
+  if (report.importedDeck) {
+    return `Primary evidence: the pilot's pasted MSA list (${report.importedDeck.originalMainCount} main-deck cards). Catalog and competitive records add context; they do not change imported quantities.`;
+  }
   if (report.sourceDeck) {
     return report.sourceDeck.modified
       ? `Source deck: ${report.sourceDeck.playerName}, ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`}, ${report.sourceDeck.eventName} (${report.sourceDeck.eventDate || "date unavailable"}). This local variant has substitutions and no longer exactly matches the registered list.`
@@ -394,6 +415,12 @@ function buildEvidenceSummary(report) {
 }
 
 function overallConfidence(report, stats) {
+  if (report.importedDeck) {
+    const originalCount = Math.max(1, Number(report.importedDeck.originalMainCount || 0));
+    const coverage = Number(report.importedDeck.recognizedMainCount || 0) / originalCount;
+    const sample = Number(report.facts?.matchedDecklists || 0);
+    return clamp((coverage * 0.72) + (Math.min(1, sample / 12) * 0.18) + (stats.mainCount === originalCount ? 0.1 : 0));
+  }
   if (report.sourceDeck) {
     const placingSignal = Number(report.sourceDeck.placingRank) === 1 ? 0.12 : 0.06;
     const fieldSignal = report.sourceDeck.playerCount >= 128
@@ -415,8 +442,57 @@ function overallConfidence(report, stats) {
   );
 }
 
-function buildTitle(criteria) {
+function buildTitle(criteria, report = {}) {
+  if (report.importedDeck?.name) return report.importedDeck.name;
   return [criteria.archetype, criteria.unitQuery].filter(Boolean).join(" · ") || "AI-assisted deck";
+}
+
+function validateImportedDeck(legality, importedDeck, rules = {}) {
+  if (!importedDeck) return legality;
+  const issues = [...(legality.issues || [])];
+  const violations = [...(legality.violations || [])];
+  const expectedMain = Number(rules.mainDeckSize || 50);
+  const expectedResource = Number(rules.resourceDeckSize || 10);
+
+  if (importedDeck.originalMainCount !== expectedMain) {
+    const message = `The imported main deck has ${importedDeck.originalMainCount} cards; the current format requires ${expectedMain}.`;
+    issues.push(message);
+    violations.push({
+      type: "main_deck_size",
+      expected: expectedMain,
+      actual: importedDeck.originalMainCount,
+      message,
+    });
+  }
+  if (expectedResource && importedDeck.originalResourceCount !== expectedResource) {
+    const message = `The imported resource deck has ${importedDeck.originalResourceCount} cards; the current format requires ${expectedResource}.`;
+    issues.push(message);
+    violations.push({
+      type: "resource_deck_size",
+      expected: expectedResource,
+      actual: importedDeck.originalResourceCount,
+      message,
+    });
+  }
+  const unknownCards = [
+    ...(importedDeck.unknownMainCards || []),
+    ...(importedDeck.unknownResourceCards || []),
+  ];
+  if (unknownCards.length) {
+    const message = `Catalog validation could not identify: ${unknownCards.join(", ")}.`;
+    issues.push(message);
+    violations.push({
+      type: "unknown_cards",
+      cardNumbers: unknownCards,
+      message,
+    });
+  }
+  return {
+    ...legality,
+    legal: legality.legal && !violations.length,
+    issues,
+    violations,
+  };
 }
 
 function buildGains(target, priceDelta, costDelta, gainedTags, gainedTraits) {

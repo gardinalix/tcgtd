@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  analyzeImportedDeck,
   applyRecommendedSubstitution,
   collectDeckResearch,
   designDeck,
@@ -10,6 +11,7 @@ import {
   normalizeDeckEvidence,
 } from "../src/services/deckDesigner/index.js";
 import { buildExBurstDeckText } from "../src/domain/deckExport.js";
+import { parseMsaDeckList } from "../src/domain/deckLibrary.js";
 import { evaluateMainDeckLegality } from "../src/domain/deckLegality.js";
 
 test("current official legality rules reject Anksha, excess Corsica Base, and banned pairs", () => {
@@ -196,6 +198,64 @@ test("ExBurst text export uses compact quantity and card-number rows", () => {
   assert.ok(lines.every((line) => /^\d+x[A-Z0-9-]+$/.test(line)));
   assert.ok(lines.includes(`${report.main["GD01-086"]}xGD01-086`));
   assert.equal(lines.reduce((sum, line) => sum + Number(line.split("x")[0]), 0), 50);
+});
+
+test("MSA paste import preserves the full list and analyzes curve, strengths and weaknesses", () => {
+  const data = fixtureData();
+  const sourceMain = Object.fromEntries(data.metaDeckCards
+    .filter((row) => row.deckId === "deck-1")
+    .map((row) => [row.cardNumber, Number(row.quantity)]));
+  const msaText = [
+    "Potter Test Deck",
+    "",
+    "Main Deck (50)",
+    ...Object.entries(sourceMain).map(([cardNumber, quantity]) => {
+      const cardItem = data.cards.find((item) => item.cardNumber === cardNumber);
+      return `${quantity} ${cardItem.cardName} [${cardNumber}]`;
+    }),
+    "",
+    "Resource Deck (10)",
+    "10 Resource [R-001]",
+  ].join("\n");
+
+  const parsed = parseMsaDeckList(msaText);
+  const report = analyzeImportedDeck(data, parsed);
+
+  assert.equal(parsed.title, "Potter Test Deck");
+  assert.equal(parsed.mainCount, 50);
+  assert.equal(parsed.resourceCount, 10);
+  assert.deepEqual(report.main, sourceMain);
+  assert.equal(report.resource["R-001"], 10);
+  assert.equal(report.assemblyMode, "msa_import");
+  assert.equal(report.importedDeck.name, "Potter Test Deck");
+  assert.equal(report.stats.mainCount, 50);
+  assert.ok(report.stats.averageCost > 0);
+  assert.ok(report.strengths.length);
+  assert.ok(report.weaknesses.length);
+  assert.equal(report.legality.legal, true);
+});
+
+test("MSA parser accepts compact lines, preserves unknown entries and reports catalog misses", () => {
+  const data = fixtureData();
+  const parsed = parseMsaDeckList([
+    "Compact list",
+    "4xGD01-086",
+    "2 TEST-001",
+    "1 Unknown [ZZ99-999]",
+    "Resource Deck (10)",
+    "10xR-001",
+  ].join("\n"));
+  const report = analyzeImportedDeck(data, parsed);
+
+  assert.equal(parsed.main["GD01-086"], 4);
+  assert.equal(parsed.main["TEST-001"], 2);
+  assert.equal(parsed.main["ZZ99-999"], 1);
+  assert.equal(report.main["GD01-086"], 4);
+  assert.equal(report.main["ZZ99-999"], 1);
+  assert.match(buildExBurstDeckText(report), /1xZZ99-999/);
+  assert.deepEqual(report.importedDeck.unknownMainCards, ["ZZ99-999"]);
+  assert.equal(report.legality.legal, false);
+  assert.ok(report.legality.violations.some((item) => item.type === "unknown_cards"));
 });
 
 test("designer lowers confidence and labels limitations without competitive evidence", () => {

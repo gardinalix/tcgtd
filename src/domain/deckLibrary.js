@@ -1,4 +1,4 @@
-import { normalizeDeck, sectionCount } from "./deck";
+import { normalizeDeck, sectionCount } from "./deck.js";
 
 export function createSavedDeck(ownerId, patch = {}) {
   const now = new Date().toISOString();
@@ -82,30 +82,72 @@ export function deckStats(deck, libraryMap = new Map()) {
 }
 
 export function parseDeckList(text = "") {
+  const parsed = parseMsaDeckList(text);
+  return { main: parsed.main, resource: parsed.resource };
+}
+
+export function parseMsaDeckList(text = "") {
   const main = {};
   const resource = {};
   const lines = String(text).split(/\r?\n/);
+  const entries = [];
+  const ignoredLines = [];
   let section = "main";
-  for (const line of lines) {
+  let title = "";
+  let hasSeenSection = false;
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
     const trimmed = line.trim();
     if (!trimmed) continue;
-    if (/resource/i.test(trimmed) && !/\d/.test(trimmed)) {
+    if (isDeckSectionHeading(trimmed, "resource")) {
       section = "resource";
+      hasSeenSection = true;
       continue;
     }
-    if (/main/i.test(trimmed) && !/\d/.test(trimmed)) {
+    if (isDeckSectionHeading(trimmed, "main")) {
       section = "main";
+      hasSeenSection = true;
       continue;
     }
-    const match = trimmed.match(/^(\d+)\s*(?:x|×)?\s*(.+)$/i);
-    if (!match) continue;
+    const match = matchDeckListEntry(trimmed);
+    if (!match) {
+      if (!title && !hasSeenSection && !normalizeImportedCardNumber(trimmed)) {
+        title = trimmed;
+      } else {
+        ignoredLines.push({ lineNumber: index + 1, text: trimmed });
+      }
+      continue;
+    }
     const quantity = Number(match[1] || 0);
     const cardNumber = normalizeImportedCardNumber(match[2]);
-    if (!cardNumber) continue;
-    const target = section === "resource" ? resource : main;
+    if (!quantity || !cardNumber) {
+      ignoredLines.push({ lineNumber: index + 1, text: trimmed });
+      continue;
+    }
+    const resolvedSection = section === "resource" || /^R-\d{3}$/i.test(cardNumber)
+      ? "resource"
+      : "main";
+    const target = resolvedSection === "resource" ? resource : main;
     target[cardNumber] = (target[cardNumber] || 0) + quantity;
+    entries.push({
+      lineNumber: index + 1,
+      text: trimmed,
+      section: resolvedSection,
+      quantity,
+      cardNumber,
+    });
   }
-  return { main, resource };
+  return {
+    title: title || "My MSA deck",
+    main,
+    resource,
+    entries,
+    ignoredLines,
+    mainCount: sumQuantities(main),
+    resourceCount: sumQuantities(resource),
+    uniqueMainCards: Object.keys(main).length,
+    uniqueResourceCards: Object.keys(resource).length,
+  };
 }
 
 export function normalizeImportedCardNumber(value = "") {
@@ -191,4 +233,25 @@ function countBy(rows, selector) {
     acc[key] = (acc[key] || 0) + row.quantity;
     return acc;
   }, {});
+}
+
+function isDeckSectionHeading(value, section) {
+  const normalized = String(value || "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+  return section === "resource"
+    ? /^(?:resource deck|resources?|deck de recursos?)(?:\s*\(\d+\))?\s*:?\s*$/.test(normalized)
+    : /^(?:main deck|main|deck principal)(?:\s*\(\d+\))?\s*:?\s*$/.test(normalized);
+}
+
+function matchDeckListEntry(value) {
+  const quantityFirst = String(value || "").match(/^(\d+)\s*(?:x|×)?\s*(.+)$/i);
+  if (quantityFirst) return quantityFirst;
+  const quantityLast = String(value || "").match(/^(.+?)\s*(?:x|×)\s*(\d+)$/i);
+  return quantityLast ? [quantityLast[0], quantityLast[2], quantityLast[1]] : null;
+}
+
+function sumQuantities(section = {}) {
+  return Object.values(section).reduce((sum, quantity) => sum + Number(quantity || 0), 0);
 }

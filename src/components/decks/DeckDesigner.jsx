@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { DeckMap } from "./DeckMap";
 import { buildExBurstDeckText, downloadDeckText } from "../../domain/deckExport.js";
+import { parseMsaDeckList } from "../../domain/deckLibrary.js";
 import {
   TacticalDataPanel,
   TacticalEmptyState,
@@ -9,6 +10,7 @@ import {
 } from "../tactical/TacticalPageShell";
 import {
   analyzeRecommendedDeck,
+  analyzeImportedDeck,
   applyRecommendedSubstitution,
   assembleRecommendedDeck,
   buildDeckVariantResearch,
@@ -28,6 +30,14 @@ const ANALYSIS_STAGES = [
   "Explaining synergies and substitutions",
 ];
 
+const MSA_ANALYSIS_STAGES = [
+  "Reading the MSA decklist",
+  "Matching card numbers to the catalog",
+  "Checking deck size and legality",
+  "Calculating curve and tactical roles",
+  "Mapping strengths, weaknesses and synergies",
+];
+
 export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   const defaultArchetype = data.defaults?.template_archetype || data.archetypes?.[0]?.archetype || "";
   const defaultProfile = data.archetypes?.find((item) => item.archetype === defaultArchetype);
@@ -41,6 +51,9 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
     budgetBrl: "",
     focus: "competitive",
   }));
+  const [inputMode, setInputMode] = useState("design");
+  const [analysisPipeline, setAnalysisPipeline] = useState("design");
+  const [msaText, setMsaText] = useState("");
   const [status, setStatus] = useState("idle");
   const [activeStage, setActiveStage] = useState(-1);
   const [errorMessage, setErrorMessage] = useState("");
@@ -80,6 +93,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   );
   const hasActiveArchetypeFilters = Boolean(selectedUnitName || criteria.colors.length);
   const report = variantReports[activeVariantIndex] || null;
+  const parsedMsaDeck = useMemo(() => parseMsaDeckList(msaText), [msaText]);
 
   useEffect(() => {
     if (!hudBooting) return undefined;
@@ -103,6 +117,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       return;
     }
     setStatus("loading");
+    setAnalysisPipeline("design");
     setErrorMessage("");
     setSaveMessage("");
     setSavedDeckId("");
@@ -141,6 +156,40 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
         analyzeRecommendedDeck(data, assembled, assembled.criteria));
       setVariantReports(nextReports);
       setOriginalVariantReports(nextReports);
+      setActiveVariantIndex(0);
+      setBriefOpen(false);
+      setStatus("success");
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(error.message || "The Deck Designer could not complete this analysis.");
+    } finally {
+      setActiveStage(-1);
+    }
+  }
+
+  async function runMsaAnalysis(event) {
+    event?.preventDefault();
+    if (!parsedMsaDeck.mainCount) {
+      setStatus("error");
+      setErrorMessage("Paste an MSA decklist with at least one recognizable main-deck entry.");
+      return;
+    }
+    setStatus("loading");
+    setAnalysisPipeline("msa");
+    setErrorMessage("");
+    setSaveMessage("");
+    setSavedDeckId("");
+    try {
+      for (let stage = 0; stage < MSA_ANALYSIS_STAGES.length; stage += 1) {
+        setActiveStage(stage);
+        await nextFrame();
+      }
+      const nextReport = analyzeImportedDeck(data, parsedMsaDeck);
+      if (!nextReport.rows?.length) {
+        throw new Error("None of the pasted MSA card numbers matched the current catalog.");
+      }
+      setVariantReports([nextReport]);
+      setOriginalVariantReports([nextReport]);
       setActiveVariantIndex(0);
       setBriefOpen(false);
       setStatus("success");
@@ -243,8 +292,33 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           <span>DECK LINK ONLINE</span>
         </div>
       </section>
+      <section className="deck-designer-input-mode" aria-label="Choose how to start" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={inputMode === "design"}
+          className={inputMode === "design" ? "is-active" : ""}
+          onClick={() => setInputMode("design")}
+        >
+          <small>BUILD WITH BRUXÃO</small>
+          <strong>Design a deck</strong>
+          <span>Start from colors, a unit or a strategy.</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={inputMode === "msa"}
+          className={inputMode === "msa" ? "is-active" : ""}
+          onClick={() => setInputMode("msa")}
+        >
+          <small>ANALYZE WHAT I PLAY</small>
+          <strong>Paste an MSA list</strong>
+          <span>Keep every card and reveal curve, strengths and risks.</span>
+        </button>
+      </section>
       <details
         className="deck-designer__brief-frame"
+        hidden={inputMode !== "design"}
         open={briefOpen}
         onToggle={(event) => setBriefOpen(event.currentTarget.open)}
       >
@@ -470,31 +544,55 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           </button>
         </div>
         </form>
-        {status === "success" && report ? (
-          <aside className="deck-designer__sidebar-actions" aria-label="Deck operations">
-            <span className="eyebrow">DECK OPERATIONS</span>
-            <button type="button" onClick={saveRecommendation}>Save deck</button>
-            {savedDeckId ? <button type="button" onClick={() => onEditDeck?.(savedDeckId)}>Edit in builder</button> : null}
-            <div>
-              <button type="button" onClick={() => setExportLayerOpen(true)}>Export TXT</button>
-              <button type="button" onClick={() => downloadJsonReport(report)}>Export JSON</button>
-            </div>
-            {report.substitutionHistory?.length ? (
-              <button type="button" onClick={resetSubstitutions}>Reset swaps</button>
-            ) : null}
-          </aside>
+        {status === "success" && report && !report.importedDeck ? (
+          <DeckOperations
+            report={report}
+            savedDeckId={savedDeckId}
+            onSave={saveRecommendation}
+            onEdit={() => onEditDeck?.(savedDeckId)}
+            onExportText={() => setExportLayerOpen(true)}
+            onExportJson={() => downloadJsonReport(report)}
+            onReset={resetSubstitutions}
+          />
         ) : null}
       </details>
 
-      {status === "loading" ? <AnalysisProgress activeStage={activeStage} /> : null}
+      {inputMode === "msa" ? (
+        <MsaImportPanel
+          data={data}
+          parsedDeck={parsedMsaDeck}
+          text={msaText}
+          onTextChange={setMsaText}
+          onAnalyze={runMsaAnalysis}
+          busy={status === "loading"}
+          operations={status === "success" && report?.importedDeck ? (
+            <DeckOperations
+              report={report}
+              savedDeckId={savedDeckId}
+              onSave={saveRecommendation}
+              onEdit={() => onEditDeck?.(savedDeckId)}
+              onExportText={() => setExportLayerOpen(true)}
+              onExportJson={() => downloadJsonReport(report)}
+              onReset={resetSubstitutions}
+            />
+          ) : null}
+        />
+      ) : null}
+
+      {status === "loading" ? (
+        <AnalysisProgress
+          activeStage={activeStage}
+          stages={analysisPipeline === "msa" ? MSA_ANALYSIS_STAGES : ANALYSIS_STAGES}
+        />
+      ) : null}
       {status === "error" ? (
         <div className="deck-designer__error" role="alert">
           <strong>Analysis interrupted</strong>
           <span>{errorMessage}</span>
-          <button type="button" onClick={runAnalysis}>Try again</button>
+          <button type="button" onClick={inputMode === "msa" ? runMsaAnalysis : runAnalysis}>Try again</button>
         </div>
       ) : null}
-      {status === "idle" ? <DesignerEmptyState data={data} /> : null}
+      {status === "idle" && inputMode === "design" ? <DesignerEmptyState data={data} /> : null}
       {status === "success" && report ? (
         <DesignerResult
           report={report}
@@ -509,6 +607,109 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
         <ExBurstExportLayer report={report} onClose={() => setExportLayerOpen(false)} />
       ) : null}
     </div>
+  );
+}
+
+function MsaImportPanel({
+  data,
+  parsedDeck,
+  text,
+  onTextChange,
+  onAnalyze,
+  busy,
+  operations,
+}) {
+  const catalogIds = useMemo(() => new Set((data.cards || []).map((card) => card.cardNumber)), [data.cards]);
+  const resourceIds = useMemo(() => new Set((data.resourceCards || []).map((card) => card.cardNumber)), [data.resourceCards]);
+  const unknownIds = [
+    ...Object.keys(parsedDeck.main || {}).filter((cardNumber) => !catalogIds.has(cardNumber)),
+    ...Object.keys(parsedDeck.resource || {}).filter((cardNumber) => !resourceIds.has(cardNumber)),
+  ];
+  const recognizedMain = Object.entries(parsedDeck.main || {})
+    .filter(([cardNumber]) => catalogIds.has(cardNumber))
+    .reduce((sum, [, quantity]) => sum + Number(quantity || 0), 0);
+  const expectedMain = Number(data.rules?.mainDeckSize || 50);
+  const sizeTone = parsedDeck.mainCount === expectedMain ? "is-good" : parsedDeck.mainCount ? "is-warning" : "";
+
+  return (
+    <section className="msa-import-console" aria-labelledby="msa-import-title">
+      <header>
+        <div>
+          <span className="eyebrow">01 / MSA DECK LINK</span>
+          <h2 id="msa-import-title">Paste your deck. Keep your decisions.</h2>
+          <p>The Designer reads the MSA export, validates every card number, then analyzes the list exactly as pasted.</p>
+        </div>
+        <span className="msa-import-console__status"><i /> LOCAL ANALYSIS</span>
+      </header>
+
+      <form onSubmit={onAnalyze}>
+        <label className="msa-import-console__payload">
+          <span>MSA DECKLIST</span>
+          <textarea
+            value={text}
+            onChange={(event) => onTextChange(event.target.value)}
+            placeholder={"My Deck\n\nMain Deck (50)\n4 Gundam Example [GD01-001]\n\nResource Deck (10)\n10 Resource [R-001]"}
+            spellCheck="false"
+            autoFocus
+          />
+          <small>Accepts the full MSA export and compact lines such as 4xGD01-001.</small>
+        </label>
+
+        <aside className="msa-import-console__readout" aria-live="polite">
+          <span className="eyebrow">LIVE PARSE</span>
+          <strong>{text.trim() ? parsedDeck.title : "Awaiting pasted list"}</strong>
+          <div>
+            <span className={sizeTone}>
+              <small>MAIN DECK</small>
+              <b>{parsedDeck.mainCount} / {expectedMain}</b>
+            </span>
+            <span>
+              <small>RECOGNIZED</small>
+              <b>{recognizedMain}</b>
+            </span>
+            <span>
+              <small>UNIQUE CARDS</small>
+              <b>{parsedDeck.uniqueMainCards}</b>
+            </span>
+            <span className={unknownIds.length ? "is-warning" : parsedDeck.mainCount ? "is-good" : ""}>
+              <small>NOT FOUND</small>
+              <b>{unknownIds.length}</b>
+            </span>
+          </div>
+          {unknownIds.length ? <p>Check these card numbers: <strong>{unknownIds.join(", ")}</strong></p> : null}
+          {parsedDeck.ignoredLines.length ? <p>{parsedDeck.ignoredLines.length} line(s) could not be read.</p> : null}
+          <button type="submit" disabled={busy || !parsedDeck.mainCount}>
+            {busy ? "Analyzing pasted deck..." : "Analyze my MSA deck"}
+          </button>
+        </aside>
+      </form>
+      {operations}
+    </section>
+  );
+}
+
+function DeckOperations({
+  report,
+  savedDeckId,
+  onSave,
+  onEdit,
+  onExportText,
+  onExportJson,
+  onReset,
+}) {
+  return (
+    <aside className="deck-designer__sidebar-actions" aria-label="Deck operations">
+      <span className="eyebrow">DECK OPERATIONS</span>
+      <button type="button" onClick={onSave}>Save deck</button>
+      {savedDeckId ? <button type="button" onClick={onEdit}>Edit in builder</button> : null}
+      <div>
+        <button type="button" onClick={onExportText}>Export TXT</button>
+        <button type="button" onClick={onExportJson}>Export JSON</button>
+      </div>
+      {report.substitutionHistory?.length ? (
+        <button type="button" onClick={onReset}>Reset swaps</button>
+      ) : null}
+    </aside>
   );
 }
 
@@ -544,13 +745,13 @@ function DesignerResult({
     <section className="deck-designer-result" aria-live="polite">
       <header className="deck-designer-result__header">
         <div>
-          <span className="eyebrow">05 / Recommendation online</span>
+          <span className="eyebrow">{report.importedDeck ? "05 / Imported deck analyzed" : "05 / Recommendation online"}</span>
           <h2>{report.title}</h2>
           <p>{report.strategy}</p>
         </div>
         <div className="deck-designer-result__source-signal">
-          <span><small>SOURCE RESULT</small><strong>{report.sourceDeck?.placingLabel || "AI MODEL"}</strong></span>
-          <span><small>PILOT</small><strong>{report.sourceDeck?.playerName || "BRUXÃO"}</strong></span>
+          <span><small>SOURCE</small><strong>{report.importedDeck ? "MSA LIST" : report.sourceDeck?.placingLabel || "AI MODEL"}</strong></span>
+          <span><small>PILOT</small><strong>{report.importedDeck ? "YOU" : report.sourceDeck?.playerName || "BRUXÃO"}</strong></span>
           <span><small>CONFIDENCE</small><strong>{report.confidence}</strong></span>
         </div>
       </header>
@@ -581,7 +782,7 @@ function DesignerResult({
         </div>
       ) : null}
 
-      <details className="deck-designer-debrief">
+      <details className="deck-designer-debrief" open={report.importedDeck ? true : undefined}>
         <summary>
           <span>TACTICAL DEBRIEF // EXPAND INTELLIGENCE</span>
           <strong>Curve · matchups · synergies · sources</strong>
@@ -726,12 +927,12 @@ function ExBurstExportLayer({ report, onClose }) {
   );
 }
 
-function AnalysisProgress({ activeStage }) {
+function AnalysisProgress({ activeStage, stages = ANALYSIS_STAGES }) {
   return (
     <section className="deck-designer-progress" aria-live="polite">
-      <TacticalLoadingState label={ANALYSIS_STAGES[activeStage] || "Starting deck agent..."} />
+      <TacticalLoadingState label={stages[activeStage] || "Starting deck agent..."} />
       <ol>
-        {ANALYSIS_STAGES.map((stage, index) => (
+        {stages.map((stage, index) => (
           <li key={stage} className={index < activeStage ? "is-complete" : index === activeStage ? "is-active" : ""}>
             <span>{index < activeStage ? "✓" : String(index + 1).padStart(2, "0")}</span>
             <strong>{stage}</strong>

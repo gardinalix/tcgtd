@@ -192,14 +192,18 @@ export function App() {
       visibility: "private",
       archetype: report.criteria?.archetype || "",
       colors: report.criteria?.colors || [],
-      format: "AI Designer / Current",
+      format: report.importedDeck ? "MSA import / analyzed" : "AI Designer / Current",
       notes: [
         report.strategy,
         ...(report.limitations || []).map((limitation) => `Limitation: ${limitation}`),
       ].filter(Boolean).join("\n"),
-      sourceName: report.sourceDeck?.sourceName || "AI Deck Designer · normalized evidence",
+      sourceName: report.importedDeck
+        ? "MSA pasted decklist · Deck Designer analysis"
+        : report.sourceDeck?.sourceName || "AI Deck Designer · normalized evidence",
       sourceUrl: report.sourceDeck?.deckUrl || firstCompetitiveSource?.url || "",
-      externalId: report.sourceDeck?.deckId
+      externalId: report.importedDeck
+        ? `msa-import:${report.generatedAt || new Date().toISOString()}`
+        : report.sourceDeck?.deckId
         ? `designer-source:${report.sourceDeck.deckId}`
         : `designer:${report.generatedAt || new Date().toISOString()}`,
       designerReport: compactDeckDesign(report),

@@ -1,9 +1,11 @@
 export function buildExBurstDeckText(report = {}) {
-  return [...(report.rows || [])]
-    .filter((row) => row?.card?.cardNumber && Number(row.quantity || 0) > 0)
-    .sort((left, right) =>
-      String(left.card.cardNumber).localeCompare(String(right.card.cardNumber)))
-    .map((row) => `${Number(row.quantity)}x${row.card.cardNumber}`)
+  const entries = Object.keys(report.main || {}).length
+    ? Object.entries(report.main || {})
+    : (report.rows || []).map((row) => [row?.card?.cardNumber, row?.quantity]);
+  return entries
+    .filter(([cardNumber, quantity]) => cardNumber && Number(quantity || 0) > 0)
+    .sort((left, right) => String(left[0]).localeCompare(String(right[0])))
+    .map(([cardNumber, quantity]) => `${Number(quantity)}x${cardNumber}`)
     .join("\n");
 }
 
