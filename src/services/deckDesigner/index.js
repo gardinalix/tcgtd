@@ -30,6 +30,12 @@ export {
   getObservedArchetypesForUnit,
   normalizeDeckEvidence,
 } from "./deckResearch.js";
+export {
+  buildZeroForgeSaveReport,
+  buildZeroForgeWorkspace,
+  evaluateZeroForgeAddition,
+  ZERO_FORGE_VERSION,
+} from "./zeroForgeEngine.js";
 
 export function designDeck(data, criteria) {
   return designDeckVariants(data, criteria)[0];

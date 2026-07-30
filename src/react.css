@@ -14473,3 +14473,1116 @@ body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .home-operations-
     animation: none;
   }
 }
+
+/* ZERO FORGE · fullscreen assisted deck construction */
+body.zero-forge-active {
+  overflow: hidden;
+}
+
+.deck-designer-input-mode {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.deck-designer-input-mode__zero-forge {
+  border-color: color-mix(in srgb, #f2c94c 42%, transparent) !important;
+  background:
+    linear-gradient(110deg, rgba(242, 201, 76, 0.12), transparent 64%),
+    rgba(8, 8, 13, 0.9) !important;
+}
+
+.deck-designer-input-mode__zero-forge::after {
+  color: #f2c94c;
+}
+
+.zero-forge {
+  --forge-bg: #02070d;
+  --forge-panel: #07121c;
+  --forge-panel-strong: #0a1824;
+  --forge-cyan: #57e8ff;
+  --forge-blue: #3d8bff;
+  --forge-gold: #f2c94c;
+  --forge-green: #66efad;
+  --forge-red: #ff667a;
+  --forge-text: #e9f8ff;
+  --forge-muted: #7794a6;
+  position: fixed;
+  z-index: 5000;
+  inset: 0;
+  display: grid;
+  grid-template-rows: 76px minmax(0, 1fr);
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  color: var(--forge-text);
+  background:
+    radial-gradient(circle at 54% 44%, rgba(36, 123, 159, 0.12), transparent 30%),
+    linear-gradient(rgba(87, 232, 255, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(87, 232, 255, 0.026) 1px, transparent 1px),
+    var(--forge-bg);
+  background-size: auto, 32px 32px, 32px 32px, auto;
+  isolation: isolate;
+}
+
+.zero-forge::after {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.08) 50%);
+  background-size: 100% 4px;
+  content: "";
+  opacity: 0.28;
+}
+
+.zero-forge button,
+.zero-forge input,
+.zero-forge select {
+  font-family: var(--font-tech);
+}
+
+.zero-forge__header {
+  position: relative;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: minmax(230px, 0.9fr) minmax(190px, 0.7fr) minmax(340px, 1.35fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.55rem 0.8rem 0.52rem 1rem;
+  border-bottom: 1px solid rgba(87, 232, 255, 0.38);
+  background:
+    linear-gradient(90deg, rgba(87, 232, 255, 0.1), transparent 25%, transparent 72%, rgba(242, 201, 76, 0.07)),
+    rgba(2, 8, 14, 0.97);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.44);
+}
+
+.zero-forge__brand {
+  display: grid;
+  line-height: 1;
+}
+
+.zero-forge__brand span,
+.zero-forge__brand small,
+.zero-forge__name span {
+  color: var(--forge-cyan);
+  font: 800 0.5rem var(--font-tech);
+  letter-spacing: 0.16em;
+}
+
+.zero-forge__brand strong {
+  margin: 0.22rem 0 0.15rem;
+  color: #fff;
+  font: 1000 clamp(1.15rem, 1.6vw, 1.7rem) var(--font-display);
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 20px rgba(87, 232, 255, 0.4);
+}
+
+.zero-forge__brand small {
+  color: var(--forge-muted);
+}
+
+.zero-forge__name {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.zero-forge__name input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.44rem 0.58rem;
+  border: 1px solid rgba(87, 232, 255, 0.25);
+  border-radius: 2px;
+  color: var(--forge-text);
+  background: rgba(0, 7, 13, 0.82);
+  font-weight: 800;
+}
+
+.zero-forge__telemetry {
+  display: grid;
+  grid-template-columns: 0.7fr 1.4fr 0.8fr;
+  gap: 0.35rem;
+}
+
+.zero-forge__telemetry > span {
+  display: grid;
+  gap: 0.16rem;
+  min-width: 0;
+  padding: 0.4rem 0.52rem;
+  border: 1px solid rgba(87, 232, 255, 0.18);
+  background: rgba(4, 16, 25, 0.84);
+}
+
+.zero-forge__telemetry small {
+  color: var(--forge-muted);
+  font: 800 0.48rem var(--font-tech);
+  letter-spacing: 0.13em;
+}
+
+.zero-forge__telemetry strong {
+  overflow: hidden;
+  color: var(--forge-cyan);
+  font: 900 0.68rem var(--font-display);
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zero-forge__telemetry .is-legal strong {
+  color: var(--forge-green);
+}
+
+.zero-forge__telemetry .is-building strong {
+  color: var(--forge-gold);
+}
+
+.zero-forge__telemetry .is-blocked strong {
+  color: var(--forge-red);
+}
+
+.zero-forge__actions {
+  display: flex;
+  gap: 0.32rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.zero-forge__actions button {
+  min-height: 34px;
+  padding: 0.4rem 0.62rem;
+  border: 1px solid rgba(87, 232, 255, 0.26);
+  border-radius: 2px;
+  color: #a9c8d7;
+  background: rgba(5, 17, 27, 0.86);
+  font: 900 0.52rem var(--font-display);
+  letter-spacing: 0.08em;
+}
+
+.zero-forge__actions button:hover:not(:disabled),
+.zero-forge__actions button:focus-visible {
+  border-color: var(--forge-cyan);
+  color: #fff;
+}
+
+.zero-forge__actions button.is-primary {
+  border-color: rgba(242, 201, 76, 0.58);
+  color: #fff0a5;
+  background: rgba(80, 60, 6, 0.4);
+}
+
+.zero-forge__actions button.is-confirmed {
+  border-color: rgba(102, 239, 173, 0.58);
+  color: var(--forge-green);
+}
+
+.zero-forge__actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+.zero-forge__actions .zero-forge__close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  padding: 0;
+  border-color: rgba(255, 102, 122, 0.48);
+  color: #ffb3bd;
+  font-size: 1.2rem;
+}
+
+.zero-forge__body {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 308px minmax(0, 1fr) 346px;
+  min-height: 0;
+}
+
+.zero-forge-library,
+.zero-forge-intel {
+  position: relative;
+  z-index: 4;
+  min-height: 0;
+  background:
+    linear-gradient(180deg, rgba(87, 232, 255, 0.045), transparent 34%),
+    rgba(4, 12, 19, 0.95);
+}
+
+.zero-forge-library {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  border-right: 1px solid rgba(87, 232, 255, 0.22);
+}
+
+.zero-forge-intel {
+  overflow: auto;
+  border-left: 1px solid rgba(87, 232, 255, 0.22);
+  scrollbar-color: rgba(87, 232, 255, 0.34) transparent;
+}
+
+.zero-forge-panel-head {
+  display: grid;
+  gap: 0.18rem;
+  padding: 0.7rem 0.72rem 0.62rem;
+  border-bottom: 1px solid rgba(87, 232, 255, 0.13);
+}
+
+.zero-forge-panel-head span {
+  color: var(--forge-cyan);
+  font: 800 0.48rem var(--font-tech);
+  letter-spacing: 0.15em;
+}
+
+.zero-forge-panel-head strong {
+  font: 900 0.72rem var(--font-display);
+  letter-spacing: 0.08em;
+}
+
+.zero-forge-panel-head small {
+  color: var(--forge-muted);
+  font: 700 0.54rem/1.3 var(--font-tech);
+}
+
+.zero-forge-library__search {
+  margin: 0.62rem 0.62rem 0.38rem;
+  padding: 0.58rem 0.62rem;
+  border: 1px solid rgba(87, 232, 255, 0.24);
+  border-radius: 2px;
+  color: #fff;
+  background: rgba(0, 5, 10, 0.8);
+  font-size: 0.66rem;
+}
+
+.zero-forge-library__filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.32rem;
+  padding: 0 0.62rem 0.55rem;
+}
+
+.zero-forge-library__filters input {
+  grid-column: 1 / -1;
+}
+
+.zero-forge-library__filters select,
+.zero-forge-library__filters input {
+  min-width: 0;
+  padding: 0.4rem 0.46rem;
+  border: 1px solid rgba(87, 232, 255, 0.16);
+  border-radius: 2px;
+  color: #b9d4e1;
+  background: #07121b;
+  font-size: 0.58rem;
+}
+
+.zero-forge-library__list {
+  display: grid;
+  align-content: start;
+  gap: 0.34rem;
+  min-height: 0;
+  padding: 0 0.5rem 0.8rem;
+  overflow: auto;
+  scrollbar-color: rgba(87, 232, 255, 0.34) transparent;
+}
+
+.zero-forge-library-card {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 32px;
+  gap: 0.5rem;
+  align-items: center;
+  min-height: 64px;
+  padding: 0.35rem;
+  border: 1px solid rgba(87, 232, 255, 0.12);
+  border-radius: 2px;
+  text-align: left;
+  color: #cfe9f4;
+  background: rgba(7, 20, 30, 0.86);
+}
+
+.zero-forge-library-card:hover,
+.zero-forge-library-card:focus-visible,
+.zero-forge-library-card.is-focused {
+  border-color: rgba(87, 232, 255, 0.58);
+  background: rgba(12, 38, 52, 0.94);
+  box-shadow: inset 3px 0 0 var(--forge-cyan);
+}
+
+.zero-forge-library-card.is-locked {
+  border-color: rgba(255, 102, 122, 0.18);
+  filter: saturate(0.55);
+  opacity: 0.58;
+}
+
+.zero-forge-library-card.is-locked:hover,
+.zero-forge-library-card.is-locked:focus-visible {
+  border-color: rgba(255, 102, 122, 0.62);
+  box-shadow: inset 3px 0 0 var(--forge-red);
+  opacity: 0.86;
+}
+
+.zero-forge-library-card__art {
+  width: 42px;
+  aspect-ratio: 5 / 7;
+  overflow: hidden;
+  border: 1px solid rgba(87, 232, 255, 0.22);
+  border-radius: 2px;
+}
+
+.zero-forge-library-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zero-forge-library-card > span {
+  display: grid;
+  gap: 0.13rem;
+  min-width: 0;
+}
+
+.zero-forge-library-card small,
+.zero-forge-library-card em {
+  overflow: hidden;
+  color: var(--forge-muted);
+  font: 700 0.48rem var(--font-tech);
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zero-forge-library-card strong {
+  overflow: hidden;
+  color: #eaf9ff;
+  font: 800 0.61rem var(--font-tech);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zero-forge-library-card > b {
+  display: grid;
+  place-items: center;
+  min-height: 30px;
+  color: var(--forge-cyan);
+  font: 900 0.56rem var(--font-display);
+}
+
+.zero-forge-library-card.is-locked > b {
+  color: var(--forge-red);
+  font-size: 0.46rem;
+}
+
+.zero-forge-map {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-width: 0;
+  min-height: 0;
+  background:
+    radial-gradient(circle at 45% 48%, rgba(87, 232, 255, 0.065), transparent 37%),
+    rgba(0, 5, 10, 0.62);
+}
+
+.zero-forge-map.is-drop-active {
+  box-shadow: inset 0 0 0 2px var(--forge-gold), inset 0 0 80px rgba(242, 201, 76, 0.08);
+}
+
+.zero-forge-map__topline {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  min-height: 38px;
+  padding: 0.42rem 0.7rem;
+  border-bottom: 1px solid rgba(87, 232, 255, 0.13);
+  background: rgba(2, 11, 18, 0.9);
+}
+
+.zero-forge-map__topline > span {
+  color: var(--forge-cyan);
+  font: 800 0.5rem var(--font-tech);
+  letter-spacing: 0.15em;
+}
+
+.zero-forge-map__topline > strong {
+  color: #c3dce8;
+  font: 800 0.58rem var(--font-tech);
+}
+
+.zero-forge-map__topline > div {
+  display: flex;
+  gap: 0.48rem;
+  align-items: center;
+  color: var(--forge-muted);
+  font: 800 0.44rem var(--font-tech);
+}
+
+.zero-forge-map__topline i {
+  width: 16px;
+  height: 2px;
+  margin-left: 0.3rem;
+  background: var(--forge-cyan);
+}
+
+.zero-forge-map__topline i.is-ghost {
+  border-top: 2px dashed var(--forge-gold);
+  background: none;
+}
+
+.zero-forge-map__topline i.is-link {
+  background: var(--forge-green);
+}
+
+.zero-forge-map__viewport {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-color: rgba(87, 232, 255, 0.34) transparent;
+}
+
+.zero-forge-map__stage {
+  position: relative;
+  min-width: 1500px;
+  transform-origin: top left;
+}
+
+.zero-forge-map__grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0 249px, rgba(87, 232, 255, 0.09) 250px, transparent 251px),
+    linear-gradient(rgba(87, 232, 255, 0.035) 1px, transparent 1px);
+  background-size: 262px 100%, 100% 42px;
+  pointer-events: none;
+}
+
+.zero-forge-map__lane-label,
+.zero-forge-map__projection-label {
+  position: absolute;
+  z-index: 3;
+  top: 16px;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: var(--forge-muted);
+  font: 800 0.52rem var(--font-tech);
+  letter-spacing: 0.1em;
+}
+
+.zero-forge-map__lane-label {
+  width: 238px;
+  padding-bottom: 0.34rem;
+  border-bottom: 1px solid rgba(87, 232, 255, 0.18);
+}
+
+.zero-forge-map__lane-label b {
+  margin-left: auto;
+  color: var(--forge-cyan);
+}
+
+.zero-forge-map__projection-label {
+  left: 1156px;
+  display: grid;
+  width: 318px;
+  color: var(--forge-gold);
+}
+
+.zero-forge-map__projection-label small {
+  color: #a39255;
+  font-size: 0.46rem;
+  letter-spacing: 0.04em;
+}
+
+.zero-forge-map__links {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.zero-forge-map__edge {
+  fill: none;
+  stroke: rgba(87, 232, 255, 0.34);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.zero-forge-map__edge--printed {
+  stroke: rgba(102, 239, 173, 0.72);
+  stroke-width: 2.2;
+}
+
+.zero-forge-map__edge--observed {
+  stroke: rgba(87, 232, 255, 0.48);
+}
+
+.zero-forge-map__edge--inferred,
+.zero-forge-map__edge--ghost {
+  stroke-dasharray: 6 6;
+}
+
+.zero-forge-map__edge--ghost {
+  stroke: rgba(242, 201, 76, 0.64);
+  animation: zeroForgeGhostLine 2.4s linear infinite;
+}
+
+.zero-forge-map__edge--high {
+  filter: drop-shadow(0 0 4px rgba(102, 239, 173, 0.48));
+}
+
+.zero-forge-map__empty {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 44%;
+  display: grid;
+  width: 420px;
+  padding: 1.2rem;
+  border: 1px solid rgba(87, 232, 255, 0.26);
+  text-align: center;
+  transform: translate(-50%, -50%);
+  background: rgba(3, 14, 22, 0.88);
+  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+}
+
+.zero-forge-map__empty span {
+  color: var(--forge-red);
+  font: 800 0.52rem var(--font-tech);
+  letter-spacing: 0.16em;
+}
+
+.zero-forge-map__empty strong {
+  margin: 0.45rem 0;
+  color: #fff;
+  font: 900 1.05rem var(--font-display);
+  letter-spacing: 0.08em;
+}
+
+.zero-forge-map__empty p {
+  margin: 0;
+  color: var(--forge-muted);
+  font: 700 0.64rem/1.5 var(--font-tech);
+}
+
+.zero-forge-node {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  width: 108px;
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.5));
+}
+
+.zero-forge-node > button {
+  display: grid;
+  gap: 0.16rem;
+  padding: 0.3rem;
+  border: 1px solid rgba(87, 232, 255, 0.34);
+  border-radius: 2px 2px 0 0;
+  text-align: left;
+  color: var(--forge-text);
+  background: rgba(5, 18, 28, 0.94);
+  clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
+}
+
+.zero-forge-node.is-focused > button {
+  border-color: var(--forge-gold);
+  box-shadow: 0 0 22px rgba(242, 201, 76, 0.26), inset 0 0 18px rgba(242, 201, 76, 0.06);
+}
+
+.zero-forge-node__art {
+  width: 100%;
+  height: 104px;
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.zero-forge-node__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zero-forge-node > button span {
+  color: var(--forge-cyan);
+  font: 800 0.43rem var(--font-tech);
+}
+
+.zero-forge-node > button strong {
+  overflow: hidden;
+  min-height: 1.7em;
+  font: 800 0.51rem/1.15 var(--font-tech);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zero-forge-node > div {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  align-items: center;
+  min-height: 28px;
+  border: 1px solid rgba(87, 232, 255, 0.23);
+  border-top: 0;
+  background: #07131d;
+}
+
+.zero-forge-node > div button {
+  height: 100%;
+  border: 0;
+  color: var(--forge-cyan);
+  background: transparent;
+  font: 900 0.8rem var(--font-display);
+}
+
+.zero-forge-node > div button:hover,
+.zero-forge-node > div button:focus-visible {
+  color: #fff;
+  background: rgba(87, 232, 255, 0.12);
+}
+
+.zero-forge-node > div b {
+  text-align: center;
+  color: #fff;
+  font: 900 0.55rem var(--font-display);
+}
+
+.zero-forge-ghost {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 0.45rem;
+  width: 152px;
+  min-height: 134px;
+  padding: 0.4rem;
+  border: 1px dashed rgba(242, 201, 76, 0.52);
+  border-radius: 2px;
+  text-align: left;
+  color: #f6e7a7;
+  background:
+    linear-gradient(135deg, rgba(242, 201, 76, 0.11), transparent 52%),
+    rgba(18, 17, 8, 0.9);
+  box-shadow: 0 0 18px rgba(242, 201, 76, 0.08);
+  clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+}
+
+.zero-forge-ghost:hover,
+.zero-forge-ghost:focus-visible {
+  border-style: solid;
+  border-color: var(--forge-gold);
+  color: #fff3b8;
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px rgba(242, 201, 76, 0.2);
+}
+
+.zero-forge-ghost--priority {
+  border-color: rgba(102, 239, 173, 0.7);
+  color: #bfffe1;
+  background:
+    linear-gradient(135deg, rgba(102, 239, 173, 0.12), transparent 52%),
+    rgba(7, 24, 18, 0.92);
+}
+
+.zero-forge-ghost__art {
+  grid-row: 1 / 3;
+  width: 48px;
+  height: 68px;
+  overflow: hidden;
+  opacity: 0.74;
+  filter: saturate(0.78);
+}
+
+.zero-forge-ghost__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zero-forge-ghost > span {
+  display: grid;
+  align-content: start;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.zero-forge-ghost small,
+.zero-forge-ghost em {
+  color: #ab9652;
+  font: 800 0.42rem/1.2 var(--font-tech);
+  font-style: normal;
+}
+
+.zero-forge-ghost strong {
+  overflow: hidden;
+  font: 900 0.55rem/1.15 var(--font-tech);
+  text-overflow: ellipsis;
+}
+
+.zero-forge-ghost em {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.zero-forge-ghost > b {
+  grid-column: 1 / -1;
+  align-self: end;
+  padding-top: 0.3rem;
+  border-top: 1px solid rgba(242, 201, 76, 0.16);
+  text-align: right;
+  font: 900 0.48rem var(--font-display);
+  letter-spacing: 0.08em;
+}
+
+.zero-forge-map__signal {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 8px 1fr;
+  gap: 0.55rem;
+  align-items: center;
+  min-height: 34px;
+  padding: 0.4rem 0.7rem;
+  border-top: 1px solid rgba(87, 232, 255, 0.14);
+  color: #9db8c6;
+  background: rgba(2, 11, 18, 0.94);
+  font: 750 0.58rem var(--font-tech);
+}
+
+.zero-forge-map__signal i {
+  width: 6px;
+  height: 6px;
+  background: var(--forge-cyan);
+  box-shadow: 0 0 8px currentColor;
+}
+
+.zero-forge-map__signal.is-allowed {
+  color: var(--forge-green);
+}
+
+.zero-forge-map__signal.is-allowed i {
+  background: var(--forge-green);
+}
+
+.zero-forge-map__signal.is-blocked {
+  color: #ff9aaa;
+}
+
+.zero-forge-map__signal.is-blocked i {
+  background: var(--forge-red);
+}
+
+.zero-forge-focus {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 0.65rem;
+  padding: 0.68rem;
+  border-bottom: 1px solid rgba(87, 232, 255, 0.13);
+  background: rgba(7, 22, 32, 0.72);
+}
+
+.zero-forge-focus__art {
+  width: 70px;
+  height: 98px;
+  overflow: hidden;
+  border: 1px solid rgba(87, 232, 255, 0.3);
+}
+
+.zero-forge-focus__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.zero-forge-focus > div {
+  display: grid;
+  align-content: start;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.zero-forge-focus small {
+  color: var(--forge-gold);
+  font: 800 0.45rem var(--font-tech);
+  letter-spacing: 0.12em;
+}
+
+.zero-forge-focus strong {
+  font: 900 0.72rem/1.15 var(--font-display);
+}
+
+.zero-forge-focus span {
+  color: var(--forge-cyan);
+  font: 700 0.48rem var(--font-tech);
+}
+
+.zero-forge-focus p {
+  display: -webkit-box;
+  margin: 0.16rem 0 0;
+  overflow: hidden;
+  color: #91aebc;
+  font: 650 0.51rem/1.35 var(--font-tech);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.zero-forge-intel__section {
+  display: grid;
+  gap: 0.42rem;
+  padding: 0.7rem;
+  border-bottom: 1px solid rgba(87, 232, 255, 0.12);
+}
+
+.zero-forge-intel__section > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.zero-forge-intel__section > header strong {
+  color: #dff7ff;
+  font: 900 0.58rem var(--font-display);
+  letter-spacing: 0.1em;
+}
+
+.zero-forge-intel__section > header span {
+  color: var(--forge-muted);
+  font: 700 0.46rem var(--font-tech);
+}
+
+.zero-forge-meter {
+  display: grid;
+  grid-template-columns: 98px minmax(0, 1fr) 34px;
+  gap: 0.42rem;
+  align-items: center;
+}
+
+.zero-forge-meter > span,
+.zero-forge-meter > strong {
+  color: #9bb8c7;
+  font: 800 0.47rem var(--font-tech);
+}
+
+.zero-forge-meter > strong {
+  text-align: right;
+  color: var(--forge-cyan);
+}
+
+.zero-forge-meter > i {
+  height: 5px;
+  overflow: hidden;
+  background: rgba(87, 232, 255, 0.09);
+}
+
+.zero-forge-meter > i b {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  background: linear-gradient(90deg, var(--forge-blue), var(--forge-cyan));
+  box-shadow: 0 0 8px rgba(87, 232, 255, 0.45);
+}
+
+.zero-forge-role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+}
+
+.zero-forge-role-grid article {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.12rem 0.4rem;
+  padding: 0.42rem;
+  border: 1px solid rgba(242, 201, 76, 0.17);
+  background: rgba(31, 27, 8, 0.28);
+}
+
+.zero-forge-role-grid article.is-ready {
+  border-color: rgba(102, 239, 173, 0.23);
+  background: rgba(8, 34, 24, 0.34);
+}
+
+.zero-forge-role-grid span,
+.zero-forge-role-grid strong {
+  font: 800 0.5rem var(--font-tech);
+}
+
+.zero-forge-role-grid strong {
+  color: var(--forge-gold);
+}
+
+.zero-forge-role-grid article.is-ready strong {
+  color: var(--forge-green);
+}
+
+.zero-forge-role-grid small {
+  grid-column: 1 / -1;
+  color: var(--forge-muted);
+  font: 700 0.43rem var(--font-tech);
+}
+
+.zero-forge-suggestion-stack > button {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 30px;
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.42rem;
+  border: 1px solid rgba(242, 201, 76, 0.12);
+  border-radius: 2px;
+  text-align: left;
+  color: #d9e8ee;
+  background: rgba(19, 19, 11, 0.62);
+}
+
+.zero-forge-suggestion-stack > button:hover,
+.zero-forge-suggestion-stack > button:focus-visible {
+  border-color: rgba(242, 201, 76, 0.52);
+  background: rgba(44, 37, 10, 0.62);
+}
+
+.zero-forge-suggestion-stack > button > span,
+.zero-forge-suggestion-stack > button > b {
+  color: var(--forge-gold);
+  font: 900 0.54rem var(--font-display);
+}
+
+.zero-forge-suggestion-stack > button > div {
+  display: grid;
+  gap: 0.14rem;
+  min-width: 0;
+}
+
+.zero-forge-suggestion-stack > button strong {
+  overflow: hidden;
+  font: 800 0.56rem var(--font-tech);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zero-forge-suggestion-stack > button small {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--forge-muted);
+  font: 650 0.44rem/1.25 var(--font-tech);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.zero-forge-suggestion-stack > p {
+  margin: 0.3rem 0 0;
+  color: var(--forge-muted);
+  font: 700 0.55rem/1.45 var(--font-tech);
+}
+
+.zero-forge-manifest > div {
+  display: grid;
+  gap: 0.22rem;
+  max-height: 210px;
+  overflow: auto;
+}
+
+.zero-forge-manifest > div button {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 28px;
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.32rem 0.38rem;
+  border: 0;
+  border-left: 2px solid rgba(87, 232, 255, 0.2);
+  text-align: left;
+  color: #b9d0dc;
+  background: rgba(7, 18, 27, 0.6);
+}
+
+.zero-forge-manifest > div button:hover,
+.zero-forge-manifest > div button:focus-visible {
+  border-left-color: var(--forge-cyan);
+  color: #fff;
+}
+
+.zero-forge-manifest button span,
+.zero-forge-manifest button small {
+  color: var(--forge-cyan);
+  font: 800 0.48rem var(--font-tech);
+}
+
+.zero-forge-manifest button strong {
+  overflow: hidden;
+  font: 750 0.52rem var(--font-tech);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes zeroForgeGhostLine {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@media (max-width: 1380px) {
+  .zero-forge__header {
+    grid-template-columns: minmax(200px, 0.8fr) minmax(170px, 0.65fr) minmax(300px, 1.15fr) auto;
+    gap: 0.55rem;
+  }
+
+  .zero-forge__actions button:not(.is-primary, .is-confirmed, .zero-forge__close) {
+    display: none;
+  }
+
+  .zero-forge__body {
+    grid-template-columns: 272px minmax(0, 1fr) 310px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .zero-forge {
+    overflow: auto;
+  }
+
+  .zero-forge__header {
+    position: sticky;
+    top: 0;
+    grid-template-columns: 1fr auto;
+  }
+
+  .zero-forge__name,
+  .zero-forge__telemetry {
+    display: none;
+  }
+
+  .zero-forge__body {
+    grid-template-columns: 250px minmax(760px, 1fr);
+    min-height: calc(100dvh - 76px);
+  }
+
+  .zero-forge-intel {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .deck-designer-input-mode {
+    grid-template-columns: 1fr;
+  }
+
+  .zero-forge__body {
+    grid-template-columns: 210px minmax(720px, 1fr);
+  }
+
+  .zero-forge__brand span,
+  .zero-forge__brand small {
+    display: none;
+  }
+
+  .zero-forge__actions .is-confirmed {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zero-forge-map__edge--ghost {
+    animation: none;
+  }
+}

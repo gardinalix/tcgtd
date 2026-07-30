@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { DeckMap } from "./DeckMap";
+import { ZeroForge } from "./ZeroForge.jsx";
 import { buildExBurstDeckText, downloadDeckText } from "../../domain/deckExport.js";
 import { parseMsaDeckList } from "../../domain/deckLibrary.js";
 import {
@@ -65,6 +66,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   const [savedDeckId, setSavedDeckId] = useState("");
   const [saveMessage, setSaveMessage] = useState("");
   const [exportLayerOpen, setExportLayerOpen] = useState(false);
+  const [zeroForgeOpen, setZeroForgeOpen] = useState(false);
   const [hudBooting, setHudBooting] = useState(() => !prefersReducedMotion());
   const [hudSystem] = useState(getHudSystemLabel);
   const archetypes = useMemo(
@@ -316,7 +318,29 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           <strong>Paste an MSA list</strong>
           <span>Keep every card and reveal curve, strengths and risks.</span>
         </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={zeroForgeOpen}
+          className="deck-designer-input-mode__zero-forge"
+          onClick={() => setZeroForgeOpen(true)}
+        >
+          <small>FORGE FROM ZERO</small>
+          <strong>Open ZERO Forge</strong>
+          <span>Build on a fullscreen map with live legal suggestions.</span>
+        </button>
       </section>
+      {zeroForgeOpen ? (
+        <ZeroForge
+          data={data}
+          onClose={() => setZeroForgeOpen(false)}
+          onSave={onSaveRecommendation}
+          onOpenSavedDeck={(deckId) => {
+            setZeroForgeOpen(false);
+            onEditDeck?.(deckId);
+          }}
+        />
+      ) : null}
       <details
         className="deck-designer__brief-frame"
         hidden={inputMode !== "design"}

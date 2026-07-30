@@ -192,20 +192,28 @@ export function App() {
       visibility: "private",
       archetype: report.criteria?.archetype || "",
       colors: report.criteria?.colors || [],
-      format: report.importedDeck ? "MSA import / analyzed" : "AI Designer / Current",
+      format: report.importedDeck
+        ? "MSA import / analyzed"
+        : report.assemblyMode === "zero_forge"
+          ? "ZERO Forge / Current"
+          : "AI Designer / Current",
       notes: [
         report.strategy,
         ...(report.limitations || []).map((limitation) => `Limitation: ${limitation}`),
       ].filter(Boolean).join("\n"),
       sourceName: report.importedDeck
         ? "MSA pasted decklist · Deck Designer analysis"
-        : report.sourceDeck?.sourceName || "AI Deck Designer · normalized evidence",
+        : report.assemblyMode === "zero_forge"
+          ? "ZERO Forge · pilot-authored assisted deck"
+          : report.sourceDeck?.sourceName || "AI Deck Designer · normalized evidence",
       sourceUrl: report.sourceDeck?.deckUrl || firstCompetitiveSource?.url || "",
       externalId: report.importedDeck
         ? `msa-import:${report.generatedAt || new Date().toISOString()}`
-        : report.sourceDeck?.deckId
-        ? `designer-source:${report.sourceDeck.deckId}`
-        : `designer:${report.generatedAt || new Date().toISOString()}`,
+        : report.assemblyMode === "zero_forge"
+          ? `zero-forge:${report.generatedAt || new Date().toISOString()}`
+          : report.sourceDeck?.deckId
+            ? `designer-source:${report.sourceDeck.deckId}`
+            : `designer:${report.generatedAt || new Date().toISOString()}`,
       designerReport: compactDeckDesign(report),
       main: report.main || {},
       resource: report.resource || {},

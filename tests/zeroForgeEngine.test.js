@@ -1,0 +1,116 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import {
+  buildZeroForgeSaveReport,
+  buildZeroForgeWorkspace,
+  evaluateZeroForgeAddition,
+} from "../src/services/deckDesigner/zeroForgeEngine.js";
+
+test("ZERO Forge blocks banned cards, copy limits, banned pairs, color overflow and deck overflow", () => {
+  const data = fixture();
+  const anksha = cardById(data, "GD01-020");
+  const corsica = cardById(data, "ST02-016");
+  const amuro = cardById(data, "GD01-088");
+  const greenUnit = cardById(data, "GREEN-001");
+
+  assert.equal(evaluateZeroForgeAddition(data, {}, anksha).type, "banned_card");
+  assert.equal(
+    evaluateZeroForgeAddition(data, { "ST02-016": 2 }, corsica).type,
+    "copy_limit",
+  );
+  assert.equal(
+    evaluateZeroForgeAddition(data, { "ST03-011": 1 }, amuro).type,
+    "banned_pair",
+  );
+  assert.equal(
+    evaluateZeroForgeAddition(data, { "ANCHOR-001": 1, "RED-001": 1 }, greenUnit).type,
+    "color_limit",
+  );
+
+  const fullDeck = { "ANCHOR-001": 50 };
+  assert.equal(evaluateZeroForgeAddition(data, fullDeck, cardById(data, "PILOT-001")).type, "main_deck_size");
+});
+
+test("ZERO Forge promotes printed links and removes illegal ghosts from suggestions", () => {
+  const data = fixture();
+  const workspace = buildZeroForgeWorkspace(data, { "ANCHOR-001": 1, "ST03-011": 1 }, "ANCHOR-001");
+
+  assert.equal(workspace.suggestions[0].card.cardNumber, "PILOT-001");
+  assert.match(workspace.suggestions[0].reasons.join(" "), /Printed LINK\/PAIR/);
+  assert.ok(!workspace.suggestions.some((item) => item.card.cardNumber === "GD01-020"));
+  assert.ok(!workspace.suggestions.some((item) => item.card.cardNumber === "GD01-088"));
+  assert.ok(workspace.curve.some((bucket) => bucket.need > 0));
+  assert.ok(workspace.roles.some((role) => role.id === "pressure"));
+});
+
+test("ZERO Forge saves a pilot-authored draft with an automatic resource deck", () => {
+  const data = fixture();
+  const report = buildZeroForgeSaveReport(data, { "ANCHOR-001": 4 }, { title: "Potter Forge" });
+
+  assert.equal(report.title, "Potter Forge");
+  assert.equal(report.assemblyMode, "zero_forge");
+  assert.equal(report.main["ANCHOR-001"], 4);
+  assert.equal(report.resource["R-001"], 10);
+  assert.equal(report.rows[0].source, "zero_forge");
+  assert.ok(report.limitations.some((item) => /Current: 4/.test(item)));
+});
+
+function fixture() {
+  const cards = [
+    makeCard("ANCHOR-001", "Wing Test", "White", "UNIT", 4, ["G Team"], ["damage_push"], ["Heero Test"], 20),
+    makeCard("PILOT-001", "Heero Test", "White", "PILOT", 1, ["G Team"], ["draw"], [], 18),
+    makeCard("ST03-011", "Mika Test", "White", "PILOT", 2, [], ["ap_mod"], [], 12),
+    makeCard("GD01-088", "Amuro Test", "White", "PILOT", 2, [], ["draw"], [], 20),
+    makeCard("GD01-020", "Anksha", "Blue", "UNIT", 2, [], ["damage_push"], [], 60),
+    makeCard("ST02-016", "Corsica Base", "White", "BASE", 3, [], ["base_support"], [], 40),
+    makeCard("RED-001", "Red Unit", "Red", "UNIT", 2, [], ["blocker"], [], 8),
+    makeCard("GREEN-001", "Green Unit", "Green", "UNIT", 2, [], ["removal"], [], 8),
+    makeCard("DRAW-001", "Resolve Test", "White", "COMMAND", 1, [], ["draw"], [], 30),
+  ];
+  return {
+    cards,
+    resourceCards: [{ cardNumber: "R-001", cardName: "Resource", cardType: "RESOURCE", copyLimit: 99 }],
+    metaDeckCards: [
+      { deckId: "deck-a", cardNumber: "ANCHOR-001" },
+      { deckId: "deck-a", cardNumber: "PILOT-001" },
+      { deckId: "deck-b", cardNumber: "ANCHOR-001" },
+      { deckId: "deck-b", cardNumber: "PILOT-001" },
+      { deckId: "deck-a", cardNumber: "DRAW-001" },
+    ],
+    rules: {
+      mainDeckSize: 50,
+      resourceDeckSize: 10,
+      maxColors: 2,
+      defaultCopyLimit: 4,
+      currentRestrictions: [
+        { cardNumber: "GD01-020", restrictionType: "banned", maxCopies: 0 },
+        { cardNumber: "ST02-016", restrictionType: "limited", maxCopies: 2 },
+      ],
+      bannedPairs: [{
+        cardNumbers: ["GD01-088", "ST03-011"],
+      }],
+    },
+  };
+}
+
+function makeCard(cardNumber, cardName, color, cardType, cost, traits, synergyTags, linkTargets, recentTop8DecksUsing) {
+  return {
+    cardNumber,
+    cardName,
+    color,
+    cardType,
+    cost,
+    level: cost,
+    traits,
+    synergyTags,
+    linkTargets,
+    recentTop8DecksUsing,
+    copyLimit: 4,
+    effectPreview: "",
+    topArchetypes: [],
+  };
+}
+
+function cardById(data, cardNumber) {
+  return data.cards.find((card) => card.cardNumber === cardNumber);
+}
