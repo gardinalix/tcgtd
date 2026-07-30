@@ -1,4 +1,4 @@
-export const SYNERGY_ALGORITHM_VERSION = "synergy-map-2026-05-12";
+export const SYNERGY_ALGORITHM_VERSION = "synergy-map-2026-07-30-mechanical-rank";
 
 export const DEFAULT_SYNERGY_RULES = [
   {

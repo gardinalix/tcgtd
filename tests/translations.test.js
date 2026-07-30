@@ -15,6 +15,7 @@ test("PT-BR is the default interface language", () => {
   assert.equal(translate("Tactical deck map", "pt-BR"), "Mapa tático do deck");
   assert.equal(translate("MISSION PARAMETERS", "pt-BR"), "PARÂMETROS DA MISSÃO");
   assert.equal(translate("FIT ALL", "pt-BR"), "ENQUADRAR TUDO");
+  assert.equal(translate("RESET LAYOUT", "pt-BR"), "REFAZER DISTRIBUIÇÃO");
 });
 
 test("English mode preserves source interface copy", () => {
@@ -29,4 +30,9 @@ test("dynamic deck telemetry is localized without changing values", () => {
   assert.equal(translate("4 links", "pt-BR"), "4 conexões");
   assert.equal(translate("Cost 4", "pt-BR"), "Custo 4");
   assert.equal(translate("3 exact matches", "pt-BR"), "3 correspondências exatas");
+  assert.equal(translate("CO-PLAY · 12 LISTS", "pt-BR"), "CO-PLAY · 12 LISTAS");
+  assert.match(
+    translate("Low synergy (deck context only): Same color. No direct mechanical bridge was detected.", "pt-BR"),
+    /Baixa sinergia \(apenas contexto do deck\)/,
+  );
 });

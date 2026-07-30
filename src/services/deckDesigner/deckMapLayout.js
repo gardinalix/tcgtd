@@ -13,15 +13,19 @@ export function buildDeckGraph(rows = [], synergies = []) {
     const id = edgeId(source, target);
     if (edgeIds.has(id)) continue;
     edgeIds.add(id);
+    const strength = synergy.rank || strengthFromScore(synergy.score);
     edges.push({
       id,
       source,
       target,
       kind: synergy.coDeckCount > 0 ? "observed" : "inferred",
       score: Number(synergy.score || 0),
-      label: synergy.coDeckCount > 0
-        ? `Observed together in ${synergy.coDeckCount} competitive decklists`
-        : synergy.explanation || "Inferred text, trait or curve interaction",
+      strength,
+      basis: relationshipBasis(synergy),
+      label: synergy.explanation
+        || (synergy.coDeckCount > 0
+          ? `${strengthLabel(strength)}: observed together in ${synergy.coDeckCount} competitive decklists.`
+          : "Low synergy: inferred text, trait or curve interaction."),
       shared: [],
     });
   }
@@ -41,6 +45,8 @@ export function buildDeckGraph(rows = [], synergies = []) {
           target: right.card.cardNumber,
           kind: "structural",
           score: relation.score,
+          strength: "structural",
+          basis: "DECK STRUCTURE",
           label: relation.label,
           shared: relation.shared,
         });
@@ -150,6 +156,8 @@ function connectIsolatedNodes(rows, edges, edgeIds) {
       target: target.card.cardNumber,
       kind: "structural",
       score: Math.max(1, relation.score),
+      strength: "structural",
+      basis: "DECK STRUCTURE",
       label: relation.score > 0 ? relation.label : "Deck structure link",
       shared: relation.shared,
     });
@@ -192,6 +200,28 @@ function edgeId(left, right) {
 
 function categoryWeight(category) {
   return { essential: 4, flexible: 3, accessible: 2, experimental: 1 }[category] || 0;
+}
+
+function strengthFromScore(value) {
+  const score = Number(value || 0);
+  if (score >= 80) return "high";
+  if (score >= 50) return "good";
+  return "low";
+}
+
+function strengthLabel(strength) {
+  return { high: "High synergy", good: "Good synergy", low: "Low synergy" }[strength] || "Structural link";
+}
+
+function relationshipBasis(synergy = {}) {
+  const rules = new Set(synergy.algorithmRules || []);
+  if (rules.has("direct_link_pair")) return "PRINTED LINK / PAIR";
+  if (rules.has("mechanic_setup")) return "MECHANICAL COMBO";
+  if (rules.has("text_bridge")) return "CARD-TEXT BRIDGE";
+  if (rules.has("shared_trait")) return "SHARED TRAIT";
+  if (synergy.coDeckCount > 0) return `CO-PLAY · ${synergy.coDeckCount} LISTS`;
+  if (rules.has("shared_keyword")) return "SHARED MECHANIC";
+  return "DECK CONTEXT";
 }
 
 function uniqueBy(values, keyFn) {

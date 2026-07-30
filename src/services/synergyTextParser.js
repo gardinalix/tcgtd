@@ -36,6 +36,27 @@ const KEYWORD_PATTERNS = [
 ];
 
 const GENERIC_LINK_TERMS = new Set(["link", "pair", "pilot", "unit", "command", "base"]);
+const GENERIC_TEXT_TERMS = new Set([
+  "activate action",
+  "activate main",
+  "attack",
+  "base",
+  "burst",
+  "command",
+  "deploy",
+  "destroyed",
+  "during link",
+  "during pair",
+  "link",
+  "pair",
+  "pilot",
+  "resource",
+  "shield",
+  "trash",
+  "unit",
+  "when linked",
+  "when paired",
+]);
 
 export function parseCardSignals(card) {
   const text = normalizeText([card?.effectPreview, card?.effectText, card?.cardText, card?.text].filter(Boolean).join(" "));
@@ -85,7 +106,7 @@ export function importantTermsFor(card, signals = parseCardSignals(card)) {
     ...signals.traits,
     ...signals.keywords,
     ...signals.linkTargets,
-  ]).filter((term) => term.length >= 3 && !["unit", "pilot", "command", "base", "link", "pair"].includes(term));
+  ]).filter((term) => term.length >= 3 && !GENERIC_TEXT_TERMS.has(term));
 }
 
 export function canDamageFriendlyUnit(signals) {

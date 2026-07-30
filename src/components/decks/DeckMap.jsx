@@ -9,19 +9,28 @@ const FIT_ZOOM = 0.66;
 
 export function DeckMap({ report, onApplySubstitution }) {
   const graph = useMemo(() => buildDeckGraph(report.rows, report.synergies), [report.rows, report.synergies]);
+  const [nodePositions, setNodePositions] = useState({});
   const [selectedId, setSelectedId] = useState("");
   const [hoveredId, setHoveredId] = useState("");
   const [rosterOpen, setRosterOpen] = useState(false);
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [viewport, setViewport] = useState({ zoom: 1, x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
+  const [draggingId, setDraggingId] = useState("");
+  const positionedNodes = useMemo(() => graph.nodes.map((node) => ({
+    ...node,
+    ...(nodePositions[node.id] || {}),
+  })), [graph.nodes, nodePositions]);
+  const positionedGraph = useMemo(() => ({ ...graph, nodes: positionedNodes }), [graph, positionedNodes]);
   const activeId = hoveredId || selectedId;
   const relatedIds = useMemo(() => relatedNodeIds(graph, activeId), [graph, activeId]);
-  const rosterGroups = useMemo(() => groupRosterNodes(graph.nodes), [graph.nodes]);
+  const rosterGroups = useMemo(() => groupRosterNodes(positionedNodes), [positionedNodes]);
   const rosterNodeRefs = useRef(new Map());
   const selectionSourceRef = useRef("");
   const panSessionRef = useRef(null);
-  const selectedNode = graph.nodes.find((node) => node.id === selectedId) || graph.nodes[0] || null;
+  const nodeDragSessionRef = useRef(null);
+  const ignoreNodeClickRef = useRef("");
+  const selectedNode = positionedNodes.find((node) => node.id === selectedId) || positionedNodes[0] || null;
   const selectedConnections = graph.edges.filter((edge) => edge.source === selectedNode?.id || edge.target === selectedNode?.id);
 
   useEffect(() => {
@@ -29,6 +38,13 @@ export function DeckMap({ report, onApplySubstitution }) {
       setSelectedId("");
     }
   }, [graph.nodes, selectedId]);
+
+  useEffect(() => {
+    const liveIds = new Set(graph.nodes.map((node) => node.id));
+    setNodePositions((current) => Object.fromEntries(
+      Object.entries(current).filter(([nodeId]) => liveIds.has(nodeId)),
+    ));
+  }, [graph.nodes]);
 
   useEffect(() => {
     if (selectionSourceRef.current !== "map" && selectionSourceRef.current !== "inspector") return;
@@ -55,6 +71,10 @@ export function DeckMap({ report, onApplySubstitution }) {
 
   function resetMap() {
     setViewport({ zoom: 1, x: 0, y: 0 });
+  }
+
+  function resetLayout() {
+    setNodePositions({});
   }
 
   function startPan(event) {
@@ -87,6 +107,85 @@ export function DeckMap({ report, onApplySubstitution }) {
     panSessionRef.current = null;
     event.currentTarget.releasePointerCapture?.(event.pointerId);
     setIsPanning(false);
+  }
+
+  function startNodeDrag(event, nodeId) {
+    if (event.button !== 0) return;
+    event.stopPropagation();
+    nodeDragSessionRef.current = {
+      pointerId: event.pointerId,
+      nodeId,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      moved: false,
+    };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    setDraggingId(nodeId);
+  }
+
+  function moveNode(event) {
+    const session = nodeDragSessionRef.current;
+    if (!session || session.pointerId !== event.pointerId) return;
+    const distance = Math.hypot(event.clientX - session.clientX, event.clientY - session.clientY);
+    if (!session.moved && distance < 3) return;
+    session.moved = true;
+    const canvas = event.currentTarget.closest(".deck-map__canvas");
+    const rect = canvas?.getBoundingClientRect();
+    if (!rect?.width || !rect?.height) return;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const localX = event.clientX - rect.left;
+    const localY = event.clientY - rect.top;
+    const mapX = centerX + ((localX - centerX - viewport.x) / viewport.zoom);
+    const mapY = centerY + ((localY - centerY - viewport.y) / viewport.zoom);
+    setNodePositions((current) => ({
+      ...current,
+      [session.nodeId]: {
+        x: clamp((mapX / rect.width) * 100, 6, 94),
+        y: clamp((mapY / rect.height) * 100, 8, 92),
+      },
+    }));
+  }
+
+  function endNodeDrag(event) {
+    const session = nodeDragSessionRef.current;
+    if (!session || session.pointerId !== event.pointerId) return;
+    event.stopPropagation();
+    nodeDragSessionRef.current = null;
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    if (session.moved) ignoreNodeClickRef.current = session.nodeId;
+    setDraggingId("");
+  }
+
+  function handleNodeClick(nodeId) {
+    if (ignoreNodeClickRef.current === nodeId) {
+      ignoreNodeClickRef.current = "";
+      return;
+    }
+    selectNode(nodeId, "map");
+  }
+
+  function moveNodeWithKeyboard(event, node) {
+    const directions = {
+      ArrowLeft: [-1, 0],
+      ArrowRight: [1, 0],
+      ArrowUp: [0, -1],
+      ArrowDown: [0, 1],
+    };
+    if (!directions[event.key]) return;
+    event.preventDefault();
+    const amount = event.shiftKey ? 4 : 1.5;
+    const [deltaX, deltaY] = directions[event.key];
+    setNodePositions((current) => {
+      const position = current[node.id] || { x: node.x, y: node.y };
+      return {
+        ...current,
+        [node.id]: {
+          x: clamp(position.x + (deltaX * amount), 6, 94),
+          y: clamp(position.y + (deltaY * amount), 8, 92),
+        },
+      };
+    });
   }
 
   return (
@@ -143,9 +242,9 @@ export function DeckMap({ report, onApplySubstitution }) {
         )}
 
         <div
-          className={`deck-map__canvas ${isPanning ? "is-panning" : ""}`.trim()}
+          className={`deck-map__canvas ${isPanning ? "is-panning" : ""} ${draggingId ? "is-repositioning" : ""}`.trim()}
           role="group"
-          aria-label="Interactive map of recommended deck cards and their relationships. Drag the field to pan."
+          aria-label="Interactive map of recommended deck cards and their relationships. Drag a card to rearrange it, or drag the empty field to pan."
           onMouseLeave={() => setHoveredId("")}
           onPointerDown={startPan}
           onPointerMove={movePan}
@@ -164,14 +263,14 @@ export function DeckMap({ report, onApplySubstitution }) {
           >
             <svg className="deck-map__links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
               {(graph.edges || []).map((edge) => {
-                const source = graph.nodes.find((node) => node.id === edge.source);
-                const target = graph.nodes.find((node) => node.id === edge.target);
+                const source = positionedNodes.find((node) => node.id === edge.source);
+                const target = positionedNodes.find((node) => node.id === edge.target);
                 if (!source || !target) return null;
                 const isActive = !activeId || edge.source === activeId || edge.target === activeId;
                 return (
                   <line
                     key={edge.id}
-                    className={`deck-map__link deck-map__link--${edge.kind} ${isActive ? "is-active" : "is-dimmed"}`.trim()}
+                    className={`deck-map__link deck-map__link--${edge.kind} deck-map__link--strength-${edge.strength || "structural"} ${isActive ? "is-active" : "is-dimmed"}`.trim()}
                     x1={source.x}
                     y1={source.y}
                     x2={target.x}
@@ -181,7 +280,31 @@ export function DeckMap({ report, onApplySubstitution }) {
               })}
             </svg>
 
-            {(graph.nodes || []).map((node) => {
+            {activeId ? (graph.edges || [])
+              .filter((edge) => edge.source === activeId || edge.target === activeId)
+              .slice(0, 6)
+              .map((edge) => {
+                const source = positionedNodes.find((node) => node.id === edge.source);
+                const target = positionedNodes.find((node) => node.id === edge.target);
+                const other = edge.source === activeId ? target : source;
+                if (!source || !target || !other) return null;
+                return (
+                  <span
+                    key={`caption-${edge.id}`}
+                    className={`deck-map__edge-caption deck-map__edge-caption--${edge.strength || "structural"}`}
+                    style={{
+                      "--caption-x": `${(source.x + target.x) / 2}%`,
+                      "--caption-y": `${(source.y + target.y) / 2}%`,
+                    }}
+                  >
+                    <strong>{edge.strength === "structural" ? "STRUCTURE" : String(edge.strength || "low").toUpperCase()}</strong>
+                    <span>{other.row.card.cardName}</span>
+                    <small>{edge.basis || edge.label}</small>
+                  </span>
+                );
+              }) : null}
+
+            {positionedNodes.map((node) => {
               const isActive = node.id === activeId;
               const isSelected = node.id === selectedNode?.id;
               const isRelated = !activeId || relatedIds.has(node.id);
@@ -189,14 +312,19 @@ export function DeckMap({ report, onApplySubstitution }) {
                 <button
                   key={node.id}
                   type="button"
-                  className={`deck-map-node deck-map-node--${node.row.category} ${isActive ? "is-active" : ""} ${isSelected ? "is-selected" : ""} ${isRelated ? "is-related" : "is-dimmed"}`.trim()}
+                  className={`deck-map-node deck-map-node--${node.row.category} ${isActive ? "is-active" : ""} ${isSelected ? "is-selected" : ""} ${isRelated ? "is-related" : "is-dimmed"} ${draggingId === node.id ? "is-dragging" : ""}`.trim()}
                   style={{ "--node-x": `${node.x}%`, "--node-y": `${node.y}%` }}
                   onMouseEnter={() => setHoveredId(node.id)}
                   onFocus={() => setHoveredId(node.id)}
                   onBlur={() => setHoveredId("")}
-                  onClick={() => selectNode(node.id, "map")}
+                  onPointerDown={(event) => startNodeDrag(event, node.id)}
+                  onPointerMove={moveNode}
+                  onPointerUp={endNodeDrag}
+                  onPointerCancel={endNodeDrag}
+                  onKeyDown={(event) => moveNodeWithKeyboard(event, node)}
+                  onClick={() => handleNodeClick(node.id)}
                   aria-pressed={isSelected}
-                  aria-label={`${node.row.quantity} copies of ${node.row.card.cardName}. ${node.degree} connections.`}
+                  aria-label={`${node.row.quantity} copies of ${node.row.card.cardName}. ${node.degree} connections. Drag to rearrange, or use arrow keys while focused.`}
                 >
                   <span className="deck-map-node__orbit" aria-hidden="true" />
                   <CardArt card={node.row.card} className="deck-map-node__art" compact />
@@ -216,13 +344,17 @@ export function DeckMap({ report, onApplySubstitution }) {
             <button type="button" onClick={() => zoomBy(0.1)} disabled={viewport.zoom >= MAX_ZOOM} aria-label="Zoom in">+</button>
             <button type="button" onClick={fitMap}>FIT ALL</button>
             <button type="button" onClick={resetMap}>1:1</button>
-            <span>DRAG TO PAN</span>
+            <button type="button" onClick={resetLayout} disabled={!Object.keys(nodePositions).length}>RESET LAYOUT</button>
+            <span>DRAG CARDS · DRAG FIELD TO PAN</span>
           </div>
 
           <div className="deck-map__legend" aria-label="Connection legend">
-            <span><i className="is-observed" /> Observed synergy</span>
-            <span><i className="is-inferred" /> Inferred synergy</span>
-            <span><i className="is-structural" /> Trait / curve</span>
+            <span><i className="is-high" /> HIGH · direct mechanic</span>
+            <span><i className="is-good" /> GOOD · supported interaction</span>
+            <span><i className="is-low" /> LOW · deck context</span>
+            <span><i className="is-observed" /> solid = observed</span>
+            <span><i className="is-inferred" /> dashed = inferred</span>
+            <span><i className="is-structural" /> STRUCTURE · layout only</span>
           </div>
         </div>
 
@@ -239,7 +371,7 @@ export function DeckMap({ report, onApplySubstitution }) {
           <DeckMapInspector
             node={selectedNode}
             connections={selectedConnections}
-            graph={graph}
+            graph={positionedGraph}
             substitutions={report.substitutions?.[selectedNode.id] || []}
             onSelect={(nodeId) => selectNode(nodeId, "inspector")}
             onApply={(targetCardNumber) => onApplySubstitution(selectedNode.id, targetCardNumber)}
@@ -382,7 +514,13 @@ function DeckMapInspector({ node, connections, graph, substitutions, onSelect, o
             return (
               <button type="button" key={edge.id} onClick={() => onSelect(otherId)}>
                 <i className={`is-${edge.kind}`} />
-                <span><strong>{other?.row.card.cardName || otherId}</strong><small>{edge.label}</small></span>
+                <span>
+                  <strong>{other?.row.card.cardName || otherId}</strong>
+                  <small>{edge.label}</small>
+                </span>
+                <b className={`deck-map-inspector__strength is-${edge.strength || "structural"}`}>
+                  {edge.strength || "structure"}
+                </b>
               </button>
             );
           })}

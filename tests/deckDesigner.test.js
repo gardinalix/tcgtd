@@ -258,6 +258,28 @@ test("MSA parser accepts compact lines, preserves unknown entries and reports ca
   assert.ok(report.legality.violations.some((item) => item.type === "unknown_cards"));
 });
 
+test("deck analysis preserves printed LINK evidence for the visual map", () => {
+  const data = fixtureData();
+  data.generatedAt = "2026-07-30T12:00:00.000Z";
+  const wing = data.cards.find((item) => item.cardNumber === "TEST-001");
+  const heero = data.cards.find((item) => item.cardNumber === "TEST-005");
+  wing.cardName = "Wing Gundam";
+  wing.linkTargets = ["Heero Yuy"];
+  wing.traits = ["Operation Meteor"];
+  heero.cardName = "Heero Yuy";
+  heero.traits = ["Operation Meteor"];
+  const report = analyzeImportedDeck(data, parseMsaDeckList([
+    "4xTEST-001",
+    "4xTEST-005",
+  ].join("\n")));
+  const pair = report.synergies.find((item) => item.id === "TEST-001__TEST-005");
+
+  assert.ok(pair);
+  assert.equal(pair.rank, "high");
+  assert.equal(pair.confidence, "High");
+  assert.ok(pair.algorithmRules.includes("direct_link_pair"));
+});
+
 test("designer lowers confidence and labels limitations without competitive evidence", () => {
   const data = { ...fixtureData(), metaResults: [], metaDeckCards: [], metaEvents: [] };
   const report = designDeck(data, baseCriteria());

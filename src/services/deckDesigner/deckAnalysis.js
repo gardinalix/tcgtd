@@ -180,10 +180,14 @@ function buildSynergyAnalysis(data, rows) {
         sourceCard: row.card,
         targetCard: synergy.targetCard,
         score: synergy.score,
-        confidence: synergy.coDeckCount >= 5 ? "High" : synergy.score >= 65 ? "Medium" : "Low",
+        rank: synergy.rank,
+        confidence: synergy.rank === "high" ? "High" : synergy.rank === "good" ? "Medium" : "Low",
         explanation: synergy.explanation,
         evidence: synergy.evidence,
         coDeckCount: synergy.coDeckCount,
+        algorithmRules: synergy.algorithmRules,
+        sharedTraits: synergy.sharedTraits,
+        mechanicSetup: synergy.mechanicSetup,
         facts: synergy.coDeckCount
           ? [`Observed together in ${synergy.coDeckCount} normalized competitive decklists.`]
           : [],

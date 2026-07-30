@@ -22,12 +22,33 @@ test("competitive synergy edges remain observed and drive related-node focus", (
     sourceCard: rows[0].card,
     targetCard: rows[2].card,
     score: 88,
+    rank: "high",
     coDeckCount: 7,
+    algorithmRules: ["direct_link_pair"],
+    explanation: "High synergy: direct LINK/PAIR bridge.",
   }]);
   const observed = graph.edges.find((edge) => edge.id === "A__C");
   assert.equal(observed.kind, "observed");
-  assert.match(observed.label, /7 competitive decklists/);
+  assert.equal(observed.strength, "high");
+  assert.equal(observed.basis, "PRINTED LINK / PAIR");
+  assert.match(observed.label, /direct LINK\/PAIR/);
   assert.deepEqual(relatedNodeIds(graph, "A").has("C"), true);
+});
+
+test("context-only co-play remains visibly low and does not masquerade as a mechanic", () => {
+  const graph = buildDeckGraph(rows, [{
+    sourceCard: rows[0].card,
+    targetCard: rows[2].card,
+    score: 39,
+    rank: "low",
+    coDeckCount: 12,
+    algorithmRules: ["competitive_cooccurrence", "same_color", "curve_support"],
+    explanation: "Low synergy: appears together in 12 decklists.",
+  }]);
+  const contextual = graph.edges.find((edge) => edge.id === "A__C");
+  assert.equal(contextual.kind, "observed");
+  assert.equal(contextual.strength, "low");
+  assert.equal(contextual.basis, "CO-PLAY · 12 LISTS");
 });
 
 test("the highest-degree card occupies the central command position", () => {

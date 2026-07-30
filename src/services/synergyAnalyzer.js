@@ -13,7 +13,23 @@ import {
 } from "./synergyTextParser.js";
 
 const DEFAULT_MIN_SCORE = 20;
-const GENERIC_SHARED_KEYWORDS = new Set(["link", "pair"]);
+const GENERIC_SHARED_KEYWORDS = new Set([
+  "activate action",
+  "activate main",
+  "attack",
+  "burst",
+  "deploy",
+  "destroyed",
+  "during link",
+  "during pair",
+  "link",
+  "pair",
+  "resource",
+  "shield",
+  "trash",
+  "when linked",
+  "when paired",
+]);
 
 export function getSynergiesForCard(sourceCard, data, options = {}) {
   if (!sourceCard) return [];
@@ -134,7 +150,11 @@ export function evaluateCardSynergy(sourceCard, targetCard, sourceSignals, targe
   }
 
   for (const supportType of targetSignals.supportTypes) {
-    const hasBridge = sharedTraits.length || sourceLinksTarget.length || targetLinksSource.length || targetMentionsSource.length || sourceSignals.color === targetSignals.color;
+    const hasBridge = sharedTraits.length
+      || sourceLinksTarget.length
+      || targetLinksSource.length
+      || targetMentionsSource.length
+      || sourceMentionsTarget.length;
     if (hasBridge) {
       add("shared_keyword", supportType, `${targetCard.cardName} provides ${supportType.toLowerCase()} text in a connected color/trait context.`, 0.65);
     }
@@ -145,7 +165,7 @@ export function evaluateCardSynergy(sourceCard, targetCard, sourceSignals, targe
     add("color_conflict", "Color conflict", `Different colors without a confirmed link/deck bridge (${displayValue(sourceSignals.color)} vs ${displayValue(targetSignals.color)}).`);
   }
 
-  const finalScore = clampScore(score);
+  const finalScore = calibrateMechanicalScore(score, rules);
   const rank = rankForScore(finalScore);
 
   return {
@@ -177,6 +197,35 @@ function sortPriority(result) {
   if (rules.has("shared_archetype")) priority += 60;
   if (rules.has("text_bridge")) priority += 45;
   return priority;
+}
+
+function calibrateMechanicalScore(rawScore, rules = []) {
+  const signals = new Set(rules);
+  const hasDirectLink = signals.has("direct_link_pair");
+  const hasMechanicSetup = signals.has("mechanic_setup");
+  const hasTextBridge = signals.has("text_bridge");
+  const hasSharedTrait = signals.has("shared_trait");
+  const hasSharedKeyword = signals.has("shared_keyword");
+  let score = Number(rawScore || 0);
+
+  if (hasDirectLink) return clampScore(Math.max(90, score));
+  if (hasMechanicSetup) return clampScore(Math.max(80, score));
+  if (hasTextBridge && hasSharedTrait && hasSharedKeyword) {
+    return clampScore(Math.max(80, score));
+  }
+  if (hasTextBridge && hasSharedTrait) {
+    return clampScore(Math.min(79, Math.max(65, score)));
+  }
+  if (hasTextBridge) {
+    return clampScore(Math.min(74, Math.max(50, score)));
+  }
+  if (hasSharedTrait && hasSharedKeyword) {
+    return clampScore(Math.min(74, Math.max(50, score)));
+  }
+  if (hasSharedTrait || hasSharedKeyword) {
+    return clampScore(Math.min(49, Math.max(25, score)));
+  }
+  return clampScore(Math.min(39, score));
 }
 
 function buildMetaIndex(data) {
@@ -219,6 +268,17 @@ function buildExplanation(rank, evidence, rules) {
   const visibleEvidence = uniqueList(evidence).slice(0, 3);
   if (!visibleEvidence.length) {
     return "No actionable synergy explanation was generated.";
+  }
+  const mechanicalRules = new Set([
+    "direct_link_pair",
+    "mechanic_setup",
+    "text_bridge",
+    "shared_trait",
+    "shared_keyword",
+  ]);
+  const hasMechanicalBridge = rules.some((rule) => mechanicalRules.has(rule));
+  if (!hasMechanicalBridge) {
+    return `Low synergy (deck context only): ${visibleEvidence.join(" ")} No direct mechanical bridge was detected.`;
   }
   const prefix = {
     high: "High synergy",
