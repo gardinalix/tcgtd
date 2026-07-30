@@ -4,9 +4,8 @@ import {
   canDamageFriendlyUnit,
   hasConditionalPairOrLinkWindow,
   hasDestroyedTrigger,
-  importantTermsFor,
   linkMatchesCard,
-  mentionsAny,
+  matchCardTextTarget,
   normalizeText,
   overlap,
   parseCardSignals,
@@ -51,10 +50,20 @@ export function calculateSynergies(sourceCard, data) {
   const allCards = [...(data?.cards || []), ...(data?.resourceCards || [])];
   const metaIndex = buildMetaIndex(data);
   const sourceSignals = parseCardSignals(sourceCard);
+  const evaluationContext = {
+    knownCardNames: allCards.map((card) => card.cardName).filter(Boolean),
+  };
 
   return allCards
     .filter((targetCard) => targetCard.cardNumber !== sourceCard.cardNumber)
-    .map((targetCard) => evaluateCardSynergy(sourceCard, targetCard, sourceSignals, parseCardSignals(targetCard), metaIndex))
+    .map((targetCard) => evaluateCardSynergy(
+      sourceCard,
+      targetCard,
+      sourceSignals,
+      parseCardSignals(targetCard),
+      metaIndex,
+      evaluationContext,
+    ))
     .filter((item) => item.rank !== "none")
     .sort((left, right) =>
       sortPriority(right) - sortPriority(left)
@@ -65,7 +74,7 @@ export function calculateSynergies(sourceCard, data) {
     );
 }
 
-export function evaluateCardSynergy(sourceCard, targetCard, sourceSignals, targetSignals, metaIndex) {
+export function evaluateCardSynergy(sourceCard, targetCard, sourceSignals, targetSignals, metaIndex, evaluationContext = {}) {
   let score = 0;
   const types = [];
   const evidence = [];
@@ -110,17 +119,46 @@ export function evaluateCardSynergy(sourceCard, targetCard, sourceSignals, targe
     add("competitive_cooccurrence", coDeck.count >= 5 ? "Deck core" : "Side option", `Appears together in ${coDeck.count} normalized event decklist(s).`, multiplier);
   }
 
-  const sourceTerms = importantTermsFor(sourceCard, sourceSignals);
-  const targetTerms = importantTermsFor(targetCard, targetSignals);
-  const targetMentionsSource = mentionsAny(targetSignals.text, sourceTerms);
-  const sourceMentionsTarget = mentionsAny(sourceSignals.text, targetTerms);
-  if (targetMentionsSource.length || sourceMentionsTarget.length) {
+  const sourceTargetsTarget = matchCardTextTarget(
+    sourceCard,
+    targetCard,
+    sourceSignals,
+    targetSignals,
+    evaluationContext,
+  );
+  const targetTargetsSource = matchCardTextTarget(
+    targetCard,
+    sourceCard,
+    targetSignals,
+    sourceSignals,
+    evaluationContext,
+  );
+  const textBridgeDetails = [
+    sourceTargetsTarget.matched
+      ? {
+        direction: "source_to_target",
+        sourceCardNumber: sourceCard.cardNumber,
+        targetCardNumber: targetCard.cardNumber,
+        ...sourceTargetsTarget,
+      }
+      : null,
+    targetTargetsSource.matched
+      ? {
+        direction: "target_to_source",
+        sourceCardNumber: targetCard.cardNumber,
+        targetCardNumber: sourceCard.cardNumber,
+        ...targetTargetsSource,
+      }
+      : null,
+  ].filter(Boolean);
+  const textBridgeSpecificity = Math.max(0, ...textBridgeDetails.map((detail) => detail.specificity));
+  if (textBridgeDetails.length) {
     const directCommand = targetSignals.type === "command" || sourceSignals.type === "command";
     add(
       "text_bridge",
       directCommand ? "Command interaction" : "Textual bridge",
-      `Text references ${displayList([...targetMentionsSource, ...sourceMentionsTarget].slice(0, 4))}.`,
-      directCommand ? 1 : 0.75,
+      `Printed text targets ${textBridgeDetails.map((detail) => detail.label).join("; ")}.`,
+      textBridgeSpecificity >= 4 ? 1.5 : directCommand ? 1 : 0.75,
     );
   }
 
@@ -149,23 +187,17 @@ export function evaluateCardSynergy(sourceCard, targetCard, sourceSignals, targe
     add("curve_support", "Cost/curve support", `Cost curve is complementary (${sourceCard.cost || "-"} into ${targetCard.cost || "-"}).`);
   }
 
-  for (const supportType of targetSignals.supportTypes) {
-    const hasBridge = sharedTraits.length
-      || sourceLinksTarget.length
-      || targetLinksSource.length
-      || targetMentionsSource.length
-      || sourceMentionsTarget.length;
-    if (hasBridge) {
-      add("shared_keyword", supportType, `${targetCard.cardName} provides ${supportType.toLowerCase()} text in a connected color/trait context.`, 0.65);
-    }
-  }
-
-  const hasHardBridge = sourceLinksTarget.length || targetLinksSource.length || sharedArchetypes.length || coDeck.count || mechanicSetup.length;
+  const hasHardBridge = sourceLinksTarget.length
+    || targetLinksSource.length
+    || sharedArchetypes.length
+    || coDeck.count
+    || mechanicSetup.length
+    || textBridgeDetails.length;
   if (!hasHardBridge && sourceSignals.color && targetSignals.color && sourceSignals.color !== targetSignals.color && sourceSignals.color !== "neutral" && targetSignals.color !== "neutral") {
     add("color_conflict", "Color conflict", `Different colors without a confirmed link/deck bridge (${displayValue(sourceSignals.color)} vs ${displayValue(targetSignals.color)}).`);
   }
 
-  const finalScore = calibrateMechanicalScore(score, rules);
+  const finalScore = calibrateMechanicalScore(score, rules, { textBridgeSpecificity });
   const rank = rankForScore(finalScore);
 
   return {
@@ -182,6 +214,10 @@ export function evaluateCardSynergy(sourceCard, targetCard, sourceSignals, targe
     sharedArchetypes,
     sharedTraits,
     mechanicSetup: uniqueList(mechanicSetup),
+    textBridgeDetails,
+    textBridgeSpecificity,
+    textBridgeLabel: textBridgeDetails
+      .sort((left, right) => right.specificity - left.specificity)[0]?.label || "",
     algorithmRules: uniqueList(rules),
   };
 }
@@ -199,7 +235,7 @@ function sortPriority(result) {
   return priority;
 }
 
-function calibrateMechanicalScore(rawScore, rules = []) {
+function calibrateMechanicalScore(rawScore, rules = [], context = {}) {
   const signals = new Set(rules);
   const hasDirectLink = signals.has("direct_link_pair");
   const hasMechanicSetup = signals.has("mechanic_setup");
@@ -210,6 +246,9 @@ function calibrateMechanicalScore(rawScore, rules = []) {
 
   if (hasDirectLink) return clampScore(Math.max(90, score));
   if (hasMechanicSetup) return clampScore(Math.max(80, score));
+  if (hasTextBridge && Number(context.textBridgeSpecificity || 0) >= 4) {
+    return clampScore(Math.max(85, score));
+  }
   if (hasTextBridge && hasSharedTrait && hasSharedKeyword) {
     return clampScore(Math.max(80, score));
   }
@@ -265,7 +304,9 @@ function isCurveComplement(sourceCost, targetCost) {
 }
 
 function buildExplanation(rank, evidence, rules) {
-  const visibleEvidence = uniqueList(evidence).slice(0, 3);
+  const visibleEvidence = uniqueList(evidence)
+    .sort((left, right) => evidencePriority(right) - evidencePriority(left))
+    .slice(0, 3);
   if (!visibleEvidence.length) {
     return "No actionable synergy explanation was generated.";
   }
@@ -288,6 +329,20 @@ function buildExplanation(rank, evidence, rules) {
   const isTextOnly = rules.every((rule) => ["text_bridge", "shared_keyword", "same_color", "curve_support"].includes(rule));
   const source = isTextOnly ? " Suggested by textual/heuristic analysis." : "";
   return `${prefix}: ${visibleEvidence.join(" ")}${source}`;
+}
+
+function evidencePriority(value) {
+  const text = normalizeText(value);
+  if (text.startsWith("direct link/pair") || text.startsWith("direct link pair")) return 100;
+  if (text.startsWith("printed text targets")) return 95;
+  if (text.includes("destroyed trigger") || text.includes("tactical setup bridge")) return 90;
+  if (text.startsWith("shared trait")) return 70;
+  if (text.startsWith("shared tactical keyword")) return 60;
+  if (text.startsWith("appears together")) return 40;
+  if (text.startsWith("both cards are associated")) return 30;
+  if (text.startsWith("same color")) return 20;
+  if (text.startsWith("cost curve")) return 10;
+  return 0;
 }
 
 function displayList(values) {

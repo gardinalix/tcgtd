@@ -280,6 +280,34 @@ test("deck analysis preserves printed LINK evidence for the visual map", () => {
   assert.ok(pair.algorithmRules.includes("direct_link_pair"));
 });
 
+test("deck analysis retains every printed LINK instead of truncating to a global top eight", () => {
+  const data = fixtureData();
+  data.generatedAt = "2026-07-30T15:00:00.000Z";
+  const heero = data.cards.find((item) => item.cardNumber === "TEST-014");
+  heero.cardName = "Heero Yuy";
+  heero.cardType = "PILOT";
+  heero.traits = ["G Team", "Operation Meteor"];
+  const targets = data.cards
+    .filter((item) => /^TEST-00[1-9]$/.test(item.cardNumber))
+    .slice(0, 9);
+  targets.forEach((target, index) => {
+    target.cardName = `Wing Test ${index + 1}`;
+    target.cardType = "UNIT";
+    target.traits = [index % 2 ? "Operation Meteor" : "G Team"];
+    target.linkTargets = ["Heero Yuy"];
+  });
+  const report = analyzeImportedDeck(data, parseMsaDeckList([
+    "1xTEST-014",
+    ...targets.map((target) => `1x${target.cardNumber}`),
+  ].join("\n")));
+  const directHeeroLinks = report.synergies.filter((pair) =>
+    pair.id.includes("TEST-014")
+    && pair.algorithmRules.includes("direct_link_pair"));
+
+  assert.equal(directHeeroLinks.length, targets.length);
+  assert.ok(directHeeroLinks.every((pair) => pair.rank === "high"));
+});
+
 test("designer lowers confidence and labels limitations without competitive evidence", () => {
   const data = { ...fixtureData(), metaResults: [], metaDeckCards: [], metaEvents: [] };
   const report = designDeck(data, baseCriteria());

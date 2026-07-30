@@ -17,7 +17,7 @@ test("deck graph includes every unique recommended card and keeps nodes in bound
   assert.ok(graph.edges.length >= 3);
 });
 
-test("competitive synergy edges remain observed and drive related-node focus", () => {
+test("printed mechanics remain solid and drive related-node focus", () => {
   const graph = buildDeckGraph(rows, [{
     sourceCard: rows[0].card,
     targetCard: rows[2].card,
@@ -28,11 +28,29 @@ test("competitive synergy edges remain observed and drive related-node focus", (
     explanation: "High synergy: direct LINK/PAIR bridge.",
   }]);
   const observed = graph.edges.find((edge) => edge.id === "A__C");
-  assert.equal(observed.kind, "observed");
+  assert.equal(observed.kind, "printed");
   assert.equal(observed.strength, "high");
   assert.equal(observed.basis, "PRINTED LINK / PAIR");
   assert.match(observed.label, /direct LINK\/PAIR/);
   assert.deepEqual(relatedNodeIds(graph, "A").has("C"), true);
+});
+
+test("specific card-text bridges expose their printed targeting basis", () => {
+  const graph = buildDeckGraph(rows, [{
+    sourceCard: rows[0].card,
+    targetCard: rows[1].card,
+    score: 91,
+    rank: "high",
+    coDeckCount: 0,
+    algorithmRules: ["text_bridge"],
+    textBridgeLabel: "Operation Meteor · UNIT · Lv.6+",
+    explanation: "High synergy: printed text targets Operation Meteor Units.",
+  }]);
+  const printed = graph.edges.find((edge) => edge.id === "A__B");
+
+  assert.equal(printed.kind, "printed");
+  assert.equal(printed.strength, "high");
+  assert.equal(printed.basis, "TEXT · OPERATION METEOR · UNIT · LV.6+");
 });
 
 test("context-only co-play remains visibly low and does not masquerade as a mechanic", () => {

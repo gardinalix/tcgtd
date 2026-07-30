@@ -15,7 +15,7 @@ import {
   quantitiesFromRows,
 } from "../../domain/deckLegality.js";
 
-export const DECK_ANALYSIS_VERSION = "deck-analysis-2026-07-28-legality";
+export const DECK_ANALYSIS_VERSION = "deck-analysis-2026-07-30-cross-synergy";
 
 export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {}) {
   const stats = calculateDeckStats(assembled.rows || []);
@@ -163,19 +163,15 @@ export function calculateDeckStats(rows = []) {
 
 function buildSynergyAnalysis(data, rows) {
   const deckIds = new Set(rows.map((row) => row.card.cardNumber));
-  const anchorRows = [...rows]
-    .sort((left, right) =>
-      categoryWeight(right.category) - categoryWeight(left.category)
-      || right.confidenceValue - left.confidenceValue)
-    .slice(0, 8);
-  const pairs = [];
-  for (const row of anchorRows) {
-    const synergies = getSynergiesForCard(row.card, data, { minScore: 35 })
-      .filter((item) => deckIds.has(item.targetCardId))
-      .slice(0, 6);
+  const pairById = new Map();
+  for (const row of rows) {
+    const synergies = getSynergiesForCard(row.card, data, { minScore: 20 })
+      .filter((item) => deckIds.has(item.targetCardId));
     for (const synergy of synergies) {
       const pairId = [row.card.cardNumber, synergy.targetCardId].sort().join("__");
-      pairs.push({
+      const isPrintedMechanic = (synergy.algorithmRules || []).some((rule) =>
+        ["direct_link_pair", "mechanic_setup", "text_bridge"].includes(rule));
+      const pair = {
         id: pairId,
         sourceCard: row.card,
         targetCard: synergy.targetCard,
@@ -188,16 +184,91 @@ function buildSynergyAnalysis(data, rows) {
         algorithmRules: synergy.algorithmRules,
         sharedTraits: synergy.sharedTraits,
         mechanicSetup: synergy.mechanicSetup,
+        textBridgeDetails: synergy.textBridgeDetails,
+        textBridgeSpecificity: synergy.textBridgeSpecificity,
+        textBridgeLabel: synergy.textBridgeLabel,
         facts: synergy.coDeckCount
           ? [`Observed together in ${synergy.coDeckCount} normalized competitive decklists.`]
           : [],
         inference: synergy.coDeckCount
           ? ""
-          : "The interaction is inferred from printed text, curve, color, traits, or mechanics.",
-      });
+          : isPrintedMechanic
+            ? ""
+            : "The interaction is inferred from curve, color, traits, or shared mechanic signals.",
+      };
+      const existing = pairById.get(pairId);
+      if (!existing || synergyPairPriority(pair) > synergyPairPriority(existing)) {
+        pairById.set(pairId, pair);
+      }
     }
   }
-  return uniqueBy(pairs.sort((left, right) => right.score - left.score), (pair) => pair.id).slice(0, 8);
+  return selectDeckSynergyPairs(
+    [...pairById.values()].sort((left, right) =>
+      synergyPairPriority(right) - synergyPairPriority(left)
+      || right.score - left.score
+      || left.id.localeCompare(right.id)),
+    rows.length,
+  );
+}
+
+function selectDeckSynergyPairs(pairs, nodeCount) {
+  const selected = [];
+  const selectedIds = new Set();
+  const mechanicalDegree = new Map();
+  const totalLimit = Math.max(24, nodeCount * 3);
+
+  function add(pair, degreeLimit = Number.POSITIVE_INFINITY) {
+    if (!pair || selectedIds.has(pair.id) || selected.length >= totalLimit) return false;
+    const sourceDegree = mechanicalDegree.get(pair.sourceCard.cardNumber) || 0;
+    const targetDegree = mechanicalDegree.get(pair.targetCard.cardNumber) || 0;
+    if (sourceDegree >= degreeLimit && targetDegree >= degreeLimit) return false;
+    selected.push(pair);
+    selectedIds.add(pair.id);
+    mechanicalDegree.set(pair.sourceCard.cardNumber, sourceDegree + 1);
+    mechanicalDegree.set(pair.targetCard.cardNumber, targetDegree + 1);
+    return true;
+  }
+
+  const hasRule = (pair, rule) => (pair.algorithmRules || []).includes(rule);
+  const direct = pairs.filter((pair) => hasRule(pair, "direct_link_pair"));
+  const mechanicSetup = pairs.filter((pair) => hasRule(pair, "mechanic_setup"));
+  const specificText = pairs.filter((pair) =>
+    hasRule(pair, "text_bridge") && Number(pair.textBridgeSpecificity || 0) >= 3);
+  const broadText = pairs.filter((pair) =>
+    hasRule(pair, "text_bridge") && Number(pair.textBridgeSpecificity || 0) < 3);
+  const sharedMechanics = pairs.filter((pair) =>
+    !hasRule(pair, "direct_link_pair")
+    && !hasRule(pair, "mechanic_setup")
+    && !hasRule(pair, "text_bridge")
+    && (hasRule(pair, "shared_trait") || hasRule(pair, "shared_keyword"))
+    && ["high", "good"].includes(pair.rank));
+  const contextOnly = pairs.filter((pair) =>
+    !(pair.algorithmRules || []).some((rule) =>
+      ["direct_link_pair", "mechanic_setup", "text_bridge", "shared_trait", "shared_keyword"].includes(rule)));
+
+  direct.forEach((pair) => add(pair));
+  mechanicSetup.forEach((pair) => add(pair, 6));
+  specificText.forEach((pair) => add(pair, 6));
+  broadText.forEach((pair) => add(pair, 4));
+  sharedMechanics.forEach((pair) => add(pair, 3));
+  contextOnly.forEach((pair) => add(pair, 2));
+
+  return selected.sort((left, right) =>
+    synergyPairPriority(right) - synergyPairPriority(left)
+    || right.score - left.score
+    || left.id.localeCompare(right.id));
+}
+
+function synergyPairPriority(pair) {
+  const rules = new Set(pair.algorithmRules || []);
+  let priority = Number(pair.score || 0);
+  if (rules.has("direct_link_pair")) priority += 10_000;
+  if (rules.has("mechanic_setup")) priority += 8_000;
+  if (rules.has("text_bridge")) priority += 5_000 + (Number(pair.textBridgeSpecificity || 0) * 400);
+  if (rules.has("shared_trait")) priority += 800;
+  if (rules.has("shared_keyword")) priority += 500;
+  if (rules.has("competitive_cooccurrence")) priority += Math.min(300, Number(pair.coDeckCount || 0));
+  return priority;
 }
 
 function buildSubstitutions(data, rows, criteria) {

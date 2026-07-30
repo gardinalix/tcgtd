@@ -427,7 +427,7 @@ export function DeckMap({ report, onApplySubstitution }) {
             <span><i className="is-high" /> HIGH · direct mechanic</span>
             <span><i className="is-good" /> GOOD · supported interaction</span>
             <span><i className="is-low" /> LOW · deck context</span>
-            <span><i className="is-observed" /> solid = observed</span>
+            <span><i className="is-printed" /> solid = printed / observed</span>
             <span><i className="is-inferred" /> dashed = inferred</span>
             <span><i className="is-structural" /> STRUCTURE · layout only</span>
             {drawPlan ? <span><i className="is-draw-route" /> DRAW ROUTE · contextual priority</span> : null}

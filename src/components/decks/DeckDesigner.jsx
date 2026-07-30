@@ -1014,7 +1014,7 @@ function MatchupPanel({ rows = [] }) {
 
 function SynergyPanel({ rows = [] }) {
   return (
-    <TacticalDataPanel title="Primary synergies and combos" subtitle="Competitive co-occurrence is factual; text/curve bridges are labeled as inference.">
+    <TacticalDataPanel title="Primary synergies and combos" subtitle="Printed mechanics and targets are explicit; co-play is factual; contextual bridges remain labeled as inference.">
       <div className="designer-synergy-list">
         {rows.map((row) => (
           <article key={row.id}>

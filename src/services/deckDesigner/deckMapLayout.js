@@ -14,11 +14,14 @@ export function buildDeckGraph(rows = [], synergies = []) {
     if (edgeIds.has(id)) continue;
     edgeIds.add(id);
     const strength = synergy.rank || strengthFromScore(synergy.score);
+    const rules = new Set(synergy.algorithmRules || []);
+    const isPrintedMechanic = ["direct_link_pair", "mechanic_setup", "text_bridge"]
+      .some((rule) => rules.has(rule));
     edges.push({
       id,
       source,
       target,
-      kind: synergy.coDeckCount > 0 ? "observed" : "inferred",
+      kind: isPrintedMechanic ? "printed" : synergy.coDeckCount > 0 ? "observed" : "inferred",
       score: Number(synergy.score || 0),
       strength,
       basis: relationshipBasis(synergy),
@@ -217,7 +220,11 @@ function relationshipBasis(synergy = {}) {
   const rules = new Set(synergy.algorithmRules || []);
   if (rules.has("direct_link_pair")) return "PRINTED LINK / PAIR";
   if (rules.has("mechanic_setup")) return "MECHANICAL COMBO";
-  if (rules.has("text_bridge")) return "CARD-TEXT BRIDGE";
+  if (rules.has("text_bridge")) {
+    return synergy.textBridgeLabel
+      ? `TEXT · ${String(synergy.textBridgeLabel).toUpperCase()}`
+      : "CARD-TEXT BRIDGE";
+  }
   if (rules.has("shared_trait")) return "SHARED TRAIT";
   if (synergy.coDeckCount > 0) return `CO-PLAY · ${synergy.coDeckCount} LISTS`;
   if (rules.has("shared_keyword")) return "SHARED MECHANIC";

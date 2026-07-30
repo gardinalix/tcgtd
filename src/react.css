@@ -10422,6 +10422,10 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
   stroke-width: 1.8;
 }
 
+.deck-map__link--printed {
+  stroke-width: 2.1;
+}
+
 .deck-map__link--inferred {
   stroke: var(--map-violet);
   stroke-dasharray: 5 5;
@@ -10627,6 +10631,8 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
 
 .deck-map__legend i.is-observed,
 .deck-map-inspector__connections i.is-observed { background: var(--map-cyan); }
+.deck-map__legend i.is-printed,
+.deck-map-inspector__connections i.is-printed { background: #4dffb8; }
 .deck-map__legend i.is-inferred,
 .deck-map-inspector__connections i.is-inferred { background: var(--map-violet); }
 .deck-map__legend i.is-structural,
