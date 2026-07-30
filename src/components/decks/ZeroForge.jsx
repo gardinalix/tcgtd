@@ -32,6 +32,7 @@ export function ZeroForge({
   });
   const [dragActive, setDragActive] = useState(false);
   const [savedDeckId, setSavedDeckId] = useState("");
+  const [preview, setPreview] = useState(null);
 
   const cards = data.cards || [];
   const cardMap = useMemo(() => new Map(cards.map((card) => [card.cardNumber, card])), [cards]);
@@ -118,6 +119,32 @@ export function ZeroForge({
     event.dataTransfer.effectAllowed = "copy";
     event.dataTransfer.setData("application/x-zero-forge-card", cardNumber);
     event.dataTransfer.setData("text/plain", cardNumber);
+  }
+
+  function showCardPreview(card, event) {
+    if (!card || typeof window === "undefined") return;
+    const rect = event.currentTarget?.getBoundingClientRect?.();
+    const pointX = Number.isFinite(event.clientX) && event.clientX > 0
+      ? event.clientX
+      : (rect?.left || 0) + (rect?.width || 0) / 2;
+    const pointY = Number.isFinite(event.clientY) && event.clientY > 0
+      ? event.clientY
+      : (rect?.top || 0) + Math.min(rect?.height || 0, 96) / 2;
+    setPreview(buildPreviewGeometry(card, pointX, pointY));
+  }
+
+  function hideCardPreview(event) {
+    if (event?.currentTarget?.contains?.(event.relatedTarget)) return;
+    setPreview(null);
+  }
+
+  function previewHandlers(card) {
+    return {
+      onMouseEnter: (event) => showCardPreview(card, event),
+      onMouseLeave: hideCardPreview,
+      onFocus: (event) => showCardPreview(card, event),
+      onBlur: hideCardPreview,
+    };
   }
 
   function dropOnMap(event) {
@@ -239,7 +266,8 @@ export function ZeroForge({
                   className={`zero-forge-library-card ${locked ? "is-locked" : ""} ${focusCardNumber === card.cardNumber ? "is-focused" : ""}`.trim()}
                   onDragStart={(event) => startDrag(event, card.cardNumber)}
                   onClick={() => addCard(card.cardNumber)}
-                  title={locked ? assessment?.reason : `Add ${card.cardName}`}
+                  aria-label={locked ? t(assessment?.reason) : t(`Add ${card.cardName}`)}
+                  {...previewHandlers(card)}
                 >
                   <CardArt card={card} className="zero-forge-library-card__art" compact />
                   <span>
@@ -349,6 +377,7 @@ export function ZeroForge({
                     key={row.card.cardNumber}
                     className={`zero-forge-node ${focusCardNumber === row.card.cardNumber ? "is-focused" : ""}`.trim()}
                     style={{ left: position.x, top: position.y }}
+                    {...previewHandlers(row.card)}
                   >
                     <button type="button" onClick={() => setFocusCardNumber(row.card.cardNumber)}>
                       <CardArt card={row.card} className="zero-forge-node__art" compact />
@@ -373,6 +402,7 @@ export function ZeroForge({
                     className={`zero-forge-ghost zero-forge-ghost--${suggestion.category}`}
                     style={{ left: position.x, top: position.y }}
                     onClick={() => addCard(suggestion.card.cardNumber, "suggestion")}
+                    {...previewHandlers(suggestion.card)}
                   >
                     <CardArt card={suggestion.card} className="zero-forge-ghost__art" compact />
                     <span>
@@ -400,7 +430,7 @@ export function ZeroForge({
           </div>
 
           {focusedCard ? (
-            <section className="zero-forge-focus">
+            <section className="zero-forge-focus" {...previewHandlers(focusedCard)}>
               <CardArt card={focusedCard} className="zero-forge-focus__art" compact />
               <div>
                 <small>ACTIVE ANCHOR</small>
@@ -442,6 +472,7 @@ export function ZeroForge({
                 key={suggestion.card.cardNumber}
                 type="button"
                 onClick={() => addCard(suggestion.card.cardNumber, "suggestion")}
+                {...previewHandlers(suggestion.card)}
               >
                 <span>0{suggestion.rank}</span>
                 <div>
@@ -462,7 +493,12 @@ export function ZeroForge({
                   Number(left.card.cost || 0) - Number(right.card.cost || 0)
                   || String(left.card.cardName).localeCompare(String(right.card.cardName)))
                 .map((row) => (
-                  <button key={row.card.cardNumber} type="button" onClick={() => setFocusCardNumber(row.card.cardNumber)}>
+                  <button
+                    key={row.card.cardNumber}
+                    type="button"
+                    onClick={() => setFocusCardNumber(row.card.cardNumber)}
+                    {...previewHandlers(row.card)}
+                  >
                     <span>{row.quantity}x</span>
                     <strong>{row.card.cardName}</strong>
                     <small>C{row.card.cost ?? "-"}</small>
@@ -472,7 +508,126 @@ export function ZeroForge({
           </section>
         </aside>
       </div>
+      {preview ? (
+        <ZeroForgeCardPreview
+          preview={preview}
+          main={main}
+          workspace={workspace}
+        />
+      ) : null}
     </section>
+  );
+}
+
+function ZeroForgeCardPreview({ preview, main, workspace }) {
+  const { t } = useLocale();
+  const { card } = preview;
+  const quantity = Number(main[card.cardNumber] || 0);
+  const assessment = workspace.availability[card.cardNumber];
+  const suggestion = workspace.suggestions.find((item) => item.card.cardNumber === card.cardNumber);
+  const maxCopies = Number(assessment?.maxCopies ?? card.copyLimit ?? 4);
+  const isBanned = maxCopies === 0 || assessment?.type === "banned_card";
+  const isLocked = !assessment?.allowed && !isBanned;
+  const status = isBanned
+    ? "BANNED"
+    : isLocked
+      ? "LOCKED BY RULES"
+      : "LEGAL ADDITION";
+  const traits = card.traits || [];
+  const links = card.linkTargets || [];
+  const tags = card.synergyTags || [];
+  const effect = card.effectPreview || card.effectText || card.cardText || "No normalized effect preview available.";
+  const inlineStyle = {
+    left: preview.left,
+    top: preview.top,
+    width: preview.width,
+    "--preview-origin-x": `${preview.originX}px`,
+    "--preview-origin-y": `${preview.originY}px`,
+  };
+
+  return (
+    <>
+      <i
+        className="zero-forge-card-preview__point"
+        style={{ left: preview.pointX, top: preview.pointY }}
+        aria-hidden="true"
+      />
+      <i
+        className={`zero-forge-card-preview__trace is-${preview.side}`}
+        style={{
+          left: preview.traceLeft,
+          top: preview.pointY,
+          width: preview.traceWidth,
+        }}
+        aria-hidden="true"
+      />
+      <aside
+        className={`zero-forge-card-preview ${isBanned || isLocked ? "is-locked" : suggestion ? "is-suggested" : "is-legal"}`.trim()}
+        style={inlineStyle}
+        role="tooltip"
+      >
+        <header>
+          <span>{t("LIVE CARD INSPECTION")}</span>
+          <strong>{card.cardName}</strong>
+          <small>{card.cardNumber} · {card.color || "-"} · {card.cardType || "-"}</small>
+        </header>
+        <div className="zero-forge-card-preview__body">
+          <CardArt card={card} className="zero-forge-card-preview__art" />
+          <div className="zero-forge-card-preview__intel">
+            <div className={`zero-forge-card-preview__status ${isBanned || isLocked ? "is-blocked" : ""}`.trim()}>
+              <span>{t("DECK STATUS")}</span>
+              <strong>{t(status)}</strong>
+              <small>
+                {quantity
+                  ? `${t("IN DECK")} · ${quantity}/${maxCopies}`
+                  : assessment?.reason
+                    ? t(assessment.reason)
+                    : t("Available to add")}
+              </small>
+            </div>
+            <dl className="zero-forge-card-preview__stats">
+              <div><dt>LV</dt><dd>{card.level ?? "-"}</dd></div>
+              <div><dt>{t("COST")}</dt><dd>{card.cost ?? "-"}</dd></div>
+              <div><dt>AP</dt><dd>{card.ap ?? "-"}</dd></div>
+              <div><dt>HP</dt><dd>{card.hp ?? "-"}</dd></div>
+            </dl>
+            <div className="zero-forge-card-preview__meta">
+              <span><small>{t("RARITY")}</small><strong>{card.rarity || "-"}</strong></span>
+              <span><small>{t("SET")}</small><strong>{(card.packageCodes || []).join(" / ") || "-"}</strong></span>
+            </div>
+            {traits.length ? (
+              <section>
+                <span>{t("TRAITS")}</span>
+                <div>{traits.map((trait) => <b key={trait}>{trait}</b>)}</div>
+              </section>
+            ) : null}
+            {links.length ? (
+              <section className="is-link">
+                <span>{t("PRINTED LINK / PAIR")}</span>
+                <div>{links.map((link) => <b key={link}>{link}</b>)}</div>
+              </section>
+            ) : null}
+            {tags.length ? (
+              <section className="is-signal">
+                <span>{t("TACTICAL SIGNALS")}</span>
+                <div>{tags.slice(0, 7).map((tag) => <b key={tag}>{String(tag).replaceAll("_", " ")}</b>)}</div>
+              </section>
+            ) : null}
+          </div>
+        </div>
+        <section className="zero-forge-card-preview__effect">
+          <span>{t("NORMALIZED EFFECT")}</span>
+          <p>{effect}</p>
+        </section>
+        {suggestion ? (
+          <footer>
+            <span>{t(`BRUXÃO PROJECTION · #${suggestion.rank}`)}</span>
+            <strong>{suggestion.reasons.map((reason) => t(reason)).join(" · ")}</strong>
+            <small>{t("This is a projected card and has not been added to the deck.")}</small>
+          </footer>
+        ) : null}
+      </aside>
+    </>
   );
 }
 
@@ -516,5 +671,36 @@ function buildForgeLayout(rows, suggestions) {
       x: lane.x,
       count: lane.rows.reduce((sum, row) => sum + row.quantity, 0),
     })),
+  };
+}
+
+function buildPreviewGeometry(card, rawPointX, rawPointY) {
+  const viewportWidth = Math.max(320, window.innerWidth || 1440);
+  const viewportHeight = Math.max(480, window.innerHeight || 900);
+  const width = Math.min(500, viewportWidth - 28);
+  const estimatedHeight = Math.min(610, viewportHeight - 96);
+  const gap = 26;
+  const pointX = Math.max(8, Math.min(viewportWidth - 8, rawPointX));
+  const pointY = Math.max(82, Math.min(viewportHeight - 8, rawPointY));
+  const hasRoomRight = pointX + gap + width <= viewportWidth - 14;
+  const side = hasRoomRight ? "right" : "left";
+  const left = hasRoomRight
+    ? pointX + gap
+    : Math.max(14, pointX - gap - width);
+  const top = Math.max(82, Math.min(pointY - 150, viewportHeight - estimatedHeight - 14));
+  const panelEdge = hasRoomRight ? left : left + width;
+
+  return {
+    card,
+    pointX,
+    pointY,
+    left,
+    top,
+    width,
+    side,
+    originX: hasRoomRight ? 0 : width,
+    originY: Math.max(0, Math.min(estimatedHeight, pointY - top)),
+    traceLeft: Math.min(pointX, panelEdge),
+    traceWidth: Math.max(0, Math.abs(panelEdge - pointX)),
   };
 }
