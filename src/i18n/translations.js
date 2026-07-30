@@ -354,10 +354,19 @@ const PT_BR = {
   "High": "Alta",
   "Medium": "Média",
   "Low": "Baixa",
+  "Likely stable": "Provavelmente estável",
+  "Potentially difficult": "Potencialmente difícil",
+  "Likely favorable pressure": "Pressão provavelmente favorável",
+  "Close / unverified": "Equilibrado / não verificado",
+  "Resilient on paper": "Resiliente em teoria",
+  "Potentially fragile": "Potencialmente frágil",
   "observed": "observado",
   "inferred": "inferido",
   "competitive result": "resultado competitivo",
   "official rule": "regra oficial",
+  "user provided decklist": "decklist fornecida pelo usuário",
+  "placing unavailable": "colocação indisponível",
+  "for the current snapshot": "para o snapshot atual",
   "ACCESS TERMINAL": "TERMINAL DE ACESSO",
   "AUTH CALLBACK": "RETORNO DE AUTENTICAÇÃO",
   "Above visible threshold.": "Acima do limite de visibilidade.",
@@ -804,6 +813,7 @@ const PT_RULES = [
   [/^Observed evidence: (\d+) list\(s\), (\d+) event\(s\)\. Inferences are explicitly labeled\.$/i, "Evidência observada: $1 lista(s), $2 evento(s). As inferências estão identificadas explicitamente."],
   [/^The proposed main deck has (\d+) cards with an average cost of ([\d.]+)\.$/i, "O deck principal proposto tem $1 cartas e custo médio de $2."],
   [/^Latest matched event date: (.+)\.$/i, "Data do evento correspondente mais recente: $1."],
+  [/^Evidence risk: the relevant competitive sample is small, so flex slots are less stable\.$/i, "Risco da evidência: a amostra competitiva relevante é pequena, portanto os espaços flexíveis são menos estáveis."],
   [/^Evidence risk: (\d+) slot\(s\) are theoretically inferred rather than observed in the matched sample\.$/i, "Risco da evidência: $1 espaço(s) foram inferidos teoricamente, em vez de observados na amostra."],
   [/^Theoretical: (.+)$/i, "Teórico: $1"],
   [/^Theory: (.+)$/i, "Teoria: $1"],
@@ -825,12 +835,95 @@ const PT_RULES = [
   [/^No opponent-level game data is available;(.+)$/i, "Não há dados de partidas por oponente;$1"],
   [/^The current Gundam Card Game rules use a 50-card main deck plus a 10-card resource deck;(.+)$/i, "As regras atuais do Gundam Card Game usam um deck principal de 50 cartas e um deck de recursos de 10 cartas;$1"],
   [/^Legality check: passed under the official rules effective (.+)\.$/i, "Validação de legalidade: aprovada conforme as regras oficiais vigentes em $1."],
+  [/^Legality check: failed under the official rules effective (.+)\.$/i, "Validação de legalidade: reprovada conforme as regras oficiais vigentes em $1."],
+  [/^Required card terms not found in the official catalog snapshot: (.+)\.$/i, "Termos de cartas obrigatórias não encontrados no snapshot oficial do catálogo: $1."],
+  [/^Excluded card terms not found in the official catalog snapshot: (.+)\.$/i, "Termos de cartas excluídas não encontrados no snapshot oficial do catálogo: $1."],
+  [/^Required cards outside the selected colors were not included: (.+)\.$/i, "Cartas obrigatórias fora das cores selecionadas não foram incluídas: $1."],
+  [/^Excluded constraints override required constraints for: (.+)\.$/i, "As restrições de exclusão prevalecem sobre as obrigatórias para: $1."],
+  [/^No competitive list matched the filters\. The result uses official card data and theoretical synergy only\.$/i, "Nenhuma lista competitiva correspondeu aos filtros. O resultado usa apenas dados oficiais das cartas e sinergia teórica."],
+  [/^Auto-selected (.+) in (.+) from (\d+) competitive list\(s\); this shell is an evidence-weighted inference, not an official classification\.$/i, "$1 em $2 foi selecionada automaticamente a partir de $3 lista(s) competitiva(s); esta estrutura é uma inferência ponderada por evidências, não uma classificação oficial."],
+  [/^No competitive shell was observed for the selected unit\. (.+) in (.+) is a theoretical fallback inferred from the card catalog, so confidence is reduced\.$/i, "Nenhuma estrutura competitiva foi observada para a unidade selecionada. $1 em $2 é uma alternativa teórica inferida do catálogo de cartas, portanto a confiança é reduzida."],
+  [/^The tracked-price estimate exceeds the R\$ ([\d.]+) budget by R\$ ([\d.]+)\. Use the affordable substitutions to reduce cost\.$/i, "A estimativa de preço monitorado excede o orçamento de R$ $1 em R$ $2. Use as substituições econômicas para reduzir o custo."],
   [/^(\d+) competitive source list\(s\) were excluded because they violate the current official banned\/restricted rules\.$/i, "$1 lista(s) competitiva(s) de origem foram excluída(s) por violar as regras oficiais atuais de banimento/restrição."],
   [/^Required banned cards were ignored: (.+)\.$/i, "Cartas obrigatórias banidas foram ignoradas: $1."],
   [/^(.+) \((.+)\) is banned under the current official rules\.$/i, "$1 ($2) está banida pelas regras oficiais atuais."],
   [/^(.+) \((.+)\) is limited to (\d+) copies; current: (\d+)\.$/i, "$1 ($2) está limitada a $3 cópias; atual: $4."],
   [/^(.+) are a banned pair and cannot be used in the same deck\.$/i, "$1 formam um par proibido e não podem ser usadas no mesmo deck."],
   [/^(.+) tuned for (competitive consistency|casual flexibility)\. The shell follows weighted adoption from (\d+) relevant lists \((\d+) exact matches\), then uses official card text, curve and synergy signals to resolve flex slots\. Average cost: ([\d.]+)\.$/i, "$1 ajustado para $2. A estrutura segue a adoção ponderada de $3 listas relevantes ($4 correspondências exatas) e usa o texto oficial, a curva e os sinais de sinergia para definir os espaços flexíveis. Custo médio: $5."],
+];
+
+const PT_FRAGMENT_RULES = [
+  [/\bEvidence risk:/gi, "Risco da evidência:"],
+  [/\bthe low curve should improve early deployment consistency and pressure\./gi, "a curva baixa deve melhorar a consistência e a pressão no início da partida."],
+  [/\b(\d+) cards with Blocker signals provide a meaningful defensive layer\./gi, "$1 cartas com sinal de Blocker oferecem uma camada defensiva relevante."],
+  [/\b(\d+) draw\/search-tagged slots should reduce dead hands\./gi, "$1 espaços com sinais de compra/busca devem reduzir mãos improdutivas."],
+  [/\b(\d+) pressure-tagged slots support proactive damage conversion\./gi, "$1 espaços com sinais de pressão favorecem a conversão proativa em dano."],
+  [/\bthe list prioritizes observed card adoption over a single dominant mechanic\./gi, "a lista prioriza a adoção observada das cartas em vez de uma única mecânica dominante."],
+  [/(.+) was selected as the strongest observed shell across (\d+) relevant list\(s\)\./gi, "$1 foi selecionada como a estrutura observada mais forte em $2 lista(s) relevante(s)."],
+  [/(.+) was inferred from the selected unit's catalog color and archetype signals because no matching competitive shell was observed\./gi, "$1 foi inferida a partir dos sinais de cor e arquétipo da unidade no catálogo, pois nenhuma estrutura competitiva correspondente foi observada."],
+  [/\bthe higher average cost can produce slower opening sequences\./gi, "o custo médio mais alto pode produzir sequências iniciais mais lentas."],
+  [/\blimited draw\/search signals may increase hand variance\./gi, "poucos sinais de compra/busca podem aumentar a variância das mãos."],
+  [/\bthe relevant competitive sample is small, so flex slots are less stable\./gi, "a amostra competitiva relevante é pequena, portanto os espaços flexíveis são menos estáveis."],
+  [/\bhidden matchup weaknesses cannot be measured directly\./gi, "fraquezas ocultas de matchup não podem ser medidas diretamente."],
+  [/\b(\d+) Blocker-tagged slots can absorb early attacks\./gi, "$1 espaços com sinal de Blocker podem absorver ataques iniciais."],
+  [/\bthe list has limited Blocker density; no head-to-head records are available\./gi, "a lista tem baixa densidade de Blocker; não há registros de confronto direto disponíveis."],
+  [/\b(\d+) pressure-tagged slots can punish slower setup\./gi, "$1 espaços com sinais de pressão podem punir preparações mais lentas."],
+  [/\bclosing speed is not strongly signaled; no head-to-head records are available\./gi, "a velocidade de finalização não está fortemente sinalizada; não há registros de confronto direto disponíveis."],
+  [/\b(\d+) draw\/search-tagged slots; opponent-level event data is unavailable\./gi, "$1 espaços com sinais de compra/busca; não há dados de eventos por oponente disponíveis."],
+  [/\bHigh synergy:/gi, "Alta sinergia:"],
+  [/\bGood synergy:/gi, "Boa sinergia:"],
+  [/\bLow synergy:/gi, "Baixa sinergia:"],
+  [/\bDirect LINK\/PAIR bridge detected through ([^.]+)\./gi, "Conexão direta de LINK/PAIR detectada por $1."],
+  [/\bPrinted text targets ([^.]+)\./gi, "O texto impresso seleciona $1."],
+  [/\bShared trait signal: ([^.]+)\./gi, "Sinal de trait compartilhada: $1."],
+  [/\bShared tactical keyword\/tag: ([^.]+)\./gi, "Palavra-chave/tag tática compartilhada: $1."],
+  [/\bBoth cards are associated with ([^.]+)\./gi, "As duas cartas estão associadas a $1."],
+  [/\bAppears together in (\d+) normalized event decklist\(s\)\./gi, "Aparecem juntas em $1 decklist(s) normalizada(s) de eventos."],
+  [/(.+) can damage one of your Units, which can set up (.+)'s Destroyed trigger while its LINK\/PAIR condition is active\. This is a tactical setup bridge, not an official LINK\./gi, "$1 pode causar dano a uma de suas Units e preparar o gatilho Destroyed de $2 enquanto sua condição LINK/PAIR estiver ativa. Esta é uma conexão tática de preparação, não um LINK oficial."],
+  [/(.+) can damage one of your Units, which can set up (.+)'s Destroyed trigger\. This is a tactical setup bridge, not an official LINK\./gi, "$1 pode causar dano a uma de suas Units e preparar o gatilho Destroyed de $2. Esta é uma conexão tática de preparação, não um LINK oficial."],
+  [/\bSame color identity: ([^.]+)\./gi, "Mesma identidade de cor: $1."],
+  [/\bCost curve is complementary \(([^)]+)\)\./gi, "A curva de custo é complementar ($1)."],
+  [/\bDifferent colors without a confirmed link\/deck bridge \(([^)]+)\)\./gi, "Cores diferentes sem uma conexão confirmada de link/deck ($1)."],
+  [/\bSuggested by textual\/heuristic analysis\./gi, "Sugerida pela análise textual/heurística."],
+  [/\bNo direct mechanical bridge was detected\./gi, "Nenhuma conexão mecânica direta foi detectada."],
+  [/\bNo actionable synergy explanation was generated\./gi, "Nenhuma explicação de sinergia acionável foi gerada."],
+  [/\bThe interaction is inferred from curve, color, traits, or shared mechanic signals\./gi, "A interação é inferida pela curva, cor, traits ou sinais mecânicos compartilhados."],
+  [/\bfor the current snapshot\b/gi, "para o snapshot atual"],
+  [/\bem para o snapshot atual\b/gi, "para o snapshot atual"],
+  [/\bEvery recommendation is theoretical and confidence is reduced\./gi, "Todas as recomendações são teóricas e a confiança está reduzida."],
+  [/\bcompetitive consistency\b/gi, "consistência competitiva"],
+  [/\bcasual flexibility\b/gi, "flexibilidade casual"],
+  [/\bselected archetype\b/gi, "arquétipo selecionado"],
+  [/\ban open strategy\b/gi, "uma estratégia aberta"],
+  [/\bthe strategy\b/gi, "a estratégia"],
+  [/\bopen colors\b/gi, "cores abertas"],
+  [/\bunrestricted colors\b/gi, "cores sem restrição"],
+  [/\bnot published\b/gi, "não publicada"],
+  [/\bdate unavailable\b/gi, "data indisponível"],
+  [/\bplacing unavailable\b/gi, "colocação indisponível"],
+  [/\bin white\b(?= foi selecionada| foi inferida)/gi, "em Branco"],
+  [/\bin blue\b(?= foi selecionada| foi inferida)/gi, "em Azul"],
+  [/\bin green\b(?= foi selecionada| foi inferida)/gi, "em Verde"],
+  [/\bin red\b(?= foi selecionada| foi inferida)/gi, "em Vermelho"],
+  [/\bin purple\b(?= foi selecionada| foi inferida)/gi, "em Roxo"],
+  [/\bem white\b(?= foi| é)/gi, "em Branco"],
+  [/\bem blue\b(?= foi| é)/gi, "em Azul"],
+  [/\bem green\b(?= foi| é)/gi, "em Verde"],
+  [/\bem red\b(?= foi| é)/gi, "em Vermelho"],
+  [/\bem purple\b(?= foi| é)/gi, "em Roxo"],
+  [/\bwhite\b(?=[.)]| vs )/gi, "branco"],
+  [/\bblue\b(?=[.)]| vs )/gi, "azul"],
+  [/\bgreen\b(?=[.)]| vs )/gi, "verde"],
+  [/\bred\b(?=[.)]| vs )/gi, "vermelho"],
+  [/\bpurple\b(?=[.)]| vs )/gi, "roxo"],
+  [/\bneutral\b(?=[.)]| vs )/gi, "neutro"],
+  [/(\d+|-) into (\d+|-)/gi, "$1 seguido de $2"],
+  [/\bnamed\s+/gi, "nome "],
+  [/\bor higher\b/gi, "ou superior"],
+  [/\bor lower\b/gi, "ou inferior"],
+  [/\btheoretical card analysis has greater weight\./gi, "a análise teórica das cartas tem maior peso."],
+  [/\brelated archetypes and same-color lists were used as secondary evidence\./gi, "arquétipos relacionados e listas da mesma cor foram usados como evidência secundária."],
+  [/\bits inclusion is treated as a theoretical constraint\./gi, "sua inclusão é tratada como uma restrição teórica."],
 ];
 
 export function setRuntimeLocale(locale) {
@@ -846,12 +939,20 @@ export function translate(value, locale = runtimeLocale) {
   const leading = value.match(/^\s*/)?.[0] || "";
   const trailing = value.match(/\s*$/)?.[0] || "";
   const text = value.trim();
-  if (PT_BR[text]) return `${leading}${PT_BR[text]}${trailing}`;
+  let translated = Object.prototype.hasOwnProperty.call(PT_BR, text) ? PT_BR[text] : text;
 
-  for (const [pattern, replacement] of PT_RULES) {
-    if (pattern.test(text)) return `${leading}${text.replace(pattern, replacement)}${trailing}`;
+  if (translated === text) {
+    for (const [pattern, replacement] of PT_RULES) {
+      if (!pattern.test(text)) continue;
+      translated = text.replace(pattern, replacement);
+      break;
+    }
   }
-  return value;
+
+  for (const [pattern, replacement] of PT_FRAGMENT_RULES) {
+    translated = translated.replace(pattern, replacement);
+  }
+  return `${leading}${translated}${trailing}`;
 }
 
 export function getLocaleTag(locale = runtimeLocale) {

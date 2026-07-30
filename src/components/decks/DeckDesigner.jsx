@@ -21,6 +21,7 @@ import {
 } from "../../services/deckDesigner/index.js";
 import { DESIGNER_COLORS } from "../../services/deckDesigner/deckDesignerUtils.js";
 import { getLocaleTag } from "../../i18n/translations.js";
+import { useLocale } from "../../i18n/LocaleProvider.jsx";
 
 const ANALYSIS_STAGES = [
   "Collecting competitive decklists",
@@ -741,21 +742,22 @@ function DesignerResult({
   onApplySubstitution,
   saveMessage,
 }) {
+  const { t } = useLocale();
   return (
     <section className="deck-designer-result" aria-live="polite">
       <header className="deck-designer-result__header">
         <div>
           <span className="eyebrow">{report.importedDeck ? "05 / Imported deck analyzed" : "05 / Recommendation online"}</span>
           <h2>{report.title}</h2>
-          <p>{report.strategy}</p>
+          <p>{t(report.strategy)}</p>
         </div>
         <div className="deck-designer-result__source-signal">
           <span><small>SOURCE</small><strong>{report.importedDeck ? "MSA LIST" : report.sourceDeck?.placingLabel || "AI MODEL"}</strong></span>
           <span><small>PILOT</small><strong>{report.importedDeck ? "YOU" : report.sourceDeck?.playerName || "BRUXÃO"}</strong></span>
-          <span><small>CONFIDENCE</small><strong>{report.confidence}</strong></span>
+          <span><small>CONFIDENCE</small><strong>{t(report.confidence)}</strong></span>
         </div>
       </header>
-      {saveMessage ? <p className="deck-designer-result__save-status">{saveMessage}</p> : null}
+      {saveMessage ? <p className="deck-designer-result__save-status">{t(saveMessage)}</p> : null}
 
       <DeckVariantSelector
         variants={variants}
@@ -778,7 +780,7 @@ function DesignerResult({
       {(report.limitations || []).length ? (
         <div className="deck-designer-result__limitations">
           <strong>Evidence limitations</strong>
-          {report.limitations.map((limitation) => <span key={limitation}>{limitation}</span>)}
+          {report.limitations.map((limitation) => <span key={limitation}>{t(limitation)}</span>)}
         </div>
       ) : null}
 
@@ -968,11 +970,12 @@ function DesignerEmptyState({ data }) {
 }
 
 function CurvePanel({ stats }) {
+  const { t } = useLocale();
   const curve = Object.entries(stats.curve || {}).sort((left, right) => Number(left[0]) - Number(right[0]));
   const max = Math.max(...curve.map(([, count]) => count), 1);
   return (
     <section className="designer-analysis-panel designer-curve-panel">
-      <header><h3>Cost curve</h3><span>{stats.averageCost} avg.</span></header>
+      <header><h3>{t("Cost curve")}</h3><span>{stats.averageCost} {t("avg.")}</span></header>
       <div className="designer-curve-chart">
         {curve.map(([cost, count]) => (
           <div key={cost}>
@@ -989,23 +992,25 @@ function CurvePanel({ stats }) {
 }
 
 function InsightPanel({ title, items = [], tone }) {
+  const { t } = useLocale();
   return (
     <section className={`designer-analysis-panel designer-insight-panel designer-insight-panel--${tone}`}>
-      <h3>{title}</h3>
-      {items.map((item) => <p key={item}>{item}</p>)}
+      <h3>{t(title)}</h3>
+      {items.map((item) => <p key={item}>{t(item)}</p>)}
     </section>
   );
 }
 
 function MatchupPanel({ rows = [] }) {
+  const { t } = useLocale();
   return (
     <section className="designer-analysis-panel designer-matchup-panel">
-      <header><h3>Probable matchups</h3><span>theory only</span></header>
+      <header><h3>{t("Probable matchups")}</h3><span>{t("theory only")}</span></header>
       {rows.map((row) => (
         <article key={row.opponent}>
-          <strong>{row.opponent}</strong>
-          <span>{row.outlook} · {row.confidence} confidence</span>
-          <p>{row.basis}</p>
+          <strong>{t(row.opponent)}</strong>
+          <span>{t(row.outlook)} · {t("Confidence")}: {t(row.confidence)}</span>
+          <p>{t(row.basis)}</p>
         </article>
       ))}
     </section>
@@ -1013,8 +1018,12 @@ function MatchupPanel({ rows = [] }) {
 }
 
 function SynergyPanel({ rows = [] }) {
+  const { t } = useLocale();
   return (
-    <TacticalDataPanel title="Primary synergies and combos" subtitle="Printed mechanics and targets are explicit; co-play is factual; contextual bridges remain labeled as inference.">
+    <TacticalDataPanel
+      title={t("Primary synergies and combos")}
+      subtitle={t("Printed mechanics and targets are explicit; co-play is factual; contextual bridges remain labeled as inference.")}
+    >
       <div className="designer-synergy-list">
         {rows.map((row) => (
           <article key={row.id}>
@@ -1023,12 +1032,12 @@ function SynergyPanel({ rows = [] }) {
               <span>+</span>
               <strong>{row.targetCard.cardName}</strong>
               <TacticalStatusBadge tone={row.confidence === "High" ? "green" : row.confidence === "Medium" ? "blue" : "gold"}>
-                {row.confidence}
+                {t(row.confidence)}
               </TacticalStatusBadge>
             </header>
-            <p>{row.explanation}</p>
-            {row.facts.map((fact) => <span key={fact}>{fact}</span>)}
-            {row.inference ? <em>{row.inference}</em> : null}
+            <p>{t(row.explanation)}</p>
+            {row.facts.map((fact) => <span key={fact}>{t(fact)}</span>)}
+            {row.inference ? <em>{t(row.inference)}</em> : null}
           </article>
         ))}
       </div>
@@ -1037,15 +1046,16 @@ function SynergyPanel({ rows = [] }) {
 }
 
 function EvidencePanel({ report }) {
+  const { t } = useLocale();
   return (
-    <TacticalDataPanel title="Evidence and sources" subtitle={report.evidenceSummary}>
+    <TacticalDataPanel title={t("Evidence and sources")} subtitle={t(report.evidenceSummary)}>
       <div className="designer-evidence-list">
         {(report.sources || []).map((source, index) => (
           <article key={`${source.name}-${source.url}-${index}`}>
-            <span>{source.classification?.replaceAll("_", " ")}</span>
+            <span>{t(source.classification?.replaceAll("_", " "))}</span>
             <strong>{source.url ? <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a> : source.name}</strong>
-            <p>{source.detail}</p>
-            <em>Source date: {source.sourceDate || "not published"} · consulted {formatDate(source.consultationDate)}</em>
+            <p>{t(source.detail)}</p>
+            <em>{t(`Source date: ${source.sourceDate || "not published"} · consulted ${formatDate(source.consultationDate)}`)}</em>
           </article>
         ))}
       </div>
