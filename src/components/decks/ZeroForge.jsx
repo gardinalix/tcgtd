@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { CardArt } from "../cards/CardArt.jsx";
-import { buildExBurstDeckText, downloadDeckText } from "../../domain/deckExport.js";
+import { ExBurstExportLayer } from "./ExBurstExportLayer.jsx";
 import { parseMsaDeckList } from "../../domain/deckLibrary.js";
 import {
   buildZeroForgeSaveReport,
@@ -38,6 +38,7 @@ export function ZeroForge({
   const [savedDeckId, setSavedDeckId] = useState("");
   const [preview, setPreview] = useState(null);
   const [importOpen, setImportOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
   const [importText, setImportText] = useState("");
   const [sourceMode, setSourceMode] = useState("zero");
 
@@ -74,6 +75,16 @@ export function ZeroForge({
     () => prepareZeroForgeMsaImport(data, parsedMsaDeck),
     [data, parsedMsaDeck],
   );
+  const exportReport = useMemo(() => ({
+    title: deckName,
+    main,
+    resource,
+    rows: workspace.rows,
+    stats: {
+      ...workspace.stats,
+      mainCount: workspace.mainCount,
+    },
+  }), [deckName, main, resource, workspace.mainCount, workspace.rows, workspace.stats]);
 
   useEffect(() => {
     document.body.classList.add("zero-forge-active");
@@ -83,6 +94,10 @@ export function ZeroForge({
   useEffect(() => {
     const closeOnEscape = (event) => {
       if (event.key !== "Escape") return;
+      if (exportOpen) {
+        setExportOpen(false);
+        return;
+      }
       if (importOpen) {
         setImportOpen(false);
         return;
@@ -91,7 +106,7 @@ export function ZeroForge({
     };
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [importOpen, onClose]);
+  }, [exportOpen, importOpen, onClose]);
 
   function addCard(cardNumber, origin = "catalog") {
     const card = cardMap.get(cardNumber);
@@ -289,7 +304,10 @@ export function ZeroForge({
           <button
             type="button"
             disabled={!workspace.mainCount}
-            onClick={() => downloadDeckText(buildExBurstDeckText({ main, resource }), deckName)}
+            onClick={() => {
+              setPreview(null);
+              setExportOpen(true);
+            }}
           >
             EXPORT
           </button>
@@ -596,6 +614,9 @@ export function ZeroForge({
           onCancel={() => setImportOpen(false)}
           onImport={loadMsaDeck}
         />
+      ) : null}
+      {exportOpen ? (
+        <ExBurstExportLayer report={exportReport} onClose={() => setExportOpen(false)} />
       ) : null}
       {preview ? (
         <ZeroForgeCardPreview
