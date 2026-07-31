@@ -112,8 +112,15 @@ export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = 
 
   const legality = evaluateMainDeckLegality(main, cardMap, data.rules || {});
   const issues = [...legality.issues];
+  const violations = [...legality.violations];
   if (colors.length > Number(data.rules?.maxColors || 2)) {
-    issues.push(`The deck exceeds the ${data.rules?.maxColors || 2}-color limit.`);
+    const message = `The deck exceeds the ${data.rules?.maxColors || 2}-color limit.`;
+    issues.push(message);
+    violations.push({
+      type: "color_limit",
+      cardNumbers: rows.map((row) => row.card.cardNumber),
+      message,
+    });
   }
   if (mainCount !== maxMain) {
     issues.push(`Main deck must have ${maxMain} cards. Current: ${mainCount}.`);
@@ -136,6 +143,7 @@ export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = 
     legal: legality.legal && colors.length <= Number(data.rules?.maxColors || 2) && mainCount === maxMain,
     structurallyLegal: legality.legal && colors.length <= Number(data.rules?.maxColors || 2),
     issues,
+    violations,
     remaining: Math.max(0, maxMain - mainCount),
   };
 }
@@ -179,7 +187,16 @@ export function prepareZeroForgeMsaImport(data = {}, parsedDeck = {}) {
   const maxColors = Number(data.rules?.maxColors || 2);
   const legality = evaluateMainDeckLegality(recognizedMain, cardMap, data.rules || {});
   const issues = [...legality.issues];
-  if (colors.length > maxColors) issues.push(`The deck exceeds the ${maxColors}-color limit.`);
+  const violations = [...legality.violations];
+  if (colors.length > maxColors) {
+    const message = `The deck exceeds the ${maxColors}-color limit.`;
+    issues.push(message);
+    violations.push({
+      type: "color_limit",
+      cardNumbers: rows.map((row) => row.card.cardNumber),
+      message,
+    });
+  }
   if (mainCount !== maxMain) issues.push(`Main deck must have ${maxMain} cards. Current: ${mainCount}.`);
   const workspace = {
     mainCount,
@@ -188,6 +205,7 @@ export function prepareZeroForgeMsaImport(data = {}, parsedDeck = {}) {
     legal: legality.legal && colors.length <= maxColors && mainCount === maxMain,
     structurallyLegal: legality.legal && colors.length <= maxColors,
     issues,
+    violations,
   };
   return {
     title: String(parsedDeck.title || "My MSA deck").trim() || "My MSA deck",
@@ -205,6 +223,99 @@ export function prepareZeroForgeMsaImport(data = {}, parsedDeck = {}) {
     firstCardNumber,
     workspace,
     canImport: mainCount > 0,
+  };
+}
+
+export function describeZeroForgeCardState(workspace = {}, main = {}, card = {}) {
+  const cardNumber = card.cardNumber || "";
+  const quantity = Number(main?.[cardNumber] || 0);
+  const assessment = workspace.availability?.[cardNumber] || {};
+  const maxCopies = Number(assessment.maxCopies ?? card.copyLimit ?? 4);
+  const violation = (workspace.violations || [])
+    .find((item) => (item.cardNumbers || []).includes(cardNumber));
+
+  if (violation) {
+    return {
+      status: "RULE VIOLATION",
+      detail: violation.message || assessment.reason || "This card conflicts with the current deck rules.",
+      className: "is-locked",
+      statusClassName: "is-blocked",
+      quantity,
+      maxCopies,
+      violation,
+    };
+  }
+
+  if (quantity > 0) {
+    if (maxCopies === 0) {
+      return {
+        status: "BANNED",
+        detail: assessment.reason || `${card.cardName || cardNumber} is banned by the current rules.`,
+        className: "is-locked",
+        statusClassName: "is-blocked",
+        quantity,
+        maxCopies,
+      };
+    }
+    if (quantity >= maxCopies) {
+      return {
+        status: "IN DECK · COPY LIMIT",
+        detail: `${quantity}/${maxCopies} copies in deck`,
+        className: "is-limit",
+        statusClassName: "is-limit",
+        quantity,
+        maxCopies,
+      };
+    }
+    return {
+      status: "IN DECK · LEGAL",
+      detail: workspace.mainCount >= workspace.maxMain
+        ? `Main deck full · ${quantity}/${maxCopies} copies`
+        : `${quantity}/${maxCopies} copies in deck`,
+      className: "is-deck",
+      statusClassName: "",
+      quantity,
+      maxCopies,
+    };
+  }
+
+  if (maxCopies === 0 || assessment.type === "banned_card") {
+    return {
+      status: "BANNED",
+      detail: assessment.reason || `${card.cardName || cardNumber} is banned by the current rules.`,
+      className: "is-locked",
+      statusClassName: "is-blocked",
+      quantity,
+      maxCopies,
+    };
+  }
+  if (assessment.allowed) {
+    return {
+      status: "LEGAL ADDITION",
+      detail: assessment.reason || "Available to add",
+      className: "is-legal",
+      statusClassName: "",
+      quantity,
+      maxCopies,
+    };
+  }
+  if (assessment.type === "main_deck_size") {
+    return {
+      status: "DECK CAPACITY REACHED",
+      detail: "Remove a card before adding this one.",
+      className: "is-limit",
+      statusClassName: "is-limit",
+      quantity,
+      maxCopies,
+    };
+  }
+  return {
+    status: "LOCKED BY DECK RULES",
+    detail: assessment.reason || "This card conflicts with the current deck rules.",
+    className: "is-locked",
+    statusClassName: "is-blocked",
+    quantity,
+    maxCopies,
   };
 }
 

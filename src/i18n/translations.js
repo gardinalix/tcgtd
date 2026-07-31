@@ -846,6 +846,15 @@ const PT_BR = {
   "LIVE CARD INSPECTION": "INSPEÇÃO DE CARTA AO VIVO",
   "DECK STATUS": "STATUS NO DECK",
   "LOCKED BY RULES": "BLOQUEADA PELAS REGRAS",
+  "RULE VIOLATION": "VIOLAÇÃO DE REGRA",
+  "IN DECK · LEGAL": "NO DECK · VÁLIDA",
+  "IN DECK · COPY LIMIT": "NO DECK · LIMITE DE CÓPIAS",
+  "DECK CAPACITY REACHED": "CAPACIDADE DO DECK ATINGIDA",
+  "LOCKED BY DECK RULES": "BLOQUEADA PELAS REGRAS DO DECK",
+  "Remove a card before adding this one.": "Remova uma carta antes de adicionar esta.",
+  "This card conflicts with the current deck rules.": "Esta carta entra em conflito com as regras atuais do deck.",
+  "FULL": "CHEIO",
+  "MAX": "MÁX.",
   "LEGAL ADDITION": "ADIÇÃO VÁLIDA",
   "IN DECK": "NO DECK",
   "Available to add": "Disponível para adicionar",
@@ -860,6 +869,8 @@ const PT_BR = {
   };
 
 const PT_RULES = [
+  [/^Main deck full · (\d+)\/(\d+) copies$/i, "Deck principal cheio · $1/$2 cópias"],
+  [/^(\d+)\/(\d+) copies in deck$/i, "$1/$2 cópias no deck"],
   [/^Imported from MSA and edited in ZERO Forge with rule-aware additions and live synergy, curve, trait and board-pressure guidance\. Current main deck: (\d+)\/(\d+)\.$/i, "Importado do MSA e editado no ZERO Forge com adições cientes das regras e orientação ao vivo de sinergia, curva, traits e pressão de mesa. Deck principal atual: $1/$2."],
   [/^MSA import loaded: (\d+) recognized cards across (\d+) card numbers\.$/i, "Importação MSA carregada: $1 cartas reconhecidas em $2 números de carta."],
   [/^MSA import loaded with omissions: (\d+) card number\(s\) were not found: (.+)\.$/i, "Importação MSA carregada com omissões: $1 número(s) de carta não foram encontrados: $2."],

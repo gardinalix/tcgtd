@@ -5,6 +5,7 @@ import { parseMsaDeckList } from "../../domain/deckLibrary.js";
 import {
   buildZeroForgeSaveReport,
   buildZeroForgeWorkspace,
+  describeZeroForgeCardState,
   evaluateZeroForgeAddition,
   prepareZeroForgeMsaImport,
 } from "../../services/deckDesigner/zeroForgeEngine.js";
@@ -335,12 +336,13 @@ export function ZeroForge({
               const assessment = workspace.availability[card.cardNumber];
               const quantity = Number(main[card.cardNumber] || 0);
               const locked = !assessment?.allowed;
+              const atCapacity = ["main_deck_size", "copy_limit"].includes(assessment?.type);
               return (
                 <button
                   key={card.cardNumber}
                   type="button"
                   draggable={!locked}
-                  className={`zero-forge-library-card ${locked ? "is-locked" : ""} ${focusCardNumber === card.cardNumber ? "is-focused" : ""}`.trim()}
+                  className={`zero-forge-library-card ${locked ? atCapacity ? "is-capacity" : "is-locked" : ""} ${focusCardNumber === card.cardNumber ? "is-focused" : ""}`.trim()}
                   onDragStart={(event) => startDrag(event, card.cardNumber)}
                   onClick={() => addCard(card.cardNumber)}
                   aria-label={locked ? t(assessment?.reason) : t(`Add ${card.cardName}`)}
@@ -352,7 +354,7 @@ export function ZeroForge({
                     <strong>{card.cardName}</strong>
                     <em>{card.color} · {card.cardType}</em>
                   </span>
-                  <b>{locked ? "LOCK" : quantity ? `${quantity}/${assessment.maxCopies}` : "+"}</b>
+                  <b>{locked ? atCapacity ? assessment?.type === "copy_limit" ? "MAX" : "FULL" : "LOCK" : quantity ? `${quantity}/${assessment.maxCopies}` : "+"}</b>
                 </button>
               );
             })}
@@ -737,17 +739,11 @@ function ZeroForgeMsaImportLayer({
 function ZeroForgeCardPreview({ preview, main, workspace }) {
   const { t } = useLocale();
   const { card } = preview;
-  const quantity = Number(main[card.cardNumber] || 0);
-  const assessment = workspace.availability[card.cardNumber];
   const suggestion = workspace.suggestions.find((item) => item.card.cardNumber === card.cardNumber);
-  const maxCopies = Number(assessment?.maxCopies ?? card.copyLimit ?? 4);
-  const isBanned = maxCopies === 0 || assessment?.type === "banned_card";
-  const isLocked = !assessment?.allowed && !isBanned;
-  const status = isBanned
-    ? "BANNED"
-    : isLocked
-      ? "LOCKED BY RULES"
-      : "LEGAL ADDITION";
+  const cardState = describeZeroForgeCardState(workspace, main, card);
+  const previewClass = suggestion && cardState.className === "is-legal"
+    ? "is-suggested"
+    : cardState.className;
   const traits = card.traits || [];
   const links = card.linkTargets || [];
   const tags = card.synergyTags || [];
@@ -777,7 +773,7 @@ function ZeroForgeCardPreview({ preview, main, workspace }) {
         aria-hidden="true"
       />
       <aside
-        className={`zero-forge-card-preview ${isBanned || isLocked ? "is-locked" : suggestion ? "is-suggested" : "is-legal"}`.trim()}
+        className={`zero-forge-card-preview ${previewClass}`.trim()}
         style={inlineStyle}
         role="tooltip"
       >
@@ -789,16 +785,10 @@ function ZeroForgeCardPreview({ preview, main, workspace }) {
         <div className="zero-forge-card-preview__body">
           <CardArt card={card} className="zero-forge-card-preview__art" />
           <div className="zero-forge-card-preview__intel">
-            <div className={`zero-forge-card-preview__status ${isBanned || isLocked ? "is-blocked" : ""}`.trim()}>
+            <div className={`zero-forge-card-preview__status ${cardState.statusClassName}`.trim()}>
               <span>{t("DECK STATUS")}</span>
-              <strong>{t(status)}</strong>
-              <small>
-                {quantity
-                  ? `${t("IN DECK")} · ${quantity}/${maxCopies}`
-                  : assessment?.reason
-                    ? t(assessment.reason)
-                    : t("Available to add")}
-              </small>
+              <strong>{t(cardState.status)}</strong>
+              <small>{t(cardState.detail)}</small>
             </div>
             <dl className="zero-forge-card-preview__stats">
               <div><dt>LV</dt><dd>{card.level ?? "-"}</dd></div>

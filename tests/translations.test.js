@@ -47,6 +47,11 @@ test("ZERO Forge hover inspection is fully localized", () => {
   assert.equal(translate("LOCKED BY RULES", "pt-BR"), "BLOQUEADA PELAS REGRAS");
   assert.equal(translate("PRINTED LINK / PAIR", "pt-BR"), "LINK / PAIR IMPRESSO");
   assert.equal(translate("BRUXÃO PROJECTION · #3", "pt-BR"), "PROJEÇÃO DO BRUXÃO · #3");
+  assert.equal(translate("IN DECK · LEGAL", "pt-BR"), "NO DECK · VÁLIDA");
+  assert.equal(
+    translate("Main deck full · 3/4 copies", "pt-BR"),
+    "Deck principal cheio · 3/4 cópias",
+  );
   assert.equal(
     translate("This is a projected card and has not been added to the deck.", "pt-BR"),
     "Esta é uma carta projetada e ainda não foi adicionada ao deck.",

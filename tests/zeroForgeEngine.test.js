@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   buildZeroForgeSaveReport,
   buildZeroForgeWorkspace,
+  describeZeroForgeCardState,
   evaluateZeroForgeAddition,
   prepareZeroForgeMsaImport,
 } from "../src/services/deckDesigner/zeroForgeEngine.js";
@@ -43,6 +44,52 @@ test("ZERO Forge promotes printed links and removes illegal ghosts from suggesti
   assert.ok(!workspace.suggestions.some((item) => item.card.cardNumber === "GD01-088"));
   assert.ok(workspace.curve.some((bucket) => bucket.need > 0));
   assert.ok(workspace.roles.some((role) => role.id === "pressure"));
+});
+
+test("ZERO Forge distinguishes a legal card in a full deck from a real rule violation", () => {
+  const data = fixture();
+  data.rules.mainDeckSize = 8;
+  const fullMain = {
+    "ANCHOR-001": 3,
+    "PILOT-001": 4,
+    "DRAW-001": 1,
+  };
+  const workspace = buildZeroForgeWorkspace(data, fullMain, "ANCHOR-001");
+
+  const legalInDeck = describeZeroForgeCardState(
+    workspace,
+    fullMain,
+    cardById(data, "ANCHOR-001"),
+  );
+  assert.equal(legalInDeck.status, "IN DECK · LEGAL");
+  assert.match(legalInDeck.detail, /Main deck full/);
+  assert.equal(legalInDeck.className, "is-deck");
+
+  const copyLimit = describeZeroForgeCardState(
+    workspace,
+    fullMain,
+    cardById(data, "PILOT-001"),
+  );
+  assert.equal(copyLimit.status, "IN DECK · COPY LIMIT");
+  assert.equal(copyLimit.className, "is-limit");
+
+  const capacity = describeZeroForgeCardState(
+    workspace,
+    fullMain,
+    cardById(data, "RED-001"),
+  );
+  assert.equal(capacity.status, "DECK CAPACITY REACHED");
+  assert.equal(capacity.className, "is-limit");
+
+  const illegalMain = { "GD01-020": 1 };
+  const illegalWorkspace = buildZeroForgeWorkspace(data, illegalMain, "GD01-020");
+  const violation = describeZeroForgeCardState(
+    illegalWorkspace,
+    illegalMain,
+    cardById(data, "GD01-020"),
+  );
+  assert.equal(violation.status, "RULE VIOLATION");
+  assert.equal(violation.className, "is-locked");
 });
 
 test("ZERO Forge saves a pilot-authored draft with an automatic resource deck", () => {

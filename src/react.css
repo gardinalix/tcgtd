@@ -14828,6 +14828,19 @@ body.zero-forge-active {
   opacity: 0.86;
 }
 
+.zero-forge-library-card.is-capacity {
+  border-color: rgba(242, 201, 76, 0.2);
+  background:
+    linear-gradient(110deg, rgba(242, 201, 76, 0.045), transparent 70%),
+    rgba(7, 20, 30, 0.86);
+}
+
+.zero-forge-library-card.is-capacity:hover,
+.zero-forge-library-card.is-capacity:focus-visible {
+  border-color: rgba(242, 201, 76, 0.6);
+  box-shadow: inset 3px 0 0 var(--forge-gold);
+}
+
 .zero-forge-library-card__art {
   width: 42px;
   aspect-ratio: 5 / 7;
@@ -14876,6 +14889,11 @@ body.zero-forge-active {
 
 .zero-forge-library-card.is-locked > b {
   color: var(--forge-red);
+  font-size: 0.46rem;
+}
+
+.zero-forge-library-card.is-capacity > b {
+  color: var(--forge-gold);
   font-size: 0.46rem;
 }
 
@@ -15670,6 +15688,34 @@ body.zero-forge-active {
   box-shadow: 0 0 10px rgba(255, 102, 122, 0.8);
 }
 
+.zero-forge-card-preview.is-deck {
+  border-color: rgba(102, 239, 173, 0.68);
+  background:
+    linear-gradient(135deg, rgba(102, 239, 173, 0.09), transparent 34%),
+    linear-gradient(315deg, rgba(87, 232, 255, 0.055), transparent 38%),
+    rgba(3, 15, 17, 0.985);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.78),
+    0 0 34px rgba(102, 239, 173, 0.15);
+}
+
+.zero-forge-card-preview.is-deck::after {
+  background: var(--forge-green);
+  box-shadow: 0 0 10px rgba(102, 239, 173, 0.82);
+}
+
+.zero-forge-card-preview.is-limit {
+  border-color: rgba(242, 201, 76, 0.68);
+  background:
+    linear-gradient(135deg, rgba(242, 201, 76, 0.09), transparent 34%),
+    rgba(16, 14, 5, 0.985);
+}
+
+.zero-forge-card-preview.is-limit::after {
+  background: var(--forge-gold);
+  box-shadow: 0 0 10px rgba(242, 201, 76, 0.82);
+}
+
 .zero-forge-card-preview > header {
   position: relative;
   z-index: 2;
@@ -15688,8 +15734,15 @@ body.zero-forge-active {
 }
 
 .zero-forge-card-preview.is-suggested > header span,
-.zero-forge-card-preview.is-suggested > header small {
+.zero-forge-card-preview.is-suggested > header small,
+.zero-forge-card-preview.is-limit > header span,
+.zero-forge-card-preview.is-limit > header small {
   color: var(--forge-gold);
+}
+
+.zero-forge-card-preview.is-deck > header span,
+.zero-forge-card-preview.is-deck > header small {
+  color: var(--forge-green);
 }
 
 .zero-forge-card-preview > header strong {
@@ -15757,6 +15810,12 @@ body.zero-forge-active {
   background: rgba(49, 10, 18, 0.38);
 }
 
+.zero-forge-card-preview__status.is-limit {
+  border-color: rgba(242, 201, 76, 0.24);
+  border-left-color: var(--forge-gold);
+  background: rgba(47, 38, 7, 0.36);
+}
+
 .zero-forge-card-preview__status span,
 .zero-forge-card-preview__status small {
   color: var(--forge-muted);
@@ -15772,6 +15831,10 @@ body.zero-forge-active {
 
 .zero-forge-card-preview__status.is-blocked strong {
   color: var(--forge-red);
+}
+
+.zero-forge-card-preview__status.is-limit strong {
+  color: var(--forge-gold);
 }
 
 .zero-forge-card-preview__stats {
