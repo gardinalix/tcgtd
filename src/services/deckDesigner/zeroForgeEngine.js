@@ -443,6 +443,13 @@ export function buildZeroForgeSaveReport(data = {}, main = {}, options = {}) {
     synergies: [],
     substitutions: {},
     stats: workspace.stats,
+    legality: {
+      legal: workspace.legal,
+      issues: workspace.issues,
+      violations: workspace.violations,
+      rulesEffectiveDate: data.rules?.legalityEffectiveDate || "",
+      sourceUrl: data.rules?.legalitySourceUrl || "",
+    },
     sources: [],
     evidenceSummary: importedFromMsa
       ? "Pilot-imported MSA deck edited with live catalog, competitive co-play and printed-text assistance."

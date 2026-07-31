@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { CardArt } from "../cards/CardArt";
 import { buildDeckGraph, relatedNodeIds } from "../../services/deckDesigner/deckMapLayout.js";
 import { buildDrawPriorityPlan } from "../../services/deckDesigner/drawPriorityEngine.js";
+import { getDeckLegalityPresentation } from "../../services/deckDesigner/deckLegalityPresentation.js";
 
 const MIN_ZOOM = 0.55;
 const MAX_ZOOM = 1.6;
@@ -10,6 +11,7 @@ const FIT_ZOOM = 0.66;
 
 export function DeckMap({ report, onApplySubstitution }) {
   const graph = useMemo(() => buildDeckGraph(report.rows, report.synergies), [report.rows, report.synergies]);
+  const legalityPresentation = getDeckLegalityPresentation(report.legality);
   const [nodePositions, setNodePositions] = useState({});
   const [selectedId, setSelectedId] = useState("");
   const [hoveredId, setHoveredId] = useState("");
@@ -257,8 +259,8 @@ export function DeckMap({ report, onApplySubstitution }) {
           <span><b>{graph.edges.length}</b> CONNECTIONS</span>
           <span><b>{report.stats.averageCost}</b> AVERAGE CURVE</span>
           <span><b>{report.confidence}</b> CONFIDENCE</span>
-          <span className={report.legality?.legal ? "is-legal" : "is-illegal"}>
-            <b>{report.legality?.legal ? "LEGAL" : "ILLEGAL"}</b> CURRENT RULESET
+          <span className={legalityPresentation.className} title={legalityPresentation.detail}>
+            <b>{legalityPresentation.label}</b> CURRENT RULESET
           </span>
         </div>
       </header>

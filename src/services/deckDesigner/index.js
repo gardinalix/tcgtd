@@ -152,6 +152,7 @@ export function compactDeckDesign(report = {}) {
     weaknesses: report.weaknesses,
     matchups: report.matchups,
     sources: report.sources,
+    legality: report.legality,
     cardRecommendations: (report.rows || []).map((row) => ({
       cardNumber: row.card.cardNumber,
       quantity: row.quantity,

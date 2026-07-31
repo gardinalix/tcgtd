@@ -4026,6 +4026,11 @@ body[data-view]:not([data-view="home"]) .decks-terminal-page.is-designer-mode::a
   text-shadow: 0 0 8px rgba(255, 61, 75, 0.5);
 }
 
+.deck-map__readouts .is-unverified b {
+  color: #f2c94c;
+  text-shadow: 0 0 8px rgba(242, 201, 76, 0.4);
+}
+
 .react-builder-card.is-banned {
   border-color: rgba(255, 73, 84, 0.42) !important;
   opacity: 0.52;
@@ -15829,8 +15834,23 @@ body.zero-forge-active {
   }
 
   .zero-forge__body {
-    grid-template-columns: 250px minmax(760px, 1fr);
+    grid-template-areas:
+      "map"
+      "library";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(340px, 1fr) minmax(220px, 32dvh);
     min-height: calc(100dvh - 76px);
+  }
+
+  .zero-forge-map {
+    grid-area: map;
+    min-height: 340px;
+  }
+
+  .zero-forge-library {
+    grid-area: library;
+    border-top: 1px solid rgba(87, 232, 255, 0.22);
+    border-right: 0;
   }
 
   .zero-forge-intel {
@@ -15841,10 +15861,6 @@ body.zero-forge-active {
 @media (max-width: 760px) {
   .deck-designer-input-mode {
     grid-template-columns: 1fr;
-  }
-
-  .zero-forge__body {
-    grid-template-columns: 210px minmax(720px, 1fr);
   }
 
   .zero-forge__brand span,

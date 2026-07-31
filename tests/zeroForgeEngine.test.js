@@ -120,6 +120,8 @@ test("ZERO Forge saves a pilot-authored draft with an automatic resource deck", 
   assert.equal(report.main["ANCHOR-001"], 4);
   assert.equal(report.resource["R-001"], 10);
   assert.equal(report.rows[0].source, "zero_forge");
+  assert.equal(report.legality.legal, false);
+  assert.ok(report.legality.issues.some((item) => /Current: 4/.test(item)));
   assert.ok(report.limitations.some((item) => /Current: 4/.test(item)));
 });
 
