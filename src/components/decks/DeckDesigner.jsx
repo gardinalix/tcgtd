@@ -67,6 +67,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   const [saveMessage, setSaveMessage] = useState("");
   const [exportLayerOpen, setExportLayerOpen] = useState(false);
   const [zeroForgeOpen, setZeroForgeOpen] = useState(false);
+  const [modeSelectionOpen, setModeSelectionOpen] = useState(false);
   const [hudBooting, setHudBooting] = useState(() => !prefersReducedMotion());
   const [hudSystem] = useState(getHudSystemLabel);
   const archetypes = useMemo(
@@ -120,6 +121,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       return;
     }
     setStatus("loading");
+    setModeSelectionOpen(false);
     setAnalysisPipeline("design");
     setErrorMessage("");
     setSaveMessage("");
@@ -178,6 +180,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
       return;
     }
     setStatus("loading");
+    setModeSelectionOpen(false);
     setAnalysisPipeline("msa");
     setErrorMessage("");
     setSaveMessage("");
@@ -260,6 +263,21 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
     setSaveMessage("Saved to My decks on this device.");
   }
 
+  function openModeSelection() {
+    setModeSelectionOpen(true);
+    setBriefOpen(true);
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+  }
+
+  function resumeCurrentMap() {
+    setModeSelectionOpen(false);
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+  }
+
   if (!(data.cards || []).length) {
     return (
       <TacticalDataPanel title="BRUXÃO DECK DESIGNER" subtitle="Card catalog required">
@@ -269,7 +287,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   }
 
   return (
-    <div className={`deck-designer ${report ? "is-engaged" : ""}`.trim()}>
+    <div className={`deck-designer ${report && !modeSelectionOpen ? "is-engaged" : ""}`.trim()}>
       {hudBooting ? (
         <HudBootSequence system={hudSystem} onSkip={() => setHudBooting(false)} />
       ) : null}
@@ -330,6 +348,15 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           <span>Build on a fullscreen map with live legal suggestions.</span>
         </button>
       </section>
+      {modeSelectionOpen && report ? (
+        <div className="deck-designer-mode-return" role="status">
+          <span>
+            <small>CURRENT MAP PRESERVED</small>
+            <strong>{report.title}</strong>
+          </span>
+          <button type="button" onClick={resumeCurrentMap}>RETURN TO CURRENT MAP</button>
+        </div>
+      ) : null}
       {zeroForgeOpen ? (
         <ZeroForge
           data={data}
@@ -618,13 +645,15 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
         </div>
       ) : null}
       {status === "idle" && inputMode === "design" ? <DesignerEmptyState data={data} /> : null}
-      {status === "success" && report ? (
+      {status === "success" && report && !modeSelectionOpen ? (
         <DesignerResult
           report={report}
           variants={variantReports}
           activeVariantIndex={activeVariantIndex}
           onSelectVariant={selectVariant}
           onApplySubstitution={applySubstitution}
+          onChooseMode={openModeSelection}
+          onOpenForge={() => setZeroForgeOpen(true)}
           saveMessage={saveMessage}
         />
       ) : null}
@@ -764,6 +793,8 @@ function DesignerResult({
   activeVariantIndex,
   onSelectVariant,
   onApplySubstitution,
+  onChooseMode,
+  onOpenForge,
   saveMessage,
 }) {
   const { t } = useLocale();
@@ -775,10 +806,16 @@ function DesignerResult({
           <h2>{report.title}</h2>
           <p>{t(report.strategy)}</p>
         </div>
-        <div className="deck-designer-result__source-signal">
-          <span><small>SOURCE</small><strong>{report.importedDeck ? "MSA LIST" : report.sourceDeck?.placingLabel || "AI MODEL"}</strong></span>
-          <span><small>PILOT</small><strong>{report.importedDeck ? "YOU" : report.sourceDeck?.playerName || "BRUXÃO"}</strong></span>
-          <span><small>CONFIDENCE</small><strong>{t(report.confidence)}</strong></span>
+        <div className="deck-designer-result__header-tools">
+          <nav className="deck-designer-result__mode-actions" aria-label="Deck creation mode">
+            <button type="button" onClick={onChooseMode}>← CHOOSE MODE</button>
+            <button type="button" onClick={onOpenForge}>OPEN ZERO FORGE</button>
+          </nav>
+          <div className="deck-designer-result__source-signal">
+            <span><small>SOURCE</small><strong>{report.importedDeck ? "MSA LIST" : report.sourceDeck?.placingLabel || "AI MODEL"}</strong></span>
+            <span><small>PILOT</small><strong>{report.importedDeck ? "YOU" : report.sourceDeck?.playerName || "BRUXÃO"}</strong></span>
+            <span><small>CONFIDENCE</small><strong>{t(report.confidence)}</strong></span>
+          </div>
         </div>
       </header>
       {saveMessage ? <p className="deck-designer-result__save-status">{t(saveMessage)}</p> : null}

@@ -25,6 +25,9 @@ MARKETZEON_LISTINGS_PATH = DATA_DIR / "marketzeon_listings.csv"
 LIGAGUNDAM_PRICE_PATH = DATA_DIR / "ligagundam_price_comparison.csv"
 LIGAGUNDAM_LISTINGS_PATH = DATA_DIR / "ligagundam_listings.csv"
 DATABASE_PATH = DATA_DIR / "gundam.db"
+META_EVENTS_CSV_PATH = DATA_DIR / "meta_events.csv"
+META_RESULTS_CSV_PATH = DATA_DIR / "meta_results.csv"
+META_DECK_CARDS_CSV_PATH = DATA_DIR / "meta_deck_cards.csv"
 
 
 def parse_image_extension(url: str) -> str:
@@ -58,6 +61,13 @@ def parse_csvish_list(value: object) -> list[str]:
     if not text:
         return []
     return [item.strip() for item in text.split(",") if item.strip()]
+
+
+def read_csv_rows(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        return list(csv.DictReader(handle))
 
 
 def parse_count_list(value: object) -> list[dict]:
@@ -1138,6 +1148,24 @@ def load_database_rows(table_name: str, limit: int | None = None) -> list[dict]:
     return rows
 
 
+def prefer_csv_rows(csv_path: Path) -> bool:
+    if not csv_path.exists():
+        return False
+    if not DATABASE_PATH.exists():
+        return True
+    try:
+        return csv_path.stat().st_mtime > DATABASE_PATH.stat().st_mtime
+    except OSError:
+        return True
+
+
+def load_meta_rows(table_name: str, csv_path: Path) -> list[dict]:
+    if prefer_csv_rows(csv_path):
+        return read_csv_rows(csv_path)
+    database_rows = load_database_rows(table_name)
+    return database_rows or read_csv_rows(csv_path)
+
+
 def build_meta_events() -> list[dict]:
     return [
         {
@@ -1153,7 +1181,7 @@ def build_meta_events() -> list[dict]:
             "sourcePageTitle": normalize_text(row.get("source_page_title")),
             "officialStatus": "official" if "official" in normalize_text(row.get("event_type")).lower() else "community",
         }
-        for row in load_database_rows("meta_events")
+        for row in load_meta_rows("meta_events", META_EVENTS_CSV_PATH)
     ]
 
 
@@ -1179,7 +1207,7 @@ def build_meta_results() -> list[dict]:
             "sourceUrl": normalize_text(row.get("source_url")),
             "hasDecklist": normalize_upper(row.get("has_decklist")) == "TRUE",
         }
-        for row in load_database_rows("meta_results")
+        for row in load_meta_rows("meta_results", META_RESULTS_CSV_PATH)
     ]
 
 
@@ -1203,7 +1231,7 @@ def build_meta_deck_cards() -> list[dict]:
             "cardColor": normalize_text(row.get("card_color")),
             "packageCode": normalize_upper(row.get("package_code")),
         }
-        for row in load_database_rows("meta_deck_cards")
+        for row in load_meta_rows("meta_deck_cards", META_DECK_CARDS_CSV_PATH)
     ]
 
 

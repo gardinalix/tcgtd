@@ -8733,6 +8733,74 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
   box-shadow: inset 4px 0 0 color-mix(in srgb, var(--hud-primary) 70%, transparent);
 }
 
+.deck-designer-result__header-tools {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 0.38rem;
+  justify-items: end;
+}
+
+.deck-designer-result__mode-actions {
+  display: flex;
+  gap: 0.34rem;
+  justify-content: flex-end;
+}
+
+.deck-designer-result__mode-actions button,
+.deck-designer-mode-return button {
+  min-height: 30px;
+  padding: 0.34rem 0.58rem;
+  border: 1px solid color-mix(in srgb, var(--hud-primary) 34%, transparent);
+  color: #bcefff;
+  background: rgba(0, 9, 20, 0.78);
+  font: 900 0.52rem var(--font-tech);
+  letter-spacing: 0.07em;
+}
+
+.deck-designer-result__mode-actions button:last-child {
+  border-color: color-mix(in srgb, #f2c94c 55%, transparent);
+  color: #ffe998;
+  background: color-mix(in srgb, #f2c94c 8%, rgba(0, 9, 20, 0.86));
+}
+
+.deck-designer-result__mode-actions button:hover,
+.deck-designer-result__mode-actions button:focus-visible,
+.deck-designer-mode-return button:hover,
+.deck-designer-mode-return button:focus-visible {
+  border-color: var(--hud-primary);
+  color: #fff;
+}
+
+.deck-designer-mode-return {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.62rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--hud-primary) 24%, transparent);
+  background: color-mix(in srgb, var(--hud-primary) 5%, rgba(0, 8, 18, 0.72));
+}
+
+.deck-designer-mode-return > span {
+  display: grid;
+  gap: 0.16rem;
+  min-width: 0;
+}
+
+.deck-designer-mode-return small {
+  color: var(--hud-primary);
+  font: 900 0.48rem var(--font-tech);
+  letter-spacing: 0.12em;
+}
+
+.deck-designer-mode-return strong {
+  overflow: hidden;
+  color: var(--hud-text);
+  font: 900 0.68rem var(--font-display);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .deck-designer-result__actions {
   display: flex;
   flex-wrap: wrap;
@@ -9428,6 +9496,15 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
   .deck-designer__brief-head {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .deck-designer-result__header-tools {
+    width: 100%;
+    justify-items: start;
+  }
+
+  .deck-designer-result__mode-actions {
+    justify-content: flex-start;
   }
 
   .deck-designer-result__actions {
@@ -12321,6 +12398,18 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
 }
 
 @media (max-width: 760px) {
+  .deck-designer-result__header-tools,
+  .deck-designer-result__mode-actions,
+  .deck-designer-mode-return {
+    width: 100%;
+  }
+
+  .deck-designer-result__mode-actions,
+  .deck-designer-mode-return {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .deck-designer-result__source-signal {
     grid-template-columns: 1fr;
     width: 100%;
@@ -14961,16 +15050,109 @@ body.zero-forge-active {
 }
 
 .zero-forge-map__viewport {
+  position: relative;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
+}
+
+.zero-forge-map__scrollport {
+  position: absolute;
+  inset: 0;
   overflow: auto;
+  cursor: grab;
+  overscroll-behavior: contain;
   scrollbar-color: rgba(87, 232, 255, 0.34) transparent;
+  scrollbar-gutter: stable;
+  user-select: none;
+}
+
+.zero-forge-map__scrollport.is-panning {
+  cursor: grabbing;
+}
+
+.zero-forge-map__surface {
+  position: relative;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .zero-forge-map__stage {
   position: relative;
   min-width: 1500px;
+  transform: scale(var(--forge-map-zoom, 1));
   transform-origin: top left;
+  transition: transform 160ms ease-out;
+  will-change: transform;
+}
+
+.zero-forge-map__scrollport.is-panning .zero-forge-map__stage,
+.zero-forge-map__scrollport.is-repositioning .zero-forge-map__stage {
+  transition: none;
+}
+
+.zero-forge-map__view-controls {
+  position: absolute;
+  z-index: 14;
+  bottom: 0.72rem;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.24rem;
+  max-width: calc(100% - 1.2rem);
+  padding: 0.3rem;
+  overflow-x: auto;
+  border: 1px solid rgba(87, 232, 255, 0.28);
+  background: rgba(0, 8, 16, 0.9);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.44);
+  transform: translateX(-50%);
+  backdrop-filter: blur(8px);
+}
+
+.zero-forge-map__view-controls button {
+  display: grid;
+  place-items: center;
+  min-width: 30px;
+  min-height: 28px;
+  padding: 0.28rem 0.46rem;
+  border: 1px solid rgba(87, 232, 255, 0.3);
+  border-radius: 2px;
+  color: #bcefff;
+  background: rgba(7, 24, 34, 0.92);
+  font: 900 0.5rem var(--font-tech);
+  white-space: nowrap;
+}
+
+.zero-forge-map__view-controls button:first-child,
+.zero-forge-map__view-controls button:nth-of-type(2) {
+  font-size: 0.95rem;
+}
+
+.zero-forge-map__view-controls button:hover:not(:disabled),
+.zero-forge-map__view-controls button:focus-visible {
+  border-color: var(--forge-cyan);
+  color: #fff;
+  background: rgba(87, 232, 255, 0.12);
+}
+
+.zero-forge-map__view-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.zero-forge-map__view-controls output {
+  min-width: 44px;
+  color: var(--forge-cyan);
+  font: 900 0.55rem var(--font-display);
+  text-align: center;
+}
+
+.zero-forge-map__view-controls > span {
+  padding: 0 0.34rem;
+  color: #7896a7;
+  font: 800 0.44rem var(--font-tech);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
 }
 
 .zero-forge-map__grid {
@@ -15099,7 +15281,15 @@ body.zero-forge-active {
   z-index: 5;
   display: grid;
   width: 108px;
+  cursor: grab;
   filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.5));
+}
+
+.zero-forge-node.is-dragging,
+.zero-forge-ghost.is-dragging {
+  z-index: 12;
+  cursor: grabbing;
+  filter: drop-shadow(0 0 18px rgba(87, 232, 255, 0.48));
 }
 
 .zero-forge-node > button {
@@ -15188,6 +15378,7 @@ body.zero-forge-active {
   border-radius: 2px;
   text-align: left;
   color: #f6e7a7;
+  cursor: grab;
   background:
     linear-gradient(135deg, rgba(242, 201, 76, 0.11), transparent 52%),
     rgba(18, 17, 8, 0.9);

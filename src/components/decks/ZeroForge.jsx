@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CardArt } from "../cards/CardArt.jsx";
 import { ExBurstExportLayer } from "./ExBurstExportLayer.jsx";
 import { parseMsaDeckList } from "../../domain/deckLibrary.js";
@@ -14,6 +14,9 @@ import { useLocale } from "../../i18n/LocaleProvider.jsx";
 
 const STAGE_WIDTH = 1500;
 const LANE_X = [78, 340, 602, 864];
+const MIN_MAP_ZOOM = 0.5;
+const MAX_MAP_ZOOM = 1.7;
+const MAP_ZOOM_STEP = 0.1;
 
 export function ZeroForge({
   data,
@@ -41,6 +44,15 @@ export function ZeroForge({
   const [exportOpen, setExportOpen] = useState(false);
   const [importText, setImportText] = useState("");
   const [sourceMode, setSourceMode] = useState("zero");
+  const [mapZoom, setMapZoom] = useState(1);
+  const [nodePositions, setNodePositions] = useState({});
+  const [isMapPanning, setIsMapPanning] = useState(false);
+  const [draggingNodeId, setDraggingNodeId] = useState("");
+  const mapScrollportRef = useRef(null);
+  const mapZoomRef = useRef(1);
+  const mapPanSessionRef = useRef(null);
+  const mapNodeDragSessionRef = useRef(null);
+  const ignoreMapNodeClickRef = useRef("");
 
   const cards = data.cards || [];
   const cardMap = useMemo(() => new Map(cards.map((card) => [card.cardNumber, card])), [cards]);
@@ -69,6 +81,10 @@ export function ZeroForge({
   const layout = useMemo(
     () => buildForgeLayout(workspace.rows, workspace.suggestions),
     [workspace.rows, workspace.suggestions],
+  );
+  const positionedLayout = useMemo(
+    () => applyForgeNodePositions(layout, nodePositions),
+    [layout, nodePositions],
   );
   const parsedMsaDeck = useMemo(() => parseMsaDeckList(importText), [importText]);
   const msaImport = useMemo(
@@ -107,6 +123,19 @@ export function ZeroForge({
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [exportOpen, importOpen, onClose]);
+
+  useEffect(() => {
+    const liveNodeIds = new Set([
+      ...workspace.rows.map((row) => row.card.cardNumber),
+      ...workspace.suggestions.map((suggestion) => `ghost:${suggestion.card.cardNumber}`),
+    ]);
+    setNodePositions((current) => {
+      const next = Object.fromEntries(
+        Object.entries(current).filter(([nodeId]) => liveNodeIds.has(nodeId)),
+      );
+      return Object.keys(next).length === Object.keys(current).length ? current : next;
+    });
+  }, [workspace.rows, workspace.suggestions]);
 
   function addCard(cardNumber, origin = "catalog") {
     const card = cardMap.get(cardNumber);
@@ -188,6 +217,223 @@ export function ZeroForge({
     addCard(cardNumber, "catalog");
   }
 
+  function applyMapZoom(nextZoom, point = null) {
+    const scrollport = mapScrollportRef.current;
+    const currentZoom = mapZoomRef.current;
+    const clampedZoom = clamp(nextZoom, MIN_MAP_ZOOM, MAX_MAP_ZOOM);
+    if (clampedZoom === currentZoom) return;
+
+    const rect = scrollport?.getBoundingClientRect();
+    const localX = point && rect ? point.clientX - rect.left : (scrollport?.clientWidth || 0) / 2;
+    const localY = point && rect ? point.clientY - rect.top : (scrollport?.clientHeight || 0) / 2;
+    const mapX = scrollport ? (scrollport.scrollLeft + localX) / currentZoom : 0;
+    const mapY = scrollport ? (scrollport.scrollTop + localY) / currentZoom : 0;
+
+    mapZoomRef.current = clampedZoom;
+    setMapZoom(clampedZoom);
+    globalThis.requestAnimationFrame?.(() => {
+      if (!scrollport) return;
+      scrollport.scrollLeft = Math.max(0, (mapX * clampedZoom) - localX);
+      scrollport.scrollTop = Math.max(0, (mapY * clampedZoom) - localY);
+    });
+  }
+
+  function zoomMapBy(delta) {
+    applyMapZoom(mapZoomRef.current + delta);
+  }
+
+  function fitMap() {
+    const scrollport = mapScrollportRef.current;
+    if (!scrollport) return;
+    const nextZoom = clamp(
+      Math.min(
+        Math.max(1, scrollport.clientWidth - 32) / STAGE_WIDTH,
+        Math.max(1, scrollport.clientHeight - 32) / layout.height,
+      ),
+      MIN_MAP_ZOOM,
+      1,
+    );
+    mapZoomRef.current = nextZoom;
+    setMapZoom(nextZoom);
+    globalThis.requestAnimationFrame?.(() => {
+      scrollport.scrollLeft = Math.max(0, ((STAGE_WIDTH * nextZoom) - scrollport.clientWidth) / 2);
+      scrollport.scrollTop = Math.max(0, ((layout.height * nextZoom) - scrollport.clientHeight) / 2);
+    });
+  }
+
+  function resetMapView() {
+    const scrollport = mapScrollportRef.current;
+    mapZoomRef.current = 1;
+    setMapZoom(1);
+    globalThis.requestAnimationFrame?.(() => {
+      if (!scrollport) return;
+      scrollport.scrollLeft = 0;
+      scrollport.scrollTop = 0;
+    });
+  }
+
+  function resetMapLayout() {
+    setNodePositions({});
+  }
+
+  function handleMapWheel(event) {
+    if (event.ctrlKey || event.metaKey) {
+      event.preventDefault();
+      applyMapZoom(
+        mapZoomRef.current + (event.deltaY < 0 ? MAP_ZOOM_STEP : -MAP_ZOOM_STEP),
+        event,
+      );
+      return;
+    }
+    if (event.shiftKey && Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+      event.preventDefault();
+      event.currentTarget.scrollLeft += event.deltaY;
+    }
+  }
+
+  function startMapPan(event) {
+    if (
+      event.button !== 0
+      || event.pointerType === "touch"
+      || event.target.closest?.(".zero-forge-node, .zero-forge-ghost, .zero-forge-map__view-controls")
+    ) return;
+    mapPanSessionRef.current = {
+      pointerId: event.pointerId,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      scrollLeft: event.currentTarget.scrollLeft,
+      scrollTop: event.currentTarget.scrollTop,
+    };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    setIsMapPanning(true);
+  }
+
+  function moveMapPan(event) {
+    const session = mapPanSessionRef.current;
+    if (!session || session.pointerId !== event.pointerId) return;
+    event.currentTarget.scrollLeft = session.scrollLeft - (event.clientX - session.clientX);
+    event.currentTarget.scrollTop = session.scrollTop - (event.clientY - session.clientY);
+  }
+
+  function endMapPan(event) {
+    const session = mapPanSessionRef.current;
+    if (!session || session.pointerId !== event.pointerId) return;
+    mapPanSessionRef.current = null;
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    setIsMapPanning(false);
+  }
+
+  function startMapNodeDrag(event, nodeId) {
+    if (event.button !== 0 || event.pointerType === "touch") return;
+    const position = positionedLayout.positions.get(nodeId);
+    const scrollport = mapScrollportRef.current;
+    if (!position || !scrollport) return;
+    event.stopPropagation();
+    mapNodeDragSessionRef.current = {
+      pointerId: event.pointerId,
+      nodeId,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      x: position.x,
+      y: position.y,
+      scrollport,
+      moved: false,
+    };
+    setDraggingNodeId(nodeId);
+  }
+
+  function moveMapNode(event) {
+    const session = mapNodeDragSessionRef.current;
+    if (!session || session.pointerId !== event.pointerId) return;
+    const distance = Math.hypot(event.clientX - session.clientX, event.clientY - session.clientY);
+    if (!session.moved && distance < 3) return;
+    if (!session.moved) {
+      session.moved = true;
+      session.scrollport.setPointerCapture?.(event.pointerId);
+    }
+    const size = forgeNodeSize(session.nodeId);
+    const zoom = mapZoomRef.current;
+    const x = clamp(
+      session.x + ((event.clientX - session.clientX) / zoom),
+      18,
+      STAGE_WIDTH - size.width - 18,
+    );
+    const y = clamp(
+      session.y + ((event.clientY - session.clientY) / zoom),
+      58,
+      layout.height - size.height - 18,
+    );
+    setNodePositions((current) => ({
+      ...current,
+      [session.nodeId]: { x, y },
+    }));
+  }
+
+  function endMapNodeDrag(event) {
+    const session = mapNodeDragSessionRef.current;
+    if (!session || session.pointerId !== event.pointerId) return;
+    mapNodeDragSessionRef.current = null;
+    if (session.scrollport.hasPointerCapture?.(event.pointerId)) {
+      session.scrollport.releasePointerCapture(event.pointerId);
+    }
+    if (session.moved) {
+      ignoreMapNodeClickRef.current = session.nodeId;
+      globalThis.setTimeout(() => {
+        if (ignoreMapNodeClickRef.current === session.nodeId) {
+          ignoreMapNodeClickRef.current = "";
+        }
+      }, 0);
+    }
+    setDraggingNodeId("");
+  }
+
+  function moveMapPointer(event) {
+    if (mapNodeDragSessionRef.current) {
+      moveMapNode(event);
+      return;
+    }
+    moveMapPan(event);
+  }
+
+  function endMapPointer(event) {
+    if (mapNodeDragSessionRef.current) {
+      endMapNodeDrag(event);
+      return;
+    }
+    endMapPan(event);
+  }
+
+  function handleMapNodeClick(nodeId, action) {
+    if (ignoreMapNodeClickRef.current === nodeId) {
+      ignoreMapNodeClickRef.current = "";
+      return;
+    }
+    action();
+  }
+
+  function moveMapNodeWithKeyboard(event, nodeId) {
+    const directions = {
+      ArrowLeft: [-1, 0],
+      ArrowRight: [1, 0],
+      ArrowUp: [0, -1],
+      ArrowDown: [0, 1],
+    };
+    if (!directions[event.key]) return;
+    event.preventDefault();
+    const position = positionedLayout.positions.get(nodeId);
+    if (!position) return;
+    const size = forgeNodeSize(nodeId);
+    const amount = event.shiftKey ? 36 : 12;
+    const [deltaX, deltaY] = directions[event.key];
+    setNodePositions((current) => ({
+      ...current,
+      [nodeId]: {
+        x: clamp(position.x + (deltaX * amount), 18, STAGE_WIDTH - size.width - 18),
+        y: clamp(position.y + (deltaY * amount), 58, layout.height - size.height - 18),
+      },
+    }));
+  }
+
   function loadMsaDeck() {
     if (!msaImport.canImport) {
       setSignal({
@@ -263,6 +509,8 @@ export function ZeroForge({
     setSourceMode("zero");
     setFocusCardNumber("");
     setSavedDeckId("");
+    setNodePositions({});
+    resetMapView();
     setSignal({
       tone: "neutral",
       text: "Select or drag the first card to establish the deck anchor.",
@@ -402,9 +650,32 @@ export function ZeroForge({
           </div>
           <div className="zero-forge-map__viewport">
             <div
-              className="zero-forge-map__stage"
-              style={{ width: STAGE_WIDTH, height: layout.height }}
+              ref={mapScrollportRef}
+              className={`zero-forge-map__scrollport ${isMapPanning ? "is-panning" : ""} ${draggingNodeId ? "is-repositioning" : ""}`.trim()}
+              role="group"
+              aria-label="Interactive Forge deck map. Drag cards to rearrange them, drag the empty field to pan, scroll to navigate, or use Control plus the mouse wheel to zoom."
+              onPointerDown={startMapPan}
+              onPointerMove={moveMapPointer}
+              onPointerUp={endMapPointer}
+              onPointerCancel={endMapPointer}
+              onWheel={handleMapWheel}
+              onDoubleClick={resetMapView}
             >
+              <div
+                className="zero-forge-map__surface"
+                style={{
+                  width: STAGE_WIDTH * mapZoom,
+                  height: layout.height * mapZoom,
+                }}
+              >
+                <div
+                  className="zero-forge-map__stage"
+                  style={{
+                    width: STAGE_WIDTH,
+                    height: layout.height,
+                    "--forge-map-zoom": mapZoom,
+                  }}
+                >
               <div className="zero-forge-map__grid" aria-hidden="true" />
               {layout.lanes.map((lane) => (
                 <div
@@ -428,8 +699,8 @@ export function ZeroForge({
                 aria-hidden="true"
               >
                 {workspace.edges.map((edge) => {
-                  const source = layout.positions.get(edge.source);
-                  const target = layout.positions.get(edge.target);
+                  const source = positionedLayout.positions.get(edge.source);
+                  const target = positionedLayout.positions.get(edge.target);
                   if (!source || !target) return null;
                   return (
                     <line
@@ -443,8 +714,8 @@ export function ZeroForge({
                   );
                 })}
                 {workspace.suggestions.map((suggestion) => {
-                  const source = layout.positions.get(suggestion.bestSourceCardNumber || focusCardNumber);
-                  const target = layout.positions.get(`ghost:${suggestion.card.cardNumber}`);
+                  const source = positionedLayout.positions.get(suggestion.bestSourceCardNumber || focusCardNumber);
+                  const target = positionedLayout.positions.get(`ghost:${suggestion.card.cardNumber}`);
                   if (!source || !target) return null;
                   return (
                     <line
@@ -468,15 +739,22 @@ export function ZeroForge({
               ) : null}
 
               {workspace.rows.map((row) => {
-                const position = layout.positions.get(row.card.cardNumber);
+                const nodeId = row.card.cardNumber;
+                const position = positionedLayout.positions.get(nodeId);
                 return (
                   <article
-                    key={row.card.cardNumber}
-                    className={`zero-forge-node ${focusCardNumber === row.card.cardNumber ? "is-focused" : ""}`.trim()}
+                    key={nodeId}
+                    className={`zero-forge-node ${focusCardNumber === nodeId ? "is-focused" : ""} ${draggingNodeId === nodeId ? "is-dragging" : ""}`.trim()}
                     style={{ left: position.x, top: position.y }}
                     {...previewHandlers(row.card)}
                   >
-                    <button type="button" onClick={() => setFocusCardNumber(row.card.cardNumber)}>
+                    <button
+                      type="button"
+                      onPointerDown={(event) => startMapNodeDrag(event, nodeId)}
+                      onKeyDown={(event) => moveMapNodeWithKeyboard(event, nodeId)}
+                      onClick={() => handleMapNodeClick(nodeId, () => setFocusCardNumber(nodeId))}
+                      aria-label={`${row.card.cardName}. Drag to rearrange, or use the arrow keys while focused.`}
+                    >
                       <CardArt card={row.card} className="zero-forge-node__art" compact />
                       <span>{row.card.cardNumber}</span>
                       <strong>{row.card.cardName}</strong>
@@ -491,14 +769,18 @@ export function ZeroForge({
               })}
 
               {workspace.suggestions.map((suggestion) => {
-                const position = layout.positions.get(`ghost:${suggestion.card.cardNumber}`);
+                const nodeId = `ghost:${suggestion.card.cardNumber}`;
+                const position = positionedLayout.positions.get(nodeId);
                 return (
                   <button
                     key={suggestion.card.cardNumber}
                     type="button"
-                    className={`zero-forge-ghost zero-forge-ghost--${suggestion.category}`}
+                    className={`zero-forge-ghost zero-forge-ghost--${suggestion.category} ${draggingNodeId === nodeId ? "is-dragging" : ""}`.trim()}
                     style={{ left: position.x, top: position.y }}
-                    onClick={() => addCard(suggestion.card.cardNumber, "suggestion")}
+                    onPointerDown={(event) => startMapNodeDrag(event, nodeId)}
+                    onKeyDown={(event) => moveMapNodeWithKeyboard(event, nodeId)}
+                    onClick={() => handleMapNodeClick(nodeId, () => addCard(suggestion.card.cardNumber, "suggestion"))}
+                    aria-label={`${suggestion.card.cardName}, projected suggestion. Drag to rearrange, or activate to add it.`}
                     {...previewHandlers(suggestion.card)}
                   >
                     <CardArt card={suggestion.card} className="zero-forge-ghost__art" compact />
@@ -511,6 +793,17 @@ export function ZeroForge({
                   </button>
                 );
               })}
+            </div>
+          </div>
+            </div>
+            <div className="zero-forge-map__view-controls" role="toolbar" aria-label="Forge map view controls">
+              <button type="button" onClick={() => zoomMapBy(-MAP_ZOOM_STEP)} disabled={mapZoom <= MIN_MAP_ZOOM} aria-label="Zoom out">−</button>
+              <output aria-label="Current Forge map zoom">{Math.round(mapZoom * 100)}%</output>
+              <button type="button" onClick={() => zoomMapBy(MAP_ZOOM_STEP)} disabled={mapZoom >= MAX_MAP_ZOOM} aria-label="Zoom in">+</button>
+              <button type="button" onClick={fitMap}>FIT</button>
+              <button type="button" onClick={resetMapView}>1:1</button>
+              <button type="button" onClick={resetMapLayout} disabled={!Object.keys(nodePositions).length}>RESET LAYOUT</button>
+              <span>SCROLL · DRAG FIELD · CTRL + WHEEL TO ZOOM</span>
             </div>
           </div>
           <div className={`zero-forge-map__signal is-${signal.tone}`} role="status" aria-live="polite">
@@ -910,6 +1203,36 @@ function buildForgeLayout(rows, suggestions) {
       count: lane.rows.reduce((sum, row) => sum + row.quantity, 0),
     })),
   };
+}
+
+function applyForgeNodePositions(layout, nodePositions) {
+  const positions = new Map(
+    [...layout.positions.entries()].map(([nodeId, position]) => {
+      const override = nodePositions[nodeId];
+      if (!override) return [nodeId, position];
+      const size = forgeNodeSize(nodeId);
+      return [
+        nodeId,
+        {
+          x: override.x,
+          y: override.y,
+          cx: override.x + (size.width / 2),
+          cy: override.y + (size.centerY || size.height / 2),
+        },
+      ];
+    }),
+  );
+  return { ...layout, positions };
+}
+
+function forgeNodeSize(nodeId) {
+  return String(nodeId).startsWith("ghost:")
+    ? { width: 152, height: 134, centerY: 67 }
+    : { width: 108, height: 152, centerY: 76 };
+}
+
+function clamp(value, minimum, maximum) {
+  return Math.min(maximum, Math.max(minimum, value));
 }
 
 function buildPreviewGeometry(card, rawPointX, rawPointY) {
