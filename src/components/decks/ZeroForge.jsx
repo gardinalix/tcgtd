@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { CardArt } from "../cards/CardArt.jsx";
 import { buildExBurstDeckText, downloadDeckText } from "../../domain/deckExport.js";
+import { parseMsaDeckList } from "../../domain/deckLibrary.js";
 import {
   buildZeroForgeSaveReport,
   buildZeroForgeWorkspace,
   evaluateZeroForgeAddition,
+  prepareZeroForgeMsaImport,
 } from "../../services/deckDesigner/zeroForgeEngine.js";
 import { filterCards, uniqueValues } from "../../utils/cardFilters.js";
 import { useLocale } from "../../i18n/LocaleProvider.jsx";
@@ -20,6 +22,7 @@ export function ZeroForge({
 }) {
   const { t } = useLocale();
   const [main, setMain] = useState({});
+  const [resource, setResource] = useState({});
   const [focusCardNumber, setFocusCardNumber] = useState("");
   const [deckName, setDeckName] = useState("ZERO Forge Deck");
   const [search, setSearch] = useState("");
@@ -33,6 +36,9 @@ export function ZeroForge({
   const [dragActive, setDragActive] = useState(false);
   const [savedDeckId, setSavedDeckId] = useState("");
   const [preview, setPreview] = useState(null);
+  const [importOpen, setImportOpen] = useState(false);
+  const [importText, setImportText] = useState("");
+  const [sourceMode, setSourceMode] = useState("zero");
 
   const cards = data.cards || [];
   const cardMap = useMemo(() => new Map(cards.map((card) => [card.cardNumber, card])), [cards]);
@@ -62,18 +68,29 @@ export function ZeroForge({
     () => buildForgeLayout(workspace.rows, workspace.suggestions),
     [workspace.rows, workspace.suggestions],
   );
+  const parsedMsaDeck = useMemo(() => parseMsaDeckList(importText), [importText]);
+  const msaImport = useMemo(
+    () => prepareZeroForgeMsaImport(data, parsedMsaDeck),
+    [data, parsedMsaDeck],
+  );
 
   useEffect(() => {
     document.body.classList.add("zero-forge-active");
+    return () => document.body.classList.remove("zero-forge-active");
+  }, []);
+
+  useEffect(() => {
     const closeOnEscape = (event) => {
-      if (event.key === "Escape") onClose?.();
+      if (event.key !== "Escape") return;
+      if (importOpen) {
+        setImportOpen(false);
+        return;
+      }
+      onClose?.();
     };
     window.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.body.classList.remove("zero-forge-active");
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [onClose]);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [importOpen, onClose]);
 
   function addCard(cardNumber, origin = "catalog") {
     const card = cardMap.get(cardNumber);
@@ -155,12 +172,60 @@ export function ZeroForge({
     addCard(cardNumber, "catalog");
   }
 
+  function loadMsaDeck() {
+    if (!msaImport.canImport) {
+      setSignal({
+        tone: "blocked",
+        text: "None of the pasted MSA card numbers matched the current catalog.",
+      });
+      return;
+    }
+
+    setMain(msaImport.main);
+    setResource(msaImport.resource);
+    setDeckName(msaImport.title);
+    setFocusCardNumber(msaImport.firstCardNumber);
+    setSourceMode("msa");
+    setSavedDeckId("");
+    setPreview(null);
+    setImportOpen(false);
+
+    const unknownCards = [...msaImport.unknownMainCards, ...msaImport.unknownResourceCards];
+    if (unknownCards.length) {
+      setSignal({
+        tone: "blocked",
+        text: `MSA import loaded with omissions: ${unknownCards.length} card number(s) were not found: ${unknownCards.join(", ")}.`,
+      });
+      return;
+    }
+    if (!msaImport.workspace.structurallyLegal) {
+      setSignal({
+        tone: "blocked",
+        text: "MSA import loaded for correction. Review the highlighted rule conflicts.",
+      });
+      return;
+    }
+    if (msaImport.resourceWarning) {
+      setSignal({ tone: "blocked", text: msaImport.resourceWarning });
+      return;
+    }
+    setSignal({
+      tone: "allowed",
+      text: `MSA import loaded: ${msaImport.recognizedMainCount} recognized cards across ${msaImport.recognizedUniqueMainCards} card numbers.`,
+    });
+  }
+
   function saveDraft() {
     if (!workspace.mainCount) {
       setSignal({ tone: "blocked", text: "Add at least one card before saving this draft." });
       return;
     }
-    const report = buildZeroForgeSaveReport(data, main, { title: deckName, focusCardNumber });
+    const report = buildZeroForgeSaveReport(data, main, {
+      title: deckName,
+      focusCardNumber,
+      resource,
+      importedFromMsa: sourceMode === "msa",
+    });
     const saved = onSave?.(report);
     if (!saved?.id) {
       setSignal({ tone: "blocked", text: "The ZERO Forge draft could not be saved." });
@@ -178,6 +243,8 @@ export function ZeroForge({
   function resetForge() {
     if (workspace.mainCount && !window.confirm(t("Clear every card from this ZERO Forge draft?"))) return;
     setMain({});
+    setResource({});
+    setSourceMode("zero");
     setFocusCardNumber("");
     setSavedDeckId("");
     setSignal({
@@ -210,8 +277,18 @@ export function ZeroForge({
           <button type="button" onClick={resetForge}>RESET</button>
           <button
             type="button"
+            className="is-import"
+            onClick={() => {
+              setPreview(null);
+              setImportOpen(true);
+            }}
+          >
+            IMPORT MSA
+          </button>
+          <button
+            type="button"
             disabled={!workspace.mainCount}
-            onClick={() => downloadDeckText(buildExBurstDeckText({ main }), deckName)}
+            onClick={() => downloadDeckText(buildExBurstDeckText({ main, resource }), deckName)}
           >
             EXPORT
           </button>
@@ -508,6 +585,16 @@ export function ZeroForge({
           </section>
         </aside>
       </div>
+      {importOpen ? (
+        <ZeroForgeMsaImportLayer
+          text={importText}
+          report={msaImport}
+          hasExistingDeck={workspace.mainCount > 0}
+          onTextChange={setImportText}
+          onCancel={() => setImportOpen(false)}
+          onImport={loadMsaDeck}
+        />
+      ) : null}
       {preview ? (
         <ZeroForgeCardPreview
           preview={preview}
@@ -516,6 +603,134 @@ export function ZeroForge({
         />
       ) : null}
     </section>
+  );
+}
+
+function ZeroForgeMsaImportLayer({
+  text,
+  report,
+  hasExistingDeck,
+  onTextChange,
+  onCancel,
+  onImport,
+}) {
+  const { t } = useLocale();
+  const unknownCards = [...report.unknownMainCards, ...report.unknownResourceCards];
+  const structuralIssue = report.workspace.issues.find((issue) =>
+    !/^Main deck must have \d+ cards\./i.test(issue));
+  const status = !report.canImport
+    ? "AWAITING DECK DATA"
+    : structuralIssue
+      ? "RULE CORRECTION REQUIRED"
+      : report.workspace.legal
+        ? "LEGAL DECK DETECTED"
+        : "DRAFT READY TO EDIT";
+
+  return (
+    <div
+      className="zero-forge-import-layer"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onCancel();
+      }}
+    >
+      <section
+        className="zero-forge-import"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="zero-forge-import-title"
+      >
+        <div className="zero-forge-import__scan" aria-hidden="true" />
+        <header>
+          <div>
+            <span>{t("MSA DECK TRANSFER // ZERO FORGE")}</span>
+            <h2 id="zero-forge-import-title">{t("Import an MSA deck into the map")}</h2>
+            <p>{t("Paste the MSA export. Recognized quantities and resource cards will be preserved for editing in the Forge.")}</p>
+          </div>
+          <strong className={structuralIssue ? "is-blocked" : report.canImport ? "is-ready" : ""}>
+            <i />
+            {t(status)}
+          </strong>
+          <button type="button" onClick={onCancel} aria-label={t("Close MSA import")}>×</button>
+        </header>
+
+        <div className="zero-forge-import__body">
+          <label className="zero-forge-import__payload">
+            <span>{t("MSA DECKLIST")}</span>
+            <textarea
+              value={text}
+              onChange={(event) => onTextChange(event.target.value)}
+              placeholder={"My Deck\n\nMain Deck (50)\n4 Gundam Example [GD01-001]\n\nResource Deck (10)\n10 Resource [R-001]"}
+              spellCheck="false"
+              autoFocus
+            />
+            <small>{t("Accepts the full MSA export and compact lines such as 4xGD01-001.")}</small>
+          </label>
+
+          <aside className="zero-forge-import__readout" aria-live="polite">
+            <span>{t("LIVE TRANSFER READOUT")}</span>
+            <strong>{text.trim() ? report.title : t("Awaiting pasted list")}</strong>
+            <div className="zero-forge-import__metrics">
+              <article className={report.recognizedMainCount ? "is-ready" : ""}>
+                <small>{t("MAIN RECOGNIZED")}</small>
+                <b>{report.recognizedMainCount}/{report.pastedMainCount || 0}</b>
+              </article>
+              <article>
+                <small>{t("UNIQUE CARDS")}</small>
+                <b>{report.recognizedUniqueMainCards}</b>
+              </article>
+              <article className={report.recognizedResourceCount ? "is-ready" : ""}>
+                <small>{t("RESOURCES")}</small>
+                <b>{report.recognizedResourceCount}</b>
+              </article>
+              <article className={unknownCards.length ? "is-warning" : ""}>
+                <small>{t("NOT FOUND")}</small>
+                <b>{unknownCards.length}</b>
+              </article>
+            </div>
+
+            {unknownCards.length ? (
+              <div className="zero-forge-import__warning">
+                <span>{t("These card numbers will not enter the map:")}</span>
+                <strong>{unknownCards.join(", ")}</strong>
+              </div>
+            ) : null}
+            {structuralIssue ? (
+              <div className="zero-forge-import__warning">
+                <span>{t("The deck can still be loaded for correction:")}</span>
+                <strong>{t(structuralIssue)}</strong>
+              </div>
+            ) : null}
+            {report.resourceWarning ? (
+              <div className="zero-forge-import__warning">
+                <span>{t("Resource fallback")}</span>
+                <strong>{t(report.resourceWarning)}</strong>
+              </div>
+            ) : null}
+            {report.ignoredLines.length ? (
+              <p>{t(`${report.ignoredLines.length} line(s) could not be read and will be ignored.`)}</p>
+            ) : null}
+            {hasExistingDeck ? (
+              <p className="is-replace">{t("Loading this list will replace the cards currently on the Forge map.")}</p>
+            ) : (
+              <p>{t("After loading, every recognized card becomes editable and the suggestion engine recalculates around the imported deck.")}</p>
+            )}
+          </aside>
+        </div>
+
+        <footer>
+          <span>
+            {t("RESOURCE POLICY")}
+            <strong>{t("Valid imported resources are preserved; if none are present, the Forge adds the standard resource deck when saving.")}</strong>
+          </span>
+          <nav>
+            <button type="button" onClick={onCancel}>{t("CANCEL")}</button>
+            <button type="button" className="is-primary" disabled={!report.canImport} onClick={onImport}>
+              {t(hasExistingDeck ? "REPLACE MAP WITH MSA DECK" : "LOAD INTO FORGE MAP")}
+            </button>
+          </nav>
+        </footer>
+      </section>
+    </div>
   );
 }
 

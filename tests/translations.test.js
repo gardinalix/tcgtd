@@ -53,6 +53,22 @@ test("ZERO Forge hover inspection is fully localized", () => {
   );
 });
 
+test("ZERO Forge MSA transfer is fully localized", () => {
+  assert.equal(translate("IMPORT MSA", "pt-BR"), "IMPORTAR MSA");
+  assert.equal(
+    translate("Import an MSA deck into the map", "pt-BR"),
+    "Importe um deck do MSA para o mapa",
+  );
+  assert.equal(
+    translate("MSA import loaded: 50 recognized cards across 18 card numbers.", "pt-BR"),
+    "Importação MSA carregada: 50 cartas reconhecidas em 18 números de carta.",
+  );
+  assert.equal(
+    translate("2 line(s) could not be read and will be ignored.", "pt-BR"),
+    "2 linha(s) não puderam ser lidas e serão ignoradas.",
+  );
+});
+
 test("the tactical debrief fully localizes generated analysis sentences", () => {
   const examples = [
     [

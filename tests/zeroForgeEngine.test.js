@@ -4,7 +4,9 @@ import {
   buildZeroForgeSaveReport,
   buildZeroForgeWorkspace,
   evaluateZeroForgeAddition,
+  prepareZeroForgeMsaImport,
 } from "../src/services/deckDesigner/zeroForgeEngine.js";
+import { parseMsaDeckList } from "../src/domain/deckLibrary.js";
 
 test("ZERO Forge blocks banned cards, copy limits, banned pairs, color overflow and deck overflow", () => {
   const data = fixture();
@@ -53,6 +55,44 @@ test("ZERO Forge saves a pilot-authored draft with an automatic resource deck", 
   assert.equal(report.resource["R-001"], 10);
   assert.equal(report.rows[0].source, "zero_forge");
   assert.ok(report.limitations.some((item) => /Current: 4/.test(item)));
+});
+
+test("ZERO Forge imports an MSA list for editing and preserves recognized resources", () => {
+  const data = fixture();
+  const parsed = parseMsaDeckList(`Imported Forge Deck
+
+Main Deck (9)
+4 Wing Test [ANCHOR-001]
+4 Heero Test [PILOT-001]
+1 Unknown Test [ZZ99-999]
+
+Resource Deck (10)
+10 Resource [R-001]`);
+  const imported = prepareZeroForgeMsaImport(data, parsed);
+
+  assert.equal(imported.title, "Imported Forge Deck");
+  assert.deepEqual(imported.main, { "ANCHOR-001": 4, "PILOT-001": 4 });
+  assert.deepEqual(imported.resource, { "R-001": 10 });
+  assert.equal(imported.recognizedMainCount, 8);
+  assert.deepEqual(imported.unknownMainCards, ["ZZ99-999"]);
+  assert.equal(imported.canImport, true);
+
+  const report = buildZeroForgeSaveReport(data, imported.main, {
+    title: imported.title,
+    resource: imported.resource,
+    importedFromMsa: true,
+  });
+  assert.deepEqual(report.resource, { "R-001": 10 });
+  assert.equal(report.forgeOrigin, "msa_import");
+  assert.match(report.strategy, /Imported from MSA and edited in ZERO Forge/);
+
+  const incompleteResources = prepareZeroForgeMsaImport(data, {
+    ...parsed,
+    resource: { "R-001": 9 },
+    resourceCount: 9,
+  });
+  assert.deepEqual(incompleteResources.resource, {});
+  assert.match(incompleteResources.resourceWarning, /standard resource deck/);
 });
 
 function fixture() {

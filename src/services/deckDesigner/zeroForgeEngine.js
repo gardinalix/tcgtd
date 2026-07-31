@@ -6,7 +6,7 @@ import { getSynergiesForCard } from "../synergyAnalyzer.js";
 import { calculateDeckStats } from "./deckAnalysis.js";
 import { normalizeSearchText, round } from "./deckDesignerUtils.js";
 
-export const ZERO_FORGE_VERSION = "zero-forge-2026-07-30-v1";
+export const ZERO_FORGE_VERSION = "zero-forge-2026-07-30-v2";
 
 const CURVE_BUCKETS = [
   { id: "early", label: "EARLY · COST 0–2", test: (cost) => cost <= 2, targetRatio: 0.36 },
@@ -140,6 +140,74 @@ export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = 
   };
 }
 
+export function prepareZeroForgeMsaImport(data = {}, parsedDeck = {}) {
+  const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
+  const resourceMap = new Map((data.resourceCards || []).map((card) => [card.cardNumber, card]));
+  const recognizedMain = {};
+  const recognizedResource = {};
+  const unknownMainCards = [];
+  const unknownResourceCards = [];
+
+  for (const [cardNumber, quantity] of Object.entries(parsedDeck.main || {})) {
+    if (cardMap.has(cardNumber)) recognizedMain[cardNumber] = Number(quantity || 0);
+    else unknownMainCards.push(cardNumber);
+  }
+  for (const [cardNumber, quantity] of Object.entries(parsedDeck.resource || {})) {
+    if (resourceMap.has(cardNumber) || cardMap.has(cardNumber)) {
+      recognizedResource[cardNumber] = Number(quantity || 0);
+    } else {
+      unknownResourceCards.push(cardNumber);
+    }
+  }
+
+  const firstCardNumber = Object.keys(recognizedMain)[0] || "";
+  const recognizedResourceCount = sumQuantities(recognizedResource);
+  const expectedResourceCount = Number(data.rules?.resourceDeckSize || 10);
+  const hasPastedResources = Object.keys(parsedDeck.resource || {}).length > 0;
+  const canPreserveResources = !hasPastedResources
+    || (recognizedResourceCount === expectedResourceCount && !unknownResourceCards.length);
+  const resourceWarning = hasPastedResources && !canPreserveResources
+    ? "Imported resources were incomplete or invalid, so the standard resource deck will be used when saving."
+    : "";
+  const mainCount = sumQuantities(recognizedMain);
+  const maxMain = Number(data.rules?.mainDeckSize || 50);
+  const rows = Object.entries(recognizedMain).map(([cardNumber, quantity]) => ({
+    card: cardMap.get(cardNumber),
+    quantity,
+  }));
+  const colors = activeColors(rows);
+  const maxColors = Number(data.rules?.maxColors || 2);
+  const legality = evaluateMainDeckLegality(recognizedMain, cardMap, data.rules || {});
+  const issues = [...legality.issues];
+  if (colors.length > maxColors) issues.push(`The deck exceeds the ${maxColors}-color limit.`);
+  if (mainCount !== maxMain) issues.push(`Main deck must have ${maxMain} cards. Current: ${mainCount}.`);
+  const workspace = {
+    mainCount,
+    maxMain,
+    colors,
+    legal: legality.legal && colors.length <= maxColors && mainCount === maxMain,
+    structurallyLegal: legality.legal && colors.length <= maxColors,
+    issues,
+  };
+  return {
+    title: String(parsedDeck.title || "My MSA deck").trim() || "My MSA deck",
+    main: recognizedMain,
+    resource: canPreserveResources ? recognizedResource : {},
+    pastedMainCount: Number(parsedDeck.mainCount || sumQuantities(parsedDeck.main)),
+    recognizedMainCount: sumQuantities(recognizedMain),
+    recognizedResourceCount,
+    expectedResourceCount,
+    resourceWarning,
+    recognizedUniqueMainCards: Object.keys(recognizedMain).length,
+    unknownMainCards,
+    unknownResourceCards,
+    ignoredLines: parsedDeck.ignoredLines || [],
+    firstCardNumber,
+    workspace,
+    canImport: mainCount > 0,
+  };
+}
+
 export function evaluateZeroForgeAddition(data = {}, main = {}, card = {}, amount = 1, existingCardMap) {
   const cardMap = existingCardMap || new Map((data.cards || []).map((item) => [item.cardNumber, item]));
   const current = Number(main?.[card.cardNumber] || 0);
@@ -198,9 +266,17 @@ export function evaluateZeroForgeAddition(data = {}, main = {}, card = {}, amoun
 export function buildZeroForgeSaveReport(data = {}, main = {}, options = {}) {
   const workspace = buildZeroForgeWorkspace(data, main, options.focusCardNumber, { limit: 8 });
   const title = String(options.title || "ZERO Forge Deck").trim() || "ZERO Forge Deck";
+  const importedFromMsa = Boolean(options.importedFromMsa);
   const resourceCard = (data.resourceCards || [])[0];
   const resourceCount = Number(data.rules?.resourceDeckSize || 10);
-  const resource = resourceCard?.cardNumber ? { [resourceCard.cardNumber]: resourceCount } : {};
+  const importedResource = Object.fromEntries(Object.entries(options.resource || {})
+    .filter(([, quantity]) => Number(quantity || 0) > 0)
+    .map(([cardNumber, quantity]) => [cardNumber, Number(quantity)]));
+  const resource = Object.keys(importedResource).length
+    ? importedResource
+    : resourceCard?.cardNumber
+      ? { [resourceCard.cardNumber]: resourceCount }
+      : {};
   const rows = workspace.rows.map((row) => ({
     ...row,
     category: row.quantity >= 3 ? "essential" : "flexible",
@@ -220,14 +296,19 @@ export function buildZeroForgeSaveReport(data = {}, main = {}, options = {}) {
       colors: workspace.colors,
       unitQuery: "",
       archetype: "ZERO Forge",
-      preferences: "Map-driven assisted construction from zero.",
+      preferences: importedFromMsa
+        ? "MSA deck imported and edited through map-driven assisted construction."
+        : "Map-driven assisted construction from zero.",
       requiredCards: "",
       excludedCards: "",
       budgetBrl: "",
       focus: "competitive",
     },
     assemblyMode: "zero_forge",
-    strategy: `Built from zero in ZERO Forge with rule-aware additions and live synergy, curve, trait and board-pressure guidance. Current main deck: ${workspace.mainCount}/${workspace.maxMain}.`,
+    forgeOrigin: importedFromMsa ? "msa_import" : "from_zero",
+    strategy: importedFromMsa
+      ? `Imported from MSA and edited in ZERO Forge with rule-aware additions and live synergy, curve, trait and board-pressure guidance. Current main deck: ${workspace.mainCount}/${workspace.maxMain}.`
+      : `Built from zero in ZERO Forge with rule-aware additions and live synergy, curve, trait and board-pressure guidance. Current main deck: ${workspace.mainCount}/${workspace.maxMain}.`,
     confidence: workspace.legal ? "High" : "Medium",
     confidenceValue: workspace.legal ? 0.82 : 0.62,
     limitations: workspace.issues,
@@ -243,7 +324,9 @@ export function buildZeroForgeSaveReport(data = {}, main = {}, options = {}) {
     substitutions: {},
     stats: workspace.stats,
     sources: [],
-    evidenceSummary: "Pilot-authored deck with live catalog, competitive co-play and printed-text assistance.",
+    evidenceSummary: importedFromMsa
+      ? "Pilot-imported MSA deck edited with live catalog, competitive co-play and printed-text assistance."
+      : "Pilot-authored deck with live catalog, competitive co-play and printed-text assistance.",
   };
 }
 
