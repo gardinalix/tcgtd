@@ -9,6 +9,7 @@ import {
   evaluateZeroForgeAddition,
   prepareZeroForgeMsaImport,
 } from "../../services/deckDesigner/zeroForgeEngine.js";
+import { calculateMapRevealScroll } from "../../services/deckDesigner/zeroForgeMapNavigation.js";
 import { filterCards, uniqueValues } from "../../utils/cardFilters.js";
 import { useLocale } from "../../i18n/LocaleProvider.jsx";
 
@@ -53,6 +54,7 @@ export function ZeroForge({
   const mapPanSessionRef = useRef(null);
   const mapNodeDragSessionRef = useRef(null);
   const ignoreMapNodeClickRef = useRef("");
+  const pendingMapRevealRef = useRef("");
 
   const cards = data.cards || [];
   const cardMap = useMemo(() => new Map(cards.map((card) => [card.cardNumber, card])), [cards]);
@@ -137,6 +139,31 @@ export function ZeroForge({
     });
   }, [workspace.rows, workspace.suggestions]);
 
+  useEffect(() => {
+    const nodeId = pendingMapRevealRef.current;
+    const position = positionedLayout.positions.get(nodeId);
+    const scrollport = mapScrollportRef.current;
+    if (!nodeId || !position || !scrollport) return undefined;
+
+    const frame = globalThis.requestAnimationFrame?.(() => {
+      const nextScroll = calculateMapRevealScroll({
+        position,
+        nodeSize: forgeNodeSize(nodeId),
+        zoom: mapZoomRef.current,
+        viewportWidth: scrollport.clientWidth,
+        viewportHeight: scrollport.clientHeight,
+        scrollLeft: scrollport.scrollLeft,
+        scrollTop: scrollport.scrollTop,
+        padding: 56,
+      });
+      scrollport.scrollLeft = nextScroll.scrollLeft;
+      scrollport.scrollTop = nextScroll.scrollTop;
+      pendingMapRevealRef.current = "";
+    });
+
+    return () => globalThis.cancelAnimationFrame?.(frame);
+  }, [positionedLayout]);
+
   function addCard(cardNumber, origin = "catalog") {
     const card = cardMap.get(cardNumber);
     if (!card) return;
@@ -145,6 +172,7 @@ export function ZeroForge({
       setSignal({ tone: "blocked", text: assessment.reason });
       return;
     }
+    pendingMapRevealRef.current = cardNumber;
     setFocusCardNumber(cardNumber);
     setMain(assessment.nextMain);
     setSavedDeckId("");
@@ -447,6 +475,7 @@ export function ZeroForge({
     setResource(msaImport.resource);
     setDeckName(msaImport.title);
     setFocusCardNumber(msaImport.firstCardNumber);
+    pendingMapRevealRef.current = msaImport.firstCardNumber;
     setSourceMode("msa");
     setSavedDeckId("");
     setPreview(null);
