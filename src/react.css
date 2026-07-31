@@ -8679,7 +8679,14 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
   position: absolute;
   inset: 4%;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, color-mix(in srgb, var(--hud-primary) 28%, transparent), transparent 18% 100%);
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 82%,
+    color-mix(in srgb, var(--hud-primary) 4%, transparent) 86%,
+    color-mix(in srgb, var(--hud-primary) 12%, transparent) 92%,
+    color-mix(in srgb, var(--hud-primary) 30%, transparent) 99.4%,
+    color-mix(in srgb, var(--hud-primary) 52%, transparent) 100%
+  );
   animation: designerRadar 3.2s linear infinite;
 }
 
