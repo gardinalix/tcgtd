@@ -375,7 +375,9 @@ function buildObservedFacts(report, stats) {
       : 0;
     return [
       `The pasted MSA list contains ${report.importedDeck.originalMainCount} main-deck cards across ${report.importedDeck.uniqueMainCards} unique card numbers.`,
-      `Catalog recognition covered ${report.importedDeck.recognizedMainCount} main-deck cards (${coverage}%) and ${report.importedDeck.recognizedResourceCount} resource cards.`,
+      report.importedDeck.resourceDefaulted
+        ? `Catalog recognition covered ${report.importedDeck.recognizedMainCount} main-deck cards (${coverage}%); the standard resource deck was applied automatically.`
+        : `Catalog recognition covered ${report.importedDeck.recognizedMainCount} main-deck cards (${coverage}%) and ${report.importedDeck.recognizedResourceCount} resource cards.`,
       `The analyzed main deck has an average cost of ${stats.averageCost}; every recognized imported quantity was preserved.`,
       `${sample} normalized competitive decklist(s) were available as contextual evidence for the inferred colors and strategy.`,
     ];

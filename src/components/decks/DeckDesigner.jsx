@@ -683,7 +683,10 @@ function MsaImportPanel({
     .filter(([cardNumber]) => catalogIds.has(cardNumber))
     .reduce((sum, [, quantity]) => sum + Number(quantity || 0), 0);
   const expectedMain = Number(data.rules?.mainDeckSize || 50);
+  const expectedResource = Number(data.rules?.resourceDeckSize || 10);
+  const hasPastedResources = Object.keys(parsedDeck.resource || {}).length > 0;
   const sizeTone = parsedDeck.mainCount === expectedMain ? "is-good" : parsedDeck.mainCount ? "is-warning" : "";
+  const resourceTone = !hasPastedResources || parsedDeck.resourceCount === expectedResource ? "is-good" : "is-warning";
 
   return (
     <section className="msa-import-console" aria-labelledby="msa-import-title">
@@ -724,6 +727,10 @@ function MsaImportPanel({
             <span>
               <small>UNIQUE CARDS</small>
               <b>{parsedDeck.uniqueMainCards}</b>
+            </span>
+            <span className={resourceTone}>
+              <small>RESOURCES</small>
+              <b>{hasPastedResources ? `${parsedDeck.resourceCount} / ${expectedResource}` : `AUTO / ${expectedResource}`}</b>
             </span>
             <span className={unknownIds.length ? "is-warning" : parsedDeck.mainCount ? "is-good" : ""}>
               <small>NOT FOUND</small>

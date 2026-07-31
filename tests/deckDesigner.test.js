@@ -235,6 +235,47 @@ test("MSA paste import preserves the full list and analyzes curve, strengths and
   assert.equal(report.legality.legal, true);
 });
 
+test("MSA import supplies the standard resource deck when a valid main-only list is pasted", () => {
+  const data = fixtureData();
+  const sourceMain = Object.fromEntries(data.metaDeckCards
+    .filter((row) => row.deckId === "deck-1")
+    .map((row) => [row.cardNumber, Number(row.quantity)]));
+  const parsed = parseMsaDeckList([
+    "Main-only Potter Deck",
+    "Main Deck (50)",
+    ...Object.entries(sourceMain).map(([cardNumber, quantity]) => `${quantity}x${cardNumber}`),
+  ].join("\n"));
+
+  const report = analyzeImportedDeck(data, parsed);
+
+  assert.equal(parsed.resourceCount, 0);
+  assert.equal(report.importedDeck.pastedResourceCount, 0);
+  assert.equal(report.importedDeck.resourceDefaulted, true);
+  assert.deepEqual(report.resource, { "R-001": 10 });
+  assert.equal(report.legality.legal, true);
+  assert.ok(!report.legality.violations.some((item) => item.type === "resource_deck_size"));
+});
+
+test("MSA import still rejects a partially supplied resource deck", () => {
+  const data = fixtureData();
+  const sourceMain = Object.fromEntries(data.metaDeckCards
+    .filter((row) => row.deckId === "deck-1")
+    .map((row) => [row.cardNumber, Number(row.quantity)]));
+  const parsed = parseMsaDeckList([
+    "Incomplete resources",
+    "Main Deck (50)",
+    ...Object.entries(sourceMain).map(([cardNumber, quantity]) => `${quantity}x${cardNumber}`),
+    "Resource Deck (10)",
+    "9xR-001",
+  ].join("\n"));
+
+  const report = analyzeImportedDeck(data, parsed);
+
+  assert.equal(report.importedDeck.resourceDefaulted, false);
+  assert.equal(report.legality.legal, false);
+  assert.ok(report.legality.violations.some((item) => item.type === "resource_deck_size"));
+});
+
 test("MSA parser accepts compact lines, preserves unknown entries and reports catalog misses", () => {
   const data = fixtureData();
   const parsed = parseMsaDeckList([

@@ -57,14 +57,22 @@ export function designDeckVariants(data, criteria) {
 export function analyzeImportedDeck(data = {}, parsedDeck = {}, options = {}) {
   const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
   const resourceMap = new Map((data.resourceCards || []).map((card) => [card.cardNumber, card]));
+  const expectedResourceCount = Number(data.rules?.resourceDeckSize || 10);
+  const pastedResource = { ...(parsedDeck.resource || {}) };
+  const hasPastedResources = Object.keys(pastedResource).length > 0;
+  const defaultResourceCard = (data.resourceCards || [])[0];
+  const resource = hasPastedResources
+    ? pastedResource
+    : defaultResourceCard?.cardNumber
+      ? { [defaultResourceCard.cardNumber]: expectedResourceCount }
+      : {};
   const unknownMainCards = Object.keys(parsedDeck.main || {}).filter((cardNumber) => !cardMap.has(cardNumber));
-  const unknownResourceCards = Object.keys(parsedDeck.resource || {}).filter((cardNumber) => !resourceMap.has(cardNumber));
+  const unknownResourceCards = Object.keys(pastedResource).filter((cardNumber) => !resourceMap.has(cardNumber));
   const recognizedMain = Object.fromEntries(Object.entries(parsedDeck.main || {})
     .filter(([cardNumber]) => cardMap.has(cardNumber)));
-  const recognizedResource = Object.fromEntries(Object.entries(parsedDeck.resource || {})
+  const recognizedResource = Object.fromEntries(Object.entries(resource)
     .filter(([cardNumber]) => resourceMap.has(cardNumber)));
   const main = { ...(parsedDeck.main || {}) };
-  const resource = { ...(parsedDeck.resource || {}) };
   const rows = Object.entries(recognizedMain)
     .map(([cardNumber, quantity]) => buildImportedRow(cardMap.get(cardNumber), quantity))
     .sort((left, right) =>
@@ -112,7 +120,9 @@ export function analyzeImportedDeck(data = {}, parsedDeck = {}, options = {}) {
       name: parsedDeck.title || "My MSA deck",
       format: "MSA pasted list",
       originalMainCount: Number(parsedDeck.mainCount || 0),
-      originalResourceCount: Number(parsedDeck.resourceCount || 0),
+      originalResourceCount: Object.values(resource).reduce((sum, quantity) => sum + Number(quantity || 0), 0),
+      pastedResourceCount: Number(parsedDeck.resourceCount || 0),
+      resourceDefaulted: !hasPastedResources && Boolean(defaultResourceCard?.cardNumber),
       recognizedMainCount: Object.values(recognizedMain).reduce((sum, quantity) => sum + Number(quantity || 0), 0),
       recognizedResourceCount: Object.values(recognizedResource).reduce((sum, quantity) => sum + Number(quantity || 0), 0),
       uniqueMainCards: Number(parsedDeck.uniqueMainCards || Object.keys(parsedDeck.main || {}).length),
@@ -125,7 +135,9 @@ export function analyzeImportedDeck(data = {}, parsedDeck = {}, options = {}) {
         classification: "user_provided_decklist",
         name: "Pasted MSA decklist",
         url: "",
-        detail: `${parsedDeck.mainCount || 0} main-deck cards and ${parsedDeck.resourceCount || 0} resource cards supplied by the pilot.`,
+        detail: hasPastedResources
+          ? `${parsedDeck.mainCount || 0} main-deck cards and ${parsedDeck.resourceCount || 0} resource cards supplied by the pilot.`
+          : `${parsedDeck.mainCount || 0} main-deck cards supplied by the pilot; the standard ${expectedResourceCount}-card resource deck was applied automatically.`,
         sourceDate: "",
         consultationDate: new Date().toISOString(),
       },
