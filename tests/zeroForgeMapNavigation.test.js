@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import { calculateMapRevealScroll } from "../src/services/deckDesigner/zeroForgeMapNavigation.js";
+
+test("ZERO Forge map is isolated from page-level main element rules", () => {
+  const source = readFileSync(new URL("../src/components/decks/ZeroForge.jsx", import.meta.url), "utf8");
+
+  assert.match(source, /<section\s+className=\{`zero-forge-map/);
+  assert.doesNotMatch(source, /<main\s+className=\{`zero-forge-map/);
+});
 
 test("ZERO Forge keeps an already visible added card in place", () => {
   assert.deepEqual(calculateMapRevealScroll({

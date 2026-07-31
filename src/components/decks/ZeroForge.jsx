@@ -656,8 +656,9 @@ export function ZeroForge({
           </div>
         </aside>
 
-        <main
+        <section
           className={`zero-forge-map ${dragActive ? "is-drop-active" : ""}`.trim()}
+          aria-label="Live deck map"
           onDragEnter={() => setDragActive(true)}
           onDragLeave={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget)) setDragActive(false);
@@ -839,7 +840,7 @@ export function ZeroForge({
             <i />
             <span>{t(signal.text)}</span>
           </div>
-        </main>
+        </section>
 
         <aside className="zero-forge-intel">
           <div className="zero-forge-panel-head">
