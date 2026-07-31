@@ -15380,6 +15380,63 @@ body.zero-forge-active {
   font: 700 0.46rem var(--font-tech);
 }
 
+.zero-forge-composition__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.32rem;
+}
+
+.zero-forge-composition__grid article {
+  --composition-accent: var(--forge-cyan);
+  position: relative;
+  display: grid;
+  gap: 0.22rem;
+  min-width: 0;
+  padding: 0.5rem 0.28rem 0.44rem;
+  overflow: hidden;
+  border: 1px solid rgba(87, 232, 255, 0.16);
+  background:
+    linear-gradient(180deg, rgba(87, 232, 255, 0.08), rgba(7, 18, 28, 0.5));
+  text-align: center;
+}
+
+.zero-forge-composition__grid article::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: var(--composition-accent);
+  box-shadow: 0 0 8px var(--composition-accent);
+  content: "";
+}
+
+.zero-forge-composition__grid article.is-pilot {
+  --composition-accent: #a98bff;
+}
+
+.zero-forge-composition__grid article.is-command {
+  --composition-accent: var(--forge-gold);
+}
+
+.zero-forge-composition__grid article.is-base {
+  --composition-accent: var(--forge-green);
+}
+
+.zero-forge-composition__grid span {
+  overflow: hidden;
+  color: var(--forge-muted);
+  font: 800 0.43rem var(--font-tech);
+  letter-spacing: 0.06em;
+  text-overflow: ellipsis;
+}
+
+.zero-forge-composition__grid strong {
+  color: var(--composition-accent);
+  font: 900 1rem var(--font-display);
+  text-shadow: 0 0 10px var(--composition-accent);
+}
+
 .zero-forge-meter {
   display: grid;
   grid-template-columns: 98px minmax(0, 1fr) 34px;

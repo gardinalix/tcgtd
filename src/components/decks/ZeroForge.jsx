@@ -538,6 +538,18 @@ export function ZeroForge({
             </section>
           ) : null}
 
+          <section className="zero-forge-intel__section zero-forge-composition">
+            <header><strong>DECK COMPOSITION</strong><span>live quantities</span></header>
+            <div className="zero-forge-composition__grid">
+              {workspace.composition.map((item) => (
+                <article key={item.id} className={`is-${item.id}`}>
+                  <span>{item.label}</span>
+                  <strong>{item.count}</strong>
+                </article>
+              ))}
+            </div>
+          </section>
+
           <section className="zero-forge-intel__section">
             <header><strong>CURVE VECTOR</strong><span>current / target</span></header>
             {workspace.curve.map((bucket) => (

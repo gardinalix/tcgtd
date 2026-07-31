@@ -92,6 +92,25 @@ test("ZERO Forge distinguishes a legal card in a full deck from a real rule viol
   assert.equal(violation.className, "is-locked");
 });
 
+test("ZERO Forge reports live card-type quantities", () => {
+  const workspace = buildZeroForgeWorkspace(fixture(), {
+    "ANCHOR-001": 3,
+    "PILOT-001": 2,
+    "DRAW-001": 4,
+    "ST02-016": 1,
+  });
+
+  assert.deepEqual(
+    Object.fromEntries(workspace.composition.map((item) => [item.type, item.count])),
+    {
+      UNIT: 3,
+      PILOT: 2,
+      COMMAND: 4,
+      BASE: 1,
+    },
+  );
+});
+
 test("ZERO Forge saves a pilot-authored draft with an automatic resource deck", () => {
   const data = fixture();
   const report = buildZeroForgeSaveReport(data, { "ANCHOR-001": 4 }, { title: "Potter Forge" });

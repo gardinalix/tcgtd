@@ -6,7 +6,14 @@ import { getSynergiesForCard } from "../synergyAnalyzer.js";
 import { calculateDeckStats } from "./deckAnalysis.js";
 import { normalizeSearchText, round } from "./deckDesignerUtils.js";
 
-export const ZERO_FORGE_VERSION = "zero-forge-2026-07-30-v2";
+export const ZERO_FORGE_VERSION = "zero-forge-2026-07-30-v3";
+
+const COMPOSITION_TYPES = [
+  { id: "unit", type: "UNIT", label: "UNITS" },
+  { id: "pilot", type: "PILOT", label: "PILOTS" },
+  { id: "command", type: "COMMAND", label: "COMMANDS" },
+  { id: "base", type: "BASE", label: "BASES" },
+];
 
 const CURVE_BUCKETS = [
   { id: "early", label: "EARLY · COST 0–2", test: (cost) => cost <= 2, targetRatio: 0.36 },
@@ -58,6 +65,7 @@ export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = 
   const maxMain = Number(data.rules?.mainDeckSize || 50);
   const colors = activeColors(rows);
   const stats = calculateDeckStats(rows);
+  const composition = buildCompositionTelemetry(rows);
   const curve = buildCurveTelemetry(rows, maxMain);
   const roles = buildRoleTelemetry(rows);
   const availability = Object.fromEntries(cards.map((card) => [
@@ -133,6 +141,7 @@ export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = 
     maxMain,
     colors,
     stats,
+    composition,
     curve,
     roles,
     suggestions,
@@ -550,6 +559,19 @@ function buildCurveTelemetry(rows, maxMain) {
       need: target - count,
     };
   });
+}
+
+function buildCompositionTelemetry(rows) {
+  const counts = rows.reduce((result, row) => {
+    const type = String(row.card.cardType || "").toUpperCase();
+    result[type] = (result[type] || 0) + Number(row.quantity || 0);
+    return result;
+  }, {});
+
+  return COMPOSITION_TYPES.map((item) => ({
+    ...item,
+    count: Number(counts[item.type] || 0),
+  }));
 }
 
 function buildRoleTelemetry(rows) {

@@ -43,6 +43,11 @@ test("dynamic deck telemetry is localized without changing values", () => {
 });
 
 test("ZERO Forge hover inspection is fully localized", () => {
+  assert.equal(translate("DECK COMPOSITION", "pt-BR"), "COMPOSIÇÃO DO DECK");
+  assert.equal(translate("UNITS", "pt-BR"), "UNIDADES");
+  assert.equal(translate("PILOTS", "pt-BR"), "PILOTOS");
+  assert.equal(translate("COMMANDS", "pt-BR"), "COMANDOS");
+  assert.equal(translate("BASES", "pt-BR"), "BASES");
   assert.equal(translate("LIVE CARD INSPECTION", "pt-BR"), "INSPEÇÃO DE CARTA AO VIVO");
   assert.equal(translate("LOCKED BY RULES", "pt-BR"), "BLOQUEADA PELAS REGRAS");
   assert.equal(translate("PRINTED LINK / PAIR", "pt-BR"), "LINK / PAIR IMPRESSO");
