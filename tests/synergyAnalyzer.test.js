@@ -163,6 +163,46 @@ test("Peacemillion targets only eligible Operation Meteor or G Team Units at Lv.
   assert.equal(byId.get(whiteHeero.cardNumber)?.algorithmRules.includes("text_bridge"), false);
 });
 
+test("Tallgeese III keeps G Team atomic and does not treat Attack as a LINK trait", () => {
+  const tallgeese = card({
+    cardNumber: "GD05-070",
+    cardName: "Tallgeese Ⅲ",
+    color: "White",
+    cardType: "UNIT",
+    level: 5,
+    cost: 3,
+    traits: ["Preventer"],
+    synergyTags: ["damage_push", "link"],
+    linkTargets: ["Zechs Merquise"],
+    effectPreview: "During your turn, when this Unit destroys an enemy Unit with battle damage, choose 1 of your rested (Preventer)/(G Team) Link Units. Set it as active. It can't attack during this turn.",
+  });
+  const gTeamUnit = card({
+    cardNumber: "GTEAM-001",
+    cardName: "G Team Unit",
+    color: "White",
+    cardType: "UNIT",
+    traits: ["G Team"],
+  });
+  const gGenerationUnit = card({
+    cardNumber: "GGEN-001",
+    cardName: "G Generation Unit",
+    color: "White",
+    cardType: "UNIT",
+    traits: ["G Generation"],
+    linkTargets: ["(Attack) Trait"],
+  });
+  const results = calculateSynergies(tallgeese, {
+    cards: [tallgeese, gTeamUnit, gGenerationUnit],
+    metaDeckCards: [],
+  });
+  const byId = new Map(results.map((item) => [item.targetCardId, item]));
+
+  assert.ok(byId.get(gTeamUnit.cardNumber)?.algorithmRules.includes("text_bridge"));
+  assert.match(byId.get(gTeamUnit.cardNumber)?.textBridgeLabel || "", /G Team · UNIT/);
+  assert.equal(Boolean(byId.get(gGenerationUnit.cardNumber)?.algorithmRules.includes("text_bridge")), false);
+  assert.equal(Boolean(byId.get(gGenerationUnit.cardNumber)?.algorithmRules.includes("direct_link_pair")), false);
+});
+
 test("white Heero uses Wing's reverse printed LINK without inventing broad Unit text support", () => {
   const result = calculateSynergies(whiteHeero, {
     cards: [whiteHeero, wingZero],

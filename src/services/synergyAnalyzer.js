@@ -52,6 +52,7 @@ export function calculateSynergies(sourceCard, data) {
   const sourceSignals = parseCardSignals(sourceCard);
   const evaluationContext = {
     knownCardNames: allCards.map((card) => card.cardName).filter(Boolean),
+    knownTraits: uniqueList(allCards.flatMap((card) => card.traits || [])),
   };
 
   return allCards

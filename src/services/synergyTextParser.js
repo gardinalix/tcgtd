@@ -137,7 +137,12 @@ export function matchCardTextTarget(
   const mentionedTypes = TARGET_CARD_TYPES.filter((type) => containsTerm(text, type));
   const targetType = normalizeText(targetSignals.type);
   const friendlyTypeSupport = mentionedTypes.includes(targetType)
-    && friendlyTypeIsTargeted(text, targetType);
+    && friendlyTypeIsTargeted(
+      text,
+      targetType,
+      targetSignals.traits,
+      options.knownTraits || [],
+    );
   const colorTypeSupport = Boolean(
     targetSignals.color
     && targetType
@@ -259,14 +264,25 @@ export function mentionsAny(text, terms = []) {
 }
 
 export function linkMatchesCard(linkTarget, card, signals = parseCardSignals(card)) {
-  const link = normalizeText(linkTarget);
-  if (!link) return false;
-  if (signals.name && (signals.name === link || signals.name.includes(link) || link.includes(signals.name))) {
+  const alternatives = String(linkTarget || "")
+    .split("/")
+    .map(normalizeText)
+    .filter(Boolean);
+  if (!alternatives.length) return false;
+  if (signals.name && alternatives.some((link) =>
+    link.length >= 3
+    && (
+      signals.name === link
+      || containsTerm(signals.name, link)
+      || containsTerm(link, signals.name)
+    ))) {
     return true;
   }
-  return [...signals.traits, ...signals.keywords]
-    .filter((term) => term && !GENERIC_LINK_TERMS.has(term))
-    .some((term) => link.includes(term) || term.includes(link));
+  const traits = new Set(signals.traits
+    .filter((term) => term && !GENERIC_LINK_TERMS.has(term)));
+  return alternatives.some((link) =>
+    !GENERIC_LINK_TERMS.has(link)
+    && traits.has(link));
 }
 
 function uniqueNormalized(values = []) {
@@ -296,11 +312,31 @@ function isMostSpecificNameMention(text, targetName, knownCardNames) {
       && containsTerm(text, name));
 }
 
-function friendlyTypeIsTargeted(text, type) {
+function friendlyTypeIsTargeted(text, type, targetTraits = [], knownTraits = []) {
+  const phrases = friendlyTypeTargetPhrases(text, type);
+  if (!phrases.length) return false;
+  const targetTraitSet = new Set(uniqueNormalized(targetTraits));
+  const possibleConstraints = uniqueNormalized(knownTraits)
+    .filter((trait) => trait && !GENERIC_LINK_TERMS.has(trait));
+
+  return phrases.some((phrase) => {
+    const constraints = possibleConstraints
+      .filter((trait) => containsTerm(phrase, trait));
+    return !constraints.length
+      || constraints.some((trait) => targetTraitSet.has(trait));
+  });
+}
+
+function friendlyTypeTargetPhrases(text, type) {
+  const normalized = normalizeText(text);
   const plural = type === "base" ? "bases?" : `${escapeRegExp(type)}s?`;
-  return new RegExp(`\\b(?:friendly|another|all friendly|each friendly|all your|each of your)\\b.{0,70}\\b${plural}\\b`, "i").test(text)
-    || new RegExp(`\\byour\\s+(?:(?!\\b(?:hand|turn|trash|shield|deck)\\b).){0,60}\\b${plural}\\b`, "i").test(text)
-    || new RegExp(`\\b${plural}\\b.{0,50}\\b(?:you control|in your deck|in your hand|in play)\\b`, "i").test(text);
+  const patterns = [
+    new RegExp(`\\b(?:friendly|another|all friendly|each friendly|all your|each of your)\\b.{0,70}\\b${plural}\\b`, "gi"),
+    new RegExp(`\\byour\\s+(?:(?!\\b(?:hand|turn|trash|shield|deck)\\b).){0,60}\\b${plural}\\b`, "gi"),
+    new RegExp(`\\b${plural}\\b.{0,50}\\b(?:you control|in your deck|in your hand|in play)\\b`, "gi"),
+  ];
+  return uniqueNormalized(patterns.flatMap((pattern) =>
+    [...normalized.matchAll(pattern)].map((match) => match[0])));
 }
 
 function extractNumericBounds(text) {

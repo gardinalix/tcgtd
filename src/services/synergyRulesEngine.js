@@ -1,4 +1,4 @@
-export const SYNERGY_ALGORITHM_VERSION = "synergy-map-2026-07-30-cross-text-v2";
+export const SYNERGY_ALGORITHM_VERSION = "synergy-map-2026-07-30-trait-gates-v3";
 
 export const DEFAULT_SYNERGY_RULES = [
   {
