@@ -20,6 +20,7 @@ import { changeDeckQuantity, normalizeDeck } from "./domain/deck";
 import { canAddCardToMain, getCardCopyLimit } from "./domain/deckLegality.js";
 import { createSavedDeck, deleteDeck, duplicateDeck, normalizeImportedColors, parseDeckList, updateSavedDeck } from "./domain/deckLibrary";
 import { compactDeckDesign } from "./services/deckDesigner/index.js";
+import { createForgeImportFromResult } from "./services/deckDesigner/competitiveMeta.js";
 import { parseRoute, routeFor } from "./domain/routes";
 import { usePersistentState } from "./hooks/usePersistentState";
 import { AccountSettingsPage } from "./pages/AccountSettingsPage";
@@ -61,6 +62,7 @@ export function App() {
   const [view, setViewState] = useState(initialRoute.view);
   const [routeId, setRouteId] = useState(initialRoute.id);
   const [themeId, setThemeId] = useState(getInitialThemeId);
+  const [pendingForgeImport, setPendingForgeImport] = useState(null);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [userState, setUserState] = usePersistentState(REACT_STATE_KEY, createInitialUserState(), normalizeUserState);
 
@@ -213,7 +215,14 @@ export function App() {
           ? `zero-forge:${report.generatedAt || new Date().toISOString()}`
           : report.sourceDeck?.deckId
             ? `designer-source:${report.sourceDeck.deckId}`
-            : `designer:${report.generatedAt || new Date().toISOString()}`,
+              : `designer:${report.generatedAt || new Date().toISOString()}`,
+      selectedMetaId: report.selectedMetaId || report.criteria?.selectedMetaId || "current",
+      sourceTournamentDeckId: report.sourceTournamentDeckId || report.sourceMetadata?.sourceTournamentDeckId || "",
+      sourceMetadata: report.sourceMetadata || null,
+      parentDeckId: report.sourceTournamentDeckId || "",
+      lastCompetitiveScore: report.lastCompetitiveScore,
+      changeHistory: report.changeHistory || [],
+      banlistVersion: report.banlistVersion || report.legality?.rulesEffectiveDate || "",
       designerReport: compactDeckDesign(report),
       main: report.main || {},
       resource: report.resource || {},
@@ -277,6 +286,13 @@ export function App() {
   function editDeck(deckId) {
     setUserState((current) => ({ ...current, activeDeckId: deckId }));
     setView("builder");
+  }
+
+  function sendTournamentDeckToForge(result, selectedMetaId = "current") {
+    const draft = createForgeImportFromResult(data, result, selectedMetaId);
+    if (!Object.keys(draft.main || {}).length) return;
+    setPendingForgeImport(draft);
+    setView("decks");
   }
 
   function addCardToActiveDeck(card) {
@@ -382,6 +398,8 @@ export function App() {
             onEditDeck={editDeck}
             onImportExternalDecks={importExternalDecks}
             onSaveRecommendation={saveDesignedDeck}
+            initialForgeImport={pendingForgeImport}
+            onForgeImportConsumed={() => setPendingForgeImport(null)}
           />
         ) : null}
         {!shouldGatePrivate && view === "builder" ? (
@@ -392,7 +410,15 @@ export function App() {
             onOpenSynergy={(cardNumber) => setView("synergy", cardNumber)}
           />
         ) : null}
-        {!shouldGatePrivate && view === "deckView" ? <DeckViewPage data={data} deckId={routeId} decks={userState.decks} onEditDeck={editDeck} /> : null}
+        {!shouldGatePrivate && view === "deckView" ? (
+          <DeckViewPage
+            data={data}
+            deckId={routeId}
+            decks={userState.decks}
+            onEditDeck={editDeck}
+            onSendToForge={sendTournamentDeckToForge}
+          />
+        ) : null}
         {!shouldGatePrivate && view === "prices" ? <PricesPage data={data} /> : null}
         {!shouldGatePrivate && view === "meta" ? <MetaPage data={data} /> : null}
         {!shouldGatePrivate && view === "events" ? <EventsPage data={data} onOpenEvent={(eventId) => setView("eventDetail", eventId)} /> : null}
@@ -402,6 +428,7 @@ export function App() {
             eventId={routeId}
             onBack={() => setView("events")}
             onOpenDeck={(deckId) => setView("deckView", deckId)}
+            onSendToForge={sendTournamentDeckToForge}
           />
         ) : null}
         {!shouldGatePrivate && view === "previews" ? <PreviewsPage data={data} /> : null}

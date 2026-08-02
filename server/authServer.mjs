@@ -5,6 +5,7 @@ import { createServer } from "node:http";
 import { DatabaseSync } from "node:sqlite";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { handleDeckAssistant } from "../worker/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -52,6 +53,7 @@ const server = createServer(async (request, response) => {
     if (request.method === "OPTIONS") return send(response, 204, {});
 
     const url = new URL(request.url || "/", APP_URL);
+    if (url.pathname === "/api/deck-assistant") return serveDeckAssistant(request, response, url);
     if (url.pathname === "/api/auth/session" && request.method === "GET") return getSession(request, response);
     if (url.pathname === "/api/auth/register" && request.method === "POST") return register(request, response);
     if (url.pathname === "/api/auth/login" && request.method === "POST") return login(request, response);
@@ -74,6 +76,19 @@ const server = createServer(async (request, response) => {
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`Gundam Tactical Auth Server listening on http://127.0.0.1:${PORT}`);
 });
+
+async function serveDeckAssistant(request, response, url) {
+  const body = request.method === "POST" ? JSON.stringify(await readBody(request)) : undefined;
+  const webRequest = new Request(url, {
+    method: request.method,
+    headers: request.headers,
+    body,
+  });
+  const result = await handleDeckAssistant(webRequest, process.env);
+  response.statusCode = result.status;
+  result.headers.forEach((value, name) => response.setHeader(name, value));
+  response.end(Buffer.from(await result.arrayBuffer()));
+}
 
 async function register(request, response) {
   const body = await readBody(request);

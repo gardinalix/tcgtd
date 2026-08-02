@@ -12,7 +12,7 @@ import {
 import { buildDeckRows, buildPlainDeckList, getDeckIssues } from "../domain/deck";
 import { deckStats, deckSummaryFromMetaResult, parseDeckUrlList, publicDecksFromMeta } from "../domain/deckLibrary";
 
-export function DeckViewPage({ data, deckId, decks, onEditDeck }) {
+export function DeckViewPage({ data, deckId, decks, onEditDeck, onSendToForge }) {
   const [inspectedCardNumber, setInspectedCardNumber] = useState("");
   const mainCards = data.cards || [];
   const mainMap = useMemo(() => new Map(mainCards.map((card) => [card.cardNumber, card])), [mainCards]);
@@ -22,6 +22,10 @@ export function DeckViewPage({ data, deckId, decks, onEditDeck }) {
     const result = (data.metaResults || []).find((row) => row.deckId === deckId);
     return result ? deckSummaryFromMetaResult(result) : null;
   }, [data, deckId]);
+  const sourceResult = useMemo(
+    () => (data.metaResults || []).find((row) => row.deckId === deckId) || null,
+    [data.metaResults, deckId],
+  );
   const savedDeck = decks.find((deck) => deck.id === deckId);
   const deck = savedDeck || hydratePublicDeck(publicDeck, data.metaDeckCards || []);
   const stats = deck ? deckStats(deck, mainMap) : null;
@@ -46,6 +50,7 @@ export function DeckViewPage({ data, deckId, decks, onEditDeck }) {
         actions={(
           <div className="button-row">
           {savedDeck ? <button type="button" onClick={() => onEditDeck(deck.id)}>Edit in builder</button> : null}
+          {sourceResult ? <button type="button" className="is-forge" onClick={() => onSendToForge?.(sourceResult, "current")}>Enviar para a FORJA</button> : null}
           <button type="button" onClick={() => navigator.clipboard?.writeText(buildPlainDeckList(deck, mainMap, "main"))}>Copy list</button>
           {deck.sourceUrl ? <a href={deck.sourceUrl} target="_blank" rel="noreferrer">Source</a> : null}
           </div>

@@ -1,6 +1,12 @@
-export function TacticalPageShell({ children, className = "" }) {
+export function TacticalPageShell({ children, className = "", moduleName }) {
+  const resolvedModuleName = moduleName || inferModuleName(className);
   return (
-    <section className={`react-page tactical-page-shell ${className}`.trim()}>
+    <section className={`react-page tactical-page-shell forge-unified-page ${className}`.trim()} data-forge-module={resolvedModuleName}>
+      <div className="tactical-page-linkbar" aria-hidden="true">
+        <span className="tactical-page-linkbar__system"><i /> FORJA INTERFACE</span>
+        <strong>{resolvedModuleName}</strong>
+        <span className="tactical-page-linkbar__network">GUNDAM TACTICAL NETWORK · ONLINE</span>
+      </div>
       {children}
     </section>
   );
@@ -142,4 +148,30 @@ export function TacticalLoadingState({ label = "System scan in progress..." }) {
       <strong>{label}</strong>
     </div>
   );
+}
+
+function inferModuleName(className = "") {
+  const modules = [
+    ["cards-terminal-page", "01 / ARSENAL DE CARTAS"],
+    ["card-dossier-page", "02 / DOSSIÊ DA CARTA"],
+    ["synergy-map-page", "03 / MAPA DE SINERGIAS"],
+    ["synergy-terminal-page", "04 / ANÁLISE DE SINERGIAS"],
+    ["decks-terminal-page", "05 / OPERAÇÕES DE DECK"],
+    ["builder-terminal-page", "06 / CONSTRUTOR DE DECK"],
+    ["deck-dossier-page", "07 / DOSSIÊ DO DECK"],
+    ["meta-terminal-page", "08 / INTELIGÊNCIA DE META"],
+    ["events-terminal-page", "09 / ARQUIVO COMPETITIVO"],
+    ["event-dossier-page", "10 / DOSSIÊ DO EVENTO"],
+    ["prices-terminal-page", "11 / INTELIGÊNCIA DE MERCADO"],
+    ["preview-terminal-page", "12 / RADAR DE LANÇAMENTOS"],
+    ["io-terminal-page", "13 / IMPORTAÇÃO E EXPORTAÇÃO"],
+    ["profile-terminal-page", "14 / IDENTIDADE DO PILOTO"],
+    ["account-terminal-page", "15 / CONTROLE DE CONTA"],
+    ["settings-terminal-page", "16 / CONFIGURAÇÕES DO SISTEMA"],
+    ["login-terminal-page", "17 / ACESSO DO PILOTO"],
+    ["register-terminal-page", "18 / REGISTRO DO PILOTO"],
+    ["auth-callback-terminal-page", "19 / SINCRONIZAÇÃO DE ACESSO"],
+    ["logout-terminal-page", "20 / ENCERRAMENTO DE SESSÃO"],
+  ];
+  return modules.find(([token]) => className.includes(token))?.[1] || "00 / SISTEMA TÁTICO";
 }

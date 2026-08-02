@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   buildZeroForgeSaveReport,
   buildZeroForgeWorkspace,
+  createZeroForgeDraftFromDesignerReport,
   describeZeroForgeCardState,
   evaluateZeroForgeAddition,
   prepareZeroForgeMsaImport,
@@ -123,6 +124,34 @@ test("ZERO Forge saves a pilot-authored draft with an automatic resource deck", 
   assert.equal(report.legality.legal, false);
   assert.ok(report.legality.issues.some((item) => /Current: 4/.test(item)));
   assert.ok(report.limitations.some((item) => /Current: 4/.test(item)));
+});
+
+test("Designer recommendations enter ZERO Forge as complete editable drafts", () => {
+  const report = {
+    generatedAt: "2026-08-01T12:00:00.000Z",
+    title: "Barbatos Rush",
+    main: { "ANCHOR-001": 4, "PILOT-001": 4 },
+    resource: { "R-001": 10 },
+    selectedMetaId: "current",
+    criteria: { archetype: "Barbatos Rush", colors: ["Blue", "Purple"] },
+    legality: { legal: true },
+    sourceDeck: {
+      deckId: "deck-source",
+      resultId: "result-source",
+      playerName: "Pilot Test",
+      eventName: "Test Event",
+    },
+  };
+  const draft = createZeroForgeDraftFromDesignerReport(report);
+
+  assert.deepEqual(draft.main, report.main);
+  assert.notEqual(draft.main, report.main);
+  assert.deepEqual(draft.resource, report.resource);
+  assert.equal(draft.name, "Barbatos Rush");
+  assert.equal(draft.selectedMetaId, "current");
+  assert.equal(draft.sourceMetadata.sourceType, "deck_designer");
+  assert.equal(draft.sourceMetadata.sourceTournamentDeckId, "deck-source");
+  assert.deepEqual(draft.originalMain, report.main);
 });
 
 test("ZERO Forge imports an MSA list for editing and preserves recognized resources", () => {

@@ -21,6 +21,8 @@ export function DecksPage({
   onEditDeck,
   onImportExternalDecks,
   onSaveRecommendation,
+  initialForgeImport,
+  onForgeImportConsumed,
 }) {
   const [workspace, setWorkspace] = useState("designer");
   const [scope, setScope] = useState("mine");
@@ -123,6 +125,8 @@ export function DecksPage({
           data={data}
           onSaveRecommendation={onSaveRecommendation}
           onEditDeck={onEditDeck}
+          initialForgeImport={initialForgeImport}
+          onForgeImportConsumed={onForgeImportConsumed}
         />
       ) : null}
 
