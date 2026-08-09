@@ -1,4 +1,4 @@
--- Gundam Tactical Database functional platform schema.
+-- TCG Tactical Database functional platform schema.
 -- Designed for SQLite first, with names/types that can move to Postgres later.
 
 CREATE TABLE IF NOT EXISTS users (

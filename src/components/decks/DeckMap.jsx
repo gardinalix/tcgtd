@@ -249,7 +249,7 @@ export function DeckMap({ report, onApplySubstitution }) {
     <section className="deck-map">
       <header className="deck-map__hudbar">
         <div className="deck-map__mission">
-          <span className="eyebrow">BRUXÃO // DECK LINK MAP</span>
+          <span className="eyebrow">DATABASE // DECK LINK MAP</span>
           <h3>{report.title || "Tactical deck map"}</h3>
           <p>{report.strategy}</p>
         </div>
@@ -273,7 +273,7 @@ export function DeckMap({ report, onApplySubstitution }) {
           <i className="is-south-east" />
           <b className="is-horizon" />
           <b className="is-reticle" />
-          <span>NEURAL GRID // POTTER</span>
+          <span>NEURAL GRID // TACTICAL DATABASE</span>
         </div>
         {!rosterOpen ? (
           <button

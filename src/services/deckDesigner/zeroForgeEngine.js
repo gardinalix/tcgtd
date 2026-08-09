@@ -52,6 +52,50 @@ const ROLE_GROUPS = [
   },
 ];
 
+export function createZeroForgeDraftFromDesignerReport(report = {}) {
+  const main = Object.keys(report.main || {}).length
+    ? normalizeDeckSection(report.main)
+    : normalizeDeckSection(Object.fromEntries((report.rows || [])
+      .filter((row) => row?.card?.cardNumber)
+      .map((row) => [row.card.cardNumber, row.quantity])));
+  const resource = normalizeDeckSection(report.resource || {});
+  const sourceDeck = report.sourceDeck || {};
+  const selectedMetaId = report.selectedMetaId || "current";
+  const identity = [
+    report.generatedAt,
+    sourceDeck.deckId,
+    report.title,
+    ...Object.entries(main).flat(),
+  ].filter(Boolean).join(":");
+  const safeIdentity = identity.replace(/[^a-z0-9:_-]+/gi, "-").slice(0, 180) || "deck";
+  const sourceMetadata = {
+    sourceType: "deck_designer",
+    sourceTournamentDeckId: sourceDeck.deckId || report.sourceTournamentDeckId || "",
+    sourceResultId: sourceDeck.resultId || "",
+    playerName: sourceDeck.playerName || "UNLISTED",
+    eventName: sourceDeck.eventName || "TCG Tactical Database",
+    placement: sourceDeck.placingLabel || "",
+    eventDate: sourceDeck.eventDate || "",
+    originalMetaId: selectedMetaId,
+    selectedMetaId,
+    sourceUrl: sourceDeck.deckUrl || sourceDeck.sourceUrl || "",
+    importedAt: new Date().toISOString(),
+    archetype: report.criteria?.archetype || sourceDeck.archetype || "",
+    colors: Array.isArray(report.criteria?.colors) ? [...report.criteria.colors] : [],
+    legalInSelectedMeta: report.legality?.legal !== false,
+  };
+
+  return {
+    id: `designer-forge:${safeIdentity}`,
+    name: String(report.title || "Tactical Deck").trim() || "Tactical Deck",
+    main,
+    resource,
+    selectedMetaId,
+    sourceMetadata,
+    originalMain: { ...main },
+  };
+}
+
 export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = "", options = {}) {
   const cards = data.cards || [];
   const cardMap = new Map(cards.map((card) => [card.cardNumber, card]));
@@ -387,6 +431,9 @@ export function buildZeroForgeSaveReport(data = {}, main = {}, options = {}) {
   const workspace = buildZeroForgeWorkspace(data, main, options.focusCardNumber, { limit: 8 });
   const title = String(options.title || "ZERO Forge Deck").trim() || "ZERO Forge Deck";
   const importedFromMsa = Boolean(options.importedFromMsa);
+  const sourceMetadata = options.sourceMetadata && typeof options.sourceMetadata === "object"
+    ? { ...options.sourceMetadata }
+    : null;
   const resourceCard = (data.resourceCards || [])[0];
   const resourceCount = Number(data.rules?.resourceDeckSize || 10);
   const importedResource = Object.fromEntries(Object.entries(options.resource || {})
@@ -425,10 +472,20 @@ export function buildZeroForgeSaveReport(data = {}, main = {}, options = {}) {
       focus: "competitive",
     },
     assemblyMode: "zero_forge",
-    forgeOrigin: importedFromMsa ? "msa_import" : "from_zero",
-    strategy: importedFromMsa
-      ? `Imported from MSA and edited in ZERO Forge with rule-aware additions and live synergy, curve, trait and board-pressure guidance. Current main deck: ${workspace.mainCount}/${workspace.maxMain}.`
-      : `Built from zero in ZERO Forge with rule-aware additions and live synergy, curve, trait and board-pressure guidance. Current main deck: ${workspace.mainCount}/${workspace.maxMain}.`,
+    forgeOrigin: sourceMetadata?.sourceTournamentDeckId
+      ? "tournament_import"
+      : importedFromMsa ? "msa_import" : "from_zero",
+    selectedMetaId: options.selectedMetaId || "current",
+    sourceTournamentDeckId: sourceMetadata?.sourceTournamentDeckId || "",
+    sourceMetadata,
+    originalMain: sourceMetadata ? { ...(options.originalMain || {}) } : {},
+    changeHistory: Array.isArray(options.changeHistory) ? options.changeHistory.slice(-100) : [],
+    banlistVersion: data.rules?.legalityEffectiveDate || "",
+    strategy: sourceMetadata?.sourceTournamentDeckId
+      ? `Copied from ${sourceMetadata.playerName || "a competitive pilot"}'s tournament list and edited in ZERO Forge without changing the registered original. Current main deck: ${workspace.mainCount}/${workspace.maxMain}.`
+      : importedFromMsa
+        ? `Imported from MSA and edited in ZERO Forge with rule-aware additions and live synergy, curve, trait and board-pressure guidance. Current main deck: ${workspace.mainCount}/${workspace.maxMain}.`
+        : `Built from zero in ZERO Forge with rule-aware additions and live synergy, curve, trait and board-pressure guidance. Current main deck: ${workspace.mainCount}/${workspace.maxMain}.`,
     confidence: workspace.legal ? "High" : "Medium",
     confidenceValue: workspace.legal ? 0.82 : 0.62,
     limitations: workspace.issues,
@@ -450,10 +507,19 @@ export function buildZeroForgeSaveReport(data = {}, main = {}, options = {}) {
       rulesEffectiveDate: data.rules?.legalityEffectiveDate || "",
       sourceUrl: data.rules?.legalitySourceUrl || "",
     },
-    sources: [],
-    evidenceSummary: importedFromMsa
-      ? "Pilot-imported MSA deck edited with live catalog, competitive co-play and printed-text assistance."
-      : "Pilot-authored deck with live catalog, competitive co-play and printed-text assistance.",
+    sources: sourceMetadata ? [{
+      classification: "competitive_result",
+      name: sourceMetadata.eventName || "Imported tournament deck",
+      url: sourceMetadata.sourceUrl || "",
+      detail: `${sourceMetadata.playerName || "Unknown pilot"} · ${sourceMetadata.placement || "Unknown placing"} · ${sourceMetadata.eventDate || "Unknown date"}`,
+      sourceDate: sourceMetadata.eventDate || "",
+      consultationDate: sourceMetadata.importedAt || new Date().toISOString(),
+    }] : [],
+    evidenceSummary: sourceMetadata
+      ? "Editable copy of a normalized tournament list with preserved source metadata and an auditable change history."
+      : importedFromMsa
+        ? "Pilot-imported MSA deck edited with live catalog, competitive co-play and printed-text assistance."
+        : "Pilot-authored deck with live catalog, competitive co-play and printed-text assistance.",
   };
 }
 
@@ -505,6 +571,12 @@ function scoreSuggestion(card, context) {
     relation: best?.relation || null,
     reasons: [...new Set(reasons)].slice(0, 3),
   };
+}
+
+function normalizeDeckSection(section = {}) {
+  return Object.fromEntries(Object.entries(section)
+    .map(([cardNumber, quantity]) => [cardNumber, Number(quantity || 0)])
+    .filter(([cardNumber, quantity]) => cardNumber && quantity > 0));
 }
 
 function relationPriority(item) {

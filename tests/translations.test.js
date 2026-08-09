@@ -11,7 +11,7 @@ test("PT-BR is the default interface language", () => {
   assert.equal(DEFAULT_LOCALE, "pt-BR");
   assert.equal(getLocaleTag(DEFAULT_LOCALE), "pt-BR");
   assert.equal(translate("Cards", "pt-BR"), "Cartas");
-  assert.equal(translate("AI Deck Designer", "pt-BR"), "BRUXÃO DECK DESIGNER");
+  assert.equal(translate("AI Deck Designer", "pt-BR"), "TACTICAL DECK SYSTEM");
   assert.equal(translate("Tactical deck map", "pt-BR"), "Mapa tático do deck");
   assert.equal(translate("MISSION PARAMETERS", "pt-BR"), "PARÂMETROS DA MISSÃO");
   assert.equal(translate("FIT ALL", "pt-BR"), "ENQUADRAR TUDO");
@@ -51,7 +51,7 @@ test("ZERO Forge hover inspection is fully localized", () => {
   assert.equal(translate("LIVE CARD INSPECTION", "pt-BR"), "INSPEÇÃO DE CARTA AO VIVO");
   assert.equal(translate("LOCKED BY RULES", "pt-BR"), "BLOQUEADA PELAS REGRAS");
   assert.equal(translate("PRINTED LINK / PAIR", "pt-BR"), "LINK / PAIR IMPRESSO");
-  assert.equal(translate("BRUXÃO PROJECTION · #3", "pt-BR"), "PROJEÇÃO DO BRUXÃO · #3");
+  assert.equal(translate("SYSTEM PROJECTION · #3", "pt-BR"), "PROJEÇÃO DO SISTEMA · #3");
   assert.equal(translate("IN DECK · LEGAL", "pt-BR"), "NO DECK · VÁLIDA");
   assert.equal(
     translate("Main deck full · 3/4 copies", "pt-BR"),

@@ -1,4 +1,4 @@
--- Gundam Tactical Database synergy analysis schema.
+-- TCG Tactical Database synergy analysis schema.
 -- SQLite first; columns are portable to Postgres for production.
 
 CREATE TABLE IF NOT EXISTS card_synergy_cache (

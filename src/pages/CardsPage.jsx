@@ -16,14 +16,22 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   const [selectedCardId, setSelectedCardId] = useState("");
   const [viewMode, setViewMode] = useState("grid");
   const [sortMode, setSortMode] = useState("recent-meta");
+  const [printMode, setPrintMode] = useState("all");
   const selectedPanelRef = useRef(null);
   const cards = data.cards || [];
   const resourceCards = data.resourceCards || [];
   const allCards = useMemo(() => [...cards, ...resourceCards], [cards, resourceCards]);
   const searchableCards = useMemo(() => expandCardsByPrinting(allCards), [allCards]);
-  const visibleCards = useMemo(() => sortCards(filterCards(searchableCards, filters), sortMode), [searchableCards, filters, sortMode]);
+  const visibleCards = useMemo(() => {
+    const filtered = filterCards(searchableCards, filters).filter((card) => {
+      if (printMode === "base") return !card.hasAltArt;
+      if (printMode === "alts") return card.hasAltArt;
+      return true;
+    });
+    return sortCards(filtered, sortMode);
+  }, [searchableCards, filters, sortMode, printMode]);
   const selectedCard = searchableCards.find((card) => card.displayId === selectedCardId) || visibleCards[0] || null;
-  const pageCards = visibleCards.slice(0, 120);
+  const pageCards = visibleCards.slice(0, 160);
   const options = {
     colors: ["Any", ...uniqueValues(searchableCards, (card) => card.color)],
     types: ["Any", ...uniqueValues(searchableCards, (card) => card.cardType)],
@@ -41,11 +49,11 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   }
 
   return (
-    <TacticalPageShell className="cards-terminal-page">
+    <TacticalPageShell className="cards-terminal-page card-gallery-v2">
       <TacticalPageHeader
-        eyebrow="Tactical DB"
-        title="Card database terminal"
-        subtitle="Structured card search with filters, grid/table display, prices, and competitive signals."
+        eyebrow="Gallery / card intelligence"
+        title="Card gallery"
+        subtitle="Image-first browsing with print-level filters, visible market references and competitive context."
       />
       <TacticalSummaryStrip>
         <TacticalSummaryCard label="Database" value={searchableCards.length} detail={`${allCards.length} base cards, variants expanded.`} tone="blue" />
@@ -90,6 +98,11 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
           </label>
         </div>
         <div className="button-row">
+          <span className="card-print-switch" role="group" aria-label="Filter printings">
+            <button type="button" onClick={() => setPrintMode("all")} className={printMode === "all" ? "is-active" : ""}>All prints</button>
+            <button type="button" onClick={() => setPrintMode("base")} className={printMode === "base" ? "is-active" : ""}>Base only</button>
+            <button type="button" onClick={() => setPrintMode("alts")} className={printMode === "alts" ? "is-active" : ""}>Alt arts</button>
+          </span>
           <button type="button" onClick={() => setViewMode("grid")} className={viewMode === "grid" ? "is-active" : ""}>Grid</button>
           <button type="button" onClick={() => setViewMode("table")} className={viewMode === "table" ? "is-active" : ""}>Table</button>
         </div>
@@ -98,7 +111,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
       <section className="panel react-card-results">
         <div className="panel-head">
           <h2>{visibleCards.length} units found</h2>
-          <p>Showing first {pageCards.length}. Virtualized paging comes in the performance pass.</p>
+          <p>{printMode === "all" ? "All printings" : printMode === "base" ? "Base printings" : "Alternate printings"} · showing first {pageCards.length}.</p>
         </div>
         {viewMode === "table" ? (
           <CardTable

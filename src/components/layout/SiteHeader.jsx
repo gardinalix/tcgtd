@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   ["decks", "Decks"],
   ["builder", "Build"],
   ["meta", "Meta"],
-  ["events", "Events"],
+  ["community", "Community"],
   ["previews", "Previews"],
 ];
 
@@ -35,8 +35,8 @@ export function SiteHeader({ view, theme, user, onViewChange, onThemeChange, sea
         </span>
         <span>
           <small>{translate(systemStatus)}</small>
-          <strong>{translate("GUNDAM TACTICAL DATABASE")}</strong>
-          <em>{translate(systemMode)}</em>
+          <strong>{translate("TCG TACTICAL DATABASE")}</strong>
+          <em>{translate("TCG // TACTICAL DATABASE")} · {translate(systemMode)}</em>
         </span>
       </button>
 
@@ -72,7 +72,13 @@ export function SiteHeader({ view, theme, user, onViewChange, onThemeChange, sea
         <button type="button" className="pilot-label pilot-label-button" onClick={() => onViewChange("profile")}>
           {translate("PILOT")}: {(user?.publicName || theme.pilot).toUpperCase()}
         </button>
-        <select className="react-theme-select" value={theme.id} onChange={(event) => onThemeChange(event.target.value)}>
+        <select
+          className="react-theme-select"
+          value={theme.id}
+          aria-label={locale === "pt-BR" ? "Seletor de piloto e unidade" : "Pilot and unit selector"}
+          title={locale === "pt-BR" ? "Selecionar piloto e unidade" : "Select pilot and unit"}
+          onChange={(event) => onThemeChange(event.target.value)}
+        >
           {THEME_OPTIONS.map((option) => (
             <option key={option.id} value={option.id}>
               {option.label}

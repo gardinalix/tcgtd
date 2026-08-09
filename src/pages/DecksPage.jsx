@@ -21,6 +21,8 @@ export function DecksPage({
   onEditDeck,
   onImportExternalDecks,
   onSaveRecommendation,
+  initialForgeImport,
+  onForgeImportConsumed,
 }) {
   const [workspace, setWorkspace] = useState("designer");
   const [scope, setScope] = useState("mine");
@@ -81,8 +83,8 @@ export function DecksPage({
       {workspace === "designer" ? (
         <nav className="deck-designer-routebar" aria-label="Deck workspace">
           <div>
-            <span className="eyebrow">POTTER // NEURAL DECK LINK</span>
-            <strong>BRUXÃO</strong>
+            <span className="eyebrow">DATABASE // NEURAL DECK LINK</span>
+            <strong>TACTICAL DATABASE</strong>
           </div>
           <span className="deck-designer-routebar__status"><i /> SYSTEM STANDBY</span>
           <div className="deck-designer-routebar__modes">
@@ -98,7 +100,7 @@ export function DecksPage({
             subtitle="Saved decks, public lists, tournament lists, sharing, duplication, and cockpit-ready deck operations."
             actions={(
               <div className="button-row">
-                <button type="button" onClick={() => setWorkspace("designer")}>BRUXÃO</button>
+                <button type="button" onClick={() => setWorkspace("designer")}>Deck Designer</button>
                 <button type="button" className="is-active" onClick={() => setWorkspace("library")}>Deck library</button>
                 <button type="button" className={scope === "mine" ? "is-active" : ""} onClick={() => setScope("mine")}>My decks</button>
                 <button type="button" className={scope === "public" ? "is-active" : ""} onClick={() => setScope("public")}>Public / meta</button>
@@ -123,6 +125,8 @@ export function DecksPage({
           data={data}
           onSaveRecommendation={onSaveRecommendation}
           onEditDeck={onEditDeck}
+          initialForgeImport={initialForgeImport}
+          onForgeImportConsumed={onForgeImportConsumed}
         />
       ) : null}
 

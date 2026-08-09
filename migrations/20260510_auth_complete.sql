@@ -1,4 +1,4 @@
--- Authentication schema extension for Gundam Tactical Database.
+-- Authentication schema extension for TCG Tactical Database.
 -- Existing SQLite databases should run scripts/apply_auth_migration.mjs
 -- because SQLite cannot safely ADD COLUMN IF NOT EXISTS in plain SQL.
 

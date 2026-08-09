@@ -1,4 +1,4 @@
-# Gundam Tactical Database Lean Refactor Blueprint
+# TCG Tactical Database Lean Refactor Blueprint
 
 ## Objective
 

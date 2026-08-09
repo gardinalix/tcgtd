@@ -33,7 +33,7 @@ DEFAULT_NODE_PATHS = [
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run the complete Gundam Tactical Database refresh pipeline."
+        description="Run the complete TCG Tactical Database refresh pipeline."
     )
     parser.add_argument(
         "--watch-package",

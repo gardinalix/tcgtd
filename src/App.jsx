@@ -20,6 +20,7 @@ import { changeDeckQuantity, normalizeDeck } from "./domain/deck";
 import { canAddCardToMain, getCardCopyLimit } from "./domain/deckLegality.js";
 import { createSavedDeck, deleteDeck, duplicateDeck, normalizeImportedColors, parseDeckList, updateSavedDeck } from "./domain/deckLibrary";
 import { compactDeckDesign } from "./services/deckDesigner/index.js";
+import { createForgeImportFromResult } from "./services/deckDesigner/competitiveMeta.js";
 import { parseRoute, routeFor } from "./domain/routes";
 import { usePersistentState } from "./hooks/usePersistentState";
 import { AccountSettingsPage } from "./pages/AccountSettingsPage";
@@ -31,6 +32,7 @@ import { DecksPage } from "./pages/DecksPage";
 import { DeckViewPage } from "./pages/DeckViewPage";
 import { EventsPage } from "./pages/EventsPage";
 import { EventDetailPage } from "./pages/EventDetailPage";
+import { CommunityPage } from "./pages/CommunityPage";
 import { HomePage } from "./pages/HomePage";
 import { ImportExportPage } from "./pages/ImportExportPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -38,11 +40,13 @@ import { LogoutPage } from "./pages/LogoutPage";
 import { MetaPage } from "./pages/MetaPage";
 import { PreviewsPage } from "./pages/PreviewsPage";
 import { PricesPage } from "./pages/PricesPage";
+import { PlayersPage } from "./pages/PlayersPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { SynergyMapPage } from "./pages/SynergyMapPage";
 import { SynergyPage } from "./pages/SynergyPage";
+import { VenuesPage } from "./pages/VenuesPage";
 import { DEFAULT_FILTERS } from "./utils/cardFilters";
 import { useLocale } from "./i18n/LocaleProvider";
 
@@ -61,6 +65,7 @@ export function App() {
   const [view, setViewState] = useState(initialRoute.view);
   const [routeId, setRouteId] = useState(initialRoute.id);
   const [themeId, setThemeId] = useState(getInitialThemeId);
+  const [pendingForgeImport, setPendingForgeImport] = useState(null);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [userState, setUserState] = usePersistentState(REACT_STATE_KEY, createInitialUserState(), normalizeUserState);
 
@@ -213,7 +218,14 @@ export function App() {
           ? `zero-forge:${report.generatedAt || new Date().toISOString()}`
           : report.sourceDeck?.deckId
             ? `designer-source:${report.sourceDeck.deckId}`
-            : `designer:${report.generatedAt || new Date().toISOString()}`,
+              : `designer:${report.generatedAt || new Date().toISOString()}`,
+      selectedMetaId: report.selectedMetaId || report.criteria?.selectedMetaId || "current",
+      sourceTournamentDeckId: report.sourceTournamentDeckId || report.sourceMetadata?.sourceTournamentDeckId || "",
+      sourceMetadata: report.sourceMetadata || null,
+      parentDeckId: report.sourceTournamentDeckId || "",
+      lastCompetitiveScore: report.lastCompetitiveScore,
+      changeHistory: report.changeHistory || [],
+      banlistVersion: report.banlistVersion || report.legality?.rulesEffectiveDate || "",
       designerReport: compactDeckDesign(report),
       main: report.main || {},
       resource: report.resource || {},
@@ -277,6 +289,13 @@ export function App() {
   function editDeck(deckId) {
     setUserState((current) => ({ ...current, activeDeckId: deckId }));
     setView("builder");
+  }
+
+  function sendTournamentDeckToForge(result, selectedMetaId = "current") {
+    const draft = createForgeImportFromResult(data, result, selectedMetaId);
+    if (!Object.keys(draft.main || {}).length) return;
+    setPendingForgeImport(draft);
+    setView("decks");
   }
 
   function addCardToActiveDeck(card) {
@@ -382,6 +401,8 @@ export function App() {
             onEditDeck={editDeck}
             onImportExternalDecks={importExternalDecks}
             onSaveRecommendation={saveDesignedDeck}
+            initialForgeImport={pendingForgeImport}
+            onForgeImportConsumed={() => setPendingForgeImport(null)}
           />
         ) : null}
         {!shouldGatePrivate && view === "builder" ? (
@@ -392,16 +413,40 @@ export function App() {
             onOpenSynergy={(cardNumber) => setView("synergy", cardNumber)}
           />
         ) : null}
-        {!shouldGatePrivate && view === "deckView" ? <DeckViewPage data={data} deckId={routeId} decks={userState.decks} onEditDeck={editDeck} /> : null}
+        {!shouldGatePrivate && view === "deckView" ? (
+          <DeckViewPage
+            data={data}
+            deckId={routeId}
+            decks={userState.decks}
+            onEditDeck={editDeck}
+            onSendToForge={sendTournamentDeckToForge}
+          />
+        ) : null}
         {!shouldGatePrivate && view === "prices" ? <PricesPage data={data} /> : null}
         {!shouldGatePrivate && view === "meta" ? <MetaPage data={data} /> : null}
-        {!shouldGatePrivate && view === "events" ? <EventsPage data={data} onOpenEvent={(eventId) => setView("eventDetail", eventId)} /> : null}
+        {!shouldGatePrivate && view === "community" ? (
+          <CommunityPage
+            data={data}
+            onNavigate={setView}
+            onOpenEvent={(eventId) => setView("eventDetail", eventId)}
+          />
+        ) : null}
+        {!shouldGatePrivate && view === "events" ? (
+          <EventsPage
+            data={data}
+            onNavigate={setView}
+            onOpenEvent={(eventId) => setView("eventDetail", eventId)}
+          />
+        ) : null}
+        {!shouldGatePrivate && view === "players" ? <PlayersPage data={data} onNavigate={setView} /> : null}
+        {!shouldGatePrivate && view === "venues" ? <VenuesPage data={data} onNavigate={setView} /> : null}
         {!shouldGatePrivate && view === "eventDetail" ? (
           <EventDetailPage
             data={data}
             eventId={routeId}
             onBack={() => setView("events")}
             onOpenDeck={(deckId) => setView("deckView", deckId)}
+            onSendToForge={sendTournamentDeckToForge}
           />
         ) : null}
         {!shouldGatePrivate && view === "previews" ? <PreviewsPage data={data} /> : null}

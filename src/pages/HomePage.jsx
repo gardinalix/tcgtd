@@ -281,8 +281,11 @@ function MetaMovementPanel({ movements = [], cards = [], onSelect, onClick }) {
   const rows = movements.slice(0, 5);
   const cardMap = new Map(cards.map((card) => [card.cardNumber, card]));
   return (
-    <aside className="cockpit-console-panel cockpit-console-panel--meta">
-      <span className="eyebrow">Meta Signal Monitoring</span>
+    <aside className="cockpit-console-panel cockpit-console-panel--meta cockpit-floating-hud">
+      <div className="cockpit-floating-hud__header">
+        <span className="eyebrow">Meta Signal Monitoring</span>
+        <HudSignalLoader label="Tracking" />
+      </div>
       <div className="cockpit-list cockpit-list--scroll meta-movement-list">
         {rows.map((row) => (
           <button
@@ -361,8 +364,11 @@ function MetaCardTransmission({ movement, card, onClose, onNavigate }) {
 function QuickPanel({ className, title, rows = [], action, onClick, rowAction }) {
   const normalizedRows = rows.length ? rows : [{ label: "Ready", value: "0", id: "static", kind: "static" }];
   return (
-    <aside className={`cockpit-console-panel ${className}`}>
-      <span className="eyebrow">{title}</span>
+    <aside className={`cockpit-console-panel cockpit-floating-hud ${className}`}>
+      <div className="cockpit-floating-hud__header">
+        <span className="eyebrow">{title}</span>
+        <HudSignalLoader label="Live link" />
+      </div>
       <div className="cockpit-list cockpit-list--scroll">
         {normalizedRows.map((row) => (
           <button
@@ -378,6 +384,21 @@ function QuickPanel({ className, title, rows = [], action, onClick, rowAction })
       </div>
       <button type="button" onClick={onClick}>{action}</button>
     </aside>
+  );
+}
+
+function HudSignalLoader({ label }) {
+  return (
+    <span className="military-hud-loader" aria-hidden="true">
+      <span className="military-hud-loader__reticle" />
+      <span className="military-hud-loader__track">
+        <i />
+        <i />
+        <i />
+        <i />
+      </span>
+      <em>{label}</em>
+    </span>
   );
 }
 

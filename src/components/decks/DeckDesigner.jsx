@@ -21,6 +21,7 @@ import {
   scoreRecommendationPool,
 } from "../../services/deckDesigner/index.js";
 import { DESIGNER_COLORS } from "../../services/deckDesigner/deckDesignerUtils.js";
+import { createZeroForgeDraftFromDesignerReport } from "../../services/deckDesigner/zeroForgeEngine.js";
 import { getLocaleTag } from "../../i18n/translations.js";
 import { useLocale } from "../../i18n/LocaleProvider.jsx";
 
@@ -40,7 +41,13 @@ const MSA_ANALYSIS_STAGES = [
   "Mapping strengths, weaknesses and synergies",
 ];
 
-export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
+export function DeckDesigner({
+  data,
+  onSaveRecommendation,
+  onEditDeck,
+  initialForgeImport,
+  onForgeImportConsumed,
+}) {
   const defaultArchetype = data.defaults?.template_archetype || data.archetypes?.[0]?.archetype || "";
   const defaultProfile = data.archetypes?.find((item) => item.archetype === defaultArchetype);
   const [criteria, setCriteria] = useState(() => ({
@@ -67,9 +74,8 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   const [saveMessage, setSaveMessage] = useState("");
   const [exportLayerOpen, setExportLayerOpen] = useState(false);
   const [zeroForgeOpen, setZeroForgeOpen] = useState(false);
+  const [designerForgeDraft, setDesignerForgeDraft] = useState(null);
   const [modeSelectionOpen, setModeSelectionOpen] = useState(false);
-  const [hudBooting, setHudBooting] = useState(() => !prefersReducedMotion());
-  const [hudSystem] = useState(getHudSystemLabel);
   const archetypes = useMemo(
     () => [...(data.archetypes || [])].sort((left, right) =>
       Number(right.recentDecklists || 0) - Number(left.recentDecklists || 0)
@@ -100,10 +106,8 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
   const parsedMsaDeck = useMemo(() => parseMsaDeckList(msaText), [msaText]);
 
   useEffect(() => {
-    if (!hudBooting) return undefined;
-    const timer = window.setTimeout(() => setHudBooting(false), 2300);
-    return () => window.clearTimeout(timer);
-  }, [hudBooting]);
+    if (initialForgeImport?.id) setZeroForgeOpen(true);
+  }, [initialForgeImport]);
 
   useEffect(() => {
     if (status !== "success") return undefined;
@@ -278,9 +282,15 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
     });
   }
 
+  function openReportInForge() {
+    if (!report) return;
+    setDesignerForgeDraft(createZeroForgeDraftFromDesignerReport(report));
+    setZeroForgeOpen(true);
+  }
+
   if (!(data.cards || []).length) {
     return (
-      <TacticalDataPanel title="BRUXÃO DECK DESIGNER" subtitle="Card catalog required">
+      <TacticalDataPanel title="TACTICAL DECK SYSTEM" subtitle="Card catalog required">
         <TacticalEmptyState title="No card data" detail="Synchronize the official card snapshot before requesting a recommendation." />
       </TacticalDataPanel>
     );
@@ -288,19 +298,16 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
 
   return (
     <div className={`deck-designer ${report && !modeSelectionOpen ? "is-engaged" : ""}`.trim()}>
-      {hudBooting ? (
-        <HudBootSequence system={hudSystem} onSkip={() => setHudBooting(false)} />
-      ) : null}
       <section className="bruxao-designer-hero" aria-labelledby="bruxao-designer-title">
         <div className="bruxao-designer-hero__core" aria-hidden="true">
-          <span>BRX</span>
+          <span>TTD</span>
           <i />
           <b />
         </div>
         <div className="bruxao-designer-hero__copy">
-          <span className="eyebrow">Potter callsign · tactical deck system</span>
-          <h2 id="bruxao-designer-title"><span>BRUXÃO</span> DECK DESIGNER</h2>
-          <p>BRUXÃO is Potter's pilot ID. This system turns competitive evidence into a connected deck map built for battle decisions.</p>
+          <span className="eyebrow">TCG Tactical Database · deck intelligence engine</span>
+          <h2 id="bruxao-designer-title"><span>TACTICAL</span> DECK SYSTEM</h2>
+          <p>Competitive evidence becomes a connected deck map built for battle decisions.</p>
           <div className="bruxao-designer-hero__signals" aria-label="Designer capabilities">
             <span>Deck link map</span>
             <span>Synergy analysis</span>
@@ -308,8 +315,8 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           </div>
         </div>
         <div className="bruxao-designer-hero__status">
-          <small>PILOT ID</small>
-          <strong>POTTER</strong>
+          <small>SYSTEM ID</small>
+          <strong>TTD-01</strong>
           <span>DECK LINK ONLINE</span>
         </div>
       </section>
@@ -321,7 +328,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           className={inputMode === "design" ? "is-active" : ""}
           onClick={() => setInputMode("design")}
         >
-          <small>BUILD WITH BRUXÃO</small>
+          <small>BUILD TACTICAL MAP</small>
           <strong>Design a deck</strong>
           <span>Start from colors, a unit or a strategy.</span>
         </button>
@@ -365,6 +372,11 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           onOpenSavedDeck={(deckId) => {
             setZeroForgeOpen(false);
             onEditDeck?.(deckId);
+          }}
+          initialDraft={designerForgeDraft || initialForgeImport}
+          onInitialDraftConsumed={() => {
+            if (designerForgeDraft) setDesignerForgeDraft(null);
+            else onForgeImportConsumed?.();
           }}
         />
       ) : null}
@@ -653,7 +665,7 @@ export function DeckDesigner({ data, onSaveRecommendation, onEditDeck }) {
           onSelectVariant={selectVariant}
           onApplySubstitution={applySubstitution}
           onChooseMode={openModeSelection}
-          onOpenForge={() => setZeroForgeOpen(true)}
+          onOpenForge={openReportInForge}
           saveMessage={saveMessage}
         />
       ) : null}
@@ -786,8 +798,8 @@ function HudBootSequence({ system, onSkip }) {
       <div className="bruxao-hud-boot__scan" aria-hidden="true" />
       <div className="bruxao-hud-boot__copy">
         <small>{system}</small>
-        <strong>BRUXÃO</strong>
-        <span>PILOT POTTER // DECK LINK SYNCHRONIZING</span>
+        <strong>DATABASE</strong>
+        <span>TACTICAL SYSTEM // DECK LINK SYNCHRONIZING</span>
       </div>
       <button type="button" onClick={onSkip}>SKIP BOOT</button>
     </div>
@@ -807,6 +819,18 @@ function DesignerResult({
   const { t } = useLocale();
   return (
     <section className="deck-designer-result" aria-live="polite">
+      <aside className="deck-designer-result__forge-handoff" aria-label={t("Edit this deck in ZERO Forge")}>
+        <div>
+          <span>{t("DECK READY TO FORGE")}</span>
+          <strong>{t("Continue editing this recommendation")}</strong>
+          <small>{t("The complete deck will open in ZERO Forge with every card and quantity preserved.")}</small>
+        </div>
+        <button type="button" onClick={onOpenForge}>
+          <span>{t("EDIT THIS DECK")}</span>
+          <strong>{t("OPEN IN ZERO FORGE")}</strong>
+          <b aria-hidden="true">→</b>
+        </button>
+      </aside>
       <header className="deck-designer-result__header">
         <div>
           <span className="eyebrow">{report.importedDeck ? "05 / Imported deck analyzed" : "05 / Recommendation online"}</span>
@@ -816,11 +840,11 @@ function DesignerResult({
         <div className="deck-designer-result__header-tools">
           <nav className="deck-designer-result__mode-actions" aria-label="Deck creation mode">
             <button type="button" onClick={onChooseMode}>← CHOOSE MODE</button>
-            <button type="button" onClick={onOpenForge}>OPEN ZERO FORGE</button>
+            <button type="button" onClick={onOpenForge}>EDIT THIS DECK IN ZERO FORGE</button>
           </nav>
           <div className="deck-designer-result__source-signal">
             <span><small>SOURCE</small><strong>{report.importedDeck ? "MSA LIST" : report.sourceDeck?.placingLabel || "AI MODEL"}</strong></span>
-            <span><small>PILOT</small><strong>{report.importedDeck ? "YOU" : report.sourceDeck?.playerName || "BRUXÃO"}</strong></span>
+            <span><small>PILOT</small><strong>{report.importedDeck ? "YOU" : report.sourceDeck?.playerName || "UNLISTED"}</strong></span>
             <span><small>CONFIDENCE</small><strong>{t(report.confidence)}</strong></span>
           </div>
         </div>

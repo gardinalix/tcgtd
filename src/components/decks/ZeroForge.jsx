@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CardArt } from "../cards/CardArt.jsx";
 import { ExBurstExportLayer } from "./ExBurstExportLayer.jsx";
+import { DeckAssistantPanel } from "./DeckAssistantPanel.jsx";
+import { ForgeDeckViews } from "./ForgeDeckViews.jsx";
+import { ForgeRecommendations } from "./ForgeRecommendations.jsx";
 import { parseMsaDeckList } from "../../domain/deckLibrary.js";
 import {
   buildZeroForgeSaveReport,
@@ -9,6 +12,17 @@ import {
   evaluateZeroForgeAddition,
   prepareZeroForgeMsaImport,
 } from "../../services/deckDesigner/zeroForgeEngine.js";
+import {
+  createCompetitiveMetaConfig,
+  createForgeImportFromResult,
+  getCompetitiveRecommendations,
+} from "../../services/deckDesigner/competitiveMeta.js";
+import {
+  applyDeckChangeSuggestion,
+  createDeckDiff,
+  createHistoryEntry,
+} from "../../services/deckDesigner/deckChangeHistory.js";
+import { buildDeckAssistantContext } from "../../services/deckDesigner/deckAssistant.js";
 import { calculateMapRevealScroll } from "../../services/deckDesigner/zeroForgeMapNavigation.js";
 import { filterCards, uniqueValues } from "../../utils/cardFilters.js";
 import { useLocale } from "../../i18n/LocaleProvider.jsx";
@@ -24,6 +38,8 @@ export function ZeroForge({
   onClose,
   onSave,
   onOpenSavedDeck,
+  initialDraft,
+  onInitialDraftConsumed,
 }) {
   const { t } = useLocale();
   const [main, setMain] = useState({});
@@ -49,12 +65,25 @@ export function ZeroForge({
   const [nodePositions, setNodePositions] = useState({});
   const [isMapPanning, setIsMapPanning] = useState(false);
   const [draggingNodeId, setDraggingNodeId] = useState("");
+  const [selectedMetaId, setSelectedMetaId] = useState(initialDraft?.selectedMetaId || "current");
+  const [deckViewMode, setDeckViewMode] = useState("map");
+  const [groupBy, setGroupBy] = useState("cost");
+  const [sortBy, setSortBy] = useState("cost");
+  const [mobilePanel, setMobilePanel] = useState("deck");
+  const [intelTab, setIntelTab] = useState("analysis");
+  const [assistantOpen, setAssistantOpen] = useState(false);
+  const [sourceMetadata, setSourceMetadata] = useState(initialDraft?.sourceMetadata || null);
+  const [originalMain, setOriginalMain] = useState(initialDraft?.originalMain || {});
+  const [changeHistory, setChangeHistory] = useState([]);
+  const [undoStack, setUndoStack] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
   const mapScrollportRef = useRef(null);
   const mapZoomRef = useRef(1);
   const mapPanSessionRef = useRef(null);
   const mapNodeDragSessionRef = useRef(null);
   const ignoreMapNodeClickRef = useRef("");
   const pendingMapRevealRef = useRef("");
+  const loadedImportRef = useRef("");
 
   const cards = data.cards || [];
   const cardMap = useMemo(() => new Map(cards.map((card) => [card.cardNumber, card])), [cards]);
@@ -103,11 +132,38 @@ export function ZeroForge({
       mainCount: workspace.mainCount,
     },
   }), [deckName, main, resource, workspace.mainCount, workspace.rows, workspace.stats]);
+  const metaConfig = useMemo(() => createCompetitiveMetaConfig(data), [data]);
+  const competitiveRecommendations = useMemo(
+    () => getCompetitiveRecommendations(data, selectedMetaId).slice(0, 40),
+    [data, selectedMetaId],
+  );
+  const sourceDiff = useMemo(
+    () => createDeckDiff(originalMain, main),
+    [main, originalMain],
+  );
+  const assistantContext = useMemo(() => buildDeckAssistantContext({
+    data,
+    deckName,
+    selectedMetaId,
+    workspace,
+    main,
+    sourceMetadata,
+    originalMain,
+    recentChanges: changeHistory,
+    relevantMetaDecks: competitiveRecommendations,
+  }), [changeHistory, competitiveRecommendations, data, deckName, main, originalMain, selectedMetaId, sourceMetadata, workspace]);
 
   useEffect(() => {
     document.body.classList.add("zero-forge-active");
     return () => document.body.classList.remove("zero-forge-active");
   }, []);
+
+  useEffect(() => {
+    if (!initialDraft?.id || loadedImportRef.current === initialDraft.id) return;
+    loadedImportRef.current = initialDraft.id;
+    loadForgeImport(initialDraft, initialDraft.sourceMetadata?.sourceType === "deck_designer" ? "designer" : "tournament");
+    onInitialDraftConsumed?.();
+  }, [initialDraft, onInitialDraftConsumed]);
 
   useEffect(() => {
     const closeOnEscape = (event) => {
@@ -164,6 +220,38 @@ export function ZeroForge({
     return () => globalThis.cancelAnimationFrame?.(frame);
   }, [positionedLayout]);
 
+  function commitMain(nextMain, label, origin = "pilot") {
+    const resolved = typeof nextMain === "function" ? nextMain(main) : nextMain;
+    const diff = createDeckDiff(main, resolved);
+    if (!diff.changedCards) return false;
+    const entry = createHistoryEntry(main, resolved, { label, origin });
+    setUndoStack((current) => [...current, { main: { ...main }, entry }].slice(-50));
+    setRedoStack([]);
+    setChangeHistory((current) => [...current, entry].slice(-100));
+    setMain(resolved);
+    return true;
+  }
+
+  function undoChange() {
+    const target = undoStack.at(-1);
+    if (!target) return;
+    setUndoStack((current) => current.slice(0, -1));
+    setRedoStack((current) => [...current, { main: { ...main }, entry: target.entry }].slice(-50));
+    setMain(target.main);
+    setSavedDeckId("");
+    setSignal({ tone: "neutral", text: `Desfeito: ${target.entry.label}.` });
+  }
+
+  function redoChange() {
+    const target = redoStack.at(-1);
+    if (!target) return;
+    setRedoStack((current) => current.slice(0, -1));
+    setUndoStack((current) => [...current, { main: { ...main }, entry: target.entry }].slice(-50));
+    setMain(target.main);
+    setSavedDeckId("");
+    setSignal({ tone: "allowed", text: `Refeito: ${target.entry.label}.` });
+  }
+
   function addCard(cardNumber, origin = "catalog") {
     const card = cardMap.get(cardNumber);
     if (!card) return;
@@ -174,7 +262,11 @@ export function ZeroForge({
     }
     pendingMapRevealRef.current = cardNumber;
     setFocusCardNumber(cardNumber);
-    setMain(assessment.nextMain);
+    commitMain(
+      assessment.nextMain,
+      `${card.cardName}: ${Number(main[cardNumber] || 0)} → ${Number(assessment.nextMain[cardNumber] || 0)}`,
+      origin === "suggestion" ? "recommendation" : "pilot",
+    );
     setSavedDeckId("");
     setSignal({
       tone: "allowed",
@@ -190,7 +282,7 @@ export function ZeroForge({
     const next = { ...main };
     if (current === 1) delete next[cardNumber];
     else next[cardNumber] = current - 1;
-    setMain(next);
+    commitMain(next, `${cardMap.get(cardNumber)?.cardName || cardNumber}: ${current} → ${Math.max(0, current - 1)}`, "pilot");
     setSavedDeckId("");
     if (!next[focusCardNumber]) setFocusCardNumber(Object.keys(next)[0] || "");
     setSignal({
@@ -471,12 +563,28 @@ export function ZeroForge({
       return;
     }
 
-    setMain(msaImport.main);
+    commitMain(msaImport.main, `Importação MSA: ${msaImport.title}`, "msa_import");
     setResource(msaImport.resource);
     setDeckName(msaImport.title);
     setFocusCardNumber(msaImport.firstCardNumber);
     pendingMapRevealRef.current = msaImport.firstCardNumber;
     setSourceMode("msa");
+    setSourceMetadata({
+      sourceTournamentDeckId: "",
+      sourceResultId: "",
+      playerName: "",
+      eventName: "",
+      placement: "",
+      eventDate: "",
+      originalMetaId: "msa",
+      selectedMetaId,
+      sourceUrl: "",
+      importedAt: new Date().toISOString(),
+      archetype: "",
+      colors: msaImport.workspace.colors,
+      legalInSelectedMeta: msaImport.workspace.legal,
+    });
+    setOriginalMain({ ...msaImport.main });
     setSavedDeckId("");
     setPreview(null);
     setImportOpen(false);
@@ -516,6 +624,10 @@ export function ZeroForge({
       focusCardNumber,
       resource,
       importedFromMsa: sourceMode === "msa",
+      selectedMetaId,
+      sourceMetadata,
+      originalMain,
+      changeHistory,
     });
     const saved = onSave?.(report);
     if (!saved?.id) {
@@ -533,9 +645,11 @@ export function ZeroForge({
 
   function resetForge() {
     if (workspace.mainCount && !window.confirm(t("Clear every card from this ZERO Forge draft?"))) return;
-    setMain({});
+    commitMain({}, "Reiniciar FORJA", "reset");
     setResource({});
     setSourceMode("zero");
+    setSourceMetadata(null);
+    setOriginalMain({});
     setFocusCardNumber("");
     setSavedDeckId("");
     setNodePositions({});
@@ -546,17 +660,77 @@ export function ZeroForge({
     });
   }
 
+  function loadForgeImport(draft, mode = "tournament") {
+    if (!draft?.main || !Object.keys(draft.main).length) {
+      setSignal({ tone: "blocked", text: "A lista selecionada não possui um manifesto completo para importar." });
+      return;
+    }
+    commitMain(draft.main, `Lista importada: ${draft.name || "deck competitivo"}`, `${mode}_import`);
+    setResource(draft.resource || {});
+    setDeckName(draft.name || "Lista competitiva importada");
+    setFocusCardNumber(Object.keys(draft.main)[0] || "");
+    setSelectedMetaId(draft.selectedMetaId || selectedMetaId);
+    setSourceMode(mode);
+    setSourceMetadata(draft.sourceMetadata || null);
+    setOriginalMain({ ...(draft.originalMain || draft.main) });
+    setSavedDeckId("");
+    setNodePositions({});
+    setIntelTab("analysis");
+    setMobilePanel("deck");
+    const importedFromDesigner = mode === "designer";
+    setSignal({
+      tone: draft.sourceMetadata?.legalInSelectedMeta === false ? "blocked" : "allowed",
+      text: draft.sourceMetadata?.legalInSelectedMeta === false
+        ? "Lista importada para revisão: ela não passou todos os critérios do meta selecionado."
+        : importedFromDesigner
+          ? "Deck do sistema carregado. Todas as cartas e quantidades estão prontas para edição."
+          : "Lista competitiva copiada. O registro de torneio original permanece intacto.",
+    });
+  }
+
+  function importRecommendation(recommendation) {
+    loadForgeImport(
+      createForgeImportFromResult(data, recommendation.result, selectedMetaId),
+      "tournament",
+    );
+  }
+
+  function applyAssistantSuggestion(suggestion, operationIds) {
+    const proposed = applyDeckChangeSuggestion(main, suggestion, {
+      confirmed: true,
+      operationIds,
+    });
+    if (!proposed.applied) return;
+    const projected = buildZeroForgeWorkspace(data, proposed.main, focusCardNumber, { limit: 8 });
+    if (!projected.structurallyLegal || projected.mainCount > projected.maxMain) {
+      setSignal({
+        tone: "blocked",
+        text: projected.issues[0] || "A sugestão criaria um conflito de legalidade e não foi aplicada.",
+      });
+      return;
+    }
+    commitMain(proposed.main, "Alteração confirmada pelo assistente", "assistant");
+    setSavedDeckId("");
+    setSignal({ tone: "allowed", text: "Alteração confirmada e aplicada. Estatísticas e legalidade foram recalculadas." });
+  }
+
   return (
     <section className="zero-forge" aria-label="ZERO Forge assisted deck construction">
       <header className="zero-forge__header">
         <div className="zero-forge__brand">
-          <span>BRUXÃO // ADVANCED MILITARY HUD</span>
+          <span>DATABASE // ADVANCED TACTICAL HUD</span>
           <strong>ZERO FORGE</strong>
           <small>MAP-DRIVEN DECK CONSTRUCTION</small>
         </div>
         <label className="zero-forge__name">
           <span>DECK ID</span>
           <input value={deckName} onChange={(event) => setDeckName(event.target.value)} />
+        </label>
+        <label className="zero-forge__meta">
+          <span>AMBIENTE COMPETITIVO</span>
+          <select value={selectedMetaId} onChange={(event) => setSelectedMetaId(event.target.value)}>
+            {metaConfig.map((meta) => <option key={meta.id} value={meta.id}>{meta.label}</option>)}
+          </select>
         </label>
         <div className="zero-forge__telemetry">
           <span><small>MAIN</small><strong>{workspace.mainCount}/{workspace.maxMain}</strong></span>
@@ -567,6 +741,8 @@ export function ZeroForge({
           </span>
         </div>
         <div className="zero-forge__actions">
+          <button type="button" onClick={undoChange} disabled={!undoStack.length} aria-label="Desfazer última alteração">↶ DESFAZER</button>
+          <button type="button" onClick={redoChange} disabled={!redoStack.length} aria-label="Refazer alteração">↷ REFAZER</button>
           <button type="button" onClick={resetForge}>RESET</button>
           <button
             type="button"
@@ -602,8 +778,18 @@ export function ZeroForge({
         </div>
       </header>
 
-      <div className="zero-forge__body">
-        <aside className="zero-forge-library">
+      {sourceMetadata ? (
+        <div className="forge-source-banner" role="status">
+          <span>LISTA IMPORTADA / ORIGINAL PRESERVADO</span>
+          <strong>
+            Baseado na lista de {sourceMetadata.playerName || "piloto não identificado"}, {sourceMetadata.placement || "resultado registrado"} no {sourceMetadata.eventName || "evento de origem"}, em {sourceMetadata.eventDate || "data não informada"}.
+          </strong>
+          <button type="button" onClick={() => { setIntelTab("history"); setMobilePanel("analysis"); }}>COMPARAR COM ORIGINAL · {sourceDiff.changedCards} MUDANÇA(S)</button>
+        </div>
+      ) : null}
+
+      <div className={`zero-forge__body is-mobile-${mobilePanel}`}>
+        <aside className="zero-forge-library" aria-hidden={mobilePanel !== "cards" && undefined}>
           <div className="zero-forge-panel-head">
             <span>01 / CARD ARMORY</span>
             <strong>SELECT · CLICK · DRAG</strong>
@@ -678,7 +864,28 @@ export function ZeroForge({
               <i className="is-link" /> PRINTED / OBSERVED LINK
             </div>
           </div>
-          <div className="zero-forge-map__viewport">
+          <div className="forge-deck-toolbar" role="toolbar" aria-label="Controles de visualização do deck">
+            <div>
+              <button type="button" className={deckViewMode === "map" ? "is-active" : ""} onClick={() => setDeckViewMode("map")}>MAPA</button>
+              <button type="button" className={deckViewMode === "grid" ? "is-active" : ""} onClick={() => setDeckViewMode("grid")}>GRADE</button>
+              <button type="button" className={deckViewMode === "list" ? "is-active" : ""} onClick={() => setDeckViewMode("list")}>LISTA</button>
+            </div>
+            <label><span>AGRUPAR</span><select value={groupBy} onChange={(event) => setGroupBy(event.target.value)}><option value="cost">Custo</option><option value="type">Tipo</option><option value="color">Cor</option><option value="role">Função</option></select></label>
+            <label><span>ORDENAR</span><select value={sortBy} onChange={(event) => setSortBy(event.target.value)}><option value="cost">Custo</option><option value="name">Nome</option><option value="quantity">Quantidade</option><option value="set">Coleção</option></select></label>
+          </div>
+          {deckViewMode !== "map" ? (
+            <ForgeDeckViews
+              mode={deckViewMode}
+              rows={workspace.rows}
+              groupBy={groupBy}
+              sortBy={sortBy}
+              onFocus={setFocusCardNumber}
+              onAdd={addCard}
+              onRemove={removeCard}
+              previewHandlers={previewHandlers}
+            />
+          ) : null}
+          {deckViewMode === "map" ? <div className="zero-forge-map__viewport">
             <div
               ref={mapScrollportRef}
               className={`zero-forge-map__scrollport ${isMapPanning ? "is-panning" : ""} ${draggingNodeId ? "is-repositioning" : ""}`.trim()}
@@ -835,7 +1042,7 @@ export function ZeroForge({
               <button type="button" onClick={resetMapLayout} disabled={!Object.keys(nodePositions).length}>RESET LAYOUT</button>
               <span>SCROLL · DRAG FIELD · CTRL + WHEEL TO ZOOM</span>
             </div>
-          </div>
+          </div> : null}
           <div className={`zero-forge-map__signal is-${signal.tone}`} role="status" aria-live="polite">
             <i />
             <span>{t(signal.text)}</span>
@@ -844,12 +1051,18 @@ export function ZeroForge({
 
         <aside className="zero-forge-intel">
           <div className="zero-forge-panel-head">
-            <span>03 / BRUXÃO INTELLIGENCE</span>
+            <span>03 / DATABASE INTELLIGENCE</span>
             <strong>ASSISTED CONSTRUCTION</strong>
             <small>Every projection is checked against current deck rules.</small>
           </div>
 
-          {focusedCard ? (
+          <nav className="forge-intel-tabs" aria-label="Painéis de inteligência">
+            <button type="button" className={intelTab === "analysis" ? "is-active" : ""} onClick={() => setIntelTab("analysis")}>ANÁLISE</button>
+            <button type="button" className={intelTab === "recommendations" ? "is-active" : ""} onClick={() => setIntelTab("recommendations")}>META</button>
+            <button type="button" className={intelTab === "history" ? "is-active" : ""} onClick={() => setIntelTab("history")}>HISTÓRICO</button>
+          </nav>
+
+          {intelTab === "analysis" && focusedCard ? (
             <section className="zero-forge-focus" {...previewHandlers(focusedCard)}>
               <CardArt card={focusedCard} className="zero-forge-focus__art" compact />
               <div>
@@ -861,7 +1074,7 @@ export function ZeroForge({
             </section>
           ) : null}
 
-          <section className="zero-forge-intel__section zero-forge-composition">
+          {intelTab === "analysis" ? <section className="zero-forge-intel__section zero-forge-composition">
             <header><strong>DECK COMPOSITION</strong><span>live quantities</span></header>
             <div className="zero-forge-composition__grid">
               {workspace.composition.map((item) => (
@@ -871,9 +1084,9 @@ export function ZeroForge({
                 </article>
               ))}
             </div>
-          </section>
+          </section> : null}
 
-          <section className="zero-forge-intel__section">
+          {intelTab === "analysis" ? <section className="zero-forge-intel__section">
             <header><strong>CURVE VECTOR</strong><span>current / target</span></header>
             {workspace.curve.map((bucket) => (
               <div className="zero-forge-meter" key={bucket.id}>
@@ -882,9 +1095,9 @@ export function ZeroForge({
                 <strong>{bucket.count}/{bucket.target}</strong>
               </div>
             ))}
-          </section>
+          </section> : null}
 
-          <section className="zero-forge-intel__section">
+          {intelTab === "analysis" ? <section className="zero-forge-intel__section">
             <header><strong>ROLE COVERAGE</strong><span>signals / target</span></header>
             <div className="zero-forge-role-grid">
               {workspace.roles.map((role) => (
@@ -895,9 +1108,9 @@ export function ZeroForge({
                 </article>
               ))}
             </div>
-          </section>
+          </section> : null}
 
-          <section className="zero-forge-intel__section zero-forge-suggestion-stack">
+          {intelTab === "analysis" ? <section className="zero-forge-intel__section zero-forge-suggestion-stack">
             <header><strong>NEXT BEST LINES</strong><span>not yet added</span></header>
             {workspace.suggestions.slice(0, 5).map((suggestion) => (
               <button
@@ -915,9 +1128,9 @@ export function ZeroForge({
               </button>
             ))}
             {!workspace.suggestions.length ? <p>Add an anchor card to generate legal projections.</p> : null}
-          </section>
+          </section> : null}
 
-          <section className="zero-forge-intel__section zero-forge-manifest">
+          {intelTab === "analysis" ? <section className="zero-forge-intel__section zero-forge-manifest">
             <header><strong>DECK MANIFEST</strong><span>{workspace.rows.length} unique</span></header>
             <div>
               {[...workspace.rows]
@@ -937,9 +1150,54 @@ export function ZeroForge({
                   </button>
                 ))}
             </div>
-          </section>
+          </section> : null}
+
+          {intelTab === "recommendations" ? (
+            <ForgeRecommendations recommendations={competitiveRecommendations} onImport={importRecommendation} />
+          ) : null}
+
+          {intelTab === "history" ? (
+            <section className="forge-history-panel">
+              <header><strong>REGISTRO DE ALTERAÇÕES</strong><span>{changeHistory.length} operação(ões)</span></header>
+              {sourceMetadata ? (
+                <article className="forge-history-source">
+                  <span>ORIGEM DO DECK</span>
+                  <strong>{sourceMetadata.playerName || "Piloto não identificado"} · {sourceMetadata.eventName || "Evento não informado"}</strong>
+                  <small>{sourceMetadata.placement || "Resultado sem posição"} · {sourceMetadata.eventDate || "Sem data"} · {sourceMetadata.originalMetaId}</small>
+                </article>
+              ) : null}
+              <div className="forge-history-diff">
+                <strong>COMPARAÇÃO COM A LISTA ORIGINAL</strong>
+                {sourceDiff.changes.map((change) => (
+                  <span key={change.cardNumber} className={change.delta > 0 ? "is-added" : "is-removed"}>
+                    <b>{change.delta > 0 ? "+" : ""}{change.delta}</b>
+                    <em>{change.cardNumber}</em>
+                    <small>{change.before} → {change.after}</small>
+                  </span>
+                ))}
+                {!sourceDiff.changes.length ? <p>A lista atual ainda é idêntica à origem.</p> : null}
+              </div>
+              <ol>
+                {[...changeHistory].reverse().map((entry) => (
+                  <li key={entry.id}><span>{entry.origin}</span><strong>{entry.label}</strong><small>{new Date(entry.createdAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}</small></li>
+                ))}
+              </ol>
+            </section>
+          ) : null}
         </aside>
       </div>
+      <nav className="forge-mobile-nav" aria-label="Navegação móvel da FORJA">
+        <button type="button" className={mobilePanel === "deck" ? "is-active" : ""} onClick={() => setMobilePanel("deck")}>DECK</button>
+        <button type="button" className={mobilePanel === "cards" ? "is-active" : ""} onClick={() => setMobilePanel("cards")}>CARTAS</button>
+        <button type="button" className={mobilePanel === "analysis" ? "is-active" : ""} onClick={() => { setIntelTab("analysis"); setMobilePanel("analysis"); }}>ANÁLISE</button>
+        <button type="button" className={mobilePanel === "recommendations" ? "is-active" : ""} onClick={() => { setIntelTab("recommendations"); setMobilePanel("recommendations"); }}>SUGESTÕES</button>
+      </nav>
+      <DeckAssistantPanel
+        open={assistantOpen}
+        onOpenChange={setAssistantOpen}
+        context={assistantContext}
+        onApplySuggestion={applyAssistantSuggestion}
+      />
       {importOpen ? (
         <ZeroForgeMsaImportLayer
           text={importText}
@@ -1182,7 +1440,7 @@ function ZeroForgeCardPreview({ preview, main, workspace }) {
         </section>
         {suggestion ? (
           <footer>
-            <span>{t(`BRUXÃO PROJECTION · #${suggestion.rank}`)}</span>
+            <span>{t(`SYSTEM PROJECTION · #${suggestion.rank}`)}</span>
             <strong>{suggestion.reasons.map((reason) => t(reason)).join(" · ")}</strong>
             <small>{t("This is a projected card and has not been added to the deck.")}</small>
           </footer>

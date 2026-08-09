@@ -1,4 +1,4 @@
-# Gundam Tactical Database
+# TCG Tactical Database
 
 The project now has an open-source database layer. The canonical local database is:
 

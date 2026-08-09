@@ -66,7 +66,7 @@ function copyReactPublicAssets() {
       await fs.mkdir("dist", { recursive: true });
       await copyIfExists("web/app-data.json", "dist/app-data.json");
       await copyDirectoryIfExists("web/assets", "dist/assets");
-      await copyIfExists("worker/index.js", "dist/server/index.js");
+      await copyDirectoryIfExists("worker", "dist/server");
     },
   };
 }

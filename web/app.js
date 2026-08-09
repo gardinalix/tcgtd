@@ -198,7 +198,7 @@
 
   const I18N = {
     "pt-BR": {
-      brand: { eyebrow: "Gundam Card Game", title: "Banco do Bruxão" },
+      brand: { eyebrow: "TCG", title: "Tactical Database" },
       header: { searchLabel: "Busca global" },
       nav: {
         cards: "Cartas",
@@ -251,7 +251,7 @@
       },
     },
     en: {
-      brand: { eyebrow: "Gundam Card Game", title: "Banco do Bruxão" },
+      brand: { eyebrow: "TCG", title: "Tactical Database" },
       header: { searchLabel: "Global search" },
       nav: {
         cards: "Cards",
@@ -2973,7 +2973,7 @@
 
   function applyTranslations() {
     document.documentElement.lang = "en";
-    document.title = "Banco do Bruxão";
+    document.title = "TCG Tactical Database";
     document.querySelectorAll("[data-i18n]").forEach((element) => {
       const value = label(element.dataset.i18n);
       if (value) {

@@ -146,7 +146,7 @@ function Needs-Build {
 Normalize-ProcessEnvironment
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 
-Write-Host "Banco do Bruxao / Gundam Tactical Database" -ForegroundColor Yellow
+Write-Host "TCG Tactical Database" -ForegroundColor Yellow
 Write-Host "Workspace: $RealRootPath"
 
 if (Test-CockpitApiOnline $Url) {

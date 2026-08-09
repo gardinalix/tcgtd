@@ -1,4 +1,4 @@
-# Banco do Bruxão
+# TCG Tactical Database
 
 Static community UI generated from the local SQLite tactical database, official Gundam card snapshot, competitive advisor snapshot, and optional Tcgcsv/TCGplayer pricing cache.
 
