@@ -1,12 +1,13 @@
 export function TacticalPageShell({ children, className = "", moduleName }) {
   const resolvedModuleName = moduleName || inferModuleName(className);
   return (
-    <section className={`react-page tactical-page-shell forge-unified-page ${className}`.trim()} data-forge-module={resolvedModuleName}>
-      <div className="tactical-page-linkbar" aria-hidden="true">
-        <span className="tactical-page-linkbar__system"><i /> FORJA INTERFACE</span>
+    <section className={`react-page tactical-page-shell forge-unified-page ${className}`.trim()} data-system-module={resolvedModuleName}>
+      <div className="tactical-page-linkbar tactical-system-rail" aria-label="Current tactical subsystem">
+        <span className="tactical-page-linkbar__system"><i /> TCGTD // OPERATIONS CORE</span>
         <strong>{resolvedModuleName}</strong>
-        <span className="tactical-page-linkbar__network">TCG TACTICAL NETWORK · ONLINE</span>
+        <span className="tactical-page-linkbar__network">SECURE CHANNEL // ONLINE</span>
       </div>
+      <span className="tactical-page-coordinate tactical-page-coordinate--top" aria-hidden="true">LAT 00.318 // LON 05.120</span>
       {children}
     </section>
   );
@@ -39,7 +40,7 @@ export function TacticalPageHeader({
 
 export function TacticalSummaryStrip({ children, className = "" }) {
   return (
-    <div className={`tactical-summary-strip ${className}`.trim()}>
+    <div className={`tactical-summary-strip tactical-instrument-strip ${className}`.trim()} role="list">
       {children}
     </div>
   );
@@ -47,7 +48,7 @@ export function TacticalSummaryStrip({ children, className = "" }) {
 
 export function TacticalSummaryCard({ label, value, detail, tone = "neutral" }) {
   return (
-    <article className={`tactical-summary-card tactical-summary-card--${tone}`}>
+    <article className={`tactical-summary-card tactical-instrument tactical-summary-card--${tone}`} role="listitem">
       <span>{label}</span>
       <strong>{value}</strong>
       {detail ? <small>{detail}</small> : null}
@@ -57,7 +58,7 @@ export function TacticalSummaryCard({ label, value, detail, tone = "neutral" }) 
 
 export function TacticalDataPanel({ title, subtitle, actions, children, className = "" }) {
   return (
-    <section className={`tactical-data-panel ${className}`.trim()}>
+    <section className={`tactical-data-panel tactical-surface ${className}`.trim()}>
       {(title || subtitle || actions) ? (
         <div className="tactical-panel-header">
           <div>

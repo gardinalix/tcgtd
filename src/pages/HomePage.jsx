@@ -1,618 +1,281 @@
-import { useEffect, useMemo, useState } from "react";
-import { CardArt } from "../components/cards/CardArt";
-import { AnalysisParameters } from "../components/home/AnalysisParameters";
-import { DataFilterFeed } from "../components/home/DataFilterFeed";
-import { PilotPlatform } from "../components/home/PilotPlatform";
-import { FactionCore } from "../components/hud/FactionCore";
-import { HudPanel } from "../components/hud/HudPanel";
-import { formatBrl, formatUsd } from "../domain/cards";
-import { buildMetaSignal } from "../domain/meta";
-import { filterCards, pickPilotCard, uniqueValues } from "../utils/cardFilters";
+import { useMemo } from "react";
+import { useLocale } from "../i18n/LocaleProvider";
 
-export function HomePage({ data, theme, filters, setFilter, resetFilters, setView }) {
-  const [selectedMetaSignal, setSelectedMetaSignal] = useState(null);
-  const [selectedFeedItem, setSelectedFeedItem] = useState(null);
-  const [activeWinningIndex, setActiveWinningIndex] = useState(0);
-  const cards = data.cards || [];
-  const allCards = [...cards, ...(data.resourceCards || [])];
-  const filteredCards = filterCards(allCards, filters);
-  const pilotCard = pickPilotCard(cards, theme);
-  const metaSignal = buildMetaSignal(cards, data.archetypes || []);
-  const latestWinningLists = useMemo(() => buildLatestWinningLists(data, allCards), [data, allCards]);
-  const latestLeakSignals = useMemo(() => buildLatestLeakSignals(data), [data]);
-  const latestEvents = (data.metaEvents || []).slice().sort((a, b) => String(b.eventDate).localeCompare(String(a.eventDate))).slice(0, 8);
-  const latestPreviews = (data.previews || []).filter(isFutureMainReleaseCardSignal).slice(0, 8);
-  const options = {
-    colors: ["Any", ...uniqueValues(allCards, (card) => card.color)],
-    types: ["Any", ...uniqueValues(allCards, (card) => card.cardType)],
-    rarities: ["Any", ...uniqueValues(allCards, (card) => card.rarity)],
-    sets: ["Any", ...uniqueValues(allCards.flatMap((card) => card.packageCodes || []), (value) => value)],
-  };
-  const activeWinningList = latestWinningLists[activeWinningIndex % Math.max(1, latestWinningLists.length)] || null;
-
-  useEffect(() => {
-    if (latestWinningLists.length <= 1) return undefined;
-    const timer = window.setInterval(() => {
-      setActiveWinningIndex((current) => (current + 1) % latestWinningLists.length);
-    }, 6500);
-    return () => window.clearInterval(timer);
-  }, [latestWinningLists.length]);
+export function HomePage({ data, theme, setView }) {
+  const { locale } = useLocale();
+  const pt = locale === "pt-BR";
+  const overview = useMemo(() => buildOverview(data), [data]);
+  const modules = [
+    {
+      code: "01",
+      label: pt ? "RADAR DO META" : "META RADAR",
+      title: pt ? "Leia o campo antes do confronto" : "Read the field before the match",
+      description: pt
+        ? "Arquétipos, desempenho recente e sinais competitivos consolidados em uma leitura prática."
+        : "Archetypes, recent performance and competitive signals consolidated into a practical read.",
+      metric: formatNumber(overview.decklists, locale),
+      metricLabel: pt ? "listas competitivas" : "competitive lists",
+      action: "meta",
+      cta: pt ? "ABRIR RADAR" : "OPEN RADAR",
+    },
+    {
+      code: "02",
+      label: pt ? "BANCO DE CARTAS" : "CARD DATABASE",
+      title: pt ? "Encontre a peça certa em segundos" : "Find the right piece in seconds",
+      description: pt
+        ? "Pesquisa por nome, número, efeito, coleção, cor e sinais de sinergia."
+        : "Search by name, number, effect, set, color and synergy signals.",
+      metric: formatNumber(overview.cards, locale),
+      metricLabel: pt ? "cartas catalogadas" : "catalogued cards",
+      action: "cards",
+      cta: pt ? "EXPLORAR CARTAS" : "EXPLORE CARDS",
+    },
+    {
+      code: "03",
+      label: pt ? "INTEL DE TORNEIOS" : "TOURNAMENT INTEL",
+      title: pt ? "Resultados com contexto verificável" : "Results with verifiable context",
+      description: pt
+        ? "Eventos, colocações e decklists conectados às fontes disponíveis."
+        : "Events, placements and decklists connected to their available sources.",
+      metric: formatNumber(overview.events, locale),
+      metricLabel: pt ? "eventos monitorados" : "events monitored",
+      action: "events",
+      cta: pt ? "VER EVENTOS" : "VIEW EVENTS",
+    },
+    {
+      code: "04",
+      label: pt ? "FORJA TÁTICA" : "TACTICAL FORGE",
+      title: pt ? "Construa, valide e refine" : "Build, validate and refine",
+      description: pt
+        ? "Monte uma lista legal, compare sua estrutura e receba diagnósticos baseados nos dados carregados."
+        : "Build a legal list, compare its structure and get diagnostics grounded in loaded data.",
+      metric: "50 + 10",
+      metricLabel: pt ? "estrutura oficial do deck" : "official deck structure",
+      action: "decks",
+      cta: pt ? "ENTRAR NA FORJA" : "ENTER THE FORGE",
+      featured: true,
+    },
+  ];
 
   return (
-    <section className="zero-system-cockpit" data-view-panel="home">
-      <div className="cockpit-scene-bg" aria-hidden="true">
-        <span className="particle particle--one" />
-        <span className="particle particle--two" />
-        <span className="particle particle--three" />
-        <span className="particle particle--four" />
-        <span className="cockpit-beam cockpit-beam--one" />
-        <span className="cockpit-beam cockpit-beam--two" />
-        <span className="cockpit-beam cockpit-beam--three" />
-      </div>
-
-      <section className="home-battle-view" aria-label={`${theme.gundamName} battle view`}>
-        <HudPanel as="aside" className="cockpit-side-panel cockpit-side-panel--left" title="System status">
-          <strong>ACTIVE</strong>
-          <div className="system-vitals">
-            <div><span>Sync level</span><strong>98.7%</strong></div>
-            <div><span>Link</span><strong>Stable</strong></div>
-            <div><span>Prediction</span><strong>99.1%</strong></div>
-            <div><span>Flow</span><strong>Optimal</strong></div>
+    <div className="launch-home" data-view-panel="home">
+      <section className="launch-hero" aria-labelledby="launch-title">
+        <div className="launch-hero__grid" aria-hidden="true" />
+        <div className="launch-hero__copy">
+          <p className="launch-kicker">
+            <span className="launch-live-dot" />
+            TCG TACTICAL DATABASE // GUNDAM CARD GAME
+          </p>
+          <h1 id="launch-title">
+            {pt ? "Transforme dados do meta em" : "Turn meta data into"}
+            <span>{pt ? " decisões de deck." : " deck decisions."}</span>
+          </h1>
+          <p className="launch-hero__summary">
+            {pt
+              ? "Um cockpit tático para pesquisar cartas, acompanhar o cenário competitivo e evoluir listas com evidências — não com palpites."
+              : "A tactical cockpit to research cards, track the competitive field and evolve lists with evidence — not guesswork."}
+          </p>
+          <div className="launch-hero__actions">
+            <button className="launch-button launch-button--primary" type="button" onClick={() => setView("decks")}>
+              {pt ? "ABRIR A FORJA" : "OPEN THE FORGE"}
+            </button>
+            <button className="launch-button launch-button--ghost" type="button" onClick={() => setView("cards")}>
+              {pt ? "EXPLORAR DATABASE" : "EXPLORE DATABASE"}
+            </button>
           </div>
-        </HudPanel>
+          <dl className="launch-hero__telemetry" aria-label={pt ? "Resumo do sistema" : "System overview"}>
+            <Telemetry value={formatNumber(overview.cards, locale)} label={pt ? "cartas" : "cards"} />
+            <Telemetry value={formatNumber(overview.decklists, locale)} label={pt ? "decklists" : "decklists"} />
+            <Telemetry value={overview.format} label={pt ? "formato em foco" : "focus format"} />
+          </dl>
+        </div>
 
-        <div className="cockpit-viewport">
-          <div className="cockpit-hero-copy">
-            <span className="eyebrow">{theme.mode}</span>
-            <h1>
-              <span>{theme.gundamName}</span>
-              <span>{theme.stateLabel}</span>
-            </h1>
-            <p>
-              Advanced tactical interface connected. Analyzing prices, competitive meta, and card signals to generate tactical decisions.
-            </p>
+        <div className="launch-hero__visual" aria-label={`${theme.gundamName} tactical system`}>
+          <div className="launch-reticle launch-reticle--outer" />
+          <div className="launch-reticle launch-reticle--inner" />
+          <img src={theme.gundamImage} alt={theme.gundamName} />
+          <div className="launch-unit-label">
+            <small>{theme.unitId}</small>
+            <strong>{theme.gundamName}</strong>
+            <span>{theme.stateLabel}</span>
           </div>
+        </div>
 
-          <FactionCore theme={theme} />
+      </section>
 
-          <div className="gundam-hero-visual gundam-visual" aria-label={`${theme.gundamName} tactical visual`}>
-            <div className="gundam-image-stage">
-              <img src={theme.gundamImage} alt={theme.gundamName} data-gundam-image data-gundam={theme.id} />
+      <section className="launch-section launch-mission" aria-labelledby="mission-title">
+        <SectionHeading
+          index="01"
+          eyebrow={pt ? "CAPACIDADES DO SISTEMA" : "SYSTEM CAPABILITIES"}
+          title={pt ? "Da pesquisa à decisão tática" : "From research to tactical decision"}
+          description={pt
+            ? "Quatro módulos conectados para responder o que jogar, por que jogar e como melhorar."
+            : "Four connected modules to answer what to play, why to play it and how to improve."}
+        />
+        <ol className="launch-operation-map" aria-label={pt ? "Mapa de subsistemas" : "Subsystem map"}>
+          {modules.map((module) => (
+            <li className={`launch-operation-node${module.featured ? " is-primary" : ""}`} key={module.code}>
+              <button type="button" onClick={() => setView(module.action)}>
+                <span className="launch-operation-node__target" aria-hidden="true"><i />{module.code}</span>
+                <span className="launch-operation-node__copy">
+                  <small>{module.label}</small>
+                  <strong>{module.title}</strong>
+                  <span>{module.description}</span>
+                </span>
+                <span className="launch-operation-node__signal">
+                  <b>{module.metric}</b>
+                  <small>{module.metricLabel}</small>
+                  <em>{module.cta} →</em>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="launch-section launch-intel" aria-labelledby="intel-title">
+        <SectionHeading
+          index="02"
+          eyebrow={pt ? "INTELIGÊNCIA ATUAL" : "CURRENT INTELLIGENCE"}
+          title={pt ? "O campo competitivo, condensado" : "The competitive field, condensed"}
+          description={pt
+            ? "Amostras do banco atual. Cada resultado mantém o evento, a colocação e a fonte de origem."
+            : "Samples from the current database. Every result retains its event, placement and source."}
+        />
+        <div className="launch-intel__layout">
+          <div className="launch-intel__events">
+            <div className="launch-panel-title">
+              <span>{pt ? "RESULTADOS RECENTES" : "RECENT RESULTS"}</span>
+              <button type="button" onClick={() => setView("events")}>{pt ? "TODOS OS EVENTOS" : "ALL EVENTS"}</button>
             </div>
-            <div className="cockpit-arc cockpit-arc--outer" aria-hidden="true" />
-            <div className="cockpit-arc cockpit-arc--inner" aria-hidden="true" />
+            <div className="launch-result-list">
+              {overview.latestDecks.map((deck, index) => (
+                <button className="launch-result" type="button" key={`${deck.deckId}-${index}`} onClick={() => setView("deckView", deck.deckId)}>
+                  <span className="launch-result__rank">{deck.placingLabel || "—"}</span>
+                  <span className="launch-result__main">
+                    <strong>{deck.archetype || (pt ? "Arquétipo não informado" : "Archetype unavailable")}</strong>
+                    <small>{deck.playerName || (pt ? "Piloto não informado" : "Pilot unavailable")}</small>
+                  </span>
+                  <span className="launch-result__event">
+                    <strong>{deck.eventName || "Event"}</strong>
+                    <small>{formatDate(deck.eventDate, locale)} // {deck.formatName || overview.format}</small>
+                  </span>
+                  <span aria-hidden="true">↗</span>
+                </button>
+              ))}
+            </div>
           </div>
 
+          <aside className="launch-intel__cards">
+            <div className="launch-panel-title">
+              <span>{pt ? "SINAIS DO META" : "META SIGNALS"}</span>
+              <button type="button" onClick={() => setView("meta")}>{pt ? "RADAR COMPLETO" : "FULL RADAR"}</button>
+            </div>
+            <div className="launch-signal-list">
+              {overview.metaLeaders.map((card, index) => (
+                <button className="launch-signal" type="button" key={card.cardNumber} onClick={() => setView("card", card.cardNumber)}>
+                  <span className="launch-signal__index">{String(index + 1).padStart(2, "0")}</span>
+                  <img src={assetUrl(card.imageUrl)} alt="" loading="lazy" />
+                  <span>
+                    <strong>{card.cardName}</strong>
+                    <small>{card.cardNumber} // {card.color || card.cardType}</small>
+                  </span>
+                  <b>{Number(card.recentMetaScore || 0).toFixed(1)}</b>
+                </button>
+              ))}
+            </div>
+          </aside>
         </div>
-
-        <HudPanel as="aside" className="cockpit-side-panel cockpit-side-panel--right" title="Unit ID">
-          <strong>{theme.unitId}</strong>
-          <div className="system-vitals">
-            <div><span>Pilot</span><strong>{theme.pilot}</strong></div>
-            <div><span>Operation</span><strong>{theme.operation}</strong></div>
-            <div><span>Link status</span><strong>Active</strong></div>
-            <div><span>Battle probability</span><strong>99.1%</strong></div>
-          </div>
-        </HudPanel>
       </section>
 
-      <section className="home-intel-strip" aria-label="Priority signals">
-        <LatestWinningListsCarousel
-          lists={latestWinningLists}
-          active={activeWinningList}
-          activeIndex={activeWinningIndex}
-          onSelect={setActiveWinningIndex}
-          onOpenDeck={(deckId) => setView("deckView", deckId)}
-          onOpenEvent={(eventId) => setView("eventDetail", eventId)}
+      <section className="launch-section launch-onboarding" aria-labelledby="onboarding-title">
+        <SectionHeading
+          index="03"
+          eyebrow={pt ? "INICIAR OPERAÇÃO" : "START OPERATION"}
+          title={pt ? "Seu próximo passo depende da missão" : "Your next step depends on the mission"}
+          description={pt
+            ? "A consulta pública permanece livre. Conta e recursos assistidos entram somente quando agregam valor real."
+            : "Public research stays free. Accounts and assisted features enter only where they add real value."}
         />
-
-        <LatestLeakSignalsPanel
-          signals={latestLeakSignals}
-          onOpenLeaks={() => setView("previews")}
-          onSelect={(signal) => setSelectedFeedItem({
-            kind: "preview",
-            id: signal.previewId || signal.productCode,
-            label: signal.cardNumberHint || signal.cardNameHint || signal.productCode || "Preview",
-            value: signal.previewStatus || signal.releaseDate,
-            payload: signal,
-          })}
-        />
-      </section>
-
-      <section className="cockpit-console home-operations-grid" aria-label="Cockpit console">
-        <AnalysisParameters
-          filters={filters}
-          options={options}
-          onFilterChange={setFilter}
-          onReset={resetFilters}
-          onRun={() => setView("cards")}
-        />
-        <DataFilterFeed cards={filteredCards} onPackageSelect={(setCode) => setCode !== "OTHERS" && setFilter("set", setCode)} />
-        <PilotPlatform card={pilotCard} />
-        <MetaMovementPanel
-          movements={metaSignal.movements}
-          cards={cards}
-          onSelect={setSelectedMetaSignal}
-          onClick={() => setView("meta")}
-        />
-        <QuickPanel
-          className="cockpit-console-panel--feed"
-          title="Event / Preview Feed"
-          rows={[
-            ...latestEvents.map((event) => ({
-              kind: "event",
-              id: event.eventId,
-              label: event.eventName,
-              value: event.formatName || event.eventDate,
-              payload: event,
-            })),
-            ...latestPreviews.map((preview) => ({
-              kind: "preview",
-              id: preview.previewId || preview.cardNumberHint || preview.productCode,
-              label: preview.cardNumberHint || preview.cardNameHint || preview.productCode || "Preview",
-              value: preview.previewStatus,
-              payload: preview,
-            })),
-          ]}
-          action="Open events"
-          onClick={() => setView("events")}
-          rowAction={setSelectedFeedItem}
-        />
-      </section>
-      {selectedMetaSignal ? (
-        <MetaCardTransmission
-          movement={selectedMetaSignal}
-          card={cards.find((card) => card.cardNumber === selectedMetaSignal.cardNumber)}
-          onClose={() => setSelectedMetaSignal(null)}
-          onNavigate={(view, id) => {
-            setSelectedMetaSignal(null);
-            setView(view, id);
-          }}
-        />
-      ) : null}
-      {selectedFeedItem ? (
-        <FeedTransmission
-          item={selectedFeedItem}
-          cards={allCards}
-          onClose={() => setSelectedFeedItem(null)}
-          onNavigate={(view, id) => {
-            setSelectedFeedItem(null);
-            setView(view, id);
-          }}
-        />
-      ) : null}
-    </section>
-  );
-}
-
-function LatestLeakSignalsPanel({ signals = [], onOpenLeaks, onSelect }) {
-  const hasSignals = signals.length > 0;
-  const featured = signals[0];
-  const tiles = signals.slice(0, 5);
-
-  if (!hasSignals) {
-    return (
-      <section className="latest-leaks-panel latest-leaks-panel--empty" aria-label="Latest official preview signals">
-        <div className="latest-leaks-panel__header">
-          <span className="eyebrow">Preview Radar</span>
-          <button type="button" onClick={onOpenLeaks}>Open</button>
+        <div className="launch-paths">
+          <button type="button" onClick={() => setView("cards")}>
+            <small>01 // {pt ? "NOVO NO JOGO" : "NEW TO THE GAME"}</small>
+            <strong>{pt ? "Conhecer cartas e coleções" : "Discover cards and sets"}</strong>
+            <span>{pt ? "Comece pela base de cartas e use filtros táticos." : "Start with the card database and tactical filters."}</span>
+          </button>
+          <button type="button" onClick={() => setView("meta")}>
+            <small>02 // {pt ? "JOGADOR COMPETITIVO" : "COMPETITIVE PLAYER"}</small>
+            <strong>{pt ? "Ler o meta e os resultados" : "Read the meta and results"}</strong>
+            <span>{pt ? "Compare arquétipos, listas e desempenho recente." : "Compare archetypes, lists and recent performance."}</span>
+          </button>
+          <button type="button" onClick={() => setView("decks")}>
+            <small>03 // {pt ? "DECK EM EVOLUÇÃO" : "EVOLVING DECK"}</small>
+            <strong>{pt ? "Levar a lista para a Forja" : "Take the list to the Forge"}</strong>
+            <span>{pt ? "Valide, diagnostique e refine sem perder autoria." : "Validate, diagnose and refine without losing authorship."}</span>
+          </button>
         </div>
-        <button type="button" className="latest-leaks-panel__standby" onClick={onOpenLeaks}>
-          <strong>Standby</strong>
-          <span>No future card preview loaded</span>
+      </section>
+
+      <section className="launch-community-band" aria-label={pt ? "Comunidade" : "Community"}>
+        <div>
+          <small>COMMUNITY UPLINK // {pt ? "CANAL ABERTO" : "CHANNEL OPEN"}</small>
+          <h2>{pt ? "Um sistema construído com a comunidade." : "A system built with the community."}</h2>
+          <p>{pt
+            ? "Acompanhe eventos, jogadores, lojas e as próximas expansões do banco tático."
+            : "Follow events, players, stores and the next expansions of the tactical database."}</p>
+        </div>
+        <button className="launch-button launch-button--ghost" type="button" onClick={() => setView("community")}>
+          {pt ? "ACESSAR COMUNIDADE" : "OPEN COMMUNITY"}
         </button>
       </section>
-    );
-  }
-
-  return (
-    <section className="latest-leaks-panel" aria-label="Latest official preview signals">
-      <div className="latest-leaks-panel__header">
-        <span className="eyebrow">Preview / Leak Radar</span>
-        <button type="button" onClick={onOpenLeaks}>Open leaks</button>
-      </div>
-      <button type="button" className="latest-leaks-panel__featured" onClick={() => onSelect(featured)}>
-        <div className="latest-leaks-panel__thumbs" aria-hidden="true">
-          {tiles.slice(0, 3).map((signal, index) => (
-            <span key={`${signal.previewId || signal.productCode}-${index}`} className={`latest-leaks-panel__thumb latest-leaks-panel__thumb--${index + 1}`}>
-              {signal.imageUrl ? <img src={signal.imageUrl} alt="" loading="lazy" /> : <b>{signal.productCode || "TBD"}</b>}
-            </span>
-          ))}
-        </div>
-        <div className="latest-leaks-panel__copy">
-          <strong>{featured.productCode || "Future"}</strong>
-          <span>{featured.cardNumberHint || featured.cardNameHint || featured.productName || "Official preview signal"}</span>
-          <em>{featured.previewStatus || featured.releaseDate || "Preview watch"}</em>
-        </div>
-      </button>
-      <div className="latest-leaks-panel__strip">
-        {tiles.map((signal, index) => (
-          <button key={`${signal.previewId || signal.productCode}-${index}-strip`} type="button" onClick={() => onSelect(signal)}>
-            {signal.imageUrl ? <img src={signal.imageUrl} alt="" loading="lazy" /> : <span>{signal.productCode || "?"}</span>}
-            <b>{signal.productCode || "TBD"}</b>
-          </button>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function LatestWinningListsCarousel({ lists = [], active, activeIndex, onSelect, onOpenDeck, onOpenEvent }) {
-  if (!active) return null;
-  const [leftCard, rightCard] = active.cards;
-
-  return (
-    <section className="latest-winning-carousel" aria-label="Latest winning lists">
-      <div className="latest-winning-carousel__header">
-        <span className="eyebrow">Latest winning lists</span>
-        <div className="latest-winning-carousel__dots" aria-label="Winning list carousel controls">
-          {lists.map((list, index) => (
-            <button
-              key={list.deckId}
-              type="button"
-              className={index === activeIndex % lists.length ? "is-active" : ""}
-              aria-label={`Show ${list.archetype}`}
-              onClick={() => onSelect(index)}
-            />
-          ))}
-        </div>
-      </div>
-      <button type="button" className="latest-winning-carousel__stage" onClick={() => onOpenDeck(active.deckId)}>
-        <div className="winning-card-stack" aria-hidden="true">
-          {leftCard ? <CardArt card={leftCard} className="art-frame winning-card winning-card--left" compact /> : null}
-          {rightCard ? <CardArt card={rightCard} className="art-frame winning-card winning-card--right" compact /> : null}
-        </div>
-        <div className="latest-winning-carousel__copy">
-          <strong>{active.archetype}</strong>
-          <span>{active.eventDate} / {active.playerName}</span>
-          <em>{active.eventName}</em>
-          <small>{active.sourceName} / {active.eventType}</small>
-        </div>
-      </button>
-      <div className="latest-winning-carousel__actions">
-        <button type="button" onClick={() => onOpenDeck(active.deckId)}>Open list</button>
-        <button type="button" onClick={() => onOpenEvent(active.eventId)}>Event dossier</button>
-      </div>
-    </section>
-  );
-}
-
-function MetaMovementPanel({ movements = [], cards = [], onSelect, onClick }) {
-  const rows = movements.slice(0, 5);
-  const cardMap = new Map(cards.map((card) => [card.cardNumber, card]));
-  return (
-    <aside className="cockpit-console-panel cockpit-console-panel--meta cockpit-floating-hud">
-      <div className="cockpit-floating-hud__header">
-        <span className="eyebrow">Meta Signal Monitoring</span>
-        <HudSignalLoader label="Tracking" />
-      </div>
-      <div className="cockpit-list cockpit-list--scroll meta-movement-list">
-        {rows.map((row) => (
-          <button
-            key={`${row.cardNumber}-${row.previousBand}-${row.band}`}
-            type="button"
-            className={`meta-movement-row is-${row.movementDirection}`}
-            title={row.reason}
-            onClick={() => onSelect({ ...row, card: cardMap.get(row.cardNumber) })}
-          >
-            <strong>{row.cardName}</strong>
-            <span className="meta-movement-row__path">
-              <em>{row.previousBand}</em>
-              <b aria-hidden="true">{row.movementDirection === "down" ? "v" : "^"}</b>
-              <em>{row.band}</em>
-            </span>
-          </button>
-        ))}
-        {!rows.length ? <span className="cockpit-list-row"><strong>No movement detected</strong><span>Stable</span></span> : null}
-      </div>
-      <button type="button" onClick={onClick}>Open meta</button>
-    </aside>
-  );
-}
-
-function MetaCardTransmission({ movement, card, onClose, onNavigate }) {
-  const resolvedCard = card || movement.card;
-  if (!resolvedCard) return null;
-
-  const directionLabel = movement.movementDirection === "down" ? "Signal downgrade" : "Signal upgrade";
-  const directionGlyph = movement.movementDirection === "down" ? "v" : "^";
-
-  return (
-    <div className={`meta-card-transmission is-${movement.movementDirection}`} role="dialog" aria-modal="true" aria-label={`${resolvedCard.cardName} meta signal`}>
-      <button type="button" className="meta-card-transmission__backdrop" aria-label="Close meta signal" onClick={onClose} />
-      <article className="meta-card-transmission__dialog">
-        <button type="button" className="meta-card-transmission__close" onClick={onClose}>Close</button>
-        <div className="meta-card-transmission__scan" aria-hidden="true" />
-        <div className="meta-card-transmission__media">
-          <CardArt card={resolvedCard} className="art-frame art-frame--detail" />
-        </div>
-        <div className="meta-card-transmission__content">
-          <span className="eyebrow">Meta Signal Transmission</span>
-          <h2>{resolvedCard.cardName}</h2>
-          <p className="meta-card-transmission__subline">
-            {resolvedCard.cardNumber} / {resolvedCard.color || "-"} / {resolvedCard.cardType || "-"} / {resolvedCard.rarity || "-"}
-          </p>
-          <div className="meta-card-transmission__movement">
-            <strong>{movement.previousBand}</strong>
-            <b aria-hidden="true">{directionGlyph}</b>
-            <strong>{movement.band}</strong>
-            <span>{directionLabel}</span>
-          </div>
-          <dl className="meta-card-transmission__stats">
-            <div><dt>Cost</dt><dd>{resolvedCard.cost || "-"}</dd></div>
-            <div><dt>Level</dt><dd>{resolvedCard.level || "-"}</dd></div>
-            <div><dt>AP / HP</dt><dd>{resolvedCard.ap || "-"} / {resolvedCard.hp || "-"}</dd></div>
-            <div><dt>Recent tops</dt><dd>{movement.recent || 0}</dd></div>
-            <div><dt>All tops</dt><dd>{movement.all || 0}</dd></div>
-            <div><dt>Recent score</dt><dd>{Number(movement.recentScore || 0).toFixed(1)}</dd></div>
-            <div><dt>BRL price</dt><dd>{formatBrl(resolvedCard.marketPriceBrlX5)}</dd></div>
-            <div><dt>USD price</dt><dd>{formatUsd(resolvedCard.marketPriceUsd)}</dd></div>
-          </dl>
-          <p className="meta-card-transmission__reason">{movement.reason}</p>
-          <p className="meta-card-transmission__text">{resolvedCard.effectPreview || "No card text loaded."}</p>
-          <div className="meta-card-transmission__actions">
-            <button type="button" onClick={() => onNavigate("card", resolvedCard.cardNumber)}>Open card dossier</button>
-            <button type="button" onClick={() => onNavigate("cards")}>Open tactical DB</button>
-            <button type="button" onClick={() => onNavigate("meta")}>Open meta monitor</button>
-          </div>
-        </div>
-      </article>
     </div>
   );
 }
 
-function QuickPanel({ className, title, rows = [], action, onClick, rowAction }) {
-  const normalizedRows = rows.length ? rows : [{ label: "Ready", value: "0", id: "static", kind: "static" }];
+function Telemetry({ value, label }) {
+  return <div><dt>{label}</dt><dd>{value}</dd></div>;
+}
+
+function SectionHeading({ index, eyebrow, title, description }) {
   return (
-    <aside className={`cockpit-console-panel cockpit-floating-hud ${className}`}>
-      <div className="cockpit-floating-hud__header">
-        <span className="eyebrow">{title}</span>
-        <HudSignalLoader label="Live link" />
-      </div>
-      <div className="cockpit-list cockpit-list--scroll">
-        {normalizedRows.map((row) => (
-          <button
-            key={`${row.kind}-${row.id || row.label}-${row.value || "static"}`}
-            type="button"
-            className={`cockpit-list-row cockpit-list-row--button event-feed-row${rowAction && row.kind !== "static" ? "" : " is-static"}`}
-            onClick={() => rowAction?.(row)}
-            disabled={!rowAction || row.kind === "static"}
-          >
-            <strong>{row.label}</strong><span>{row.value}</span>
-          </button>
-        ))}
-      </div>
-      <button type="button" onClick={onClick}>{action}</button>
-    </aside>
+    <header className="launch-section-heading">
+      <span>{index}</span>
+      <div><small>{eyebrow}</small><h2>{title}</h2></div>
+      <p>{description}</p>
+    </header>
   );
 }
 
-function HudSignalLoader({ label }) {
-  return (
-    <span className="military-hud-loader" aria-hidden="true">
-      <span className="military-hud-loader__reticle" />
-      <span className="military-hud-loader__track">
-        <i />
-        <i />
-        <i />
-        <i />
-      </span>
-      <em>{label}</em>
-    </span>
-  );
+function buildOverview(data = {}) {
+  const counts = data.counts || {};
+  const latestDecks = (data.latestDecks || data.metaResults || [])
+    .filter((deck) => deck?.deckId)
+    .slice(0, 6);
+  const metaLeaders = (data.metaLeaders || data.cards || [])
+    .filter((card) => card?.cardNumber)
+    .slice(0, 5);
+  return {
+    cards: Number(counts.cards || counts.main_deck_cards || 0) + Number(counts.resource_cards || 0),
+    decklists: Number(counts.decklists || 0),
+    events: Number(counts.events || data.metaEvents?.length || 0),
+    format: data.activeFormat || data.gameModule?.activeFormat || "GD05",
+    generatedAt: data.generatedAt || data.cardSnapshotGeneratedAt || "",
+    latestDecks,
+    metaLeaders,
+  };
 }
 
-function buildLatestLeakSignals(data) {
-  const productsByCode = new Map((data.products || []).map((product) => [String(product.productCode || "").toUpperCase(), product]));
-  return (data.previews || [])
-    .filter(isFutureMainReleaseCardSignal)
-    .filter((preview) => preview.imageUrl || preview.cardNumberHint || preview.cardNameHint)
-    .map((preview) => {
-      const code = String(preview.productCode || "").toUpperCase();
-      const product = productsByCode.get(code) || {};
-      return {
-        ...preview,
-        productName: preview.productName || product.productName,
-        releaseDate: preview.productReleaseDate || product.releaseDate,
-        productUrl: preview.productUrl || product.productUrl,
-        sortDate: parseLooseDate(preview.sourceDate || preview.productReleaseDate || product.releaseDate),
-        signalKind: preview.matchedReleasedCard ? "released" : "preview",
-      };
-    })
-    .sort((left, right) => {
-      const leftPreviewOnly = left.matchedReleasedCard ? 1 : 0;
-      const rightPreviewOnly = right.matchedReleasedCard ? 1 : 0;
-      if (leftPreviewOnly !== rightPreviewOnly) return leftPreviewOnly - rightPreviewOnly;
-      return right.sortDate - left.sortDate || String(right.productCode || "").localeCompare(String(left.productCode || ""));
-    })
-    .slice(0, 8);
+function formatNumber(value, locale) {
+  return new Intl.NumberFormat(locale === "pt-BR" ? "pt-BR" : "en-US").format(Number(value || 0));
 }
 
-function parseLooseDate(value) {
-  const text = String(value || "").replace(/,/g, ", ").replace(/\s+/g, " ").trim();
-  const match = text.match(/([A-Za-z]+)\s+(\d{1,2}),?\s*(\d{4})/);
-  if (!match) return 0;
-  const parsed = new Date(`${match[1]} ${match[2]}, ${match[3]}`);
-  return Number.isNaN(parsed.getTime()) ? 0 : parsed.getTime();
+function formatDate(value, locale) {
+  if (!value) return "—";
+  const date = new Date(value.includes?.("T") ? value : `${value}T12:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat(locale === "pt-BR" ? "pt-BR" : "en-US", { day: "2-digit", month: "short", year: "numeric" }).format(date);
 }
 
-const GD04_RELEASE_TIME = parseLooseDate("April 24, 2026");
-
-function isPostGd04Signal(item) {
-  const code = String(item?.productCode || item?.packageCode || item?.cardNumberHint || "")
-    .trim()
-    .toUpperCase()
-    .replace(/\s+/g, "");
-  const releaseTime = parseLooseDate(item?.releaseDate || item?.productReleaseDate);
-  if (Number.isFinite(releaseTime) && releaseTime > GD04_RELEASE_TIME) return true;
-
-  const codeMatch = code.match(/^([A-Z]+)(\d+)/);
-  if (!codeMatch) return false;
-  const family = codeMatch[1];
-  const number = Number(codeMatch[2]);
-  if (family === "GD") return number > 4;
-  if (family === "ST") return number >= 10;
-  if (family === "EB") return true;
-  if (family === "SC") return true;
-  if (family === "PC" || family === "EVX") return true;
-  return false;
-}
-
-function isFutureMainReleaseCardSignal(item) {
-  const cardHint = String(item?.cardNumberHint || "").trim().toUpperCase().replace(/\s+/g, "");
-  const productCode = String(item?.productCode || item?.packageCode || "").trim().toUpperCase().replace(/\s+/g, "");
-  const code = cardHint || productCode;
-  if (!code) return false;
-  if (/^(EXBP|EXRP|EXB|EXR|R-|T-)/.test(code)) return false;
-  if (/^SC\d+/.test(productCode)) return false;
-  if (/^PC\d+/.test(productCode)) return false;
-
-  const codeMatch = code.match(/^([A-Z]+)(\d+)/);
-  if (!codeMatch) return isPostGd04Signal(item);
-  const family = codeMatch[1];
-  const number = Number(codeMatch[2]);
-  if (family === "GD") return number > 4;
-  if (family === "ST") return number >= 10;
-  if (family === "EB") return true;
-  return false;
-}
-
-function buildLatestWinningLists(data, allCards) {
-  const cardMap = new Map(allCards.map((card) => [card.cardNumber, card]));
-  const deckCardsByDeck = new Map();
-  for (const row of data.metaDeckCards || []) {
-    if (!row.deckId) continue;
-    if (!deckCardsByDeck.has(row.deckId)) deckCardsByDeck.set(row.deckId, []);
-    deckCardsByDeck.get(row.deckId).push(row);
-  }
-
-  const winners = (data.metaResults || [])
-    .filter((row) => String(row.placingRank || "").trim() === "1" && row.hasDecklist && row.deckId)
-    .filter((row) => row.sourceUrl || row.sourceName)
-    .sort((left, right) => String(right.eventDate || "").localeCompare(String(left.eventDate || "")));
-
-  const selected = uniqueByDeck(winners).slice(0, 5);
-
-  return selected.map((row) => ({
-    ...row,
-    archetype: row.archetype && row.archetype !== "Other" ? row.archetype : row.colorCombination || "Winning deck",
-    cards: pickArchetypeCards(deckCardsByDeck.get(row.deckId) || [], cardMap),
-  })).filter((row) => row.cards.length);
-}
-
-function pickArchetypeCards(deckRows, cardMap) {
-  const merged = new Map();
-  for (const row of deckRows) {
-    const card = cardMap.get(row.cardNumber);
-    if (!card || /resource/i.test(card.cardType || row.cardType || "")) continue;
-    const current = merged.get(row.cardNumber) || { card, quantity: 0 };
-    current.quantity += Number(row.quantity || 0);
-    merged.set(row.cardNumber, current);
-  }
-
-  return [...merged.values()]
-    .sort((left, right) => cardPickScore(right) - cardPickScore(left) || String(left.card.cardName).localeCompare(String(right.card.cardName)))
-    .slice(0, 2)
-    .map((item) => item.card);
-}
-
-function cardPickScore(item) {
-  const typeScore = /unit/i.test(item.card.cardType || "") ? 70 : /pilot/i.test(item.card.cardType || "") ? 48 : /base/i.test(item.card.cardType || "") ? 28 : 16;
-  const rarityScore = rarityRank(item.card.rarity) * 6;
-  return typeScore + Number(item.quantity || 0) * 9 + rarityScore + Number(item.card.recentMetaScore || 0);
-}
-
-function rarityRank(value) {
-  const rarity = String(value || "").toUpperCase();
-  if (rarity.includes("LR")) return 7;
-  if (rarity.includes("R+")) return 6;
-  if (rarity.includes("R")) return 5;
-  if (rarity.includes("U")) return 3;
-  if (rarity.includes("C")) return 1;
-  return 0;
-}
-
-function uniqueByDeck(rows) {
-  const seen = new Set();
-  return rows.filter((row) => {
-    if (seen.has(row.deckId)) return false;
-    seen.add(row.deckId);
-    return true;
-  });
-}
-
-function FeedTransmission({ item, cards, onClose, onNavigate }) {
-  if (item.kind === "event") {
-    const event = item.payload;
-    return (
-      <div className="meta-card-transmission feed-transmission is-up" role="dialog" aria-modal="true" aria-label={`${event.eventName} event feed`}>
-        <button type="button" className="meta-card-transmission__backdrop" aria-label="Close event signal" onClick={onClose} />
-        <article className="meta-card-transmission__dialog feed-transmission__dialog">
-          <button type="button" className="meta-card-transmission__close" onClick={onClose}>Close</button>
-          <div className="meta-card-transmission__scan" aria-hidden="true" />
-          <div className="feed-transmission__glyph" aria-hidden="true">EVT</div>
-          <div className="meta-card-transmission__content">
-            <span className="eyebrow">Event Feed Transmission</span>
-            <h2>{event.eventName}</h2>
-            <p className="meta-card-transmission__subline">
-              {event.eventDate || "Unknown date"} / {event.formatName || "Unknown format"} / {event.playerCount || "?"} players
-            </p>
-            <dl className="meta-card-transmission__stats">
-              <div><dt>Type</dt><dd>{event.eventType || "-"}</dd></div>
-              <div><dt>Status</dt><dd>{event.officialStatus || "-"}</dd></div>
-              <div><dt>Source</dt><dd>{event.sourceName || "-"}</dd></div>
-              <div><dt>Country</dt><dd>{event.country || event.region || "-"}</dd></div>
-            </dl>
-            <p className="meta-card-transmission__reason">Event detected in the synchronized competitive feed.</p>
-            <div className="meta-card-transmission__actions">
-              <button type="button" onClick={() => onNavigate("eventDetail", event.eventId)}>Open event dossier</button>
-              <button type="button" onClick={() => onNavigate("events")}>Open event archive</button>
-              {event.sourceUrl ? <a href={event.sourceUrl} target="_blank" rel="noreferrer">Source coverage</a> : null}
-            </div>
-          </div>
-        </article>
-      </div>
-    );
-  }
-
-  const preview = item.payload;
-  const matchedCard = cards.find((card) => (
-    preview.cardNumberHint && String(card.cardNumber).toUpperCase() === String(preview.cardNumberHint).toUpperCase()
-  ));
-
-  return (
-    <div className="meta-card-transmission feed-transmission is-preview" role="dialog" aria-modal="true" aria-label={`${item.label} preview feed`}>
-      <button type="button" className="meta-card-transmission__backdrop" aria-label="Close preview signal" onClick={onClose} />
-      <article className="meta-card-transmission__dialog feed-transmission__dialog">
-        <button type="button" className="meta-card-transmission__close" onClick={onClose}>Close</button>
-        <div className="meta-card-transmission__scan" aria-hidden="true" />
-        {matchedCard ? (
-          <div className="meta-card-transmission__media">
-            <CardArt card={matchedCard} className="art-frame art-frame--detail" />
-          </div>
-        ) : (
-          <div className="feed-transmission__glyph" aria-hidden="true">PRV</div>
-        )}
-        <div className="meta-card-transmission__content">
-          <span className="eyebrow">Preview Radar Transmission</span>
-          <h2>{preview.cardNameHint || preview.cardNumberHint || preview.productCode || "Official preview"}</h2>
-          <p className="meta-card-transmission__subline">
-            {preview.productCode || "Unknown set"} / {preview.previewStatus || "Unknown status"} / confidence {preview.confidence || "-"}
-          </p>
-          <dl className="meta-card-transmission__stats">
-            <div><dt>Source</dt><dd>{preview.sourceType || "-"}</dd></div>
-            <div><dt>Date</dt><dd>{preview.sourceDate || preview.productReleaseDate || "-"}</dd></div>
-            <div><dt>Card hint</dt><dd>{preview.cardNumberHint || "-"}</dd></div>
-            <div><dt>Match</dt><dd>{matchedCard ? "Released card found" : "Preview only"}</dd></div>
-          </dl>
-          <p className="meta-card-transmission__reason">Official preview row preserved with source/status tracking.</p>
-          <div className="meta-card-transmission__actions">
-            {matchedCard ? <button type="button" onClick={() => onNavigate("card", matchedCard.cardNumber)}>Open card dossier</button> : null}
-            <button type="button" onClick={() => onNavigate("previews")}>Open preview radar</button>
-            {preview.sourceUrl ? <a href={preview.sourceUrl} target="_blank" rel="noreferrer">Source page</a> : null}
-          </div>
-        </div>
-      </article>
-    </div>
-  );
+function assetUrl(value) {
+  return String(value || "").replace(/^\.\//, "/");
 }

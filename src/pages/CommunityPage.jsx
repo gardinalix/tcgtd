@@ -19,9 +19,9 @@ export function CommunityPage({ data, onNavigate, onOpenEvent }) {
     <TacticalPageShell className="community-terminal-page">
       <CommunityNav active="community" onNavigate={onNavigate} />
       <TacticalPageHeader
-        eyebrow="Community relay"
-        title="Find events, players and local scenes"
-        subtitle="A first-party community index built from normalized results, with source and coverage status kept visible."
+        eyebrow="SUBSYSTEM 04 // TACTICAL NETWORK"
+        title="Community Operations Network"
+        subtitle="Events, observed pilots and local scenes connected by normalized records with visible provenance."
       />
 
       <TacticalSummaryStrip>

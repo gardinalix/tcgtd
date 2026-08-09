@@ -1,0 +1,724 @@
+:root {
+  --system-canvas: #01070e;
+  --system-plane: rgba(5, 18, 29, 0.68);
+  --system-plane-strong: rgba(5, 19, 32, 0.9);
+  --system-line: rgba(59, 211, 246, 0.18);
+  --system-line-strong: rgba(59, 211, 246, 0.48);
+  --system-focus: #3cdcff;
+  --system-good: #51efad;
+  --system-warn: #f3c553;
+  --system-danger: #ff5572;
+  --system-text: #e9f8fd;
+  --system-muted: #7895a2;
+  --system-label: "Orbitron", sans-serif;
+  --system-copy: "Rajdhani", sans-serif;
+  --system-fast: 140ms;
+}
+
+/* Original multi-TCG identity: targeting axis + orbital data ring. */
+body[data-view] .cockpit-shell-topbar .tcgtd-insignia,
+body[data-view] .tcgtd-insignia {
+  position: relative !important;
+  isolation: isolate;
+  display: grid !important;
+  flex: 0 0 44px !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  place-items: center;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(135deg, transparent 16%, rgba(50, 219, 255, 0.15) 16% 27%, transparent 27% 73%, rgba(50, 219, 255, 0.15) 73% 84%, transparent 84%),
+    rgba(3, 16, 27, 0.92) !important;
+  box-shadow: 0 0 0 1px rgba(58, 217, 255, 0.34), 0 0 22px rgba(38, 204, 242, 0.16) !important;
+  clip-path: polygon(50% 0, 86% 14%, 100% 50%, 86% 86%, 50% 100%, 14% 86%, 0 50%, 14% 14%) !important;
+  transform: none !important;
+}
+
+.tcgtd-insignia::before,
+.tcgtd-insignia::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+}
+
+.tcgtd-insignia::before {
+  inset: 5px;
+  border: 1px solid rgba(74, 226, 255, 0.48);
+  border-radius: 50%;
+}
+
+.tcgtd-insignia::after {
+  inset: 11px;
+  border: 1px dashed rgba(74, 226, 255, 0.56);
+  border-radius: 50%;
+  animation: tcgtd-orbit 16s linear infinite;
+}
+
+.tcgtd-insignia__orbit {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--system-good);
+  box-shadow: 0 0 9px var(--system-good);
+  transform: translate(13px, -11px);
+}
+
+.tcgtd-insignia__axis::before,
+.tcgtd-insignia__axis::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  content: "";
+  background: rgba(74, 226, 255, 0.38);
+  transform: translate(-50%, -50%);
+}
+
+.tcgtd-insignia__axis::before { width: 34px; height: 1px; }
+.tcgtd-insignia__axis::after { width: 1px; height: 34px; }
+.tcgtd-insignia b { color: #dffaff; font: 700 0.42rem/1 var(--system-label); letter-spacing: 0.08em; text-shadow: 0 0 8px var(--system-focus); }
+
+@keyframes tcgtd-orbit { to { transform: rotate(360deg); } }
+
+body[data-view] .cockpit-shell-topbar .site-nav button {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  gap: 7px;
+  align-items: center;
+  text-align: left;
+}
+
+body[data-view] .cockpit-shell-topbar .site-nav button small {
+  color: rgba(89, 198, 221, 0.46);
+  font: 700 0.46rem/1 var(--system-label);
+}
+
+body[data-view] .cockpit-shell-topbar .site-nav button span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body[data-view] .cockpit-shell-topbar .site-nav button::before,
+body[data-view] .cockpit-shell-topbar .site-nav button::after {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-color: transparent;
+  content: "";
+  opacity: 0;
+  transition: opacity var(--system-fast) ease;
+}
+
+body[data-view] .cockpit-shell-topbar .site-nav button::before { top: 3px; left: 3px; border-top: 1px solid var(--system-focus); border-left: 1px solid var(--system-focus); }
+body[data-view] .cockpit-shell-topbar .site-nav button::after { right: 3px; bottom: 3px; border-right: 1px solid var(--system-focus); border-bottom: 1px solid var(--system-focus); }
+body[data-view] .cockpit-shell-topbar .site-nav button:is(:hover, :focus-visible, .is-active)::before,
+body[data-view] .cockpit-shell-topbar .site-nav button:is(:hover, :focus-visible, .is-active)::after { opacity: 1; }
+
+/* One continuous operating environment across all non-Home subsystems. */
+body[data-view]:not([data-view="home"]) {
+  color: var(--system-text);
+  background:
+    radial-gradient(circle at 78% 8%, rgba(22, 117, 146, 0.12), transparent 36rem),
+    linear-gradient(180deg, #020a13, var(--system-canvas) 54%, #020810) !important;
+}
+
+body[data-view]:not([data-view="home"]) main {
+  position: relative;
+  isolation: isolate;
+  background: transparent !important;
+}
+
+body[data-view]:not([data-view="home"]) main::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(57, 193, 223, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 193, 223, 0.026) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(180deg, black, transparent 80%);
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-shell.forge-unified-page {
+  position: relative !important;
+  isolation: isolate;
+  width: min(100%, 1660px) !important;
+  max-width: 1660px !important;
+  margin: 0 auto !important;
+  padding: 0 clamp(14px, 2vw, 30px) 48px !important;
+  gap: clamp(16px, 2vw, 26px) !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-shell.forge-unified-page::before {
+  position: absolute !important;
+  z-index: -1 !important;
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  border: 0 !important;
+  content: "" !important;
+  background:
+    linear-gradient(90deg, rgba(52, 210, 246, 0.04), transparent 14%, transparent 86%, rgba(52, 210, 246, 0.025)),
+    transparent !important;
+  opacity: 1 !important;
+  clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-shell.forge-unified-page::after {
+  display: none !important;
+}
+
+.tactical-page-coordinate {
+  position: absolute;
+  z-index: 2;
+  top: 84px;
+  right: clamp(14px, 2vw, 30px);
+  color: rgba(80, 180, 201, 0.34);
+  font: 700 0.46rem/1 var(--system-label);
+  letter-spacing: 0.12em;
+  pointer-events: none;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-system-rail {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(190px, 0.7fr) minmax(260px, 1.2fr) minmax(190px, 0.7fr) !important;
+  min-height: 38px !important;
+  margin: 0 calc(clamp(14px, 2vw, 30px) * -1) !important;
+  padding: 0 clamp(14px, 2vw, 30px) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--system-line) !important;
+  background: linear-gradient(90deg, rgba(12, 41, 56, 0.5), rgba(2, 11, 20, 0.18) 48%, rgba(12, 41, 56, 0.32)) !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-system-rail::after {
+  position: absolute;
+  right: 12%;
+  bottom: -1px;
+  left: 12%;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, var(--system-focus), transparent);
+  opacity: 0.48;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-system-rail > * {
+  align-self: center;
+  min-width: 0;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-system-rail > strong {
+  color: #dff8ff !important;
+  font-size: 0.58rem !important;
+  text-align: center;
+  letter-spacing: 0.12em !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-linkbar__network { text-align: right; }
+
+body[data-view]:not([data-view="home"]) .tactical-page-header {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  min-height: clamp(140px, 16vw, 220px) !important;
+  padding: clamp(34px, 5vw, 74px) clamp(0px, 1.3vw, 20px) 30px !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--system-line) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-header::before {
+  position: absolute !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: -1px !important;
+  left: 0 !important;
+  display: block !important;
+  width: min(32vw, 360px) !important;
+  height: 1px !important;
+  content: "" !important;
+  background: linear-gradient(90deg, var(--system-focus), transparent) !important;
+  opacity: 0.76 !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-header__main { align-self: end; max-width: 880px; }
+body[data-view]:not([data-view="home"]) .tactical-page-header h1 {
+  margin-top: 0.55rem !important;
+  color: var(--system-text) !important;
+  font: 700 clamp(2.4rem, 5vw, 5.3rem)/0.9 var(--system-copy) !important;
+  letter-spacing: -0.035em !important;
+  text-transform: none !important;
+  text-wrap: balance;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-header p {
+  max-width: 710px !important;
+  margin-top: 0.95rem !important;
+  color: #89a4af !important;
+  font: 500 1rem/1.55 var(--system-copy) !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* Instrumentation, not KPI cards. */
+body[data-view]:not([data-view="home"]) .tactical-instrument-strip {
+  display: flex !important;
+  width: 100%;
+  min-height: 76px;
+  gap: 0 !important;
+  overflow-x: auto;
+  border: 0 !important;
+  border-top: 1px solid var(--system-line) !important;
+  border-bottom: 1px solid var(--system-line) !important;
+  background: linear-gradient(90deg, rgba(10, 38, 52, 0.3), transparent 72%) !important;
+  box-shadow: none !important;
+  scrollbar-width: thin;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-instrument {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(96px, 1fr) !important;
+  grid-template-rows: auto auto !important;
+  flex: 1 0 190px;
+  gap: 2px 12px !important;
+  align-content: center;
+  min-width: 0 !important;
+  min-height: 74px !important;
+  padding: 12px 20px !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-right: 1px solid var(--system-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-instrument:last-child { border-right: 0 !important; }
+body[data-view]:not([data-view="home"]) .tactical-instrument::after {
+  position: absolute !important;
+  top: 50% !important;
+  left: 8px !important;
+  width: 4px !important;
+  height: 18px !important;
+  content: "" !important;
+  background: var(--summary-tone, var(--system-focus)) !important;
+  opacity: 0.56 !important;
+  transform: translateY(-50%);
+  clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-instrument > span {
+  grid-column: 2;
+  color: #7695a2 !important;
+  font: 700 0.5rem/1.2 var(--system-label) !important;
+  letter-spacing: 0.11em !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-instrument > strong {
+  grid-row: 1 / span 2;
+  align-self: center;
+  margin: 0 !important;
+  color: #e8fbff !important;
+  font: 700 1.55rem/1 var(--system-copy) !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-instrument > small {
+  grid-column: 2;
+  overflow: hidden;
+  color: #5f7e8b !important;
+  font: 600 0.68rem/1.25 var(--system-copy) !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Connected tactical surfaces. */
+body[data-view]:not([data-view="home"]) .tactical-surface,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .panel,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .react-card-results {
+  position: relative !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-top: 1px solid var(--system-line) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(135deg, rgba(8, 28, 42, 0.3), rgba(2, 10, 18, 0.12) 54%) !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-surface::before,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .panel::before {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 56px;
+  height: 1px;
+  content: "";
+  background: var(--system-focus);
+  box-shadow: 0 0 10px rgba(60, 220, 255, 0.32);
+  pointer-events: none;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-panel-header,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .panel-head {
+  min-height: 58px !important;
+  padding: 14px clamp(14px, 2vw, 24px) !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(59, 211, 246, 0.1) !important;
+  background: transparent !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-panel-header h2,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .panel-head h2 {
+  color: #dff7fc !important;
+  font: 700 0.72rem/1.2 var(--system-label) !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-panel-header p,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .panel-head p {
+  color: #6f8c98 !important;
+  font: 500 0.75rem/1.35 var(--system-copy) !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-card-grid {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  border-bottom: 1px solid var(--system-line);
+}
+
+body[data-view]:not([data-view="home"]) .tactical-card-grid > .tactical-surface {
+  grid-column: span 4;
+  border-right: 1px solid var(--system-line) !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-card-grid > .tactical-surface:nth-child(3n) { border-right: 0 !important; }
+body[data-view="meta"] .tactical-card-grid > .tactical-surface:last-child { grid-column: 1 / -1; border-top: 1px solid var(--system-line) !important; border-right: 0 !important; }
+
+body[data-view]:not([data-view="home"]) .react-data-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  border-top: 1px solid var(--system-line);
+}
+
+body[data-view]:not([data-view="home"]) .react-data-card {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(180px, 0.9fr) minmax(220px, 1.2fr) minmax(250px, 1.4fr) auto;
+  gap: 18px !important;
+  align-items: center;
+  min-height: 118px;
+  padding: 18px 22px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--system-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .react-data-card:is(:hover, :focus-within) {
+  background: linear-gradient(90deg, rgba(51, 208, 243, 0.08), transparent 72%) !important;
+}
+
+body[data-view]:not([data-view="home"]) .react-data-card .button-row { justify-self: end; }
+
+/* Card Intelligence Archive: scanner, field and dossier are one task. */
+body[data-view="cards"] .cards-terminal-grid {
+  grid-template-columns: minmax(230px, 0.24fr) minmax(0, 1fr) minmax(280px, 0.3fr) !important;
+  gap: 0 !important;
+  border-top: 1px solid var(--system-line);
+  border-bottom: 1px solid var(--system-line);
+}
+
+body[data-view="cards"] .react-filter-panel {
+  z-index: 3;
+  align-self: start;
+  border-top: 0 !important;
+  border-right: 1px solid var(--system-line) !important;
+  background: linear-gradient(145deg, rgba(7, 27, 41, 0.82), rgba(3, 12, 21, 0.72)) !important;
+  backdrop-filter: blur(12px);
+}
+
+body[data-view="cards"] .react-card-results { border-top: 0 !important; }
+body[data-view="cards"] .cards-terminal-side-stack {
+  border-left: 1px solid var(--system-line);
+  background: rgba(3, 13, 22, 0.46);
+}
+
+body[data-view="community"] .community-module-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 0 !important;
+  border-top: 1px solid var(--system-line);
+  border-bottom: 1px solid var(--system-line);
+}
+
+body[data-view="community"] .community-module-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 8px 16px;
+  min-height: 230px;
+  padding: 28px !important;
+  border: 0 !important;
+  border-right: 1px solid var(--system-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+body[data-view="community"] .community-module-card:last-child { border-right: 0 !important; }
+body[data-view="community"] .community-module-card > span { grid-row: 1 / span 3; color: var(--system-focus); font: 700 0.58rem/1 var(--system-label); }
+body[data-view="community"] .community-module-card h2 { align-self: end; margin: 0 !important; color: var(--system-text); font: 700 1.6rem/1 var(--system-copy); }
+body[data-view="community"] .community-module-card p { margin: 0 !important; color: var(--system-muted); font: 500 0.9rem/1.5 var(--system-copy); }
+body[data-view="community"] .community-module-card button { align-self: end; justify-self: start; }
+
+body[data-view="community"] .community-main-grid {
+  gap: 0 !important;
+  border-bottom: 1px solid var(--system-line);
+}
+
+body[data-view="community"] .community-main-grid > .tactical-surface:first-child { border-right: 1px solid var(--system-line) !important; }
+
+/* Target-lock and scan feedback. */
+body[data-view]:not([data-view="home"]) .tactical-page-shell :is(button, a, input, select, textarea):focus-visible {
+  outline: 1px solid var(--system-focus) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 3px rgba(60, 220, 255, 0.1) !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-shell :is(button, .tactical-action-button, .button-row a) {
+  position: relative;
+  transition: color var(--system-fast) ease, border-color var(--system-fast) ease, background var(--system-fast) ease, transform var(--system-fast) ease;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-shell :is(button, .tactical-action-button, .button-row a):is(:hover, :focus-visible) {
+  transform: translateY(-1px);
+}
+
+body[data-view]:not([data-view="home"]) .cockpit-list-row,
+body[data-view]:not([data-view="home"]) .react-table tbody tr,
+body[data-view]:not([data-view="home"]) .tactical-table tbody tr {
+  transition: background var(--system-fast) ease, box-shadow var(--system-fast) ease;
+}
+
+body[data-view]:not([data-view="home"]) .cockpit-list-row:is(:hover, :focus-within),
+body[data-view]:not([data-view="home"]) .react-table tbody tr:is(:hover, :focus-within),
+body[data-view]:not([data-view="home"]) .tactical-table tbody tr:is(:hover, :focus-within) {
+  background: linear-gradient(90deg, rgba(55, 217, 251, 0.09), transparent 76%) !important;
+  box-shadow: inset 2px 0 0 var(--system-focus);
+}
+
+/* Home mission map: linked subsystems instead of a card grid. */
+.launch-operation-map {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 5vw, 70px) clamp(70px, 10vw, 160px);
+  margin: 0;
+  padding: clamp(22px, 3vw, 44px) 0;
+  list-style: none;
+}
+
+.launch-operation-map::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  content: "";
+  background: linear-gradient(transparent, rgba(53, 217, 255, 0.46) 14%, rgba(53, 217, 255, 0.15) 86%, transparent);
+}
+
+.launch-operation-map::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(53, 217, 255, 0.46);
+  border-radius: 50%;
+  content: "";
+  box-shadow: 0 0 0 12px rgba(53, 217, 255, 0.025), 0 0 28px rgba(53, 217, 255, 0.09);
+  transform: translate(-50%, -50%);
+}
+
+.launch-operation-node {
+  position: relative;
+  min-width: 0;
+}
+
+.launch-operation-node:nth-child(even) { transform: translateY(clamp(36px, 6vw, 86px)); }
+.launch-operation-node::after {
+  position: absolute;
+  top: 50%;
+  width: clamp(35px, 5vw, 80px);
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, rgba(53, 217, 255, 0.08), rgba(53, 217, 255, 0.52));
+}
+.launch-operation-node:nth-child(odd)::after { right: calc(clamp(35px, 5vw, 80px) * -1); }
+.launch-operation-node:nth-child(even)::after { left: calc(clamp(35px, 5vw, 80px) * -1); transform: rotate(180deg); }
+
+.launch-operation-node > button {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  gap: clamp(14px, 2vw, 26px);
+  align-items: center;
+  width: 100%;
+  min-height: 176px;
+  padding: clamp(18px, 2.6vw, 34px) 0;
+  border: 0;
+  border-top: 1px solid rgba(53, 217, 255, 0.18);
+  border-bottom: 1px solid rgba(53, 217, 255, 0.1);
+  color: var(--launch-text);
+  background: linear-gradient(90deg, rgba(8, 28, 42, 0.16), transparent);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--system-fast) ease, border-color var(--system-fast) ease;
+}
+
+.launch-operation-node > button:hover,
+.launch-operation-node > button:focus-visible {
+  border-top-color: var(--launch-cyan);
+  background: linear-gradient(90deg, rgba(23, 121, 147, 0.12), transparent 82%);
+  outline: 0;
+}
+
+.launch-operation-node__target {
+  position: relative;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid rgba(53, 217, 255, 0.32);
+  border-radius: 50%;
+  color: var(--launch-cyan);
+  font: 700 0.56rem/1 var(--system-label);
+}
+
+.launch-operation-node__target::before,
+.launch-operation-node__target::after {
+  position: absolute;
+  content: "";
+  background: rgba(53, 217, 255, 0.28);
+}
+.launch-operation-node__target::before { width: 62px; height: 1px; }
+.launch-operation-node__target::after { width: 1px; height: 62px; }
+.launch-operation-node__target i { position: absolute; inset: 7px; border: 1px dashed rgba(53, 217, 255, 0.24); border-radius: 50%; }
+
+.launch-operation-node__copy { display: grid; gap: 8px; min-width: 0; }
+.launch-operation-node__copy small { color: var(--launch-cyan); font: 700 0.54rem/1.2 var(--system-label); letter-spacing: 0.1em; }
+.launch-operation-node__copy strong { color: #effbff; font: 700 clamp(1.35rem, 2vw, 1.9rem)/1.05 var(--system-copy); }
+.launch-operation-node__copy > span { color: #7895a1; font: 500 0.9rem/1.5 var(--system-copy); }
+.launch-operation-node__signal { display: grid; justify-items: end; min-width: 104px; text-align: right; }
+.launch-operation-node__signal b { color: #e8faff; font: 700 1.5rem/1 var(--system-copy); }
+.launch-operation-node__signal small { margin-top: 3px; color: #63808c; font: 700 0.46rem/1.3 var(--system-label); text-transform: uppercase; }
+.launch-operation-node__signal em { margin-top: 26px; color: var(--launch-cyan); font: normal 700 0.5rem/1 var(--system-label); letter-spacing: 0.08em; }
+.launch-operation-node.is-primary .launch-operation-node__target { border-color: rgba(141, 104, 255, 0.68); box-shadow: 0 0 22px rgba(141, 104, 255, 0.15); }
+
+/* Home intelligence and entry paths become connected data layers. */
+.launch-intel__events,
+.launch-intel__cards {
+  border: 0 !important;
+  border-top: 1px solid var(--launch-border) !important;
+  border-bottom: 1px solid var(--launch-border) !important;
+  background: linear-gradient(180deg, rgba(5, 18, 31, 0.52), rgba(3, 11, 19, 0.22)) !important;
+}
+.launch-intel__cards { border-left: 1px solid var(--launch-border) !important; }
+.launch-paths { gap: 0 !important; border-top: 1px solid var(--launch-border); border-bottom: 1px solid var(--launch-border); }
+.launch-paths > button { min-height: 180px !important; border: 0 !important; border-right: 1px solid var(--launch-border) !important; background: transparent !important; }
+.launch-paths > button:last-child { border-right: 0 !important; }
+.launch-community-band { border-right: 0 !important; border-left: 0 !important; background: linear-gradient(90deg, rgba(14, 54, 72, 0.58), rgba(26, 15, 54, 0.42), transparent) !important; }
+
+.site-footer {
+  grid-template-columns: minmax(250px, 0.55fr) minmax(280px, auto) minmax(420px, 1.45fr) !important;
+}
+.site-footer__legal { display: grid; gap: 8px; }
+
+@media (max-width: 1120px) {
+  body[data-view]:not([data-view="home"]) .tactical-card-grid > .tactical-surface { grid-column: span 6; }
+  body[data-view]:not([data-view="home"]) .react-data-card { grid-template-columns: 1fr 1fr; }
+  body[data-view]:not([data-view="home"]) .react-data-card .button-row { justify-self: start; }
+  body[data-view="cards"] .cards-terminal-grid { grid-template-columns: minmax(230px, 0.3fr) minmax(0, 1fr) !important; }
+  body[data-view="cards"] .cards-terminal-side-stack { grid-column: 1 / -1; border-top: 1px solid var(--system-line); border-left: 0; }
+}
+
+@media (max-width: 820px) {
+  body[data-view] .cockpit-shell-topbar .site-nav button { grid-template-columns: 1fr !important; justify-items: center; gap: 4px; text-align: center; }
+  body[data-view] .cockpit-shell-topbar .site-nav button small { font-size: 0.42rem; }
+  body[data-view] .cockpit-shell-topbar .site-nav button span { font-size: 0.5rem; }
+  body[data-view]:not([data-view="home"]) .tactical-system-rail { grid-template-columns: 1fr auto !important; }
+  body[data-view]:not([data-view="home"]) .tactical-system-rail > strong { text-align: right; }
+  body[data-view]:not([data-view="home"]) .tactical-page-linkbar__network { display: none; }
+  .tactical-page-coordinate { display: none; }
+  body[data-view]:not([data-view="home"]) .tactical-page-header { min-height: 150px !important; grid-template-columns: 1fr !important; padding-top: 30px !important; }
+  body[data-view]:not([data-view="home"]) .tactical-page-header h1 { font-size: clamp(2.4rem, 12vw, 4rem) !important; }
+  body[data-view]:not([data-view="home"]) .tactical-card-grid > .tactical-surface { grid-column: 1 / -1; border-right: 0 !important; }
+  body[data-view]:not([data-view="home"]) .react-data-card { grid-template-columns: 1fr; min-height: 0; }
+  body[data-view="cards"] .cards-terminal-grid { grid-template-columns: 1fr !important; }
+  body[data-view="cards"] .react-filter-panel { border-right: 0 !important; border-bottom: 1px solid var(--system-line) !important; }
+  body[data-view="community"] .community-module-grid { grid-template-columns: 1fr !important; }
+  body[data-view="community"] .community-module-card { min-height: 170px; border-right: 0 !important; border-bottom: 1px solid var(--system-line) !important; }
+  body[data-view="community"] .community-main-grid > .tactical-surface:first-child { border-right: 0 !important; }
+  .launch-operation-map { grid-template-columns: 1fr; gap: 12px; padding-left: 42px; }
+  .launch-operation-map::before { left: 18px; }
+  .launch-operation-map::after { top: 18px; left: 18px; width: 26px; height: 26px; }
+  .launch-operation-node:nth-child(even) { transform: none; }
+  .launch-operation-node::after { top: 50%; left: -24px !important; width: 24px; transform: none !important; }
+  .launch-operation-node > button { grid-template-columns: 48px minmax(0, 1fr); }
+  .launch-operation-node__signal { grid-column: 2; grid-row: 2; grid-template-columns: auto 1fr auto; gap: 8px; align-items: baseline; justify-items: start; text-align: left; }
+  .launch-operation-node__signal em { justify-self: end; margin-top: 0; }
+  .launch-intel__cards { border-left: 0 !important; }
+  .launch-paths { grid-template-columns: 1fr !important; }
+  .launch-paths > button { border-right: 0 !important; border-bottom: 1px solid var(--launch-border) !important; }
+  .launch-paths > button:last-child { border-bottom: 0 !important; }
+  .site-footer { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 560px) {
+  body[data-view] .cockpit-shell-topbar .tcgtd-insignia,
+  body[data-view] .tcgtd-insignia { flex-basis: 36px !important; width: 36px !important; height: 36px !important; min-width: 36px !important; }
+  body[data-view]:not([data-view="home"]) .tactical-page-shell.forge-unified-page { padding-right: 12px !important; padding-left: 12px !important; }
+  body[data-view]:not([data-view="home"]) .tactical-system-rail { margin-right: -12px !important; margin-left: -12px !important; padding-right: 12px !important; padding-left: 12px !important; }
+  body[data-view]:not([data-view="home"]) .tactical-page-linkbar__system { font-size: 0.42rem; }
+  body[data-view]:not([data-view="home"]) .tactical-instrument { flex-basis: 150px; padding-right: 14px !important; padding-left: 16px !important; }
+  .launch-operation-map { padding-left: 32px; }
+  .launch-operation-node > button { grid-template-columns: 40px minmax(0, 1fr); min-height: 156px; }
+  .launch-operation-node__target { width: 38px; height: 38px; }
+  .launch-operation-node__target::before { width: 48px; }
+  .launch-operation-node__target::after { height: 48px; }
+  .launch-operation-node__signal { grid-template-columns: auto 1fr; }
+  .launch-operation-node__signal em { grid-column: 1 / -1; justify-self: start; margin-top: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tcgtd-insignia::after { animation: none; }
+  body[data-view] *,
+  body[data-view] *::before,
+  body[data-view] *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}

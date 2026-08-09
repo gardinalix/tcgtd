@@ -62,9 +62,9 @@ export function BuilderPage({ data, deck, setDeck, onOpenSynergy }) {
   return (
     <TacticalPageShell className="react-builder-page builder-terminal-page">
       <TacticalPageHeader
-        eyebrow="Deck ops"
-        title="Deck builder"
-        subtitle="Assemble, validate, import and export deck shells from the tactical database."
+        eyebrow="SUBSYSTEM 02 // LOADOUT CONTROL"
+        title="Tactical Loadout Assembly"
+        subtitle="Assemble, validate, import and export a legal combat loadout from the intelligence archive."
         actions={(
           <div className="button-row">
           <input value={deck.name} onChange={(event) => updateDeckMeta({ name: event.target.value })} aria-label="Deck name" />

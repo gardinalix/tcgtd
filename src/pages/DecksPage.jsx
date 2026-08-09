@@ -83,8 +83,8 @@ export function DecksPage({
       {workspace === "designer" ? (
         <nav className="deck-designer-routebar" aria-label="Deck workspace">
           <div>
-            <span className="eyebrow">DATABASE // NEURAL DECK LINK</span>
-            <strong>TACTICAL DATABASE</strong>
+            <span className="eyebrow">SUBSYSTEM 02 // STRATEGIC OPTIMIZATION</span>
+            <strong>TACTICAL FORGE</strong>
           </div>
           <span className="deck-designer-routebar__status"><i /> SYSTEM STANDBY</span>
           <div className="deck-designer-routebar__modes">
@@ -95,9 +95,9 @@ export function DecksPage({
       ) : (
         <>
           <TacticalPageHeader
-            eyebrow="Deck ops"
-            title="Deck command center"
-            subtitle="Saved decks, public lists, tournament lists, sharing, duplication, and cockpit-ready deck operations."
+            eyebrow="SUBSYSTEM 02 // LOADOUT LOGISTICS"
+            title="Loadout Operations"
+            subtitle="Saved decks, competitive references and pilot-authored loadouts connected to the same optimization system."
             actions={(
               <div className="button-row">
                 <button type="button" onClick={() => setWorkspace("designer")}>Deck Designer</button>

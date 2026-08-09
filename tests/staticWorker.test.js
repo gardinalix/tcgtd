@@ -43,7 +43,7 @@ test("deployment worker passes static assets through unchanged", async () => {
 
 test("deck assistant status reports whether a remote provider is configured", async () => {
   const missing = await worker.fetch(new Request("https://deck.example/api/deck-assistant"), {});
-  assert.deepEqual(await missing.json(), { configured: false, provider: "none", model: "" });
+  assert.deepEqual(await missing.json(), { configured: false, provider: "none", model: "", authenticated: false, requiresAuthentication: true });
 
   const configured = await worker.fetch(new Request("https://deck.example/api/deck-assistant"), {
     GEMINI_API_KEY: "test-secret",
@@ -52,7 +52,34 @@ test("deck assistant status reports whether a remote provider is configured", as
     configured: true,
     provider: "gemini",
     model: "gemini-3.6-flash",
+    authenticated: false,
+    requiresAuthentication: true,
   });
+});
+
+test("platform session maps hosted identity headers without exposing credentials", async () => {
+  const response = await worker.fetch(new Request("https://deck.example/api/auth/session", {
+    headers: {
+      "oai-authenticated-user-id": "user_123",
+      "oai-authenticated-user-email": "pilot@example.com",
+      "oai-authenticated-user-full-name": "Test Pilot",
+    },
+  }), {});
+  assert.equal(response.status, 200);
+  const payload = await response.json();
+  assert.equal(payload.user.id, "user_123");
+  assert.equal(payload.user.publicName, "Test Pilot");
+  assert.equal(payload.user.provider, "chatgpt");
+});
+
+test("deck assistant rejects anonymous remote analysis", async () => {
+  const response = await worker.fetch(new Request("https://deck.example/api/deck-assistant", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ message: "Analyze", context: { cards: [] } }),
+  }), { GEMINI_API_KEY: "test-secret" });
+  assert.equal(response.status, 401);
+  assert.equal((await response.json()).code, "authentication_required");
 });
 
 test("deck assistant uses Gemini structured output when its server key is configured", async () => {
@@ -81,7 +108,7 @@ test("deck assistant uses Gemini structured output when its server key is config
   try {
     const response = await worker.fetch(new Request("https://deck.example/api/deck-assistant", {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", "oai-authenticated-user-id": "user_test" },
       body: JSON.stringify({
         message: "Analise a curva",
         context: { cards: [], deckName: "Teste" },

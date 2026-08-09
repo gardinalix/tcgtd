@@ -1,4 +1,5 @@
 import { AuthApiUnavailableError, authRequest, socialLoginUrl } from "./authClient";
+import { DEFAULT_GAME_ID } from "./gameModules.js";
 
 export const USER_ROLES = ["guest", "user"];
 
@@ -30,6 +31,7 @@ export function createDefaultUserState(legacy = {}) {
       {
         id: "local-deck",
         ownerId: localId,
+        gameId: DEFAULT_GAME_ID,
         name: legacy?.deckName || legacy?.deck?.name || "ZERO System Deck",
         visibility: "private",
         archetype: "",
@@ -295,6 +297,7 @@ function normalizeSavedDeck(deck = {}) {
   return {
     id: deck.id || `deck-${Date.now().toString(36)}`,
     ownerId: deck.ownerId || "local-user",
+    gameId: deck.gameId || DEFAULT_GAME_ID,
     name: deck.name || "Untitled deck",
     visibility: deck.visibility === "public" ? "public" : "private",
     archetype: deck.archetype || "",

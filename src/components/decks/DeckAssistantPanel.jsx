@@ -30,9 +30,12 @@ export function DeckAssistantPanel({ open, onOpenChange, context, onApplySuggest
     getDeckAssistantStatus()
       .then((remote) => {
         if (cancelled) return;
-        if (remote.configured) {
+        if (remote.configured && (!remote.requiresAuthentication || remote.authenticated)) {
           setProviderState({ state: "online", provider: remote.provider, model: remote.model });
           setStatus(`${providerName(remote.provider)} conectado · ${remote.model}`);
+        } else if (remote.configured && remote.requiresAuthentication) {
+          setProviderState({ state: "locked", provider: remote.provider, model: remote.model });
+          setStatus("Entre no sistema para ativar a análise remota.");
         } else {
           setProviderState({ state: "offline", provider: "none", model: "" });
           setStatus("Modelo remoto não configurado.");
@@ -137,7 +140,7 @@ export function DeckAssistantPanel({ open, onOpenChange, context, onApplySuggest
           {!messages.length && !busy ? (
             <article className="is-empty">
               <span>FORJA AI</span>
-              <p>{assistantAvailable ? "Modelo conectado. Escolha um comando rápido ou descreva o que deseja analisar." : "Aguardando conexão com um modelo remoto para iniciar a análise."}</p>
+              <p>{assistantAvailable ? "Modelo conectado. Escolha um comando rápido ou descreva o que deseja analisar." : providerState.state === "locked" ? "A análise local continua disponível; a IA remota exige uma sessão autenticada." : "Aguardando conexão com um modelo remoto para iniciar a análise."}</p>
             </article>
           ) : null}
           {messages.map((entry) => entry.role === "user" ? (

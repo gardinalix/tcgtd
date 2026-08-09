@@ -23,6 +23,10 @@ export const ROUTES = {
   settings: "/settings",
   accountSettings: "/settings/account",
   importExport: "/io",
+  about: "/about",
+  legal: "/legal",
+  terms: "/terms",
+  privacy: "/privacy",
 };
 
 export function parseRoute(location = window.location) {

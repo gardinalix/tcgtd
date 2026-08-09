@@ -51,9 +51,9 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   return (
     <TacticalPageShell className="cards-terminal-page card-gallery-v2">
       <TacticalPageHeader
-        eyebrow="Gallery / card intelligence"
-        title="Card gallery"
-        subtitle="Image-first browsing with print-level filters, visible market references and competitive context."
+        eyebrow="SUBSYSTEM 01 // OBJECT ACQUISITION"
+        title="Card Intelligence Archive"
+        subtitle="Scan printings, effects, market references and competitive signals without leaving the active dossier."
       />
       <TacticalSummaryStrip>
         <TacticalSummaryCard label="Database" value={searchableCards.length} detail={`${allCards.length} base cards, variants expanded.`} tone="blue" />

@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4173",
-    "build": "vite build",
+    "build": "node scripts/build_public_payloads.mjs && vite build",
+    "build:public-data": "node scripts/build_public_payloads.mjs",
     "test": "node --test tests/*.test.js",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "auth": "node server/authServer.mjs",

@@ -1,4 +1,5 @@
 import { normalizeDeck, sectionCount } from "./deck.js";
+import { DEFAULT_GAME_ID } from "./gameModules.js";
 
 export function createSavedDeck(ownerId, patch = {}) {
   const now = new Date().toISOString();
@@ -6,6 +7,7 @@ export function createSavedDeck(ownerId, patch = {}) {
   return {
     id: patch.id || `deck-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
     ownerId,
+    gameId: patch.gameId || DEFAULT_GAME_ID,
     name: deck.name || patch.name || "Untitled deck",
     visibility: patch.visibility === "public" ? "public" : "private",
     archetype: patch.archetype || "",

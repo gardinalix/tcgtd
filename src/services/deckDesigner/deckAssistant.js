@@ -98,6 +98,8 @@ export async function getDeckAssistantStatus(options = {}) {
     configured: Boolean(payload?.configured),
     provider: String(payload?.provider || "none"),
     model: String(payload?.model || ""),
+    authenticated: Boolean(payload?.authenticated),
+    requiresAuthentication: Boolean(payload?.requiresAuthentication),
   };
 }
 

@@ -46,8 +46,8 @@ function serveReactPublicAssets() {
     configureServer(server) {
       server.middlewares.use(async (request, response, next) => {
         const pathname = decodeURIComponent(new URL(request.url || "/", "http://localhost").pathname);
-        if (pathname === "/app-data.json") {
-          return serveFile(response, "web/app-data.json");
+        if (["/app-data.json", "/home-data.json", "/robots.txt"].includes(pathname)) {
+          return serveFile(response, path.join("web", pathname));
         }
         if (pathname.startsWith("/assets/")) {
           return serveFile(response, path.join("web", pathname));
@@ -65,6 +65,8 @@ function copyReactPublicAssets() {
     async closeBundle() {
       await fs.mkdir("dist", { recursive: true });
       await copyIfExists("web/app-data.json", "dist/app-data.json");
+      await copyIfExists("web/home-data.json", "dist/home-data.json");
+      await copyIfExists("web/robots.txt", "dist/robots.txt");
       await copyDirectoryIfExists("web/assets", "dist/assets");
       await copyDirectoryIfExists("worker", "dist/server");
     },
@@ -108,6 +110,7 @@ async function serveFile(response, relativePath) {
 
 function contentType(filePath) {
   if (filePath.endsWith(".json")) return "application/json; charset=utf-8";
+  if (filePath.endsWith(".txt")) return "text/plain; charset=utf-8";
   if (filePath.endsWith(".webp")) return "image/webp";
   if (filePath.endsWith(".png")) return "image/png";
   if (filePath.endsWith(".svg")) return "image/svg+xml";

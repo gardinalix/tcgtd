@@ -38,9 +38,9 @@ export function EventsPage({ data, onOpenEvent, onNavigate }) {
     <TacticalPageShell className="events-terminal-page">
       <CommunityNav active="events" onNavigate={onNavigate} />
       <TacticalPageHeader
-        eyebrow="Community / events"
-        title="Events & results"
-        subtitle="Searchable tournament history with standings, decklists and source coverage kept together."
+        eyebrow="SUBSYSTEM 04 // ENGAGEMENT ARCHIVE"
+        title="Combat Records"
+        subtitle="Searchable tournament history with standings, decklists and source provenance kept in one operational record."
         actions={(
           <div className="community-filter-row community-filter-row--events">
             <input value={query} placeholder="Event, organizer, format..." onChange={(event) => setQuery(event.target.value)} />

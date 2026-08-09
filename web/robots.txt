@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+
+# The deployment remains private while launch review and rights clearance are in progress.

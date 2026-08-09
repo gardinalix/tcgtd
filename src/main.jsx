@@ -3,6 +3,8 @@ import { createRoot } from "react-dom/client";
 import "../web/styles.css";
 import "../web/cockpit.css";
 import "./react.css";
+import "./launch.css";
+import "./tactical-system.css";
 import { App } from "./App";
 import { LocaleProvider } from "./i18n/LocaleProvider";
 

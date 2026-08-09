@@ -29,6 +29,16 @@ export async function loadGundamData() {
   return EMPTY_DATA;
 }
 
+export async function loadHomeData() {
+  try {
+    const response = await fetch("/home-data.json?v=20260809-2", { cache: "default" });
+    if (response.ok) return await response.json();
+  } catch {
+    // Fall through to the complete payload when the generated summary is absent.
+  }
+  return loadGundamData();
+}
+
 function normalizePayload(payload) {
   if (!payload || typeof payload !== "object") {
     return EMPTY_DATA;

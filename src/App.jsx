@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { SiteHeader } from "./components/layout/SiteHeader";
-import { CardArt } from "./components/cards/CardArt";
-import { loadGundamData } from "./data/loadGundamData";
+import { SiteFooter } from "./components/layout/SiteFooter";
+import { loadGundamData, loadHomeData } from "./data/loadGundamData";
 import { THEME_CONFIG } from "./data/themeConfig";
 import {
   changePassword,
@@ -23,44 +23,46 @@ import { compactDeckDesign } from "./services/deckDesigner/index.js";
 import { createForgeImportFromResult } from "./services/deckDesigner/competitiveMeta.js";
 import { parseRoute, routeFor } from "./domain/routes";
 import { usePersistentState } from "./hooks/usePersistentState";
-import { AccountSettingsPage } from "./pages/AccountSettingsPage";
-import { AuthCallbackPage } from "./pages/AuthCallbackPage";
-import { BuilderPage } from "./pages/BuilderPage";
-import { CardPage } from "./pages/CardPage";
-import { CardsPage } from "./pages/CardsPage";
-import { DecksPage } from "./pages/DecksPage";
-import { DeckViewPage } from "./pages/DeckViewPage";
-import { EventsPage } from "./pages/EventsPage";
-import { EventDetailPage } from "./pages/EventDetailPage";
-import { CommunityPage } from "./pages/CommunityPage";
 import { HomePage } from "./pages/HomePage";
-import { ImportExportPage } from "./pages/ImportExportPage";
-import { LoginPage } from "./pages/LoginPage";
-import { LogoutPage } from "./pages/LogoutPage";
-import { MetaPage } from "./pages/MetaPage";
-import { PreviewsPage } from "./pages/PreviewsPage";
-import { PricesPage } from "./pages/PricesPage";
-import { PlayersPage } from "./pages/PlayersPage";
-import { ProfilePage } from "./pages/ProfilePage";
-import { RegisterPage } from "./pages/RegisterPage";
-import { SettingsPage } from "./pages/SettingsPage";
-import { SynergyMapPage } from "./pages/SynergyMapPage";
-import { SynergyPage } from "./pages/SynergyPage";
-import { VenuesPage } from "./pages/VenuesPage";
+import { InstitutionalPage } from "./pages/InstitutionalPage";
 import { DEFAULT_FILTERS } from "./utils/cardFilters";
 import { useLocale } from "./i18n/LocaleProvider";
+
+const AccountSettingsPage = lazyNamed(() => import("./pages/AccountSettingsPage"), "AccountSettingsPage");
+const AuthCallbackPage = lazyNamed(() => import("./pages/AuthCallbackPage"), "AuthCallbackPage");
+const BuilderPage = lazyNamed(() => import("./pages/BuilderPage"), "BuilderPage");
+const CardPage = lazyNamed(() => import("./pages/CardPage"), "CardPage");
+const CardsPage = lazyNamed(() => import("./pages/CardsPage"), "CardsPage");
+const CommunityPage = lazyNamed(() => import("./pages/CommunityPage"), "CommunityPage");
+const DecksPage = lazyNamed(() => import("./pages/DecksPage"), "DecksPage");
+const DeckViewPage = lazyNamed(() => import("./pages/DeckViewPage"), "DeckViewPage");
+const EventDetailPage = lazyNamed(() => import("./pages/EventDetailPage"), "EventDetailPage");
+const EventsPage = lazyNamed(() => import("./pages/EventsPage"), "EventsPage");
+const ImportExportPage = lazyNamed(() => import("./pages/ImportExportPage"), "ImportExportPage");
+const LoginPage = lazyNamed(() => import("./pages/LoginPage"), "LoginPage");
+const LogoutPage = lazyNamed(() => import("./pages/LogoutPage"), "LogoutPage");
+const MetaPage = lazyNamed(() => import("./pages/MetaPage"), "MetaPage");
+const PlayersPage = lazyNamed(() => import("./pages/PlayersPage"), "PlayersPage");
+const PreviewsPage = lazyNamed(() => import("./pages/PreviewsPage"), "PreviewsPage");
+const PricesPage = lazyNamed(() => import("./pages/PricesPage"), "PricesPage");
+const ProfilePage = lazyNamed(() => import("./pages/ProfilePage"), "ProfilePage");
+const RegisterPage = lazyNamed(() => import("./pages/RegisterPage"), "RegisterPage");
+const SettingsPage = lazyNamed(() => import("./pages/SettingsPage"), "SettingsPage");
+const SynergyMapPage = lazyNamed(() => import("./pages/SynergyMapPage"), "SynergyMapPage");
+const SynergyPage = lazyNamed(() => import("./pages/SynergyPage"), "SynergyPage");
+const VenuesPage = lazyNamed(() => import("./pages/VenuesPage"), "VenuesPage");
 
 const REACT_STATE_KEY = "gundam-card-hub-react-state";
 const LEGACY_STATE_KEY = "gundam-card-hub-state";
 const THEME_STATE_KEY = "gundam-tactical-theme-id";
-const INCOMING_MESSAGE_DISMISS_PREFIX = "gundam-incoming-message-dismissed";
 const PRIVATE_VIEWS = new Set(["builder", "profile", "accountSettings"]);
+const LIGHTWEIGHT_VIEWS = new Set(["home", "about", "legal", "terms", "privacy", "login", "register", "logout", "authCallback"]);
 
 export function App() {
   const { locale } = useLocale();
   const [data, setData] = useState(null);
   const [bootReady, setBootReady] = useState(false);
-  const [showIncomingMessage, setShowIncomingMessage] = useState(false);
+  const [dataScope, setDataScope] = useState("boot");
   const initialRoute = parseRoute();
   const [view, setViewState] = useState(initialRoute.view);
   const [routeId, setRouteId] = useState(initialRoute.id);
@@ -70,25 +72,37 @@ export function App() {
   const [userState, setUserState] = usePersistentState(REACT_STATE_KEY, createInitialUserState(), normalizeUserState);
 
   const theme = THEME_CONFIG[themeId] || THEME_CONFIG["wing-zero"];
-  const incomingMessage = useMemo(() => buildIncomingMessage(data), [data]);
   const currentUser = getCurrentUser(userState);
   const activeDeck = userState.decks.find((deck) => deck.id === userState.activeDeckId) || userState.decks[0] || createSavedDeck(currentUser?.id || "local-user");
 
   useEffect(() => {
     let isMounted = true;
-    const bootTimer = window.setTimeout(() => {
-      if (isMounted) setBootReady(true);
-    }, 4500);
-    loadGundamData().then((payload) => {
+    const initialNeedsFullData = !LIGHTWEIGHT_VIEWS.has(initialRoute.view);
+    const loader = initialNeedsFullData ? loadGundamData : loadHomeData;
+    loader().then((payload) => {
       if (isMounted) {
         setData(payload);
+        setDataScope(initialNeedsFullData ? "full" : "home");
+        setBootReady(true);
       }
     });
     return () => {
       isMounted = false;
-      window.clearTimeout(bootTimer);
     };
   }, []);
+
+  useEffect(() => {
+    if (!bootReady || dataScope !== "home" || LIGHTWEIGHT_VIEWS.has(view)) return undefined;
+    let isMounted = true;
+    loadGundamData().then((payload) => {
+      if (!isMounted) return;
+      setData(payload);
+      setDataScope("full");
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [bootReady, dataScope, view]);
 
   useEffect(() => {
     let isMounted = true;
@@ -105,18 +119,6 @@ export function App() {
     document.body.dataset.view = view;
     writeThemeStorage(theme.id);
   }, [theme.id, view]);
-
-  useEffect(() => {
-    if (!data || !bootReady || !incomingMessage.cards.length) return;
-    const dismissedKey = getIncomingMessageDismissKey(data);
-    try {
-      if (sessionStorage.getItem(dismissedKey)) return;
-    } catch {
-      // If session storage is blocked, show the transmission for this load.
-    }
-    const timer = window.setTimeout(() => setShowIncomingMessage(true), 320);
-    return () => window.clearTimeout(timer);
-  }, [data, bootReady, incomingMessage.cards.length]);
 
   useEffect(() => {
     function syncRoute() {
@@ -150,6 +152,14 @@ export function App() {
     window.history.pushState({}, "", nextRoute);
     setViewState(nextView);
     setRouteId(id);
+  }
+
+  function handlePlatformSignIn() {
+    if (["localhost", "127.0.0.1"].includes(window.location.hostname)) {
+      setView("login");
+      return;
+    }
+    window.location.href = `/signin-with-chatgpt?return_to=${encodeURIComponent(routeFor("profile"))}`;
   }
 
   async function handleLogin(form) {
@@ -307,21 +317,13 @@ export function App() {
         : current);
   }
 
-  function dismissIncomingMessage() {
-    setShowIncomingMessage(false);
-    try {
-      sessionStorage.setItem(getIncomingMessageDismissKey(data), "true");
-    } catch {
-      // Non-critical: the overlay can appear again on reload if storage is unavailable.
-    }
-  }
-
   if (!data || !bootReady) {
     return <TacticalBootScreen theme={theme} />;
   }
 
   const isPrivateView = PRIVATE_VIEWS.has(view);
   const shouldGatePrivate = isPrivateView && !currentUser;
+  const routeLoading = !LIGHTWEIGHT_VIEWS.has(view) && dataScope !== "full";
 
   return (
     <div className="app-shell react-shell" data-locale={locale}>
@@ -329,17 +331,22 @@ export function App() {
         view={view}
         theme={theme}
         user={currentUser}
+        data={data}
         onViewChange={setView}
-        onThemeChange={setThemeId}
+        onSignIn={handlePlatformSignIn}
         search={filters.search}
         onSearchChange={setGlobalSearch}
       />
       <main>
-        {view === "login" ? <LoginPage onLogin={handleLogin} onSocialLogin={startSocialLogin} onRegister={() => setView("register")} /> : null}
+        <Suspense fallback={<div className="route-loading">ACQUIRING SUBSYSTEM…</div>}>
+        {routeLoading ? <div className="route-loading">LOADING TACTICAL DATA…</div> : null}
+        {["about", "legal", "terms", "privacy"].includes(view) ? <InstitutionalPage kind={view} onNavigate={setView} /> : null}
+        {view === "login" ? <LoginPage onLogin={handleLogin} onSocialLogin={startSocialLogin} onRegister={() => setView("register")} onPlatformLogin={handlePlatformSignIn} /> : null}
         {view === "register" ? <RegisterPage onCreateAccount={handleCreateAccount} onSocialLogin={startSocialLogin} onLogin={() => setView("login")} /> : null}
         {view === "logout" ? <LogoutPage onLogout={handleLogout} onDone={() => setView("home")} /> : null}
         {view === "authCallback" ? <AuthCallbackPage onRefreshSession={handleRefreshSession} onDone={() => setView("profile")} /> : null}
-        {shouldGatePrivate ? <LoginPage message="Login required for this cockpit section." onLogin={handleLogin} onSocialLogin={startSocialLogin} onRegister={() => setView("register")} /> : null}
+        {!routeLoading ? <>
+        {shouldGatePrivate ? <LoginPage message="Login required for this cockpit section." onLogin={handleLogin} onSocialLogin={startSocialLogin} onRegister={() => setView("register")} onPlatformLogin={handlePlatformSignIn} /> : null}
         {!shouldGatePrivate && view === "home" ? (
           <HomePage
             data={data}
@@ -476,19 +483,16 @@ export function App() {
         ) : null}
         {!shouldGatePrivate && view === "settings" ? <SettingsPage theme={theme} data={data} /> : null}
         {!shouldGatePrivate && view === "importExport" ? <ImportExportPage data={data} deck={activeDeck} /> : null}
+        </> : null}
+        </Suspense>
       </main>
-      {showIncomingMessage ? (
-        <IncomingMessageOverlay
-          message={incomingMessage}
-          onClose={dismissIncomingMessage}
-          onOpenCards={() => {
-            dismissIncomingMessage();
-            setView("previews");
-          }}
-        />
-      ) : null}
+      <SiteFooter onViewChange={setView} />
     </div>
   );
+}
+
+function lazyNamed(loader, name) {
+  return lazy(() => loader().then((module) => ({ default: module[name] })));
 }
 
 function createInitialUserState() {
@@ -509,10 +513,6 @@ function readJsonStorage(key) {
   } catch {
     return null;
   }
-}
-
-function getIncomingMessageDismissKey(data) {
-  return `${INCOMING_MESSAGE_DISMISS_PREFIX}:${data?.generatedAt || data?.cardSnapshotGeneratedAt || "current"}`;
 }
 
 function buildIncomingMessage(data) {
@@ -648,7 +648,7 @@ function IncomingMessageOverlay({ message, onClose, onOpenCards }) {
             <div className="incoming-message-overlay__card-grid">
               {featured.map((card, index) => (
                 <div key={card.displayId || card.previewId || card.cardNumber} className={`incoming-message-overlay__card incoming-message-overlay__card--${index + 1}`}>
-                  <CardArt card={card} className="art-frame incoming-message-overlay__art" />
+                  <img src={card.imageUrl || card.remoteImageUrl} alt="" className="art-frame incoming-message-overlay__art" />
                   <span>{card.cardNumber}</span>
                   <strong>{card.cardName}</strong>
                   <em>{card.rarity || "Unknown rarity"} / {card.color || "No color"}</em>
@@ -695,21 +695,21 @@ function TacticalBootScreen({ theme }) {
   return (
     <section className="tactical-boot-screen" aria-live="polite" aria-busy="true">
       <div className="tactical-boot-screen__grid" aria-hidden="true" />
-      <div className="tactical-boot-screen__core" data-faction={theme.factionId}>
+      <div className="tactical-boot-screen__core">
         <span className="tactical-boot-screen__ring tactical-boot-screen__ring--outer" />
         <span className="tactical-boot-screen__ring tactical-boot-screen__ring--inner" />
         <span className="tactical-boot-screen__pulse" />
-        {theme.factionLogo ? <img src={theme.factionLogo} alt="" /> : <strong>{theme.label.slice(0, 1)}</strong>}
+        <span className="tcgtd-insignia" aria-hidden="true"><i className="tcgtd-insignia__orbit" /><i className="tcgtd-insignia__axis" /><b>TTD</b></span>
       </div>
       <div className="tactical-boot-screen__copy">
-        <span>{theme.headerSystem || "Tactical System Active"}</span>
+        <span>TCG TACTICAL NETWORK // ONLINE</span>
         <h1>Synchronizing tactical database</h1>
         <p>Loading cards, market signals, deck telemetry, and meta feeds.</p>
         <div className="tactical-boot-screen__bar"><i /></div>
         <ul>
           <li>Card archive link established</li>
           <li>Meta signal buffer warming</li>
-          <li>{theme.gundamName} interface restored</li>
+          <li>Active game module restored</li>
         </ul>
       </div>
     </section>

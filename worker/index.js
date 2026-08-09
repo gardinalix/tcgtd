@@ -13,6 +13,9 @@ import {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/auth/session") {
+      return handlePlatformSession(request);
+    }
     if (url.pathname === "/api/deck-assistant") {
       return handleDeckAssistant(request, env);
     }
@@ -37,17 +40,43 @@ export default {
 };
 
 const MAX_ASSISTANT_BODY_BYTES = 180_000;
+const FORGE_RATE_LIMIT = 12;
+const FORGE_RATE_WINDOW_MS = 10 * 60 * 1_000;
+const forgeRateBuckets = new Map();
+
+export function handlePlatformSession(request) {
+  if (request.method !== "GET") return json({ message: "Método não permitido." }, 405, { Allow: "GET" });
+  return json({ user: platformUserFromRequest(request) });
+}
 
 export async function handleDeckAssistant(request, env) {
   const provider = resolveAssistantProvider(env);
+  const platformUser = platformUserFromRequest(request);
   if (request.method === "GET") {
     return json({
       configured: Boolean(provider),
       provider: provider?.name || "none",
       model: provider?.model || "",
+      authenticated: Boolean(platformUser),
+      requiresAuthentication: env.FORGE_AI_ALLOW_ANONYMOUS !== "true",
     });
   }
   if (request.method !== "POST") return json({ message: "Método não permitido." }, 405, { Allow: "GET, POST" });
+  const access = authorizeForgeRequest(request, env, platformUser);
+  if (!access.allowed) {
+    return json({
+      message: "Entre no sistema para acessar a análise remota da FORJA.",
+      code: "authentication_required",
+      signInUrl: "/signin-with-chatgpt?return_to=/decks",
+    }, 401);
+  }
+  const rateLimit = consumeForgeRateLimit(access.key);
+  if (!rateLimit.allowed) {
+    return json({
+      message: "Limite temporário da FORJA atingido. Aguarde antes de transmitir novamente.",
+      code: "rate_limited",
+    }, 429, { "Retry-After": String(rateLimit.retryAfterSeconds) });
+  }
   if (!provider) {
     return json({
       message: "O provedor remoto da FORJA ainda não está configurado.",
@@ -83,6 +112,45 @@ export async function handleDeckAssistant(request, env) {
       code: "provider_unreachable",
     }, 502);
   }
+}
+
+function platformUserFromRequest(request) {
+  const id = request.headers.get("oai-authenticated-user-id") || "";
+  if (!id) return null;
+  const email = request.headers.get("oai-authenticated-user-email") || "";
+  const fullName = request.headers.get("oai-authenticated-user-full-name") || email.split("@")[0] || "Pilot";
+  return {
+    id,
+    email,
+    displayName: fullName,
+    publicName: fullName,
+    username: email.split("@")[0] || `pilot-${id.slice(-8)}`,
+    role: "user",
+    provider: "chatgpt",
+    providerId: id,
+    emailVerified: Boolean(email),
+  };
+}
+
+function authorizeForgeRequest(request, env, platformUser) {
+  if (platformUser) return { allowed: true, key: `user:${platformUser.id}` };
+  if (env.FORGE_AI_ALLOW_ANONYMOUS === "true") {
+    return { allowed: true, key: `anonymous:${request.headers.get("cf-connecting-ip") || "local"}` };
+  }
+  return { allowed: false, key: "" };
+}
+
+function consumeForgeRateLimit(key, now = Date.now()) {
+  const current = forgeRateBuckets.get(key);
+  if (!current || now - current.startedAt >= FORGE_RATE_WINDOW_MS) {
+    forgeRateBuckets.set(key, { startedAt: now, count: 1 });
+    return { allowed: true, retryAfterSeconds: 0 };
+  }
+  if (current.count >= FORGE_RATE_LIMIT) {
+    return { allowed: false, retryAfterSeconds: Math.max(1, Math.ceil((FORGE_RATE_WINDOW_MS - (now - current.startedAt)) / 1_000)) };
+  }
+  current.count += 1;
+  return { allowed: true, retryAfterSeconds: 0 };
 }
 
 function resolveAssistantProvider(env = {}) {

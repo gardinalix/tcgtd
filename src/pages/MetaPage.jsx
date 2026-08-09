@@ -18,8 +18,8 @@ export function MetaPage({ data }) {
   return (
     <TacticalPageShell className="meta-terminal-page">
       <TacticalPageHeader
-        eyebrow="Meta Signal Monitoring"
-        title="Meta signal"
+        eyebrow="SUBSYSTEM 03 // FIELD MONITORING"
+        title="Battlefield Intelligence"
         subtitle="Movement bands calculated from recent Top 16 appearances, recurrence and archetype momentum."
       />
 

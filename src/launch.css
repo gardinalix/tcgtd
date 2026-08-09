@@ -1,0 +1,665 @@
+:root {
+  --launch-cyan: #35d9ff;
+  --launch-cyan-soft: rgba(53, 217, 255, 0.14);
+  --launch-violet: #8d68ff;
+  --launch-ink: #020812;
+  --launch-panel: rgba(5, 18, 31, 0.88);
+  --launch-border: rgba(84, 215, 255, 0.22);
+  --launch-text: #e9f8ff;
+  --launch-muted: #8da9b7;
+}
+
+body[data-view="home"] {
+  width: auto !important;
+  height: auto !important;
+  min-height: 100svh !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+body[data-view="home"] .app-shell {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 100svh !important;
+  overflow: visible !important;
+}
+
+body[data-view="home"] main {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+body[data-view] .cockpit-shell-topbar,
+body[data-view="home"] .cockpit-shell-topbar {
+  position: sticky !important;
+  inset: 0 0 auto !important;
+  z-index: 100 !important;
+  display: grid !important;
+  width: 100% !important;
+  height: 72px !important;
+  min-height: 72px !important;
+  max-height: 72px !important;
+  padding: 8px clamp(12px, 2vw, 30px) !important;
+  grid-template-columns: minmax(250px, 0.92fr) minmax(380px, 1.25fr) minmax(280px, 0.9fr) !important;
+  grid-template-areas: "brand nav actions" !important;
+  gap: clamp(10px, 1.5vw, 24px) !important;
+  align-items: center !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(53, 217, 255, 0.24) !important;
+  background: rgba(2, 8, 16, 0.94) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.34) !important;
+  clip-path: none !important;
+  backdrop-filter: blur(18px);
+}
+
+body[data-view] .cockpit-shell-topbar::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, var(--launch-cyan) 28%, rgba(141, 104, 255, 0.7) 72%, transparent);
+  opacity: 0.55;
+}
+
+body[data-view] .cockpit-shell-topbar .site-brand {
+  min-width: 0 !important;
+  padding: 0 !important;
+}
+
+body[data-view] .cockpit-shell-topbar .site-brand strong {
+  font-size: clamp(0.78rem, 1.05vw, 1.02rem) !important;
+  letter-spacing: 0.115em !important;
+}
+
+body[data-view] .cockpit-shell-topbar .site-brand em {
+  display: none !important;
+}
+
+body[data-view] .cockpit-shell-topbar .site-brand small {
+  color: var(--launch-cyan) !important;
+  font-size: 0.52rem !important;
+  letter-spacing: 0.14em !important;
+}
+
+body[data-view] .cockpit-shell-topbar .site-nav {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 4px !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+
+body[data-view] .cockpit-shell-topbar .site-nav button {
+  min-height: 38px !important;
+  border: 1px solid transparent !important;
+  color: #91aeba !important;
+  background: transparent !important;
+  font: 700 0.62rem/1 "Orbitron", sans-serif !important;
+  letter-spacing: 0.08em !important;
+}
+
+body[data-view] .cockpit-shell-topbar .site-nav button:hover,
+body[data-view] .cockpit-shell-topbar .site-nav button.is-active {
+  border-color: rgba(53, 217, 255, 0.28) !important;
+  color: #e9faff !important;
+  background: rgba(53, 217, 255, 0.08) !important;
+  box-shadow: inset 0 -2px 0 var(--launch-cyan) !important;
+}
+
+body[data-view] .cockpit-shell-topbar .site-header__actions {
+  display: grid !important;
+  grid-template-columns: auto minmax(82px, auto) minmax(118px, 150px) !important;
+  gap: 7px !important;
+}
+
+body[data-view] .cockpit-shell-topbar .pilot-label-button,
+body[data-view] .cockpit-shell-topbar .site-format-badge {
+  min-height: 36px !important;
+  border: 1px solid rgba(53, 217, 255, 0.22) !important;
+  border-radius: 0 !important;
+  color: #cdeef7 !important;
+  background: rgba(7, 23, 36, 0.88) !important;
+  font-size: 0.58rem !important;
+  letter-spacing: 0.07em !important;
+}
+
+body[data-view] .cockpit-shell-topbar .site-format-badge {
+  display: grid;
+  align-content: center;
+  min-width: 92px;
+  padding: 4px 12px;
+  text-align: center;
+}
+
+body[data-view] .cockpit-shell-topbar .site-format-badge small {
+  color: #668591;
+  font-size: 0.45rem;
+  line-height: 1.1;
+}
+
+body[data-view] .cockpit-shell-topbar .site-format-badge strong {
+  color: var(--launch-cyan);
+  font-size: 0.72rem;
+  line-height: 1.15;
+}
+
+body[data-view] .cockpit-shell-topbar .language-switch {
+  min-width: 90px;
+}
+
+.launch-home {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  overflow: clip;
+  color: var(--launch-text);
+  background:
+    radial-gradient(circle at 75% 8%, rgba(21, 112, 150, 0.16), transparent 32rem),
+    linear-gradient(180deg, #020914 0%, #020812 65%, #030a12 100%);
+}
+
+.launch-home::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(62, 188, 222, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 188, 222, 0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, black, transparent 72%);
+}
+
+.launch-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+  align-items: center;
+  width: min(100%, 1680px);
+  min-height: min(780px, calc(100svh - 72px));
+  margin: 0 auto;
+  padding: clamp(70px, 9vw, 140px) clamp(24px, 5vw, 84px) clamp(64px, 8vw, 110px);
+  background-image: url("/assets/gundams/wing-zero.png");
+  background-position: 62% 44%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.launch-hero::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(2, 9, 20, 0.98) 0%, rgba(2, 9, 20, 0.92) 30%, rgba(2, 9, 20, 0.46) 56%, rgba(2, 9, 20, 0.06) 82%),
+    linear-gradient(180deg, rgba(2, 9, 20, 0.38), transparent 34%, transparent 70%, #020914 100%);
+}
+
+.launch-hero::after {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 22%;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(transparent, #020914 88%);
+}
+
+.launch-hero__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 10%, rgba(53, 217, 255, 0.1) 10.06%, transparent 10.12%),
+    linear-gradient(0deg, transparent 18%, rgba(53, 217, 255, 0.08) 18.08%, transparent 18.16%);
+}
+
+.launch-hero__copy {
+  position: relative;
+  z-index: 3;
+  max-width: 740px;
+}
+
+.launch-kicker,
+.launch-section-heading small,
+.launch-community-band small {
+  margin: 0 0 1.35rem;
+  color: var(--launch-cyan);
+  font: 700 clamp(0.58rem, 0.8vw, 0.72rem)/1.4 "Orbitron", sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.launch-live-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: #61f6a9;
+  box-shadow: 0 0 12px #61f6a9;
+}
+
+.launch-hero h1 {
+  max-width: 760px;
+  margin: 0;
+  color: #f0fbff;
+  font: 700 clamp(2.65rem, 5vw, 5.65rem)/0.98 "Rajdhani", sans-serif;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.launch-hero h1 span {
+  display: block;
+  color: transparent;
+  background: linear-gradient(90deg, var(--launch-cyan), #c3f5ff 58%, #a388ff);
+  background-clip: text;
+}
+
+.launch-hero__summary {
+  max-width: 650px;
+  margin: 1.7rem 0 0;
+  color: #a9c1cc;
+  font: 500 clamp(1.02rem, 1.4vw, 1.24rem)/1.6 "Rajdhani", sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.launch-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 2.2rem;
+}
+
+.launch-button {
+  min-height: 50px;
+  padding: 0 1.5rem;
+  border: 1px solid var(--launch-border);
+  color: var(--launch-text);
+  background: rgba(4, 16, 29, 0.76);
+  font: 700 0.68rem/1 "Orbitron", sans-serif;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.launch-button:hover {
+  border-color: var(--launch-cyan);
+  transform: translateY(-2px);
+}
+
+.launch-button--primary {
+  border-color: rgba(53, 217, 255, 0.8);
+  color: #00101a;
+  background: linear-gradient(120deg, #32d5fa, #72eaff);
+  box-shadow: 0 0 32px rgba(53, 217, 255, 0.2);
+}
+
+.launch-hero__telemetry {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(600px, 100%);
+  margin: 3rem 0 0;
+  border-top: 1px solid var(--launch-border);
+  border-bottom: 1px solid var(--launch-border);
+}
+
+.launch-hero__telemetry > div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 3px;
+  padding: 0.9rem 1rem 0.85rem 0;
+}
+
+.launch-hero__telemetry dt {
+  color: #718f9d;
+  font: 700 0.55rem/1.2 "Orbitron", sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.launch-hero__telemetry dd {
+  margin: 0;
+  color: #e8faff;
+  font: 700 1.3rem/1 "Rajdhani", sans-serif;
+}
+
+.launch-hero__visual {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.launch-hero__visual::before {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  content: "";
+  display: none;
+}
+
+.launch-hero__visual img {
+  position: absolute;
+  z-index: 2;
+  display: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 44%;
+  opacity: 0.62;
+  filter: saturate(0.82) contrast(1.08) brightness(0.78);
+}
+
+.launch-reticle {
+  position: absolute;
+  z-index: 1;
+  top: 49%;
+  left: 58%;
+  border: 1px solid rgba(53, 217, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.launch-reticle--outer { width: 32rem; height: 32rem; box-shadow: 0 0 0 4rem rgba(53, 217, 255, 0.01); }
+.launch-reticle--inner { width: 17rem; height: 17rem; border-style: dashed; }
+
+.launch-unit-label {
+  position: absolute;
+  z-index: 4;
+  right: 4%;
+  bottom: 13%;
+  display: grid;
+  min-width: 185px;
+  padding: 0.8rem 1rem;
+  border-right: 2px solid var(--launch-cyan);
+  background: linear-gradient(90deg, transparent, rgba(2, 13, 24, 0.88));
+  text-align: right;
+}
+
+.launch-unit-label small,
+.launch-unit-label span { color: #7899a7; font: 700 0.52rem/1.4 "Orbitron", sans-serif; letter-spacing: 0.11em; }
+.launch-unit-label strong { color: #ecfbff; font: 700 1.15rem/1.25 "Rajdhani", sans-serif; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.launch-status-rail {
+  z-index: 4;
+  display: grid;
+  align-content: center;
+  align-self: stretch;
+  gap: 0.45rem;
+  padding-left: 1.2rem;
+  border-left: 1px solid rgba(53, 217, 255, 0.18);
+}
+
+.launch-status-rail span { margin-top: 1.8rem; color: #587684; font: 700 0.5rem/1.4 "Orbitron", sans-serif; letter-spacing: 0.1em; }
+.launch-status-rail strong { color: #bfeef8; font: 700 0.61rem/1.4 "Orbitron", sans-serif; letter-spacing: 0.06em; }
+
+.launch-section {
+  width: min(calc(100% - 48px), 1480px);
+  margin: 0 auto;
+  padding: clamp(72px, 9vw, 130px) 0;
+  border-top: 1px solid rgba(53, 217, 255, 0.13);
+}
+
+.launch-section-heading {
+  display: grid;
+  grid-template-columns: 58px minmax(280px, 1fr) minmax(260px, 0.7fr);
+  gap: clamp(20px, 3vw, 54px);
+  align-items: end;
+  margin-bottom: clamp(36px, 5vw, 68px);
+}
+
+.launch-section-heading > span {
+  color: rgba(53, 217, 255, 0.42);
+  font: 700 2rem/1 "Orbitron", sans-serif;
+}
+
+.launch-section-heading small { display: block; margin-bottom: 0.7rem; }
+.launch-section-heading h2 { margin: 0; color: #effbff; font: 700 clamp(2rem, 3vw, 3.4rem)/1 "Rajdhani", sans-serif; letter-spacing: -0.02em; }
+.launch-section-heading p { margin: 0; color: #839eaa; font: 500 1rem/1.6 "Rajdhani", sans-serif; }
+
+.launch-module-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--launch-border);
+}
+
+.launch-module {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  min-height: 390px;
+  padding: clamp(22px, 2.4vw, 34px);
+  border-right: 1px solid var(--launch-border);
+  background: linear-gradient(160deg, rgba(8, 25, 40, 0.78), rgba(2, 10, 19, 0.92));
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.launch-module:last-child { border-right: 0; }
+.launch-module:hover { z-index: 2; background: linear-gradient(160deg, rgba(10, 38, 55, 0.92), rgba(3, 13, 24, 0.98)); transform: translateY(-4px); }
+.launch-module--featured { background: linear-gradient(160deg, rgba(36, 22, 72, 0.76), rgba(4, 13, 27, 0.96)); }
+.launch-module--featured::after { position: absolute; inset: 0; border: 1px solid rgba(141, 104, 255, 0.56); content: ""; pointer-events: none; }
+
+.launch-module__head { display: flex; align-items: center; gap: 10px; color: var(--launch-cyan); font: 700 0.56rem/1 "Orbitron", sans-serif; letter-spacing: 0.1em; }
+.launch-module__head > span { display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid rgba(53, 217, 255, 0.28); }
+.launch-module h3 { margin: 2rem 0 1rem; color: #edfaff; font: 700 1.62rem/1.05 "Rajdhani", sans-serif; }
+.launch-module > p { margin: 0; color: #829daa; font: 500 0.96rem/1.55 "Rajdhani", sans-serif; }
+.launch-module__metric { display: grid; gap: 2px; margin: 2.5rem 0 1.5rem; }
+.launch-module__metric strong { color: #eafaff; font: 700 1.7rem/1 "Rajdhani", sans-serif; }
+.launch-module__metric span { color: #63818f; font: 700 0.52rem/1.3 "Orbitron", sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+.launch-module > button,
+.launch-panel-title button { display: flex; align-items: center; justify-content: space-between; min-height: 38px; padding: 0; border: 0; color: var(--launch-cyan); background: transparent; font: 700 0.58rem/1 "Orbitron", sans-serif; letter-spacing: 0.1em; cursor: pointer; }
+.launch-module > button { border-top: 1px solid rgba(53, 217, 255, 0.16); }
+
+.launch-intel { padding-bottom: clamp(60px, 8vw, 110px); }
+.launch-intel__layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(330px, 0.65fr); gap: 18px; }
+.launch-intel__events,
+.launch-intel__cards { border: 1px solid var(--launch-border); background: var(--launch-panel); }
+.launch-panel-title { display: flex; align-items: center; justify-content: space-between; min-height: 54px; padding: 0 20px; border-bottom: 1px solid var(--launch-border); color: #a9c7d2; font: 700 0.62rem/1 "Orbitron", sans-serif; letter-spacing: 0.12em; }
+.launch-result-list { display: grid; }
+.launch-result { display: grid; grid-template-columns: 64px minmax(140px, 0.8fr) minmax(180px, 1.2fr) 18px; gap: 14px; align-items: center; min-height: 76px; padding: 10px 18px; border: 0; border-bottom: 1px solid rgba(53, 217, 255, 0.1); color: #dceff5; background: transparent; text-align: left; cursor: pointer; }
+.launch-result:hover { background: rgba(53, 217, 255, 0.06); }
+.launch-result__rank { color: var(--launch-cyan); font: 700 1.15rem/1 "Orbitron", sans-serif; }
+.launch-result__main,
+.launch-result__event { display: grid; gap: 3px; min-width: 0; }
+.launch-result strong { overflow: hidden; font: 700 0.94rem/1.2 "Rajdhani", sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.launch-result small { overflow: hidden; color: #6e8c99; font: 600 0.68rem/1.2 "Rajdhani", sans-serif; letter-spacing: 0.03em; text-overflow: ellipsis; white-space: nowrap; }
+.launch-signal-list { display: grid; }
+.launch-signal { display: grid; grid-template-columns: 28px 44px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 72px; padding: 9px 14px; border: 0; border-bottom: 1px solid rgba(53, 217, 255, 0.1); color: #dceff5; background: transparent; text-align: left; cursor: pointer; }
+.launch-signal:hover { background: rgba(53, 217, 255, 0.06); }
+.launch-signal img { width: 40px; height: 54px; object-fit: cover; object-position: top; }
+.launch-signal__index { color: #526f7b; font: 700 0.58rem/1 "Orbitron", sans-serif; }
+.launch-signal > span:not(.launch-signal__index) { display: grid; gap: 3px; min-width: 0; }
+.launch-signal strong { overflow: hidden; font: 700 0.88rem/1.2 "Rajdhani", sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.launch-signal small { color: #678490; font: 600 0.58rem/1.2 "Rajdhani", sans-serif; }
+.launch-signal b { color: var(--launch-cyan); font: 700 0.8rem/1 "Orbitron", sans-serif; }
+
+.launch-paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.launch-paths > button { display: grid; min-height: 200px; padding: clamp(22px, 3vw, 36px); border: 1px solid var(--launch-border); color: #e9f8ff; background: rgba(4, 16, 28, 0.76); text-align: left; cursor: pointer; transition: border-color 160ms ease, transform 160ms ease; }
+.launch-paths > button:hover { border-color: var(--launch-cyan); transform: translateY(-3px); }
+.launch-paths small { color: var(--launch-cyan); font: 700 0.56rem/1.3 "Orbitron", sans-serif; letter-spacing: 0.11em; }
+.launch-paths strong { align-self: end; margin-top: 2.3rem; font: 700 1.35rem/1.1 "Rajdhani", sans-serif; }
+.launch-paths span { margin-top: 0.55rem; color: #77939f; font: 500 0.9rem/1.45 "Rajdhani", sans-serif; }
+
+.launch-community-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  width: min(calc(100% - 48px), 1480px);
+  margin: 0 auto clamp(70px, 9vw, 130px);
+  padding: clamp(34px, 5vw, 64px);
+  border: 1px solid rgba(141, 104, 255, 0.32);
+  background: radial-gradient(circle at 14% 0%, rgba(53, 217, 255, 0.12), transparent 32%), linear-gradient(120deg, rgba(10, 25, 45, 0.94), rgba(19, 12, 42, 0.9));
+}
+.launch-community-band small { display: block; margin-bottom: 0.8rem; }
+.launch-community-band h2 { margin: 0; color: #effbff; font: 700 clamp(1.8rem, 3vw, 3rem)/1 "Rajdhani", sans-serif; }
+.launch-community-band p { margin: 0.75rem 0 0; color: #8ea9b5; font: 500 1rem/1.5 "Rajdhani", sans-serif; }
+
+.site-footer {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.8fr) minmax(330px, auto) minmax(300px, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding: 34px clamp(20px, 4vw, 64px);
+  border-top: 1px solid rgba(53, 217, 255, 0.16);
+  color: #76929e;
+  background: #01060c;
+}
+.site-footer__brand { display: grid; gap: 6px; }
+.site-footer__brand strong { color: #cdeef7; font: 700 0.72rem/1.4 "Orbitron", sans-serif; letter-spacing: 0.1em; }
+.site-footer__brand span,
+.site-footer p { margin: 0; font: 500 0.76rem/1.55 "Rajdhani", sans-serif; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 7px 16px; }
+.site-footer nav button { padding: 0; border: 0; color: #9cb8c3; background: transparent; font: 700 0.62rem/1.4 "Rajdhani", sans-serif; letter-spacing: 0.05em; cursor: pointer; }
+.site-footer nav button:hover { color: var(--launch-cyan); }
+
+.institutional-page {
+  width: min(calc(100% - 40px), 980px);
+  margin: 0 auto;
+  padding: clamp(60px, 9vw, 120px) 0;
+  color: #dceff5;
+}
+.institutional-page > header { padding-bottom: 40px; border-bottom: 1px solid var(--launch-border); }
+.institutional-page > header small { color: var(--launch-cyan); font: 700 0.6rem/1.4 "Orbitron", sans-serif; letter-spacing: 0.14em; }
+.institutional-page > header h1 { margin: 1rem 0; font: 700 clamp(2.4rem, 6vw, 4.8rem)/0.98 "Rajdhani", sans-serif; letter-spacing: -0.03em; }
+.institutional-page > header p { max-width: 720px; margin: 0; color: #93acb7; font: 500 1.1rem/1.6 "Rajdhani", sans-serif; }
+.institutional-page__body { display: grid; gap: 14px; padding: 36px 0; }
+.institutional-page__body section { padding: 28px; border: 1px solid rgba(53, 217, 255, 0.14); background: rgba(5, 18, 31, 0.7); }
+.institutional-page__body h2 { margin: 0 0 1rem; color: #effbff; font: 700 1.45rem/1.1 "Rajdhani", sans-serif; }
+.institutional-page__body p,
+.institutional-page__body li { color: #8fa8b3; font: 500 0.98rem/1.65 "Rajdhani", sans-serif; }
+.institutional-page__body p:last-child { margin-bottom: 0; }
+.institutional-page > footer { display: flex; justify-content: space-between; gap: 20px; align-items: center; color: #68828d; font: 600 0.7rem/1.4 "Rajdhani", sans-serif; }
+.institutional-page > footer button { min-height: 40px; border: 1px solid var(--launch-border); padding: 0 16px; color: var(--launch-cyan); background: transparent; font: 700 0.58rem/1 "Orbitron", sans-serif; cursor: pointer; }
+
+.route-loading {
+  display: grid;
+  min-height: calc(100svh - 72px);
+  place-items: center;
+  color: var(--launch-cyan);
+  background: #020812;
+  font: 700 0.68rem/1 "Orbitron", sans-serif;
+  letter-spacing: 0.16em;
+}
+
+@media (max-width: 1120px) {
+  body[data-view] .cockpit-shell-topbar,
+  body[data-view="home"] .cockpit-shell-topbar { grid-template-columns: minmax(220px, 0.7fr) minmax(330px, 1fr) auto !important; }
+  body[data-view] .cockpit-shell-topbar .site-header__actions { grid-template-columns: auto auto !important; }
+  body[data-view] .cockpit-shell-topbar .pilot-label-button { display: none !important; }
+  .launch-hero { grid-template-columns: minmax(0, 1fr) minmax(330px, 0.8fr); }
+  .launch-status-rail { display: none; }
+  .launch-module-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .launch-module { border-bottom: 1px solid var(--launch-border); }
+  .launch-module:nth-child(2) { border-right: 0; }
+  .launch-module:nth-child(n+3) { border-bottom: 0; }
+  .site-footer { grid-template-columns: 1fr 1fr; }
+  .site-footer p { grid-column: 1 / -1; }
+}
+
+@media (max-width: 820px) {
+  body { padding-bottom: 62px; }
+  body[data-view] .cockpit-shell-topbar,
+  body[data-view="home"] .cockpit-shell-topbar {
+    position: sticky !important;
+    height: 64px !important;
+    min-height: 64px !important;
+    max-height: 64px !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas: "brand actions" !important;
+    padding: 7px 12px !important;
+  }
+  body[data-view] .cockpit-shell-topbar .site-nav {
+    position: fixed !important;
+    z-index: 120 !important;
+    inset: auto 0 0 0 !important;
+    top: auto !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    height: 62px !important;
+    gap: 0 !important;
+    padding: 5px 6px env(safe-area-inset-bottom) !important;
+    border-top: 1px solid rgba(53, 217, 255, 0.25) !important;
+    background: rgba(2, 8, 16, 0.97) !important;
+    box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.45) !important;
+    backdrop-filter: blur(16px);
+  }
+  body[data-view] .cockpit-shell-topbar { backdrop-filter: none !important; }
+  body[data-view] .cockpit-shell-topbar .site-nav button { min-height: 50px !important; padding: 0.3rem !important; font-size: 0.54rem !important; }
+  body[data-view] .cockpit-shell-topbar .site-header__actions { grid-template-columns: auto auto !important; }
+  body[data-view] .cockpit-shell-topbar .site-format-badge { min-width: 78px !important; }
+  body[data-view] .cockpit-shell-topbar .site-brand__mark { width: 36px !important; height: 36px !important; }
+  body[data-view] .cockpit-shell-topbar .site-brand strong { font-size: 0.7rem !important; }
+  body[data-view] .cockpit-shell-topbar .site-brand small,
+  body[data-view] .cockpit-shell-topbar .language-switch { display: none !important; }
+  .launch-hero { grid-template-columns: 1fr; min-height: 0; padding: 74px 22px 64px; }
+  .launch-hero__copy { z-index: 5; }
+  .launch-hero__visual { position: absolute; z-index: 1; inset: 0; min-height: 0; opacity: 0.42; }
+  .launch-hero__visual img { width: 100%; height: 100%; object-position: 58% center; }
+  .launch-unit-label,
+  .launch-reticle { display: none; }
+  .launch-section-heading { grid-template-columns: 42px 1fr; align-items: start; }
+  .launch-section-heading > p { grid-column: 2; }
+  .launch-intel__layout { grid-template-columns: 1fr; }
+  .launch-paths { grid-template-columns: 1fr; }
+  .launch-paths > button { min-height: 160px; }
+  .launch-community-band { align-items: flex-start; flex-direction: column; }
+  .site-footer { grid-template-columns: 1fr; padding-bottom: 32px; }
+  .site-footer p { grid-column: auto; }
+}
+
+@media (max-width: 560px) {
+  body[data-view] .cockpit-shell-topbar .site-format-badge { display: none !important; }
+  body[data-view] .cockpit-shell-topbar .site-header__actions { display: flex !important; justify-content: flex-end; }
+  body[data-view] .cockpit-shell-topbar .pilot-label-button { display: block !important; min-width: 74px !important; }
+  body[data-view] .cockpit-shell-topbar .site-brand strong { font-size: 0.64rem !important; letter-spacing: 0.08em !important; }
+  .launch-hero { padding: 44px 18px 34px; }
+  .launch-kicker { max-width: 270px; margin-bottom: 0.9rem; font-size: 0.52rem; }
+  .launch-hero h1 { font-size: clamp(2.55rem, 12.5vw, 3.25rem); line-height: 0.96; }
+  .launch-hero__summary { margin-top: 1.2rem; font-size: 0.96rem; line-height: 1.48; }
+  .launch-hero__actions { display: grid; margin-top: 1.45rem; }
+  .launch-button { width: 100%; }
+  .launch-hero__telemetry { margin-top: 1.65rem; }
+  .launch-hero__telemetry > div { padding-right: 0.4rem; }
+  .launch-hero__telemetry dd { font-size: 1rem; }
+  .launch-hero__telemetry dt { font-size: 0.44rem; }
+  .launch-section { width: min(calc(100% - 28px), 1480px); padding: 62px 0; }
+  .launch-section-heading { grid-template-columns: 1fr; gap: 12px; }
+  .launch-section-heading > span { font-size: 1rem; }
+  .launch-section-heading > p { grid-column: 1; }
+  .launch-module-grid { grid-template-columns: 1fr; }
+  .launch-module { min-height: 330px; border-right: 0; border-bottom: 1px solid var(--launch-border) !important; }
+  .launch-module:last-child { border-bottom: 0 !important; }
+  .launch-result { grid-template-columns: 48px minmax(0, 1fr) 14px; }
+  .launch-result__event { grid-column: 2; }
+  .launch-result > span:last-child { grid-column: 3; grid-row: 1 / span 2; }
+  .launch-community-band { width: calc(100% - 28px); margin-bottom: 70px; padding: 28px 22px; }
+  .institutional-page { width: calc(100% - 28px); padding: 54px 0; }
+  .institutional-page__body section { padding: 22px; }
+  .institutional-page > footer { align-items: flex-start; flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .launch-button,
+  .launch-module,
+  .launch-paths > button { transition: none; }
+}
