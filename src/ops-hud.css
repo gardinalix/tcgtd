@@ -2107,3 +2107,241 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-enga
     grid-template-rows: none !important;
   }
 }
+
+/* Generated deck review: the deck is the primary object.  The connection map
+   remains a drill-down analysis, never an automatic web over the recommendation. */
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer__brief-frame {
+  position: relative !important;
+  z-index: auto !important;
+  top: auto !important;
+  left: auto !important;
+  width: 100% !important;
+  max-height: none !important;
+  margin: 0 0 8px !important;
+  overflow: visible !important;
+  border: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 23%, transparent) !important;
+  background: #030a10 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer__brief-frame:not([open]) {
+  width: 100% !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer-result {
+  min-height: 0 !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer-result__forge-handoff {
+  position: relative !important;
+  z-index: auto !important;
+  top: auto !important;
+  right: auto !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, .36fr) !important;
+  width: 100% !important;
+  min-height: 72px !important;
+  margin: 0 0 8px !important;
+  padding: 10px 12px !important;
+  border-color: color-mix(in srgb, #f2c94c 54%, transparent) !important;
+  box-shadow: inset 2px 0 0 #f2c94c !important;
+  clip-path: none !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer-result__forge-handoff > button {
+  align-self: stretch !important;
+  min-height: 0 !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-variant-selector {
+  position: relative !important;
+  z-index: auto !important;
+  top: auto !important;
+  left: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 0 8px !important;
+  transform: none !important;
+  clip-path: none !important;
+  backdrop-filter: none !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-variant-selector > header,
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-variant-selector > footer {
+  display: flex !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-variant-selector__tabs {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) !important;
+  overflow: visible !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-variant-selector__tabs button {
+  min-height: 66px !important;
+  padding: 8px 10px !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-map {
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-map__hudbar {
+  position: relative !important;
+  z-index: auto !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-areas: "mission controls" "readouts readouts" !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 12px 14px 10px !important;
+  border: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 28%, transparent) !important;
+  background: #030a10 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__mission { grid-area: mission; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__readouts {
+  grid-area: readouts;
+  display: flex !important;
+  min-width: 0 !important;
+  margin-top: 10px !important;
+  padding-top: 8px !important;
+  border-top: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 14%, transparent);
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__readouts span:nth-child(n + 4) { display: none !important; }
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__mode-switch {
+  grid-area: controls;
+  display: flex;
+  align-self: start;
+  justify-self: end;
+  gap: 1px;
+  border: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 24%, transparent);
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__mode-switch button {
+  min-height: 32px !important;
+  padding: 6px 9px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #6e8d9a !important;
+  background: #02070c !important;
+  box-shadow: none !important;
+  font: 900 .5rem/1 var(--system-label, var(--font-tech)) !important;
+  letter-spacing: .08em;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__mode-switch button.is-active {
+  color: var(--hud-ink, #e9fbff) !important;
+  background: color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, #02070c) !important;
+  box-shadow: inset 0 -2px 0 var(--hud-accent, #46d9ff) !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-map__workspace {
+  height: auto !important;
+  min-height: 0 !important;
+  margin-top: 1px !important;
+  overflow: visible !important;
+  border: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 24%, transparent) !important;
+  background: #030a10 !important;
+  clip-path: none !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation {
+  display: grid;
+  min-height: 0;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-header {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 16%, transparent);
+  color: #6c8995;
+  font: 800 .52rem/1.2 var(--system-label, var(--font-tech));
+  letter-spacing: .1em;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-header > span { color: var(--hud-accent, #46d9ff); }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-header > strong { color: #dff8ff; font-size: .7rem; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-header > small { justify-self: end; color: #6c8995; font-size: .48rem; text-align: right; }
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: color-mix(in srgb, var(--hud-accent, #46d9ff) 14%, transparent);
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-group {
+  min-width: 0;
+  padding: 10px 12px 12px;
+  background: #030a10;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-group > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 26px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 12%, transparent);
+  color: var(--hud-accent, #46d9ff);
+  font: 900 .56rem/1 var(--system-label, var(--font-tech));
+  letter-spacing: .1em;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-group > header b { color: #6d8793; font-size: .48rem; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-group > div { display: grid; gap: 1px; }
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card {
+  --formation-tone: var(--hud-accent, #46d9ff);
+  display: grid !important;
+  grid-template-columns: 33px minmax(0, 1fr) auto !important;
+  align-items: center;
+  min-height: 60px !important;
+  gap: 8px;
+  padding: 6px 8px !important;
+  border: 0 !important;
+  border-left: 2px solid var(--formation-tone) !important;
+  border-radius: 0 !important;
+  color: #e3f9ff !important;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--formation-tone) 8%, transparent), rgba(2, 9, 15, .72)) !important;
+  box-shadow: none !important;
+  text-align: left;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card--flexible { --formation-tone: #56a9ff; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card--accessible { --formation-tone: #f2c94c; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card--experimental { --formation-tone: #b37aff; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card:hover,
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card:focus-visible { background: color-mix(in srgb, var(--formation-tone) 15%, #030a10) !important; outline: 0; }
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-art { width: 31px; height: 44px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--formation-tone) 55%, transparent); }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-art img { width: 100%; height: 100%; object-fit: cover; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card > span { display: grid; min-width: 0; gap: 2px; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card small { color: #718e9c; font: 800 .44rem/1 var(--system-label, var(--font-tech)); letter-spacing: .06em; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card strong { overflow: hidden; color: #dff8ff; font: 900 .64rem/1.1 var(--system-label, var(--font-tech)); letter-spacing: .035em; text-overflow: ellipsis; white-space: nowrap; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card em { overflow: hidden; color: #86a0ad; font: 700 .45rem/1 var(--system-label, var(--font-tech)); font-style: normal; text-overflow: ellipsis; white-space: nowrap; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card > b { color: var(--formation-tone); font: 900 .78rem/1 var(--system-label, var(--font-tech)); }
+
+@media (max-width: 900px) {
+  body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer-result__forge-handoff { grid-template-columns: 1fr !important; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-variant-selector > header,
+  body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-variant-selector > footer { display: none !important; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__hudbar { grid-template-columns: 1fr !important; grid-template-areas: "mission" "controls" "readouts" !important; gap: 8px; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__mode-switch { justify-self: stretch; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__mode-switch button { flex: 1; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-header { grid-template-columns: 1fr auto; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-header > small { display: none; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-groups { grid-template-columns: 1fr; }
+}

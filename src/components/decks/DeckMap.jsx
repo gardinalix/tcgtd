@@ -12,6 +12,7 @@ const FIT_ZOOM = 0.66;
 export function DeckMap({ report, onApplySubstitution }) {
   const graph = useMemo(() => buildDeckGraph(report.rows, report.synergies), [report.rows, report.synergies]);
   const legalityPresentation = getDeckLegalityPresentation(report.legality);
+  const [viewMode, setViewMode] = useState("formation");
   const [nodePositions, setNodePositions] = useState({});
   const [selectedId, setSelectedId] = useState("");
   const [hoveredId, setHoveredId] = useState("");
@@ -253,6 +254,10 @@ export function DeckMap({ report, onApplySubstitution }) {
           <h3>{report.title || "Tactical deck map"}</h3>
           <p>{report.strategy}</p>
         </div>
+        <nav className="deck-map__mode-switch" aria-label="Deck analysis view">
+          <button type="button" className={viewMode === "formation" ? "is-active" : ""} onClick={() => setViewMode("formation")}>DECK MANIFEST</button>
+          <button type="button" className={viewMode === "links" ? "is-active" : ""} onClick={() => setViewMode("links")}>TRACE LINKS</button>
+        </nav>
         <div className="deck-map__readouts" aria-label="Deck telemetry">
           <span><b>{report.stats.mainCount}</b> / 50 MAIN</span>
           <span><b>{graph.nodes.length}</b> NODES</span>
@@ -265,7 +270,17 @@ export function DeckMap({ report, onApplySubstitution }) {
         </div>
       </header>
 
-      <div className={`deck-map__workspace ${rosterOpen ? "is-roster-open" : ""} ${inspectorOpen ? "is-inspector-open" : ""}`.trim()}>
+      <div className={`deck-map__workspace ${viewMode === "formation" ? "is-formation" : "is-links"} ${rosterOpen ? "is-roster-open" : ""} ${inspectorOpen ? "is-inspector-open" : ""}`.trim()}>
+        {viewMode === "formation" ? (
+          <DeckFormation
+            groups={rosterGroups}
+            mainCount={report.stats.mainCount}
+            onAnalyze={(nodeId) => {
+              selectNode(nodeId, "list");
+              setViewMode("links");
+            }}
+          />
+        ) : <>
         <div className="deck-map__cockpit-frame" aria-hidden="true">
           <i className="is-north-west" />
           <i className="is-north-east" />
@@ -323,7 +338,8 @@ export function DeckMap({ report, onApplySubstitution }) {
                 const source = positionedNodes.find((node) => node.id === edge.source);
                 const target = positionedNodes.find((node) => node.id === edge.target);
                 if (!source || !target) return null;
-                const isActive = !activeId || edge.source === activeId || edge.target === activeId;
+                const isActive = activeId && (edge.source === activeId || edge.target === activeId);
+                if (!isActive) return null;
                 return (
                   <line
                     key={edge.id}
@@ -460,6 +476,48 @@ export function DeckMap({ report, onApplySubstitution }) {
             onClose={() => setInspectorOpen(false)}
           />
         ) : null}
+        </>}
+      </div>
+    </section>
+  );
+}
+
+function DeckFormation({ groups, mainCount, onAnalyze }) {
+  return (
+    <section className="deck-map__formation" aria-label="Deck manifest">
+      <header className="deck-map__formation-header">
+        <span>50-CARD DECK FORMATION</span>
+        <strong>{mainCount} / 50 MAIN</strong>
+        <small>Select a card to trace its evidence-backed links.</small>
+      </header>
+      <div className="deck-map__formation-groups">
+        {groups.map((group) => (
+          <section className={`deck-map__formation-group deck-map__formation-group--${group.type.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`.trim()} key={group.type}>
+            <header>
+              <span>{group.type}</span>
+              <b>{group.quantity} cards</b>
+            </header>
+            <div>
+              {group.nodes.map((node) => (
+                <button
+                  type="button"
+                  key={node.id}
+                  className={`deck-map__formation-card deck-map__formation-card--${node.row.category}`}
+                  onClick={() => onAnalyze(node.id)}
+                  aria-label={`Trace links for ${node.row.quantity} copies of ${node.row.card.cardName}`}
+                >
+                  <CardArt card={node.row.card} className="deck-map__formation-art" compact />
+                  <span>
+                    <small>{node.row.card.cardNumber} · C{node.row.card.cost || "-"}</small>
+                    <strong>{node.row.card.cardName}</strong>
+                    <em>{node.row.card.color || "-"} · {node.row.card.cardType || "-"}</em>
+                  </span>
+                  <b>{node.row.quantity}x</b>
+                </button>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </section>
   );

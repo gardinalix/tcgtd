@@ -5,6 +5,7 @@ import test from "node:test";
 const appSource = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 const cardSource = fs.readFileSync(new URL("../src/pages/CardsPage.jsx", import.meta.url), "utf8");
 const railSource = fs.readFileSync(new URL("../src/components/layout/TacticalSideRail.jsx", import.meta.url), "utf8");
+const deckMapSource = fs.readFileSync(new URL("../src/components/decks/DeckMap.jsx", import.meta.url), "utf8");
 const cssSource = fs.readFileSync(new URL("../src/ops-hud.css", import.meta.url), "utf8");
 const mainSource = fs.readFileSync(new URL("../src/main.jsx", import.meta.url), "utf8");
 
@@ -74,6 +75,15 @@ test("meta intelligence gives archetypes a primary data station instead of a dec
   assert.match(cssSource, /grid-template-columns: minmax\(0, 1\.18fr\) minmax\(340px, \.82fr\) !important/);
   assert.match(cssSource, /\.meta-archetype-station \{[\s\S]*?grid-row: 1 \/ span 3 !important/);
   assert.match(cssSource, /grid-template-rows: repeat\(12, minmax\(42px, 1fr\)\) !important/);
+});
+
+test("the generated deck opens as a readable manifest and exposes links as a deliberate drill-down", () => {
+  assert.match(deckMapSource, /useState\("formation"\)/);
+  assert.match(deckMapSource, />DECK MANIFEST</);
+  assert.match(deckMapSource, />TRACE LINKS</);
+  assert.match(deckMapSource, /if \(!isActive\) return null/);
+  assert.match(cssSource, /Generated deck review: the deck is the primary object/);
+  assert.match(cssSource, /\.deck-map__formation-groups \{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 });
 
 test("the operational HUD stylesheet is the final cascade authority", () => {
