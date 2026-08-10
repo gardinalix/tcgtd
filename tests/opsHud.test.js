@@ -50,7 +50,7 @@ test("the operational header is fixed and its grid reserves readable space", () 
 
 test("the active dossier stretches with the complete card field instead of creating its own scroll", () => {
   assert.match(cssSource, /The gallery establishes the row height/);
-  assert.match(cssSource, /\.cards-terminal-side-stack \{[\s\S]*?align-self: stretch;[\s\S]*?max-height: none !important;[\s\S]*?overflow: visible !important;/);
+  assert.match(cssSource, /\.cards-terminal-side-stack \{[\s\S]*?align-self: stretch;[\s\S]*?align-content: start;[\s\S]*?grid-auto-rows: max-content;[\s\S]*?max-height: none !important;[\s\S]*?overflow: visible !important;/);
   assert.match(cssSource, /\.react-card-detail \{[\s\S]*?position: static !important;[\s\S]*?max-height: none !important;[\s\S]*?overflow: visible !important;/);
 });
 

@@ -1012,6 +1012,10 @@ body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-heade
   display: grid !important;
   gap: 1px !important;
   align-self: stretch;
+  /* Extend only the dossier rail. Its information modules stay packed at the
+     top instead of being distributed across the gallery's full height. */
+  align-content: start;
+  grid-auto-rows: max-content;
   min-height: 100%;
   max-height: none !important;
   margin: 0 !important;
