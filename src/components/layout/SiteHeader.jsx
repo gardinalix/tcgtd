@@ -28,7 +28,7 @@ export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user
 
   return (
     <header className="site-header panel cockpit-panel cockpit-topbar cockpit-shell-topbar">
-      <button className="site-brand zero-brand" type="button" onClick={() => onViewChange("home")}>
+      <button className="site-brand zero-brand" type="button" aria-label="TCG Tactical Database" onClick={() => onViewChange("home")}>
         <span className="site-brand__mark zero-brand__seal tcgtd-insignia" aria-hidden="true">
           <img src="/assets/brand/tcgtd-orbital-mark-v2.png" alt="" />
         </span>

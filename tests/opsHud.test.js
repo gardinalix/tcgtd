@@ -55,10 +55,18 @@ test("the active dossier stretches with the complete card field instead of creat
 });
 
 test("the deck mission station assigns every parameter a readable field and keeps execution out of the side column", () => {
-  assert.match(cssSource, /"head head head"\s*\n\s*"colors fields fields"\s*\n\s*"constraints constraints launch"/);
+  assert.match(cssSource, /"head head"\s*\n\s*"colors fields"\s*\n\s*"constraints constraints"\s*\n\s*"launch launch"/);
   assert.match(cssSource, /"unit strategy"\s*\n\s*"focus meta"/);
   assert.match(cssSource, /\.deck-designer__meta-field \{ grid-area: meta !important; \}/);
   assert.match(cssSource, /deck-designer-input-mode > button::before[\s\S]*?border-radius: 0 !important/);
+});
+
+test("responsive HUD rules preserve full-width controls and stack dense subsystem grids", () => {
+  assert.match(cssSource, /Responsive validation pass/);
+  assert.match(cssSource, /grid-template-columns: 44px minmax\(0, 1fr\) minmax\(264px, 342px\) !important/);
+  assert.match(cssSource, /\.meta-window-selector \{[\s\S]*?width: 100% !important/);
+  assert.match(cssSource, /\.preview-terminal-actions \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\) minmax\(126px, \.42fr\)/);
+  assert.match(cssSource, /\.community-main-grid\.tactical-network-streams,[\s\S]*?grid-template-columns: 1fr !important/);
 });
 
 test("the operational HUD stylesheet is the final cascade authority", () => {

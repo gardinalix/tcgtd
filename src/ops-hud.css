@@ -1288,6 +1288,17 @@ body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-heade
 }
 
 @media (max-width: 900px) {
+  /* The rail remains in normal flow while it is sticky. Reserve the fixed
+     header height in main as well, otherwise page content and command input
+     are painted underneath the navigation rail. */
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail > main {
+    margin-top: 64px !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .global-search {
+    display: none !important;
+  }
+
   .app-shell.has-tactical-rail { display: block !important; padding-top: 64px; }
   .has-tactical-rail > .site-header { position: fixed !important; grid-template-columns: minmax(180px, 1fr) auto !important; height: 64px; min-height: 64px !important; padding: 6px 9px !important; }
   body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail > .site-header {
@@ -1552,4 +1563,446 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-enga
   }
   body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__launch { grid-template-columns: 1fr; }
   body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__launch > button { width: 100% !important; }
+}
+
+/*
+ * Responsive validation pass.
+ * This deliberately uses the complete application scope. Earlier visual
+ * experiments have more specific selectors in the cascade; without this
+ * scope they can silently reintroduce collapsed controls and desktop grids.
+ */
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header {
+  grid-template-columns: 44px minmax(0, 1fr) minmax(264px, 342px) !important;
+  align-items: center !important;
+  min-height: 124px !important;
+  padding: 16px 8px !important;
+}
+
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header__radar {
+  position: relative !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  transform: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header__main {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  align-self: center !important;
+  max-width: 760px !important;
+}
+
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header__actions,
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-header-utility {
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+  justify-self: stretch !important;
+  align-self: center !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .meta-window-selector {
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 8px 10px !important;
+}
+
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .meta-window-selector select {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+body[data-view="previews"] .app-shell.has-tactical-rail .preview-terminal-actions {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(126px, .42fr) !important;
+  gap: 6px !important;
+  width: 100% !important;
+}
+
+body[data-view="previews"] .app-shell.has-tactical-rail .preview-terminal-actions select {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* Keep the data in Signals inside its plane instead of spilling a 720px table
+   out of a half-width release board. */
+body[data-view="previews"] .app-shell.has-tactical-rail :is(.release-board-panel, .preview-queue-panel) :is(.react-table-wrap, .tactical-table-wrap) {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+body[data-view="previews"] .app-shell.has-tactical-rail :is(.release-board-panel, .preview-queue-panel) :is(.react-table, .tactical-table) {
+  width: 100% !important;
+  min-width: 0 !important;
+  table-layout: fixed !important;
+}
+
+body[data-view="previews"] .app-shell.has-tactical-rail :is(.release-board-panel, .preview-queue-panel) :is(.react-table, .tactical-table) :is(th, td) {
+  min-width: 0 !important;
+  padding: 7px 6px !important;
+  overflow-wrap: anywhere;
+  white-space: normal !important;
+}
+
+/* Community modules are signal lanes. Their action must stay inside the
+   lane, instead of forcing the grid wider than the available composition. */
+body[data-view="community"] .app-shell.has-tactical-rail .community-module-card {
+  box-sizing: border-box !important;
+  grid-template-columns: 28px minmax(0, 1fr) minmax(116px, auto) !important;
+  min-height: 168px !important;
+  padding: 12px !important;
+}
+
+body[data-view="community"] .app-shell.has-tactical-rail .community-module-card > span {
+  width: auto !important;
+}
+
+body[data-view="community"] .app-shell.has-tactical-rail .community-module-card h2 {
+  font-size: .88rem !important;
+  line-height: 1.08 !important;
+}
+
+body[data-view="community"] .app-shell.has-tactical-rail .community-module-card p {
+  font-size: .62rem !important;
+  line-height: 1.25 !important;
+}
+
+body[data-view="community"] .app-shell.has-tactical-rail .community-module-card button {
+  position: static !important;
+  inset: auto !important;
+  min-width: 0 !important;
+  max-width: 180px !important;
+  white-space: normal !important;
+}
+
+/* Forge executes as a single operations footer. It must never reserve a
+   narrow third column for the launch action. */
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__brief {
+  grid-template-columns: minmax(260px, .68fr) minmax(0, 1.32fr) !important;
+  grid-template-areas:
+    "head head"
+    "colors fields"
+    "constraints constraints"
+    "launch launch" !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__launch {
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  min-height: 64px !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__launch > button {
+  width: auto !important;
+  min-width: 184px !important;
+  margin: 0 !important;
+}
+
+/* The third Community module gets a complete telemetry line at standard
+   desktop width rather than a narrow card that stacks its heading vertically. */
+@media (min-width: 901px) and (max-width: 1500px) {
+  body[data-view="community"] .app-shell.has-tactical-rail .community-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  body[data-view="community"] .app-shell.has-tactical-rail .community-module-grid > :last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 901px) {
+  /* Cards keep their filters on a dedicated scan line. The old floated title
+     consumed the middle field and reduced every control to a glyph. */
+  body[data-view="cards"] .app-shell.has-tactical-rail .react-card-results > .panel-head {
+    float: none !important;
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 5px !important;
+  }
+
+  body[data-view="cards"] .app-shell.has-tactical-rail .card-results-toolbar {
+    clear: both !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    min-height: 34px !important;
+    margin: 0 0 9px !important;
+  }
+
+  body[data-view="cards"] .app-shell.has-tactical-rail .card-results-toolbar button {
+    min-width: 34px !important;
+  }
+}
+
+/* This belongs at the end of the cascade because the Forge has a legacy
+   two-column mobile rule in an earlier layer. Every mission subsystem gets
+   its own full-width row below 900px. */
+@media (max-width: 900px) {
+  body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__brief {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "head"
+      "colors"
+      "fields"
+      "constraints"
+      "launch" !important;
+  }
+
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__brief-head { grid-area: head !important; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__colors { grid-area: colors !important; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__primary-fields { grid-area: fields !important; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__constraints { grid-area: constraints !important; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__launch { grid-area: launch !important; }
+}
+
+@media (max-width: 900px) {
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header {
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    min-height: 0 !important;
+    padding: 12px 4px !important;
+    gap: 8px !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header__radar {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header__main {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header__actions,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-header-utility {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    justify-content: stretch !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header h1 {
+    font-size: clamp(1.55rem, 8.5vw, 2.25rem) !important;
+    line-height: .94 !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-page-header p {
+    display: none !important;
+  }
+
+  body[data-view="previews"] .app-shell.has-tactical-rail .preview-terminal-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .community-main-grid.tactical-network-streams,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .release-intel-grid,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .event-dossier-grid,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .synergy-terminal-grid,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .deck-terminal-grid,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .io-terminal-grid,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .venue-finder-grid,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-main-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .tactical-card-grid.meta-field-matrix {
+    grid-template-columns: 1fr !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .tactical-card-grid.meta-field-matrix > .tactical-data-panel {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+  }
+
+  body[data-view="community"] .app-shell.has-tactical-rail .community-module-card {
+    grid-template-columns: 28px minmax(0, 1fr) !important;
+    min-height: 150px !important;
+  }
+
+  body[data-view="community"] .app-shell.has-tactical-rail .community-module-card button {
+    grid-column: 2 !important;
+    grid-row: auto !important;
+    justify-self: start !important;
+  }
+
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer-routebar {
+    position: static !important;
+    top: auto !important;
+    grid-template-columns: 1fr !important;
+    min-height: 46px !important;
+    padding: 0 !important;
+  }
+
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer-routebar > div:first-child,
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer-routebar__status {
+    display: none !important;
+  }
+
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer-routebar__modes {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    width: 100% !important;
+    min-height: 46px !important;
+  }
+
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer-routebar__modes button {
+    min-width: 0 !important;
+    min-height: 46px !important;
+    padding-inline: 8px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tactical-side-rail { scrollbar-width: none; }
+  .tactical-side-rail::-webkit-scrollbar { display: none; }
+  .community-nav { scrollbar-width: none; }
+  .community-nav::-webkit-scrollbar { display: none; }
+}
+
+@media (max-width: 560px) {
+  /* A mark plus one persistent scope control is legible; a miniature version
+     of the entire desktop control room is not. */
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail > .site-header {
+    grid-template-columns: 42px minmax(0, 1fr) !important;
+    grid-template-areas: "brand actions" !important;
+    padding-inline: 8px !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-brand {
+    width: 42px !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-brand > span:not(.site-brand__mark) {
+    display: none !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .hud-theme-selector,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .language-switch,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .pilot-label-button {
+    display: none !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-format-selector {
+    display: grid !important;
+    margin-left: auto !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-format-selector select {
+    width: 124px !important;
+    max-width: 124px !important;
+    min-height: 34px !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-instrument {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto auto !important;
+    flex-basis: 174px !important;
+    gap: 3px !important;
+    padding: 8px 12px !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-instrument > strong,
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-instrument > small {
+    grid-column: 1 !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-summary-strip {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .tactical-instrument {
+    flex: none !important;
+    min-height: 64px !important;
+  }
+
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__launch {
+    grid-template-columns: 1fr !important;
+  }
+
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__launch > button {
+    width: 100% !important;
+  }
+
+  /* On a two-column mobile card field, reserve a full text line for the
+     card name instead of trading it for a tiny, repeated MAP control. */
+  body[data-view="cards"] .app-shell.has-tactical-rail .library-card__body {
+    grid-template-columns: 1fr !important;
+  }
+
+  body[data-view="cards"] .app-shell.has-tactical-rail .library-card__body h3 {
+    display: -webkit-box !important;
+    min-height: 2.35em;
+    overflow: hidden !important;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-overflow: clip !important;
+    white-space: normal !important;
+  }
+
+  body[data-view="cards"] .app-shell.has-tactical-rail .card-map-button {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    justify-self: start !important;
+  }
+
+  body[data-view="home"] .cockpit-shell-topbar .site-brand > span:not(.site-brand__mark) {
+    display: none !important;
+  }
+
+  body[data-view="home"] .cockpit-shell-topbar .site-format-selector,
+  body[data-view="home"] .cockpit-shell-topbar .language-switch {
+    display: none !important;
+  }
+
+  body[data-view="home"] .cockpit-shell-topbar .hud-theme-selector {
+    display: grid !important;
+    width: 118px !important;
+  }
+
+  body[data-view="home"] .cockpit-shell-topbar .hud-theme-selector select {
+    width: 118px !important;
+  }
+
+  .site-footer nav button {
+    min-height: 32px !important;
+    padding-block: 5px !important;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1500px) {
+  body[data-view="home"] .cockpit-shell-topbar {
+    grid-template-columns: minmax(230px, .72fr) minmax(390px, 1.18fr) minmax(443px, .98fr) !important;
+  }
+
+  body[data-view="home"] .cockpit-shell-topbar .site-nav button {
+    min-width: 0 !important;
+    padding-inline: 4px !important;
+    font-size: .5rem !important;
+    letter-spacing: .045em !important;
+    white-space: nowrap;
+  }
+
+  body[data-view="home"] .cockpit-shell-topbar .site-header__actions {
+    grid-template-columns: 145px 90px 76px 132px !important;
+  }
+
+  body[data-view="home"] .cockpit-shell-topbar .hud-theme-selector {
+    grid-template-columns: auto minmax(112px, 1fr) !important;
+  }
+
+  body[data-view="home"] .cockpit-shell-topbar .hud-theme-selector select {
+    min-width: 112px !important;
+  }
 }
