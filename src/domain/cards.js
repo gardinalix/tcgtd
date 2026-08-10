@@ -17,13 +17,24 @@ export function getMetaSignal(card) {
 export function formatBrl(value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) return "No BRL price";
-  return `R$ ${numeric.toFixed(2)}`;
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(numeric).replace(/\u00a0/g, " ");
 }
 
 export function formatUsd(value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) return "No USD price";
-  return `US$ ${numeric.toFixed(2)}`;
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "symbol",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(numeric).replace("$", "US$ ");
 }
 
 export function isTcgMarketAvailable(card) {
@@ -46,11 +57,88 @@ export function ligaGundamPriceIsTrusted(card) {
 }
 
 export function effectiveBrlPrice(card) {
-  if (ligaGundamPriceIsTrusted(card)) return Number(card.ligaGundamLowPriceBrl);
-  if (marketZeonPriceIsTrusted(card)) return Number(card.marketZeonLowPriceBrl);
+  return getPriceTelemetry(card).value;
+}
+
+export function getPriceTelemetry(card) {
   const reference = tcgReferenceBrl(card);
-  if (Number.isFinite(reference)) return reference;
-  return null;
+  const listings = [
+    ligaGundamPriceIsTrusted(card) ? {
+      code: "LIGA",
+      label: "LigaGundam",
+      value: Number(card.ligaGundamLowPriceBrl),
+      shop: card.ligaGundamBestShop || "Marketplace",
+      url: card.ligaGundamBestUrl || "",
+      checkedAt: card.ligaGundamPriceLastCheckedUtc || "",
+    } : null,
+    marketZeonPriceIsTrusted(card) ? {
+      code: "MZ",
+      label: "MarketZeon",
+      value: Number(card.marketZeonLowPriceBrl),
+      shop: card.marketZeonBestShop || "Marketplace",
+      url: card.marketZeonBestUrl || "",
+      checkedAt: card.marketZeonPriceLastCheckedUtc || "",
+    } : null,
+  ].filter(Boolean).sort((left, right) => left.value - right.value || left.code.localeCompare(right.code));
+  const primary = listings[0] || null;
+  const comparison = [
+    ...listings,
+    Number.isFinite(reference) ? {
+      code: "REF",
+      label: "TCGplayer reference",
+      value: reference,
+      shop: "Converted USD reference",
+      url: card?.tcgplayerUrl || "",
+      checkedAt: card?.priceLastCheckedUtc || "",
+      isReference: true,
+    } : null,
+  ].filter(Boolean);
+
+  if (primary) {
+    const deltaPct = Number.isFinite(reference) && reference > 0
+      ? ((primary.value / reference) - 1) * 100
+      : null;
+    return {
+      kind: "market",
+      status: "available",
+      label: "BR market low",
+      value: primary.value,
+      sourceCode: primary.code,
+      sourceLabel: primary.label,
+      shop: primary.shop,
+      checkedAt: primary.checkedAt,
+      deltaPct,
+      comparison,
+    };
+  }
+
+  if (Number.isFinite(reference)) {
+    return {
+      kind: "reference",
+      status: "reference_only",
+      label: "TCG reference",
+      value: reference,
+      sourceCode: "REF",
+      sourceLabel: "TCGplayer",
+      shop: "Converted USD reference",
+      checkedAt: card?.priceLastCheckedUtc || "",
+      deltaPct: null,
+      comparison,
+    };
+  }
+
+  return {
+    kind: "unavailable",
+    status: "unavailable",
+    label: "Market signal",
+    value: null,
+    sourceCode: "N/A",
+    sourceLabel: "No synchronized source",
+    shop: "",
+    checkedAt: "",
+    deltaPct: null,
+    comparison: [],
+  };
 }
 
 export function sortCards(cards, mode) {

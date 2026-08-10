@@ -1,6 +1,6 @@
 import { CardArt } from "../components/cards/CardArt";
 import { PriceTag } from "../components/cards/PriceTag";
-import { isTcgMarketAvailable, marketZeonPriceIsTrusted, tcgReferenceBrl } from "../domain/cards";
+import { formatUsd, isTcgMarketAvailable, marketZeonPriceIsTrusted, tcgReferenceBrl } from "../domain/cards";
 import {
   TacticalDataPanel,
   TacticalPageHeader,
@@ -8,7 +8,6 @@ import {
   TacticalSummaryCard,
   TacticalSummaryStrip,
 } from "../components/tactical/TacticalPageShell";
-import { formatBrl, formatUsd } from "../domain/cards";
 
 export function PricesPage({ data }) {
   const cards = [...(data.cards || []), ...(data.resourceCards || [])];

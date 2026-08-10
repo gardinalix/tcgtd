@@ -1,81 +1,52 @@
-import {
-  formatBrl,
-  formatUsd,
-  isTcgMarketAvailable,
-  ligaGundamPriceIsTrusted,
-  marketZeonPriceIsTrusted,
-  tcgReferenceBrl,
-} from "../../domain/cards";
+import { formatBrl, getPriceTelemetry } from "../../domain/cards";
 
-export function PriceTag({ card }) {
-  const tcgAvailable = isTcgMarketAvailable(card);
-  const hasMarketZeonPrice = marketZeonPriceIsTrusted(card);
-  const hasLigaGundamPrice = ligaGundamPriceIsTrusted(card);
-  const tcgBrl = tcgReferenceBrl(card);
-  const hasTcgPrice = Number.isFinite(Number(tcgBrl));
-  const markup = Number(card.marketZeonMarkupPct);
-  const markupLabel = hasMarketZeonPrice && Number.isFinite(markup)
-    ? `${markup >= 0 ? "+" : ""}${markup.toFixed(0)}% BR`
+export function PriceTag({ card, compact = false }) {
+  const signal = getPriceTelemetry(card);
+  const deltaLabel = Number.isFinite(signal.deltaPct)
+    ? `${signal.deltaPct >= 0 ? "+" : ""}${signal.deltaPct.toFixed(0)}% vs REF`
     : "";
-  const tcgLabel = hasTcgPrice ? formatBrl(tcgBrl) : "Unavailable";
-  const usdLabel = hasTcgPrice ? formatUsd(card.marketPriceUsd) : (
-    card.priceStatus === "variant_unavailable" ? "TCGP variant unavailable" : "TCGP unavailable"
-  );
-  const fxLabel = Number.isFinite(Number(card.usdBrlRate))
-    ? `FX ${Number(card.usdBrlRate).toFixed(2)}`
-    : "FX fallback";
-  const ligaLabel = priceSourceLabel({
-    hasPrice: hasLigaGundamPrice,
-    value: card.ligaGundamLowPriceBrl,
-    status: card.ligaGundamComparisonStatus || card.ligaGundamVariantPriceStatus,
-    tcgAvailable,
-  });
-  const marketZeonLabel = priceSourceLabel({
-    hasPrice: hasMarketZeonPrice,
-    value: card.marketZeonLowPriceBrl,
-    status: card.marketZeonComparisonStatus || card.marketZeonVariantPriceStatus,
-    tcgAvailable,
-  });
-  const tcgSourceLabel = card.priceReferenceScope === "variant_unavailable" ? "TCGP variant" : "TCGP BRL reference";
 
   return (
-    <span className="react-price-tag">
-      <span className={`price-box price-primary${tcgAvailable ? "" : " price-box--unavailable"}`}>
-        <span className="price-source">{tcgSourceLabel}</span>
-        <strong>{tcgLabel}</strong>
-        <small>{usdLabel} / {fxLabel}</small>
+    <span className={`react-price-tag market-readout market-readout--${signal.kind}${compact ? " is-compact" : ""}`}>
+      <span className="market-readout__primary">
+        <small>{signal.label}</small>
+        <strong>{signal.value === null ? "—" : formatBrl(signal.value)}</strong>
+        <em>{signal.sourceCode} // {signal.shop || signal.sourceLabel}</em>
       </span>
-      <span className="price-market-strip">
-        <span className={`price-box price-market-chip price-market-chip--liga${hasLigaGundamPrice ? "" : " price-box--pending"}`} title={card.ligaGundamBestShop || card.ligaGundamComparisonStatus || "Waiting sync"}>
-          <span className="price-source">LigaGundam low</span>
-          <strong>{ligaLabel}</strong>
-          <small>{hasLigaGundamPrice ? card.ligaGundamBestShop || "Best BR listing" : sourceStatusLabel(card.ligaGundamComparisonStatus || card.ligaGundamVariantPriceStatus)}</small>
+      {signal.comparison.length ? (
+        <span className="market-readout__sources" aria-label="Price source comparison">
+          {signal.comparison.map((source) => (
+            <span
+              key={source.code}
+              className={`${source.code === signal.sourceCode ? "is-primary" : ""}${source.isReference ? " is-reference" : ""}`.trim()}
+              title={`${source.label}: ${formatBrl(source.value)}${source.shop ? ` · ${source.shop}` : ""}`}
+            >
+              <small>{source.code}</small>
+              <b>{formatAmount(source.value)}</b>
+            </span>
+          ))}
         </span>
-        <span className={`price-box price-market-chip price-market-chip--marketzeon${hasMarketZeonPrice ? "" : " price-box--pending"}`} title={card.marketZeonBestShop || card.marketZeonComparisonStatus || "Waiting sync"}>
-          <span className="price-source">MarketZeon low</span>
-          <strong>{marketZeonLabel}</strong>
-          <small>{hasMarketZeonPrice ? card.marketZeonBestShop || "Best BR listing" : sourceStatusLabel(card.marketZeonComparisonStatus || card.marketZeonVariantPriceStatus)}</small>
-        </span>
-      </span>
-      {markupLabel ? <small className={markup > 20 ? "price-markup price-markup--hot" : "price-markup"}>{markupLabel}</small> : null}
+      ) : (
+        <span className="market-readout__empty">NO SYNCHRONIZED LISTING</span>
+      )}
+      {deltaLabel ? <small className={`market-readout__delta${signal.deltaPct > 20 ? " is-hot" : signal.deltaPct < -20 ? " is-low" : ""}`}>{deltaLabel}</small> : null}
     </span>
   );
 }
 
-function priceSourceLabel({ hasPrice, value, status, tcgAvailable }) {
-  if (hasPrice) return formatBrl(value);
-  if (!tcgAvailable) return "Unavailable";
-  const normalized = String(status || "").toLowerCase();
-  if (!normalized || normalized === "not_loaded" || normalized.includes("no_ligagundam") || normalized.includes("not_found")) {
-    return "Sync pending";
-  }
-  return "No BR listing";
+export function MarketPriceBadge({ card }) {
+  const signal = getPriceTelemetry(card);
+  return (
+    <span className={`market-price-badge market-price-badge--${signal.kind}`} title={`${signal.label} · ${signal.sourceLabel}${signal.shop ? ` · ${signal.shop}` : ""}`}>
+      <small>{signal.sourceCode}</small>
+      <strong>{signal.value === null ? "—" : formatAmount(signal.value)}</strong>
+      <em>{signal.kind === "market" ? "BR LOW" : signal.kind === "reference" ? "BR REF" : "NO DATA"}</em>
+    </span>
+  );
 }
 
-function sourceStatusLabel(status) {
-  const normalized = String(status || "").toLowerCase();
-  if (!normalized || normalized === "not_loaded") return "Awaiting source sync";
-  if (normalized.includes("no_ligagundam") || normalized.includes("not_found")) return "Source not confirmed";
-  if (normalized.includes("variant")) return "Variant match";
-  return normalized.replaceAll("_", " ");
+function formatAmount(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return "—";
+  return numeric.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }

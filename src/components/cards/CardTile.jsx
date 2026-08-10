@@ -1,9 +1,7 @@
-import { effectiveBrlPrice, formatBrl, formatUsd } from "../../domain/cards";
 import { CardArt } from "./CardArt";
+import { MarketPriceBadge } from "./PriceTag";
 
 export function CardTile({ card, onSelect, onOpenSynergyMap }) {
-  const priceBrl = effectiveBrlPrice(card);
-  const priceLabel = Number.isFinite(Number(priceBrl)) ? formatBrl(priceBrl) : formatUsd(card.marketPriceUsd);
   function selectCard() {
     onSelect?.(card.displayId || card.cardNumber);
   }
@@ -21,8 +19,8 @@ export function CardTile({ card, onSelect, onOpenSynergyMap }) {
         <CardArt card={card} className="art-frame" compact />
         <span className="card-gallery-tile__badges">
           {card.hasAltArt ? <b>ALT</b> : card.rarity ? <b>{card.rarity}</b> : null}
-          <strong>{priceLabel}</strong>
         </span>
+        <MarketPriceBadge card={card} />
       </button>
       <div className="library-card__body">
         <span className="card-gallery-tile__number">{card.displayCardNumber || card.cardNumber}</span>

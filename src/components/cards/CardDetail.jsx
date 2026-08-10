@@ -1,6 +1,7 @@
-import { effectiveBrlPrice, formatBrl, formatUsd, getMetaSignal } from "../../domain/cards";
+import { getMetaSignal } from "../../domain/cards";
 import { Badge } from "./Badge";
 import { CardArt } from "./CardArt";
+import { PriceTag } from "./PriceTag";
 
 export function CardDetail({ card, onOpenCard, onOpenSynergyMap }) {
   if (!card) {
@@ -31,14 +32,13 @@ export function CardDetail({ card, onOpenCard, onOpenSynergyMap }) {
           <Badge tone="blue">{card.cardType}</Badge>
           {card.hasAltArt ? <Badge tone="purple">Alt art</Badge> : null}
         </div>
+        <PriceTag card={card} compact />
         <dl className="detail-grid">
           <div><dt>Color</dt><dd>{card.color}</dd></div>
           <div><dt>Rarity</dt><dd>{card.rarity || "-"}</dd></div>
           <div><dt>Cost</dt><dd>{card.cost || "-"}</dd></div>
           <div><dt>Level</dt><dd>{card.level || "-"}</dd></div>
           <div><dt>AP / HP</dt><dd>{card.ap || "-"} / {card.hp || "-"}</dd></div>
-          <div><dt>BRL price</dt><dd>{formatBrl(effectiveBrlPrice(card))}</dd></div>
-          <div><dt>USD price</dt><dd>{formatUsd(card.marketPriceUsd)}</dd></div>
         </dl>
         <DetailTagList label="LINK / PAIR" values={card.linkTargets || []} empty="No printed link loaded." />
         <DetailTagList label="Traits" values={card.traits || []} empty="No traits loaded." />
