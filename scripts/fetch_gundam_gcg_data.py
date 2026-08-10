@@ -23,6 +23,7 @@ from ps_fetch import fetch_text as ps_fetch_text
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
+OFFICIAL_PREVIEW_REGISTRY_PATH = DATA_DIR / "official_preview_registry.json"
 SCRATCH_DIR = ROOT / ".scratch" / "official_html"
 CARDS_DIR = SCRATCH_DIR / "cards"
 CARD_DETAILS_DIR = CARDS_DIR / "details"
@@ -403,6 +404,70 @@ def build_preview_record(
         "product_url": product_url or (product.get("product_url", "") if product else ""),
         "image_url": image_url,
     }
+
+
+def load_curated_preview_records(
+    products: list[dict],
+    released_card_counts: dict[str, int],
+) -> tuple[list[dict], list[dict]]:
+    if not OFFICIAL_PREVIEW_REGISTRY_PATH.exists():
+        return [], []
+
+    registry = json.loads(OFFICIAL_PREVIEW_REGISTRY_PATH.read_text(encoding="utf-8"))
+    product_map = {
+        normalize_space(product.get("product_code", "")).upper(): product
+        for product in products
+        if product.get("product_code")
+    }
+    previews: list[dict] = []
+    for reveal in registry.get("reveals", []):
+        source_url = normalize_space(reveal.get("source_url", ""))
+        product_code = normalize_space(reveal.get("product_code", "")).upper()
+        if not source_url or not product_code:
+            raise ValueError("Curated reveal records require source_url and product_code.")
+        if not is_approved_official_reveal_url(source_url):
+            raise ValueError(f"Curated reveal source is not an approved official channel: {source_url}")
+
+        product = product_map.get(product_code)
+        previews.append(
+            build_preview_record(
+                classification="official_social_card_reveal",
+                source_type="official_social_registry",
+                source_title=normalize_space(reveal.get("source_title", "Official Bandai reveal")),
+                source_date=normalize_space(reveal.get("source_date", "")),
+                section_heading=normalize_space(reveal.get("section_heading", "Official card reveal")),
+                context_text=normalize_space(reveal.get("context_text", "Source-linked official reveal; card data is not inferred.")),
+                card_number_hint=normalize_space(reveal.get("card_number_hint", "")).upper(),
+                card_name_hint=normalize_space(reveal.get("card_name_hint", "")),
+                product=product,
+                product_code=product_code,
+                product_name=normalize_space(reveal.get("product_name", "")),
+                product_release_date=normalize_space(reveal.get("product_release_date", "")),
+                product_url=normalize_space(reveal.get("product_url", "")),
+                source_url=source_url,
+                image_url=normalize_space(reveal.get("image_url", "")),
+                released_card_counts=released_card_counts,
+            )
+        )
+
+    source_rows = [{
+        "record_type": "official_preview_registry",
+        "record_id": "curated_reveals",
+        "source_url": "local:audit-registry",
+        "cache_file": str(OFFICIAL_PREVIEW_REGISTRY_PATH.relative_to(ROOT)),
+    }]
+    return previews, source_rows
+
+
+def is_approved_official_reveal_url(value: str) -> bool:
+    parsed = urlparse(value)
+    host = parsed.netloc.lower().removeprefix("www.")
+    path = parsed.path.lower().rstrip("/")
+    if host == "gundam-gcg.com":
+        return path.startswith("/en/") or path.startswith("/jp/")
+    if host in {"x.com", "twitter.com"}:
+        return path.startswith("/gundam_gcg_eng/") or path.startswith("/gundam_gcg_jp/")
+    return False
 
 
 def parse_cards_index(cards_index_html: str) -> list[PackageInfo]:
@@ -1098,13 +1163,18 @@ def main() -> int:
         snapshot_date,
         released_card_counts,
     )
+    curated_previews, curated_source_rows = load_curated_preview_records(
+        products,
+        released_card_counts,
+    )
     previews_by_id: dict[str, dict] = {}
-    for preview in product_previews + news_previews:
+    for preview in product_previews + news_previews + curated_previews:
         previews_by_id[preview["preview_id"]] = preview
     previews = sorted(previews_by_id.values(), key=preview_sort_key)
 
     source_rows.extend(product_detail_source_rows)
     source_rows.extend(news_source_rows)
+    source_rows.extend(curated_source_rows)
     package_rows.sort(key=lambda row: (row["package_kind"], row["package_code"] or row["package_label"]))
     source_rows.sort(key=lambda row: (row["record_type"], row["record_id"]))
 

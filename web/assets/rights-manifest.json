@@ -1,6 +1,6 @@
 {
   "schemaVersion": "tcgtd-asset-rights-v1",
-  "generatedAt": "2026-08-09T23:47:01.554Z",
+  "generatedAt": "2026-08-10T02:30:54.076Z",
   "policy": "Every visual asset must retain a source, known owner, review status and permitted-use record before public release.",
   "releaseGate": "Entries with reviewStatus=review_required must be cleared, replaced or removed before general public access.",
   "assets": [
@@ -27772,6 +27772,21 @@
     {
       "path": "/assets/og-potter-tactical.png",
       "kind": "project_interface_asset",
+      "game": "platform",
+      "source": "Repository asset; original source record not yet attached",
+      "sourceUrl": "",
+      "rightsHolder": "Owner not yet verified",
+      "copyrightOwner": "Owner not yet verified",
+      "licenseStatus": "unverified",
+      "license": "No project-owned license recorded",
+      "attribution": "Attribution pending source verification.",
+      "permittedUse": "Private staging only pending rights review",
+      "usageNotes": "Do not enable general public access while reviewStatus remains review_required.",
+      "reviewStatus": "review_required"
+    },
+    {
+      "path": "/assets/og-tcg-tactical-database-v2.png",
+      "kind": "project_social_art",
       "game": "platform",
       "source": "Repository asset; original source record not yet attached",
       "sourceUrl": "",

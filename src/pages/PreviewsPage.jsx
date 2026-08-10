@@ -8,6 +8,7 @@ import {
   TacticalSummaryStrip,
   TacticalTable,
 } from "../components/tactical/TacticalPageShell";
+import officialPreviewRegistry from "../../data/official_preview_registry.json";
 
 const FUTURE_CODE_RE = /^(GD|EB|ST|SC|PC|EVX)\d+/i;
 const GD04_RELEASE_TIME = parseReleaseDate("April 24, 2026");
@@ -43,6 +44,13 @@ export function PreviewsPage({ data }) {
     if (statusFilter === "released" && !preview.matchedReleasedCard) return false;
     return true;
   });
+  const visibleChannelCodes = new Set(visibleReleases.map((row) => row.code));
+  const officialChannels = (officialPreviewRegistry.channels || []).filter((channel) => {
+    const channelCodes = (channel.products || []).map(normalizeCode);
+    if (selectedCode === "all") return true;
+    if (selectedCode === "future") return channelCodes.some((code) => visibleChannelCodes.has(code));
+    return channelCodes.includes(selectedCode);
+  });
 
   return (
     <TacticalPageShell className="preview-terminal-page release-intel-page">
@@ -72,8 +80,27 @@ export function PreviewsPage({ data }) {
         <TacticalSummaryCard label="Future products" value={futureRows.length} detail="Unreleased or waiting for card rows." tone="blue" />
         <TacticalSummaryCard label="Preview-only cards" value={previewOnlyRows.length} detail="No released card match yet." tone="gold" />
         <TacticalSummaryCard label="Matched reveals" value={confirmedRows.length} detail="Preview now linked to released cards." tone="green" />
-        <TacticalSummaryCard label="Future releases indexed" value={releaseRows.length} detail="Only sets/products after GD04." tone="neutral" />
+        <TacticalSummaryCard label="Official channels" value={officialChannels.length} detail="First-party reveal sources under watch." tone="neutral" />
       </TacticalSummaryStrip>
+
+      <TacticalDataPanel
+        title="Official reveal monitor"
+        subtitle="Product pages, the official English social channel and the official card catalog are tracked separately. Social reveals stay source-linked until the catalog confirms their card rows."
+        className="official-reveal-monitor-panel"
+        code="GD06/LINK"
+        mode="signal"
+      >
+        <div className="official-reveal-monitor">
+          {officialChannels.map((channel) => (
+            <a key={channel.id} href={channel.url} target="_blank" rel="noreferrer">
+              <span><i />{channel.sourceType.replaceAll("_", " ")}</span>
+              <strong>{channel.label}</strong>
+              <small>{formatChannelStatus(channel.status)}</small>
+              <em>{(channel.products || []).join(" / ")} ↗</em>
+            </a>
+          ))}
+        </div>
+      </TacticalDataPanel>
 
       <section className="release-intel-grid">
         <TacticalDataPanel
@@ -143,6 +170,13 @@ export function PreviewsPage({ data }) {
       </section>
     </TacticalPageShell>
   );
+}
+
+function formatChannelStatus(value) {
+  if (value === "active") return "ACTIVE SOURCE";
+  if (value === "manual_review") return "REVIEWING OFFICIAL POSTS";
+  if (value === "awaiting_package") return "AWAITING GD06 CARD ROWS";
+  return String(value || "TRACKED").replaceAll("_", " ").toUpperCase();
 }
 
 function buildReleaseRows({ products, packages, previews, cards }) {

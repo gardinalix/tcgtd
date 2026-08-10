@@ -9,10 +9,13 @@ import {
   TacticalSummaryStrip,
   TacticalTable,
 } from "../components/tactical/TacticalPageShell";
-import { buildMetaSignal } from "../domain/meta";
+import { buildMetaWindows, buildScopedMetaSignal } from "../domain/meta";
 
-export function MetaPage({ data }) {
-  const signal = useMemo(() => buildMetaSignal(data.cards || [], data.archetypes || []), [data]);
+export function MetaPage({ data, onOpenForge }) {
+  const metaWindows = useMemo(() => buildMetaWindows(data), [data]);
+  const [selectedMetaId, setSelectedMetaId] = useState("current");
+  const selectedWindow = metaWindows.find((window) => window.id === selectedMetaId) || metaWindows[0];
+  const signal = useMemo(() => buildScopedMetaSignal(data, selectedWindow), [data, selectedWindow]);
   const cardMap = useMemo(() => new Map((data.cards || []).map((card) => [card.cardNumber, card])), [data.cards]);
 
   return (
@@ -20,11 +23,20 @@ export function MetaPage({ data }) {
       <TacticalPageHeader
         eyebrow="SUBSYSTEM 03 // FIELD MONITORING"
         title="Battlefield Intelligence"
-        subtitle="Movement bands calculated from recent Top 16 appearances, recurrence and archetype momentum."
+        subtitle={`Movement calculated only from ${selectedWindow?.label || "the selected competitive window"}. Cards without an indexed list in this scope are excluded.`}
+        actions={(
+          <label className="meta-window-selector">
+            <span>Meta / format</span>
+            <select value={selectedMetaId} onChange={(event) => setSelectedMetaId(event.target.value)}>
+              {metaWindows.map((window) => <option key={window.id} value={window.id}>{window.label}</option>)}
+            </select>
+          </label>
+        )}
       />
 
       <TacticalSummaryStrip>
-        <TacticalSummaryCard label="Ranked cards" value={signal.ranked.length} detail="Cards with calculated signal." tone="blue" />
+        <TacticalSummaryCard label="Meta window" value={selectedWindow?.shortLabel || "-"} detail={`${signal.context.deckCount} indexed decklists · ${signal.context.eventCount} events.`} tone="blue" />
+        <TacticalSummaryCard label="Used cards" value={signal.ranked.length} detail="Cards present in this exact scope." />
         <TacticalSummaryCard label="Risers" value={signal.risers.length} detail="Positive tactical movement." tone="green" />
         <TacticalSummaryCard label="Fallers" value={signal.fallers.length} detail="Negative tactical movement." tone="red" />
         <TacticalSummaryCard label="Watch list" value={signal.watch.length} detail="Cards under observation." tone="gold" />
@@ -34,20 +46,26 @@ export function MetaPage({ data }) {
         <MetaPanel title="Recent movements" rows={signal.risers} valueKey="band" cardMap={cardMap} />
         <MetaPanel title="Largest drops" rows={signal.fallers} valueKey="delta" cardMap={cardMap} />
         <MetaPanel title="Cards under watch" rows={signal.watch} valueKey="recent" cardMap={cardMap} />
-        <TacticalDataPanel title="Trending archetypes" subtitle="Recent meta score by archetype." code="ARC/RAD" mode="radar">
+        <TacticalDataPanel title="Trending archetypes" subtitle={`${signal.context.deckCount} lists inside ${selectedWindow?.label || "the selected window"}.`} code="ARC/RAD" mode="radar">
           <div className="meta-radar-core" aria-hidden="true"><i /><i /><i /><span>META FIELD</span></div>
-          <div className="cockpit-list">
+          <div className="cockpit-list meta-archetype-links">
             {signal.archetypeTrends.map((row) => (
-              <span key={row.archetype} className="cockpit-list-row">
-                <strong>{row.archetype}</strong>
-                <span>{row.recentMetaScore}</span>
-              </span>
+              <button
+                key={row.archetype}
+                type="button"
+                className="cockpit-list-row meta-archetype-link"
+                onClick={() => onOpenForge?.({ ...row, selectedMetaId: selectedWindow?.id, metaLabel: selectedWindow?.label })}
+              >
+                <span><strong>{row.archetype}</strong><small>{row.recentDecklists} lists · {row.commonColorCombination || "colors unclassified"}</small></span>
+                <b>{row.recentMetaScore.toFixed(1)}%</b>
+                <em>FORGE →</em>
+              </button>
             ))}
           </div>
         </TacticalDataPanel>
       </div>
 
-      <TacticalDataPanel title="Meta signal current" subtitle={`${signal.ranked.length} cards classified.`} code="SIG/DB" mode="matrix">
+      <TacticalDataPanel title={`Meta signal · ${selectedWindow?.shortLabel || "scope"}`} subtitle={`${signal.ranked.length} cards actually used in ${signal.context.deckCount} indexed lists.`} code="SIG/DB" mode="matrix">
         <TacticalTable
           columns={["Card", "Color", "Band", "Recent tops", "Movement", "Reason"]}
           rows={signal.ranked.slice(0, 80)}

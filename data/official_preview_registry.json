@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "policy": "Only first-party Bandai/Gundam Card Game reveal URLs may be registered. A reveal remains a source-linked preview until its card number appears in the official card catalog.",
+  "channels": [
+    {
+      "id": "gd06-official-product",
+      "label": "Stardust Trails [GD06] product page",
+      "url": "https://www.gundam-gcg.com/en/products/gd06.html",
+      "sourceType": "official_product_page",
+      "products": ["GD06"],
+      "status": "active"
+    },
+    {
+      "id": "gundam-gcg-english-x",
+      "label": "Gundam Card Game English / X",
+      "url": "https://x.com/gundam_gcg_eng",
+      "sourceType": "official_social_channel",
+      "products": ["GD06"],
+      "status": "manual_review"
+    },
+    {
+      "id": "official-card-catalog",
+      "label": "Official English card catalog",
+      "url": "https://www.gundam-gcg.com/en/cards/index.php",
+      "sourceType": "official_card_catalog",
+      "products": ["GD06"],
+      "status": "awaiting_package"
+    }
+  ],
+  "reveals": []
+}

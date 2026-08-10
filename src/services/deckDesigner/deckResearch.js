@@ -14,13 +14,17 @@ import {
   isCardBanned,
   quantitiesFromRows,
 } from "../../domain/deckLegality.js";
+import { buildMetaWindows } from "../../domain/meta.js";
 
 export const DECK_RESEARCH_VERSION = "deck-research-2026-07-28-legality";
 
 export function getObservedArchetypesForFilters(data = {}, filters = {}) {
   const requestedUnit = normalizeSearchText(filters.unitQuery);
   const requestedColors = normalizeColors(filters.colors);
-  if (!requestedUnit && !requestedColors.length) return [];
+  const requestedMetaId = String(filters.selectedMetaId || "").trim();
+  if (!requestedUnit && !requestedColors.length && !requestedMetaId) return [];
+  const metaWindows = buildMetaWindows(data);
+  const selectedMetaWindow = metaWindows.find((window) => window.id === requestedMetaId);
   const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
   const rowsByDeck = groupRowsByDeck(data.metaDeckCards || []);
   const matchingDeckIds = requestedUnit
@@ -31,10 +35,11 @@ export function getObservedArchetypesForFilters(data = {}, filters = {}) {
         && normalizeSearchText(row.cardName) === requestedUnit)
       .map((row) => row.deckId))
     : null;
-  const recentCutoffDate = String(data.recentCutoffDate || "");
+  const recentCutoffDate = selectedMetaWindow?.startDate || String(data.recentCutoffDate || "");
   const grouped = new Map();
 
   for (const result of data.metaResults || []) {
+    if (selectedMetaWindow && !isDateInsideWindow(result.eventDate, selectedMetaWindow)) continue;
     if (!rowsByDeck.has(result.deckId)) continue;
     if (matchingDeckIds && !matchingDeckIds.has(result.deckId)) continue;
     const deckRows = rowsByDeck.get(result.deckId);
@@ -105,6 +110,12 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   const requestedArchetype = String(criteria.archetype || "").trim();
   const requestedUnit = normalizeSearchText(criteria.unitQuery);
   const latestEventDate = data.latestEventDate || latestDate(data.metaResults || []);
+  const metaWindows = buildMetaWindows(data);
+  const selectedMetaWindow = metaWindows.find((window) => window.id === criteria.selectedMetaId)
+    || metaWindows.find((window) => window.id === "current")
+    || metaWindows[0];
+  const scopedResults = (data.metaResults || []).filter((result) =>
+    isDateInsideWindow(result.eventDate, selectedMetaWindow));
   const required = findCardsByTerms(cards, criteria.requiredCards);
   const excluded = findCardsByTerms(cards, criteria.excludedCards);
   const requiredIds = new Set(required.cards
@@ -112,7 +123,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
     .map((card) => card.cardNumber));
   const excludedIds = new Set(excluded.cards.map((card) => card.cardNumber));
 
-  const evaluated = (data.metaResults || [])
+  const evaluated = scopedResults
     .filter((result) => result.deckId && rowsByDeck.has(result.deckId))
     .map((result) => scoreResult({
       result,
@@ -239,7 +250,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
     limitations.push(`Excluded constraints override required constraints for: ${requiredAndExcluded.map((card) => card.cardName).join(", ")}.`);
   }
   if (!matchedDecks.length) {
-    limitations.push("No competitive list matched the filters. The result uses official card data and theoretical synergy only.");
+    limitations.push(`No competitive list matched the filters inside ${selectedMetaWindow?.label || "the selected meta window"}. The result uses official card data and theoretical synergy only.`);
   }
   if (illegalDecks.length) {
     limitations.push(
@@ -262,6 +273,8 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       ...criteria,
       colors: resolvedColors,
       archetype: resolvedArchetype,
+      selectedMetaId: selectedMetaWindow?.id || criteria.selectedMetaId || "current",
+      metaLabel: selectedMetaWindow?.label || "Current format",
       unitQuery: String(criteria.unitQuery || "").trim(),
     },
     selectionInference: {
@@ -297,6 +310,14 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       illegalDecklistsExcluded: illegalDecks.length,
     },
   };
+}
+
+function isDateInsideWindow(value, window) {
+  if (!window) return true;
+  const date = String(value || "").slice(0, 10);
+  if (!date) return false;
+  return (!window.startDate || date >= window.startDate)
+    && (!window.endDate || date <= window.endDate);
 }
 
 export function buildDeckVariantResearch(data = {}, research = {}) {

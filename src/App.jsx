@@ -68,6 +68,7 @@ export function App() {
   const [routeId, setRouteId] = useState(initialRoute.id);
   const [themeId, setThemeId] = useState(getInitialThemeId);
   const [pendingForgeImport, setPendingForgeImport] = useState(null);
+  const [pendingForgePreset, setPendingForgePreset] = useState(null);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [userState, setUserState] = usePersistentState(REACT_STATE_KEY, createInitialUserState(), normalizeUserState);
 
@@ -308,6 +309,20 @@ export function App() {
     setView("decks");
   }
 
+  function openArchetypeInForge(signal) {
+    setPendingForgePreset({
+      key: `${signal.selectedMetaId || "current"}:${signal.archetype}:${Date.now()}`,
+      archetype: signal.archetype || "",
+      colors: String(signal.commonColorCombination || "")
+        .split(/[+/]/)
+        .map((value) => value.trim())
+        .filter(Boolean),
+      selectedMetaId: signal.selectedMetaId || "current",
+      metaLabel: signal.metaLabel || "Current field",
+    });
+    setView("decks");
+  }
+
   function addCardToActiveDeck(card) {
     const max = getCardCopyLimit(card, data.rules);
     const cardMap = new Map((data.cards || []).map((item) => [item.cardNumber, item]));
@@ -330,6 +345,8 @@ export function App() {
       <SiteHeader
         view={view}
         theme={theme}
+        themeOptions={Object.values(THEME_CONFIG)}
+        onThemeChange={setThemeId}
         user={currentUser}
         data={data}
         onViewChange={setView}
@@ -410,6 +427,8 @@ export function App() {
             onSaveRecommendation={saveDesignedDeck}
             initialForgeImport={pendingForgeImport}
             onForgeImportConsumed={() => setPendingForgeImport(null)}
+            initialDesignerCriteria={pendingForgePreset}
+            onDesignerCriteriaConsumed={() => setPendingForgePreset(null)}
           />
         ) : null}
         {!shouldGatePrivate && view === "builder" ? (
@@ -430,7 +449,7 @@ export function App() {
           />
         ) : null}
         {!shouldGatePrivate && view === "prices" ? <PricesPage data={data} /> : null}
-        {!shouldGatePrivate && view === "meta" ? <MetaPage data={data} /> : null}
+        {!shouldGatePrivate && view === "meta" ? <MetaPage data={data} onOpenForge={openArchetypeInForge} /> : null}
         {!shouldGatePrivate && view === "community" ? (
           <CommunityPage
             data={data}

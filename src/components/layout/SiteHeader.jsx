@@ -17,7 +17,7 @@ const NAV_GROUPS = {
   previews: new Set(["previews"]),
 };
 
-export function SiteHeader({ view, theme, user, data, onViewChange, onSignIn, search, onSearchChange }) {
+export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user, data, onViewChange, onSignIn, search, onSearchChange }) {
   const { locale, setLocale } = useLocale();
   const systemStatus = locale === "pt-BR" ? "REDE TÁTICA ONLINE" : "TACTICAL NETWORK ONLINE";
   const systemMode = locale === "pt-BR" ? "MÓDULO GUNDAM ATIVO" : "GUNDAM MODULE ACTIVE";
@@ -64,6 +64,12 @@ export function SiteHeader({ view, theme, user, data, onViewChange, onSignIn, se
       </nav>
 
       <div className="site-header__actions cockpit-pilot-panel">
+        <label className="hud-theme-selector">
+          <span>{locale === "pt-BR" ? "HUD" : "HUD"}</span>
+          <select value={theme.id} onChange={(event) => onThemeChange?.(event.target.value)} aria-label={locale === "pt-BR" ? "Selecionar tema da HUD" : "Select HUD theme"}>
+            {themeOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
+          </select>
+        </label>
         <div className="language-switch" role="group" aria-label={locale === "pt-BR" ? "Idioma" : "Language"}>
           <button type="button" className={locale === "pt-BR" ? "is-active" : ""} onClick={() => setLocale("pt-BR")} aria-pressed={locale === "pt-BR"}>PT-BR</button>
           <button type="button" className={locale === "en" ? "is-active" : ""} onClick={() => setLocale("en")} aria-pressed={locale === "en"}>ENG</button>

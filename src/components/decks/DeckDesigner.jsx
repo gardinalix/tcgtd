@@ -24,6 +24,7 @@ import { DESIGNER_COLORS } from "../../services/deckDesigner/deckDesignerUtils.j
 import { createZeroForgeDraftFromDesignerReport } from "../../services/deckDesigner/zeroForgeEngine.js";
 import { getLocaleTag } from "../../i18n/translations.js";
 import { useLocale } from "../../i18n/LocaleProvider.jsx";
+import { buildMetaWindows } from "../../domain/meta.js";
 
 const ANALYSIS_STAGES = [
   "Collecting competitive decklists",
@@ -47,13 +48,18 @@ export function DeckDesigner({
   onEditDeck,
   initialForgeImport,
   onForgeImportConsumed,
+  initialCriteria,
+  onInitialCriteriaConsumed,
 }) {
   const defaultArchetype = data.defaults?.template_archetype || data.archetypes?.[0]?.archetype || "";
   const defaultProfile = data.archetypes?.find((item) => item.archetype === defaultArchetype);
   const [criteria, setCriteria] = useState(() => ({
-    colors: inferInitialColors(defaultProfile?.commonColorCombination),
+    colors: initialCriteria?.colors?.length
+      ? initialCriteria.colors
+      : inferInitialColors(defaultProfile?.commonColorCombination),
     unitQuery: "",
-    archetype: defaultArchetype,
+    archetype: initialCriteria?.archetype || defaultArchetype,
+    selectedMetaId: initialCriteria?.selectedMetaId || "current",
     preferences: "",
     requiredCards: "",
     excludedCards: "",
@@ -76,6 +82,7 @@ export function DeckDesigner({
   const [zeroForgeOpen, setZeroForgeOpen] = useState(false);
   const [designerForgeDraft, setDesignerForgeDraft] = useState(null);
   const [modeSelectionOpen, setModeSelectionOpen] = useState(false);
+  const metaWindows = useMemo(() => buildMetaWindows(data), [data]);
   const archetypes = useMemo(
     () => [...(data.archetypes || [])].sort((left, right) =>
       Number(right.recentDecklists || 0) - Number(left.recentDecklists || 0)
@@ -98,8 +105,9 @@ export function DeckDesigner({
       unitName: selectedUnitName,
       unitQuery: criteria.unitQuery,
       colors: criteria.colors,
+      selectedMetaId: criteria.selectedMetaId,
     }),
-    [archetypes, criteria.colors, criteria.unitQuery, data, selectedUnitName],
+    [archetypes, criteria.colors, criteria.selectedMetaId, criteria.unitQuery, data, selectedUnitName],
   );
   const hasActiveArchetypeFilters = Boolean(selectedUnitName || criteria.colors.length);
   const report = variantReports[activeVariantIndex] || null;
@@ -108,6 +116,21 @@ export function DeckDesigner({
   useEffect(() => {
     if (initialForgeImport?.id) setZeroForgeOpen(true);
   }, [initialForgeImport]);
+
+  useEffect(() => {
+    if (!initialCriteria?.key) return;
+    setCriteria((current) => ({
+      ...current,
+      archetype: initialCriteria.archetype || current.archetype,
+      colors: initialCriteria.colors?.length ? initialCriteria.colors : current.colors,
+      selectedMetaId: initialCriteria.selectedMetaId || "current",
+    }));
+    setInputMode("design");
+    setModeSelectionOpen(false);
+    setBriefOpen(true);
+    setStatus("idle");
+    onInitialCriteriaConsumed?.();
+  }, [initialCriteria?.key]);
 
   useEffect(() => {
     if (status !== "success") return undefined;
@@ -222,6 +245,7 @@ export function DeckDesigner({
         unitName: selectedUnitName,
         unitQuery: current.unitQuery,
         colors,
+        selectedMetaId: current.selectedMetaId,
       });
       const preservesArchetype = !current.archetype
         || nextAvailableArchetypes.some((item) => item.archetype === current.archetype);
@@ -445,6 +469,7 @@ export function DeckDesigner({
                     unitName: nextSelectedUnit,
                     unitQuery,
                     colors: current.colors,
+                    selectedMetaId: current.selectedMetaId,
                   });
                   const preservesArchetype = !current.archetype
                     || allowedArchetypes.some((item) => item.archetype === current.archetype);
@@ -554,6 +579,39 @@ export function DeckDesigner({
               <option value="competitive">Competitive consistency</option>
               <option value="casual">Casual flexibility</option>
             </select>
+          </label>
+          <label className="deck-designer__meta-field">
+            <span>Meta / format <em>evidence scope</em></span>
+            <select
+              value={criteria.selectedMetaId || "current"}
+              onChange={(event) => {
+                const selectedMetaId = event.target.value;
+                setCriteria((current) => {
+                  const allowedArchetypes = buildAvailableArchetypes(data, archetypes, {
+                    unitName: selectedUnitName,
+                    unitQuery: current.unitQuery,
+                    colors: current.colors,
+                    selectedMetaId,
+                  });
+                  const preservesArchetype = !current.archetype
+                    || allowedArchetypes.some((item) => item.archetype === current.archetype);
+                  return {
+                    ...current,
+                    selectedMetaId,
+                    archetype: preservesArchetype ? current.archetype : "",
+                  };
+                });
+              }}
+            >
+              {metaWindows.map((window) => (
+                <option key={window.id} value={window.id}>{window.label}</option>
+              ))}
+            </select>
+            <small>
+              {metaWindows.find((window) => window.id === (criteria.selectedMetaId || "current"))?.startDate}
+              {" → "}
+              {metaWindows.find((window) => window.id === (criteria.selectedMetaId || "current"))?.endDate}
+            </small>
           </label>
         </div>
 
@@ -1172,14 +1230,20 @@ function formatMatchingDeckCount(value) {
   return `${count} matching ${count === 1 ? "deck" : "decks"}`;
 }
 
-function buildAvailableArchetypes(data, archetypes, { unitName = "", unitQuery = "", colors = [] } = {}) {
+function buildAvailableArchetypes(data, archetypes, {
+  unitName = "",
+  unitQuery = "",
+  colors = [],
+  selectedMetaId = "",
+} = {}) {
   if (String(unitQuery || "").trim() && !unitName) return [];
-  if (!unitName && !colors.length) return archetypes;
+  if (!unitName && !colors.length && !selectedMetaId) return archetypes;
 
   const profiles = new Map(archetypes.map((item) => [item.archetype, item]));
   return getObservedArchetypesForFilters(data, {
     unitQuery: unitName,
     colors,
+    selectedMetaId,
   }).map((observed) => ({
     ...(profiles.get(observed.archetype) || {}),
     ...observed,
