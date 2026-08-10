@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { SiteHeader } from "./components/layout/SiteHeader";
 import { SiteFooter } from "./components/layout/SiteFooter";
+import { TacticalSideRail } from "./components/layout/TacticalSideRail";
 import { loadGundamData, loadHomeData } from "./data/loadGundamData";
 import { THEME_CONFIG } from "./data/themeConfig";
 import {
@@ -59,6 +60,11 @@ const THEME_STATE_KEY = "gundam-tactical-theme-id";
 const META_SCOPE_STATE_KEY = "tcgtd-meta-scope-id";
 const PRIVATE_VIEWS = new Set(["builder", "profile", "accountSettings"]);
 const LIGHTWEIGHT_VIEWS = new Set(["home", "about", "legal", "terms", "privacy", "login", "register", "logout", "authCallback"]);
+const TACTICAL_VIEWS = new Set([
+  "cards", "card", "synergy", "synergyMap", "decks", "builder", "deckView", "importExport",
+  "meta", "prices", "community", "events", "eventDetail", "players", "venues", "previews",
+  "profile", "accountSettings", "settings",
+]);
 
 export function App() {
   const { locale } = useLocale();
@@ -357,9 +363,10 @@ export function App() {
   const isPrivateView = PRIVATE_VIEWS.has(view);
   const shouldGatePrivate = isPrivateView && !currentUser;
   const routeLoading = !LIGHTWEIGHT_VIEWS.has(view) && dataScope !== "full";
+  const hasTacticalRail = TACTICAL_VIEWS.has(view) && !shouldGatePrivate;
 
   return (
-    <div className="app-shell react-shell" data-locale={locale}>
+    <div className={`app-shell react-shell ${hasTacticalRail ? "has-tactical-rail" : ""}`} data-locale={locale}>
       <SiteHeader
         view={view}
         theme={theme}
@@ -375,6 +382,13 @@ export function App() {
         search={filters.search}
         onSearchChange={setGlobalSearch}
       />
+      {hasTacticalRail ? (
+        <TacticalSideRail
+          view={view}
+          activeFormat={selectedMetaWindow?.shortLabel || data.activeFormat || "CURRENT"}
+          onViewChange={setView}
+        />
+      ) : null}
       <main>
         <Suspense fallback={<div className="route-loading">ACQUIRING SUBSYSTEM…</div>}>
         {routeLoading ? <div className="route-loading">LOADING TACTICAL DATA…</div> : null}

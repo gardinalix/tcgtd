@@ -1,0 +1,1143 @@
+/*
+ * Operational HUD — authoritative layout layer.
+ * Product routes share one dense cockpit grammar: rail, telemetry, work field.
+ */
+
+.app-shell.has-tactical-rail {
+  display: grid !important;
+  grid-template-columns: 176px minmax(0, 1fr);
+  grid-template-rows: 64px minmax(0, 1fr) auto;
+  min-height: 100svh;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--hud-accent, #46d9ff) 5%, transparent) 1px, transparent 1px) 0 0 / 72px 72px,
+    linear-gradient(color-mix(in srgb, var(--hud-accent, #46d9ff) 4%, transparent) 1px, transparent 1px) 0 0 / 72px 72px,
+    #02070d;
+}
+
+.has-tactical-rail > .site-header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  position: sticky !important;
+  top: 0;
+  z-index: 80;
+  display: grid !important;
+  grid-template-columns: minmax(230px, 310px) minmax(190px, 360px) minmax(0, 1fr) !important;
+  align-items: center;
+  gap: 12px !important;
+  width: 100%;
+  min-height: 64px !important;
+  height: 64px;
+  padding: 7px 14px !important;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 42%, transparent) !important;
+  border-radius: 0 !important;
+  background: color-mix(in srgb, #02070d 94%, var(--hud-accent, #46d9ff) 6%) !important;
+  box-shadow: 0 12px 30px #0009 !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail > .site-header::before,
+.has-tactical-rail > .site-header::after {
+  display: none !important;
+}
+
+.has-tactical-rail .site-brand {
+  min-width: 0;
+  gap: 9px !important;
+  padding: 0 !important;
+}
+
+.has-tactical-rail .site-brand__mark {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+}
+
+.has-tactical-rail .site-brand small {
+  font-size: .45rem !important;
+  letter-spacing: .13em !important;
+}
+
+.has-tactical-rail .site-brand strong {
+  font-size: .76rem !important;
+  letter-spacing: .09em !important;
+  white-space: nowrap;
+}
+
+.has-tactical-rail .site-brand em,
+.has-tactical-rail .site-nav {
+  display: none !important;
+}
+
+.has-tactical-rail .global-search {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  margin: 0 !important;
+}
+
+.has-tactical-rail .global-search > span {
+  color: color-mix(in srgb, var(--hud-accent, #46d9ff) 62%, #81939f);
+  font: 700 .48rem/1 var(--system-label, "Rajdhani", sans-serif);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.has-tactical-rail .global-search input {
+  width: 100%;
+  height: 30px !important;
+  min-height: 30px !important;
+  padding: 0 9px !important;
+  border: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 26%, transparent) !important;
+  border-radius: 0 !important;
+  background: #01060a99 !important;
+  font-size: .7rem !important;
+}
+
+.has-tactical-rail .site-header__actions {
+  display: flex !important;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px !important;
+  min-width: 0;
+}
+
+.has-tactical-rail .hud-theme-selector,
+.has-tactical-rail .site-format-selector {
+  display: grid !important;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 5px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.has-tactical-rail .hud-theme-selector > span,
+.has-tactical-rail .site-format-selector > small {
+  font-size: .43rem !important;
+  letter-spacing: .1em !important;
+  white-space: nowrap;
+}
+
+.has-tactical-rail .hud-theme-selector select,
+.has-tactical-rail .site-format-selector select {
+  width: auto !important;
+  max-width: 150px;
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 0 24px 0 7px !important;
+  border-radius: 0 !important;
+  font-size: .58rem !important;
+}
+
+.has-tactical-rail .language-switch button,
+.has-tactical-rail .pilot-label-button {
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 26px !important;
+  padding: 4px 7px !important;
+  font-size: .5rem !important;
+}
+
+.has-tactical-rail .pilot-avatar { display: none !important; }
+
+.has-tactical-rail > .tactical-side-rail {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.has-tactical-rail > main {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.has-tactical-rail > .site-footer {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+
+.tactical-side-rail {
+  position: sticky;
+  top: 64px;
+  z-index: 30;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  height: calc(100svh - 64px);
+  min-height: 560px;
+  overflow: hidden auto;
+  border-right: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 31%, transparent);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--hud-accent, #46d9ff) 7%, transparent), transparent 44%),
+    #030a10f5;
+}
+
+.tactical-side-rail__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 42px;
+  padding: 0 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, transparent);
+  font: 700 .48rem/1 var(--system-label, "Rajdhani", sans-serif);
+  letter-spacing: .1em;
+}
+
+.tactical-side-rail__status span { color: #819aa7; }
+.tactical-side-rail__status strong { color: var(--hud-green, #4dff8b); }
+.tactical-side-rail__status i {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: var(--hud-green, #4dff8b);
+  box-shadow: 0 0 8px currentColor;
+}
+
+.tactical-side-rail nav { padding: 9px 0 18px; }
+
+.tactical-side-rail__group {
+  display: grid;
+  gap: 1px;
+  margin: 0 0 12px;
+}
+
+.tactical-side-rail__group h2 {
+  margin: 0;
+  padding: 6px 12px;
+  color: #526773;
+  font: 700 .47rem/1 var(--system-label, "Rajdhani", sans-serif);
+  letter-spacing: .18em;
+}
+
+.tactical-side-rail__group button {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 8px;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 0;
+  color: #8ba2af;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  clip-path: none;
+}
+
+.tactical-side-rail__group button:hover {
+  color: #dff9ff;
+  background: color-mix(in srgb, var(--hud-accent, #46d9ff) 7%, transparent);
+}
+
+.tactical-side-rail__group button.is-active {
+  border-left-color: var(--hud-accent, #46d9ff);
+  color: #eaffff;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, transparent), transparent);
+}
+
+.tactical-side-rail__group button > span {
+  color: color-mix(in srgb, var(--hud-accent, #46d9ff) 74%, white);
+  font: 800 .54rem/1 var(--system-label, "Rajdhani", sans-serif);
+  letter-spacing: .08em;
+}
+
+.tactical-side-rail__group button > strong {
+  font: 700 .66rem/1 var(--system-label, "Rajdhani", sans-serif);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.tactical-side-rail__group button > i {
+  height: 1px;
+  background: currentColor;
+  opacity: .3;
+}
+
+.tactical-side-rail__scope {
+  display: grid;
+  gap: 5px;
+  margin-top: auto;
+  padding: 12px;
+  border-top: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 22%, transparent);
+  background: #01060a88;
+  font-family: var(--system-label, "Rajdhani", sans-serif);
+}
+
+.tactical-side-rail__scope small,
+.tactical-side-rail__scope span { color: #566e7a; font-size: .44rem; letter-spacing: .11em; }
+.tactical-side-rail__scope strong { color: var(--hud-accent, #46d9ff); font-size: .68rem; letter-spacing: .08em; }
+
+/* Shared operational canvas */
+
+.has-tactical-rail .tactical-page-shell {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: calc(100svh - 64px);
+  margin: 0 !important;
+  padding: 0 16px 34px !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .tactical-page-shell::before,
+.has-tactical-rail .tactical-page-shell::after,
+.has-tactical-rail .tactical-subsystem-bus,
+.has-tactical-rail .tactical-viewport-rail,
+.has-tactical-rail .tactical-page-coordinate,
+.has-tactical-rail .tactical-hud-grid,
+.has-tactical-rail .tactical-header-readout,
+.has-tactical-rail .tactical-surface__socket {
+  display: none !important;
+}
+
+.has-tactical-rail .tactical-page-linkbar {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 28px !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 14%, transparent) !important;
+  background: transparent !important;
+  font-size: .45rem !important;
+  letter-spacing: .1em;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .tactical-page-linkbar__system { color: #607985; }
+.has-tactical-rail .tactical-page-linkbar > strong { color: color-mix(in srgb, var(--hud-accent, #46d9ff) 75%, #b6d3dd); }
+.has-tactical-rail .tactical-page-linkbar__network { margin-left: auto; color: var(--hud-green, #4dff8b); }
+
+.has-tactical-rail .tactical-page-header {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: 50px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 76px !important;
+  margin: 0 !important;
+  padding: 9px 6px !important;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 38%, transparent) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--hud-accent, #46d9ff) 7%, transparent), transparent 45%) !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .tactical-page-header::before,
+.has-tactical-rail .tactical-page-header::after { display: none !important; }
+
+.has-tactical-rail .tactical-page-header__radar {
+  display: block !important;
+  position: relative !important;
+  inset: auto !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  opacity: .8;
+}
+
+.has-tactical-rail .tactical-page-header__radar > span,
+.has-tactical-rail .tactical-page-header__radar > b { display: none !important; }
+
+.has-tactical-rail .tactical-page-header__main { min-width: 0; }
+
+.has-tactical-rail .tactical-page-header__kicker {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 4px !important;
+}
+
+.has-tactical-rail .tactical-page-header .eyebrow {
+  margin: 0 !important;
+  font-size: .48rem !important;
+  line-height: 1 !important;
+  letter-spacing: .14em !important;
+}
+
+.has-tactical-rail .tactical-page-header h1 {
+  margin: 0 !important;
+  color: #e9fbff !important;
+  font-size: clamp(1.05rem, 1.8vw, 1.55rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: .035em !important;
+}
+
+.has-tactical-rail .tactical-page-header p {
+  max-width: 820px !important;
+  margin: 4px 0 0 !important;
+  color: #7f98a4 !important;
+  font-size: .68rem !important;
+  line-height: 1.2 !important;
+}
+
+.has-tactical-rail .tactical-page-header__actions,
+.has-tactical-rail .tactical-header-utility {
+  position: static !important;
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px !important;
+  max-width: 620px;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.has-tactical-rail .tactical-summary-strip {
+  display: flex !important;
+  align-items: stretch;
+  gap: 0 !important;
+  width: 100%;
+  min-height: 48px;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: auto hidden;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 22%, transparent) !important;
+  background: #02080d70 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .tactical-telemetry-bus__axis { display: none !important; }
+
+.has-tactical-rail .tactical-summary-card {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: auto auto;
+  align-content: center;
+  align-items: baseline;
+  gap: 2px 8px !important;
+  flex: 1 0 150px;
+  min-width: 0 !important;
+  min-height: 48px !important;
+  margin: 0 !important;
+  padding: 6px 12px !important;
+  border: 0 !important;
+  border-right: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 15%, transparent) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .tactical-summary-card::before,
+.has-tactical-rail .tactical-summary-card::after { display: none !important; }
+.has-tactical-rail .tactical-summary-card > span { color: #617985 !important; font-size: .46rem !important; letter-spacing: .12em !important; }
+.has-tactical-rail .tactical-summary-card > strong { color: var(--summary-tone, var(--hud-accent, #46d9ff)) !important; font-size: .88rem !important; line-height: 1 !important; }
+.has-tactical-rail .tactical-summary-card > small { grid-column: 1 / -1; overflow: hidden; color: #657986 !important; font-size: .5rem !important; line-height: 1.1 !important; text-overflow: ellipsis; white-space: nowrap; }
+
+.has-tactical-rail .tactical-data-panel,
+.has-tactical-rail .tactical-page-shell > .panel,
+.has-tactical-rail .tactical-page-shell .tactical-surface {
+  border: 0 !important;
+  border-top: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 25%, transparent) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--hud-accent, #46d9ff) 4%, transparent), transparent 82px) !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .tactical-data-panel { margin: 0 !important; padding: 9px 10px 11px !important; }
+
+.has-tactical-rail .tactical-panel-header,
+.has-tactical-rail .panel-head {
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 34px !important;
+  margin: 0 0 8px !important;
+  padding: 0 0 7px !important;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 12%, transparent) !important;
+  background: transparent !important;
+}
+
+.has-tactical-rail .tactical-panel-header h2,
+.has-tactical-rail .panel-head h2 {
+  margin: 0 !important;
+  font-size: .72rem !important;
+  line-height: 1.15 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase;
+}
+
+.has-tactical-rail .tactical-panel-header p,
+.has-tactical-rail .panel-head p {
+  margin: 3px 0 0 !important;
+  color: #687e89 !important;
+  font-size: .58rem !important;
+  line-height: 1.2 !important;
+}
+
+.has-tactical-rail .tactical-card-grid,
+.has-tactical-rail .react-data-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: 1px 0 !important;
+  background: color-mix(in srgb, var(--hud-accent, #46d9ff) 15%, transparent) !important;
+}
+
+.has-tactical-rail .tactical-card-grid > *,
+.has-tactical-rail .react-data-grid > * {
+  grid-column: auto !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #030a10 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .react-data-card {
+  display: grid !important;
+  grid-template-columns: minmax(150px, 1fr) minmax(210px, 1.5fr) auto;
+  align-items: center;
+  gap: 5px 12px !important;
+  min-height: 86px !important;
+  padding: 10px !important;
+}
+
+.has-tactical-rail .react-data-card h3,
+.has-tactical-rail .react-data-card p { margin: 0 !important; }
+.has-tactical-rail .react-data-card dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 6px; margin: 0 !important; }
+.has-tactical-rail .react-data-card .button-row { grid-column: 3; grid-row: 1 / span 3; align-self: center; }
+
+.has-tactical-rail .tactical-page-shell button:not(.library-card__select),
+.has-tactical-rail .tactical-page-shell .button,
+.has-tactical-rail .tactical-page-shell a.tactical-action-button {
+  width: auto;
+  min-width: 0;
+  min-height: 28px !important;
+  padding: 4px 9px !important;
+  border-radius: 0 !important;
+  font-size: .56rem !important;
+  line-height: 1.05 !important;
+  letter-spacing: .07em !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .button-row {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px !important;
+  margin: 0 !important;
+}
+
+.has-tactical-rail .tactical-page-shell input:not([type="checkbox"]):not([type="radio"]),
+.has-tactical-rail .tactical-page-shell select,
+.has-tactical-rail .tactical-page-shell textarea {
+  min-height: 30px !important;
+  padding: 5px 8px !important;
+  border-radius: 0 !important;
+  font-size: .67rem !important;
+}
+
+.has-tactical-rail .tactical-page-shell label > span,
+.has-tactical-rail .tactical-page-shell legend {
+  font-size: .49rem !important;
+  letter-spacing: .1em !important;
+  text-transform: uppercase;
+}
+
+.has-tactical-rail .tactical-bottom-bus {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 26px !important;
+  margin: 18px 0 0 !important;
+  padding: 0 7px !important;
+  border: 0 !important;
+  border-top: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 16%, transparent) !important;
+  color: #4f6975 !important;
+  background: transparent !important;
+  font-size: .42rem !important;
+  clip-path: none !important;
+}
+
+/* Card archive: scan rail + dense object field + active dossier */
+
+.has-tactical-rail .cards-terminal-grid,
+.has-tactical-rail .tactical-acquisition-layout {
+  display: grid !important;
+  grid-template-columns: 214px minmax(0, 1fr) 252px !important;
+  grid-template-rows: 25px auto;
+  gap: 0 !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-items: start;
+}
+
+.has-tactical-rail .cards-acquisition-axis {
+  grid-column: 1 / -1 !important;
+  grid-row: 1;
+  display: flex !important;
+  align-items: center;
+  min-height: 25px;
+  margin: 0 !important;
+  padding: 0 6px !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 20%, transparent);
+  font-size: .45rem !important;
+}
+
+.has-tactical-rail .cards-acquisition-axis i { flex: 1; height: 1px; margin: 0 9px; background: color-mix(in srgb, var(--hud-accent, #46d9ff) 20%, transparent); }
+.has-tactical-rail .cards-acquisition-axis b { color: var(--hud-accent, #46d9ff); }
+
+.has-tactical-rail .react-filter-panel {
+  grid-column: 1;
+  grid-row: 2;
+  position: sticky !important;
+  top: 64px !important;
+  z-index: 12;
+  align-self: start;
+  max-height: calc(100svh - 64px);
+  overflow: hidden auto;
+  margin: 0 !important;
+  padding: 10px !important;
+  border: 0 !important;
+  border-right: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, transparent) !important;
+  border-radius: 0 !important;
+  background: #030a10e8 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .react-filter-panel .panel-head p { display: none !important; }
+.has-tactical-rail .react-filter-panel .filter-grid { display: grid !important; grid-template-columns: 1fr !important; gap: 7px !important; }
+.has-tactical-rail .react-filter-panel .filter-grid > label { display: grid; gap: 4px; min-width: 0; }
+
+.card-color-filter {
+  min-width: 0;
+  margin: 2px 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.card-color-filter legend { margin: 0 0 5px; color: #78909b; }
+.card-color-filter > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; }
+
+.has-tactical-rail .card-color-filter button {
+  --card-chip: var(--hud-accent, #46d9ff);
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 5px;
+  width: 100% !important;
+  height: 26px !important;
+  min-height: 26px !important;
+  padding: 0 6px !important;
+  border: 1px solid color-mix(in srgb, var(--card-chip) 34%, #17242b) !important;
+  color: #8da1aa;
+  background: color-mix(in srgb, var(--card-chip) 6%, #03090e) !important;
+  text-align: left;
+}
+
+.has-tactical-rail .card-color-filter button.is-active {
+  border-color: color-mix(in srgb, var(--card-chip) 82%, white) !important;
+  color: #efffff;
+  background: color-mix(in srgb, var(--card-chip) 18%, #03090e) !important;
+  box-shadow: inset 2px 0 0 var(--card-chip), 0 0 10px color-mix(in srgb, var(--card-chip) 18%, transparent);
+}
+
+.card-color-filter button > i { width: 7px; height: 7px; border: 1px solid #ffffff88; border-radius: 50%; background: var(--card-chip); box-shadow: 0 0 7px color-mix(in srgb, var(--card-chip) 65%, transparent); }
+.card-color-filter button > span { overflow: hidden; font-size: .52rem !important; text-overflow: ellipsis; white-space: nowrap; }
+.card-color-filter button > small { color: #657b85; font-size: .43rem; }
+.card-color-filter [data-card-color="blue"] { --card-chip: #199cff; }
+.card-color-filter [data-card-color="red"] { --card-chip: #ff3d52; }
+.card-color-filter [data-card-color="green"] { --card-chip: #3fe56f; }
+.card-color-filter [data-card-color="white"] { --card-chip: #eaf9ff; }
+.card-color-filter [data-card-color="purple"] { --card-chip: #ad6cff; }
+.card-color-filter [data-card-color="yellow"] { --card-chip: #ffd43b; }
+.card-color-filter [data-card-color="black"] { --card-chip: #60717a; }
+
+.has-tactical-rail .react-card-results {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 9px 9px 18px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .react-card-results > .panel-head {
+  float: left;
+  min-width: 190px;
+  min-height: 34px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+.has-tactical-rail .react-card-results > .panel-head h2 { color: #e8fcff; font-size: .75rem !important; }
+.has-tactical-rail .react-card-results > .panel-head p { font-size: .48rem !important; }
+
+.card-results-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  min-height: 34px;
+  margin: 0 0 8px 200px;
+  padding: 0 0 6px;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, transparent);
+}
+
+.card-results-toolbar__sort {
+  display: flex !important;
+  align-items: center;
+  gap: 5px;
+}
+
+.has-tactical-rail .card-results-toolbar__sort select { width: 122px !important; height: 26px !important; min-height: 26px !important; padding-block: 0 !important; }
+.card-print-switch,
+.card-view-switch { display: inline-flex; gap: 1px; }
+.has-tactical-rail .card-results-toolbar button { height: 26px !important; min-height: 26px !important; padding: 0 7px !important; }
+.has-tactical-rail .card-results-toolbar button.is-active { color: #031018 !important; background: var(--hud-accent, #46d9ff) !important; }
+.card-results-toolbar__readout { margin-left: 5px; color: #5f7682; font: 700 .43rem/1 var(--system-label, "Rajdhani", sans-serif); letter-spacing: .08em; white-space: nowrap; }
+
+.has-tactical-rail .react-card-results .card-grid {
+  clear: both;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(126px, 1fr)) !important;
+  gap: 7px !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.has-tactical-rail .library-card {
+  position: relative;
+  min-width: 0;
+  margin: 0 !important;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 25%, #17252c) !important;
+  border-radius: 0 !important;
+  background: #030a10 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .library-card:hover {
+  z-index: 2;
+  border-color: var(--hud-accent, #46d9ff) !important;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--hud-accent, #46d9ff) 16%, transparent) !important;
+  transform: translateY(-1px);
+}
+
+.has-tactical-rail .library-card__select {
+  display: block !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .library-card__select .art-frame { width: 100% !important; }
+
+.has-tactical-rail .library-card__body {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 5px !important;
+  min-height: 47px !important;
+  padding: 5px 5px 6px !important;
+  border-top: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 16%, transparent);
+  background: #02080d !important;
+}
+
+.has-tactical-rail .card-gallery-tile__number { grid-column: 1; color: var(--hud-accent, #46d9ff); font-size: .48rem !important; }
+.has-tactical-rail .library-card__body h3 { grid-column: 1; overflow: hidden; margin: 0 !important; font-size: .58rem !important; line-height: 1.1 !important; text-overflow: ellipsis; white-space: nowrap; }
+.has-tactical-rail .library-card__body p { grid-column: 1; overflow: hidden; margin: 0 !important; color: #607680 !important; font-size: .43rem !important; line-height: 1 !important; text-overflow: ellipsis; white-space: nowrap; }
+.has-tactical-rail .card-map-button { grid-column: 2; grid-row: 1 / span 3; align-self: end; height: 21px !important; min-height: 21px !important; padding: 0 5px !important; font-size: .43rem !important; }
+
+.has-tactical-rail .cards-terminal-side-stack {
+  grid-column: 3;
+  grid-row: 2;
+  position: sticky !important;
+  top: 64px !important;
+  z-index: 11;
+  display: grid !important;
+  gap: 1px !important;
+  align-self: start;
+  max-height: calc(100svh - 64px);
+  margin: 0 !important;
+  overflow: hidden auto;
+  border-left: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, transparent);
+  background: #030a10e8;
+}
+
+.has-tactical-rail .react-card-detail {
+  display: grid !important;
+  gap: 8px;
+  margin: 0 !important;
+  padding: 9px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .react-card-detail__media { max-width: 148px; margin: 0 auto; }
+.has-tactical-rail .react-card-detail__body h2 { margin: 2px 0 6px !important; font-size: .86rem !important; }
+.has-tactical-rail .react-card-detail__body > small { font-size: .48rem !important; line-height: 1.25 !important; }
+.has-tactical-rail .react-card-detail .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 7px 0 !important; background: color-mix(in srgb, var(--hud-accent, #46d9ff) 13%, transparent); }
+.has-tactical-rail .react-card-detail .detail-grid > div { padding: 5px; background: #030a10; }
+.has-tactical-rail .card-text-panel,
+.has-tactical-rail .card-detail-tags { margin: 6px 0 !important; padding: 6px 0 !important; border: 0 !important; border-top: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 13%, transparent) !important; background: transparent !important; }
+
+/* Network and dossier layouts use topology/streams, not floating dashboard cards. */
+
+.has-tactical-rail .community-module-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  margin: 0 !important;
+  padding: 1px 0 !important;
+  background: color-mix(in srgb, var(--hud-accent, #46d9ff) 16%, transparent) !important;
+}
+
+.has-tactical-rail .tactical-network-core { display: none !important; }
+
+.has-tactical-rail .community-module-card {
+  display: grid !important;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 10px !important;
+  min-height: 92px !important;
+  margin: 0 !important;
+  padding: 10px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #030a10 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .community-module-card > span { grid-row: 1 / span 2; color: var(--hud-accent, #46d9ff); font-size: .72rem; }
+.has-tactical-rail .community-module-card h2 { margin: 0 !important; font-size: .73rem !important; }
+.has-tactical-rail .community-module-card p { grid-column: 2; margin: 0 !important; color: #718792 !important; font-size: .58rem !important; line-height: 1.2 !important; }
+.has-tactical-rail .community-module-card button { grid-column: 3; grid-row: 1 / span 2; }
+
+.has-tactical-rail .community-main-grid,
+.has-tactical-rail .community-main-grid.tactical-network-streams,
+.has-tactical-rail .event-dossier-grid,
+.has-tactical-rail .synergy-terminal-grid,
+.has-tactical-rail .deck-terminal-grid,
+.has-tactical-rail .io-terminal-grid,
+.has-tactical-rail .venue-finder-grid,
+.has-tactical-rail .release-intel-grid,
+.has-tactical-rail .tactical-main-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  margin: 0 !important;
+  padding: 1px 0 !important;
+  background: color-mix(in srgb, var(--hud-accent, #46d9ff) 14%, transparent) !important;
+}
+
+.has-tactical-rail .community-main-grid > *,
+.has-tactical-rail .event-dossier-grid > *,
+.has-tactical-rail .synergy-terminal-grid > *,
+.has-tactical-rail .deck-terminal-grid > *,
+.has-tactical-rail .io-terminal-grid > *,
+.has-tactical-rail .venue-finder-grid > *,
+.has-tactical-rail .release-intel-grid > *,
+.has-tactical-rail .tactical-main-grid > * {
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background-color: #030a10 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .community-coverage-callout {
+  margin: 1px 0 0 !important;
+  padding: 9px 10px !important;
+  border: 0 !important;
+  border-top: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 20%, transparent) !important;
+  border-radius: 0 !important;
+  background: #030a10 !important;
+  box-shadow: none !important;
+}
+
+.has-tactical-rail .cockpit-list-row,
+.has-tactical-rail .community-event-list > button,
+.has-tactical-rail .community-player-compact-list > span {
+  min-height: 34px !important;
+  margin: 0 !important;
+  padding: 5px 7px !important;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 10%, transparent) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .builder-terminal-grid,
+.has-tactical-rail .tactical-loadout-layout {
+  display: grid !important;
+  grid-template-columns: 204px minmax(0, 1fr) 260px !important;
+  grid-template-rows: 25px auto;
+  gap: 0 !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  align-items: start;
+}
+
+.has-tactical-rail .builder-loadout-axis {
+  position: static !important;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: grid !important;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 9px;
+  min-height: 25px;
+  padding: 0 6px;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 20%, transparent);
+}
+
+.has-tactical-rail .builder-terminal-grid > .filter-panel {
+  grid-column: 1;
+  grid-row: 2;
+  position: sticky;
+  top: 64px;
+  max-height: calc(100svh - 64px);
+  margin: 0 !important;
+  padding: 9px !important;
+  overflow: hidden auto;
+  border: 0 !important;
+  border-right: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, transparent) !important;
+  background: #030a10e8 !important;
+}
+
+.has-tactical-rail .builder-terminal-grid > .react-deck-panel {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 10px 12px 18px !important;
+  border: 0 !important;
+  border-right: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, transparent) !important;
+  background: transparent !important;
+}
+
+.has-tactical-rail .builder-terminal-grid > .synergy-panel {
+  grid-column: 3;
+  grid-row: 2;
+  position: sticky;
+  top: 64px;
+  max-height: calc(100svh - 64px);
+  overflow: hidden auto;
+}
+
+.has-tactical-rail .react-builder-library { display: grid; gap: 1px; margin-top: 7px; }
+.has-tactical-rail .react-builder-card {
+  display: grid !important;
+  grid-template-columns: 34px minmax(0, 1fr) !important;
+  gap: 2px 6px !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  padding: 4px !important;
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 10%, transparent) !important;
+  background: transparent !important;
+  text-align: left;
+}
+
+.has-tactical-rail .react-builder-card .art-frame { grid-row: 1 / span 3; width: 34px !important; }
+.has-tactical-rail .react-builder-card .price-stack { display: none !important; }
+.has-tactical-rail .loadout-capacity-reticle { top: 8px !important; right: 10px !important; width: 68px !important; height: 68px !important; }
+.has-tactical-rail .loadout-capacity-reticle span { font-size: 1.05rem !important; }
+.has-tactical-rail .react-deck-panel > .panel-head { min-height: 70px !important; padding-right: 80px !important; }
+.has-tactical-rail .deck-row { min-height: 38px !important; padding: 4px 5px !important; border: 0 !important; border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 9%, transparent) !important; background: transparent !important; }
+
+.has-tactical-rail .community-player-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  margin: 0 !important;
+  padding: 1px 0 !important;
+  background: color-mix(in srgb, var(--hud-accent, #46d9ff) 14%, transparent) !important;
+}
+
+.has-tactical-rail .community-player-card {
+  display: grid !important;
+  grid-template-columns: 36px minmax(0, 1fr) !important;
+  gap: 8px !important;
+  min-height: 106px !important;
+  margin: 0 !important;
+  padding: 9px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #030a10 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .community-player-card__avatar { width: 34px !important; height: 34px !important; }
+.has-tactical-rail .community-player-card h2 { margin: 3px 0 !important; font-size: .75rem !important; }
+.has-tactical-rail .community-player-card p { margin: 0 0 5px !important; font-size: .55rem !important; }
+.has-tactical-rail .community-player-card dl { display: flex !important; gap: 9px !important; margin: 0 !important; }
+
+.has-tactical-rail .release-card-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)) !important;
+  gap: 1px !important;
+  background: color-mix(in srgb, var(--hud-accent, #46d9ff) 13%, transparent);
+}
+
+.has-tactical-rail .release-intel-card {
+  min-height: 132px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #030a10 !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+.has-tactical-rail .release-intel-card__image { min-height: 132px !important; padding: 0 !important; }
+.has-tactical-rail .release-intel-card__body { padding: 8px !important; }
+
+.has-tactical-rail .synergy-map-layout { gap: 1px !important; background: color-mix(in srgb, var(--hud-accent, #46d9ff) 13%, transparent); }
+.has-tactical-rail .synergy-map-layout > * { margin: 0 !important; border: 0 !important; border-radius: 0 !important; background-color: #030a10 !important; box-shadow: none !important; clip-path: none !important; }
+
+@media (max-width: 1280px) {
+  .app-shell.has-tactical-rail { grid-template-columns: 148px minmax(0, 1fr); }
+  .tactical-side-rail__group button { grid-template-columns: 27px minmax(0, 1fr) 5px; }
+  .has-tactical-rail > .site-header { grid-template-columns: 220px minmax(170px, 1fr) auto !important; }
+  .has-tactical-rail .language-switch,
+  .has-tactical-rail .hud-theme-selector > span,
+  .has-tactical-rail .site-format-selector > small { display: none !important; }
+  .has-tactical-rail .cards-terminal-grid,
+  .has-tactical-rail .tactical-acquisition-layout { grid-template-columns: 196px minmax(0, 1fr) !important; }
+  .has-tactical-rail .cards-terminal-side-stack { grid-column: 1 / -1; grid-row: 3; position: static !important; grid-template-columns: 260px minmax(0, 1fr); max-height: none; border: 0; border-top: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 20%, transparent); }
+  .has-tactical-rail .builder-terminal-grid,
+  .has-tactical-rail .tactical-loadout-layout { grid-template-columns: 190px minmax(0, 1fr) !important; }
+  .has-tactical-rail .builder-terminal-grid > .synergy-panel { grid-column: 1 / -1; grid-row: 3; position: static; max-height: none; }
+}
+
+@media (max-width: 900px) {
+  .app-shell.has-tactical-rail { display: block !important; }
+  .has-tactical-rail > .site-header { position: sticky !important; grid-template-columns: minmax(180px, 1fr) auto !important; height: 58px; min-height: 58px !important; padding: 6px 9px !important; }
+  .has-tactical-rail .global-search,
+  .has-tactical-rail .language-switch,
+  .has-tactical-rail .pilot-label-button { display: none !important; }
+  .has-tactical-rail .site-brand__mark { width: 34px !important; height: 34px !important; min-width: 34px !important; }
+  .has-tactical-rail .site-format-selector select,
+  .has-tactical-rail .hud-theme-selector select { max-width: 115px; }
+  .tactical-side-rail {
+    top: 58px;
+    flex-direction: row;
+    width: 100%;
+    height: 42px;
+    min-height: 42px;
+    overflow: auto hidden;
+    border: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 28%, transparent);
+  }
+  .tactical-side-rail__status,
+  .tactical-side-rail__scope,
+  .tactical-side-rail__group h2 { display: none; }
+  .tactical-side-rail nav { display: flex; padding: 0; }
+  .tactical-side-rail__group { display: flex; margin: 0; }
+  .tactical-side-rail__group button { grid-template-columns: 22px auto; width: auto; min-width: max-content; min-height: 41px; padding: 0 9px; border-left: 0; border-bottom: 2px solid transparent; }
+  .tactical-side-rail__group button.is-active { border-bottom-color: var(--hud-accent, #46d9ff); }
+  .tactical-side-rail__group button > i { display: none; }
+  .has-tactical-rail .tactical-page-shell { min-height: 0; padding: 0 9px 24px !important; }
+  .has-tactical-rail .tactical-page-header { grid-template-columns: 38px minmax(0, 1fr); min-height: 66px !important; }
+  .has-tactical-rail .tactical-page-header__radar { width: 34px !important; height: 34px !important; min-width: 34px !important; }
+  .has-tactical-rail .tactical-page-header__actions { grid-column: 1 / -1; justify-content: flex-start; max-width: none; }
+  .has-tactical-rail .tactical-page-header p { display: none; }
+  .has-tactical-rail .tactical-card-grid,
+  .has-tactical-rail .react-data-grid,
+  .has-tactical-rail .community-module-grid,
+  .has-tactical-rail .community-main-grid,
+  .has-tactical-rail .event-dossier-grid,
+  .has-tactical-rail .synergy-terminal-grid,
+  .has-tactical-rail .deck-terminal-grid,
+  .has-tactical-rail .io-terminal-grid,
+  .has-tactical-rail .venue-finder-grid,
+  .has-tactical-rail .release-intel-grid,
+  .has-tactical-rail .tactical-main-grid { grid-template-columns: 1fr !important; }
+  .has-tactical-rail .react-data-card { grid-template-columns: 1fr !important; }
+  .has-tactical-rail .react-data-card .button-row { grid-column: 1; grid-row: auto; }
+  .has-tactical-rail .cards-terminal-grid,
+  .has-tactical-rail .tactical-acquisition-layout,
+  .has-tactical-rail .builder-terminal-grid,
+  .has-tactical-rail .tactical-loadout-layout { display: block !important; }
+  .has-tactical-rail .cards-acquisition-axis { display: none !important; }
+  .has-tactical-rail .react-filter-panel,
+  .has-tactical-rail .cards-terminal-side-stack,
+  .has-tactical-rail .builder-terminal-grid > .filter-panel,
+  .has-tactical-rail .builder-terminal-grid > .synergy-panel { position: static !important; max-height: none; }
+  .has-tactical-rail .react-filter-panel { border: 0 !important; border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 20%, transparent) !important; }
+  .has-tactical-rail .react-filter-panel .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .card-color-filter { grid-column: 1 / -1; }
+  .card-color-filter > div { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .has-tactical-rail .react-card-results > .panel-head { float: none; }
+  .card-results-toolbar { justify-content: flex-start; flex-wrap: wrap; margin-left: 0; }
+  .card-results-toolbar__readout { display: none; }
+  .has-tactical-rail .cards-terminal-side-stack { display: grid !important; grid-template-columns: 1fr; }
+  .has-tactical-rail .community-player-grid { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 560px) {
+  .has-tactical-rail .site-brand small { display: none; }
+  .has-tactical-rail .site-brand strong { font-size: .62rem !important; }
+  .has-tactical-rail .hud-theme-selector { display: none !important; }
+  .has-tactical-rail .site-format-selector select { max-width: 128px; }
+  .has-tactical-rail .tactical-page-linkbar__network { display: none; }
+  .has-tactical-rail .tactical-summary-card { flex-basis: 130px; }
+  .has-tactical-rail .react-filter-panel .filter-grid { grid-template-columns: 1fr !important; }
+  .card-color-filter > div { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .has-tactical-rail .react-card-results .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 5px !important; }
+  .has-tactical-rail .community-module-card { grid-template-columns: 24px minmax(0, 1fr); }
+  .has-tactical-rail .community-module-card button { grid-column: 2; grid-row: auto; justify-self: start; }
+}

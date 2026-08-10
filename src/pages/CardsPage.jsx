@@ -6,8 +6,6 @@ import { SynergyPanel } from "../components/synergy/SynergyPanel";
 import {
   TacticalPageHeader,
   TacticalPageShell,
-  TacticalSummaryCard,
-  TacticalSummaryStrip,
 } from "../components/tactical/TacticalPageShell";
 import { filterCards, uniqueValues } from "../utils/cardFilters";
 import { sortCards } from "../domain/cards";
@@ -38,6 +36,11 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
     rarities: ["Any", ...uniqueValues(searchableCards, (card) => card.rarity)],
     sets: ["Any", ...uniqueValues(searchableCards.flatMap((card) => card.packageCodes || []), (value) => value)],
   };
+  const colorCounts = useMemo(() => searchableCards.reduce((counts, card) => {
+    const color = card.color || "Unknown";
+    counts[color] = (counts[color] || 0) + 1;
+    return counts;
+  }, {}), [searchableCards]);
 
   function selectCard(cardId) {
     setSelectedCardId(cardId);
@@ -55,13 +58,6 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
         title="Card Intelligence Archive"
         subtitle="Scan printings, effects, market references and competitive signals without leaving the active dossier."
       />
-      <TacticalSummaryStrip>
-        <TacticalSummaryCard label="Database" value={searchableCards.length} detail={`${allCards.length} base cards, variants expanded.`} tone="blue" />
-        <TacticalSummaryCard label="Scan result" value={visibleCards.length} detail={`Showing first ${pageCards.length}.`} tone="green" />
-        <TacticalSummaryCard label="Mode" value={viewMode} detail={`Sorted by ${sortMode}.`} />
-        <TacticalSummaryCard label="Selected" value={selectedCard?.displayCardNumber || selectedCard?.cardNumber || "-"} detail={selectedCard?.cardName || "Awaiting selection."} tone="gold" />
-      </TacticalSummaryStrip>
-
       <div className="cards-terminal-grid react-cards-page tactical-acquisition-layout">
       <div className="cards-acquisition-axis" aria-hidden="true">
         <span>OBJECT ACQUISITION</span><i /><b>{String(visibleCards.length).padStart(4, "0")}</b>
@@ -77,7 +73,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
             <input value={filters.search} placeholder="Name, number, text..." onChange={(event) => setFilter("search", event.target.value)} />
           </label>
           <Select label="Set" value={filters.set} options={options.sets} onChange={(value) => setFilter("set", value)} />
-          <Select label="Color" value={filters.color} options={options.colors} onChange={(value) => setFilter("color", value)} />
+          <ColorFilter value={filters.color} options={options.colors} counts={colorCounts} onChange={(value) => setFilter("color", value)} />
           <Select label="Type" value={filters.type} options={options.types} onChange={(value) => setFilter("type", value)} />
           <Select label="Rarity" value={filters.rarity} options={options.rarities} onChange={(value) => setFilter("rarity", value)} />
           <label>
@@ -88,7 +84,17 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
             <span>Trait / keyword</span>
             <input value={filters.trait} placeholder="Blocker, Earth..." onChange={(event) => setFilter("trait", event.target.value)} />
           </label>
-          <label>
+        </div>
+      </aside>
+
+      <section className="panel react-card-results hud-primary-field" data-hud-zone="OBJECT FIELD">
+        <span className="hud-field-reticle" aria-hidden="true"><i /><i /></span>
+        <div className="panel-head">
+          <h2>{visibleCards.length} units found</h2>
+          <p>{printMode === "all" ? "All printings" : printMode === "base" ? "Base printings" : "Alternate printings"} · showing first {pageCards.length}.</p>
+        </div>
+        <div className="card-results-toolbar" role="toolbar" aria-label="Card result controls">
+          <label className="card-results-toolbar__sort">
             <span>Sort</span>
             <select value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
               <option value="recent-meta">Recent meta</option>
@@ -99,23 +105,16 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
               <option value="price-low">Lowest BRL price</option>
             </select>
           </label>
-        </div>
-        <div className="button-row">
           <span className="card-print-switch" role="group" aria-label="Filter printings">
-            <button type="button" onClick={() => setPrintMode("all")} className={printMode === "all" ? "is-active" : ""}>All prints</button>
-            <button type="button" onClick={() => setPrintMode("base")} className={printMode === "base" ? "is-active" : ""}>Base only</button>
-            <button type="button" onClick={() => setPrintMode("alts")} className={printMode === "alts" ? "is-active" : ""}>Alt arts</button>
+            <button type="button" onClick={() => setPrintMode("all")} className={printMode === "all" ? "is-active" : ""}>All</button>
+            <button type="button" onClick={() => setPrintMode("base")} className={printMode === "base" ? "is-active" : ""}>Base</button>
+            <button type="button" onClick={() => setPrintMode("alts")} className={printMode === "alts" ? "is-active" : ""}>Alt</button>
           </span>
-          <button type="button" onClick={() => setViewMode("grid")} className={viewMode === "grid" ? "is-active" : ""}>Grid</button>
-          <button type="button" onClick={() => setViewMode("table")} className={viewMode === "table" ? "is-active" : ""}>Table</button>
-        </div>
-      </aside>
-
-      <section className="panel react-card-results hud-primary-field" data-hud-zone="OBJECT FIELD">
-        <span className="hud-field-reticle" aria-hidden="true"><i /><i /></span>
-        <div className="panel-head">
-          <h2>{visibleCards.length} units found</h2>
-          <p>{printMode === "all" ? "All printings" : printMode === "base" ? "Base printings" : "Alternate printings"} · showing first {pageCards.length}.</p>
+          <span className="card-view-switch" role="group" aria-label="Results view">
+            <button type="button" onClick={() => setViewMode("grid")} className={viewMode === "grid" ? "is-active" : ""}>Grid</button>
+            <button type="button" onClick={() => setViewMode("table")} className={viewMode === "table" ? "is-active" : ""}>List</button>
+          </span>
+          <span className="card-results-toolbar__readout">{searchableCards.length} INDEXED // {pageCards.length} ONLINE</span>
         </div>
         {viewMode === "table" ? (
           <CardTable
@@ -264,4 +263,41 @@ function Select({ label, value, options, onChange }) {
       </select>
     </label>
   );
+}
+
+function ColorFilter({ value, options, counts, onChange }) {
+  const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
+  return (
+    <fieldset className="card-color-filter">
+      <legend>Color spectrum</legend>
+      <div>
+        {options.map((option) => (
+          <button
+            key={option}
+            type="button"
+            className={value === option ? "is-active" : ""}
+            data-card-color={colorToken(option)}
+            aria-pressed={value === option}
+            onClick={() => onChange(option)}
+          >
+            <i aria-hidden="true" />
+            <span>{option === "Any" ? "All" : option}</span>
+            <small>{option === "Any" ? total : counts[option] || 0}</small>
+          </button>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+function colorToken(value) {
+  const token = String(value || "any").toLowerCase();
+  if (token.includes("blue")) return "blue";
+  if (token.includes("red")) return "red";
+  if (token.includes("green")) return "green";
+  if (token.includes("white")) return "white";
+  if (token.includes("purple")) return "purple";
+  if (token.includes("yellow")) return "yellow";
+  if (token.includes("black")) return "black";
+  return "any";
 }

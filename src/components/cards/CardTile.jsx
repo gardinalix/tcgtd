@@ -1,10 +1,7 @@
-import { effectiveBrlPrice, formatBrl, formatUsd, getMetaSignal } from "../../domain/cards";
-import { Badge } from "./Badge";
+import { effectiveBrlPrice, formatBrl, formatUsd } from "../../domain/cards";
 import { CardArt } from "./CardArt";
-import { PriceTag } from "./PriceTag";
 
 export function CardTile({ card, onSelect, onOpenSynergyMap }) {
-  const signal = getMetaSignal(card);
   const priceBrl = effectiveBrlPrice(card);
   const priceLabel = Number.isFinite(Number(priceBrl)) ? formatBrl(priceBrl) : formatUsd(card.marketPriceUsd);
   function selectCard() {
@@ -31,11 +28,6 @@ export function CardTile({ card, onSelect, onOpenSynergyMap }) {
         <span className="card-gallery-tile__number">{card.displayCardNumber || card.cardNumber}</span>
         <h3>{card.cardName}</h3>
         <p>{[card.color, card.cardType, card.rarity].filter(Boolean).join(" / ")}</p>
-        <div className="badge-row card-gallery-tile__signals">
-          <Badge tone={signal.tone}>{signal.label}</Badge>
-          {card.hasAltArt ? <Badge tone="purple">Alt art</Badge> : null}
-        </div>
-        <div className="card-gallery-tile__market-detail"><PriceTag card={card} /></div>
         {onOpenSynergyMap ? (
           <button
             type="button"
@@ -45,7 +37,7 @@ export function CardTile({ card, onSelect, onOpenSynergyMap }) {
               onOpenSynergyMap(card.cardNumber);
             }}
           >
-            Synergy map
+            MAP
           </button>
         ) : null}
       </div>

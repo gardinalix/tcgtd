@@ -6,6 +6,7 @@ import "./react.css";
 import "./launch.css";
 import "./tactical-system.css";
 import "./hud-system-v2.css";
+import "./ops-hud.css";
 import { App } from "./App";
 import { LocaleProvider } from "./i18n/LocaleProvider";
 
