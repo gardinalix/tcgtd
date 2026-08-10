@@ -6,6 +6,7 @@ const appSource = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "u
 const cardSource = fs.readFileSync(new URL("../src/pages/CardsPage.jsx", import.meta.url), "utf8");
 const railSource = fs.readFileSync(new URL("../src/components/layout/TacticalSideRail.jsx", import.meta.url), "utf8");
 const deckMapSource = fs.readFileSync(new URL("../src/components/decks/DeckMap.jsx", import.meta.url), "utf8");
+const eventsSource = fs.readFileSync(new URL("../src/pages/EventsPage.jsx", import.meta.url), "utf8");
 const cssSource = fs.readFileSync(new URL("../src/ops-hud.css", import.meta.url), "utf8");
 const mainSource = fs.readFileSync(new URL("../src/main.jsx", import.meta.url), "utf8");
 
@@ -97,4 +98,15 @@ test("synergy map hover acquires a node without moving or scaling the card", () 
   assert.match(cssSource, /body\[data-view="synergyMap"\][\s\S]*?\.synergy-map-node:hover,[\s\S]*?transform: translate\(-50%, -50%\) !important;/);
   assert.doesNotMatch(cssSource, /body\[data-view="synergyMap"\][\s\S]*?\.synergy-map-node:hover[\s\S]*?scale\(/);
   assert.match(cssSource, /prefers-reduced-motion: reduce[\s\S]*?\.synergy-map-node[\s\S]*?transition: none !important/);
+});
+
+test("the event archive prioritizes a readable record log over dashboard tiles", () => {
+  assert.match(eventsSource, /const EVENT_PAGE_SIZE = 48/);
+  assert.match(eventsSource, /className="events-filter-console"/);
+  assert.match(eventsSource, /className="events-operations-layout"/);
+  assert.match(eventsSource, /className="events-intel-station"/);
+  assert.doesNotMatch(eventsSource, /TacticalSummaryStrip|TacticalBreakdownPanel/);
+  assert.match(cssSource, /Event operations archive: the record log is the primary instrument/);
+  assert.match(cssSource, /events-operations-layout[\s\S]*?grid-template-columns: minmax\(0, 1fr\) minmax\(278px, 308px\)/);
+  assert.match(cssSource, /events-records-station \.tactical-table[\s\S]*?min-width: 690px[\s\S]*?table-layout: fixed/);
 });
