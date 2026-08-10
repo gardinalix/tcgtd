@@ -27,9 +27,25 @@ test("card archive uses compact chromatic controls instead of summary dashboard 
 test("the final HUD layer compresses controls and turns shared cards into telemetry planes", () => {
   assert.match(cssSource, /\.has-tactical-rail \.tactical-summary-strip/);
   assert.match(cssSource, /\.has-tactical-rail \.tactical-data-panel/);
-  assert.match(cssSource, /min-height: 28px !important/);
-  assert.match(cssSource, /repeat\(auto-fill, minmax\(126px, 1fr\)\)/);
+  assert.match(cssSource, /min-height: 30px !important/);
+  assert.match(cssSource, /repeat\(auto-fill, minmax\(148px, 1fr\)\)/);
   assert.match(cssSource, /\.has-tactical-rail \.builder-terminal-grid/);
+});
+
+test("localized card colors resolve to distinct HUD channels", () => {
+  assert.match(cardSource, /includes\("azul"\)/);
+  assert.match(cardSource, /includes\("vermelh"\)/);
+  assert.match(cardSource, /includes\("verde"\)/);
+  assert.match(cardSource, /includes\("branc"\)/);
+  assert.match(cardSource, /includes\("rox"\)/);
+  assert.match(cssSource, /data-card-color="green"/);
+  assert.match(cssSource, /data-card-color="purple"/);
+});
+
+test("the operational header is fixed and its grid reserves readable space", () => {
+  assert.match(cssSource, /grid-template-rows: 76px minmax\(0, 1fr\) auto/);
+  assert.match(cssSource, /position: fixed !important/);
+  assert.match(cssSource, /top: 76px !important/);
 });
 
 test("the operational HUD stylesheet is the final cascade authority", () => {

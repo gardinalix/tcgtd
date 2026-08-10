@@ -31,7 +31,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   const selectedCard = searchableCards.find((card) => card.displayId === selectedCardId) || visibleCards[0] || null;
   const pageCards = visibleCards.slice(0, 160);
   const options = {
-    colors: ["Any", ...uniqueValues(searchableCards, (card) => card.color)],
+    colors: ["Any", ...orderColors(uniqueValues(searchableCards, (card) => card.color))],
     types: ["Any", ...uniqueValues(searchableCards, (card) => card.cardType)],
     rarities: ["Any", ...uniqueValues(searchableCards, (card) => card.rarity)],
     sets: ["Any", ...uniqueValues(searchableCards.flatMap((card) => card.packageCodes || []), (value) => value)],
@@ -292,12 +292,22 @@ function ColorFilter({ value, options, counts, onChange }) {
 
 function colorToken(value) {
   const token = String(value || "any").toLowerCase();
-  if (token.includes("blue")) return "blue";
-  if (token.includes("red")) return "red";
-  if (token.includes("green")) return "green";
-  if (token.includes("white")) return "white";
-  if (token.includes("purple")) return "purple";
-  if (token.includes("yellow")) return "yellow";
-  if (token.includes("black")) return "black";
+  if (token.includes("blue") || token.includes("azul")) return "blue";
+  if (token.includes("red") || token.includes("vermelh")) return "red";
+  if (token.includes("green") || token.includes("verde")) return "green";
+  if (token.includes("white") || token.includes("branc")) return "white";
+  if (token.includes("purple") || token.includes("rox") || token.includes("púrpura") || token.includes("purpura")) return "purple";
+  if (token.includes("yellow") || token.includes("amarel")) return "yellow";
+  if (token.includes("black") || token.includes("pret")) return "black";
+  if (token.includes("neutral") || token.includes("neutr")) return "neutral";
   return "any";
+}
+
+function orderColors(colors) {
+  const priority = { blue: 0, red: 1, green: 2, white: 3, purple: 4, yellow: 5, black: 6, neutral: 7, any: 8 };
+  return colors.slice().sort((left, right) => {
+    const leftRank = priority[colorToken(left)] ?? 99;
+    const rightRank = priority[colorToken(right)] ?? 99;
+    return leftRank - rightRank || String(left).localeCompare(String(right));
+  });
 }

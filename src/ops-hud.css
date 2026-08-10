@@ -5,8 +5,8 @@
 
 .app-shell.has-tactical-rail {
   display: grid !important;
-  grid-template-columns: 176px minmax(0, 1fr);
-  grid-template-rows: 64px minmax(0, 1fr) auto;
+  grid-template-columns: 188px minmax(0, 1fr);
+  grid-template-rows: 76px minmax(0, 1fr) auto;
   min-height: 100svh;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--hud-accent, #46d9ff) 5%, transparent) 1px, transparent 1px) 0 0 / 72px 72px,
@@ -17,23 +17,33 @@
 .has-tactical-rail > .site-header {
   grid-column: 1 / -1;
   grid-row: 1;
-  position: sticky !important;
+  position: fixed !important;
   top: 0;
+  right: 0;
+  left: 0;
   z-index: 80;
   display: grid !important;
-  grid-template-columns: minmax(230px, 310px) minmax(190px, 360px) minmax(0, 1fr) !important;
+  grid-template-columns: minmax(270px, 330px) minmax(260px, 470px) minmax(480px, 1fr) !important;
   align-items: center;
   gap: 12px !important;
   width: 100%;
-  min-height: 64px !important;
-  height: 64px;
-  padding: 7px 14px !important;
+  min-height: 76px !important;
+  height: 76px;
+  padding: 8px 18px !important;
   border: 0 !important;
   border-bottom: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 42%, transparent) !important;
   border-radius: 0 !important;
   background: color-mix(in srgb, #02070d 94%, var(--hud-accent, #46d9ff) 6%) !important;
   box-shadow: 0 12px 30px #0009 !important;
   clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail > .site-header {
+  position: fixed !important;
+  grid-template-columns: minmax(270px, 330px) minmax(260px, 470px) minmax(480px, 1fr) !important;
+  grid-template-areas: "brand search actions" !important;
+  min-height: 76px !important;
+  height: 76px !important;
 }
 
 .has-tactical-rail > .site-header::before,
@@ -59,13 +69,14 @@
 }
 
 .has-tactical-rail .site-brand strong {
-  font-size: .76rem !important;
+  font-size: .88rem !important;
   letter-spacing: .09em !important;
   white-space: nowrap;
 }
 
 .has-tactical-rail .site-brand em,
-.has-tactical-rail .site-nav {
+.has-tactical-rail .site-nav,
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-nav {
   display: none !important;
 }
 
@@ -78,9 +89,13 @@
   margin: 0 !important;
 }
 
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .global-search {
+  display: grid !important;
+}
+
 .has-tactical-rail .global-search > span {
   color: color-mix(in srgb, var(--hud-accent, #46d9ff) 62%, #81939f);
-  font: 700 .48rem/1 var(--system-label, "Rajdhani", sans-serif);
+  font: 700 .54rem/1 var(--system-label, "Rajdhani", sans-serif);
   letter-spacing: .1em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -88,13 +103,13 @@
 
 .has-tactical-rail .global-search input {
   width: 100%;
-  height: 30px !important;
-  min-height: 30px !important;
-  padding: 0 9px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 11px !important;
   border: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 26%, transparent) !important;
   border-radius: 0 !important;
   background: #01060a99 !important;
-  font-size: .7rem !important;
+  font-size: .76rem !important;
 }
 
 .has-tactical-rail .site-header__actions {
@@ -103,6 +118,13 @@
   align-items: center;
   gap: 6px !important;
   min-width: 0;
+}
+
+body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-header__actions {
+  display: flex !important;
+  grid-template-columns: none !important;
+  justify-content: flex-end !important;
+  gap: 7px !important;
 }
 
 .has-tactical-rail .hud-theme-selector,
@@ -128,11 +150,11 @@
 .has-tactical-rail .site-format-selector select {
   width: auto !important;
   max-width: 150px;
-  height: 28px !important;
-  min-height: 28px !important;
-  padding: 0 24px 0 7px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 25px 0 8px !important;
   border-radius: 0 !important;
-  font-size: .58rem !important;
+  font-size: .64rem !important;
 }
 
 .has-tactical-rail .language-switch button,
@@ -167,12 +189,12 @@
 
 .tactical-side-rail {
   position: sticky;
-  top: 64px;
+  top: 76px;
   z-index: 30;
   align-self: start;
   display: flex;
   flex-direction: column;
-  height: calc(100svh - 64px);
+  height: calc(100svh - 76px);
   min-height: 560px;
   overflow: hidden auto;
   border-right: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 31%, transparent);
@@ -257,7 +279,7 @@
 }
 
 .tactical-side-rail__group button > strong {
-  font: 700 .66rem/1 var(--system-label, "Rajdhani", sans-serif);
+  font: 700 .72rem/1 var(--system-label, "Rajdhani", sans-serif);
   letter-spacing: .06em;
   text-transform: uppercase;
 }
@@ -288,7 +310,7 @@
   display: block !important;
   width: 100% !important;
   max-width: none !important;
-  min-height: calc(100svh - 64px);
+  min-height: calc(100svh - 76px);
   margin: 0 !important;
   padding: 0 16px 34px !important;
   overflow: visible !important;
@@ -392,8 +414,8 @@
   max-width: 820px !important;
   margin: 4px 0 0 !important;
   color: #7f98a4 !important;
-  font-size: .68rem !important;
-  line-height: 1.2 !important;
+  font-size: .76rem !important;
+  line-height: 1.3 !important;
 }
 
 .has-tactical-rail .tactical-page-header__actions,
@@ -453,7 +475,8 @@
 .has-tactical-rail .tactical-summary-card::after { display: none !important; }
 .has-tactical-rail .tactical-summary-card > span { color: #617985 !important; font-size: .46rem !important; letter-spacing: .12em !important; }
 .has-tactical-rail .tactical-summary-card > strong { color: var(--summary-tone, var(--hud-accent, #46d9ff)) !important; font-size: .88rem !important; line-height: 1 !important; }
-.has-tactical-rail .tactical-summary-card > small { grid-column: 1 / -1; overflow: hidden; color: #657986 !important; font-size: .5rem !important; line-height: 1.1 !important; text-overflow: ellipsis; white-space: nowrap; }
+.has-tactical-rail .tactical-summary-card > strong { font-size: .98rem !important; }
+.has-tactical-rail .tactical-summary-card > small { grid-column: 1 / -1; overflow: hidden; color: #718792 !important; font-size: .56rem !important; line-height: 1.15 !important; text-overflow: ellipsis; white-space: nowrap; }
 
 .has-tactical-rail .tactical-data-panel,
 .has-tactical-rail .tactical-page-shell > .panel,
@@ -485,7 +508,7 @@
 .has-tactical-rail .tactical-panel-header h2,
 .has-tactical-rail .panel-head h2 {
   margin: 0 !important;
-  font-size: .72rem !important;
+  font-size: .8rem !important;
   line-height: 1.15 !important;
   letter-spacing: .08em !important;
   text-transform: uppercase;
@@ -495,8 +518,8 @@
 .has-tactical-rail .panel-head p {
   margin: 3px 0 0 !important;
   color: #687e89 !important;
-  font-size: .58rem !important;
-  line-height: 1.2 !important;
+  font-size: .64rem !important;
+  line-height: 1.3 !important;
 }
 
 .has-tactical-rail .tactical-card-grid,
@@ -540,10 +563,10 @@
 .has-tactical-rail .tactical-page-shell a.tactical-action-button {
   width: auto;
   min-width: 0;
-  min-height: 28px !important;
-  padding: 4px 9px !important;
+  min-height: 30px !important;
+  padding: 5px 10px !important;
   border-radius: 0 !important;
-  font-size: .56rem !important;
+  font-size: .62rem !important;
   line-height: 1.05 !important;
   letter-spacing: .07em !important;
   clip-path: none !important;
@@ -560,15 +583,15 @@
 .has-tactical-rail .tactical-page-shell input:not([type="checkbox"]):not([type="radio"]),
 .has-tactical-rail .tactical-page-shell select,
 .has-tactical-rail .tactical-page-shell textarea {
-  min-height: 30px !important;
-  padding: 5px 8px !important;
+  min-height: 34px !important;
+  padding: 6px 9px !important;
   border-radius: 0 !important;
-  font-size: .67rem !important;
+  font-size: .74rem !important;
 }
 
 .has-tactical-rail .tactical-page-shell label > span,
 .has-tactical-rail .tactical-page-shell legend {
-  font-size: .49rem !important;
+  font-size: .55rem !important;
   letter-spacing: .1em !important;
   text-transform: uppercase;
 }
@@ -593,7 +616,7 @@
 .has-tactical-rail .cards-terminal-grid,
 .has-tactical-rail .tactical-acquisition-layout {
   display: grid !important;
-  grid-template-columns: 214px minmax(0, 1fr) 252px !important;
+  grid-template-columns: 246px minmax(0, 1fr) 276px !important;
   grid-template-rows: 25px auto;
   gap: 0 !important;
   width: 100%;
@@ -621,10 +644,10 @@
   grid-column: 1;
   grid-row: 2;
   position: sticky !important;
-  top: 64px !important;
+  top: 76px !important;
   z-index: 12;
   align-self: start;
-  max-height: calc(100svh - 64px);
+  max-height: calc(100svh - 76px);
   overflow: hidden auto;
   margin: 0 !important;
   padding: 10px !important;
@@ -657,32 +680,37 @@
   align-items: center;
   gap: 5px;
   width: 100% !important;
-  height: 26px !important;
-  min-height: 26px !important;
-  padding: 0 6px !important;
+  height: 35px !important;
+  min-height: 35px !important;
+  padding: 0 8px !important;
   border: 1px solid color-mix(in srgb, var(--card-chip) 34%, #17242b) !important;
-  color: #8da1aa;
-  background: color-mix(in srgb, var(--card-chip) 6%, #03090e) !important;
+  color: color-mix(in srgb, var(--card-chip) 54%, #c7d6dc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--card-chip) 13%, #03090e), #03090e 72%) !important;
   text-align: left;
 }
 
 .has-tactical-rail .card-color-filter button.is-active {
   border-color: color-mix(in srgb, var(--card-chip) 82%, white) !important;
   color: #efffff;
-  background: color-mix(in srgb, var(--card-chip) 18%, #03090e) !important;
-  box-shadow: inset 2px 0 0 var(--card-chip), 0 0 10px color-mix(in srgb, var(--card-chip) 18%, transparent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--card-chip) 27%, #03090e), color-mix(in srgb, var(--card-chip) 8%, #03090e)) !important;
+  box-shadow: inset 3px 0 0 var(--card-chip), 0 0 12px color-mix(in srgb, var(--card-chip) 23%, transparent);
 }
 
-.card-color-filter button > i { width: 7px; height: 7px; border: 1px solid #ffffff88; border-radius: 50%; background: var(--card-chip); box-shadow: 0 0 7px color-mix(in srgb, var(--card-chip) 65%, transparent); }
-.card-color-filter button > span { overflow: hidden; font-size: .52rem !important; text-overflow: ellipsis; white-space: nowrap; }
-.card-color-filter button > small { color: #657b85; font-size: .43rem; }
-.card-color-filter [data-card-color="blue"] { --card-chip: #199cff; }
-.card-color-filter [data-card-color="red"] { --card-chip: #ff3d52; }
-.card-color-filter [data-card-color="green"] { --card-chip: #3fe56f; }
-.card-color-filter [data-card-color="white"] { --card-chip: #eaf9ff; }
-.card-color-filter [data-card-color="purple"] { --card-chip: #ad6cff; }
-.card-color-filter [data-card-color="yellow"] { --card-chip: #ffd43b; }
-.card-color-filter [data-card-color="black"] { --card-chip: #60717a; }
+.card-color-filter button > i { width: 10px; height: 10px; border: 1px solid #ffffff99; border-radius: 50%; background: var(--card-chip); box-shadow: 0 0 9px color-mix(in srgb, var(--card-chip) 72%, transparent); }
+.card-color-filter button > span { overflow: hidden; font-size: .61rem !important; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+.card-color-filter button > small { color: color-mix(in srgb, var(--card-chip) 38%, #85959d); font-size: .5rem; font-weight: 800; }
+.has-tactical-rail .card-color-filter [data-card-color="blue"] { --card-chip: #249dff; }
+.has-tactical-rail .card-color-filter [data-card-color="red"] { --card-chip: #ff465c; }
+.has-tactical-rail .card-color-filter [data-card-color="green"] { --card-chip: #3fe56f; }
+.has-tactical-rail .card-color-filter [data-card-color="white"] { --card-chip: #eaf9ff; }
+.has-tactical-rail .card-color-filter [data-card-color="purple"] { --card-chip: #b06dff; }
+.has-tactical-rail .card-color-filter [data-card-color="yellow"] { --card-chip: #ffd43b; }
+.has-tactical-rail .card-color-filter [data-card-color="black"] { --card-chip: #60717a; }
+.has-tactical-rail .card-color-filter [data-card-color="neutral"] { --card-chip: #8a9aa2; }
+.has-tactical-rail .card-color-filter [data-card-color="any"] { --card-chip: var(--hud-accent, #46d9ff); }
+.has-tactical-rail .card-color-filter [data-card-color="any"] > i {
+  background: conic-gradient(#249dff, #3fe56f, #eaf9ff, #b06dff, #ff465c, #249dff);
+}
 
 .has-tactical-rail .react-card-results {
   grid-column: 2;
@@ -734,8 +762,8 @@
 .has-tactical-rail .react-card-results .card-grid {
   clear: both;
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(126px, 1fr)) !important;
-  gap: 7px !important;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)) !important;
+  gap: 9px !important;
   width: 100%;
   margin: 0 !important;
   padding: 0 !important;
@@ -971,19 +999,20 @@
 
 .has-tactical-rail .card-gallery-tile__number { grid-column: 1; color: var(--hud-accent, #46d9ff); font-size: .48rem !important; }
 .has-tactical-rail .library-card__body h3 { grid-column: 1; overflow: hidden; margin: 0 !important; font-size: .58rem !important; line-height: 1.1 !important; text-overflow: ellipsis; white-space: nowrap; }
-.has-tactical-rail .library-card__body p { grid-column: 1; overflow: hidden; margin: 0 !important; color: #607680 !important; font-size: .43rem !important; line-height: 1 !important; text-overflow: ellipsis; white-space: nowrap; }
+.has-tactical-rail .library-card__body h3 { font-size: .66rem !important; line-height: 1.18 !important; }
+.has-tactical-rail .library-card__body p { grid-column: 1; overflow: hidden; margin: 0 !important; color: #718791 !important; font-size: .49rem !important; line-height: 1.1 !important; text-overflow: ellipsis; white-space: nowrap; }
 .has-tactical-rail .card-map-button { grid-column: 2; grid-row: 1 / span 3; align-self: end; height: 21px !important; min-height: 21px !important; padding: 0 5px !important; font-size: .43rem !important; }
 
 .has-tactical-rail .cards-terminal-side-stack {
   grid-column: 3;
   grid-row: 2;
   position: sticky !important;
-  top: 64px !important;
+  top: 76px !important;
   z-index: 11;
   display: grid !important;
   gap: 1px !important;
   align-self: start;
-  max-height: calc(100svh - 64px);
+  max-height: calc(100svh - 76px);
   margin: 0 !important;
   overflow: hidden auto;
   border-left: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, transparent);
@@ -1129,8 +1158,8 @@
   grid-column: 1;
   grid-row: 2;
   position: sticky;
-  top: 64px;
-  max-height: calc(100svh - 64px);
+  top: 76px;
+  max-height: calc(100svh - 76px);
   margin: 0 !important;
   padding: 9px !important;
   overflow: hidden auto;
@@ -1154,8 +1183,8 @@
   grid-column: 3;
   grid-row: 2;
   position: sticky;
-  top: 64px;
-  max-height: calc(100svh - 64px);
+  top: 76px;
+  max-height: calc(100svh - 76px);
   overflow: hidden auto;
 }
 
@@ -1232,14 +1261,17 @@
 .has-tactical-rail .synergy-map-layout > * { margin: 0 !important; border: 0 !important; border-radius: 0 !important; background-color: #030a10 !important; box-shadow: none !important; clip-path: none !important; }
 
 @media (max-width: 1280px) {
-  .app-shell.has-tactical-rail { grid-template-columns: 148px minmax(0, 1fr); }
+  .app-shell.has-tactical-rail { grid-template-columns: 158px minmax(0, 1fr); }
   .tactical-side-rail__group button { grid-template-columns: 27px minmax(0, 1fr) 5px; }
   .has-tactical-rail > .site-header { grid-template-columns: 220px minmax(170px, 1fr) auto !important; }
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail > .site-header {
+    grid-template-columns: 220px minmax(170px, 1fr) auto !important;
+  }
   .has-tactical-rail .language-switch,
   .has-tactical-rail .hud-theme-selector > span,
   .has-tactical-rail .site-format-selector > small { display: none !important; }
   .has-tactical-rail .cards-terminal-grid,
-  .has-tactical-rail .tactical-acquisition-layout { grid-template-columns: 196px minmax(0, 1fr) !important; }
+  .has-tactical-rail .tactical-acquisition-layout { grid-template-columns: 224px minmax(0, 1fr) !important; }
   .has-tactical-rail .cards-terminal-side-stack { grid-column: 1 / -1; grid-row: 3; position: static !important; grid-template-columns: 260px minmax(0, 1fr); max-height: none; border: 0; border-top: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 20%, transparent); }
   .has-tactical-rail .builder-terminal-grid,
   .has-tactical-rail .tactical-loadout-layout { grid-template-columns: 190px minmax(0, 1fr) !important; }
@@ -1247,8 +1279,15 @@
 }
 
 @media (max-width: 900px) {
-  .app-shell.has-tactical-rail { display: block !important; }
-  .has-tactical-rail > .site-header { position: sticky !important; grid-template-columns: minmax(180px, 1fr) auto !important; height: 58px; min-height: 58px !important; padding: 6px 9px !important; }
+  .app-shell.has-tactical-rail { display: block !important; padding-top: 64px; }
+  .has-tactical-rail > .site-header { position: fixed !important; grid-template-columns: minmax(180px, 1fr) auto !important; height: 64px; min-height: 64px !important; padding: 6px 9px !important; }
+  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail > .site-header {
+    position: fixed !important;
+    grid-template-columns: minmax(180px, 1fr) auto !important;
+    grid-template-areas: "brand actions" !important;
+    height: 64px !important;
+    min-height: 64px !important;
+  }
   .has-tactical-rail .global-search,
   .has-tactical-rail .language-switch,
   .has-tactical-rail .pilot-label-button { display: none !important; }
@@ -1256,7 +1295,7 @@
   .has-tactical-rail .site-format-selector select,
   .has-tactical-rail .hud-theme-selector select { max-width: 115px; }
   .tactical-side-rail {
-    top: 58px;
+    top: 64px;
     flex-direction: row;
     width: 100%;
     height: 42px;
