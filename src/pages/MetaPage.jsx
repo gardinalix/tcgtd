@@ -42,11 +42,7 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
       </TacticalSummaryStrip>
 
       <div className="tactical-card-grid meta-field-matrix">
-        <MetaPanel title="Recent movements" rows={signal.risers} valueKey="band" cardMap={cardMap} />
-        <MetaPanel title="Largest drops" rows={signal.fallers} valueKey="delta" cardMap={cardMap} />
-        <MetaPanel title="Cards under watch" rows={signal.watch} valueKey="recent" cardMap={cardMap} />
-        <TacticalDataPanel title="Trending archetypes" subtitle={`${signal.context.deckCount} lists inside ${selectedWindow?.label || "the selected window"}.`} code="ARC/RAD" mode="radar">
-          <div className="meta-radar-core" aria-hidden="true"><i /><i /><i /><span>META FIELD</span></div>
+        <TacticalDataPanel className="meta-archetype-station" title="Trending archetypes" subtitle={`${signal.context.deckCount} lists inside ${selectedWindow?.label || "the selected window"}.`} code="ARC/RAD" mode="radar">
           <div className="cockpit-list meta-archetype-links">
             {signal.archetypeTrends.map((row) => (
               <button
@@ -62,6 +58,9 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
             ))}
           </div>
         </TacticalDataPanel>
+        <MetaPanel className="meta-signal-station meta-signal-station--risers" title="Recent movements" rows={signal.risers} valueKey="band" cardMap={cardMap} />
+        <MetaPanel className="meta-signal-station meta-signal-station--fallers" title="Largest drops" rows={signal.fallers} valueKey="delta" cardMap={cardMap} />
+        <MetaPanel className="meta-signal-station meta-signal-station--watch" title="Cards under watch" rows={signal.watch} valueKey="recent" cardMap={cardMap} />
       </div>
 
       <TacticalDataPanel title={`Meta signal · ${selectedWindow?.shortLabel || "scope"}`} subtitle={`${signal.ranked.length} cards actually used in ${signal.context.deckCount} indexed lists.`} code="SIG/DB" mode="matrix">
@@ -77,11 +76,13 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
   );
 }
 
-function MetaPanel({ title, rows, valueKey, cardMap }) {
+function MetaPanel({ className, title, rows, valueKey, cardMap }) {
+  const visibleRows = rows.slice(0, 6);
+
   return (
-    <TacticalDataPanel title={title} subtitle="Latest tactical signal.">
+    <TacticalDataPanel className={className} title={title} subtitle={`${visibleRows.length} priority signals · complete readout below.`}>
       <div className="cockpit-list">
-        {rows.map((row) => (
+        {visibleRows.map((row) => (
           <MetaSignalListRow
             key={row.cardNumber}
             row={row}

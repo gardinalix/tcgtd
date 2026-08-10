@@ -2006,3 +2006,104 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-enga
     min-width: 112px !important;
   }
 }
+
+/* Meta intelligence board: data is the field.  The archetype feed owns the
+   primary station and the three card signals remain legible channels beside it;
+   there is no decorative radar reserving a large, empty region. */
+@media (min-width: 901px) {
+  body[data-view="meta"] .app-shell.has-tactical-rail .tactical-card-grid.meta-field-matrix {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.18fr) minmax(340px, .82fr) !important;
+    grid-template-rows: repeat(3, minmax(250px, auto)) !important;
+    gap: 1px !important;
+    min-height: 0 !important;
+    margin-top: 12px !important;
+    padding: 1px 0 !important;
+    overflow: visible !important;
+    background: color-mix(in srgb, var(--hud-accent, #46d9ff) 16%, transparent) !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-field-matrix > .tactical-data-panel {
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 12px 14px 14px !important;
+    overflow: visible !important;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--hud-accent, #46d9ff) 5%, transparent), transparent 96px),
+      #030a10 !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-archetype-station {
+    display: grid !important;
+    grid-column: 1 !important;
+    grid-row: 1 / span 3 !important;
+    grid-template-rows: auto minmax(0, 1fr) !important;
+    align-self: stretch !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-signal-station--risers {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-signal-station--fallers {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-signal-station--watch {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-archetype-station .meta-archetype-links {
+    display: grid !important;
+    grid-template-rows: repeat(12, minmax(42px, 1fr)) !important;
+    align-content: stretch !important;
+    gap: 1px !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-archetype-station .meta-archetype-link {
+    min-height: 42px !important;
+    padding: 8px 10px !important;
+    border-left-width: 2px !important;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--hud-accent, #46d9ff) 5%, transparent), rgba(2, 10, 17, .72)) !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-signal-station .cockpit-list {
+    gap: 1px !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-signal-station .cockpit-list-row {
+    min-height: 31px !important;
+    padding-block: 6px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body[data-view="meta"] .app-shell.has-tactical-rail .tactical-card-grid.meta-field-matrix {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: none !important;
+    gap: 8px !important;
+    margin-top: 10px !important;
+    background: transparent !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-field-matrix > .tactical-data-panel,
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-archetype-station,
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-signal-station--risers,
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-signal-station--fallers,
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-signal-station--watch {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    min-height: 0 !important;
+  }
+
+  body[data-view="meta"] .app-shell.has-tactical-rail .meta-archetype-station .meta-archetype-links {
+    grid-template-rows: none !important;
+  }
+}

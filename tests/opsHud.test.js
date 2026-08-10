@@ -69,6 +69,13 @@ test("responsive HUD rules preserve full-width controls and stack dense subsyste
   assert.match(cssSource, /\.community-main-grid\.tactical-network-streams,[\s\S]*?grid-template-columns: 1fr !important/);
 });
 
+test("meta intelligence gives archetypes a primary data station instead of a decorative radar field", () => {
+  assert.match(cssSource, /Meta intelligence board: data is the field/);
+  assert.match(cssSource, /grid-template-columns: minmax\(0, 1\.18fr\) minmax\(340px, \.82fr\) !important/);
+  assert.match(cssSource, /\.meta-archetype-station \{[\s\S]*?grid-row: 1 \/ span 3 !important/);
+  assert.match(cssSource, /grid-template-rows: repeat\(12, minmax\(42px, 1fr\)\) !important/);
+});
+
 test("the operational HUD stylesheet is the final cascade authority", () => {
   assert.ok(mainSource.indexOf('import "./ops-hud.css"') > mainSource.indexOf('import "./hud-system-v2.css"'));
 });
