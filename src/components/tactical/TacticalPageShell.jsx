@@ -1,14 +1,46 @@
 export function TacticalPageShell({ children, className = "", moduleName }) {
   const resolvedModuleName = moduleName || inferModuleName(className);
+  const activeModule = resolveActiveModule(className);
   return (
-    <section className={`react-page tactical-page-shell forge-unified-page ${className}`.trim()} data-system-module={resolvedModuleName}>
+    <section
+      className={`react-page tactical-page-shell forge-unified-page tactical-compute-viewport ${className}`.trim()}
+      data-system-module={resolvedModuleName}
+      data-active-subsystem={activeModule}
+    >
+      <div className="tactical-hud-grid" aria-hidden="true"><i /><i /><i /><i /></div>
       <div className="tactical-page-linkbar tactical-system-rail" aria-label="Current tactical subsystem">
         <span className="tactical-page-linkbar__system"><i /> TCGTD // OPERATIONS CORE</span>
         <strong>{resolvedModuleName}</strong>
         <span className="tactical-page-linkbar__network">SECURE CHANNEL // ONLINE</span>
       </div>
-      <span className="tactical-page-coordinate tactical-page-coordinate--top" aria-hidden="true">LAT 00.318 // LON 05.120</span>
+      <nav className="tactical-subsystem-bus" aria-label="Tactical subsystems">
+        {SYSTEM_MODULES.map((module) => (
+          <a
+            key={module.id}
+            href={module.href}
+            className={activeModule === module.id ? "is-active" : ""}
+            aria-current={activeModule === module.id ? "page" : undefined}
+            onClick={navigateSubsystem}
+          >
+            <span>{module.code}</span>
+            <strong>{module.label}</strong>
+            <i aria-hidden="true" />
+          </a>
+        ))}
+      </nav>
+      <div className="tactical-viewport-rail tactical-viewport-rail--left" aria-hidden="true">
+        <span>DAT/LINK</span><i /><i /><i /><b>SYNC</b>
+      </div>
+      <div className="tactical-viewport-rail tactical-viewport-rail--right" aria-hidden="true">
+        <span>TTD CORE</span><i /><i /><i /><b>99.6</b>
+      </div>
+      <span className="tactical-page-coordinate tactical-page-coordinate--top" aria-hidden="true">GRID 00.318 // NODE 05.120</span>
       {children}
+      <div className="tactical-bottom-bus" aria-hidden="true">
+        <span><i /> DATA PIPELINE STABLE</span>
+        <b>TACTICAL COMPUTE ENVIRONMENT</b>
+        <span>LATENCY 12MS // ENCRYPTED</span>
+      </div>
     </section>
   );
 }
@@ -24,6 +56,14 @@ export function TacticalPageHeader({
 }) {
   return (
     <header className="tactical-page-header">
+      <div className="tactical-page-header__radar" aria-hidden="true">
+        <i className="tactical-radar__ring tactical-radar__ring--outer" />
+        <i className="tactical-radar__ring tactical-radar__ring--inner" />
+        <i className="tactical-radar__sweep" />
+        <i className="tactical-radar__axis" />
+        <span>FIELD ACQUISITION</span>
+        <b>LOCK</b>
+      </div>
       <div className="tactical-page-header__main">
         <div className="tactical-page-header__kicker">
           {onBack ? <button type="button" className="tactical-back-button" onClick={onBack}>{backLabel}</button> : null}
@@ -33,14 +73,18 @@ export function TacticalPageHeader({
         {subtitle ? <p>{subtitle}</p> : null}
         {meta ? <div className="tactical-page-header__meta">{meta}</div> : null}
       </div>
-      {actions ? <div className="tactical-page-header__actions">{actions}</div> : null}
+      {actions ? <div className="tactical-page-header__actions tactical-header-utility">{actions}</div> : null}
+      <div className="tactical-header-readout" aria-hidden="true">
+        <span>SIGNAL</span><strong>ACTIVE</strong><i />
+      </div>
     </header>
   );
 }
 
 export function TacticalSummaryStrip({ children, className = "" }) {
   return (
-    <div className={`tactical-summary-strip tactical-instrument-strip ${className}`.trim()} role="list">
+    <div className={`tactical-summary-strip tactical-instrument-strip tactical-telemetry-bus ${className}`.trim()} role="list">
+      <span className="tactical-telemetry-bus__axis" aria-hidden="true"><i /></span>
       {children}
     </div>
   );
@@ -56,9 +100,11 @@ export function TacticalSummaryCard({ label, value, detail, tone = "neutral" }) 
   );
 }
 
-export function TacticalDataPanel({ title, subtitle, actions, children, className = "" }) {
+export function TacticalDataPanel({ title, subtitle, actions, children, className = "", code, mode = "data" }) {
+  const resolvedCode = code || panelCode(title);
   return (
-    <section className={`tactical-data-panel tactical-surface ${className}`.trim()}>
+    <section className={`tactical-data-panel tactical-surface tactical-subsystem-plane ${className}`.trim()} data-plane-mode={mode} data-plane-code={resolvedCode}>
+      <span className="tactical-surface__socket" aria-hidden="true"><i />{resolvedCode}</span>
       {(title || subtitle || actions) ? (
         <div className="tactical-panel-header">
           <div>
@@ -149,6 +195,35 @@ export function TacticalLoadingState({ label = "System scan in progress..." }) {
       <strong>{label}</strong>
     </div>
   );
+}
+
+const SYSTEM_MODULES = [
+  { id: "archive", code: "01", label: "OBJECT ARCHIVE", href: "/cards" },
+  { id: "forge", code: "02", label: "TACTICAL FORGE", href: "/decks" },
+  { id: "battlefield", code: "03", label: "FIELD INTEL", href: "/meta" },
+  { id: "network", code: "04", label: "OPS NETWORK", href: "/community" },
+  { id: "signals", code: "05", label: "SIGNAL ARRAY", href: "/leaks" },
+];
+
+function resolveActiveModule(className = "") {
+  if (/cards|card-dossier|synergy/.test(className)) return "archive";
+  if (/decks|builder|deck-dossier|io-terminal/.test(className)) return "forge";
+  if (/meta|prices/.test(className)) return "battlefield";
+  if (/community|players|venues|events|event-dossier/.test(className)) return "network";
+  if (/preview/.test(className)) return "signals";
+  return "system";
+}
+
+function panelCode(title = "") {
+  const tokens = String(title).toUpperCase().match(/[A-Z0-9]+/g) || ["SYS"];
+  return tokens.slice(0, 2).map((token) => token.slice(0, 3)).join("/");
+}
+
+function navigateSubsystem(event) {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  window.history.pushState({}, "", event.currentTarget.getAttribute("href"));
+  window.dispatchEvent(new PopStateEvent("popstate"));
 }
 
 function inferModuleName(className = "") {

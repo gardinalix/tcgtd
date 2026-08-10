@@ -81,8 +81,9 @@ export function BuilderPage({ data, deck, setDeck, onOpenSynergy }) {
         <TacticalSummaryCard label="Resource" value={`${sectionCount(deck.resource)} / ${data.rules?.resourceDeckSize || 10}`} detail="Resource deck counter." />
         <TacticalSummaryCard label="Library mode" value={libraryMode} detail={`${visibleCards.length} candidates visible.`} tone="blue" />
       </TacticalSummaryStrip>
-      <div className="builder-terminal-grid">
-        <aside className="panel filter-panel">
+      <div className="builder-terminal-grid tactical-loadout-layout">
+        <div className="builder-loadout-axis" aria-hidden="true"><span>LOADOUT BUS</span><i /><b>{sectionCount(deck.main)}</b></div>
+        <aside className="panel filter-panel hud-control-stack" data-hud-zone="LOADOUT LIBRARY">
           <div className="panel-head">
             <h2>Library</h2>
             <p>Add units into the active deck shell.</p>
@@ -112,7 +113,10 @@ export function BuilderPage({ data, deck, setDeck, onOpenSynergy }) {
             ))}
           </div>
         </aside>
-        <section className="panel react-deck-panel">
+        <section className="panel react-deck-panel hud-primary-field" data-hud-zone="ACTIVE LOADOUT">
+          <div className="loadout-capacity-reticle" aria-hidden="true" style={{ "--loadout-fill": `${Math.min(100, (sectionCount(deck.main) / (data.rules?.mainDeckSize || 50)) * 100)}%` }}>
+            <span>{sectionCount(deck.main)}</span><small>OF {data.rules?.mainDeckSize || 50}</small><i />
+          </div>
           <div className="panel-head">
             <h2>{deck.name}</h2>
             <p>{issues.length ? issues.join(" ") : "Deck shell is legal by current size/color checks."}</p>

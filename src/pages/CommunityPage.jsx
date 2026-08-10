@@ -32,7 +32,8 @@ export function CommunityPage({ data, onNavigate, onOpenEvent }) {
         <TacticalSummaryCard label="Geographic coverage" value={snapshot.coverage.geographicEvents} detail="Events with verified location fields." />
       </TacticalSummaryStrip>
 
-      <section className="community-module-grid">
+      <section className="community-module-grid tactical-network-topology">
+        <div className="tactical-network-core" aria-hidden="true"><i /><span>OPS<br />NETWORK</span></div>
         <CommunityModule
           code="01"
           title="Events & results"
@@ -56,7 +57,7 @@ export function CommunityPage({ data, onNavigate, onOpenEvent }) {
         />
       </section>
 
-      <div className="community-main-grid">
+      <div className="community-main-grid tactical-network-streams">
         <TacticalDataPanel title="Latest indexed events" subtitle="Most recent normalized records." className="community-main-grid__events">
           <div className="community-event-list">
             {recentEvents.map((event) => (

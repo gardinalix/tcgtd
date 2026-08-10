@@ -30,11 +30,12 @@ export function MetaPage({ data }) {
         <TacticalSummaryCard label="Watch list" value={signal.watch.length} detail="Cards under observation." tone="gold" />
       </TacticalSummaryStrip>
 
-      <div className="tactical-card-grid">
+      <div className="tactical-card-grid meta-field-matrix">
         <MetaPanel title="Recent movements" rows={signal.risers} valueKey="band" cardMap={cardMap} />
         <MetaPanel title="Largest drops" rows={signal.fallers} valueKey="delta" cardMap={cardMap} />
         <MetaPanel title="Cards under watch" rows={signal.watch} valueKey="recent" cardMap={cardMap} />
-        <TacticalDataPanel title="Trending archetypes" subtitle="Recent meta score by archetype.">
+        <TacticalDataPanel title="Trending archetypes" subtitle="Recent meta score by archetype." code="ARC/RAD" mode="radar">
+          <div className="meta-radar-core" aria-hidden="true"><i /><i /><i /><span>META FIELD</span></div>
           <div className="cockpit-list">
             {signal.archetypeTrends.map((row) => (
               <span key={row.archetype} className="cockpit-list-row">
@@ -46,7 +47,7 @@ export function MetaPage({ data }) {
         </TacticalDataPanel>
       </div>
 
-      <TacticalDataPanel title="Meta signal current" subtitle={`${signal.ranked.length} cards classified.`}>
+      <TacticalDataPanel title="Meta signal current" subtitle={`${signal.ranked.length} cards classified.`} code="SIG/DB" mode="matrix">
         <TacticalTable
           columns={["Card", "Color", "Band", "Recent tops", "Movement", "Reason"]}
           rows={signal.ranked.slice(0, 80)}

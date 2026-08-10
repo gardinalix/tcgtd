@@ -1,0 +1,832 @@
+:root {
+  --hud-canvas: #01070e;
+  --hud-ink: #e7f9fd;
+  --hud-muted: #668793;
+  --hud-dim: rgba(84, 185, 207, 0.24);
+  --hud-line: rgba(65, 214, 246, 0.2);
+  --hud-line-hot: rgba(65, 220, 252, 0.72);
+  --hud-cyan: #3cdcff;
+  --hud-green: #56efaa;
+  --hud-violet: #9877ff;
+  --hud-danger: #ff5572;
+}
+
+/* V2 is a computational viewport, not a stack of dashboard cards. */
+body[data-view]:not([data-view="home"]) .cockpit-shell-topbar {
+  border: 0 !important;
+  border-bottom: 1px solid var(--hud-line) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, rgba(2, 10, 18, 0.98), rgba(2, 9, 16, 0.84)) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.26) !important;
+  clip-path: none !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-compute-viewport {
+  --viewport-gutter: clamp(34px, 4vw, 76px);
+  position: relative !important;
+  width: min(100%, 1840px) !important;
+  max-width: 1840px !important;
+  padding-right: var(--viewport-gutter) !important;
+  padding-bottom: 62px !important;
+  padding-left: var(--viewport-gutter) !important;
+}
+
+.tactical-hud-grid {
+  position: absolute;
+  z-index: -1;
+  inset: 0 var(--viewport-gutter) 40px;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 49.94%, rgba(66, 211, 242, 0.055) 50%, transparent 50.06%),
+    linear-gradient(transparent 49.94%, rgba(66, 211, 242, 0.045) 50%, transparent 50.06%),
+    repeating-linear-gradient(90deg, rgba(59, 195, 224, 0.035) 0 1px, transparent 1px 96px),
+    repeating-linear-gradient(180deg, rgba(59, 195, 224, 0.028) 0 1px, transparent 1px 96px);
+  mask-image: linear-gradient(180deg, black, rgba(0,0,0,.7) 75%, transparent);
+}
+
+.tactical-hud-grid::before,
+.tactical-hud-grid::after {
+  position: absolute;
+  top: 20%;
+  width: 25%;
+  height: 56%;
+  border-color: rgba(62, 213, 245, 0.08);
+  content: "";
+}
+
+.tactical-hud-grid::before { left: 0; border-top: 1px solid; border-left: 1px solid; transform: skewY(-18deg); }
+.tactical-hud-grid::after { right: 0; border-top: 1px solid; border-right: 1px solid; transform: skewY(18deg); }
+.tactical-hud-grid > i { position: absolute; width: 5px; height: 5px; border: 1px solid var(--hud-line-hot); border-radius: 50%; }
+.tactical-hud-grid > i:nth-child(1) { top: 18%; left: 24%; }
+.tactical-hud-grid > i:nth-child(2) { top: 41%; right: 18%; }
+.tactical-hud-grid > i:nth-child(3) { bottom: 21%; left: 12%; }
+.tactical-hud-grid > i:nth-child(4) { right: 32%; bottom: 8%; }
+
+/* Global module chain. Every route visibly belongs to one operating system. */
+body[data-view]:not([data-view="home"]) .tactical-system-rail {
+  margin-right: calc(var(--viewport-gutter) * -1) !important;
+  margin-left: calc(var(--viewport-gutter) * -1) !important;
+  padding-right: var(--viewport-gutter) !important;
+  padding-left: var(--viewport-gutter) !important;
+}
+
+.tactical-subsystem-bus {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  min-height: 72px;
+  margin: 0;
+  border-bottom: 1px solid rgba(60, 218, 249, 0.13);
+}
+
+.tactical-subsystem-bus::before {
+  position: absolute;
+  top: 31px;
+  right: 5%;
+  left: 5%;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, var(--hud-line) 7%, var(--hud-line) 93%, transparent);
+}
+
+.tactical-subsystem-bus a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 8px;
+  align-content: center;
+  min-width: 0;
+  min-height: 64px;
+  padding: 8px clamp(8px, 1.4vw, 22px) 0;
+  border: 0 !important;
+  color: #52727e;
+  background: transparent !important;
+  text-decoration: none;
+}
+
+.tactical-subsystem-bus a::before {
+  position: absolute;
+  z-index: 1;
+  top: 27px;
+  left: clamp(8px, 1.4vw, 22px);
+  width: 9px;
+  height: 9px;
+  border: 1px solid #416f7e;
+  border-radius: 50%;
+  content: "";
+  background: var(--hud-canvas);
+  box-shadow: 0 0 0 5px var(--hud-canvas);
+}
+
+.tactical-subsystem-bus a > span {
+  grid-row: 1 / span 2;
+  align-self: center;
+  padding-left: 16px;
+  color: #466976;
+  font: 700 0.5rem/1 var(--system-label);
+}
+
+.tactical-subsystem-bus a > strong {
+  align-self: end;
+  overflow: hidden;
+  color: inherit;
+  font: 700 clamp(0.48rem, .66vw, 0.62rem)/1.1 var(--system-label);
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tactical-subsystem-bus a > i {
+  width: 42%;
+  height: 2px;
+  margin-top: 5px;
+  background: #244451;
+}
+
+.tactical-subsystem-bus a.is-active { color: var(--hud-ink); }
+.tactical-subsystem-bus a.is-active::before {
+  border-color: var(--hud-cyan);
+  background: var(--hud-green);
+  box-shadow: 0 0 0 5px var(--hud-canvas), 0 0 16px var(--hud-cyan);
+}
+.tactical-subsystem-bus a.is-active > span { color: var(--hud-cyan); }
+.tactical-subsystem-bus a.is-active > i { width: 78%; background: linear-gradient(90deg, var(--hud-cyan), transparent); box-shadow: 0 0 8px rgba(60,220,255,.3); }
+
+.tactical-viewport-rail {
+  position: absolute;
+  z-index: 5;
+  top: 154px;
+  bottom: 82px;
+  display: flex;
+  width: 24px;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  border-color: rgba(60, 214, 245, 0.19);
+  color: #436b78;
+  pointer-events: none;
+}
+.tactical-viewport-rail--left { left: 8px; border-left: 1px solid; }
+.tactical-viewport-rail--right { right: 8px; border-right: 1px solid; }
+.tactical-viewport-rail span { writing-mode: vertical-rl; font: 700 0.42rem/1 var(--system-label); letter-spacing: .14em; }
+.tactical-viewport-rail i { width: 4px; height: 4px; border-radius: 50%; background: #2d7284; }
+.tactical-viewport-rail i:nth-of-type(2) { margin-top: auto; background: var(--hud-green); box-shadow: 0 0 8px var(--hud-green); }
+.tactical-viewport-rail b { margin-bottom: 8px; color: #4d7d8a; font: 700 .42rem/1 var(--system-label); writing-mode: vertical-rl; }
+
+/* Hero becomes an instrumented command heading with an orbital target, not a banner card. */
+body[data-view]:not([data-view="home"]) .tactical-page-header {
+  isolation: isolate;
+  min-height: clamp(250px, 25vw, 390px) !important;
+  margin: 0 !important;
+  padding: clamp(64px, 8vw, 124px) 38% 44px 2% !important;
+  overflow: hidden !important;
+  border-bottom: 1px solid var(--hud-line) !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-header::after {
+  position: absolute !important;
+  z-index: -2;
+  inset: 0 !important;
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  content: "" !important;
+  background:
+    linear-gradient(90deg, rgba(7, 31, 46, .52), rgba(3, 12, 21, .08) 64%),
+    repeating-linear-gradient(90deg, transparent 0 79px, rgba(49, 191, 222, .035) 80px),
+    repeating-linear-gradient(180deg, transparent 0 79px, rgba(49, 191, 222, .035) 80px) !important;
+  opacity: 1 !important;
+}
+
+body[data-view]:not([data-view="home"]) .tactical-page-header__main { position: relative; z-index: 2; }
+body[data-view]:not([data-view="home"]) .tactical-page-header__main::before {
+  position: absolute;
+  top: -28px;
+  left: -28px;
+  width: 58px;
+  height: 14px;
+  border-top: 1px solid var(--hud-cyan);
+  border-left: 1px solid var(--hud-cyan);
+  content: "";
+  opacity: .62;
+}
+body[data-view]:not([data-view="home"]) .tactical-page-header h1 {
+  max-width: 920px;
+  margin: 14px 0 12px !important;
+  font-size: clamp(2.7rem, 5.8vw, 7.2rem) !important;
+  line-height: .86 !important;
+  letter-spacing: -.055em !important;
+}
+body[data-view]:not([data-view="home"]) .tactical-page-header__main > p { max-width: 720px !important; font-size: clamp(.88rem, 1.25vw, 1.1rem) !important; }
+
+.tactical-page-header__radar {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  right: clamp(2%, 5vw, 7%);
+  width: min(31vw, 390px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(73, 213, 243, .22);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(60,220,255,.16) 0 2px, transparent 3px),
+    repeating-radial-gradient(circle, transparent 0 23px, rgba(60,220,255,.07) 24px 25px),
+    conic-gradient(from 210deg, transparent 0 76%, rgba(60,220,255,.11), transparent 90%);
+  box-shadow: inset 0 0 70px rgba(22, 121, 151, .06), 0 0 80px rgba(0,0,0,.35);
+  transform: translateY(-50%);
+}
+.tactical-radar__ring { position: absolute; border: 1px solid rgba(75, 220, 250, .36); border-radius: 50%; }
+.tactical-radar__ring--outer { inset: 9%; border-style: dashed; animation: hud-rotate 34s linear infinite; }
+.tactical-radar__ring--inner { inset: 28%; border-color: rgba(157,120,255,.42); }
+.tactical-radar__sweep { position: absolute; top: 50%; left: 50%; width: 43%; height: 1px; transform-origin: left; background: linear-gradient(90deg, var(--hud-cyan), transparent); animation: hud-rotate 7s linear infinite; }
+.tactical-radar__axis::before,
+.tactical-radar__axis::after { position: absolute; top: 50%; left: 50%; content: ""; background: rgba(76, 213, 242, .18); transform: translate(-50%,-50%); }
+.tactical-radar__axis::before { width: 112%; height: 1px; }
+.tactical-radar__axis::after { width: 1px; height: 112%; }
+.tactical-page-header__radar > span { position: absolute; top: 13%; left: -6%; color: #4f8391; font: 700 .46rem/1 var(--system-label); letter-spacing: .14em; }
+.tactical-page-header__radar > b { position: absolute; right: 13%; bottom: 17%; color: var(--hud-green); font: 700 .5rem/1 var(--system-label); }
+
+.tactical-header-readout {
+  position: absolute;
+  right: 2%;
+  bottom: 28px;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 3px 12px;
+  min-width: 140px;
+  padding-left: 12px;
+  border-left: 1px solid var(--hud-cyan);
+  font-family: var(--system-label);
+}
+.tactical-header-readout span { color: var(--hud-muted); font-size: .43rem; letter-spacing: .12em; }
+.tactical-header-readout strong { color: var(--hud-green); font-size: .5rem; text-align: right; }
+.tactical-header-readout i { grid-column: 1 / -1; height: 2px; background: linear-gradient(90deg, var(--hud-cyan) 62%, rgba(60,220,255,.08) 62%); }
+.tactical-header-utility { z-index: 4 !important; align-self: end !important; max-width: 420px; }
+
+/* Telemetry is a bus: values hang from one signal line. */
+body[data-view]:not([data-view="home"]) .tactical-telemetry-bus {
+  position: relative !important;
+  min-height: 96px !important;
+  padding: 14px 0 12px 42px !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(60,220,255,.11) !important;
+  background: transparent !important;
+}
+.tactical-telemetry-bus__axis {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 16px;
+  width: 1px;
+  background: linear-gradient(transparent, var(--hud-line-hot), transparent);
+}
+.tactical-telemetry-bus__axis::before,
+.tactical-telemetry-bus__axis::after { position: absolute; left: -4px; width: 9px; height: 9px; border: 1px solid var(--hud-cyan); border-radius: 50%; content: ""; background: var(--hud-canvas); }
+.tactical-telemetry-bus__axis::before { top: 8px; }
+.tactical-telemetry-bus__axis::after { bottom: 8px; }
+.tactical-telemetry-bus__axis i { position: absolute; top: 50%; left: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--hud-green); box-shadow: 0 0 8px var(--hud-green); }
+body[data-view]:not([data-view="home"]) .tactical-instrument {
+  min-height: 70px !important;
+  padding: 8px clamp(12px, 2vw, 28px) !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(60,220,255,.12) !important;
+  background: transparent !important;
+}
+body[data-view]:not([data-view="home"]) .tactical-instrument::before { position: absolute; top: 6px; right: 8px; width: 16px; height: 5px; border-top: 1px solid var(--hud-dim); border-right: 1px solid var(--hud-dim); content: ""; }
+
+/* Subsystem planes are open instruments connected to the page bus. */
+body[data-view]:not([data-view="home"]) .tactical-subsystem-plane,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .panel,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .react-card-results {
+  position: relative !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+body[data-view]:not([data-view="home"]) .tactical-subsystem-plane {
+  padding-left: 26px !important;
+  border-left: 1px solid rgba(60,220,255,.14) !important;
+}
+body[data-view]:not([data-view="home"]) .tactical-subsystem-plane::before {
+  top: 0 !important;
+  left: -3px !important;
+  width: 5px !important;
+  height: 5px !important;
+  border: 1px solid var(--hud-cyan);
+  border-radius: 50%;
+  background: var(--hud-canvas) !important;
+  box-shadow: 0 0 8px rgba(60,220,255,.32) !important;
+}
+body[data-view]:not([data-view="home"]) .tactical-subsystem-plane::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 42px;
+  height: 12px;
+  border-right: 1px solid rgba(60,220,255,.22);
+  border-bottom: 1px solid rgba(60,220,255,.22);
+  content: "";
+  pointer-events: none;
+}
+.tactical-surface__socket {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  left: -21px;
+  display: grid;
+  width: 15px;
+  gap: 4px;
+  justify-items: center;
+  color: #4f818f;
+  font: 700 .4rem/1 var(--system-label);
+  letter-spacing: .06em;
+  writing-mode: vertical-rl;
+}
+.tactical-surface__socket i { width: 5px; height: 5px; border-radius: 50%; background: var(--hud-cyan); box-shadow: 0 0 8px var(--hud-cyan); }
+body[data-view]:not([data-view="home"]) .tactical-panel-header,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .panel-head {
+  min-height: 72px !important;
+  padding: 12px 16px 16px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(60,220,255,.09) !important;
+}
+body[data-view]:not([data-view="home"]) .tactical-panel-header h2,
+body[data-view]:not([data-view="home"]) .tactical-page-shell .panel-head h2 { font-size: .66rem !important; letter-spacing: .14em !important; }
+
+body[data-view]:not([data-view="home"]) :is(input, select, textarea) {
+  border-right: 0 !important;
+  border-bottom-color: rgba(60,220,255,.28) !important;
+  border-left: 0 !important;
+  border-radius: 0 !important;
+  background: linear-gradient(90deg, rgba(9,34,48,.7), rgba(3,13,22,.2)) !important;
+}
+body[data-view]:not([data-view="home"]) .tactical-page-shell button:not(.react-builder-card):not(.card-tile),
+body[data-view]:not([data-view="home"]) .tactical-page-shell .button-row a {
+  border-radius: 0 !important;
+  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px) !important;
+}
+
+/* Card Archive: left acquisition controls, open central object field, right live dossier. */
+body[data-view="cards"] .tactical-acquisition-layout {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(220px, 3fr) minmax(540px, 8fr) minmax(270px, 3.5fr) !important;
+  gap: 0 !important;
+  min-height: 760px;
+  margin-top: 18px;
+  border: 0 !important;
+}
+.cards-acquisition-axis {
+  position: absolute;
+  z-index: 5;
+  top: -18px;
+  right: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  color: #4c7b88;
+  font: 700 .43rem/1 var(--system-label);
+  letter-spacing: .12em;
+}
+.cards-acquisition-axis i { height: 1px; background: linear-gradient(90deg, var(--hud-line-hot), transparent); }
+.cards-acquisition-axis b { color: var(--hud-cyan); }
+body[data-view="cards"] .hud-control-stack {
+  z-index: 3;
+  padding: 20px 24px 30px 0 !important;
+  border-right: 1px solid rgba(60,220,255,.16) !important;
+  background: linear-gradient(90deg, rgba(3,15,25,.86), rgba(3,15,25,.3)) !important;
+}
+[data-hud-zone]::after {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  content: attr(data-hud-zone);
+  color: rgba(88,164,181,.42);
+  font: 700 .4rem/1 var(--system-label);
+  letter-spacing: .1em;
+  pointer-events: none;
+}
+body[data-view="cards"] .hud-primary-field {
+  isolation: isolate;
+  min-width: 0;
+  padding: 20px clamp(18px,2vw,34px) 34px !important;
+  overflow: hidden !important;
+  background: radial-gradient(circle at 50% 34%, rgba(27,115,139,.09), transparent 52%) !important;
+}
+.hud-field-reticle {
+  position: absolute;
+  z-index: -1;
+  top: 22%;
+  left: 50%;
+  width: min(46vw, 620px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(60,220,255,.07);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.hud-field-reticle::before,
+.hud-field-reticle::after { position: absolute; top: 50%; left: 50%; content: ""; background: rgba(60,220,255,.07); transform: translate(-50%,-50%); }
+.hud-field-reticle::before { width: 116%; height: 1px; }
+.hud-field-reticle::after { width: 1px; height: 116%; }
+.hud-field-reticle i { position: absolute; border: 1px dashed rgba(60,220,255,.08); border-radius: 50%; }
+.hud-field-reticle i:first-child { inset: 17%; }
+.hud-field-reticle i:last-child { inset: 34%; }
+body[data-view="cards"] .hud-dossier-stack {
+  padding: 20px 0 30px 24px;
+  border-left: 1px solid rgba(60,220,255,.16) !important;
+  background: linear-gradient(90deg, rgba(3,15,25,.18), rgba(3,15,25,.68));
+}
+body[data-view="cards"] .hud-dossier-stack > * { border: 0 !important; background: transparent !important; box-shadow: none !important; }
+body[data-view="cards"] .react-card-results .card-grid { gap: clamp(10px,1.2vw,18px) !important; }
+
+/* Meta: signal tracks feed one primary battlefield radar. */
+body[data-view="meta"] .meta-field-matrix {
+  position: relative;
+  grid-template-columns: repeat(12, minmax(0,1fr)) !important;
+  grid-template-rows: repeat(3, minmax(150px, auto)) !important;
+  gap: 0 !important;
+  margin-top: 22px;
+  border: 0 !important;
+}
+body[data-view="meta"] .meta-field-matrix > .tactical-subsystem-plane:nth-child(1) { grid-area: 1 / 1 / 2 / 5 !important; }
+body[data-view="meta"] .meta-field-matrix > .tactical-subsystem-plane:nth-child(2) { grid-area: 2 / 1 / 3 / 5 !important; }
+body[data-view="meta"] .meta-field-matrix > .tactical-subsystem-plane:nth-child(3) { grid-area: 3 / 1 / 4 / 5 !important; }
+body[data-view="meta"] .meta-field-matrix > .tactical-subsystem-plane:nth-child(4) {
+  grid-area: 1 / 5 / 4 / 13 !important;
+  min-height: 520px;
+  padding-left: clamp(38px,5vw,84px) !important;
+  overflow: hidden !important;
+  border-left-color: rgba(60,220,255,.3) !important;
+  background: radial-gradient(circle at 55% 52%, rgba(39,150,176,.14), transparent 46%) !important;
+}
+body[data-view="meta"] .meta-field-matrix > .tactical-subsystem-plane:nth-child(-n+3) { padding-right: 24px !important; }
+.meta-radar-core {
+  position: absolute;
+  top: 50%;
+  left: 52%;
+  width: min(34vw, 440px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(60,220,255,.15);
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 38px, rgba(60,220,255,.06) 39px 40px);
+  transform: translate(-50%,-43%);
+  pointer-events: none;
+}
+.meta-radar-core::before,
+.meta-radar-core::after { position: absolute; top: 50%; left: 50%; content: ""; background: rgba(60,220,255,.14); transform: translate(-50%,-50%); }
+.meta-radar-core::before { width: 112%; height: 1px; }
+.meta-radar-core::after { width: 1px; height: 112%; }
+.meta-radar-core i { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: var(--hud-cyan); box-shadow: 0 0 12px var(--hud-cyan); }
+.meta-radar-core i:nth-child(1) { top: 24%; left: 66%; }
+.meta-radar-core i:nth-child(2) { top: 63%; left: 28%; background: var(--hud-violet); }
+.meta-radar-core i:nth-child(3) { right: 16%; bottom: 18%; background: var(--hud-green); }
+.meta-radar-core span { position: absolute; top: 47%; width: 100%; color: rgba(207,247,255,.2); font: 700 clamp(1rem,2vw,1.8rem)/1 var(--system-label); text-align: center; letter-spacing: .1em; }
+body[data-view="meta"] [data-plane-mode="radar"] .cockpit-list { position: relative; z-index: 2; width: min(48%,420px); margin-left: auto; padding-top: 34px; }
+body[data-view="meta"] [data-plane-mode="radar"] .cockpit-list-row { background: rgba(2,10,17,.58) !important; backdrop-filter: blur(6px); }
+body[data-view="meta"] [data-plane-mode="matrix"] { margin-top: 34px; }
+
+/* Builder: one loadout plane between library and advisory channels. */
+body[data-view="builder"] .tactical-loadout-layout {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(220px,3fr) minmax(500px,7fr) minmax(280px,3.4fr) !important;
+  gap: 0 !important;
+  margin-top: 22px;
+  border-top: 1px solid rgba(60,220,255,.1);
+}
+.builder-loadout-axis { position: absolute; z-index: 4; top: -19px; right: 0; left: 0; display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; color: #4c7b88; font: 700 .43rem/1 var(--system-label); letter-spacing: .12em; }
+.builder-loadout-axis i { height: 1px; background: linear-gradient(90deg,var(--hud-line-hot),transparent); }
+.builder-loadout-axis b { color: var(--hud-cyan); }
+body[data-view="builder"] .hud-control-stack { padding: 22px 24px 32px 0 !important; border-right: 1px solid rgba(60,220,255,.16) !important; background: linear-gradient(90deg,rgba(3,15,25,.7),transparent) !important; }
+body[data-view="builder"] .react-deck-panel { position: relative; min-width: 0; padding: 22px clamp(22px,3vw,46px) 38px !important; border-right: 1px solid rgba(60,220,255,.13) !important; }
+body[data-view="builder"] .react-deck-panel > .panel-head { padding-right: 150px !important; }
+.loadout-capacity-reticle {
+  position: absolute;
+  z-index: 3;
+  top: 12px;
+  right: 22px;
+  display: grid;
+  width: 104px;
+  height: 104px;
+  place-content: center;
+  border: 1px solid rgba(60,220,255,.18);
+  border-radius: 50%;
+  background: conic-gradient(var(--hud-cyan) var(--loadout-fill), rgba(60,220,255,.07) 0);
+  text-align: center;
+}
+.loadout-capacity-reticle::before { position: absolute; inset: 5px; border: 8px solid var(--hud-canvas); border-radius: 50%; content: ""; background: rgba(2,10,17,.94); }
+.loadout-capacity-reticle > * { position: relative; z-index: 1; }
+.loadout-capacity-reticle span { color: var(--hud-ink); font: 700 1.7rem/1 var(--system-copy); }
+.loadout-capacity-reticle small { color: var(--hud-muted); font: 700 .42rem/1 var(--system-label); }
+.loadout-capacity-reticle i { position: absolute; inset: 17px; border: 1px dashed rgba(60,220,255,.2); border-radius: 50%; animation: hud-rotate 22s linear infinite; }
+body[data-view="builder"] .deck-section { border: 0 !important; border-top: 1px solid rgba(60,220,255,.1) !important; background: transparent !important; }
+body[data-view="builder"] .deck-row { border: 0 !important; border-bottom: 1px solid rgba(60,220,255,.08) !important; background: transparent !important; }
+
+/* Community is rendered as a connected network topology. */
+body[data-view="community"] .tactical-network-topology {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+  gap: clamp(48px,8vw,130px) !important;
+  min-height: 410px;
+  padding: 64px 0 42px !important;
+  border: 0 !important;
+}
+body[data-view="community"] .tactical-network-topology::before { position: absolute; top: 49%; right: 8%; left: 8%; height: 1px; content: ""; background: linear-gradient(90deg,transparent,var(--hud-line-hot),transparent); }
+.tactical-network-core { position: absolute; z-index: 2; top: 49%; left: 50%; display: grid; width: 90px; height: 90px; place-items: center; border: 1px solid var(--hud-cyan); border-radius: 50%; background: var(--hud-canvas); box-shadow: 0 0 0 18px rgba(60,220,255,.025),0 0 36px rgba(60,220,255,.12); transform: translate(-50%,-50%); }
+.tactical-network-core i { position: absolute; inset: 11px; border: 1px dashed rgba(60,220,255,.38); border-radius: 50%; animation: hud-rotate 18s linear infinite; }
+.tactical-network-core span { color: var(--hud-cyan); font: 700 .48rem/1.3 var(--system-label); text-align: center; }
+body[data-view="community"] .community-module-card {
+  z-index: 3;
+  display: grid !important;
+  grid-template-columns: 54px 1fr !important;
+  align-content: center;
+  min-height: 260px !important;
+  padding: 26px 0 !important;
+  border: 0 !important;
+  background: radial-gradient(circle at 20% 50%,rgba(30,130,155,.1),transparent 42%) !important;
+}
+body[data-view="community"] .community-module-card::before { position: absolute; top: 50%; left: 12px; width: 46px; height: 46px; border: 1px solid rgba(60,220,255,.44); border-radius: 50%; content: ""; transform: translateY(-50%); }
+body[data-view="community"] .community-module-card > span { z-index: 1; grid-row: 1 / span 4 !important; align-self: center; color: var(--hud-cyan); text-align: center; }
+body[data-view="community"] .community-module-card h2 { font-size: clamp(1.2rem,2vw,1.75rem) !important; }
+body[data-view="community"] .community-module-card p { max-width: 36ch; }
+body[data-view="community"] .tactical-network-streams { gap: clamp(36px,6vw,90px) !important; border: 0 !important; }
+body[data-view="community"] .tactical-network-streams > .tactical-subsystem-plane:first-child { border-right: 0 !important; }
+
+/* Records and data libraries become scan matrices with row-level signal, never card lists. */
+body[data-view]:not([data-view="home"]) [data-plane-mode="matrix"] .tactical-table-wrap,
+body[data-view]:not([data-view="home"]) [data-plane-mode="matrix"] .react-table-wrap { border: 0 !important; background: transparent !important; }
+body[data-view]:not([data-view="home"]) .tactical-table { border-collapse: collapse !important; }
+body[data-view]:not([data-view="home"]) .tactical-table thead { background: linear-gradient(90deg,rgba(13,52,68,.52),transparent) !important; }
+body[data-view]:not([data-view="home"]) .tactical-table tbody tr { position: relative; border: 0 !important; border-bottom: 1px solid rgba(60,220,255,.08) !important; background: transparent !important; }
+body[data-view]:not([data-view="home"]) .tactical-table tbody tr::after { position: absolute; top: 50%; left: -26px; width: 5px; height: 5px; border-radius: 50%; content: ""; background: #2b6170; transform: translateY(-50%); }
+body[data-view]:not([data-view="home"]) .react-data-grid { border: 0 !important; }
+body[data-view]:not([data-view="home"]) .react-data-card { grid-template-columns: 70px minmax(180px,1fr) minmax(240px,1.25fr) minmax(280px,1.4fr) auto !important; min-height: 88px !important; padding: 12px 4px !important; border-bottom: 1px solid rgba(60,220,255,.09) !important; }
+body[data-view]:not([data-view="home"]) .react-data-card::before { position: static !important; width: 7px !important; height: 7px !important; border: 1px solid #397383; border-radius: 50%; background: transparent !important; box-shadow: none !important; }
+
+.tactical-bottom-bus {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 22px;
+  align-items: center;
+  min-height: 38px;
+  margin-top: 36px;
+  border-top: 1px solid rgba(60,220,255,.13);
+  border-bottom: 1px solid rgba(60,220,255,.07);
+  color: #416d79;
+  font: 700 .42rem/1 var(--system-label);
+  letter-spacing: .1em;
+}
+.tactical-bottom-bus span:last-child { text-align: right; }
+.tactical-bottom-bus i { display: inline-block; width: 5px; height: 5px; margin-right: 6px; border-radius: 50%; background: var(--hud-green); box-shadow: 0 0 7px var(--hud-green); }
+.tactical-bottom-bus b { color: #5d8a96; }
+
+/* Forge: mission inputs and analysis layers share one operational map. */
+body[data-view="decks"] .deck-designer {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(39, 143, 170, .09), transparent 34%),
+    transparent !important;
+}
+body[data-view="decks"] .bruxao-designer-hero {
+  min-height: 300px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(60,220,255,.12) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+body[data-view="decks"] .bruxao-designer-hero::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(90deg, rgba(5,25,38,.55), transparent 55%),
+    repeating-linear-gradient(90deg, transparent 0 95px, rgba(60,220,255,.028) 96px),
+    repeating-linear-gradient(180deg, transparent 0 95px, rgba(60,220,255,.028) 96px);
+  pointer-events: none;
+}
+body[data-view="decks"] .bruxao-designer-hero__core {
+  border-radius: 50% !important;
+  background: repeating-radial-gradient(circle,rgba(60,220,255,.04) 0 13px,transparent 14px 28px) !important;
+  box-shadow: 0 0 0 1px rgba(60,220,255,.28), 0 0 44px rgba(60,220,255,.08) !important;
+}
+body[data-view="decks"] .deck-designer-input-mode {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+  gap: 0 !important;
+  min-height: 190px;
+  padding: 24px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(60,220,255,.1) !important;
+  background: transparent !important;
+}
+body[data-view="decks"] .deck-designer-input-mode::before {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  left: 8%;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg,transparent,var(--hud-line-hot),transparent);
+}
+body[data-view="decks"] .deck-designer-input-mode > button {
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  align-content: center;
+  justify-items: start;
+  min-height: 142px !important;
+  padding: 24px clamp(18px,3vw,50px) 24px 66px !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(60,220,255,.1) !important;
+  background: linear-gradient(90deg,rgba(5,27,40,.36),transparent 74%) !important;
+  clip-path: none !important;
+  text-align: left;
+}
+body[data-view="decks"] .deck-designer-input-mode > button:last-child { border-right: 0 !important; }
+body[data-view="decks"] .deck-designer-input-mode > button::before {
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgba(60,220,255,.38);
+  border-radius: 50%;
+  content: "";
+  background: var(--hud-canvas);
+  box-shadow: 0 0 0 8px var(--hud-canvas);
+  transform: translateY(-50%);
+}
+body[data-view="decks"] .deck-designer-input-mode > button.is-active::before {
+  border-color: var(--hud-cyan);
+  background: var(--hud-green);
+  box-shadow: 0 0 0 8px var(--hud-canvas),0 0 18px var(--hud-cyan);
+}
+body[data-view="decks"] .deck-designer-input-mode > button:hover { background: linear-gradient(90deg,rgba(20,100,122,.16),transparent 76%) !important; }
+body[data-view="decks"] .deck-designer__brief-frame {
+  margin-top: 30px;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+body[data-view="decks"] .deck-designer__brief-frame > summary {
+  border: 0 !important;
+  border-top: 1px solid rgba(60,220,255,.13) !important;
+  border-bottom: 1px solid rgba(60,220,255,.13) !important;
+  background: linear-gradient(90deg,rgba(8,39,54,.44),transparent) !important;
+  clip-path: none !important;
+}
+body[data-view="decks"] .deck-designer__brief {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(30px,5vw,74px) clamp(18px,4vw,64px) !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(60,220,255,.16) !important;
+  border-radius: 0 !important;
+  background: radial-gradient(circle at 50% 22%,rgba(37,144,170,.11),transparent 46%) !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+body[data-view="decks"] .deck-designer__brief::before {
+  position: absolute;
+  top: 0;
+  left: -3px;
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--hud-cyan);
+  border-radius: 50%;
+  content: "";
+  background: var(--hud-canvas);
+}
+body[data-view="decks"] .deck-designer__colors,
+body[data-view="decks"] .deck-designer__constraints,
+body[data-view="decks"] .deck-designer__launch {
+  border: 0 !important;
+  border-top: 1px solid rgba(60,220,255,.1) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body[data-view="decks"] .deck-color-option {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(60,220,255,.14) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body[data-view="decks"] .deck-designer-result {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+body[data-view="decks"] .deck-designer-result__header,
+body[data-view="decks"] .deck-designer-debrief,
+body[data-view="decks"] .deck-designer-result__limitations {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(60,220,255,.1) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body[data-view="decks"] .designer-analysis-panel {
+  position: relative;
+  padding-left: 24px !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(60,220,255,.15) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+body[data-view="decks"] .designer-analysis-panel::before {
+  position: absolute;
+  top: 18px;
+  left: -3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  content: "";
+  background: var(--hud-cyan);
+  box-shadow: 0 0 8px var(--hud-cyan);
+}
+body[data-view="decks"] .deck-designer-result__lower-grid > *,
+body[data-view="decks"] .deck-designer-analysis > * {
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+@keyframes hud-rotate { to { transform: rotate(360deg); } }
+
+@media (max-width: 1180px) {
+  body[data-view="cards"] .tactical-acquisition-layout,
+  body[data-view="builder"] .tactical-loadout-layout { grid-template-columns: minmax(210px,3fr) minmax(0,8fr) !important; }
+  body[data-view="cards"] .hud-dossier-stack,
+  body[data-view="builder"] .tactical-loadout-layout > :last-child { grid-column: 1 / -1; padding-top: 28px; border-top: 1px solid var(--hud-line) !important; border-left: 0 !important; }
+  body[data-view="meta"] [data-plane-mode="radar"] .cockpit-list { width: 62%; }
+  body[data-view]:not([data-view="home"]) .react-data-card { grid-template-columns: 54px 1fr 1fr !important; }
+}
+
+@media (max-width: 820px) {
+  body[data-view]:not([data-view="home"]) .tactical-compute-viewport { --viewport-gutter: 14px; }
+  .tactical-viewport-rail { display: none; }
+  .tactical-subsystem-bus { overflow-x: auto; grid-template-columns: repeat(5,minmax(128px,1fr)); }
+  .tactical-subsystem-bus a { min-width: 128px; }
+  body[data-view]:not([data-view="home"]) .tactical-page-header { min-height: 310px !important; padding: 70px 18% 36px 0 !important; }
+  body[data-view]:not([data-view="home"]) .tactical-page-header h1 { font-size: clamp(2.6rem,12vw,5.5rem) !important; }
+  .tactical-page-header__radar { right: -18%; width: 62vw; opacity: .46; }
+  .tactical-header-readout { display: none; }
+  body[data-view="cards"] .tactical-acquisition-layout,
+  body[data-view="builder"] .tactical-loadout-layout { grid-template-columns: 1fr !important; }
+  body[data-view="cards"] .hud-control-stack,
+  body[data-view="builder"] .hud-control-stack { border-right: 0 !important; border-bottom: 1px solid var(--hud-line) !important; }
+  body[data-view="cards"] .hud-dossier-stack,
+  body[data-view="builder"] .tactical-loadout-layout > :last-child { grid-column: auto; }
+  body[data-view="meta"] .meta-field-matrix { display: block !important; }
+  body[data-view="meta"] .meta-field-matrix > .tactical-subsystem-plane { min-height: 0 !important; margin-bottom: 26px; }
+  body[data-view="meta"] [data-plane-mode="radar"] { min-height: 500px !important; }
+  body[data-view="meta"] [data-plane-mode="radar"] .cockpit-list { width: 74%; }
+  .meta-radar-core { width: 72vw; opacity: .55; }
+  body[data-view="community"] .tactical-network-topology { grid-template-columns: 1fr !important; gap: 0 !important; padding-left: 52px !important; }
+  body[data-view="community"] .tactical-network-topology::before { top: 5%; bottom: 5%; left: 24px; width: 1px; height: auto; }
+  .tactical-network-core { top: 50%; left: 24px; width: 54px; height: 54px; }
+  .tactical-network-core span { font-size: .34rem; }
+  body[data-view="community"] .community-module-card { min-height: 180px !important; border-bottom: 1px solid rgba(60,220,255,.08) !important; }
+  .tactical-bottom-bus { grid-template-columns: 1fr auto; }
+  .tactical-bottom-bus span:last-child { display: none; }
+}
+
+@media (max-width: 560px) {
+  body[data-view]:not([data-view="home"]) .tactical-page-header { min-height: 270px !important; padding-right: 4% !important; }
+  .tactical-page-header__radar { opacity: .22; }
+  body[data-view]:not([data-view="home"]) .tactical-telemetry-bus { padding-left: 26px !important; }
+  .tactical-telemetry-bus__axis { left: 7px; }
+  body[data-view]:not([data-view="home"]) .tactical-subsystem-plane { padding-left: 18px !important; }
+  .tactical-surface__socket { display: none; }
+  body[data-view="builder"] .react-deck-panel > .panel-head { padding-right: 0 !important; padding-bottom: 112px !important; }
+  .loadout-capacity-reticle { top: 76px; right: 50%; transform: translateX(50%); }
+  body[data-view="meta"] [data-plane-mode="radar"] .cockpit-list { width: 100%; }
+  body[data-view]:not([data-view="home"]) .react-data-card { grid-template-columns: 1fr !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tactical-radar__ring--outer,
+  .tactical-radar__sweep,
+  .loadout-capacity-reticle i,
+  .tactical-network-core i { animation: none; }
+}

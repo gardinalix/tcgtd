@@ -62,8 +62,11 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
         <TacticalSummaryCard label="Selected" value={selectedCard?.displayCardNumber || selectedCard?.cardNumber || "-"} detail={selectedCard?.cardName || "Awaiting selection."} tone="gold" />
       </TacticalSummaryStrip>
 
-      <div className="cards-terminal-grid react-cards-page">
-      <aside className="panel filter-panel react-filter-panel">
+      <div className="cards-terminal-grid react-cards-page tactical-acquisition-layout">
+      <div className="cards-acquisition-axis" aria-hidden="true">
+        <span>OBJECT ACQUISITION</span><i /><b>{String(visibleCards.length).padStart(4, "0")}</b>
+      </div>
+      <aside className="panel filter-panel react-filter-panel hud-control-stack" data-hud-zone="SCAN PARAMETERS">
         <div className="panel-head">
           <h2>Analysis parameters</h2>
           <p>Search and classify units without leaving the tactical database.</p>
@@ -108,7 +111,8 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
         </div>
       </aside>
 
-      <section className="panel react-card-results">
+      <section className="panel react-card-results hud-primary-field" data-hud-zone="OBJECT FIELD">
+        <span className="hud-field-reticle" aria-hidden="true"><i /><i /></span>
         <div className="panel-head">
           <h2>{visibleCards.length} units found</h2>
           <p>{printMode === "all" ? "All printings" : printMode === "base" ? "Base printings" : "Alternate printings"} · showing first {pageCards.length}.</p>
@@ -132,7 +136,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
         )}
       </section>
 
-      <aside className="cards-terminal-side-stack" ref={selectedPanelRef}>
+      <aside className="cards-terminal-side-stack hud-dossier-stack" data-hud-zone="ACTIVE DOSSIER" ref={selectedPanelRef}>
         <CardDetail
           card={selectedCard}
           onOpenCard={onOpenCard}

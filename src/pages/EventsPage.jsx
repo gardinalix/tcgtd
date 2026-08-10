@@ -65,8 +65,8 @@ export function EventsPage({ data, onOpenEvent, onNavigate }) {
         <TacticalSummaryCard label="Latest" value={formatDate(latestEvent?.eventDate) || "-"} detail={latestEvent?.eventName || "No event detected."} tone="gold" />
       </TacticalSummaryStrip>
 
-      <div className="tactical-main-grid tactical-main-grid--events community-events-layout">
-        <TacticalDataPanel title={`${events.length} events`} subtitle="Imported and normalized event records." className="tactical-main-grid__wide">
+      <div className="tactical-main-grid tactical-main-grid--events community-events-layout tactical-records-layout">
+        <TacticalDataPanel title={`${events.length} events`} subtitle="Imported and normalized event records." className="tactical-main-grid__wide" code="EVT/DB" mode="matrix">
           <TacticalTable
             columns={["Date", "Event", "Organizer", "Type", "Players", "Results", "Coverage"]}
             rows={events}
