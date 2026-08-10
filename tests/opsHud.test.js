@@ -91,3 +91,10 @@ test("the generated deck opens on the full interactive map and keeps the manifes
 test("the operational HUD stylesheet is the final cascade authority", () => {
   assert.ok(mainSource.indexOf('import "./ops-hud.css"') > mainSource.indexOf('import "./hud-system-v2.css"'));
 });
+
+test("synergy map hover acquires a node without moving or scaling the card", () => {
+  assert.match(cssSource, /Synergy map acquisition: stable telemetry/);
+  assert.match(cssSource, /body\[data-view="synergyMap"\][\s\S]*?\.synergy-map-node:hover,[\s\S]*?transform: translate\(-50%, -50%\) !important;/);
+  assert.doesNotMatch(cssSource, /body\[data-view="synergyMap"\][\s\S]*?\.synergy-map-node:hover[\s\S]*?scale\(/);
+  assert.match(cssSource, /prefers-reduced-motion: reduce[\s\S]*?\.synergy-map-node[\s\S]*?transition: none !important/);
+});

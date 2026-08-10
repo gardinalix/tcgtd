@@ -7734,11 +7734,24 @@ body[data-view]:not([data-view="home"]) .cards-terminal-side-stack .react-card-d
     0 0 16px color-mix(in srgb, var(--node-tone, var(--hud-primary)) 13%, transparent);
   clip-path: polygon(0.5rem 0, 100% 0, 100% calc(100% - 0.5rem), calc(100% - 0.5rem) 100%, 0 100%, 0 0.5rem);
   text-align: left;
+  transition:
+    border-color 140ms ease-out,
+    background-color 140ms ease-out,
+    box-shadow 140ms ease-out,
+    filter 140ms ease-out;
 }
 
 .synergy-map-node:hover,
 .synergy-map-node:focus-visible {
-  transform: translate(-50%, -50%) scale(1.04);
+  transform: translate(-50%, -50%);
+  border-color: color-mix(in srgb, var(--node-tone, var(--hud-primary)) 84%, transparent);
+  background: color-mix(in srgb, var(--node-tone, var(--hud-primary)) 8%, rgba(0, 8, 20, 0.94));
+  box-shadow:
+    inset 3px 0 0 var(--node-tone, var(--hud-primary)),
+    inset 0 0 18px color-mix(in srgb, var(--node-tone, var(--hud-primary)) 14%, transparent),
+    0 0 9px color-mix(in srgb, var(--node-tone, var(--hud-primary)) 12%, transparent);
+  filter: brightness(1.05);
+  outline: 0;
   z-index: 4;
 }
 
@@ -7924,7 +7937,7 @@ body[data-view]:not([data-view="home"]) .deck-row:hover {
 
   .synergy-map-node:hover,
   .synergy-map-node:focus-visible {
-    transform: scale(1.01);
+    transform: none;
   }
 
   .synergy-map-canvas {

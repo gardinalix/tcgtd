@@ -2472,3 +2472,38 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card >
   }
   body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node__label { display: none; }
 }
+
+/* Synergy map acquisition: stable telemetry, no card jump or generic button flare. */
+body[data-view="synergyMap"] .app-shell.has-tactical-rail .synergy-map-node {
+  transition:
+    border-color 140ms ease-out,
+    background-color 140ms ease-out,
+    box-shadow 140ms ease-out,
+    filter 140ms ease-out !important;
+}
+
+body[data-view="synergyMap"] .app-shell.has-tactical-rail .synergy-map-node:hover,
+body[data-view="synergyMap"] .app-shell.has-tactical-rail .synergy-map-node:focus-visible {
+  transform: translate(-50%, -50%) !important;
+  border-color: color-mix(in srgb, var(--node-tone, var(--hud-accent, #46d9ff)) 84%, transparent) !important;
+  background: color-mix(in srgb, var(--node-tone, var(--hud-accent, #46d9ff)) 8%, #020a12) !important;
+  box-shadow:
+    inset 3px 0 0 var(--node-tone, var(--hud-accent, #46d9ff)),
+    inset 0 0 18px color-mix(in srgb, var(--node-tone, var(--hud-accent, #46d9ff)) 14%, transparent),
+    0 0 9px color-mix(in srgb, var(--node-tone, var(--hud-accent, #46d9ff)) 12%, transparent) !important;
+  filter: brightness(1.05);
+  outline: 0;
+}
+
+@media (max-width: 760px) {
+  body[data-view="synergyMap"] .app-shell.has-tactical-rail .synergy-map-node:hover,
+  body[data-view="synergyMap"] .app-shell.has-tactical-rail .synergy-map-node:focus-visible {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-view="synergyMap"] .app-shell.has-tactical-rail .synergy-map-node {
+    transition: none !important;
+  }
+}
