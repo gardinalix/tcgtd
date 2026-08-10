@@ -5256,7 +5256,7 @@ body[data-view]:not([data-view="home"]) {
   background:
     radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--hud-primary) 16%, transparent), transparent 34%),
     radial-gradient(circle at 86% 8%, color-mix(in srgb, var(--hud-secondary, #4cc8ff) 9%, transparent), transparent 30%),
-    #020711;
+    var(--hud-bg-deep);
 }
 
 body[data-theme="wing-zero"][data-view]:not([data-view="home"]) {
@@ -5306,7 +5306,7 @@ body[data-view]:not([data-view="home"]) .react-shell {
   isolation: isolate;
   background:
     radial-gradient(circle at 76% 8%, color-mix(in srgb, var(--hud-primary) 16%, transparent), transparent 36%),
-    linear-gradient(180deg, rgba(0, 5, 14, 0.34), #020711 82%);
+    linear-gradient(180deg, color-mix(in srgb, var(--hud-bg-deep) 34%, transparent), var(--hud-bg-deep) 82%);
 }
 
 body[data-view]:not([data-view="home"]) .react-shell::before {
@@ -5318,8 +5318,8 @@ body[data-view]:not([data-view="home"]) .react-shell::before {
   background-repeat: no-repeat;
   background-position: var(--subpage-gundam-position);
   background-size: var(--subpage-gundam-size);
-  opacity: 0.34;
-  filter: saturate(1.12) contrast(1.08) brightness(0.88);
+  opacity: 0.46;
+  filter: saturate(1.08) contrast(1.1) brightness(0.82);
   transform: scale(1.02);
   transform-origin: 75% 15%;
   pointer-events: none;
@@ -5331,8 +5331,8 @@ body[data-view]:not([data-view="home"]) .react-shell::after {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(2, 7, 17, 0.94) 0%, rgba(2, 7, 17, 0.68) 34%, rgba(2, 7, 17, 0.48) 66%, rgba(2, 7, 17, 0.82) 100%),
-    radial-gradient(circle at 74% 16%, transparent 0 15%, rgba(2, 7, 17, 0.44) 54%, rgba(2, 7, 17, 0.88) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--hud-bg-deep) 94%, transparent) 0%, color-mix(in srgb, var(--hud-bg-deep) 68%, transparent) 34%, color-mix(in srgb, var(--hud-bg-deep) 48%, transparent) 66%, color-mix(in srgb, var(--hud-bg-deep) 82%, transparent) 100%),
+    radial-gradient(circle at 74% 16%, transparent 0 15%, color-mix(in srgb, var(--hud-bg-deep) 44%, transparent) 54%, color-mix(in srgb, var(--hud-bg-deep) 88%, transparent) 100%),
     linear-gradient(color-mix(in srgb, var(--hud-primary) 5%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in srgb, var(--hud-primary) 4%, transparent) 1px, transparent 1px);
   background-size: auto, auto, 36px 36px, 36px 36px;

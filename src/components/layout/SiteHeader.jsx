@@ -29,7 +29,7 @@ export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user
         <span className="site-brand__mark zero-brand__seal tcgtd-insignia" aria-hidden="true">
           <i className="tcgtd-insignia__orbit" />
           <i className="tcgtd-insignia__axis" />
-          <b>TTD</b>
+          <b />
         </span>
         <span>
           <small>{translate(systemStatus)}</small>

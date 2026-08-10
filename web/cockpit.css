@@ -7,6 +7,7 @@
   --hud-border-hot: rgba(0, 229, 255, 0.82);
   --hud-primary: #00e5ff;
   --hud-secondary: #4cc8ff;
+  --hud-accent-rgb: 0, 229, 255;
   --hud-glow: rgba(0, 229, 255, 0.35);
   --hud-danger: #ff3058;
   --hud-gold: #f5c84c;

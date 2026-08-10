@@ -118,6 +118,7 @@ export function App() {
   useEffect(() => {
     document.body.dataset.theme = theme.id;
     document.body.dataset.view = view;
+    applyThemeVariables(theme);
     writeThemeStorage(theme.id);
   }, [theme.id, view]);
 
@@ -710,6 +711,55 @@ function writeThemeStorage(themeId) {
   }
 }
 
+function applyThemeVariables(theme) {
+  const palette = theme.palette || {};
+  const primary = palette.primary || "#00e5ff";
+  const secondary = palette.secondary || "#69caff";
+  const accentRgb = palette.accentRgb || "0, 229, 255";
+  const canvas = palette.canvas || "#01040b";
+  const background = palette.background || "#030815";
+  const panel = palette.panel || "rgba(2, 14, 31, 0.88)";
+  const glow = palette.glow || `rgba(${accentRgb}, 0.38)`;
+  const variables = {
+    "--hud-primary": primary,
+    "--hud-secondary": secondary,
+    "--hud-accent-rgb": accentRgb,
+    "--hud-cyan": primary,
+    "--hud-violet": secondary,
+    "--hud-bg": background,
+    "--hud-bg-deep": canvas,
+    "--hud-canvas": canvas,
+    "--hud-panel": panel,
+    "--hud-glow": glow,
+    "--hud-border": `rgba(${accentRgb}, 0.42)`,
+    "--hud-border-hot": `rgba(${accentRgb}, 0.84)`,
+    "--hud-line": `rgba(${accentRgb}, 0.2)`,
+    "--hud-line-hot": `rgba(${accentRgb}, 0.72)`,
+    "--hud-dim": `rgba(${accentRgb}, 0.24)`,
+    "--system-canvas": canvas,
+    "--system-plane": panel,
+    "--system-plane-strong": panel,
+    "--system-focus": primary,
+    "--system-line": `rgba(${accentRgb}, 0.18)`,
+    "--system-line-strong": `rgba(${accentRgb}, 0.5)`,
+    "--launch-cyan": primary,
+    "--launch-cyan-soft": `rgba(${accentRgb}, 0.14)`,
+    "--launch-violet": secondary,
+    "--launch-ink": canvas,
+    "--launch-panel": panel,
+    "--launch-border": `rgba(${accentRgb}, 0.24)`,
+    "--gundam-wallpaper": `url("${theme.gundamImage}")`,
+    "--cockpit-space-extension": `url("${theme.backdropImage || theme.gundamImage}")`,
+    "--subpage-gundam-bg": `url("${theme.gundamImage}")`,
+    "--subpage-gundam-position": theme.backgroundPosition || "76% 12%",
+    "--subpage-gundam-size": theme.backgroundSize || "min(1180px, 96vw) auto",
+  };
+
+  for (const [name, value] of Object.entries(variables)) {
+    document.body.style.setProperty(name, value);
+  }
+}
+
 function TacticalBootScreen({ theme }) {
   return (
     <section className="tactical-boot-screen" aria-live="polite" aria-busy="true">
@@ -718,7 +768,7 @@ function TacticalBootScreen({ theme }) {
         <span className="tactical-boot-screen__ring tactical-boot-screen__ring--outer" />
         <span className="tactical-boot-screen__ring tactical-boot-screen__ring--inner" />
         <span className="tactical-boot-screen__pulse" />
-        <span className="tcgtd-insignia" aria-hidden="true"><i className="tcgtd-insignia__orbit" /><i className="tcgtd-insignia__axis" /><b>TTD</b></span>
+        <span className="tcgtd-insignia" aria-hidden="true"><i className="tcgtd-insignia__orbit" /><i className="tcgtd-insignia__axis" /><b /></span>
       </div>
       <div className="tactical-boot-screen__copy">
         <span>TCG TACTICAL NETWORK // ONLINE</span>
