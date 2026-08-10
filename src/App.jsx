@@ -19,6 +19,7 @@ import {
 import { changeDeckQuantity, normalizeDeck } from "./domain/deck";
 import { canAddCardToMain, getCardCopyLimit } from "./domain/deckLegality.js";
 import { createSavedDeck, deleteDeck, duplicateDeck, normalizeImportedColors, parseDeckList, updateSavedDeck } from "./domain/deckLibrary";
+import { buildMetaWindows } from "./domain/meta";
 import { compactDeckDesign } from "./services/deckDesigner/index.js";
 import { createForgeImportFromResult } from "./services/deckDesigner/competitiveMeta.js";
 import { parseRoute, routeFor } from "./domain/routes";
@@ -55,6 +56,7 @@ const VenuesPage = lazyNamed(() => import("./pages/VenuesPage"), "VenuesPage");
 const REACT_STATE_KEY = "gundam-card-hub-react-state";
 const LEGACY_STATE_KEY = "gundam-card-hub-state";
 const THEME_STATE_KEY = "gundam-tactical-theme-id";
+const META_SCOPE_STATE_KEY = "tcgtd-meta-scope-id";
 const PRIVATE_VIEWS = new Set(["builder", "profile", "accountSettings"]);
 const LIGHTWEIGHT_VIEWS = new Set(["home", "about", "legal", "terms", "privacy", "login", "register", "logout", "authCallback"]);
 
@@ -67,12 +69,18 @@ export function App() {
   const [view, setViewState] = useState(initialRoute.view);
   const [routeId, setRouteId] = useState(initialRoute.id);
   const [themeId, setThemeId] = useState(getInitialThemeId);
+  const [selectedMetaId, setSelectedMetaId] = useState(getInitialMetaScopeId);
   const [pendingForgeImport, setPendingForgeImport] = useState(null);
   const [pendingForgePreset, setPendingForgePreset] = useState(null);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [userState, setUserState] = usePersistentState(REACT_STATE_KEY, createInitialUserState(), normalizeUserState);
 
   const theme = THEME_CONFIG[themeId] || THEME_CONFIG["wing-zero"];
+  const metaWindows = useMemo(
+    () => !data ? [] : (data.metaWindows?.length ? data.metaWindows : buildMetaWindows(data)),
+    [data],
+  );
+  const selectedMetaWindow = metaWindows.find((window) => window.id === selectedMetaId) || metaWindows[0];
   const currentUser = getCurrentUser(userState);
   const activeDeck = userState.decks.find((deck) => deck.id === userState.activeDeckId) || userState.decks[0] || createSavedDeck(currentUser?.id || "local-user");
 
@@ -121,6 +129,15 @@ export function App() {
     applyThemeVariables(theme);
     writeThemeStorage(theme.id);
   }, [theme.id, view]);
+
+  useEffect(() => {
+    if (!metaWindows.length) return;
+    if (!metaWindows.some((window) => window.id === selectedMetaId)) {
+      setSelectedMetaId(metaWindows[0].id);
+      return;
+    }
+    writeMetaScopeStorage(selectedMetaId);
+  }, [metaWindows, selectedMetaId]);
 
   useEffect(() => {
     function syncRoute() {
@@ -350,6 +367,9 @@ export function App() {
         onThemeChange={setThemeId}
         user={currentUser}
         data={data}
+        metaWindows={metaWindows}
+        selectedMetaId={selectedMetaWindow?.id || selectedMetaId}
+        onMetaChange={setSelectedMetaId}
         onViewChange={setView}
         onSignIn={handlePlatformSignIn}
         search={filters.search}
@@ -369,6 +389,7 @@ export function App() {
           <HomePage
             data={data}
             theme={theme}
+            selectedMetaId={selectedMetaWindow?.id || selectedMetaId}
             filters={mergedFilters}
             setFilter={setFilter}
             resetFilters={() => setFilters({ ...DEFAULT_FILTERS })}
@@ -430,6 +451,8 @@ export function App() {
             onForgeImportConsumed={() => setPendingForgeImport(null)}
             initialDesignerCriteria={pendingForgePreset}
             onDesignerCriteriaConsumed={() => setPendingForgePreset(null)}
+            selectedMetaId={selectedMetaWindow?.id || selectedMetaId}
+            onMetaChange={setSelectedMetaId}
           />
         ) : null}
         {!shouldGatePrivate && view === "builder" ? (
@@ -450,7 +473,7 @@ export function App() {
           />
         ) : null}
         {!shouldGatePrivate && view === "prices" ? <PricesPage data={data} /> : null}
-        {!shouldGatePrivate && view === "meta" ? <MetaPage data={data} onOpenForge={openArchetypeInForge} /> : null}
+        {!shouldGatePrivate && view === "meta" ? <MetaPage data={data} selectedMetaId={selectedMetaWindow?.id || selectedMetaId} onMetaChange={setSelectedMetaId} onOpenForge={openArchetypeInForge} /> : null}
         {!shouldGatePrivate && view === "community" ? (
           <CommunityPage
             data={data}
@@ -708,6 +731,22 @@ function writeThemeStorage(themeId) {
     localStorage.setItem(THEME_STATE_KEY, themeId);
   } catch {
     // Non-critical: the cockpit still works without persistent storage.
+  }
+}
+
+function getInitialMetaScopeId() {
+  try {
+    return localStorage.getItem(META_SCOPE_STATE_KEY) || "current";
+  } catch {
+    return "current";
+  }
+}
+
+function writeMetaScopeStorage(metaScopeId) {
+  try {
+    localStorage.setItem(META_SCOPE_STATE_KEY, metaScopeId);
+  } catch {
+    // Non-critical: the default current field remains available.
   }
 }
 

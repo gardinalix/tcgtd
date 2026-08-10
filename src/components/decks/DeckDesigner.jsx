@@ -50,6 +50,8 @@ export function DeckDesigner({
   onForgeImportConsumed,
   initialCriteria,
   onInitialCriteriaConsumed,
+  selectedMetaId,
+  onSelectedMetaChange,
 }) {
   const defaultArchetype = data.defaults?.template_archetype || data.archetypes?.[0]?.archetype || "";
   const defaultProfile = data.archetypes?.find((item) => item.archetype === defaultArchetype);
@@ -59,7 +61,7 @@ export function DeckDesigner({
       : inferInitialColors(defaultProfile?.commonColorCombination),
     unitQuery: "",
     archetype: initialCriteria?.archetype || defaultArchetype,
-    selectedMetaId: initialCriteria?.selectedMetaId || "current",
+    selectedMetaId: initialCriteria?.selectedMetaId || selectedMetaId || "current",
     preferences: "",
     requiredCards: "",
     excludedCards: "",
@@ -129,8 +131,29 @@ export function DeckDesigner({
     setModeSelectionOpen(false);
     setBriefOpen(true);
     setStatus("idle");
+    if (initialCriteria.selectedMetaId) onSelectedMetaChange?.(initialCriteria.selectedMetaId);
     onInitialCriteriaConsumed?.();
   }, [initialCriteria?.key]);
+
+  useEffect(() => {
+    if (!selectedMetaId) return;
+    setCriteria((current) => {
+      if (current.selectedMetaId === selectedMetaId) return current;
+      const allowedArchetypes = buildAvailableArchetypes(data, archetypes, {
+        unitName: selectedUnitName,
+        unitQuery: current.unitQuery,
+        colors: current.colors,
+        selectedMetaId,
+      });
+      const preservesArchetype = !current.archetype
+        || allowedArchetypes.some((item) => item.archetype === current.archetype);
+      return {
+        ...current,
+        selectedMetaId,
+        archetype: preservesArchetype ? current.archetype : "",
+      };
+    });
+  }, [archetypes, data, selectedMetaId, selectedUnitName]);
 
   useEffect(() => {
     if (status !== "success") return undefined;
@@ -586,6 +609,7 @@ export function DeckDesigner({
               value={criteria.selectedMetaId || "current"}
               onChange={(event) => {
                 const selectedMetaId = event.target.value;
+                onSelectedMetaChange?.(selectedMetaId);
                 setCriteria((current) => {
                   const allowedArchetypes = buildAvailableArchetypes(data, archetypes, {
                     unitName: selectedUnitName,

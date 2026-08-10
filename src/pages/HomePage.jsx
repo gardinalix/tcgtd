@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 import { useLocale } from "../i18n/LocaleProvider";
+import { buildMetaWindows, buildScopedMetaSignal } from "../domain/meta";
 
-export function HomePage({ data, theme, setView }) {
+export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
   const { locale } = useLocale();
   const pt = locale === "pt-BR";
-  const overview = useMemo(() => buildOverview(data), [data]);
+  const overview = useMemo(() => buildOverview(scopeHomeData(data, selectedMetaId)), [data, selectedMetaId]);
   const modules = [
     {
       code: "01",
@@ -263,6 +264,49 @@ function buildOverview(data = {}) {
     latestDecks,
     metaLeaders,
   };
+}
+
+function scopeHomeData(data = {}, selectedMetaId = "current") {
+  const snapshot = data.metaSnapshots?.[selectedMetaId];
+  if (snapshot) {
+    return {
+      ...data,
+      ...snapshot,
+      counts: { ...data.counts, ...snapshot.counts },
+    };
+  }
+  if (!data.metaResults?.length) return data;
+
+  const metaWindows = buildMetaWindows(data);
+  const selectedWindow = metaWindows.find((window) => window.id === selectedMetaId) || metaWindows[0];
+  const signal = buildScopedMetaSignal(data, selectedWindow);
+  const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
+  const latestDecks = (data.metaResults || [])
+    .filter((result) => dateInsideWindow(result.eventDate, selectedWindow))
+    .filter((result) => result.deckId && result.hasDecklist !== false)
+    .sort((left, right) => String(right.eventDate || "").localeCompare(String(left.eventDate || "")))
+    .slice(0, 6);
+  return {
+    ...data,
+    activeFormat: selectedWindow?.shortLabel || selectedWindow?.formatCode || data.activeFormat,
+    counts: {
+      ...data.counts,
+      decklists: signal.context.deckCount,
+      events: signal.context.eventCount,
+    },
+    latestDecks,
+    metaLeaders: signal.ranked.slice(0, 5).map((row) => ({
+      ...row,
+      recentMetaScore: row.recentScore,
+      recentTop8DecksUsing: row.recent,
+      imageUrl: cardMap.get(row.cardNumber)?.imageUrl || "",
+    })),
+  };
+}
+
+function dateInsideWindow(value, window) {
+  const date = String(value || "").slice(0, 10);
+  return Boolean(date && window) && date >= window.startDate && date <= window.endDate;
 }
 
 function formatNumber(value, locale) {

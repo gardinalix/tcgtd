@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { buildMetaWindows, buildScopedMetaSignal } from "../src/domain/meta.js";
 
 const ROOT = process.cwd();
 const APP_DATA_PATH = path.join(ROOT, "web", "app-data.json");
@@ -15,6 +16,38 @@ function buildHomePayload(source) {
   const metaResults = [...(source.metaResults || [])].sort(byNewestEvent);
   const metaEvents = [...(source.metaEvents || [])].sort(byNewestEvent);
   const activeFormat = inferActiveFormat(metaResults, metaEvents);
+  const metaWindows = buildMetaWindows(source);
+  const cardMap = new Map((source.cards || []).map((card) => [card.cardNumber, card]));
+  const metaSnapshots = Object.fromEntries(metaWindows.map((window) => {
+    const scopedResults = metaResults.filter((result) => dateInsideWindow(result.eventDate, window));
+    const scopedEvents = metaEvents.filter((event) => dateInsideWindow(event.eventDate, window));
+    const signal = buildScopedMetaSignal(source, window);
+    return [window.id, {
+      activeFormat: window.shortLabel || window.formatCode,
+      counts: {
+        decklists: signal.context.deckCount,
+        events: signal.context.eventCount,
+      },
+      latestDecks: scopedResults
+        .filter((result) => result.deckId && result.hasDecklist !== false)
+        .slice(0, 6)
+        .map((result) => pick(result, [
+          "deckId", "eventId", "eventName", "eventDate", "formatName", "eventType", "playerName", "placingLabel", "placingRank", "archetype", "colorCombination", "sourceName",
+        ])),
+      latestEvents: scopedEvents.slice(0, 6).map((event) => pick(event, [
+        "eventId", "eventName", "eventDate", "formatName", "eventType", "playerCount", "sourceName", "sourceUrl",
+      ])),
+      metaLeaders: signal.ranked.slice(0, 5).map((row) => ({
+        cardNumber: row.cardNumber,
+        cardName: row.cardName,
+        cardType: row.cardType,
+        color: row.color,
+        recentMetaScore: row.recentScore,
+        recentTop8DecksUsing: row.recent,
+        imageUrl: cardMap.get(row.cardNumber)?.imageUrl || "",
+      })),
+    }];
+  }));
   return {
     schemaVersion: "tcgtd-home-v1",
     gameModule: {
@@ -24,6 +57,8 @@ function buildHomePayload(source) {
       activeFormat,
     },
     activeFormat,
+    metaWindows,
+    metaSnapshots,
     generatedAt: source.generatedAt || source.cardSnapshotGeneratedAt || new Date().toISOString(),
     counts: {
       cards: Number(source.counts?.main_deck_cards || source.cards?.length || 0),
@@ -44,6 +79,11 @@ function buildHomePayload(source) {
       .slice(0, 5)
       .map((card) => pick(card, ["cardNumber", "cardName", "cardType", "color", "recentMetaScore", "recentTop8DecksUsing", "imageUrl"])),
   };
+}
+
+function dateInsideWindow(value, window) {
+  const date = String(value || "").slice(0, 10);
+  return Boolean(date) && date >= window.startDate && date <= window.endDate;
 }
 
 async function buildRightsManifest(source) {

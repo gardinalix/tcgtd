@@ -25,6 +25,8 @@ export function DecksPage({
   onForgeImportConsumed,
   initialDesignerCriteria,
   onDesignerCriteriaConsumed,
+  selectedMetaId,
+  onMetaChange,
 }) {
   const [workspace, setWorkspace] = useState("designer");
   const [scope, setScope] = useState("mine");
@@ -131,6 +133,8 @@ export function DecksPage({
           onForgeImportConsumed={onForgeImportConsumed}
           initialCriteria={initialDesignerCriteria}
           onInitialCriteriaConsumed={onDesignerCriteriaConsumed}
+          selectedMetaId={selectedMetaId}
+          onSelectedMetaChange={onMetaChange}
         />
       ) : null}
 

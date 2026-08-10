@@ -7,6 +7,1460 @@
     "activeFormat": "GD05"
   },
   "activeFormat": "GD05",
+  "metaWindows": [
+    {
+      "id": "current",
+      "label": "GD05 · Current format",
+      "shortLabel": "GD05",
+      "formatCode": "GD05",
+      "startDate": "2026-07-24",
+      "endDate": "2026-08-06"
+    },
+    {
+      "id": "rolling-30",
+      "label": "Rolling field · 30 days",
+      "shortLabel": "30D",
+      "formatCode": "GD05",
+      "startDate": "2026-07-08",
+      "endDate": "2026-08-06"
+    },
+    {
+      "id": "gd04",
+      "label": "GD04 · Phantom Aria",
+      "shortLabel": "GD04",
+      "formatCode": "GD04",
+      "startDate": "2026-04-24",
+      "endDate": "2026-07-23"
+    },
+    {
+      "id": "gd03",
+      "label": "GD03 · Steel Requiem",
+      "shortLabel": "GD03",
+      "formatCode": "GD03",
+      "startDate": "2026-01-30",
+      "endDate": "2026-04-23"
+    },
+    {
+      "id": "gd02",
+      "label": "GD02 · Dual Impact",
+      "shortLabel": "GD02",
+      "formatCode": "GD02",
+      "startDate": "2025-10-24",
+      "endDate": "2026-01-29"
+    },
+    {
+      "id": "gd01",
+      "label": "GD01 · Newtype Rising",
+      "shortLabel": "GD01",
+      "formatCode": "GD01",
+      "startDate": "2025-07-25",
+      "endDate": "2025-10-23"
+    },
+    {
+      "id": "all",
+      "label": "All indexed competitive data",
+      "shortLabel": "ALL",
+      "formatCode": "ALL",
+      "startDate": "2025-02-14",
+      "endDate": "2026-08-06"
+    }
+  ],
+  "metaSnapshots": {
+    "current": {
+      "activeFormat": "GD05",
+      "counts": {
+        "decklists": 47,
+        "events": 4
+      },
+      "latestDecks": [
+        {
+          "deckId": "e7a34db9f3f46f83",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "Jinzo777",
+          "placingLabel": "1",
+          "placingRank": "1",
+          "archetype": "Shining Gundam (Master Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "e15161c6fbe7951b",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "ZimZamBlam",
+          "placingLabel": "2",
+          "placingRank": "2",
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "03258b978691b927",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "nick0953",
+          "placingLabel": "3",
+          "placingRank": "3",
+          "archetype": "Strike Freedom Gundam (Aile Strike Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "70df56f4f43c8255",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "Huycoveries",
+          "placingLabel": "4",
+          "placingRank": "4",
+          "archetype": "Shining Gundam (Master Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "9b33a4f90e2d5b85",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "jimmy",
+          "placingLabel": "5",
+          "placingRank": "5",
+          "archetype": "Blue White Tempo",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "b989dd583d3aad11",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "WontTradeRXLR",
+          "placingLabel": "6",
+          "placingRank": "6",
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        }
+      ],
+      "latestEvents": [
+        {
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "25",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a70b1d62b308b6067b48aee/standings"
+        },
+        {
+          "eventId": "99e2af88ede03209",
+          "eventName": "MOKI TOYS SHOP GCG MSA S3 W2",
+          "eventDate": "2026-08-03",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "8",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66e98852c24ac2da64d5a3/standings"
+        },
+        {
+          "eventId": "dcc49e890a2d061a",
+          "eventName": "Eagle's Nest S6GW3.0 GD05 Webcam Locals",
+          "eventDate": "2026-07-30",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "18",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66895a52c24ac2da64d13d/standings"
+        },
+        {
+          "eventId": "1c30b4cbcd5b68dd",
+          "eventName": "MOKI TOYS SHOP GCG MSA S3 W1",
+          "eventDate": "2026-07-27",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "7",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66e75f937230b102d4667a/standings"
+        }
+      ],
+      "metaLeaders": [
+        {
+          "cardNumber": "GD01-118",
+          "cardName": "Overflowing Affection",
+          "cardType": "COMMAND",
+          "color": "White",
+          "recentMetaScore": 36.17021276595745,
+          "recentTop8DecksUsing": 17,
+          "imageUrl": "./assets/card-images/GD01-118.webp"
+        },
+        {
+          "cardNumber": "GD01-100",
+          "cardName": "A Show of Resolve",
+          "cardType": "COMMAND",
+          "color": "Blue",
+          "recentMetaScore": 29.78723404255319,
+          "recentTop8DecksUsing": 14,
+          "imageUrl": "./assets/card-images/GD01-100.webp"
+        },
+        {
+          "cardNumber": "GD05-002",
+          "cardName": "Strike Freedom Gundam",
+          "cardType": "UNIT",
+          "color": "Blue",
+          "recentMetaScore": 23.404255319148938,
+          "recentTop8DecksUsing": 11,
+          "imageUrl": "./assets/card-images/GD05-002.webp"
+        },
+        {
+          "cardNumber": "GD05-081",
+          "cardName": "Kira Yamato",
+          "cardType": "PILOT",
+          "color": "Blue",
+          "recentMetaScore": 21.27659574468085,
+          "recentTop8DecksUsing": 10,
+          "imageUrl": "./assets/card-images/GD05-081.webp"
+        },
+        {
+          "cardNumber": "ST04-001",
+          "cardName": "Aile Strike Gundam",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 21.27659574468085,
+          "recentTop8DecksUsing": 10,
+          "imageUrl": "./assets/card-images/ST04-001.webp"
+        }
+      ]
+    },
+    "rolling-30": {
+      "activeFormat": "30D",
+      "counts": {
+        "decklists": 90,
+        "events": 8
+      },
+      "latestDecks": [
+        {
+          "deckId": "e7a34db9f3f46f83",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "Jinzo777",
+          "placingLabel": "1",
+          "placingRank": "1",
+          "archetype": "Shining Gundam (Master Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "e15161c6fbe7951b",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "ZimZamBlam",
+          "placingLabel": "2",
+          "placingRank": "2",
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "03258b978691b927",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "nick0953",
+          "placingLabel": "3",
+          "placingRank": "3",
+          "archetype": "Strike Freedom Gundam (Aile Strike Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "70df56f4f43c8255",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "Huycoveries",
+          "placingLabel": "4",
+          "placingRank": "4",
+          "archetype": "Shining Gundam (Master Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "9b33a4f90e2d5b85",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "jimmy",
+          "placingLabel": "5",
+          "placingRank": "5",
+          "archetype": "Blue White Tempo",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "b989dd583d3aad11",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "WontTradeRXLR",
+          "placingLabel": "6",
+          "placingRank": "6",
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        }
+      ],
+      "latestEvents": [
+        {
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "25",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a70b1d62b308b6067b48aee/standings"
+        },
+        {
+          "eventId": "99e2af88ede03209",
+          "eventName": "MOKI TOYS SHOP GCG MSA S3 W2",
+          "eventDate": "2026-08-03",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "8",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66e98852c24ac2da64d5a3/standings"
+        },
+        {
+          "eventId": "dcc49e890a2d061a",
+          "eventName": "Eagle's Nest S6GW3.0 GD05 Webcam Locals",
+          "eventDate": "2026-07-30",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "18",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66895a52c24ac2da64d13d/standings"
+        },
+        {
+          "eventId": "1c30b4cbcd5b68dd",
+          "eventName": "MOKI TOYS SHOP GCG MSA S3 W1",
+          "eventDate": "2026-07-27",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "7",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66e75f937230b102d4667a/standings"
+        },
+        {
+          "eventId": "69bf3a7b13bba966",
+          "eventName": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
+          "eventDate": "2026-07-23",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "35",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a5d9a9f937230b102d3ff56/standings"
+        },
+        {
+          "eventId": "2d2202e595e12189",
+          "eventName": "MOKI TOYS SHOP GCG MSA S2 W11",
+          "eventDate": "2026-07-20",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "10",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a438d8083fd320299bd49c3/standings"
+        }
+      ],
+      "metaLeaders": [
+        {
+          "cardNumber": "GD01-118",
+          "cardName": "Overflowing Affection",
+          "cardType": "COMMAND",
+          "color": "White",
+          "recentMetaScore": 42.22222222222222,
+          "recentTop8DecksUsing": 38,
+          "imageUrl": "./assets/card-images/GD01-118.webp"
+        },
+        {
+          "cardNumber": "GD01-100",
+          "cardName": "A Show of Resolve",
+          "cardType": "COMMAND",
+          "color": "Blue",
+          "recentMetaScore": 35.55555555555556,
+          "recentTop8DecksUsing": 32,
+          "imageUrl": "./assets/card-images/GD01-100.webp"
+        },
+        {
+          "cardNumber": "ST04-001",
+          "cardName": "Aile Strike Gundam",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 28.888888888888886,
+          "recentTop8DecksUsing": 26,
+          "imageUrl": "./assets/card-images/ST04-001.webp"
+        },
+        {
+          "cardNumber": "ST04-010",
+          "cardName": "Kira Yamato",
+          "cardType": "PILOT",
+          "color": "White",
+          "recentMetaScore": 28.888888888888886,
+          "recentTop8DecksUsing": 26,
+          "imageUrl": "./assets/card-images/ST04-010.webp"
+        },
+        {
+          "cardNumber": "GD01-086",
+          "cardName": "Gundam Lfrith",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 28.888888888888886,
+          "recentTop8DecksUsing": 26,
+          "imageUrl": "./assets/card-images/GD01-086.webp"
+        }
+      ]
+    },
+    "gd04": {
+      "activeFormat": "GD04",
+      "counts": {
+        "decklists": 75,
+        "events": 6
+      },
+      "latestDecks": [
+        {
+          "deckId": "91ae1115adeba74a",
+          "eventId": "69bf3a7b13bba966",
+          "eventName": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
+          "eventDate": "2026-07-23",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "Geicokiller",
+          "placingLabel": "1",
+          "placingRank": "1",
+          "archetype": "Shining Gundam (Master Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "15453357fabd33fb",
+          "eventId": "69bf3a7b13bba966",
+          "eventName": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
+          "eventDate": "2026-07-23",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "ZimZamBlam",
+          "placingLabel": "2",
+          "placingRank": "2",
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "cab9e0d36ced618f",
+          "eventId": "69bf3a7b13bba966",
+          "eventName": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
+          "eventDate": "2026-07-23",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "boomatronic",
+          "placingLabel": "3",
+          "placingRank": "3",
+          "archetype": "Nu Gundam",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "a9b4a4a704b63d55",
+          "eventId": "69bf3a7b13bba966",
+          "eventName": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
+          "eventDate": "2026-07-23",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "JayUnderwood3",
+          "placingLabel": "4",
+          "placingRank": "4",
+          "archetype": "Strike Freedom Gundam (Unicorn Gundam 02 Banshee [Destroy Mode] )",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "0894acf96b12dd71",
+          "eventId": "69bf3a7b13bba966",
+          "eventName": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
+          "eventDate": "2026-07-23",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "adeluh",
+          "placingLabel": "5",
+          "placingRank": "5",
+          "archetype": "White Green Operation Meteor",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "8ebe861011d857f7",
+          "eventId": "69bf3a7b13bba966",
+          "eventName": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
+          "eventDate": "2026-07-23",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "SaileRiegan",
+          "placingLabel": "6",
+          "placingRank": "6",
+          "archetype": "Blue Green Cyclops Team",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        }
+      ],
+      "latestEvents": [
+        {
+          "eventId": "69bf3a7b13bba966",
+          "eventName": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
+          "eventDate": "2026-07-23",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "35",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a5d9a9f937230b102d3ff56/standings"
+        },
+        {
+          "eventId": "2d2202e595e12189",
+          "eventName": "MOKI TOYS SHOP GCG MSA S2 W11",
+          "eventDate": "2026-07-20",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "10",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a438d8083fd320299bd49c3/standings"
+        },
+        {
+          "eventId": "8f30cbecf7a15486",
+          "eventName": "Eagle's Nest S6GW1.0 EARLY BANLIST Webcam Locals",
+          "eventDate": "2026-07-16",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "10",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a5447fe063cb29d318e9dfb/standings"
+        },
+        {
+          "eventId": "84a4717e208c1e0e",
+          "eventName": "MOKI TOYS SHOP GCG MSA S2 W10",
+          "eventDate": "2026-07-13",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "7",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a438d68c87cd9ff0a3135d6/standings"
+        },
+        {
+          "eventId": "85ab8a40ab754d3d",
+          "eventName": "SangSang Event's Mexico City Regionals",
+          "eventDate": "2026-04-26",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists"
+        },
+        {
+          "eventId": "0a6cc3554688464a",
+          "eventName": "Play!TCG Baton Rouge Regionals",
+          "eventDate": "2026-04-25",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists"
+        }
+      ],
+      "metaLeaders": [
+        {
+          "cardNumber": "GD01-100",
+          "cardName": "A Show of Resolve",
+          "cardType": "COMMAND",
+          "color": "Blue",
+          "recentMetaScore": 53.333333333333336,
+          "recentTop8DecksUsing": 40,
+          "imageUrl": "./assets/card-images/GD01-100.webp"
+        },
+        {
+          "cardNumber": "GD01-118",
+          "cardName": "Overflowing Affection",
+          "cardType": "COMMAND",
+          "color": "White",
+          "recentMetaScore": 48,
+          "recentTop8DecksUsing": 36,
+          "imageUrl": "./assets/card-images/GD01-118.webp"
+        },
+        {
+          "cardNumber": "ST01-010",
+          "cardName": "Amuro Ray",
+          "cardType": "PILOT",
+          "color": "Blue",
+          "recentMetaScore": 45.33333333333333,
+          "recentTop8DecksUsing": 34,
+          "imageUrl": "./assets/card-images/ST01-010.webp"
+        },
+        {
+          "cardNumber": "ST01-001",
+          "cardName": "Gundam",
+          "cardType": "UNIT",
+          "color": "Blue",
+          "recentMetaScore": 42.66666666666667,
+          "recentTop8DecksUsing": 32,
+          "imageUrl": "./assets/card-images/ST01-001.webp"
+        },
+        {
+          "cardNumber": "GD01-086",
+          "cardName": "Gundam Lfrith",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 41.333333333333336,
+          "recentTop8DecksUsing": 31,
+          "imageUrl": "./assets/card-images/GD01-086.webp"
+        }
+      ]
+    },
+    "gd03": {
+      "activeFormat": "GD03",
+      "counts": {
+        "decklists": 403,
+        "events": 221
+      },
+      "latestDecks": [
+        {
+          "deckId": "f1930bb93834c843",
+          "eventId": "7edf24cfcc279478",
+          "eventName": "Athens Collectibles Greece Regionals",
+          "eventDate": "2026-04-18",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerName": "Fujiwara Takahashi",
+          "placingLabel": "1st",
+          "placingRank": "1",
+          "archetype": "Barbatos Rush",
+          "colorCombination": "Blue/Purple",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "8da6b6b8d35483cc",
+          "eventId": "7edf24cfcc279478",
+          "eventName": "Athens Collectibles Greece Regionals",
+          "eventDate": "2026-04-18",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerName": "Giacomo",
+          "placingLabel": "2nd",
+          "placingRank": "2",
+          "archetype": "Barbatos Rush",
+          "colorCombination": "Blue/Purple",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "86b2b75130faca5f",
+          "eventId": "7edf24cfcc279478",
+          "eventName": "Athens Collectibles Greece Regionals",
+          "eventDate": "2026-04-18",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerName": "Shiun",
+          "placingLabel": "5th",
+          "placingRank": "5",
+          "archetype": "Barbatos Rush",
+          "colorCombination": "Blue/Purple",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "242a8b12118e2ff2",
+          "eventId": "7edf24cfcc279478",
+          "eventName": "Athens Collectibles Greece Regionals",
+          "eventDate": "2026-04-18",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerName": "Luke",
+          "placingLabel": "6th",
+          "placingRank": "6",
+          "archetype": "The-O Blockers",
+          "colorCombination": "Blue/White",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "56964e6fe4b6f57f",
+          "eventId": "15e021812b655eb0",
+          "eventName": "Booster Box's Virginia Regional",
+          "eventDate": "2026-04-18",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerName": "Jacob-DA3",
+          "placingLabel": "1st",
+          "placingRank": "1",
+          "archetype": "Justice Blockers",
+          "colorCombination": "Red/White",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "141453a80c5de4fd",
+          "eventId": "15e021812b655eb0",
+          "eventName": "Booster Box's Virginia Regional",
+          "eventDate": "2026-04-18",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerName": "ABF",
+          "placingLabel": "2nd",
+          "placingRank": "2",
+          "archetype": "The-O Blockers",
+          "colorCombination": "Blue/White",
+          "sourceName": "Egman Events"
+        }
+      ],
+      "latestEvents": [
+        {
+          "eventId": "7edf24cfcc279478",
+          "eventName": "Athens Collectibles Greece Regionals",
+          "eventDate": "2026-04-18",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists"
+        },
+        {
+          "eventId": "15e021812b655eb0",
+          "eventName": "Booster Box's Virginia Regional",
+          "eventDate": "2026-04-18",
+          "formatName": "ST09",
+          "eventType": "Large Official Event",
+          "playerCount": "624",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists"
+        },
+        {
+          "eventId": "b138e574396154de",
+          "eventName": "Shop Battle",
+          "eventDate": "2026-04-16",
+          "formatName": "ST09",
+          "eventType": "Small Official Event",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists"
+        },
+        {
+          "eventId": "e3245561b30ca96a",
+          "eventName": "Store Preliminaries",
+          "eventDate": "2026-04-16",
+          "formatName": "ST09",
+          "eventType": "Small Official Event",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists"
+        },
+        {
+          "eventId": "af112862b0d847c8",
+          "eventName": "Store Preliminaries",
+          "eventDate": "2026-04-16",
+          "formatName": "ST09",
+          "eventType": "Small Official Event",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists"
+        },
+        {
+          "eventId": "b6129f4555ce816b",
+          "eventName": "Store Preliminaries",
+          "eventDate": "2026-04-16",
+          "formatName": "ST09",
+          "eventType": "Small Official Event",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists"
+        }
+      ],
+      "metaLeaders": [
+        {
+          "cardNumber": "ST01-010",
+          "cardName": "Amuro Ray",
+          "cardType": "PILOT",
+          "color": "Blue",
+          "recentMetaScore": 55.08684863523573,
+          "recentTop8DecksUsing": 222,
+          "imageUrl": "./assets/card-images/ST01-010.webp"
+        },
+        {
+          "cardNumber": "ST01-001",
+          "cardName": "Gundam",
+          "cardType": "UNIT",
+          "color": "Blue",
+          "recentMetaScore": 54.59057071960298,
+          "recentTop8DecksUsing": 220,
+          "imageUrl": "./assets/card-images/ST01-001.webp"
+        },
+        {
+          "cardNumber": "GD01-100",
+          "cardName": "A Show of Resolve",
+          "cardType": "COMMAND",
+          "color": "Blue",
+          "recentMetaScore": 54.3424317617866,
+          "recentTop8DecksUsing": 219,
+          "imageUrl": "./assets/card-images/GD01-100.webp"
+        },
+        {
+          "cardNumber": "GD01-118",
+          "cardName": "Overflowing Affection",
+          "cardType": "COMMAND",
+          "color": "White",
+          "recentMetaScore": 42.92803970223325,
+          "recentTop8DecksUsing": 173,
+          "imageUrl": "./assets/card-images/GD01-118.webp"
+        },
+        {
+          "cardNumber": "GD01-086",
+          "cardName": "Gundam Lfrith",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 41.19106699751861,
+          "recentTop8DecksUsing": 166,
+          "imageUrl": "./assets/card-images/GD01-086.webp"
+        }
+      ]
+    },
+    "gd02": {
+      "activeFormat": "GD02",
+      "counts": {
+        "decklists": 266,
+        "events": 141
+      },
+      "latestDecks": [
+        {
+          "deckId": "ce5975dbe9f85d6b",
+          "eventId": "451bb324780a40ff",
+          "eventName": "Shop Battle",
+          "eventDate": "2026-01-24",
+          "formatName": "GD03",
+          "eventType": "Small Official Event",
+          "playerName": "リコウルGCG",
+          "placingLabel": "1st (3-0)",
+          "placingRank": "1",
+          "archetype": "Unicorn Gundam (Cyber-Newtype)",
+          "colorCombination": "Blue/Red",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "c5f8728cc811347e",
+          "eventId": "ff539d2a8e3fdd11",
+          "eventName": "Newtype Challenge",
+          "eventDate": "2026-01-09",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerName": "Teosoonteck",
+          "placingLabel": "1st (5-0)",
+          "placingRank": "1",
+          "archetype": "Zeon Aggro",
+          "colorCombination": "Blue/Green",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "16f58c7150203acb",
+          "eventId": "acc6602fdcff0014",
+          "eventName": "Shop Battle",
+          "eventDate": "2026-01-06",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerName": "ricco_kurniawan",
+          "placingLabel": "1st (4-0)",
+          "placingRank": "1",
+          "archetype": "Qubeley Ping",
+          "colorCombination": "Red/White",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "b4bd37b9e7505c8c",
+          "eventId": "5d73fd8f890134be",
+          "eventName": "Shop Battle",
+          "eventDate": "2026-01-04",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerName": "V2pA3bINhWvquxq",
+          "placingLabel": "Top 8 (3-1)",
+          "placingRank": "8",
+          "archetype": "Psycho Gundam",
+          "colorCombination": "Blue/White",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "334d5447346c5a90",
+          "eventId": "ec7228c5143ab42e",
+          "eventName": "Shop Battle",
+          "eventDate": "2026-01-01",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerName": "Zero_one8323",
+          "placingLabel": "Top 8 (3-1)",
+          "placingRank": "8",
+          "archetype": "Freedom Blockers",
+          "colorCombination": "Blue/White",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "978190ccf4735cc4",
+          "eventId": "aaa768e9cee0c57d",
+          "eventName": "Newtype Challenge",
+          "eventDate": "2025-12-31",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerName": "HayFever_GCG",
+          "placingLabel": "6th (4-1)",
+          "placingRank": "6",
+          "archetype": "Freedom Blockers",
+          "colorCombination": "Blue/White",
+          "sourceName": "Egman Events"
+        }
+      ],
+      "latestEvents": [
+        {
+          "eventId": "451bb324780a40ff",
+          "eventName": "Shop Battle",
+          "eventDate": "2026-01-24",
+          "formatName": "GD03",
+          "eventType": "Small Official Event",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists"
+        },
+        {
+          "eventId": "ff539d2a8e3fdd11",
+          "eventName": "Newtype Challenge",
+          "eventDate": "2026-01-09",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists"
+        },
+        {
+          "eventId": "acc6602fdcff0014",
+          "eventName": "Shop Battle",
+          "eventDate": "2026-01-06",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists"
+        },
+        {
+          "eventId": "5d73fd8f890134be",
+          "eventName": "Shop Battle",
+          "eventDate": "2026-01-04",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists"
+        },
+        {
+          "eventId": "ec7228c5143ab42e",
+          "eventName": "Shop Battle",
+          "eventDate": "2026-01-01",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists"
+        },
+        {
+          "eventId": "aaa768e9cee0c57d",
+          "eventName": "Newtype Challenge",
+          "eventDate": "2025-12-31",
+          "formatName": "Small Official Event",
+          "eventType": "JPN GD02",
+          "playerCount": "",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists"
+        }
+      ],
+      "metaLeaders": [
+        {
+          "cardNumber": "GD01-086",
+          "cardName": "Gundam Lfrith",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 62.03007518796993,
+          "recentTop8DecksUsing": 165,
+          "imageUrl": "./assets/card-images/GD01-086.webp"
+        },
+        {
+          "cardNumber": "GD01-118",
+          "cardName": "Overflowing Affection",
+          "cardType": "COMMAND",
+          "color": "White",
+          "recentMetaScore": 59.3984962406015,
+          "recentTop8DecksUsing": 158,
+          "imageUrl": "./assets/card-images/GD01-118.webp"
+        },
+        {
+          "cardNumber": "ST04-012",
+          "cardName": "Striker Pack",
+          "cardType": "COMMAND",
+          "color": "White",
+          "recentMetaScore": 57.89473684210527,
+          "recentTop8DecksUsing": 154,
+          "imageUrl": "./assets/card-images/ST04-012.webp"
+        },
+        {
+          "cardNumber": "GD02-079",
+          "cardName": "Rick Dias",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 56.390977443609025,
+          "recentTop8DecksUsing": 150,
+          "imageUrl": "./assets/card-images/GD02-079.webp"
+        },
+        {
+          "cardNumber": "ST04-001",
+          "cardName": "Aile Strike Gundam",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 54.13533834586466,
+          "recentTop8DecksUsing": 144,
+          "imageUrl": "./assets/card-images/ST04-001.webp"
+        }
+      ]
+    },
+    "gd01": {
+      "activeFormat": "GD01",
+      "counts": {
+        "decklists": 324,
+        "events": 42
+      },
+      "latestDecks": [
+        {
+          "deckId": "f4c994dc36265a57",
+          "eventId": "3d41d79c96f195e4",
+          "eventName": "Eagle's Nest 10/22",
+          "eventDate": "2025-10-22",
+          "formatName": "Unofficial Event",
+          "eventType": "ENG GD02",
+          "playerName": "Michael Seekers",
+          "placingLabel": "1st (5-0)",
+          "placingRank": "1",
+          "archetype": "Wing Zero",
+          "colorCombination": "Green/White",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "71170b1dabaa2aa9",
+          "eventId": "3d41d79c96f195e4",
+          "eventName": "Eagle's Nest 10/22",
+          "eventDate": "2025-10-22",
+          "formatName": "Unofficial Event",
+          "eventType": "ENG GD02",
+          "playerName": "Geicokiller",
+          "placingLabel": "2nd (4-1)",
+          "placingRank": "2",
+          "archetype": "Cyber-Newtype",
+          "colorCombination": "Blue/Red",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "40b51ac0b1733251",
+          "eventId": "3d41d79c96f195e4",
+          "eventName": "Eagle's Nest 10/22",
+          "eventDate": "2025-10-22",
+          "formatName": "Unofficial Event",
+          "eventType": "ENG GD02",
+          "playerName": "SdotAkuma",
+          "placingLabel": "3rd (4-1)",
+          "placingRank": "3",
+          "archetype": "Wing Zero",
+          "colorCombination": "Green/White",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "15db5619d2e7ff14",
+          "eventId": "3d41d79c96f195e4",
+          "eventName": "Eagle's Nest 10/22",
+          "eventDate": "2025-10-22",
+          "formatName": "Unofficial Event",
+          "eventType": "ENG GD02",
+          "playerName": "Squirrel0",
+          "placingLabel": "4th (4-1)",
+          "placingRank": "4",
+          "archetype": "Wing Zero",
+          "colorCombination": "Blue/Green",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "bd57a4653fe80155",
+          "eventId": "3d41d79c96f195e4",
+          "eventName": "Eagle's Nest 10/22",
+          "eventDate": "2025-10-22",
+          "formatName": "Unofficial Event",
+          "eventType": "ENG GD02",
+          "playerName": "Jinzo777",
+          "placingLabel": "5th (3-2)",
+          "placingRank": "5",
+          "archetype": "Strike Tempo",
+          "colorCombination": "Blue/White",
+          "sourceName": "Egman Events"
+        },
+        {
+          "deckId": "def005b3899a5923",
+          "eventId": "3d41d79c96f195e4",
+          "eventName": "Eagle's Nest 10/22",
+          "eventDate": "2025-10-22",
+          "formatName": "Unofficial Event",
+          "eventType": "ENG GD02",
+          "playerName": "WontTradeRXLR",
+          "placingLabel": "6th (3-2)",
+          "placingRank": "6",
+          "archetype": "Wing Zero",
+          "colorCombination": "Green/White",
+          "sourceName": "Egman Events"
+        }
+      ],
+      "latestEvents": [
+        {
+          "eventId": "3d41d79c96f195e4",
+          "eventName": "Eagle's Nest 10/22",
+          "eventDate": "2025-10-22",
+          "formatName": "Unofficial Event",
+          "eventType": "ENG GD02",
+          "playerCount": "19",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists"
+        },
+        {
+          "eventId": "cabcf2e879ca712c",
+          "eventName": "BCGF Manila",
+          "eventDate": "2025-10-05",
+          "formatName": "ST05",
+          "eventType": "Official Event",
+          "playerCount": "183",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd01-tournament-deck-lists"
+        },
+        {
+          "eventId": "edaa2168d1742888",
+          "eventName": "CoreTCG LA Regionals",
+          "eventDate": "2025-10-05",
+          "formatName": "ST05",
+          "eventType": "Official Event",
+          "playerCount": "768",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd01-tournament-deck-lists"
+        },
+        {
+          "eventId": "9f3218c789ef6d78",
+          "eventName": "Victory Road Seville Regionals",
+          "eventDate": "2025-09-28",
+          "formatName": "GD01",
+          "eventType": "Official Event",
+          "playerCount": "256",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd01-tournament-deck-lists"
+        },
+        {
+          "eventId": "e7cdc9440fb8d554",
+          "eventName": "Dallas Card Fest Regionals",
+          "eventDate": "2025-09-21",
+          "formatName": "GD01",
+          "eventType": "Official Event",
+          "playerCount": "768",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd01-tournament-deck-lists"
+        },
+        {
+          "eventId": "1137c411c602160e",
+          "eventName": "Egman Events Triple Win-A-Box #3",
+          "eventDate": "2025-09-16",
+          "formatName": "GD01",
+          "eventType": "Unofficial Event",
+          "playerCount": "64",
+          "sourceName": "Egman Events",
+          "sourceUrl": "https://egmanevents.com/gd01-tournament-deck-lists"
+        }
+      ],
+      "metaLeaders": [
+        {
+          "cardNumber": "ST01-010",
+          "cardName": "Amuro Ray",
+          "cardType": "PILOT",
+          "color": "Blue",
+          "recentMetaScore": 60.18518518518518,
+          "recentTop8DecksUsing": 195,
+          "imageUrl": "./assets/card-images/ST01-010.webp"
+        },
+        {
+          "cardNumber": "ST01-001",
+          "cardName": "Gundam",
+          "cardType": "UNIT",
+          "color": "Blue",
+          "recentMetaScore": 56.79012345679012,
+          "recentTop8DecksUsing": 184,
+          "imageUrl": "./assets/card-images/ST01-001.webp"
+        },
+        {
+          "cardNumber": "GD01-100",
+          "cardName": "A Show of Resolve",
+          "cardType": "COMMAND",
+          "color": "Blue",
+          "recentMetaScore": 55.8641975308642,
+          "recentTop8DecksUsing": 181,
+          "imageUrl": "./assets/card-images/GD01-100.webp"
+        },
+        {
+          "cardNumber": "GD01-086",
+          "cardName": "Gundam Lfrith",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 55.24691358024691,
+          "recentTop8DecksUsing": 179,
+          "imageUrl": "./assets/card-images/GD01-086.webp"
+        },
+        {
+          "cardNumber": "GD01-118",
+          "cardName": "Overflowing Affection",
+          "cardType": "COMMAND",
+          "color": "White",
+          "recentMetaScore": 54.629629629629626,
+          "recentTop8DecksUsing": 177,
+          "imageUrl": "./assets/card-images/GD01-118.webp"
+        }
+      ]
+    },
+    "all": {
+      "activeFormat": "ALL",
+      "counts": {
+        "decklists": 1131,
+        "events": 418
+      },
+      "latestDecks": [
+        {
+          "deckId": "e7a34db9f3f46f83",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "Jinzo777",
+          "placingLabel": "1",
+          "placingRank": "1",
+          "archetype": "Shining Gundam (Master Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "e15161c6fbe7951b",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "ZimZamBlam",
+          "placingLabel": "2",
+          "placingRank": "2",
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "03258b978691b927",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "nick0953",
+          "placingLabel": "3",
+          "placingRank": "3",
+          "archetype": "Strike Freedom Gundam (Aile Strike Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "70df56f4f43c8255",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "Huycoveries",
+          "placingLabel": "4",
+          "placingRank": "4",
+          "archetype": "Shining Gundam (Master Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "9b33a4f90e2d5b85",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "jimmy",
+          "placingLabel": "5",
+          "placingRank": "5",
+          "archetype": "Blue White Tempo",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "b989dd583d3aad11",
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerName": "WontTradeRXLR",
+          "placingLabel": "6",
+          "placingRank": "6",
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        }
+      ],
+      "latestEvents": [
+        {
+          "eventId": "d5deba1fe036ec94",
+          "eventName": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
+          "eventDate": "2026-08-06",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "25",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a70b1d62b308b6067b48aee/standings"
+        },
+        {
+          "eventId": "99e2af88ede03209",
+          "eventName": "MOKI TOYS SHOP GCG MSA S3 W2",
+          "eventDate": "2026-08-03",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "8",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66e98852c24ac2da64d5a3/standings"
+        },
+        {
+          "eventId": "dcc49e890a2d061a",
+          "eventName": "Eagle's Nest S6GW3.0 GD05 Webcam Locals",
+          "eventDate": "2026-07-30",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "18",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66895a52c24ac2da64d13d/standings"
+        },
+        {
+          "eventId": "1c30b4cbcd5b68dd",
+          "eventName": "MOKI TOYS SHOP GCG MSA S3 W1",
+          "eventDate": "2026-07-27",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "7",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66e75f937230b102d4667a/standings"
+        },
+        {
+          "eventId": "69bf3a7b13bba966",
+          "eventName": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
+          "eventDate": "2026-07-23",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "35",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a5d9a9f937230b102d3ff56/standings"
+        },
+        {
+          "eventId": "2d2202e595e12189",
+          "eventName": "MOKI TOYS SHOP GCG MSA S2 W11",
+          "eventDate": "2026-07-20",
+          "formatName": "",
+          "eventType": "Public Tournament",
+          "playerCount": "10",
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a438d8083fd320299bd49c3/standings"
+        }
+      ],
+      "metaLeaders": [
+        {
+          "cardNumber": "ST01-010",
+          "cardName": "Amuro Ray",
+          "cardType": "PILOT",
+          "color": "Blue",
+          "recentMetaScore": 54.55349248452697,
+          "recentTop8DecksUsing": 617,
+          "imageUrl": "./assets/card-images/ST01-010.webp"
+        },
+        {
+          "cardNumber": "ST01-001",
+          "cardName": "Gundam",
+          "cardType": "UNIT",
+          "color": "Blue",
+          "recentMetaScore": 52.51989389920424,
+          "recentTop8DecksUsing": 594,
+          "imageUrl": "./assets/card-images/ST01-001.webp"
+        },
+        {
+          "cardNumber": "GD01-100",
+          "cardName": "A Show of Resolve",
+          "cardType": "COMMAND",
+          "color": "Blue",
+          "recentMetaScore": 51.724137931034484,
+          "recentTop8DecksUsing": 585,
+          "imageUrl": "./assets/card-images/GD01-100.webp"
+        },
+        {
+          "cardNumber": "GD01-118",
+          "cardName": "Overflowing Affection",
+          "cardType": "COMMAND",
+          "color": "White",
+          "recentMetaScore": 50.83996463306808,
+          "recentTop8DecksUsing": 575,
+          "imageUrl": "./assets/card-images/GD01-118.webp"
+        },
+        {
+          "cardNumber": "GD01-086",
+          "cardName": "Gundam Lfrith",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 49.69053934571176,
+          "recentTop8DecksUsing": 562,
+          "imageUrl": "./assets/card-images/GD01-086.webp"
+        }
+      ]
+    }
+  },
   "generatedAt": "2026-08-09T15:33:42+00:00",
   "counts": {
     "cards": 892,

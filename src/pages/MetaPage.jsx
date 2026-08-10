@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { createPortal } from "react-dom";
 import { CardArt } from "../components/cards/CardArt";
 import {
@@ -11,9 +11,8 @@ import {
 } from "../components/tactical/TacticalPageShell";
 import { buildMetaWindows, buildScopedMetaSignal } from "../domain/meta";
 
-export function MetaPage({ data, onOpenForge }) {
+export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpenForge }) {
   const metaWindows = useMemo(() => buildMetaWindows(data), [data]);
-  const [selectedMetaId, setSelectedMetaId] = useState("current");
   const selectedWindow = metaWindows.find((window) => window.id === selectedMetaId) || metaWindows[0];
   const signal = useMemo(() => buildScopedMetaSignal(data, selectedWindow), [data, selectedWindow]);
   const cardMap = useMemo(() => new Map((data.cards || []).map((card) => [card.cardNumber, card])), [data.cards]);
@@ -27,7 +26,7 @@ export function MetaPage({ data, onOpenForge }) {
         actions={(
           <label className="meta-window-selector">
             <span>Meta / format</span>
-            <select value={selectedMetaId} onChange={(event) => setSelectedMetaId(event.target.value)}>
+            <select value={selectedWindow?.id || selectedMetaId} onChange={(event) => onMetaChange?.(event.target.value)}>
               {metaWindows.map((window) => <option key={window.id} value={window.id}>{window.label}</option>)}
             </select>
           </label>

@@ -17,11 +17,14 @@ const NAV_GROUPS = {
   previews: new Set(["previews"]),
 };
 
-export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user, data, onViewChange, onSignIn, search, onSearchChange }) {
+export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user, data, metaWindows = [], selectedMetaId = "current", onMetaChange, onViewChange, onSignIn, search, onSearchChange }) {
   const { locale, setLocale } = useLocale();
   const systemStatus = locale === "pt-BR" ? "REDE TÁTICA ONLINE" : "TACTICAL NETWORK ONLINE";
   const systemMode = locale === "pt-BR" ? "MÓDULO GUNDAM ATIVO" : "GUNDAM MODULE ACTIVE";
-  const activeFormat = data?.activeFormat || data?.gameModule?.activeFormat || "GD05";
+  const activeFormat = metaWindows.find((window) => window.id === selectedMetaId)?.shortLabel
+    || data?.activeFormat
+    || data?.gameModule?.activeFormat
+    || "GD05";
 
   return (
     <header className="site-header panel cockpit-panel cockpit-topbar cockpit-shell-topbar">
@@ -76,8 +79,23 @@ export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user
         <button type="button" className="pilot-label pilot-label-button" onClick={() => user ? onViewChange("profile") : onSignIn?.()}>
           {user ? `${translate("PILOT")}: ${user.publicName.toUpperCase()}` : (locale === "pt-BR" ? "ENTRAR" : "SIGN IN")}
         </button>
-        <span className="site-format-badge"><small>{locale === "pt-BR" ? "FORMATO" : "FORMAT"}</small><strong>{activeFormat}</strong></span>
+        <label className="site-format-badge site-format-selector">
+          <small>{locale === "pt-BR" ? "META / FORMATO" : "META / FORMAT"}</small>
+          <select value={selectedMetaId} onChange={(event) => onMetaChange?.(event.target.value)} aria-label={locale === "pt-BR" ? "Selecionar meta ou formato" : "Select meta or format"}>
+            {metaWindows.length
+              ? metaWindows.map((window) => <option key={window.id} value={window.id}>{formatMetaWindowLabel(window, locale)}</option>)
+              : <option value={selectedMetaId}>{activeFormat}</option>}
+          </select>
+        </label>
       </div>
     </header>
   );
+}
+
+function formatMetaWindowLabel(window, locale) {
+  if (locale !== "pt-BR") return window.label;
+  if (window.id === "current") return `${window.shortLabel} · formato atual`;
+  if (window.id === "rolling-30") return "Campo móvel · 30 dias";
+  if (window.id === "all") return "Todo o histórico competitivo";
+  return window.label;
 }
