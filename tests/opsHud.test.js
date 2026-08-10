@@ -77,12 +77,14 @@ test("meta intelligence gives archetypes a primary data station instead of a dec
   assert.match(cssSource, /grid-template-rows: repeat\(12, minmax\(42px, 1fr\)\) !important/);
 });
 
-test("the generated deck opens as a readable manifest and exposes links as a deliberate drill-down", () => {
-  assert.match(deckMapSource, /useState\("formation"\)/);
+test("the generated deck opens on the full interactive map and keeps the manifest available", () => {
+  assert.match(deckMapSource, /useState\("links"\)/);
+  assert.match(deckMapSource, />INTERACTIVE MAP</);
   assert.match(deckMapSource, />DECK MANIFEST</);
-  assert.match(deckMapSource, />TRACE LINKS</);
-  assert.match(deckMapSource, /if \(!isActive\) return null/);
-  assert.match(cssSource, /Generated deck review: the deck is the primary object/);
+  assert.match(deckMapSource, /if \(activeId && !isActive\) return null/);
+  assert.match(deckMapSource, /matchMedia\?\.\("\(max-width: 900px\)"\)/);
+  assert.match(cssSource, /Generated deck review: interactive map first/);
+  assert.match(cssSource, /\.deck-map__workspace\.is-links \{[\s\S]*?min-height: 680px/);
   assert.match(cssSource, /\.deck-map__formation-groups \{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 });
 

@@ -2108,8 +2108,31 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-enga
   }
 }
 
-/* Generated deck review: the deck is the primary object.  The connection map
-   remains a drill-down analysis, never an automatic web over the recommendation. */
+/* Generated deck review: interactive map first, with document scrolling and
+   enough physical space for the graph, its cards and its analysis rails. */
+@media (min-width: 901px) {
+  body[data-view="decks"]:has(.decks-terminal-page.is-designer-mode .deck-designer.is-engaged) {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  body[data-view="decks"]:has(.decks-terminal-page.is-designer-mode .deck-designer.is-engaged) main,
+  body[data-view="decks"] .decks-terminal-page.is-designer-mode:has(.deck-designer.is-engaged),
+  body[data-view="decks"] .decks-terminal-page.is-designer-mode .deck-designer.is-engaged {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  body[data-view="decks"] .decks-terminal-page.is-designer-mode .deck-designer.is-engaged {
+    display: block !important;
+  }
+
+  body[data-view="decks"] .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .bruxao-designer-hero {
+    display: none !important;
+  }
+}
+
 body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer__brief-frame {
   position: relative !important;
   z-index: auto !important;
@@ -2126,11 +2149,46 @@ body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-des
 }
 
 body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer__brief-frame:not([open]) {
+  height: 42px !important;
+  min-height: 42px !important;
   width: 100% !important;
 }
 
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer__brief-frame:not([open]) > summary {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 7px 12px !important;
+  border: 0 !important;
+  background: #030a10 !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer__brief-frame:not([open]) > summary::before {
+  width: 22px !important;
+  height: 1px !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer__brief-frame:not([open]) > summary > span {
+  display: block !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer__brief-frame:not([open]) > summary > strong {
+  display: none !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer__brief-frame:not([open]) > summary > em {
+  display: block !important;
+  writing-mode: horizontal-tb !important;
+  transform: none !important;
+}
+
 body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer.is-engaged > .deck-designer-result {
+  height: auto !important;
   min-height: 0 !important;
+  overflow: visible !important;
 }
 
 body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer-result__forge-handoff {
@@ -2184,9 +2242,12 @@ body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-des
 }
 
 body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-map {
+  display: grid !important;
+  grid-template-rows: auto auto !important;
   min-height: 0 !important;
   height: auto !important;
   overflow: visible !important;
+  scroll-margin-top: 76px;
 }
 
 body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-map__hudbar {
@@ -2253,6 +2314,48 @@ body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-des
   clip-path: none !important;
 }
 
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-map__workspace.is-links {
+  display: grid !important;
+  height: clamp(680px, 76svh, 880px) !important;
+  min-height: 680px !important;
+  overflow: hidden !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-variant-maps,
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-variant-map {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map__link.is-dimmed {
+  opacity: .22;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node {
+  position: absolute !important;
+  width: 96px;
+  height: 134px;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map__rail-toggle {
+  position: absolute !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node__art {
+  width: 88px;
+  height: 123px;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node__label strong {
+  font-size: .72rem;
+  line-height: 1.18;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node__label small {
+  font-size: .59rem;
+}
+
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation {
   display: grid;
   min-height: 0;
@@ -2306,9 +2409,9 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-group 
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card {
   --formation-tone: var(--hud-accent, #46d9ff);
   display: grid !important;
-  grid-template-columns: 33px minmax(0, 1fr) auto !important;
+  grid-template-columns: 42px minmax(0, 1fr) auto !important;
   align-items: center;
-  min-height: 60px !important;
+  min-height: 72px !important;
   gap: 8px;
   padding: 6px 8px !important;
   border: 0 !important;
@@ -2326,12 +2429,12 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card--
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card:hover,
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card:focus-visible { background: color-mix(in srgb, var(--formation-tone) 15%, #030a10) !important; outline: 0; }
 
-body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-art { width: 31px; height: 44px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--formation-tone) 55%, transparent); }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-art { width: 40px; height: 56px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--formation-tone) 55%, transparent); }
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-art img { width: 100%; height: 100%; object-fit: cover; }
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card > span { display: grid; min-width: 0; gap: 2px; }
-body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card small { color: #718e9c; font: 800 .44rem/1 var(--system-label, var(--font-tech)); letter-spacing: .06em; }
-body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card strong { overflow: hidden; color: #dff8ff; font: 900 .64rem/1.1 var(--system-label, var(--font-tech)); letter-spacing: .035em; text-overflow: ellipsis; white-space: nowrap; }
-body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card em { overflow: hidden; color: #86a0ad; font: 700 .45rem/1 var(--system-label, var(--font-tech)); font-style: normal; text-overflow: ellipsis; white-space: nowrap; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card small { color: #718e9c; font: 800 .52rem/1 var(--system-label, var(--font-tech)); letter-spacing: .06em; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card strong { overflow: hidden; color: #dff8ff; font: 900 .75rem/1.15 var(--system-label, var(--font-tech)); letter-spacing: .025em; text-overflow: ellipsis; white-space: nowrap; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card em { overflow: hidden; color: #86a0ad; font: 700 .54rem/1 var(--system-label, var(--font-tech)); font-style: normal; text-overflow: ellipsis; white-space: nowrap; }
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card > b { color: var(--formation-tone); font: 900 .78rem/1 var(--system-label, var(--font-tech)); }
 
 @media (max-width: 900px) {
@@ -2344,4 +2447,28 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card >
   body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-header { grid-template-columns: 1fr auto; }
   body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-header > small { display: none; }
   body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-groups { grid-template-columns: 1fr; }
+  body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-map__workspace.is-links {
+    display: block !important;
+    height: min(720px, 76svh) !important;
+    min-height: 580px !important;
+    grid-template-areas: none !important;
+    grid-template-columns: none !important;
+    grid-template-rows: none !important;
+  }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map__canvas {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    grid-area: auto !important;
+  }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node {
+    width: 62px;
+    height: 87px;
+  }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node__art {
+    width: 54px;
+    height: 76px;
+  }
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node__label { display: none; }
 }

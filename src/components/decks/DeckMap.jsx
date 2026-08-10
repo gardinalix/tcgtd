@@ -12,7 +12,7 @@ const FIT_ZOOM = 0.66;
 export function DeckMap({ report, onApplySubstitution }) {
   const graph = useMemo(() => buildDeckGraph(report.rows, report.synergies), [report.rows, report.synergies]);
   const legalityPresentation = getDeckLegalityPresentation(report.legality);
-  const [viewMode, setViewMode] = useState("formation");
+  const [viewMode, setViewMode] = useState("links");
   const [nodePositions, setNodePositions] = useState({});
   const [selectedId, setSelectedId] = useState("");
   const [hoveredId, setHoveredId] = useState("");
@@ -62,6 +62,12 @@ export function DeckMap({ report, onApplySubstitution }) {
     () => new Set([...relatedIds, ...drawPriorityIds]),
     [drawPriorityIds, relatedIds],
   );
+
+  useEffect(() => {
+    if (globalThis.matchMedia?.("(max-width: 900px)").matches) {
+      setViewport({ zoom: 0.78, x: 0, y: 0 });
+    }
+  }, []);
 
   useEffect(() => {
     if (selectedId && !graph.nodes.some((node) => node.id === selectedId)) {
@@ -255,8 +261,8 @@ export function DeckMap({ report, onApplySubstitution }) {
           <p>{report.strategy}</p>
         </div>
         <nav className="deck-map__mode-switch" aria-label="Deck analysis view">
+          <button type="button" className={viewMode === "links" ? "is-active" : ""} onClick={() => setViewMode("links")}>INTERACTIVE MAP</button>
           <button type="button" className={viewMode === "formation" ? "is-active" : ""} onClick={() => setViewMode("formation")}>DECK MANIFEST</button>
-          <button type="button" className={viewMode === "links" ? "is-active" : ""} onClick={() => setViewMode("links")}>TRACE LINKS</button>
         </nav>
         <div className="deck-map__readouts" aria-label="Deck telemetry">
           <span><b>{report.stats.mainCount}</b> / 50 MAIN</span>
@@ -338,8 +344,8 @@ export function DeckMap({ report, onApplySubstitution }) {
                 const source = positionedNodes.find((node) => node.id === edge.source);
                 const target = positionedNodes.find((node) => node.id === edge.target);
                 if (!source || !target) return null;
-                const isActive = activeId && (edge.source === activeId || edge.target === activeId);
-                if (!isActive) return null;
+                const isActive = Boolean(activeId && (edge.source === activeId || edge.target === activeId));
+                if (activeId && !isActive) return null;
                 return (
                   <line
                     key={edge.id}
