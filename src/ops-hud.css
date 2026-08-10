@@ -622,7 +622,9 @@ body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-heade
   width: 100%;
   margin: 0 !important;
   padding: 0 !important;
-  align-items: start;
+  /* The gallery establishes the row height.  The dossier is a true third
+     column of that field, not a viewport-sized floating panel. */
+  align-items: stretch;
 }
 
 .has-tactical-rail .cards-acquisition-axis {
@@ -1006,23 +1008,26 @@ body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-heade
 .has-tactical-rail .cards-terminal-side-stack {
   grid-column: 3;
   grid-row: 2;
-  position: sticky !important;
-  top: 76px !important;
-  z-index: 11;
+  position: static !important;
   display: grid !important;
   gap: 1px !important;
-  align-self: start;
-  max-height: calc(100svh - 76px);
+  align-self: stretch;
+  min-height: 100%;
+  max-height: none !important;
   margin: 0 !important;
-  overflow: hidden auto;
+  overflow: visible !important;
   border-left: 1px solid color-mix(in srgb, var(--hud-accent, #46d9ff) 18%, transparent);
   background: #030a10e8;
 }
 
 .has-tactical-rail .react-card-detail {
+  position: static !important;
+  top: auto !important;
   display: grid !important;
   gap: 8px;
+  max-height: none !important;
   margin: 0 !important;
+  overflow: visible !important;
   padding: 9px !important;
   border: 0 !important;
   background: transparent !important;
