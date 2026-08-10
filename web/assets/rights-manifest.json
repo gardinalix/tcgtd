@@ -1,6 +1,6 @@
 {
   "schemaVersion": "tcgtd-asset-rights-v1",
-  "generatedAt": "2026-08-10T02:58:09.076Z",
+  "generatedAt": "2026-08-10T03:17:44.387Z",
   "policy": "Every visual asset must retain a source, known owner, review status and permitted-use record before public release.",
   "releaseGate": "Entries with reviewStatus=review_required must be cleared, replaced or removed before general public access.",
   "assets": [
@@ -123,6 +123,21 @@
       "permittedUse": "Private staging only pending rights review",
       "usageNotes": "Do not enable general public access while reviewStatus remains review_required.",
       "reviewStatus": "review_required"
+    },
+    {
+      "path": "/assets/brand/tcgtd-orbital-mark-v2.png",
+      "kind": "project_brand_asset",
+      "game": "platform",
+      "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+      "sourceUrl": "",
+      "rightsHolder": "TCG Tactical Database project",
+      "copyrightOwner": "TCG Tactical Database project",
+      "licenseStatus": "project_asset",
+      "license": "Reserved for TCG Tactical Database product and brand use",
+      "attribution": "TCG Tactical Database original brand asset.",
+      "permittedUse": "TCG Tactical Database product surfaces, metadata and community communications",
+      "usageNotes": "Do not reuse as a third-party Trading Card Game publisher mark.",
+      "reviewStatus": "approved"
     },
     {
       "path": "/assets/card-images/EB01-001.webp",

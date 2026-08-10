@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { THEME_OPTIONS } from "../src/data/themeConfig.js";
@@ -37,4 +37,23 @@ test("every Gundam theme defines a complete and visibly distinct HUD palette", (
   }
 
   assert.equal(primaryColors.size, THEME_OPTIONS.length);
+});
+
+test("the home hero visibly renders the selected mecha", () => {
+  const launchCss = readFileSync(fileURLToPath(new URL("../src/launch.css", import.meta.url)), "utf8");
+  const heroImageRule = launchCss.match(/\.launch-hero__visual img\s*\{([\s\S]*?)\}/)?.[1] || "";
+
+  assert.match(heroImageRule, /display:\s*block/);
+  assert.doesNotMatch(heroImageRule, /display:\s*none/);
+  assert.match(heroImageRule, /opacity:\s*0\.9/);
+});
+
+test("the production orbital brand mark is available to the header and boot sequence", () => {
+  const logoUrl = new URL("../web/assets/brand/tcgtd-orbital-mark-v2.png", import.meta.url);
+  assert.equal(existsSync(fileURLToPath(logoUrl)), true);
+
+  const header = readFileSync(fileURLToPath(new URL("../src/components/layout/SiteHeader.jsx", import.meta.url)), "utf8");
+  const app = readFileSync(fileURLToPath(new URL("../src/App.jsx", import.meta.url)), "utf8");
+  assert.match(header, /tcgtd-orbital-mark-v2\.png/);
+  assert.match(app, /tcgtd-orbital-mark-v2\.png/);
 });

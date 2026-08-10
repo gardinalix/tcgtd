@@ -15,130 +15,44 @@
   --system-fast: 140ms;
 }
 
-/* Multi-TCG identity: orbital intelligence core + targeting axis. */
+/* Multi-TCG identity: production orbital intelligence mark. */
 body[data-view] .cockpit-shell-topbar .tcgtd-insignia,
 body[data-view] .tcgtd-insignia {
-  --insignia-scale: 1;
   position: relative !important;
   isolation: isolate;
   display: grid !important;
-  flex: 0 0 48px !important;
-  width: 48px !important;
-  height: 48px !important;
-  min-width: 48px !important;
+  flex: 0 0 56px !important;
+  width: 56px !important;
+  height: 56px !important;
+  min-width: 56px !important;
   place-items: center;
   overflow: visible !important;
   border: 0 !important;
-  border-radius: 50% !important;
-  background:
-    radial-gradient(circle, color-mix(in srgb, var(--system-focus) 18%, transparent), transparent 66%),
-    rgba(2, 9, 18, 0.68) !important;
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--system-focus) 20%, transparent),
-    0 0 24px color-mix(in srgb, var(--system-focus) 18%, transparent) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
   clip-path: none !important;
   transform: none !important;
 }
 
-.tcgtd-insignia::before,
-.tcgtd-insignia::after {
-  position: absolute;
-  z-index: -1;
-  content: "";
-  pointer-events: none;
-}
-
-.tcgtd-insignia::before {
-  z-index: 1;
-  inset: 5px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from -18deg,
-    transparent 0 7deg,
-    color-mix(in srgb, #f4fbff 86%, var(--system-focus)) 7deg 62deg,
-    transparent 62deg 97deg,
-    color-mix(in srgb, #f4fbff 82%, var(--system-focus)) 97deg 152deg,
-    transparent 152deg 187deg,
-    color-mix(in srgb, #f4fbff 86%, var(--system-focus)) 187deg 242deg,
-    transparent 242deg 277deg,
-    color-mix(in srgb, #f4fbff 82%, var(--system-focus)) 277deg 332deg,
-    transparent 332deg 360deg
-  );
-  -webkit-mask: radial-gradient(circle, transparent 0 48%, #000 51% 70%, transparent 73%);
-  mask: radial-gradient(circle, transparent 0 48%, #000 51% 70%, transparent 73%);
-  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--system-focus) 45%, transparent));
-}
-
-.tcgtd-insignia::after {
-  z-index: 0;
-  inset: 10px;
-  border: 1px solid color-mix(in srgb, var(--system-focus) 44%, transparent);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 5px color-mix(in srgb, var(--system-focus) 5%, transparent),
-    inset 0 0 10px color-mix(in srgb, var(--system-focus) 12%, transparent);
-}
-
-.tcgtd-insignia__orbit {
-  position: absolute;
-  z-index: 4;
-  width: 56px;
-  height: 20px;
-  border: 1px solid var(--system-focus);
-  border-radius: 50%;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--system-focus) 34%, transparent);
-  transform: rotate(-28deg) scale(var(--insignia-scale));
-}
-
-.tcgtd-insignia__orbit::before,
-.tcgtd-insignia__orbit::after {
-  position: absolute;
-  content: "";
-  width: 5px;
-  height: 5px;
-  border: 1px solid #f5fbff;
-  border-radius: 50%;
-  background: #06101c;
-  box-shadow: 0 0 7px var(--system-focus);
-}
-.tcgtd-insignia__orbit::before { top: 2px; right: 2px; }
-.tcgtd-insignia__orbit::after { bottom: 0; left: 6px; }
-
-.tcgtd-insignia__axis {
-  position: absolute;
+.tcgtd-insignia > img {
+  position: relative !important;
   z-index: 2;
-  width: 9px;
-  height: 54px;
-  background: linear-gradient(180deg, #f5fbff, var(--system-focus) 48%, color-mix(in srgb, var(--system-focus) 32%, #7f6dff));
-  clip-path: polygon(50% 0, 100% 34%, 68% 50%, 100% 66%, 50% 100%, 0 66%, 32% 50%, 0 34%);
-  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--system-focus) 50%, transparent));
-  transform: scale(var(--insignia-scale));
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 5px rgba(141, 104, 255, 0.38))
+    drop-shadow(0 0 10px color-mix(in srgb, var(--system-focus) 36%, transparent));
 }
 
-.tcgtd-insignia b::before {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: -1;
-  width: 42px;
-  height: 7px;
-  content: "";
-  background: linear-gradient(90deg, #f5fbff, var(--system-focus) 28% 72%, #f5fbff);
-  clip-path: polygon(0 50%, 18% 0, 42% 34%, 50% 0, 58% 34%, 82% 0, 100% 50%, 82% 100%, 58% 66%, 50% 100%, 42% 66%, 18% 100%);
-  transform: translate(-50%, -50%);
-}
-
-.tcgtd-insignia b {
-  position: absolute;
-  z-index: 5;
-  width: 13px;
-  height: 13px;
-  border: 2px solid #eafcff;
-  border-radius: 50%;
-  background: var(--system-focus);
-  box-shadow: 0 0 10px var(--system-focus), inset 0 0 5px #fff;
-  font-size: 0;
-  transform: scale(var(--insignia-scale));
+.tactical-boot-screen__core .tcgtd-insignia {
+  flex-basis: auto !important;
+  width: 48% !important;
+  height: 48% !important;
+  min-width: 0 !important;
 }
 
 
@@ -760,7 +674,8 @@ body[data-view]:not([data-view="home"]) .tactical-table tbody tr:is(:hover, :foc
 
 @media (max-width: 560px) {
   body[data-view] .cockpit-shell-topbar .tcgtd-insignia,
-  body[data-view] .tcgtd-insignia { --insignia-scale: .76; flex-basis: 36px !important; width: 36px !important; height: 36px !important; min-width: 36px !important; }
+  body[data-view] .tcgtd-insignia { flex-basis: 38px !important; width: 38px !important; height: 38px !important; min-width: 38px !important; }
+  body[data-view] .tactical-boot-screen__core .tcgtd-insignia { flex-basis: auto !important; width: 48% !important; height: 48% !important; min-width: 0 !important; }
   body[data-view]:not([data-view="home"]) .tactical-page-shell.forge-unified-page { padding-right: 12px !important; padding-left: 12px !important; }
   body[data-view]:not([data-view="home"]) .tactical-system-rail { margin-right: -12px !important; margin-left: -12px !important; padding-right: 12px !important; padding-left: 12px !important; }
   body[data-view]:not([data-view="home"]) .tactical-page-linkbar__system { font-size: 0.42rem; }
@@ -775,7 +690,6 @@ body[data-view]:not([data-view="home"]) .tactical-table tbody tr:is(:hover, :foc
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tcgtd-insignia::after { animation: none; }
   body[data-view] *,
   body[data-view] *::before,
   body[data-view] *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }

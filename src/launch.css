@@ -355,15 +355,19 @@ body[data-view] .cockpit-shell-topbar .language-switch {
 
 .launch-hero__visual img {
   position: absolute;
-  z-index: 2;
-  display: none;
-  inset: 0;
-  width: 100%;
+  z-index: 1;
+  display: block;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(72%, 1080px);
   height: 100%;
   object-fit: cover;
-  object-position: 62% 44%;
-  opacity: 0.62;
-  filter: saturate(0.82) contrast(1.08) brightness(0.78);
+  object-position: center;
+  opacity: 0.94;
+  filter: saturate(1.04) contrast(1.08) brightness(0.9);
+  -webkit-mask-image: radial-gradient(ellipse 76% 84% at 62% 48%, #000 0 51%, rgba(0, 0, 0, 0.94) 62%, transparent 88%);
+  mask-image: radial-gradient(ellipse 76% 84% at 62% 48%, #000 0 51%, rgba(0, 0, 0, 0.94) 62%, transparent 88%);
 }
 
 .launch-reticle {
@@ -613,7 +617,7 @@ body[data-view] .cockpit-shell-topbar .language-switch {
   body[data-view] .cockpit-shell-topbar .language-switch { display: none !important; }
   .launch-hero { grid-template-columns: 1fr; min-height: 0; padding: 74px 22px 64px; }
   .launch-hero__copy { z-index: 5; }
-  .launch-hero__visual { position: absolute; z-index: 1; inset: 0; min-height: 0; opacity: 0.42; }
+  .launch-hero__visual { position: absolute; z-index: 1; inset: 0; min-height: 0; opacity: 0.62; }
   .launch-hero__visual img { width: 100%; height: 100%; object-position: 58% center; }
   .launch-unit-label,
   .launch-reticle { display: none; }

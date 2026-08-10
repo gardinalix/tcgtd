@@ -67,7 +67,25 @@ async function buildRightsManifest(source) {
     releaseGate: "Entries with reviewStatus=review_required must be cleared, replaced or removed before general public access.",
     assets: files.map((assetPath) => {
       const isCardImage = assetPath.startsWith("assets/card-images/");
+      const isProjectBrand = assetPath.startsWith("assets/brand/");
       const sourceUrl = isCardImage ? (cardOrigins.get(assetPath) || "") : "";
+      if (isProjectBrand) {
+        return {
+          path: `/${assetPath}`,
+          kind: "project_brand_asset",
+          game: "platform",
+          source: "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+          sourceUrl: "",
+          rightsHolder: "TCG Tactical Database project",
+          copyrightOwner: "TCG Tactical Database project",
+          licenseStatus: "project_asset",
+          license: "Reserved for TCG Tactical Database product and brand use",
+          attribution: "TCG Tactical Database original brand asset.",
+          permittedUse: "TCG Tactical Database product surfaces, metadata and community communications",
+          usageNotes: "Do not reuse as a third-party Trading Card Game publisher mark.",
+          reviewStatus: "approved",
+        };
+      }
       return {
         path: `/${assetPath}`,
         kind: classifyAsset(assetPath),

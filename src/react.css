@@ -5318,8 +5318,8 @@ body[data-view]:not([data-view="home"]) .react-shell::before {
   background-repeat: no-repeat;
   background-position: var(--subpage-gundam-position);
   background-size: var(--subpage-gundam-size);
-  opacity: 0.46;
-  filter: saturate(1.08) contrast(1.1) brightness(0.82);
+  opacity: 0.62;
+  filter: saturate(1.12) contrast(1.08) brightness(0.92);
   transform: scale(1.02);
   transform-origin: 75% 15%;
   pointer-events: none;
@@ -5331,8 +5331,8 @@ body[data-view]:not([data-view="home"]) .react-shell::after {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--hud-bg-deep) 94%, transparent) 0%, color-mix(in srgb, var(--hud-bg-deep) 68%, transparent) 34%, color-mix(in srgb, var(--hud-bg-deep) 48%, transparent) 66%, color-mix(in srgb, var(--hud-bg-deep) 82%, transparent) 100%),
-    radial-gradient(circle at 74% 16%, transparent 0 15%, color-mix(in srgb, var(--hud-bg-deep) 44%, transparent) 54%, color-mix(in srgb, var(--hud-bg-deep) 88%, transparent) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--hud-bg-deep) 94%, transparent) 0%, color-mix(in srgb, var(--hud-bg-deep) 62%, transparent) 34%, color-mix(in srgb, var(--hud-bg-deep) 30%, transparent) 66%, color-mix(in srgb, var(--hud-bg-deep) 72%, transparent) 100%),
+    radial-gradient(circle at 74% 16%, transparent 0 23%, color-mix(in srgb, var(--hud-bg-deep) 28%, transparent) 56%, color-mix(in srgb, var(--hud-bg-deep) 84%, transparent) 100%),
     linear-gradient(color-mix(in srgb, var(--hud-primary) 5%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in srgb, var(--hud-primary) 4%, transparent) 1px, transparent 1px);
   background-size: auto, auto, 36px 36px, 36px 36px;
