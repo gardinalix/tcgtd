@@ -54,6 +54,13 @@ test("the active dossier stretches with the complete card field instead of creat
   assert.match(cssSource, /\.react-card-detail \{[\s\S]*?position: static !important;[\s\S]*?max-height: none !important;[\s\S]*?overflow: visible !important;/);
 });
 
+test("the deck mission station assigns every parameter a readable field and keeps execution out of the side column", () => {
+  assert.match(cssSource, /"head head head"\s*\n\s*"colors fields fields"\s*\n\s*"constraints constraints launch"/);
+  assert.match(cssSource, /"unit strategy"\s*\n\s*"focus meta"/);
+  assert.match(cssSource, /\.deck-designer__meta-field \{ grid-area: meta !important; \}/);
+  assert.match(cssSource, /deck-designer-input-mode > button::before[\s\S]*?border-radius: 0 !important/);
+});
+
 test("the operational HUD stylesheet is the final cascade authority", () => {
   assert.ok(mainSource.indexOf('import "./ops-hud.css"') > mainSource.indexOf('import "./hud-system-v2.css"'));
 });
