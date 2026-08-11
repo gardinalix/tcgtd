@@ -2473,6 +2473,37 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__formation-card >
   body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node__label { display: none; }
 }
 
+/* Deck-map target lock: keep the absolute card anchor stable on hover. */
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node {
+  transform: translate(-50%, -50%) !important;
+  transition:
+    opacity 140ms ease-out,
+    filter 140ms ease-out !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node:not(.is-dragging):is(:hover, :focus-visible, .is-active, .is-selected) {
+  transform: translate(-50%, -50%) !important;
+  filter: brightness(1.06) drop-shadow(0 0 12px color-mix(in srgb, var(--node-tone) 60%, transparent));
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node:not(.is-dragging):is(:hover, :focus-visible, .is-active, .is-selected) .deck-map-node__art {
+  border-color: color-mix(in srgb, var(--node-tone) 90%, #e9fbff);
+  box-shadow:
+    0 0 0 2px rgba(0, 5, 14, .9),
+    0 0 18px color-mix(in srgb, var(--node-tone) 36%, transparent);
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node.is-dragging {
+  transform: translate(-50%, -50%) scale(1.08) !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-links .deck-map-node {
+    transition: none !important;
+  }
+}
+
 /* Synergy map acquisition: stable telemetry, no card jump or generic button flare. */
 body[data-view="synergyMap"] .app-shell.has-tactical-rail .synergy-map-node {
   transition:

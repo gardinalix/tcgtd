@@ -100,6 +100,13 @@ test("synergy map hover acquires a node without moving or scaling the card", () 
   assert.match(cssSource, /prefers-reduced-motion: reduce[\s\S]*?\.synergy-map-node[\s\S]*?transition: none !important/);
 });
 
+test("deck map hover preserves the node anchor and reserves scaling for drag", () => {
+  assert.match(cssSource, /Deck-map target lock: keep the absolute card anchor stable on hover/);
+  assert.match(cssSource, /deck-map-node:not\(\.is-dragging\):is\(:hover, :focus-visible, \.is-active, \.is-selected\)\s*\{[^}]*transform: translate\(-50%, -50%\) !important/);
+  assert.doesNotMatch(cssSource, /deck-map-node:not\(\.is-dragging\):is\(:hover, :focus-visible, \.is-active, \.is-selected\)\s*\{[^}]*scale\(/);
+  assert.match(cssSource, /deck-map-node\.is-dragging[\s\S]*?transform: translate\(-50%, -50%\) scale\(1\.08\) !important/);
+});
+
 test("the event archive prioritizes a readable record log over dashboard tiles", () => {
   assert.match(eventsSource, /const EVENT_PAGE_SIZE = 48/);
   assert.match(eventsSource, /className="events-filter-console"/);
