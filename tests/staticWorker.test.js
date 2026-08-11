@@ -13,7 +13,7 @@ test("deployment worker serves SPA routes and resolves absolute social metadata"
             { headers: { "content-type": "text/html; charset=utf-8" } },
           );
         }
-        return new Response("Not found", { status: 404 });
+        return new Response(null, { status: 307, headers: { location: "/" } });
       },
     },
   };

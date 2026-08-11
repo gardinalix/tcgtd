@@ -25,11 +25,12 @@ export default {
     if (url.pathname === "/api/deck-assistant") {
       return handleDeckAssistant(request, env);
     }
-    let response = await env.ASSETS.fetch(request);
-
-    if (response.status === 404 && request.headers.get("accept")?.includes("text/html")) {
-      response = await env.ASSETS.fetch(new Request(new URL("/index.html", url), request));
-    }
+    const isSpaNavigation = request.method === "GET"
+      && request.headers.get("accept")?.includes("text/html");
+    const assetRequest = isSpaNavigation
+      ? new Request(new URL("/index.html", url), request)
+      : request;
+    const response = await env.ASSETS.fetch(assetRequest);
 
     const contentType = response.headers.get("content-type") || "";
     if (!contentType.includes("text/html")) return securedAssetResponse(response, url.pathname);
