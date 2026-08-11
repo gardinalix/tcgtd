@@ -11,6 +11,11 @@ test("PT-BR is the default interface language", () => {
   assert.equal(DEFAULT_LOCALE, "pt-BR");
   assert.equal(getLocaleTag(DEFAULT_LOCALE), "pt-BR");
   assert.equal(translate("Cards", "pt-BR"), "Cartas");
+  assert.equal(translate("Overview", "pt-BR"), "Visão geral");
+  assert.deepEqual(
+    [...translate("Overview", "pt-BR")].map((character) => character.codePointAt(0)),
+    [86, 105, 115, 227, 111, 32, 103, 101, 114, 97, 108],
+  );
   assert.equal(translate("AI Deck Designer", "pt-BR"), "TACTICAL DECK SYSTEM");
   assert.equal(translate("Tactical deck map", "pt-BR"), "Mapa tático do deck");
   assert.equal(translate("MISSION PARAMETERS", "pt-BR"), "PARÂMETROS DA MISSÃO");

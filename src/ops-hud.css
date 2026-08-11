@@ -279,7 +279,7 @@ body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-heade
 }
 
 .tactical-side-rail__group button > strong {
-  font: 700 .72rem/1 var(--system-label, "Rajdhani", sans-serif);
+  font: 700 .72rem/1 var(--system-copy, "Rajdhani", "Segoe UI", sans-serif);
   letter-spacing: .06em;
   text-transform: uppercase;
 }
