@@ -2504,6 +2504,13 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-map__workspace.is-lin
   }
 }
 
+/* Evidence belongs to the page flow; do not trap source review in a nested rail. */
+body[data-view="decks"] .app-shell.has-tactical-rail .designer-evidence-list {
+  max-height: none !important;
+  overflow: visible !important;
+  scrollbar-width: auto;
+}
+
 /* Synergy map acquisition: stable telemetry, no card jump or generic button flare. */
 body[data-view="synergyMap"] .app-shell.has-tactical-rail .synergy-map-node {
   transition:

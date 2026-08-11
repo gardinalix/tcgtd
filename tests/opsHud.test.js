@@ -107,6 +107,11 @@ test("deck map hover preserves the node anchor and reserves scaling for drag", (
   assert.match(cssSource, /deck-map-node\.is-dragging[\s\S]*?transform: translate\(-50%, -50%\) scale\(1\.08\) !important/);
 });
 
+test("deck evidence sources continue in the document instead of creating a nested scroll", () => {
+  assert.match(cssSource, /Evidence belongs to the page flow/);
+  assert.match(cssSource, /designer-evidence-list\s*\{[\s\S]*?max-height: none !important;[\s\S]*?overflow: visible !important/);
+});
+
 test("the event archive prioritizes a readable record log over dashboard tiles", () => {
   assert.match(eventsSource, /const EVENT_PAGE_SIZE = 48/);
   assert.match(eventsSource, /className="events-filter-console"/);
