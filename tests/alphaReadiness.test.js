@@ -18,3 +18,10 @@ test("share-by-link alpha stays outside search indexes", async () => {
   assert.match(html, /name="robots" content="noindex, nofollow"/);
   assert.match(robots, /Disallow: \//);
 });
+
+test("Sites deployment keeps browser assets and Worker output in separate roots", async () => {
+  const viteConfig = await readFile(new URL("../vite.config.js", import.meta.url), "utf8");
+  assert.match(viteConfig, /outDir:\s*["']dist\/client["']/);
+  assert.match(viteConfig, /copyDirectoryIfExists\(["']worker["'],\s*["']dist\/server["']\)/);
+  assert.doesNotMatch(viteConfig, /copyIfExists\([^\n]+,\s*["']dist\/app-data\.json["']\)/);
+});

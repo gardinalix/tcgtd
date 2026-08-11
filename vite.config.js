@@ -34,7 +34,7 @@ export default defineConfig({
     port: 4173,
   },
   build: {
-    outDir: "dist",
+    outDir: "dist/client",
     emptyOutDir: true,
   },
 });
@@ -62,12 +62,17 @@ function copyReactPublicAssets() {
   return {
     name: "copy-react-public-assets",
     apply: "build",
+    async buildStart() {
+      // Sites mounts dist/client as the static ASSETS binding. Clear the
+      // complete deployment tree so legacy root-level output cannot be packed.
+      await fs.rm("dist", { recursive: true, force: true });
+    },
     async closeBundle() {
-      await fs.mkdir("dist", { recursive: true });
-      await copyIfExists("web/app-data.json", "dist/app-data.json");
-      await copyIfExists("web/home-data.json", "dist/home-data.json");
-      await copyIfExists("web/robots.txt", "dist/robots.txt");
-      await copyDirectoryIfExists("web/assets", "dist/assets");
+      await fs.mkdir("dist/client", { recursive: true });
+      await copyIfExists("web/app-data.json", "dist/client/app-data.json");
+      await copyIfExists("web/home-data.json", "dist/client/home-data.json");
+      await copyIfExists("web/robots.txt", "dist/client/robots.txt");
+      await copyDirectoryIfExists("web/assets", "dist/client/assets");
       await copyDirectoryIfExists("worker", "dist/server");
     },
   };
