@@ -1,5 +1,5 @@
 export const ACCOUNT_ROLES = Object.freeze(["user", "moderator", "admin"]);
-export const SUPPORT_PLANS = Object.freeze(["free", "supporter"]);
+export const SUPPORT_PLANS = Object.freeze(["free", "supporter", "newtype", "master"]);
 
 export const ENTITLEMENTS = Object.freeze({
   FORGE_REMOTE_AI: "forge.remote_ai",

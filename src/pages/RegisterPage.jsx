@@ -7,10 +7,11 @@ const SOCIAL_PROVIDERS = [
   ["facebook", "Continue with Facebook"],
 ];
 
-export function RegisterPage({ onCreateAccount, onSocialLogin, onLogin }) {
+export function RegisterPage({ onCreateAccount, onSocialLogin, onLogin, onPlatformLogin }) {
   const [form, setForm] = useState({ email: "", password: "", displayName: "", username: "" });
   const [status, setStatus] = useState("Create a pilot account to save and publish deck lists.");
   const [isLoading, setIsLoading] = useState(false);
+  const isLocalAuth = ["localhost", "127.0.0.1"].includes(window.location.hostname);
 
   async function submit(event) {
     event.preventDefault();
@@ -31,10 +32,23 @@ export function RegisterPage({ onCreateAccount, onSocialLogin, onLogin }) {
       <TacticalPageHeader
         eyebrow="ACCESS TERMINAL"
         title="Create account"
-        subtitle="Register a pilot profile for private decks, public decklists, and meta tracking."
+        subtitle={isLocalAuth
+          ? "Register a local development profile."
+          : "Hosted accounts use the platform identity provider; the application never receives your password."}
       />
 
-      <form className="tactical-data-panel react-form-panel auth-terminal-card" onSubmit={submit}>
+      {!isLocalAuth ? (
+        <div className="tactical-data-panel react-form-panel auth-terminal-card">
+          <div className="panel-head">
+            <h2>Secure platform account</h2>
+            <p>Sign in with ChatGPT to create or reconnect your alpha pilot identity.</p>
+          </div>
+          <button type="button" onClick={onPlatformLogin}>Continue with ChatGPT</button>
+          <button type="button" className="ghost-command" onClick={onLogin}>Return to access terminal</button>
+        </div>
+      ) : null}
+
+      {isLocalAuth ? <form className="tactical-data-panel react-form-panel auth-terminal-card" onSubmit={submit}>
         <div className="panel-head"><h2>Email registration</h2><p>{status}</p></div>
         <label>
           <span>Display name</span>
@@ -54,9 +68,9 @@ export function RegisterPage({ onCreateAccount, onSocialLogin, onLogin }) {
         </label>
         <button type="submit" disabled={isLoading}>{isLoading ? "Processing..." : "Create account with e-mail"}</button>
         <button type="button" className="ghost-command" onClick={onLogin}>Already have an account</button>
-      </form>
+      </form> : null}
 
-      <div className="tactical-data-panel react-form-panel auth-terminal-card">
+      {isLocalAuth ? <div className="tactical-data-panel react-form-panel auth-terminal-card">
         <div className="panel-head"><h2>Social registration</h2><p>Social providers create or link the pilot automatically after OAuth callback.</p></div>
         <div className="auth-provider-grid">
           {SOCIAL_PROVIDERS.map(([provider, label]) => (
@@ -65,7 +79,7 @@ export function RegisterPage({ onCreateAccount, onSocialLogin, onLogin }) {
             </button>
           ))}
         </div>
-      </div>
+      </div> : null}
     </TacticalPageShell>
   );
 }

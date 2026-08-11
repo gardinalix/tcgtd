@@ -24,9 +24,12 @@ test("deployment worker serves SPA routes and resolves absolute social metadata"
 
   assert.equal(response.status, 200);
   assert.match(await response.text(), /https:\/\/deck\.example\/assets\/og\.png/);
+  assert.equal(response.headers.get("x-frame-options"), "DENY");
+  assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow");
+  assert.match(response.headers.get("content-security-policy"), /frame-ancestors 'none'/);
 });
 
-test("deployment worker passes static assets through unchanged", async () => {
+test("deployment worker preserves static assets and applies safe caching", async () => {
   const env = {
     ASSETS: {
       async fetch() {
@@ -38,7 +41,21 @@ test("deployment worker passes static assets through unchanged", async () => {
   const response = await worker.fetch(new Request("https://deck.example/assets/og.png"), env);
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("content-type"), "image/png");
+  assert.match(response.headers.get("cache-control"), /max-age=86400/);
+  assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.equal(await response.text(), "image-bytes");
+});
+
+test("health endpoint reports release and persistence readiness", async () => {
+  const withoutDatabase = await worker.fetch(new Request("https://deck.example/api/health"), {});
+  assert.equal(withoutDatabase.status, 200);
+  assert.deepEqual((await withoutDatabase.json()).persistence, "unavailable");
+
+  const withDatabase = await worker.fetch(new Request("https://deck.example/api/health"), { DB: {} });
+  const payload = await withDatabase.json();
+  assert.equal(payload.ok, true);
+  assert.equal(payload.persistence, "online");
+  assert.equal(payload.release.channel, "public-alpha");
 });
 
 test("deck assistant status reports whether a remote provider is configured", async () => {
@@ -70,6 +87,54 @@ test("platform session maps hosted identity headers without exposing credentials
   assert.equal(payload.user.id, "user_123");
   assert.equal(payload.user.publicName, "Test Pilot");
   assert.equal(payload.user.provider, "chatgpt");
+  assert.equal(payload.user.plan, "free");
+  assert.equal(payload.user.premium, false);
+});
+
+test("platform session synchronizes the hosted pilot and resolves an active tier", async () => {
+  const database = createD1Mock({ provider: "patreon", tier: "newtype", status: "active", expiration: null });
+  const response = await worker.fetch(new Request("https://deck.example/api/auth/session", {
+    headers: {
+      "oai-authenticated-user-id": "user_456",
+      "oai-authenticated-user-email": "newtype@example.com",
+      "oai-authenticated-user-full-name": "Amuro%20Ray",
+      "oai-authenticated-user-full-name-encoding": "percent-encoded-utf-8",
+    },
+  }), { DB: database });
+  const payload = await response.json();
+  assert.equal(payload.user.publicName, "Amuro Ray");
+  assert.equal(payload.user.plan, "newtype");
+  assert.equal(payload.user.premium, true);
+  assert.deepEqual(payload.user.entitlements, ["forge.remote_ai", "meta.advanced", "statistics.advanced"]);
+  assert.match(database.writes[0].sql, /INSERT INTO users/);
+});
+
+test("feedback endpoint validates and persists an alpha report", async () => {
+  const database = createD1Mock();
+  const response = await worker.fetch(new Request("https://deck.example/api/feedback", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      category: "layout",
+      message: "The mobile tactical header overlaps the content grid.",
+      contactEmail: "pilot@example.com",
+      pagePath: "/cards",
+      locale: "en",
+    }),
+  }), { DB: database });
+  assert.equal(response.status, 201);
+  assert.equal((await response.json()).ok, true);
+  assert.match(database.writes.at(-1).sql, /INSERT INTO feedback/);
+  assert.equal(database.writes.at(-1).args[2], "layout");
+});
+
+test("feedback endpoint rejects underspecified reports", async () => {
+  const response = await worker.fetch(new Request("https://deck.example/api/feedback", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ category: "bug", message: "Too short" }),
+  }), { DB: createD1Mock() });
+  assert.equal(response.status, 400);
 });
 
 test("deck assistant rejects anonymous remote analysis", async () => {
@@ -128,3 +193,27 @@ test("deck assistant uses Gemini structured output when its server key is config
     globalThis.fetch = originalFetch;
   }
 });
+
+function createD1Mock(subscription = null) {
+  const writes = [];
+  return {
+    writes,
+    prepare(sql) {
+      return {
+        bind(...args) {
+          return {
+            async first() {
+              if (/FROM subscriptions/.test(sql)) return subscription;
+              if (/FROM users/.test(sql)) return null;
+              return null;
+            },
+            async run() {
+              writes.push({ sql, args });
+              return { success: true };
+            },
+          };
+        },
+      };
+    },
+  };
+}

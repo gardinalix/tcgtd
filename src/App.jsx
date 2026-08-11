@@ -40,6 +40,7 @@ const DecksPage = lazyNamed(() => import("./pages/DecksPage"), "DecksPage");
 const DeckViewPage = lazyNamed(() => import("./pages/DeckViewPage"), "DeckViewPage");
 const EventDetailPage = lazyNamed(() => import("./pages/EventDetailPage"), "EventDetailPage");
 const EventsPage = lazyNamed(() => import("./pages/EventsPage"), "EventsPage");
+const FeedbackPage = lazyNamed(() => import("./pages/FeedbackPage"), "FeedbackPage");
 const ImportExportPage = lazyNamed(() => import("./pages/ImportExportPage"), "ImportExportPage");
 const LoginPage = lazyNamed(() => import("./pages/LoginPage"), "LoginPage");
 const LogoutPage = lazyNamed(() => import("./pages/LogoutPage"), "LogoutPage");
@@ -59,7 +60,7 @@ const LEGACY_STATE_KEY = "gundam-card-hub-state";
 const THEME_STATE_KEY = "gundam-tactical-theme-id";
 const META_SCOPE_STATE_KEY = "tcgtd-meta-scope-id";
 const PRIVATE_VIEWS = new Set(["builder", "profile", "accountSettings"]);
-const LIGHTWEIGHT_VIEWS = new Set(["home", "about", "legal", "terms", "privacy", "login", "register", "logout", "authCallback"]);
+const LIGHTWEIGHT_VIEWS = new Set(["home", "about", "legal", "terms", "privacy", "feedback", "login", "register", "logout", "authCallback"]);
 const TACTICAL_VIEWS = new Set([
   "cards", "card", "synergy", "synergyMap", "decks", "builder", "deckView", "importExport",
   "meta", "prices", "community", "events", "eventDetail", "players", "venues", "previews",
@@ -200,8 +201,13 @@ export function App() {
   }
 
   async function handleLogout() {
+    const hostedPlatformSession = currentUser?.provider === "chatgpt"
+      && !["localhost", "127.0.0.1"].includes(window.location.hostname);
     const nextState = await logoutUser(userState);
     setUserState(nextState);
+    if (hostedPlatformSession) {
+      window.location.href = "/signout-with-chatgpt?return_to=/";
+    }
   }
 
   async function handleRefreshSession() {
@@ -393,8 +399,9 @@ export function App() {
         <Suspense fallback={<div className="route-loading">ACQUIRING SUBSYSTEM…</div>}>
         {routeLoading ? <div className="route-loading">LOADING TACTICAL DATA…</div> : null}
         {["about", "legal", "terms", "privacy"].includes(view) ? <InstitutionalPage kind={view} onNavigate={setView} /> : null}
+        {view === "feedback" ? <FeedbackPage user={currentUser} onNavigate={setView} /> : null}
         {view === "login" ? <LoginPage onLogin={handleLogin} onSocialLogin={startSocialLogin} onRegister={() => setView("register")} onPlatformLogin={handlePlatformSignIn} /> : null}
-        {view === "register" ? <RegisterPage onCreateAccount={handleCreateAccount} onSocialLogin={startSocialLogin} onLogin={() => setView("login")} /> : null}
+        {view === "register" ? <RegisterPage onCreateAccount={handleCreateAccount} onSocialLogin={startSocialLogin} onLogin={() => setView("login")} onPlatformLogin={handlePlatformSignIn} /> : null}
         {view === "logout" ? <LogoutPage onLogout={handleLogout} onDone={() => setView("home")} /> : null}
         {view === "authCallback" ? <AuthCallbackPage onRefreshSession={handleRefreshSession} onDone={() => setView("profile")} /> : null}
         {!routeLoading ? <>

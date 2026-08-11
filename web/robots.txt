@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /
 
-# The deployment remains private while launch review and rights clearance are in progress.
+# Public Alpha 01 is shared by direct link and intentionally excluded from search indexing.

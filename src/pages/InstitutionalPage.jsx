@@ -21,8 +21,11 @@ export function InstitutionalPage({ kind, onNavigate }) {
         ))}
       </div>
       <footer>
-        <span>{pt ? "Última revisão: 9 de agosto de 2026" : "Last reviewed: August 9, 2026"}</span>
-        <button type="button" onClick={() => onNavigate("home")}>{pt ? "VOLTAR AO COCKPIT" : "RETURN TO COCKPIT"}</button>
+        <span>{pt ? "Última revisão: 10 de agosto de 2026" : "Last reviewed: August 10, 2026"}</span>
+        <div className="button-row">
+          {["legal", "privacy"].includes(kind) ? <button type="button" onClick={() => onNavigate("feedback")}>{pt ? "ABRIR CANAL DE CONTATO" : "OPEN CONTACT CHANNEL"}</button> : null}
+          <button type="button" onClick={() => onNavigate("home")}>{pt ? "VOLTAR AO COCKPIT" : "RETURN TO COCKPIT"}</button>
+        </div>
       </footer>
     </article>
   );
@@ -60,9 +63,9 @@ const CONTENT = {
         { title: "Não oficial", paragraphs: ["TCG Tactical Database is not an official product, service, or platform of any supported Trading Card Game publisher.", "O projeto não é afiliado, endossado ou patrocinado por editoras, fabricantes ou titulares de direitos de qualquer Trading Card Game."] },
         { title: "Propriedade intelectual de terceiros", paragraphs: ["All trademarks, logos, names, artwork, card images, game mechanics references, and intellectual property related to supported Trading Card Games belong to their respective owners.", "O uso no banco é informativo, organizacional e comunitário. Nenhuma exibição transfere propriedade ou sugere licença além do uso efetivamente autorizado."] },
         { title: "Conteúdo do projeto", paragraphs: ["Código, interface, modelos de dados, algoritmos, análises, estatísticas e metodologia próprios pertencem aos seus respectivos autores e mantenedores, salvo indicação diferente em repositório ou licença aplicável."] },
-        { title: "Créditos e revisão de assets", paragraphs: ["Assets visuais são inventariados com origem, titular conhecido e estado de revisão. Itens marcados como não verificados devem ser revisados antes da abertura pública definitiva."] },
+        { title: "Créditos e revisão de assets", paragraphs: ["Assets visuais são inventariados com origem, titular conhecido e estado de revisão. O alpha pode restringir ou remover itens quando a rastreabilidade não for suficiente."] },
         { title: "Aviso de marcas", paragraphs: ["Nomes de produtos, empresas, jogos, séries e personagens podem constituir marcas registradas ou não registradas de seus respectivos titulares. A referência serve apenas para identificar o conteúdo organizado pela plataforma."] },
-        { title: "Contato para titulares de direitos", paragraphs: ["Titulares podem solicitar correção de atribuição, restrição ou remoção de material. O canal jurídico verificável deverá ser configurado antes da abertura pública; enquanto ele não estiver publicado, esta versão permanece em acesso privado."] },
+        { title: "Contato para titulares de direitos", paragraphs: ["Titulares podem solicitar correção de atribuição, restrição ou remoção pelo canal de feedback do alpha. Selecione a categoria de direitos autorais, identifique o material ou URL e forneça um contato verificável para resposta."] },
         { title: "Procedimento de remoção", items: ["Identifique o titular ou representante autorizado.", "Informe o asset, página ou URL questionada.", "Descreva o direito envolvido e a medida solicitada.", "Forneça um meio verificável para resposta.", "O projeto registrará a solicitação, preservará evidências e restringirá o conteúdo quando a análise assim exigir."] },
       ],
     },
@@ -74,9 +77,9 @@ const CONTENT = {
         { title: "Unofficial", paragraphs: ["TCG Tactical Database is not an official product, service, or platform of any supported Trading Card Game publisher.", "The project is not affiliated with, endorsed by, or sponsored by any Trading Card Game publisher, manufacturer, or rights holder."] },
         { title: "Third-party intellectual property", paragraphs: ["All trademarks, logos, names, artwork, card images, game mechanics references, and intellectual property related to supported Trading Card Games belong to their respective owners.", "Database use is informational, organizational and community-oriented. Display does not transfer ownership or imply a license beyond the use actually authorized."] },
         { title: "Project content", paragraphs: ["Original code, interface, data models, algorithms, analyses, statistics and methodology belong to their respective authors and maintainers unless a repository or applicable license states otherwise."] },
-        { title: "Asset credits and review", paragraphs: ["Visual assets are inventoried with origin, known owner and review status. Items marked unverified must be reviewed before the final public opening."] },
+        { title: "Asset credits and review", paragraphs: ["Visual assets are inventoried with origin, known owner and review status. The alpha may restrict or remove items when traceability is insufficient."] },
         { title: "Trademark notice", paragraphs: ["Product, company, game, series and character names may be registered or unregistered trademarks of their respective owners. References are used only to identify content organized by the platform."] },
-        { title: "Rights-holder contact", paragraphs: ["Rights holders may request attribution correction, restriction or removal. A verifiable legal contact channel must be configured before public opening; until it is published, this release remains privately accessible."] },
+        { title: "Rights-holder contact", paragraphs: ["Rights holders may request attribution correction, restriction or removal through the alpha feedback channel. Select the copyright category, identify the material or URL and provide a verifiable reply contact."] },
         { title: "Takedown procedure", items: ["Identify the rights holder or authorized representative.", "Identify the asset, page or URL in question.", "Describe the relevant right and requested action.", "Provide a verifiable response channel.", "The project will log the notice, preserve evidence and restrict content when review requires it."] },
       ],
     },
@@ -109,10 +112,11 @@ const CONTENT = {
     pt: {
       eyebrow: "PRIVACIDADE",
       title: "Dados mínimos, finalidade clara.",
-      intro: "Esta política descreve o comportamento da versão atual e será atualizada antes de novas integrações de conta, analytics ou pagamento.",
+      intro: "Esta política descreve o comportamento do Alpha 01 e será atualizada antes de novas integrações de conta, analytics ou pagamento.",
       sections: [
         { title: "Dados locais", paragraphs: ["Preferências de idioma, tema e decks locais podem ser armazenados no navegador. Limpar os dados do site pode remover esse conteúdo quando ele ainda não estiver sincronizado a uma conta."] },
         { title: "Conta", paragraphs: ["Quando a autenticação da plataforma estiver ativa, o sistema pode receber um identificador estável, e-mail e nome fornecidos pelo provedor para criar e manter a sessão. Senhas do provedor não são recebidas pelo aplicativo."] },
+        { title: "Feedback do alpha", paragraphs: ["Relatórios enviados pelo canal do alpha armazenam categoria, mensagem, página, idioma, data e, quando fornecido, e-mail para retorno. Usuários autenticados podem ter o identificador da plataforma associado ao relatório. Não armazenamos o endereço IP no banco de feedback."] },
         { title: "Forja remota", paragraphs: ["Ao solicitar análise assistida, mensagem, composição do deck e métricas estruturadas necessárias são enviadas ao serviço configurado. O endpoint do projeto solicita processamento sem armazenamento pelo provedor quando essa opção está disponível."] },
         { title: "Terceiros e pagamentos", paragraphs: ["Não há cobrança implementada nesta versão. Patreon ou outro provedor só será integrado após atualização desta política, definição da base legal e publicação de um canal de contato."] },
       ],
@@ -120,10 +124,11 @@ const CONTENT = {
     en: {
       eyebrow: "PRIVACY",
       title: "Minimum data, clear purpose.",
-      intro: "This policy describes the current release and will be updated before new account, analytics or payment integrations.",
+      intro: "This policy describes Alpha 01 and will be updated before new account, analytics or payment integrations.",
       sections: [
         { title: "Local data", paragraphs: ["Language, theme and local deck preferences may be stored in the browser. Clearing site data may remove this content while it is not synchronized to an account."] },
         { title: "Account", paragraphs: ["When platform authentication is active, the system may receive a stable identifier, email and name supplied by the provider to create and maintain the session. Provider passwords are never received by the application."] },
+        { title: "Alpha feedback", paragraphs: ["Reports sent through the alpha channel store category, message, page, language, date and, when supplied, a reply e-mail. Authenticated users may have their platform identifier associated with the report. We do not store the IP address in the feedback database."] },
         { title: "Remote Forge", paragraphs: ["When assisted analysis is requested, the message, deck composition and required structured metrics are sent to the configured service. The project endpoint requests processing without provider storage when that option is available."] },
         { title: "Third parties and payments", paragraphs: ["No billing is implemented in this release. Patreon or another provider will only be integrated after this policy is updated, a legal basis is defined and a contact channel is published."] },
       ],

@@ -6,6 +6,7 @@ import {
 } from "../components/tactical/TacticalPageShell";
 
 export function AccountSettingsPage({ user, onUpdateProfile, onChangePassword, onRequestPasswordReset, onLogout }) {
+  const isHostedIdentity = user?.provider === "chatgpt";
   const [profile, setProfile] = useState({
     publicName: user?.publicName || "",
     displayName: user?.displayName || "",
@@ -53,27 +54,44 @@ export function AccountSettingsPage({ user, onUpdateProfile, onChangePassword, o
         subtitle={status}
       />
 
-      <form className="tactical-data-panel react-form-panel auth-terminal-card" onSubmit={saveProfile}>
+      {isHostedIdentity ? (
+        <TacticalDataPanel
+          title="Hosted pilot identity"
+          subtitle="Identity and sign-in security are managed by ChatGPT during the public alpha."
+          className="react-form-panel auth-terminal-card"
+        >
+          <dl className="account-identity-readout">
+            <div><dt>Pilot</dt><dd>{user.publicName || user.displayName}</dd></div>
+            <div><dt>E-mail</dt><dd>{user.email || "Not shared"}</dd></div>
+            <div><dt>Plan</dt><dd>{String(user.plan || "free").toUpperCase()}</dd></div>
+            <div><dt>Deck storage</dt><dd>Local to this browser in Alpha 01</dd></div>
+          </dl>
+          <p>The application does not receive or manage your ChatGPT password. Profile editing and cloud deck sync are not enabled in this alpha.</p>
+          <button type="button" className="ghost-command" onClick={onLogout}>Logout securely</button>
+        </TacticalDataPanel>
+      ) : null}
+
+      {!isHostedIdentity ? <form className="tactical-data-panel react-form-panel auth-terminal-card" onSubmit={saveProfile}>
         <div className="panel-head"><h2>Pilot identity</h2><p>Public account information.</p></div>
         <Field label="Public name" value={profile.publicName} onChange={(publicName) => setProfile({ ...profile, publicName })} />
         <Field label="Display name" value={profile.displayName} onChange={(displayName) => setProfile({ ...profile, displayName })} />
         <Field label="Username" value={profile.username} onChange={(username) => setProfile({ ...profile, username })} />
         <Field label="Avatar URL" value={profile.avatarUrl} onChange={(avatarUrl) => setProfile({ ...profile, avatarUrl })} />
         <button type="submit">Save account</button>
-      </form>
+      </form> : null}
 
-      <form className="tactical-data-panel react-form-panel auth-terminal-card" onSubmit={changePassword}>
+      {!isHostedIdentity ? <form className="tactical-data-panel react-form-panel auth-terminal-card" onSubmit={changePassword}>
         <div className="panel-head"><h2>Password control</h2><p>Available for e-mail accounts.</p></div>
         <Field label="Current password" type="password" value={password.currentPassword} onChange={(currentPassword) => setPassword({ ...password, currentPassword })} />
         <Field label="New password" type="password" value={password.newPassword} onChange={(newPassword) => setPassword({ ...password, newPassword })} />
         <button type="submit">Change password</button>
         <button type="button" className="ghost-command" onClick={requestReset}>Request password reset</button>
-      </form>
+      </form> : null}
 
-      <TacticalDataPanel title="Provider links" subtitle={`Primary provider: ${user.provider || "email"}. Additional linking can be enabled through OAuth settings.`} className="react-form-panel auth-terminal-card">
+      {!isHostedIdentity ? <TacticalDataPanel title="Provider links" subtitle={`Primary provider: ${user.provider || "email"}. Additional linking can be enabled through OAuth settings.`} className="react-form-panel auth-terminal-card">
         <button type="button" className="ghost-command" onClick={onLogout}>Logout securely</button>
         <button type="button" className="danger-command" disabled>Request account deletion</button>
-      </TacticalDataPanel>
+      </TacticalDataPanel> : null}
     </TacticalPageShell>
   );
 }

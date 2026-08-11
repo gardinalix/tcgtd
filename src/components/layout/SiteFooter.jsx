@@ -5,6 +5,7 @@ const LINKS = [
   ["legal", "Legal / Copyright", "Legal / Copyright"],
   ["terms", "Terms of Use", "Termos de Uso"],
   ["privacy", "Privacy", "Privacidade"],
+  ["feedback", "Alpha feedback", "Feedback do alpha"],
 ];
 
 export function SiteFooter({ onViewChange }) {
@@ -15,6 +16,10 @@ export function SiteFooter({ onViewChange }) {
       <div className="site-footer__brand">
         <strong>TCG TACTICAL DATABASE</strong>
         <span>{pt ? "Projeto comunitário independente // Módulo inicial: Gundam Card Game" : "Independent community project // Initial module: Gundam Card Game"}</span>
+        <button className="site-footer__alpha" type="button" onClick={() => onViewChange("feedback")}>
+          <b>PUBLIC ALPHA 01</b>
+          <span>{pt ? "Canal de feedback online" : "Feedback channel online"}</span>
+        </button>
       </div>
       <nav aria-label={pt ? "Links institucionais" : "Institutional links"}>
         {LINKS.map(([view, en, br]) => <button type="button" key={view} onClick={() => onViewChange(view)}>{pt ? br : en}</button>)}

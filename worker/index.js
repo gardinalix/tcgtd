@@ -13,8 +13,14 @@ import {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/health") {
+      return handleHealth(request, env);
+    }
     if (url.pathname === "/api/auth/session") {
-      return handlePlatformSession(request);
+      return handlePlatformSession(request, env);
+    }
+    if (url.pathname === "/api/feedback") {
+      return handleFeedback(request, env);
     }
     if (url.pathname === "/api/deck-assistant") {
       return handleDeckAssistant(request, env);
@@ -26,10 +32,13 @@ export default {
     }
 
     const contentType = response.headers.get("content-type") || "";
-    if (!contentType.includes("text/html")) return response;
+    if (!contentType.includes("text/html")) return securedAssetResponse(response, url.pathname);
 
     const headers = new Headers(response.headers);
     headers.delete("content-length");
+    headers.set("cache-control", "no-cache");
+    headers.set("x-robots-tag", "noindex, nofollow");
+    applySecurityHeaders(headers);
     const html = (await response.text()).replaceAll("__SITE_ORIGIN__", url.origin);
     return new Response(html, {
       status: response.status,
@@ -39,14 +48,119 @@ export default {
   },
 };
 
+const RELEASE = Object.freeze({ channel: "public-alpha", version: "alpha.1", releasedAt: "2026-08-10" });
 const MAX_ASSISTANT_BODY_BYTES = 180_000;
+const MAX_FEEDBACK_BODY_BYTES = 16_000;
 const FORGE_RATE_LIMIT = 12;
 const FORGE_RATE_WINDOW_MS = 10 * 60 * 1_000;
+const FEEDBACK_RATE_LIMIT = 4;
+const FEEDBACK_RATE_WINDOW_MS = 15 * 60 * 1_000;
 const forgeRateBuckets = new Map();
+const feedbackRateBuckets = new Map();
+const FEEDBACK_CATEGORIES = new Set(["bug", "data", "layout", "rights", "suggestion"]);
 
-export function handlePlatformSession(request) {
+export function handleHealth(request, env = {}) {
   if (request.method !== "GET") return json({ message: "Método não permitido." }, 405, { Allow: "GET" });
-  return json({ user: platformUserFromRequest(request) });
+  return json({
+    ok: true,
+    service: "tcg-tactical-database",
+    release: RELEASE,
+    persistence: env.DB ? "online" : "unavailable",
+    forge: resolveAssistantProvider(env) ? "configured" : "local-only",
+  });
+}
+
+export async function handlePlatformSession(request, env = {}) {
+  if (request.method !== "GET") return json({ message: "Método não permitido." }, 405, { Allow: "GET" });
+  const user = platformUserFromRequest(request);
+  if (!user) return json({ user: null });
+
+  let access = freeAccess();
+  if (env.DB) {
+    try {
+      access = await synchronizeUser(env.DB, user);
+    } catch {
+      access = freeAccess();
+    }
+  }
+  return json({ user: { ...user, ...access } });
+}
+
+export async function handleFeedback(request, env = {}) {
+  if (request.method === "GET") {
+    return json({
+      available: Boolean(env.DB),
+      release: RELEASE,
+      categories: [...FEEDBACK_CATEGORIES],
+    });
+  }
+  if (request.method !== "POST") return json({ message: "Método não permitido." }, 405, { Allow: "GET, POST" });
+  if (!env.DB) return json({ message: "O canal de feedback ainda não está disponível." }, 503);
+
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (contentLength > MAX_FEEDBACK_BODY_BYTES) return json({ message: "Relatório acima do limite permitido." }, 413);
+
+  let input;
+  try {
+    const raw = await request.text();
+    if (new TextEncoder().encode(raw).byteLength > MAX_FEEDBACK_BODY_BYTES) {
+      return json({ message: "Relatório acima do limite permitido." }, 413);
+    }
+    input = JSON.parse(raw);
+  } catch {
+    return json({ message: "Relatório inválido." }, 400);
+  }
+
+  if (String(input?.website || "").trim()) {
+    return json({ ok: true, received: true }, 202);
+  }
+
+  const category = FEEDBACK_CATEGORIES.has(input?.category) ? input.category : "bug";
+  const message = String(input?.message || "").trim();
+  const contactEmail = String(input?.contactEmail || "").trim().toLowerCase();
+  const pagePath = sanitizePagePath(input?.pagePath);
+  const locale = input?.locale === "en" ? "en" : "pt-BR";
+  if (message.length < 20 || message.length > 3_000) {
+    return json({ message: "Descreva o relatório usando entre 20 e 3000 caracteres." }, 400);
+  }
+  if (contactEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) {
+    return json({ message: "Informe um e-mail válido ou deixe o campo vazio." }, 400);
+  }
+
+  const platformUser = platformUserFromRequest(request);
+  const rateKey = platformUser?.id
+    ? `user:${platformUser.id}`
+    : `anonymous:${request.headers.get("cf-connecting-ip") || "local"}`;
+  const rateLimit = consumeRateLimit(feedbackRateBuckets, rateKey, FEEDBACK_RATE_LIMIT, FEEDBACK_RATE_WINDOW_MS);
+  if (!rateLimit.allowed) {
+    return json({ message: "Muitos relatórios em sequência. Aguarde antes de transmitir novamente." }, 429, {
+      "Retry-After": String(rateLimit.retryAfterSeconds),
+    });
+  }
+
+  try {
+    if (platformUser) await synchronizeUser(env.DB, platformUser);
+    const id = createId("feedback");
+    const createdAt = new Date().toISOString();
+    await env.DB.prepare(`
+      INSERT INTO feedback (
+        id, user_id, category, message, contact_email, page_path, locale, release_channel, status, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'new', ?)
+    `).bind(
+      id,
+      platformUser?.id || null,
+      category,
+      message,
+      contactEmail.slice(0, 254),
+      pagePath,
+      locale,
+      RELEASE.channel,
+      createdAt,
+    ).run();
+    return json({ ok: true, id, receivedAt: createdAt }, 201);
+  } catch {
+    return json({ message: "O canal recebeu a transmissão, mas não conseguiu registrá-la. Tente novamente." }, 503);
+  }
 }
 
 export async function handleDeckAssistant(request, env) {
@@ -118,7 +232,17 @@ function platformUserFromRequest(request) {
   const id = request.headers.get("oai-authenticated-user-id") || "";
   if (!id) return null;
   const email = request.headers.get("oai-authenticated-user-email") || "";
-  const fullName = request.headers.get("oai-authenticated-user-full-name") || email.split("@")[0] || "Pilot";
+  const encodedName = request.headers.get("oai-authenticated-user-full-name") || "";
+  const nameEncoding = request.headers.get("oai-authenticated-user-full-name-encoding") || "";
+  let fullName = encodedName;
+  if (encodedName && nameEncoding === "percent-encoded-utf-8") {
+    try {
+      fullName = decodeURIComponent(encodedName);
+    } catch {
+      fullName = encodedName;
+    }
+  }
+  fullName ||= email.split("@")[0] || "Pilot";
   return {
     id,
     email,
@@ -141,16 +265,88 @@ function authorizeForgeRequest(request, env, platformUser) {
 }
 
 function consumeForgeRateLimit(key, now = Date.now()) {
-  const current = forgeRateBuckets.get(key);
-  if (!current || now - current.startedAt >= FORGE_RATE_WINDOW_MS) {
-    forgeRateBuckets.set(key, { startedAt: now, count: 1 });
+  return consumeRateLimit(forgeRateBuckets, key, FORGE_RATE_LIMIT, FORGE_RATE_WINDOW_MS, now);
+}
+
+function consumeRateLimit(buckets, key, limit, windowMs, now = Date.now()) {
+  const current = buckets.get(key);
+  if (!current || now - current.startedAt >= windowMs) {
+    buckets.set(key, { startedAt: now, count: 1 });
     return { allowed: true, retryAfterSeconds: 0 };
   }
-  if (current.count >= FORGE_RATE_LIMIT) {
-    return { allowed: false, retryAfterSeconds: Math.max(1, Math.ceil((FORGE_RATE_WINDOW_MS - (now - current.startedAt)) / 1_000)) };
+  if (current.count >= limit) {
+    return { allowed: false, retryAfterSeconds: Math.max(1, Math.ceil((windowMs - (now - current.startedAt)) / 1_000)) };
   }
   current.count += 1;
   return { allowed: true, retryAfterSeconds: 0 };
+}
+
+function freeAccess() {
+  return { plan: "free", premium: false, entitlements: [] };
+}
+
+function accessFromSubscription(subscription) {
+  if (!subscription || subscription.status !== "active") return freeAccess();
+  const expiration = subscription.expiration ? Date.parse(subscription.expiration) : null;
+  if (Number.isFinite(expiration) && expiration <= Date.now()) return freeAccess();
+  const tier = ["supporter", "newtype", "master"].includes(subscription.tier) ? subscription.tier : "free";
+  if (tier === "free") return freeAccess();
+  return {
+    plan: tier,
+    premium: true,
+    entitlements: tier === "supporter"
+      ? ["forge.remote_ai"]
+      : ["forge.remote_ai", "meta.advanced", "statistics.advanced"],
+  };
+}
+
+async function synchronizeUser(db, user) {
+  const now = new Date().toISOString();
+  const existing = await db.prepare(`
+    SELECT id, email, nickname, provider, last_seen_at
+    FROM users
+    WHERE id = ?
+    LIMIT 1
+  `).bind(user.id).first();
+
+  if (!existing) {
+    await db.prepare(`
+      INSERT INTO users (id, email, nickname, provider, created_at, updated_at, last_seen_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).bind(user.id, user.email, user.publicName, user.provider, now, now, now).run();
+  } else {
+    const lastSeenAt = Date.parse(existing.last_seen_at || "");
+    const stale = !Number.isFinite(lastSeenAt) || Date.now() - lastSeenAt >= 24 * 60 * 60 * 1_000;
+    const changed = existing.email !== user.email || existing.nickname !== user.publicName || existing.provider !== user.provider;
+    if (stale || changed) {
+      await db.prepare(`
+        UPDATE users
+        SET email = ?, nickname = ?, provider = ?, updated_at = ?, last_seen_at = ?
+        WHERE id = ?
+      `).bind(user.email, user.publicName, user.provider, now, now, user.id).run();
+    }
+  }
+
+  const subscription = await db.prepare(`
+    SELECT provider, tier, status, expiration
+    FROM subscriptions
+    WHERE user_id = ?
+      AND status = 'active'
+      AND (expiration IS NULL OR expiration > ?)
+    ORDER BY updated_at DESC
+    LIMIT 1
+  `).bind(user.id, now).first();
+  return accessFromSubscription(subscription);
+}
+
+function sanitizePagePath(value) {
+  const path = String(value || "/").trim().replace(/[\u0000-\u001f\u007f]/g, "");
+  return (path.startsWith("/") ? path : "/").slice(0, 240);
+}
+
+function createId(prefix) {
+  const value = globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`;
+  return `${prefix}-${value}`;
 }
 
 function resolveAssistantProvider(env = {}) {
@@ -322,13 +518,54 @@ function extractGeminiOutputText(steps) {
   return "";
 }
 
+function securedAssetResponse(response, pathname) {
+  const headers = new Headers(response.headers);
+  applySecurityHeaders(headers);
+  if (/\.(?:js|css)$/i.test(pathname) && /-[a-z0-9_-]{8,}\.(?:js|css)$/i.test(pathname)) {
+    headers.set("cache-control", "public, max-age=31536000, immutable");
+  } else if (pathname.startsWith("/assets/")) {
+    headers.set("cache-control", "public, max-age=86400, stale-while-revalidate=604800");
+  } else if (/\/(?:app-data|home-data)\.json$/i.test(pathname)) {
+    headers.set("cache-control", "public, max-age=300, stale-while-revalidate=86400");
+  } else if (pathname === "/robots.txt") {
+    headers.set("cache-control", "no-cache");
+  }
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
+function applySecurityHeaders(headers) {
+  headers.set("content-security-policy", [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com data:",
+    "img-src 'self' data: blob: https:",
+    "connect-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "frame-ancestors 'none'",
+    "form-action 'self'",
+    "upgrade-insecure-requests",
+  ].join("; "));
+  headers.set("permissions-policy", "camera=(), microphone=(), geolocation=(), payment=()");
+  headers.set("referrer-policy", "strict-origin-when-cross-origin");
+  headers.set("x-content-type-options", "nosniff");
+  headers.set("x-frame-options", "DENY");
+}
+
 function json(payload, status = 200, extraHeaders = {}) {
+  const headers = new Headers({
+    "content-type": "application/json; charset=utf-8",
+    "cache-control": "no-store",
+    ...extraHeaders,
+  });
+  applySecurityHeaders(headers);
   return new Response(JSON.stringify(payload), {
     status,
-    headers: {
-      "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
-      ...extraHeaders,
-    },
+    headers,
   });
 }

@@ -27,6 +27,7 @@ export const ROUTES = {
   legal: "/legal",
   terms: "/terms",
   privacy: "/privacy",
+  feedback: "/feedback",
 };
 
 export function parseRoute(location = window.location) {
