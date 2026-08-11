@@ -28,7 +28,7 @@ export default {
     const isSpaNavigation = request.method === "GET"
       && request.headers.get("accept")?.includes("text/html");
     const assetRequest = isSpaNavigation
-      ? new Request(new URL("/index.html", url), request)
+      ? new Request(new URL("/", url), request)
       : request;
     const response = await env.ASSETS.fetch(assetRequest);
 

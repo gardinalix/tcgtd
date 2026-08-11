@@ -7,7 +7,7 @@ test("deployment worker serves SPA routes and resolves absolute social metadata"
     ASSETS: {
       async fetch(request) {
         const url = new URL(request.url);
-        if (url.pathname === "/index.html") {
+        if (url.pathname === "/") {
           return new Response(
             '<html><meta property="og:image" content="__SITE_ORIGIN__/assets/og.png"></html>',
             { headers: { "content-type": "text/html; charset=utf-8" } },
