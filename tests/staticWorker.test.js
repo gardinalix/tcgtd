@@ -60,7 +60,7 @@ test("health endpoint reports release and persistence readiness", async () => {
 
 test("deck assistant status reports whether a remote provider is configured", async () => {
   const missing = await worker.fetch(new Request("https://deck.example/api/deck-assistant"), {});
-  assert.deepEqual(await missing.json(), { configured: false, provider: "none", model: "", authenticated: false, requiresAuthentication: true });
+  assert.deepEqual(await missing.json(), { configured: false, provider: "none", model: "", authenticated: false, requiresAuthentication: true, accessPolicy: "premium" });
 
   const configured = await worker.fetch(new Request("https://deck.example/api/deck-assistant"), {
     GEMINI_API_KEY: "test-secret",
@@ -71,6 +71,7 @@ test("deck assistant status reports whether a remote provider is configured", as
     model: "gemini-3.6-flash",
     authenticated: false,
     requiresAuthentication: true,
+    accessPolicy: "premium",
   });
 });
 
@@ -147,6 +148,16 @@ test("deck assistant rejects anonymous remote analysis", async () => {
   assert.equal((await response.json()).code, "authentication_required");
 });
 
+test("deck assistant protects configured AI from authenticated free accounts", async () => {
+  const response = await worker.fetch(new Request("https://deck.example/api/deck-assistant", {
+    method: "POST",
+    headers: { "content-type": "application/json", "oai-authenticated-user-id": "free_pilot" },
+    body: JSON.stringify({ message: "Analyze", context: { cards: [] } }),
+  }), { GEMINI_API_KEY: "test-secret", DB: createD1Mock() });
+  assert.equal(response.status, 403);
+  assert.equal((await response.json()).code, "premium_required");
+});
+
 test("deck assistant uses Gemini structured output when its server key is configured", async () => {
   const originalFetch = globalThis.fetch;
   let upstreamRequest;
@@ -178,7 +189,7 @@ test("deck assistant uses Gemini structured output when its server key is config
         message: "Analise a curva",
         context: { cards: [], deckName: "Teste" },
       }),
-    }), { GEMINI_API_KEY: "test-secret" });
+    }), { GEMINI_API_KEY: "test-secret", FORGE_AI_ALLOW_FREE: "true" });
     const payload = await response.json();
     assert.equal(response.status, 200);
     assert.equal(payload.provider, "gemini");

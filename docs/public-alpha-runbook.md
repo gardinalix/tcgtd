@@ -15,7 +15,7 @@ Release date: 2026-08-10
 
 - Static React/Vite frontend and Worker API on the current Sites deployment.
 - D1 binding `DB` for pilot identities, provider-neutral subscriptions and feedback.
-- Remote Forge AI remains optional and local-only when no server provider key is configured.
+- Remote Forge AI requires a server-side `forge.remote_ai` entitlement even when a provider key is configured. The local Forge remains available.
 - No analytics or advertising tracker is enabled by this release.
 
 The current build must stay below the applicable Workers static asset limits. Validate file count and largest file before every release.
@@ -58,6 +58,7 @@ The placeholders in `.env.example` document the required secret names. They do n
 - Restore access to private/custom immediately for an identity, rights, data or availability incident.
 - Re-deploy the previous successful site version for a release regression.
 - Disable optional remote Forge provider secrets if cost or abuse telemetry is abnormal.
+- Never enable `FORGE_AI_ALLOW_FREE` publicly without an explicit usage budget and durable rate limiting.
 
 ## Primary platform references
 

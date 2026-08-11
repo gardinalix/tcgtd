@@ -173,16 +173,20 @@ export async function handleDeckAssistant(request, env) {
       model: provider?.model || "",
       authenticated: Boolean(platformUser),
       requiresAuthentication: env.FORGE_AI_ALLOW_ANONYMOUS !== "true",
+      accessPolicy: env.FORGE_AI_ALLOW_FREE === "true" ? "authenticated" : "premium",
     });
   }
   if (request.method !== "POST") return json({ message: "Método não permitido." }, 405, { Allow: "GET, POST" });
-  const access = authorizeForgeRequest(request, env, platformUser);
+  const access = await authorizeForgeRequest(request, env, platformUser);
   if (!access.allowed) {
+    const premiumRequired = access.code === "premium_required";
     return json({
-      message: "Entre no sistema para acessar a análise remota da FORJA.",
-      code: "authentication_required",
-      signInUrl: "/signin-with-chatgpt?return_to=/decks",
-    }, 401);
+      message: premiumRequired
+        ? "A análise remota da FORJA exige um entitlement premium ativo. A forja local continua disponível."
+        : "Entre no sistema para acessar a análise remota da FORJA.",
+      code: premiumRequired ? "premium_required" : "authentication_required",
+      ...(premiumRequired ? {} : { signInUrl: "/signin-with-chatgpt?return_to=/decks" }),
+    }, premiumRequired ? 403 : 401);
   }
   const rateLimit = consumeForgeRateLimit(access.key);
   if (!rateLimit.allowed) {
@@ -256,12 +260,24 @@ function platformUserFromRequest(request) {
   };
 }
 
-function authorizeForgeRequest(request, env, platformUser) {
-  if (platformUser) return { allowed: true, key: `user:${platformUser.id}` };
+async function authorizeForgeRequest(request, env, platformUser) {
+  if (platformUser) {
+    if (env.FORGE_AI_ALLOW_FREE === "true") return { allowed: true, key: `user:${platformUser.id}` };
+    if (!env.DB) return { allowed: false, key: "", code: "premium_required" };
+    try {
+      const access = await synchronizeUser(env.DB, platformUser);
+      if (access.entitlements.includes("forge.remote_ai")) {
+        return { allowed: true, key: `user:${platformUser.id}` };
+      }
+    } catch {
+      return { allowed: false, key: "", code: "premium_required" };
+    }
+    return { allowed: false, key: "", code: "premium_required" };
+  }
   if (env.FORGE_AI_ALLOW_ANONYMOUS === "true") {
     return { allowed: true, key: `anonymous:${request.headers.get("cf-connecting-ip") || "local"}` };
   }
-  return { allowed: false, key: "" };
+  return { allowed: false, key: "", code: "authentication_required" };
 }
 
 function consumeForgeRateLimit(key, now = Date.now()) {
