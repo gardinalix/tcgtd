@@ -20,6 +20,7 @@ test("the static entry point loads analytics only on the registered production d
   const entryHtml = readFileSync(new URL("../index.html", import.meta.url), "utf8");
   assert.match(entryHtml, /analyticsHostname === "tcgtd\.com\.br"/);
   assert.match(entryHtml, /analyticsHostname\.endsWith\("\.tcgtd\.com\.br"\)/);
+  assert.match(entryHtml, /!document\.getElementById\("cloudflare-web-analytics"\)/);
   assert.match(entryHtml, new RegExp(PRODUCTION_TOKEN));
   assert.doesNotMatch(entryHtml, /analyticsHostname === "localhost"/);
 });

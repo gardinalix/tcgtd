@@ -45,7 +45,8 @@
     <div id="root"></div>
     <script type="module">
       const analyticsHostname = window.location.hostname.toLowerCase();
-      if (analyticsHostname === "tcgtd.com.br" || analyticsHostname.endsWith(".tcgtd.com.br")) {
+      const analyticsDomainMatches = analyticsHostname === "tcgtd.com.br" || analyticsHostname.endsWith(".tcgtd.com.br");
+      if (analyticsDomainMatches && !document.getElementById("cloudflare-web-analytics")) {
         const analyticsBeacon = document.createElement("script");
         analyticsBeacon.id = "cloudflare-web-analytics";
         analyticsBeacon.type = "module";
