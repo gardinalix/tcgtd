@@ -43,6 +43,17 @@
       }
     </script>
     <div id="root"></div>
+    <script type="module">
+      const analyticsHostname = window.location.hostname.toLowerCase();
+      if (analyticsHostname === "tcgtd.com.br" || analyticsHostname.endsWith(".tcgtd.com.br")) {
+        const analyticsBeacon = document.createElement("script");
+        analyticsBeacon.id = "cloudflare-web-analytics";
+        analyticsBeacon.type = "module";
+        analyticsBeacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+        analyticsBeacon.dataset.cfBeacon = JSON.stringify({ token: "b49cb96df929424ba248963b28a38ce7" });
+        document.body.append(analyticsBeacon);
+      }
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

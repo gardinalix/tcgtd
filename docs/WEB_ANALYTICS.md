@@ -4,11 +4,11 @@ The site uses Cloudflare Web Analytics for aggregate traffic and real-user perfo
 
 ## Activation
 
-1. In Cloudflare Web Analytics, add `tcgtd.com.br` and copy its site token.
-2. Set the hosted runtime value `CLOUDFLARE_WEB_ANALYTICS_TOKEN` through Sites.
+1. In Cloudflare Web Analytics, add `tcgtd.com.br` and copy its public site token.
+2. Configure the public token in the production-domain loader and, optionally, as the hosted runtime value `CLOUDFLARE_WEB_ANALYTICS_TOKEN` for server-rendered HTML.
 3. Publish the validated version.
 
-The deployment Worker injects the beacon only when the hosted token is present. Local Vite previews never receive the script. Cloudflare's beacon automatically follows this application's History API route changes.
+The static entry point loads the beacon only on `tcgtd.com.br` and its subdomains; the deployment Worker provides the same integration for HTML routed through it. Local Vite previews never receive the script. Cloudflare's beacon automatically follows this application's History API route changes.
 
 ## Privacy and security
 
