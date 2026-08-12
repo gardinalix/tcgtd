@@ -21,7 +21,7 @@ export function InstitutionalPage({ kind, onNavigate }) {
         ))}
       </div>
       <footer>
-        <span>{pt ? "Última revisão: 10 de agosto de 2026" : "Last reviewed: August 10, 2026"}</span>
+        <span>{pt ? "Última revisão: 12 de agosto de 2026" : "Last reviewed: August 12, 2026"}</span>
         <div className="button-row">
           {["legal", "privacy"].includes(kind) ? <button type="button" onClick={() => onNavigate("feedback")}>{pt ? "ABRIR CANAL DE CONTATO" : "OPEN CONTACT CHANNEL"}</button> : null}
           <button type="button" onClick={() => onNavigate("home")}>{pt ? "VOLTAR AO COCKPIT" : "RETURN TO COCKPIT"}</button>
@@ -112,25 +112,27 @@ const CONTENT = {
     pt: {
       eyebrow: "PRIVACIDADE",
       title: "Dados mínimos, finalidade clara.",
-      intro: "Esta política descreve o comportamento do Alpha 01 e será atualizada antes de novas integrações de conta, analytics ou pagamento.",
+      intro: "Esta política descreve o comportamento do Alpha 01, incluindo conta, métricas de audiência e integrações externas.",
       sections: [
         { title: "Dados locais", paragraphs: ["Preferências de idioma, tema e decks locais podem ser armazenados no navegador. Limpar os dados do site pode remover esse conteúdo quando ele ainda não estiver sincronizado a uma conta."] },
         { title: "Conta", paragraphs: ["Quando a autenticação da plataforma estiver ativa, o sistema pode receber um identificador estável, e-mail e nome fornecidos pelo provedor para criar e manter a sessão. Senhas do provedor não são recebidas pelo aplicativo."] },
         { title: "Feedback do alpha", paragraphs: ["Relatórios enviados pelo canal do alpha armazenam categoria, mensagem, página, idioma, data e, quando fornecido, e-mail para retorno. Usuários autenticados podem ter o identificador da plataforma associado ao relatório. Não armazenamos o endereço IP no banco de feedback."] },
+        { title: "Audiência e desempenho", paragraphs: ["Usamos o Cloudflare Web Analytics para medir, de forma agregada, visitas, páginas acessadas, origem aproximada do tráfego, país, tipo de dispositivo, navegador e desempenho de carregamento. Essa integração não usa cookies, armazenamento local ou identificadores persistentes para acompanhar uma pessoa entre visitas."] },
         { title: "Forja remota", paragraphs: ["Ao solicitar análise assistida, mensagem, composição do deck e métricas estruturadas necessárias são enviadas ao serviço configurado. O endpoint do projeto solicita processamento sem armazenamento pelo provedor quando essa opção está disponível."] },
-        { title: "Terceiros e pagamentos", paragraphs: ["Não há cobrança implementada nesta versão. Patreon ou outro provedor só será integrado após atualização desta política, definição da base legal e publicação de um canal de contato."] },
+        { title: "Terceiros e pagamentos", paragraphs: ["A Cloudflare processa as métricas agregadas de audiência e desempenho descritas acima. Não há cobrança implementada nesta versão. Patreon ou outro provedor só será integrado após atualização desta política, definição da base legal e publicação de um canal de contato."] },
       ],
     },
     en: {
       eyebrow: "PRIVACY",
       title: "Minimum data, clear purpose.",
-      intro: "This policy describes Alpha 01 and will be updated before new account, analytics or payment integrations.",
+      intro: "This policy describes Alpha 01, including accounts, audience measurement and external integrations.",
       sections: [
         { title: "Local data", paragraphs: ["Language, theme and local deck preferences may be stored in the browser. Clearing site data may remove this content while it is not synchronized to an account."] },
         { title: "Account", paragraphs: ["When platform authentication is active, the system may receive a stable identifier, email and name supplied by the provider to create and maintain the session. Provider passwords are never received by the application."] },
         { title: "Alpha feedback", paragraphs: ["Reports sent through the alpha channel store category, message, page, language, date and, when supplied, a reply e-mail. Authenticated users may have their platform identifier associated with the report. We do not store the IP address in the feedback database."] },
+        { title: "Audience and performance", paragraphs: ["We use Cloudflare Web Analytics to measure aggregate visits, viewed pages, approximate traffic source, country, device type, browser and loading performance. This integration does not use cookies, local storage or persistent identifiers to follow a person between visits."] },
         { title: "Remote Forge", paragraphs: ["When assisted analysis is requested, the message, deck composition and required structured metrics are sent to the configured service. The project endpoint requests processing without provider storage when that option is available."] },
-        { title: "Third parties and payments", paragraphs: ["No billing is implemented in this release. Patreon or another provider will only be integrated after this policy is updated, a legal basis is defined and a contact channel is published."] },
+        { title: "Third parties and payments", paragraphs: ["Cloudflare processes the aggregate audience and performance metrics described above. No billing is implemented in this release. Patreon or another provider will only be integrated after this policy is updated, a legal basis is defined and a contact channel is published."] },
       ],
     },
   },

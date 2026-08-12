@@ -43,7 +43,10 @@ export default {
     headers.set("cache-control", "no-cache");
     headers.set("x-robots-tag", "noindex, nofollow");
     applySecurityHeaders(headers);
-    const html = (await response.text()).replaceAll("__SITE_ORIGIN__", url.origin);
+    const html = injectWebAnalytics(
+      (await response.text()).replaceAll("__SITE_ORIGIN__", url.origin),
+      env.CLOUDFLARE_WEB_ANALYTICS_TOKEN,
+    );
     return new Response(html, {
       status: response.status,
       statusText: response.statusText,
@@ -924,11 +927,11 @@ function securedAssetResponse(response, pathname) {
 function applySecurityHeaders(headers) {
   headers.set("content-security-policy", [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline'",
+    "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com data:",
     "img-src 'self' data: blob: https:",
-    "connect-src 'self'",
+    "connect-src 'self' https://cloudflareinsights.com",
     "object-src 'none'",
     "base-uri 'self'",
     "frame-ancestors 'none'",
@@ -939,6 +942,22 @@ function applySecurityHeaders(headers) {
   headers.set("referrer-policy", "strict-origin-when-cross-origin");
   headers.set("x-content-type-options", "nosniff");
   headers.set("x-frame-options", "DENY");
+}
+
+export function injectWebAnalytics(html, token) {
+  const normalizedToken = String(token || "").trim();
+  if (!/^[A-Za-z0-9_-]{16,128}$/.test(normalizedToken)) return html;
+  if (html.includes("static.cloudflareinsights.com/beacon.min.js")) return html;
+
+  const beacon = [
+    '<script id="cloudflare-web-analytics" type="module"',
+    ' src="https://static.cloudflareinsights.com/beacon.min.js"',
+    ` data-cf-beacon='${JSON.stringify({ token: normalizedToken })}'></script>`,
+  ].join("");
+
+  return html.includes("</body>")
+    ? html.replace("</body>", `  ${beacon}\n</body>`)
+    : html;
 }
 
 function json(payload, status = 200, extraHeaders = {}) {
