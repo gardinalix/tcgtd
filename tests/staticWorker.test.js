@@ -1,6 +1,24 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
+
+test("document metadata exposes an absolute canonical social card", async () => {
+  const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(html, /property="og:url" content="https:\/\/tcgtd\.com\.br\/"/);
+  assert.match(html, /property="og:image" content="https:\/\/tcgtd\.com\.br\/assets\/og-tcg-tactical-database-v2\.png"/);
+  assert.match(html, /property="og:image:width" content="1672"/);
+  assert.match(html, /property="og:image:height" content="941"/);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
+  assert.match(html, /rel="canonical" href="https:\/\/tcgtd\.com\.br\/"/);
+  assert.doesNotMatch(html, /__SITE_ORIGIN__/);
+});
+
+test("deployment worker canonicalizes the www hostname", async () => {
+  const response = await worker.fetch(new Request("https://www.tcgtd.com.br/community/events?country=BR"), {});
+  assert.equal(response.status, 308);
+  assert.equal(response.headers.get("location"), "https://tcgtd.com.br/community/events?country=BR");
+});
 
 test("deployment worker serves SPA routes and resolves absolute social metadata", async () => {
   const env = {

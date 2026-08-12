@@ -13,6 +13,10 @@ import {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.hostname.toLowerCase() === "www.tcgtd.com.br") {
+      url.hostname = "tcgtd.com.br";
+      return Response.redirect(url.toString(), 308);
+    }
     if (url.pathname === "/api/health") {
       return handleHealth(request, env);
     }
