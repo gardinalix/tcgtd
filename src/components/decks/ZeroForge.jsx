@@ -27,6 +27,7 @@ import { buildDeckAssistantContext } from "../../services/deckDesigner/deckAssis
 import {
   applyForgeNodePositions,
   buildForgeLayout,
+  calculateForgeFitZoom,
   forgeLinkEndpoints,
   forgeNodeSize,
   FORGE_STAGE_WIDTH,
@@ -226,6 +227,11 @@ export function ZeroForge({
     return () => globalThis.cancelAnimationFrame?.(frame);
   }, [positionedLayout]);
 
+  useEffect(() => {
+    const frame = globalThis.requestAnimationFrame?.(() => fitMap());
+    return () => globalThis.cancelAnimationFrame?.(frame);
+  }, [layout.height, workspace.rows.length, workspace.suggestions.length]);
+
   function commitMain(nextMain, label, origin = "pilot") {
     const resolved = typeof nextMain === "function" ? nextMain(main) : nextMain;
     const diff = createDeckDiff(main, resolved);
@@ -371,14 +377,11 @@ export function ZeroForge({
   function fitMap() {
     const scrollport = mapScrollportRef.current;
     if (!scrollport) return;
-    const nextZoom = clamp(
-      Math.min(
-        Math.max(1, scrollport.clientWidth - 32) / FORGE_STAGE_WIDTH,
-        Math.max(1, scrollport.clientHeight - 32) / layout.height,
-      ),
-      MIN_MAP_ZOOM,
-      1,
-    );
+    const nextZoom = calculateForgeFitZoom({
+      viewportWidth: scrollport.clientWidth,
+      viewportHeight: scrollport.clientHeight,
+      stageHeight: layout.height,
+    });
     mapZoomRef.current = nextZoom;
     setMapZoom(nextZoom);
     globalThis.requestAnimationFrame?.(() => {

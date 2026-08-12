@@ -16115,7 +16115,7 @@ body.zero-forge-active {
 
 .zero-forge-map__stage {
   position: relative;
-  min-width: 1500px;
+  min-width: 1200px;
   transform: scale(var(--forge-map-zoom, 1));
   transform-origin: top left;
   transition: transform 160ms ease-out;
@@ -16226,7 +16226,7 @@ body.zero-forge-active {
 }
 
 .zero-forge-map__projection-label {
-  left: 1156px;
+  left: 864px;
   display: grid;
   width: 318px;
   color: var(--forge-gold);

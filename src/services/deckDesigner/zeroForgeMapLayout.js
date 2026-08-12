@@ -1,9 +1,11 @@
-export const FORGE_STAGE_WIDTH = 1500;
+export const FORGE_STAGE_WIDTH = 1200;
+const MIN_FIT_ZOOM = 0.5;
 
-const LANE_X = [78, 340, 602, 864];
+const LANE_X = [32, 224, 416, 608];
 const MAP_TOP = 86;
 const DECK_ROW_PITCH = 174;
-const GHOST_X = 1156;
+const GHOST_X = 864;
+const GHOST_COLUMN_PITCH = 168;
 const GHOST_GAP = 20;
 const MAP_BOTTOM_PADDING = 72;
 
@@ -33,9 +35,9 @@ export function buildForgeLayout(rows = [], suggestions = [], focusCardNumber = 
     });
   }
 
-  // Suggestions occupy one terminal column. Ordering them by their anchor keeps
-  // the wires legible and makes each wire finish at its own card instead of a
-  // two-column stack that can overlap or cross unrelated projections.
+  // Suggestions remain at the end of the synergy field, but use a compact
+  // two-column terminal so all additions can be read without horizontal or
+  // vertical hunting. Every wire still terminates at its target card edge.
   const projectionQueue = suggestions
     .map((suggestion, index) => {
       const sourceId = suggestion.bestSourceCardNumber || focusCardNumber;
@@ -48,17 +50,20 @@ export function buildForgeLayout(rows = [], suggestions = [], focusCardNumber = 
     })
     .sort((left, right) => left.desiredY - right.desiredY || left.index - right.index);
 
-  let nextProjectionY = MAP_TOP;
-  for (const { suggestion, desiredY } of projectionQueue) {
-    const y = Math.max(desiredY, nextProjectionY);
+  let deepestProjectionNode = MAP_TOP;
+  for (const [index, { suggestion }] of projectionQueue.entries()) {
+    const column = index % 2;
+    const row = Math.floor(index / 2);
     const nodeId = `ghost:${suggestion.card.cardNumber}`;
     const size = forgeNodeSize(nodeId);
-    positions.set(nodeId, { x: GHOST_X, y, cx: GHOST_X + (size.width / 2), cy: y + (size.centerY || size.height / 2) });
-    nextProjectionY = y + size.height + GHOST_GAP;
+    const x = GHOST_X + (column * GHOST_COLUMN_PITCH);
+    const y = MAP_TOP + (row * (size.height + GHOST_GAP));
+    positions.set(nodeId, { x, y, cx: x + (size.width / 2), cy: y + (size.centerY || size.height / 2) });
+    deepestProjectionNode = Math.max(deepestProjectionNode, y + size.height);
   }
 
   return {
-    height: Math.max(820, deepestDeckNode + MAP_BOTTOM_PADDING, nextProjectionY + MAP_BOTTOM_PADDING),
+    height: Math.max(820, deepestDeckNode + MAP_BOTTOM_PADDING, deepestProjectionNode + MAP_BOTTOM_PADDING),
     positions,
     lanes: buckets.map((lane) => ({
       id: lane.id,
@@ -95,6 +100,17 @@ export function forgeNodeSize(nodeId) {
     : { width: 108, height: 152, centerY: 76 };
 }
 
+export function calculateForgeFitZoom({ viewportWidth, viewportHeight, stageHeight }) {
+  const availableWidth = Math.max(1, Number(viewportWidth || 0) - 32);
+  const availableHeight = Math.max(1, Number(viewportHeight || 0) - 32);
+  const requiredHeight = Math.max(1, Number(stageHeight || 0));
+  return clamp(
+    Math.min(availableWidth / FORGE_STAGE_WIDTH, availableHeight / requiredHeight),
+    MIN_FIT_ZOOM,
+    1,
+  );
+}
+
 export function forgeLinkEndpoints(source, target, sourceId, targetId) {
   return {
     ...pointOnNodeEdge(source, forgeNodeSize(sourceId), target.cx, target.cy),
@@ -118,4 +134,8 @@ function pointOnNodeEdge(position, size, towardX, towardY) {
 
 function prefixPoint(xKey, yKey, point) {
   return { [xKey]: point.x1, [yKey]: point.y1 };
+}
+
+function clamp(value, minimum, maximum) {
+  return Math.min(maximum, Math.max(minimum, value));
 }
