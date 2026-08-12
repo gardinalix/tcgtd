@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { CardArt } from "../cards/CardArt.jsx";
 import { ExBurstExportLayer } from "./ExBurstExportLayer.jsx";
 import { DeckAssistantPanel } from "./DeckAssistantPanel.jsx";
@@ -23,12 +24,17 @@ import {
   createHistoryEntry,
 } from "../../services/deckDesigner/deckChangeHistory.js";
 import { buildDeckAssistantContext } from "../../services/deckDesigner/deckAssistant.js";
+import {
+  applyForgeNodePositions,
+  buildForgeLayout,
+  forgeLinkEndpoints,
+  forgeNodeSize,
+  FORGE_STAGE_WIDTH,
+} from "../../services/deckDesigner/zeroForgeMapLayout.js";
 import { calculateMapRevealScroll } from "../../services/deckDesigner/zeroForgeMapNavigation.js";
 import { filterCards, uniqueValues } from "../../utils/cardFilters.js";
 import { useLocale } from "../../i18n/LocaleProvider.jsx";
 
-const STAGE_WIDTH = 1500;
-const LANE_X = [78, 340, 602, 864];
 const MIN_MAP_ZOOM = 0.5;
 const MAX_MAP_ZOOM = 1.7;
 const MAP_ZOOM_STEP = 0.1;
@@ -110,8 +116,8 @@ export function ZeroForge({
   const types = useMemo(() => uniqueValues(cards, (card) => card.cardType), [cards]);
   const focusedCard = cardMap.get(focusCardNumber) || workspace.rows[0]?.card || null;
   const layout = useMemo(
-    () => buildForgeLayout(workspace.rows, workspace.suggestions),
-    [workspace.rows, workspace.suggestions],
+    () => buildForgeLayout(workspace.rows, workspace.suggestions, focusCardNumber),
+    [focusCardNumber, workspace.rows, workspace.suggestions],
   );
   const positionedLayout = useMemo(
     () => applyForgeNodePositions(layout, nodePositions),
@@ -367,7 +373,7 @@ export function ZeroForge({
     if (!scrollport) return;
     const nextZoom = clamp(
       Math.min(
-        Math.max(1, scrollport.clientWidth - 32) / STAGE_WIDTH,
+        Math.max(1, scrollport.clientWidth - 32) / FORGE_STAGE_WIDTH,
         Math.max(1, scrollport.clientHeight - 32) / layout.height,
       ),
       MIN_MAP_ZOOM,
@@ -376,7 +382,7 @@ export function ZeroForge({
     mapZoomRef.current = nextZoom;
     setMapZoom(nextZoom);
     globalThis.requestAnimationFrame?.(() => {
-      scrollport.scrollLeft = Math.max(0, ((STAGE_WIDTH * nextZoom) - scrollport.clientWidth) / 2);
+      scrollport.scrollLeft = Math.max(0, ((FORGE_STAGE_WIDTH * nextZoom) - scrollport.clientWidth) / 2);
       scrollport.scrollTop = Math.max(0, ((layout.height * nextZoom) - scrollport.clientHeight) / 2);
     });
   }
@@ -476,7 +482,7 @@ export function ZeroForge({
     const x = clamp(
       session.x + ((event.clientX - session.clientX) / zoom),
       18,
-      STAGE_WIDTH - size.width - 18,
+      FORGE_STAGE_WIDTH - size.width - 18,
     );
     const y = clamp(
       session.y + ((event.clientY - session.clientY) / zoom),
@@ -548,7 +554,7 @@ export function ZeroForge({
     setNodePositions((current) => ({
       ...current,
       [nodeId]: {
-        x: clamp(position.x + (deltaX * amount), 18, STAGE_WIDTH - size.width - 18),
+        x: clamp(position.x + (deltaX * amount), 18, FORGE_STAGE_WIDTH - size.width - 18),
         y: clamp(position.y + (deltaY * amount), 58, layout.height - size.height - 18),
       },
     }));
@@ -714,7 +720,7 @@ export function ZeroForge({
     setSignal({ tone: "allowed", text: "Alteração confirmada e aplicada. Estatísticas e legalidade foram recalculadas." });
   }
 
-  return (
+  return createPortal(
     <section className="zero-forge" aria-label="ZERO Forge assisted deck construction">
       <header className="zero-forge__header">
         <div className="zero-forge__brand">
@@ -901,14 +907,14 @@ export function ZeroForge({
               <div
                 className="zero-forge-map__surface"
                 style={{
-                  width: STAGE_WIDTH * mapZoom,
+                  width: FORGE_STAGE_WIDTH * mapZoom,
                   height: layout.height * mapZoom,
                 }}
               >
                 <div
                   className="zero-forge-map__stage"
                   style={{
-                    width: STAGE_WIDTH,
+                    width: FORGE_STAGE_WIDTH,
                     height: layout.height,
                     "--forge-map-zoom": mapZoom,
                   }}
@@ -931,7 +937,7 @@ export function ZeroForge({
 
               <svg
                 className="zero-forge-map__links"
-                viewBox={`0 0 ${STAGE_WIDTH} ${layout.height}`}
+                viewBox={`0 0 ${FORGE_STAGE_WIDTH} ${layout.height}`}
                 preserveAspectRatio="none"
                 aria-hidden="true"
               >
@@ -939,28 +945,26 @@ export function ZeroForge({
                   const source = positionedLayout.positions.get(edge.source);
                   const target = positionedLayout.positions.get(edge.target);
                   if (!source || !target) return null;
+                  const endpoints = forgeLinkEndpoints(source, target, edge.source, edge.target);
                   return (
                     <line
                       key={edge.id}
-                      x1={source.cx}
-                      y1={source.cy}
-                      x2={target.cx}
-                      y2={target.cy}
+                      {...endpoints}
                       className={`zero-forge-map__edge zero-forge-map__edge--${edge.kind} zero-forge-map__edge--${edge.strength}`}
                     />
                   );
                 })}
                 {workspace.suggestions.map((suggestion) => {
-                  const source = positionedLayout.positions.get(suggestion.bestSourceCardNumber || focusCardNumber);
-                  const target = positionedLayout.positions.get(`ghost:${suggestion.card.cardNumber}`);
+                  const sourceId = suggestion.bestSourceCardNumber || focusCardNumber;
+                  const targetId = `ghost:${suggestion.card.cardNumber}`;
+                  const source = positionedLayout.positions.get(sourceId);
+                  const target = positionedLayout.positions.get(targetId);
                   if (!source || !target) return null;
+                  const endpoints = forgeLinkEndpoints(source, target, sourceId, targetId);
                   return (
                     <line
                       key={`ghost-link:${suggestion.card.cardNumber}`}
-                      x1={source.cx}
-                      y1={source.cy}
-                      x2={target.cx}
-                      y2={target.cy}
+                      {...endpoints}
                       className={`zero-forge-map__edge zero-forge-map__edge--ghost zero-forge-map__edge--${suggestion.strength}`}
                     />
                   );
@@ -1218,7 +1222,8 @@ export function ZeroForge({
           workspace={workspace}
         />
       ) : null}
-    </section>
+    </section>,
+    document.body,
   );
 }
 
@@ -1448,75 +1453,6 @@ function ZeroForgeCardPreview({ preview, main, workspace }) {
       </aside>
     </>
   );
-}
-
-function buildForgeLayout(rows, suggestions) {
-  const buckets = [
-    { id: "early", label: "COST 0–2", test: (cost) => cost <= 2, x: LANE_X[0] },
-    { id: "three", label: "COST 3", test: (cost) => cost === 3, x: LANE_X[1] },
-    { id: "four", label: "COST 4", test: (cost) => cost === 4, x: LANE_X[2] },
-    { id: "late", label: "COST 5+", test: (cost) => cost >= 5, x: LANE_X[3] },
-  ].map((lane) => ({
-    ...lane,
-    rows: rows
-      .filter((row) => lane.test(Number(row.card.cost || 0)))
-      .sort((left, right) =>
-        String(left.card.cardType).localeCompare(String(right.card.cardType))
-        || String(left.card.cardName).localeCompare(String(right.card.cardName))),
-  }));
-  const maxRows = Math.max(1, ...buckets.map((bucket) => Math.ceil(bucket.rows.length / 2)));
-  const height = Math.max(820, 110 + maxRows * 174);
-  const positions = new Map();
-
-  for (const lane of buckets) {
-    lane.rows.forEach((row, index) => {
-      const x = lane.x + (index % 2) * 124;
-      const y = 86 + Math.floor(index / 2) * 174;
-      positions.set(row.card.cardNumber, { x, y, cx: x + 54, cy: y + 76 });
-    });
-  }
-  suggestions.forEach((suggestion, index) => {
-    const x = 1156 + (index % 2) * 162;
-    const y = 86 + Math.floor(index / 2) * 168;
-    positions.set(`ghost:${suggestion.card.cardNumber}`, { x, y, cx: x + 76, cy: y + 67 });
-  });
-
-  return {
-    height,
-    positions,
-    lanes: buckets.map((lane) => ({
-      id: lane.id,
-      label: lane.label,
-      x: lane.x,
-      count: lane.rows.reduce((sum, row) => sum + row.quantity, 0),
-    })),
-  };
-}
-
-function applyForgeNodePositions(layout, nodePositions) {
-  const positions = new Map(
-    [...layout.positions.entries()].map(([nodeId, position]) => {
-      const override = nodePositions[nodeId];
-      if (!override) return [nodeId, position];
-      const size = forgeNodeSize(nodeId);
-      return [
-        nodeId,
-        {
-          x: override.x,
-          y: override.y,
-          cx: override.x + (size.width / 2),
-          cy: override.y + (size.centerY || size.height / 2),
-        },
-      ];
-    }),
-  );
-  return { ...layout, positions };
-}
-
-function forgeNodeSize(nodeId) {
-  return String(nodeId).startsWith("ghost:")
-    ? { width: 152, height: 134, centerY: 67 }
-    : { width: 108, height: 152, centerY: 76 };
 }
 
 function clamp(value, minimum, maximum) {

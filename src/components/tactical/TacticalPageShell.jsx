@@ -209,7 +209,7 @@ function resolveActiveModule(className = "") {
   if (/cards|card-dossier|synergy/.test(className)) return "archive";
   if (/decks|builder|deck-dossier|io-terminal/.test(className)) return "forge";
   if (/meta|prices/.test(className)) return "battlefield";
-  if (/community|players|venues|events|event-dossier/.test(className)) return "network";
+  if (/community|players|venues|schedule-manager|events|event-dossier/.test(className)) return "network";
   if (/preview/.test(className)) return "signals";
   return "system";
 }
@@ -239,6 +239,7 @@ function inferModuleName(className = "") {
     ["community-terminal-page", "09 / REDE DA COMUNIDADE"],
     ["players-terminal-page", "10 / DIRETÓRIO DE JOGADORES"],
     ["venues-terminal-page", "11 / LOCALIZADOR DE LOJAS"],
+    ["schedule-manager-page", "11A / AGENDAS DE LOJAS"],
     ["events-terminal-page", "12 / ARQUIVO COMPETITIVO"],
     ["event-dossier-page", "13 / DOSSIÊ DO EVENTO"],
     ["prices-terminal-page", "14 / INTELIGÊNCIA DE MERCADO"],

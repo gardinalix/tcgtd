@@ -138,6 +138,57 @@ test("feedback endpoint rejects underspecified reports", async () => {
   assert.equal(response.status, 400);
 });
 
+test("community schedule administration stays private while the public calendar remains readable", async () => {
+  const publicResponse = await worker.fetch(new Request("https://deck.example/api/community/schedules"), {});
+  assert.equal(publicResponse.status, 200);
+  assert.deepEqual(await publicResponse.json(), { available: false, schedules: [], exceptions: [] });
+
+  const blocked = await worker.fetch(new Request("https://deck.example/api/community/schedules", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ venueName: "Moki Toys", name: "Weekly", weekday: 1 }),
+  }), { DB: createCommunityD1Mock() });
+  assert.equal(blocked.status, 401);
+  assert.equal((await blocked.json()).code, "authentication_required");
+
+  const managed = await worker.fetch(new Request("https://deck.example/api/community/schedules/manage", {
+    headers: {
+      "oai-authenticated-user-id": "schedule-admin",
+      "oai-authenticated-user-email": "owner@example.com",
+    },
+  }), { DB: createCommunityD1Mock(), COMMUNITY_SCHEDULE_ADMIN_EMAILS: "owner@example.com" });
+  assert.equal(managed.status, 200);
+  assert.deepEqual(await managed.json(), { available: true, schedules: [], exceptions: [] });
+});
+
+test("community schedule creation writes a venue and a recurring schedule for an allowlisted manager", async () => {
+  const database = createCommunityD1Mock();
+  const response = await worker.fetch(new Request("https://deck.example/api/community/schedules", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "oai-authenticated-user-id": "schedule-admin",
+      "oai-authenticated-user-email": "owner@example.com",
+    },
+    body: JSON.stringify({
+      venueName: "Moki Toys",
+      city: "Sao Paulo",
+      country: "Brasil",
+      name: "Gundam Weekly",
+      weekday: 1,
+      startTime: "19:30",
+      registrationUrl: "https://example.com/register",
+    }),
+  }), { DB: database, COMMUNITY_SCHEDULE_ADMIN_EMAILS: "owner@example.com" });
+  assert.equal(response.status, 201);
+  assert.equal((await response.json()).ok, true);
+  assert.equal(database.writes.length, 2);
+  assert.match(database.writes[0].sql, /INSERT INTO community_venues/);
+  assert.match(database.writes[1].sql, /INSERT INTO community_weekly_schedules/);
+  assert.equal(database.writes[1].args[2], "Gundam Weekly");
+  assert.equal(database.writes[1].args[3], 1);
+});
+
 test("deck assistant rejects anonymous remote analysis", async () => {
   const response = await worker.fetch(new Request("https://deck.example/api/deck-assistant", {
     method: "POST",
@@ -221,6 +272,33 @@ function createD1Mock(subscription = null) {
             async run() {
               writes.push({ sql, args });
               return { success: true };
+            },
+          };
+        },
+      };
+    },
+  };
+}
+
+function createCommunityD1Mock() {
+  const writes = [];
+  return {
+    writes,
+    prepare(sql) {
+      return {
+        bind(...args) {
+          return {
+            async first() {
+              if (/SELECT id FROM community_venues/.test(sql)) return null;
+              if (/SELECT id FROM community_weekly_schedules/.test(sql)) return { id: args[0] };
+              return null;
+            },
+            async all() {
+              return { results: [] };
+            },
+            async run() {
+              writes.push({ sql, args });
+              return { success: true, meta: { changes: 1 } };
             },
           };
         },

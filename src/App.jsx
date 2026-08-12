@@ -51,6 +51,7 @@ const PricesPage = lazyNamed(() => import("./pages/PricesPage"), "PricesPage");
 const ProfilePage = lazyNamed(() => import("./pages/ProfilePage"), "ProfilePage");
 const RegisterPage = lazyNamed(() => import("./pages/RegisterPage"), "RegisterPage");
 const SettingsPage = lazyNamed(() => import("./pages/SettingsPage"), "SettingsPage");
+const ScheduleManagerPage = lazyNamed(() => import("./pages/ScheduleManagerPage"), "ScheduleManagerPage");
 const SynergyMapPage = lazyNamed(() => import("./pages/SynergyMapPage"), "SynergyMapPage");
 const SynergyPage = lazyNamed(() => import("./pages/SynergyPage"), "SynergyPage");
 const VenuesPage = lazyNamed(() => import("./pages/VenuesPage"), "VenuesPage");
@@ -59,11 +60,11 @@ const REACT_STATE_KEY = "gundam-card-hub-react-state";
 const LEGACY_STATE_KEY = "gundam-card-hub-state";
 const THEME_STATE_KEY = "gundam-tactical-theme-id";
 const META_SCOPE_STATE_KEY = "tcgtd-meta-scope-id";
-const PRIVATE_VIEWS = new Set(["builder", "profile", "accountSettings"]);
+const PRIVATE_VIEWS = new Set(["builder", "profile", "accountSettings", "scheduleManager"]);
 const LIGHTWEIGHT_VIEWS = new Set(["home", "about", "legal", "terms", "privacy", "feedback", "login", "register", "logout", "authCallback"]);
 const TACTICAL_VIEWS = new Set([
   "cards", "card", "synergy", "synergyMap", "decks", "builder", "deckView", "importExport",
-  "meta", "prices", "community", "events", "eventDetail", "players", "venues", "previews",
+  "meta", "prices", "community", "events", "eventDetail", "players", "venues", "scheduleManager", "previews",
   "profile", "accountSettings", "settings",
 ]);
 
@@ -185,7 +186,7 @@ export function App() {
       setView("login");
       return;
     }
-    window.location.href = `/signin-with-chatgpt?return_to=${encodeURIComponent(routeFor("profile"))}`;
+    window.location.href = `/signin-with-chatgpt?return_to=${encodeURIComponent(routeFor(view, routeId))}`;
   }
 
   async function handleLogin(form) {
@@ -511,6 +512,7 @@ export function App() {
         ) : null}
         {!shouldGatePrivate && view === "players" ? <PlayersPage data={data} onNavigate={setView} /> : null}
         {!shouldGatePrivate && view === "venues" ? <VenuesPage data={data} onNavigate={setView} /> : null}
+        {!shouldGatePrivate && view === "scheduleManager" ? <ScheduleManagerPage onNavigate={setView} /> : null}
         {!shouldGatePrivate && view === "eventDetail" ? (
           <EventDetailPage
             data={data}

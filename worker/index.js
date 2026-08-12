@@ -22,6 +22,9 @@ export default {
     if (url.pathname === "/api/feedback") {
       return handleFeedback(request, env);
     }
+    if (url.pathname === "/api/community/schedules" || url.pathname.startsWith("/api/community/schedules/")) {
+      return handleCommunitySchedules(request, env);
+    }
     if (url.pathname === "/api/deck-assistant") {
       return handleDeckAssistant(request, env);
     }
@@ -162,6 +165,370 @@ export async function handleFeedback(request, env = {}) {
   } catch {
     return json({ message: "O canal recebeu a transmissão, mas não conseguiu registrá-la. Tente novamente." }, 503);
   }
+}
+
+export async function handleCommunitySchedules(request, env = {}) {
+  const url = new URL(request.url);
+  const path = url.pathname;
+  if (path === "/api/community/schedules" && request.method === "GET") {
+    return listCommunitySchedules(env, false);
+  }
+
+  if (path === "/api/community/schedules/manage" && request.method === "GET") {
+    const access = authorizeScheduleManager(request, env);
+    if (!access.allowed) return scheduleAuthorizationResponse(access);
+    return listCommunitySchedules(env, true);
+  }
+
+  if (path === "/api/community/schedules" && request.method === "POST") {
+    const access = authorizeScheduleManager(request, env);
+    if (!access.allowed) return scheduleAuthorizationResponse(access);
+    return createCommunitySchedule(request, env);
+  }
+
+  const exceptionMatch = path.match(/^\/api\/community\/schedules\/([^/]+)\/exceptions\/([^/]+)$/);
+  if (exceptionMatch && request.method === "DELETE") {
+    const access = authorizeScheduleManager(request, env);
+    if (!access.allowed) return scheduleAuthorizationResponse(access);
+    return deleteScheduleException(exceptionMatch[1], exceptionMatch[2], env);
+  }
+
+  const scheduleExceptionMatch = path.match(/^\/api\/community\/schedules\/([^/]+)\/exceptions$/);
+  if (scheduleExceptionMatch && request.method === "POST") {
+    const access = authorizeScheduleManager(request, env);
+    if (!access.allowed) return scheduleAuthorizationResponse(access);
+    return createScheduleException(scheduleExceptionMatch[1], request, env);
+  }
+
+  const scheduleMatch = path.match(/^\/api\/community\/schedules\/([^/]+)$/);
+  if (scheduleMatch && request.method === "PATCH") {
+    const access = authorizeScheduleManager(request, env);
+    if (!access.allowed) return scheduleAuthorizationResponse(access);
+    return setCommunityScheduleActive(scheduleMatch[1], request, env);
+  }
+
+  return json({ message: "Metodo nao permitido." }, 405, { Allow: "GET, POST, PATCH, DELETE" });
+}
+
+async function listCommunitySchedules(env, includeInactive) {
+  if (!env.DB) return json({ available: false, schedules: [], exceptions: [] });
+  try {
+    const activeClause = includeInactive ? "" : "WHERE s.active = 1";
+    const scheduleRows = await env.DB.prepare(`
+      SELECT
+        s.id, s.venue_id, s.name, s.weekday, s.start_time, s.time_zone,
+        s.recurrence_rule, s.entry_fee_text, s.registration_url, s.source_name,
+        s.source_url, s.verified_at, s.active, s.created_at, s.updated_at,
+        s.format_name, s.description, s.start_date, s.end_date,
+        v.name AS venue_name, v.address_line, v.city, v.region, v.country,
+        v.postal_code, v.time_zone AS venue_time_zone, v.website_url
+      FROM community_weekly_schedules s
+      JOIN community_venues v ON v.id = s.venue_id
+      ${activeClause}
+      ORDER BY v.name COLLATE NOCASE, s.weekday, s.start_time, s.name
+    `).bind().all();
+    const scheduleIds = (scheduleRows.results || []).map((row) => row.id);
+    let exceptionRows = { results: [] };
+    if (scheduleIds.length) {
+      const placeholders = scheduleIds.map(() => "?").join(", ");
+      exceptionRows = await env.DB.prepare(`
+        SELECT id, schedule_id, occurrence_date, kind, name, start_time,
+          format_name, description, registration_url, created_at, updated_at
+        FROM community_schedule_exceptions
+        WHERE schedule_id IN (${placeholders})
+        ORDER BY occurrence_date, created_at
+      `).bind(...scheduleIds).all();
+    }
+    return json({
+      available: true,
+      schedules: (scheduleRows.results || []).map(serializeCommunitySchedule),
+      exceptions: (exceptionRows.results || []).map(serializeScheduleException),
+    });
+  } catch {
+    return json({ message: "A agenda comunitaria ainda nao esta disponivel." }, 503);
+  }
+}
+
+async function createCommunitySchedule(request, env) {
+  if (!env.DB) return json({ message: "A agenda comunitaria ainda nao esta disponivel." }, 503);
+  const body = await scheduleRequestBody(request);
+  if (body.error) return body.error;
+  const input = normalizeCommunitySchedule(body.value);
+  if (input.error) return json({ message: input.error }, 400);
+
+  const now = new Date().toISOString();
+  const venue = await findOrCreateCommunityVenue(env.DB, input, now, new URL(request.url).origin);
+  if (venue.error) return json({ message: "Nao foi possivel registrar a loja." }, 503);
+  const id = createId("schedule");
+  try {
+    await env.DB.prepare(`
+      INSERT INTO community_weekly_schedules (
+        id, venue_id, name, weekday, start_time, time_zone, recurrence_rule,
+        entry_fee_text, registration_url, source_name, source_url, verified_at,
+        active, created_at, updated_at, format_name, description, start_date, end_date
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      id, venue.id, input.name, input.weekday, input.startTime, input.timeZone,
+      "FREQ=WEEKLY", input.entryFeeText, input.registrationUrl,
+      "Community-maintained schedule", input.registrationUrl || `${new URL(request.url).origin}/community/stores`,
+      now, now, now, input.formatName, input.description, input.startDate || null, input.endDate || null,
+    ).run();
+    return json({ ok: true, id }, 201);
+  } catch {
+    return json({ message: "Nao foi possivel salvar a agenda semanal." }, 503);
+  }
+}
+
+async function setCommunityScheduleActive(scheduleId, request, env) {
+  if (!env.DB) return json({ message: "A agenda comunitaria ainda nao esta disponivel." }, 503);
+  const body = await scheduleRequestBody(request);
+  if (body.error) return body.error;
+  if (typeof body.value?.active !== "boolean") return json({ message: "Informe se a agenda deve ficar ativa." }, 400);
+  try {
+    const result = await env.DB.prepare(`
+      UPDATE community_weekly_schedules
+      SET active = ?, updated_at = ?
+      WHERE id = ?
+    `).bind(body.value.active ? 1 : 0, new Date().toISOString(), scheduleId).run();
+    if (!result.meta?.changes) return json({ message: "Agenda semanal nao encontrada." }, 404);
+    return json({ ok: true, id: scheduleId, active: body.value.active });
+  } catch {
+    return json({ message: "Nao foi possivel atualizar a agenda semanal." }, 503);
+  }
+}
+
+async function createScheduleException(scheduleId, request, env) {
+  if (!env.DB) return json({ message: "A agenda comunitaria ainda nao esta disponivel." }, 503);
+  const body = await scheduleRequestBody(request);
+  if (body.error) return body.error;
+  const input = normalizeScheduleException(body.value);
+  if (input.error) return json({ message: input.error }, 400);
+  const exists = await env.DB.prepare("SELECT id FROM community_weekly_schedules WHERE id = ? LIMIT 1").bind(scheduleId).first();
+  if (!exists) return json({ message: "Agenda semanal nao encontrada." }, 404);
+  const now = new Date().toISOString();
+  try {
+    await env.DB.prepare(`
+      INSERT INTO community_schedule_exceptions (
+        id, schedule_id, occurrence_date, kind, name, start_time, format_name,
+        description, registration_url, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(schedule_id, occurrence_date) DO UPDATE SET
+        kind = excluded.kind, name = excluded.name, start_time = excluded.start_time,
+        format_name = excluded.format_name, description = excluded.description,
+        registration_url = excluded.registration_url, updated_at = excluded.updated_at
+    `).bind(
+      createId("schedule-exception"), scheduleId, input.occurrenceDate, input.kind,
+      input.name || null, input.startTime || null, input.formatName || null,
+      input.description || null, input.registrationUrl || null, now, now,
+    ).run();
+    return json({ ok: true, scheduleId, occurrenceDate: input.occurrenceDate }, 201);
+  } catch {
+    return json({ message: "Nao foi possivel salvar a excecao." }, 503);
+  }
+}
+
+async function deleteScheduleException(scheduleId, exceptionId, env) {
+  if (!env.DB) return json({ message: "A agenda comunitaria ainda nao esta disponivel." }, 503);
+  try {
+    const result = await env.DB.prepare("DELETE FROM community_schedule_exceptions WHERE id = ? AND schedule_id = ?")
+      .bind(exceptionId, scheduleId).run();
+    if (!result.meta?.changes) return json({ message: "Excecao nao encontrada." }, 404);
+    return json({ ok: true, id: exceptionId });
+  } catch {
+    return json({ message: "Nao foi possivel remover a excecao." }, 503);
+  }
+}
+
+function authorizeScheduleManager(request, env) {
+  const user = platformUserFromRequest(request);
+  if (!user) return { allowed: false, code: "authentication_required" };
+  if (env.COMMUNITY_SCHEDULE_ALLOW_LOCAL_ADMIN === "true") return { allowed: true, user };
+  const emails = String(env.COMMUNITY_SCHEDULE_ADMIN_EMAILS || "")
+    .split(/[,;\s]+/).map((value) => value.trim().toLowerCase()).filter(Boolean);
+  const ids = String(env.COMMUNITY_SCHEDULE_ADMIN_IDS || "")
+    .split(/[,;\s]+/).map((value) => value.trim()).filter(Boolean);
+  if (!emails.length && !ids.length) return { allowed: false, code: "admin_not_configured" };
+  if (emails.includes(String(user.email || "").toLowerCase()) || ids.includes(user.id)) return { allowed: true, user };
+  return { allowed: false, code: "forbidden" };
+}
+
+function scheduleAuthorizationResponse(access) {
+  if (access.code === "authentication_required") {
+    return json({
+      code: access.code,
+      message: "Entre para administrar as agendas de loja.",
+      signInUrl: "/signin-with-chatgpt?return_to=/community/schedules",
+    }, 401);
+  }
+  if (access.code === "admin_not_configured") {
+    return json({ code: access.code, message: "Nenhum administrador de agendas foi configurado." }, 403);
+  }
+  return json({ code: access.code, message: "Esta conta nao pode administrar as agendas." }, 403);
+}
+
+async function findOrCreateCommunityVenue(db, input, now, origin) {
+  try {
+    const existing = await db.prepare(`
+      SELECT id FROM community_venues
+      WHERE lower(name) = lower(?)
+        AND lower(COALESCE(city, '')) = lower(?)
+        AND lower(COALESCE(country, '')) = lower(?)
+      LIMIT 1
+    `).bind(input.venueName, input.city.toLowerCase(), input.country.toLowerCase()).first();
+    if (existing) return existing;
+    const id = createId("venue");
+    await db.prepare(`
+      INSERT INTO community_venues (
+        id, name, address_line, city, region, country, postal_code, time_zone,
+        website_url, source_name, source_url, verified_at, created_at, updated_at
+      ) VALUES (?, ?, '', ?, ?, ?, '', ?, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      id, input.venueName, input.city, input.region, input.country, input.timeZone,
+      input.websiteUrl, "Community-maintained schedule", input.websiteUrl || `${origin}/community/stores`,
+      now, now, now,
+    ).run();
+    return { id };
+  } catch {
+    return { error: true };
+  }
+}
+
+function normalizeCommunitySchedule(value = {}) {
+  const venueName = sanitizeScheduleText(value.venueName, 160);
+  const name = sanitizeScheduleText(value.name, 160);
+  const weekday = Number(value.weekday);
+  const startTime = normalizeTime(value.startTime);
+  const startDate = normalizeDate(value.startDate);
+  const endDate = normalizeDate(value.endDate);
+  if (!venueName) return { error: "Informe o nome da loja." };
+  if (!name) return { error: "Informe o nome do evento semanal." };
+  if (!Number.isInteger(weekday) || weekday < 0 || weekday > 6) return { error: "Escolha um dia da semana valido." };
+  if (value.startTime && !startTime) return { error: "Informe o horario como HH:MM." };
+  if (value.startDate && !startDate) return { error: "Informe uma data inicial valida." };
+  if (value.endDate && !endDate) return { error: "Informe uma data final valida." };
+  if (startDate && endDate && endDate < startDate) return { error: "A data final precisa ser posterior a data inicial." };
+  const registrationUrl = normalizeScheduleUrl(value.registrationUrl);
+  const websiteUrl = normalizeScheduleUrl(value.websiteUrl);
+  if (value.registrationUrl && !registrationUrl) return { error: "Use um link de inscricao valido." };
+  if (value.websiteUrl && !websiteUrl) return { error: "Use um site da loja valido." };
+  return {
+    venueName,
+    city: sanitizeScheduleText(value.city, 120),
+    region: sanitizeScheduleText(value.region, 120),
+    country: sanitizeScheduleText(value.country || "Brasil", 120) || "Brasil",
+    timeZone: sanitizeScheduleText(value.timeZone || "America/Sao_Paulo", 80) || "America/Sao_Paulo",
+    websiteUrl,
+    name,
+    weekday,
+    startTime,
+    formatName: sanitizeScheduleText(value.formatName, 100),
+    entryFeeText: sanitizeScheduleText(value.entryFeeText, 120),
+    registrationUrl,
+    description: sanitizeScheduleText(value.description, 800),
+    startDate,
+    endDate,
+  };
+}
+
+function normalizeScheduleException(value = {}) {
+  const occurrenceDate = normalizeDate(value.occurrenceDate);
+  const kind = value.kind === "override" ? "override" : value.kind === "cancelled" ? "cancelled" : "";
+  const startTime = normalizeTime(value.startTime);
+  const registrationUrl = normalizeScheduleUrl(value.registrationUrl);
+  if (!occurrenceDate) return { error: "Informe a data da excecao." };
+  if (!kind) return { error: "Escolha se a data foi cancelada ou alterada." };
+  if (value.startTime && !startTime) return { error: "Informe o horario como HH:MM." };
+  if (value.registrationUrl && !registrationUrl) return { error: "Use um link de inscricao valido." };
+  return {
+    occurrenceDate,
+    kind,
+    name: sanitizeScheduleText(value.name, 160),
+    startTime,
+    formatName: sanitizeScheduleText(value.formatName, 100),
+    description: sanitizeScheduleText(value.description, 800),
+    registrationUrl,
+  };
+}
+
+async function scheduleRequestBody(request) {
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (contentLength > 16_000) return { error: json({ message: "Dados da agenda acima do limite permitido." }, 413) };
+  try {
+    const raw = await request.text();
+    if (new TextEncoder().encode(raw).byteLength > 16_000) return { error: json({ message: "Dados da agenda acima do limite permitido." }, 413) };
+    return { value: JSON.parse(raw || "{}") };
+  } catch {
+    return { error: json({ message: "Dados da agenda invalidos." }, 400) };
+  }
+}
+
+function serializeCommunitySchedule(row) {
+  return {
+    id: row.id,
+    venueId: row.venue_id,
+    venueName: row.venue_name,
+    addressLine: row.address_line || "",
+    city: row.city || "",
+    region: row.region || "",
+    country: row.country || "",
+    postalCode: row.postal_code || "",
+    timeZone: row.time_zone || row.venue_time_zone || "America/Sao_Paulo",
+    websiteUrl: row.website_url || "",
+    name: row.name,
+    weekday: Number(row.weekday),
+    startTime: row.start_time || "",
+    formatName: row.format_name || "",
+    description: row.description || "",
+    startDate: row.start_date || "",
+    endDate: row.end_date || "",
+    entryFeeText: row.entry_fee_text || "",
+    registrationUrl: row.registration_url || "",
+    sourceName: row.source_name || "Community-maintained schedule",
+    sourceUrl: row.source_url || "",
+    verifiedAt: row.verified_at || "",
+    active: Number(row.active) === 1,
+  };
+}
+
+function serializeScheduleException(row) {
+  return {
+    id: row.id,
+    scheduleId: row.schedule_id,
+    occurrenceDate: row.occurrence_date,
+    kind: row.kind,
+    name: row.name || "",
+    startTime: row.start_time || "",
+    formatName: row.format_name || "",
+    description: row.description || "",
+    registrationUrl: row.registration_url || "",
+  };
+}
+
+function sanitizeScheduleText(value, maxLength) {
+  return String(value || "").replace(/[\u0000-\u001f\u007f]/g, "").trim().slice(0, maxLength);
+}
+
+function normalizeScheduleUrl(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  try {
+    const url = new URL(raw);
+    return ["http:", "https:"].includes(url.protocol) ? url.toString().slice(0, 600) : "";
+  } catch {
+    return "";
+  }
+}
+
+function normalizeDate(value) {
+  const date = String(value || "");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return "";
+  const parsed = new Date(`${date}T00:00:00Z`);
+  return Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date ? "" : date;
+}
+
+function normalizeTime(value) {
+  const time = String(value || "").trim();
+  return /^([01]\d|2[0-3]):[0-5]\d$/.test(time) ? time : "";
 }
 
 export async function handleDeckAssistant(request, env) {

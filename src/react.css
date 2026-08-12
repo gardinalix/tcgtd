@@ -16252,6 +16252,7 @@ body.zero-forge-active {
   fill: none;
   stroke: rgba(87, 232, 255, 0.34);
   stroke-width: 1.4;
+  stroke-linecap: round;
   vector-effect: non-scaling-stroke;
 }
 

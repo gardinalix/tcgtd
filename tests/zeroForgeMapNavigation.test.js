@@ -8,6 +8,7 @@ test("ZERO Forge map is isolated from page-level main element rules", () => {
 
   assert.match(source, /<section\s+className=\{`zero-forge-map/);
   assert.doesNotMatch(source, /<main\s+className=\{`zero-forge-map/);
+  assert.match(source, /createPortal\(/);
 });
 
 test("ZERO Forge keeps an already visible added card in place", () => {

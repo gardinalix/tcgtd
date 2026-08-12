@@ -18,6 +18,7 @@ export const ROUTES = {
   eventDetail: "/community/events",
   players: "/community/players",
   venues: "/community/stores",
+  scheduleManager: "/community/schedules",
   previews: "/leaks",
   profile: "/profile",
   settings: "/settings",
@@ -51,6 +52,7 @@ export function parseRoute(location = window.location) {
   if (segments[0] === "community") {
     if (segments[1] === "events") return { view: segments[2] ? "eventDetail" : "events", id: decodeURIComponent(segments[2] || "") };
     if (segments[1] === "players") return { view: "players", id: "" };
+    if (segments[1] === "schedules") return { view: "scheduleManager", id: "" };
     if (["stores", "venues", "map"].includes(segments[1])) return { view: "venues", id: "" };
     return { view: "community", id: "" };
   }

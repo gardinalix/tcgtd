@@ -5,7 +5,7 @@ import { createServer } from "node:http";
 import { DatabaseSync } from "node:sqlite";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { handleDeckAssistant } from "../worker/index.js";
+import { handleCommunitySchedules, handleDeckAssistant } from "../worker/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -54,6 +54,9 @@ const server = createServer(async (request, response) => {
 
     const url = new URL(request.url || "/", APP_URL);
     if (url.pathname === "/api/deck-assistant") return serveDeckAssistant(request, response, url);
+    if (url.pathname === "/api/community/schedules" || url.pathname.startsWith("/api/community/schedules/")) {
+      return serveCommunitySchedules(request, response, url);
+    }
     if (url.pathname === "/api/auth/session" && request.method === "GET") return getSession(request, response);
     if (url.pathname === "/api/auth/register" && request.method === "POST") return register(request, response);
     if (url.pathname === "/api/auth/login" && request.method === "POST") return login(request, response);
@@ -85,6 +88,36 @@ async function serveDeckAssistant(request, response, url) {
     body,
   });
   const result = await handleDeckAssistant(webRequest, process.env);
+  response.statusCode = result.status;
+  result.headers.forEach((value, name) => response.setHeader(name, value));
+  response.end(Buffer.from(await result.arrayBuffer()));
+}
+
+async function serveCommunitySchedules(request, response, url) {
+  const user = authenticate(request);
+  const headers = new Headers();
+  for (const [name, value] of Object.entries(request.headers)) {
+    if (Array.isArray(value)) headers.set(name, value.join(", "));
+    else if (value) headers.set(name, String(value));
+  }
+  if (user) {
+    headers.set("oai-authenticated-user-id", user.id);
+    headers.set("oai-authenticated-user-email", user.email || "");
+    headers.set("oai-authenticated-user-full-name", user.display_name || user.public_name || user.username || "Local manager");
+  }
+  const body = ["GET", "HEAD"].includes(request.method || "GET") ? undefined : JSON.stringify(await readBody(request));
+  const webRequest = new Request(url, {
+    method: request.method,
+    headers,
+    body,
+  });
+  const result = await handleCommunitySchedules(webRequest, {
+    ...process.env,
+    DB: createD1Adapter(db),
+    // The local server is bound to 127.0.0.1 and requires its normal local
+    // session. The hosted worker never enables this development-only flag.
+    COMMUNITY_SCHEDULE_ALLOW_LOCAL_ADMIN: "true",
+  });
   response.statusCode = result.status;
   result.headers.forEach((value, name) => response.setHeader(name, value));
   response.end(Buffer.from(await result.arrayBuffer()));
@@ -734,6 +767,89 @@ function ensureSchema(database) {
     CREATE INDEX IF NOT EXISTS idx_auth_sessions_token ON auth_sessions(token_hash);
     CREATE INDEX IF NOT EXISTS idx_auth_logs_user ON auth_logs(user_id, created_at);
   `);
+  database.exec(`
+    CREATE TABLE IF NOT EXISTS community_venues (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      address_line TEXT,
+      city TEXT,
+      region TEXT,
+      country TEXT,
+      postal_code TEXT,
+      latitude REAL,
+      longitude REAL,
+      time_zone TEXT,
+      bandai_tcg_plus_id TEXT,
+      website_url TEXT,
+      source_name TEXT NOT NULL,
+      source_url TEXT NOT NULL,
+      verified_at TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT
+    );
+    CREATE TABLE IF NOT EXISTS community_weekly_schedules (
+      id TEXT PRIMARY KEY,
+      venue_id TEXT NOT NULL REFERENCES community_venues(id),
+      name TEXT NOT NULL,
+      weekday INTEGER,
+      start_time TEXT,
+      time_zone TEXT,
+      recurrence_rule TEXT,
+      entry_fee_text TEXT,
+      registration_url TEXT,
+      source_name TEXT NOT NULL,
+      source_url TEXT NOT NULL,
+      verified_at TEXT,
+      active INTEGER NOT NULL DEFAULT 1,
+      created_at TEXT NOT NULL,
+      updated_at TEXT,
+      format_name TEXT,
+      description TEXT,
+      start_date TEXT,
+      end_date TEXT
+    );
+    CREATE TABLE IF NOT EXISTS community_schedule_exceptions (
+      id TEXT PRIMARY KEY,
+      schedule_id TEXT NOT NULL REFERENCES community_weekly_schedules(id) ON DELETE CASCADE,
+      occurrence_date TEXT NOT NULL,
+      kind TEXT NOT NULL CHECK (kind IN ('cancelled', 'override')),
+      name TEXT,
+      start_time TEXT,
+      format_name TEXT,
+      description TEXT,
+      registration_url TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT,
+      UNIQUE(schedule_id, occurrence_date)
+    );
+    CREATE INDEX IF NOT EXISTS idx_community_weekly_schedules_venue_active
+      ON community_weekly_schedules(venue_id, active);
+    CREATE INDEX IF NOT EXISTS idx_community_schedule_exceptions_schedule_date
+      ON community_schedule_exceptions(schedule_id, occurrence_date);
+  `);
+}
+
+function createD1Adapter(database) {
+  return {
+    prepare(sql) {
+      return {
+        bind(...args) {
+          return {
+            async first() {
+              return database.prepare(sql).get(...args) || null;
+            },
+            async all() {
+              return { results: database.prepare(sql).all(...args) };
+            },
+            async run() {
+              const result = database.prepare(sql).run(...args);
+              return { success: true, meta: { changes: Number(result.changes || 0) } };
+            },
+          };
+        },
+      };
+    },
+  };
 }
 
 function addColumnIfMissing(table, column, type) {
@@ -802,7 +918,7 @@ function setCors(request, response) {
   if (origin && allowed.has(origin)) response.setHeader("Access-Control-Allow-Origin", origin);
   response.setHeader("Access-Control-Allow-Credentials", "true");
   response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  response.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
+  response.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
 }
 
 async function serveStatic(_request, response, url) {
