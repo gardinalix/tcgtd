@@ -144,9 +144,8 @@ export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = 
     }
   }
 
-  const suggestions = cards
+  const rankedSuggestions = cards
     .filter((card) => !deckIds.has(card.cardNumber))
-    .filter((card) => availability[card.cardNumber]?.allowed)
     .map((card) => scoreSuggestion(card, {
       relations: relationsByCandidate.get(card.cardNumber) || [],
       curve,
@@ -158,7 +157,23 @@ export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = 
     .sort((left, right) =>
       right.score - left.score
       || Number(right.card.recentTop8DecksUsing || 0) - Number(left.card.recentTop8DecksUsing || 0)
-      || String(left.card.cardName).localeCompare(String(right.card.cardName)))
+      || String(left.card.cardName).localeCompare(String(right.card.cardName)));
+  const suggestions = rankedSuggestions
+    .map((suggestion) => {
+      const availabilityAssessment = availability[suggestion.card.cardNumber];
+      if (availabilityAssessment?.allowed) return { ...suggestion, action: "add" };
+      if (mainCount < maxMain || availabilityAssessment?.type !== "main_deck_size") return null;
+      const replacement = findZeroForgeReplacement(data, main, suggestion, rows, cardMap);
+      if (!replacement) return null;
+      return {
+        ...suggestion,
+        action: "replace",
+        replaceCardNumber: replacement.card.cardNumber,
+        replaceCard: replacement.card,
+        replacementReason: `Replace ${replacement.card.cardName} to keep the main deck at ${maxMain} cards.`,
+      };
+    })
+    .filter(Boolean)
     .slice(0, Number(options.limit || 8))
     .map((suggestion, index) => ({ ...suggestion, rank: index + 1 }));
 
@@ -571,6 +586,27 @@ function scoreSuggestion(card, context) {
     relation: best?.relation || null,
     reasons: [...new Set(reasons)].slice(0, 3),
   };
+}
+
+function findZeroForgeReplacement(data, main, suggestion, rows, cardMap) {
+  const protectedCardNumber = suggestion.bestSourceCardNumber;
+  const replacementCandidates = [...rows].sort((left, right) =>
+    Number(left.card.cardNumber === protectedCardNumber) - Number(right.card.cardNumber === protectedCardNumber)
+    || right.quantity - left.quantity
+    || Number(left.card.recentTop8DecksUsing || 0) - Number(right.card.recentTop8DecksUsing || 0)
+    || Number(right.card.cost || 0) - Number(left.card.cost || 0)
+    || String(left.card.cardName).localeCompare(String(right.card.cardName)));
+
+  for (const row of replacementCandidates) {
+    const currentQuantity = Number(main[row.card.cardNumber] || 0);
+    if (!currentQuantity) continue;
+    const reducedMain = { ...main };
+    if (currentQuantity === 1) delete reducedMain[row.card.cardNumber];
+    else reducedMain[row.card.cardNumber] = currentQuantity - 1;
+    const assessment = evaluateZeroForgeAddition(data, reducedMain, suggestion.card, 1, cardMap);
+    if (assessment.allowed) return { card: row.card, nextMain: assessment.nextMain };
+  }
+  return null;
 }
 
 function normalizeDeckSection(section = {}) {

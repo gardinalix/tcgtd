@@ -82,6 +82,16 @@ test("ZERO Forge distinguishes a legal card in a full deck from a real rule viol
   assert.equal(capacity.status, "DECK CAPACITY REACHED");
   assert.equal(capacity.className, "is-limit");
 
+  assert.ok(workspace.suggestions.length, "a full deck still receives projected legal swaps");
+  assert.ok(workspace.suggestions.every((suggestion) => suggestion.action === "replace"));
+  for (const suggestion of workspace.suggestions) {
+    assert.ok(fullMain[suggestion.replaceCardNumber] > 0);
+    const reducedMain = { ...fullMain };
+    if (reducedMain[suggestion.replaceCardNumber] === 1) delete reducedMain[suggestion.replaceCardNumber];
+    else reducedMain[suggestion.replaceCardNumber] -= 1;
+    assert.equal(evaluateZeroForgeAddition(data, reducedMain, suggestion.card).allowed, true);
+  }
+
   const illegalMain = { "GD01-020": 1 };
   const illegalWorkspace = buildZeroForgeWorkspace(data, illegalMain, "GD01-020");
   const violation = describeZeroForgeCardState(

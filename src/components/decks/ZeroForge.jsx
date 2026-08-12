@@ -267,6 +267,34 @@ export function ZeroForge({
   function addCard(cardNumber, origin = "catalog") {
     const card = cardMap.get(cardNumber);
     if (!card) return;
+    const projectedSuggestion = origin === "suggestion"
+      ? workspace.suggestions.find((suggestion) => suggestion.card.cardNumber === cardNumber)
+      : null;
+    if (projectedSuggestion?.action === "replace") {
+      const replacedCard = cardMap.get(projectedSuggestion.replaceCardNumber);
+      const replacedQuantity = Number(main[projectedSuggestion.replaceCardNumber] || 0);
+      if (!replacedCard || !replacedQuantity) {
+        setSignal({ tone: "blocked", text: "That projected swap is no longer current. Review the refreshed recommendations." });
+        return;
+      }
+      const reducedMain = { ...main };
+      if (replacedQuantity === 1) delete reducedMain[replacedCard.cardNumber];
+      else reducedMain[replacedCard.cardNumber] = replacedQuantity - 1;
+      const swapAssessment = evaluateZeroForgeAddition(data, reducedMain, card);
+      if (!swapAssessment.allowed) {
+        setSignal({ tone: "blocked", text: swapAssessment.reason });
+        return;
+      }
+      pendingMapRevealRef.current = cardNumber;
+      setFocusCardNumber(cardNumber);
+      commitMain(swapAssessment.nextMain, `Swap ${replacedCard.cardName} for ${card.cardName}`, "recommendation");
+      setSavedDeckId("");
+      setSignal({
+        tone: "allowed",
+        text: `${card.cardName} accepted as a legal swap for ${replacedCard.cardName}.`,
+      });
+      return;
+    }
     const assessment = evaluateZeroForgeAddition(data, main, card);
     if (!assessment.allowed) {
       setSignal({ tone: "blocked", text: assessment.reason });
@@ -935,7 +963,7 @@ export function ZeroForge({
               ))}
               <div className="zero-forge-map__projection-label">
                 <span>TACTICAL PROJECTION</span>
-                <small>Ghost cards are suggestions, not deck entries.</small>
+                <small>Ghost cards are legal additions or full-deck swaps.</small>
               </div>
 
               <svg
@@ -1019,21 +1047,21 @@ export function ZeroForge({
                   <button
                     key={suggestion.card.cardNumber}
                     type="button"
-                    className={`zero-forge-ghost zero-forge-ghost--${suggestion.category} ${draggingNodeId === nodeId ? "is-dragging" : ""}`.trim()}
+                    className={`zero-forge-ghost zero-forge-ghost--${suggestion.category} ${suggestion.action === "replace" ? "is-swap" : ""} ${draggingNodeId === nodeId ? "is-dragging" : ""}`.trim()}
                     style={{ left: position.x, top: position.y }}
                     onPointerDown={(event) => startMapNodeDrag(event, nodeId)}
                     onKeyDown={(event) => moveMapNodeWithKeyboard(event, nodeId)}
                     onClick={() => handleMapNodeClick(nodeId, () => addCard(suggestion.card.cardNumber, "suggestion"))}
-                    aria-label={`${suggestion.card.cardName}, projected suggestion. Drag to rearrange, or activate to add it.`}
+                    aria-label={`${suggestion.card.cardName}, projected ${suggestion.action === "replace" ? `swap for ${suggestion.replaceCard?.cardName || "a deck card"}` : "addition"}. Drag to rearrange, or activate to apply it.`}
                     {...previewHandlers(suggestion.card)}
                   >
                     <CardArt card={suggestion.card} className="zero-forge-ghost__art" compact />
                     <span>
-                      <small>#{suggestion.rank} · {suggestion.category}</small>
+                      <small>#{suggestion.rank} · {suggestion.action === "replace" ? "SWAP" : suggestion.category}</small>
                       <strong>{suggestion.card.cardName}</strong>
-                      <em>{suggestion.reasons[0] || "Curve / role support"}</em>
+                      <em>{suggestion.action === "replace" ? `OUT: ${suggestion.replaceCard?.cardName || "deck card"}` : suggestion.reasons[0] || "Curve / role support"}</em>
                     </span>
-                    <b>+ ADD</b>
+                    <b>{suggestion.action === "replace" ? "SWAP" : "+ ADD"}</b>
                   </button>
                 );
               })}
@@ -1118,7 +1146,7 @@ export function ZeroForge({
           </section> : null}
 
           {intelTab === "analysis" ? <section className="zero-forge-intel__section zero-forge-suggestion-stack">
-            <header><strong>NEXT BEST LINES</strong><span>not yet added</span></header>
+            <header><strong>NEXT BEST LINES</strong><span>{workspace.mainCount >= workspace.maxMain ? "legal swaps" : "not yet added"}</span></header>
             {workspace.suggestions.slice(0, 5).map((suggestion) => (
               <button
                 key={suggestion.card.cardNumber}
@@ -1129,12 +1157,16 @@ export function ZeroForge({
                 <span>0{suggestion.rank}</span>
                 <div>
                   <strong>{suggestion.card.cardName}</strong>
-                  <small>{suggestion.reasons.map((reason) => t(reason)).join(" · ")}</small>
+                  <small>{suggestion.action === "replace"
+                    ? t(suggestion.replacementReason)
+                    : suggestion.reasons.map((reason) => t(reason)).join(" · ")}</small>
                 </div>
                 <b>{Math.round(suggestion.score)}</b>
               </button>
             ))}
-            {!workspace.suggestions.length ? <p>Add an anchor card to generate legal projections.</p> : null}
+            {!workspace.suggestions.length ? <p>{workspace.mainCount >= workspace.maxMain
+              ? "No legal swaps were found for this completed deck."
+              : "Add an anchor card to generate legal projections."}</p> : null}
           </section> : null}
 
           {intelTab === "analysis" ? <section className="zero-forge-intel__section zero-forge-manifest">
@@ -1363,7 +1395,7 @@ function ZeroForgeCardPreview({ preview, main, workspace }) {
   const { card } = preview;
   const suggestion = workspace.suggestions.find((item) => item.card.cardNumber === card.cardNumber);
   const cardState = describeZeroForgeCardState(workspace, main, card);
-  const previewClass = suggestion && cardState.className === "is-legal"
+  const previewClass = suggestion && (cardState.className === "is-legal" || suggestion.action === "replace")
     ? "is-suggested"
     : cardState.className;
   const traits = card.traits || [];
@@ -1449,8 +1481,12 @@ function ZeroForgeCardPreview({ preview, main, workspace }) {
         {suggestion ? (
           <footer>
             <span>{t(`SYSTEM PROJECTION · #${suggestion.rank}`)}</span>
-            <strong>{suggestion.reasons.map((reason) => t(reason)).join(" · ")}</strong>
-            <small>{t("This is a projected card and has not been added to the deck.")}</small>
+            <strong>{suggestion.action === "replace"
+              ? t(suggestion.replacementReason)
+              : suggestion.reasons.map((reason) => t(reason)).join(" · ")}</strong>
+            <small>{t(suggestion.action === "replace"
+              ? "This swap keeps the main deck legal at its card limit."
+              : "This is a projected card and has not been added to the deck.")}</small>
           </footer>
         ) : null}
       </aside>
