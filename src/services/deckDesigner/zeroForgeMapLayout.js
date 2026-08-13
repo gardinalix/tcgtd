@@ -8,6 +8,8 @@ const GHOST_X = 864;
 const GHOST_COLUMN_PITCH = 168;
 const GHOST_GAP = 20;
 const MAP_BOTTOM_PADDING = 72;
+const DESKTOP_MIN_FIT_ZOOM = 0.6;
+const NARROW_MIN_FIT_ZOOM = 0.5;
 
 export function buildForgeLayout(rows = [], suggestions = [], focusCardNumber = "") {
   const buckets = [
@@ -100,15 +102,27 @@ export function forgeNodeSize(nodeId) {
     : { width: 108, height: 152, centerY: 76 };
 }
 
-export function calculateForgeFitZoom({ viewportWidth, viewportHeight, stageHeight }) {
+export function calculateForgeFitZoom({ viewportWidth }) {
   const availableWidth = Math.max(1, Number(viewportWidth || 0) - 32);
-  const availableHeight = Math.max(1, Number(viewportHeight || 0) - 32);
-  const requiredHeight = Math.max(1, Number(stageHeight || 0));
+  const minimumReadableZoom = availableWidth < 480
+    ? NARROW_MIN_FIT_ZOOM
+    : DESKTOP_MIN_FIT_ZOOM;
   return clamp(
-    Math.min(availableWidth / FORGE_STAGE_WIDTH, availableHeight / requiredHeight),
-    MIN_FIT_ZOOM,
+    availableWidth / FORGE_STAGE_WIDTH,
+    minimumReadableZoom,
     1,
   );
+}
+
+export function calculateForgeFitScroll({ viewportWidth, zoom }) {
+  const visibleWidth = Math.max(1, Number(viewportWidth || 0));
+  const scaledStageWidth = FORGE_STAGE_WIDTH * Math.max(0, Number(zoom || 0));
+  return {
+    scrollLeft: Math.max(0, (scaledStageWidth - visibleWidth) / 2),
+    // Always begin at the command header. A vertical centre point hides the
+    // cost lanes on longer decks and makes the tactical map read as a pile.
+    scrollTop: 0,
+  };
 }
 
 export function forgeLinkEndpoints(source, target, sourceId, targetId) {

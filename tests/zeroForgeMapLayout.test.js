@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   buildForgeLayout,
+  calculateForgeFitScroll,
   calculateForgeFitZoom,
   forgeLinkEndpoints,
 } from "../src/services/deckDesigner/zeroForgeMapLayout.js";
@@ -58,14 +59,16 @@ test("ZERO Forge synergy wires stop at the visible edges of their cards", () => 
   assert.ok(endpoints.y2 >= target.y && endpoints.y2 <= target.y + 134);
 });
 
-test("ZERO Forge initially frames the complete projection column inside the viewport", () => {
+test("ZERO Forge keeps desktop cards readable and starts from the lane headers", () => {
   const zoom = calculateForgeFitZoom({
     viewportWidth: 1208,
-    viewportHeight: 720,
-    stageHeight: 820,
   });
+  const narrowViewportZoom = calculateForgeFitZoom({ viewportWidth: 672 });
+  const scroll = calculateForgeFitScroll({ viewportWidth: 672, zoom: narrowViewportZoom });
 
   assert.ok(zoom < 1, "a map wider than its panel must zoom out instead of clipping projections");
   assert.ok((1200 * zoom) <= 1176, "the full map width, including terminal cards, fits in the panel");
-  assert.ok((820 * zoom) <= 688, "the framed projection grid fits vertically when space allows");
+  assert.ok(narrowViewportZoom >= 0.6, "desktop maps preserve a readable scale even when vertical scrolling is needed");
+  assert.ok(scroll.scrollLeft > 0, "the map remains horizontally centred at its readable scale");
+  assert.equal(scroll.scrollTop, 0, "the map always opens on its cost-lane headers");
 });

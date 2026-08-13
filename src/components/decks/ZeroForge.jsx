@@ -27,6 +27,7 @@ import { buildDeckAssistantContext } from "../../services/deckDesigner/deckAssis
 import {
   applyForgeNodePositions,
   buildForgeLayout,
+  calculateForgeFitScroll,
   calculateForgeFitZoom,
   forgeLinkEndpoints,
   forgeNodeSize,
@@ -227,11 +228,6 @@ export function ZeroForge({
     return () => globalThis.cancelAnimationFrame?.(frame);
   }, [positionedLayout]);
 
-  useEffect(() => {
-    const frame = globalThis.requestAnimationFrame?.(() => fitMap());
-    return () => globalThis.cancelAnimationFrame?.(frame);
-  }, [layout.height, workspace.rows.length, workspace.suggestions.length]);
-
   function commitMain(nextMain, label, origin = "pilot") {
     const resolved = typeof nextMain === "function" ? nextMain(main) : nextMain;
     const diff = createDeckDiff(main, resolved);
@@ -267,6 +263,7 @@ export function ZeroForge({
   function addCard(cardNumber, origin = "catalog") {
     const card = cardMap.get(cardNumber);
     if (!card) return;
+    setPreview(null);
     const projectedSuggestion = origin === "suggestion"
       ? workspace.suggestions.find((suggestion) => suggestion.card.cardNumber === cardNumber)
       : null;
@@ -407,14 +404,16 @@ export function ZeroForge({
     if (!scrollport) return;
     const nextZoom = calculateForgeFitZoom({
       viewportWidth: scrollport.clientWidth,
-      viewportHeight: scrollport.clientHeight,
-      stageHeight: layout.height,
     });
     mapZoomRef.current = nextZoom;
     setMapZoom(nextZoom);
     globalThis.requestAnimationFrame?.(() => {
-      scrollport.scrollLeft = Math.max(0, ((FORGE_STAGE_WIDTH * nextZoom) - scrollport.clientWidth) / 2);
-      scrollport.scrollTop = Math.max(0, ((layout.height * nextZoom) - scrollport.clientHeight) / 2);
+      const nextScroll = calculateForgeFitScroll({
+        viewportWidth: scrollport.clientWidth,
+        zoom: nextZoom,
+      });
+      scrollport.scrollLeft = nextScroll.scrollLeft;
+      scrollport.scrollTop = nextScroll.scrollTop;
     });
   }
 
@@ -424,7 +423,11 @@ export function ZeroForge({
     setMapZoom(1);
     globalThis.requestAnimationFrame?.(() => {
       if (!scrollport) return;
-      scrollport.scrollLeft = 0;
+      const nextScroll = calculateForgeFitScroll({
+        viewportWidth: scrollport.clientWidth,
+        zoom: 1,
+      });
+      scrollport.scrollLeft = nextScroll.scrollLeft;
       scrollport.scrollTop = 0;
     });
   }
@@ -952,6 +955,15 @@ export function ZeroForge({
                 >
               <div className="zero-forge-map__grid" aria-hidden="true" />
               {layout.lanes.map((lane) => (
+                <i
+                  key={`lane-frame:${lane.id}`}
+                  className="zero-forge-map__lane-frame"
+                  style={{ left: lane.x }}
+                  aria-hidden="true"
+                />
+              ))}
+              <i className="zero-forge-map__projection-frame" aria-hidden="true" />
+              {layout.lanes.map((lane) => (
                 <div
                   key={lane.id}
                   className="zero-forge-map__lane-label"
@@ -1018,14 +1030,13 @@ export function ZeroForge({
                     key={nodeId}
                     className={`zero-forge-node ${focusCardNumber === nodeId ? "is-focused" : ""} ${draggingNodeId === nodeId ? "is-dragging" : ""}`.trim()}
                     style={{ left: position.x, top: position.y }}
-                    {...previewHandlers(row.card)}
                   >
                     <button
                       type="button"
                       onPointerDown={(event) => startMapNodeDrag(event, nodeId)}
-                      onKeyDown={(event) => moveMapNodeWithKeyboard(event, nodeId)}
-                      onClick={() => handleMapNodeClick(nodeId, () => setFocusCardNumber(nodeId))}
-                      aria-label={`${row.card.cardName}. Drag to rearrange, or use the arrow keys while focused.`}
+                    onKeyDown={(event) => moveMapNodeWithKeyboard(event, nodeId)}
+                    onClick={() => handleMapNodeClick(nodeId, () => setFocusCardNumber(nodeId))}
+                    aria-label={`${row.card.cardName}. Drag to rearrange, or use the arrow keys while focused.`}
                     >
                       <CardArt card={row.card} className="zero-forge-node__art" compact />
                       <span>{row.card.cardNumber}</span>
@@ -1053,7 +1064,6 @@ export function ZeroForge({
                     onKeyDown={(event) => moveMapNodeWithKeyboard(event, nodeId)}
                     onClick={() => handleMapNodeClick(nodeId, () => addCard(suggestion.card.cardNumber, "suggestion"))}
                     aria-label={`${suggestion.card.cardName}, projected ${suggestion.action === "replace" ? `swap for ${suggestion.replaceCard?.cardName || "a deck card"}` : "addition"}. Drag to rearrange, or activate to apply it.`}
-                    {...previewHandlers(suggestion.card)}
                   >
                     <CardArt card={suggestion.card} className="zero-forge-ghost__art" compact />
                     <span>
