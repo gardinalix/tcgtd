@@ -48,6 +48,16 @@ test("the home hero visibly renders the selected mecha", () => {
   assert.match(heroImageRule, /opacity:\s*0\.9/);
 });
 
+test("the Portuguese hero title renders its nasal accent without the display-font glyph", () => {
+  const home = readFileSync(fileURLToPath(new URL("../src/pages/HomePage.jsx", import.meta.url)), "utf8");
+  const launchCss = readFileSync(fileURLToPath(new URL("../src/launch.css", import.meta.url)), "utf8");
+
+  assert.match(home, /launch-hero__nasal-o/);
+  assert.match(home, /aria-label=\{pt \? " decisões de deck\." : undefined\}/);
+  assert.match(launchCss, /Rajdhani's native nasal accent is visually inverted at display scale/);
+  assert.match(launchCss, /\.launch-hero__nasal-o::before\s*\{[\s\S]*?content: "~"/);
+});
+
 test("the production orbital brand mark is available to the header and boot sequence", () => {
   const logoUrl = new URL("../web/assets/brand/tcgtd-orbital-mark-v2.png", import.meta.url);
   assert.equal(existsSync(fileURLToPath(logoUrl)), true);

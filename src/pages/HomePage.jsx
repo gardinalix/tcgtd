@@ -69,7 +69,9 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
           </p>
           <h1 id="launch-title">
             {pt ? "Transforme dados do meta em" : "Turn meta data into"}
-            <span>{pt ? " decisões de deck." : " deck decisions."}</span>
+            <span aria-label={pt ? " decisões de deck." : undefined}>
+              {pt ? <> decis<span className="launch-hero__nasal-o" aria-hidden="true">o</span>es de deck.</> : " deck decisions."}
+            </span>
           </h1>
           <p className="launch-hero__summary">
             {pt
