@@ -43,6 +43,23 @@ test("ZERO Forge puts every projected card in a compact, non-overlapping termina
   );
 });
 
+test("ZERO Forge keeps full deck-card stacks separate inside the same cost lane", () => {
+  const layout = buildForgeLayout([
+    row("early-a", 2),
+    row("early-b", 2),
+    row("early-c", 2),
+    row("early-d", 2),
+    row("early-e", 2),
+  ]);
+  const firstRow = layout.positions.get("early-a");
+  const secondRow = layout.positions.get("early-c");
+
+  assert.ok(
+    secondRow.y >= firstRow.y + 210,
+    "the next pair starts after the full card stack plus a visible gutter",
+  );
+});
+
 test("ZERO Forge synergy wires stop at the visible edges of their cards", () => {
   const layout = buildForgeLayout(
     [row("anchor", 2)],
@@ -55,7 +72,7 @@ test("ZERO Forge synergy wires stop at the visible edges of their cards", () => 
   const endpoints = forgeLinkEndpoints(source, target, "anchor", "ghost:projection");
   assert.equal(endpoints.x1, source.x + 108, "the wire exits through the source card's right edge");
   assert.equal(endpoints.x2, target.x, "the wire terminates at the suggestion card's left edge");
-  assert.ok(endpoints.y1 >= source.y && endpoints.y1 <= source.y + 152);
+  assert.ok(endpoints.y1 >= source.y && endpoints.y1 <= source.y + 190);
   assert.ok(endpoints.y2 >= target.y && endpoints.y2 <= target.y + 134);
 });
 

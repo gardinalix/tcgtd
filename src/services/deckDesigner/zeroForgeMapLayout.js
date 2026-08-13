@@ -3,7 +3,10 @@ const MIN_FIT_ZOOM = 0.5;
 
 const LANE_X = [32, 224, 416, 608];
 const MAP_TOP = 86;
-const DECK_ROW_PITCH = 174;
+// A map node is a 190px-tall stack once its card, identity strip and quantity
+// controls render. Keep a real gutter below each pair: using the old 174px
+// pitch made the controls of one row sit on top of the next row's art.
+const DECK_ROW_PITCH = 210;
 const GHOST_X = 864;
 const GHOST_COLUMN_PITCH = 168;
 const GHOST_GAP = 20;
@@ -99,7 +102,7 @@ export function applyForgeNodePositions(layout, nodePositions = {}) {
 export function forgeNodeSize(nodeId) {
   return String(nodeId).startsWith("ghost:")
     ? { width: 152, height: 134, centerY: 67 }
-    : { width: 108, height: 152, centerY: 76 };
+    : { width: 108, height: 190, centerY: 95 };
 }
 
 export function calculateForgeFitZoom({ viewportWidth }) {
