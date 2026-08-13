@@ -48,13 +48,14 @@ test("the home hero visibly renders the selected mecha", () => {
   assert.match(heroImageRule, /opacity:\s*0\.9/);
 });
 
-test("the Portuguese hero title renders its nasal accent without the display-font glyph", () => {
+test("the Portuguese hero title keeps its highlighted phrase in one inline flow", () => {
   const home = readFileSync(fileURLToPath(new URL("../src/pages/HomePage.jsx", import.meta.url)), "utf8");
   const launchCss = readFileSync(fileURLToPath(new URL("../src/launch.css", import.meta.url)), "utf8");
 
   assert.match(home, /launch-hero__nasal-o/);
   assert.match(home, /aria-label=\{pt \? " decisões de deck\." : undefined\}/);
-  assert.match(launchCss, /Rajdhani's native nasal accent is visually inverted at display scale/);
+  assert.match(launchCss, /\.launch-hero h1 > span\s*\{\s*display: block/);
+  assert.match(launchCss, /\.launch-hero__nasal-o\s*\{[\s\S]*?display: inline-block/);
   assert.match(launchCss, /\.launch-hero__nasal-o::before\s*\{[\s\S]*?content: "~"/);
 });
 

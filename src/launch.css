@@ -261,7 +261,7 @@ body[data-view] .cockpit-shell-topbar .language-switch {
   text-wrap: balance;
 }
 
-.launch-hero h1 span {
+.launch-hero h1 > span {
   display: block;
   color: transparent;
   background: linear-gradient(90deg, var(--launch-cyan), #c3f5ff 58%, #a388ff);
