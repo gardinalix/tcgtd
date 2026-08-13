@@ -2,6 +2,7 @@ export const FORGE_STAGE_WIDTH = 1200;
 const MIN_FIT_ZOOM = 0.5;
 
 const LANE_X = [32, 224, 416, 608];
+const LANE_CARD_OFFSET = 64;
 const MAP_TOP = 86;
 // A map node is a 190px-tall stack once its card, identity strip and quantity
 // controls render. Keep a real gutter below each pair: using the old 174px
@@ -33,10 +34,19 @@ export function buildForgeLayout(rows = [], suggestions = [], focusCardNumber = 
 
   for (const lane of buckets) {
     lane.rows.forEach((row, index) => {
-      const x = lane.x + (index % 2) * 124;
-      const y = MAP_TOP + Math.floor(index / 2) * DECK_ROW_PITCH;
-      positions.set(row.card.cardNumber, { x, y, cx: x + 54, cy: y + 76 });
-      deepestDeckNode = Math.max(deepestDeckNode, y + forgeNodeSize(row.card.cardNumber).height);
+      // Each cost lane is a single readable column. Two cards used to share
+      // its 238px frame, but the second card bled into the next lane at every
+      // breakpoint and made both quantity controls hard to operate.
+      const size = forgeNodeSize(row.card.cardNumber);
+      const x = lane.x + LANE_CARD_OFFSET;
+      const y = MAP_TOP + (index * DECK_ROW_PITCH);
+      positions.set(row.card.cardNumber, {
+        x,
+        y,
+        cx: x + (size.width / 2),
+        cy: y + (size.centerY || size.height / 2),
+      });
+      deepestDeckNode = Math.max(deepestDeckNode, y + size.height);
     });
   }
 
@@ -50,7 +60,7 @@ export function buildForgeLayout(rows = [], suggestions = [], focusCardNumber = 
       return {
         suggestion,
         index,
-        desiredY: Math.max(MAP_TOP, (source?.cy || MAP_TOP + 76) - (forgeNodeSize("ghost:projection").height / 2)),
+        desiredY: Math.max(MAP_TOP, (source?.cy || MAP_TOP + 95) - (forgeNodeSize("ghost:projection").height / 2)),
       };
     })
     .sort((left, right) => left.desiredY - right.desiredY || left.index - right.index);

@@ -53,11 +53,37 @@ test("ZERO Forge keeps full deck-card stacks separate inside the same cost lane"
   ]);
   const firstRow = layout.positions.get("early-a");
   const secondRow = layout.positions.get("early-c");
+  const adjacentLane = layout.positions.get("early-b");
 
   assert.ok(
     secondRow.y >= firstRow.y + 210,
-    "the next pair starts after the full card stack plus a visible gutter",
+    "the next card starts after the full card stack plus a visible gutter",
   );
+  assert.equal(adjacentLane.x, firstRow.x, "cards in one cost lane share one centred column");
+});
+
+test("ZERO Forge cost lanes never overlap when every lane has multiple cards", () => {
+  const layout = buildForgeLayout([
+    row("early-a", 1), row("early-b", 1),
+    row("three-a", 3), row("three-b", 3),
+    row("four-a", 4), row("four-b", 4),
+    row("late-a", 5), row("late-b", 5),
+  ]);
+  const nodes = [...layout.positions.entries()]
+    .filter(([nodeId]) => !nodeId.startsWith("ghost:"))
+    .map(([nodeId, position]) => ({ nodeId, ...position }));
+
+  for (let index = 0; index < nodes.length; index += 1) {
+    for (let otherIndex = index + 1; otherIndex < nodes.length; otherIndex += 1) {
+      const left = nodes[index];
+      const right = nodes[otherIndex];
+      const overlaps = left.x < right.x + 108
+        && left.x + 108 > right.x
+        && left.y < right.y + 190
+        && left.y + 190 > right.y;
+      assert.equal(overlaps, false, `${left.nodeId} must not overlap ${right.nodeId}`);
+    }
+  }
 });
 
 test("ZERO Forge synergy wires stop at the visible edges of their cards", () => {
