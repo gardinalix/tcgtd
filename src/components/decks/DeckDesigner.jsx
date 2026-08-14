@@ -973,7 +973,7 @@ function DesignerResult({
           </aside>
         </div>
         <div className="deck-designer-result__lower-grid">
-          <SynergyPanel rows={report.synergies} />
+          <SynergyPanel rows={report.synergies} imported={Boolean(report.importedDeck)} />
           <EvidencePanel report={report} />
         </div>
       </details>
@@ -1191,20 +1191,28 @@ function MatchupPanel({ rows = [] }) {
   );
 }
 
-function SynergyPanel({ rows = [] }) {
+function SynergyPanel({ rows = [], imported = false }) {
   const { t } = useLocale();
   return (
     <TacticalDataPanel
       title={t("Primary synergies and combos")}
-      subtitle={t("Printed mechanics and targets are explicit; co-play is factual; contextual bridges remain labeled as inference.")}
+      subtitle={t(imported
+        ? "Each combination appears once. Quantities are preserved from the imported list; contextual bridges remain labeled as inference."
+        : "Each combination appears once. Quantities are the suggested copies for this build; contextual bridges remain labeled as inference.")}
     >
       <div className="designer-synergy-list">
         {rows.map((row) => (
           <article key={row.id}>
             <header>
-              <strong>{row.sourceCard.cardName}</strong>
+              <div className="designer-synergy-card">
+                <strong>{row.sourceCard.cardName}</strong>
+                <small>{row.sourceCopies || 0}x</small>
+              </div>
               <span>+</span>
-              <strong>{row.targetCard.cardName}</strong>
+              <div className="designer-synergy-card">
+                <strong>{row.targetCard.cardName}</strong>
+                <small>{row.targetCopies || 0}x</small>
+              </div>
               <TacticalStatusBadge tone={row.confidence === "High" ? "green" : row.confidence === "Medium" ? "blue" : "gold"}>
                 {t(row.confidence)}
               </TacticalStatusBadge>

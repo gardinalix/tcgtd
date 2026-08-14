@@ -349,6 +349,39 @@ test("deck analysis retains every printed LINK instead of truncating to a global
   assert.ok(directHeeroLinks.every((pair) => pair.rank === "high"));
 });
 
+test("deck synergy consolidates same-name card variants and exposes suggested copies", () => {
+  const data = fixtureData();
+  const freedom = data.cards.find((item) => item.cardNumber === "TEST-001");
+  freedom.linkTargets = ["Ace Pilot"];
+  const freedomVariant = {
+    ...freedom,
+    cardNumber: "TEST-015",
+    recentTop8DecksUsing: 18,
+    recentMetaScore: 18,
+  };
+  data.cards.push(freedomVariant);
+  const report = analyzeImportedDeck(data, parseMsaDeckList([
+    "3xTEST-001",
+    "1xTEST-015",
+    "2xTEST-005",
+  ].join("\n")));
+
+  const pairs = report.synergies.filter((pair) =>
+    new Set([pair.sourceCard.cardName, pair.targetCard.cardName]).has("Freedom Unit")
+    && new Set([pair.sourceCard.cardName, pair.targetCard.cardName]).has("Ace Pilot"));
+
+  assert.equal(pairs.length, 1);
+  assert.equal(new Set(report.synergies.map((pair) => pair.displayPairKey)).size, report.synergies.length);
+  assert.deepEqual(
+    new Set([pairs[0].sourceCopies, pairs[0].targetCopies]),
+    new Set([4, 2]),
+  );
+  assert.deepEqual(
+    [...new Set([...pairs[0].sourceCardNumbers, ...pairs[0].targetCardNumbers])].sort(),
+    ["TEST-001", "TEST-005", "TEST-015"],
+  );
+});
+
 test("designer lowers confidence and labels limitations without competitive evidence", () => {
   const data = { ...fixtureData(), metaResults: [], metaDeckCards: [], metaEvents: [] };
   const report = designDeck(data, baseCriteria());

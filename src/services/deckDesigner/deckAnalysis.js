@@ -15,7 +15,7 @@ import {
   quantitiesFromRows,
 } from "../../domain/deckLegality.js";
 
-export const DECK_ANALYSIS_VERSION = "deck-analysis-2026-07-30-cross-synergy";
+export const DECK_ANALYSIS_VERSION = "deck-analysis-2026-08-14-deduped-synergy-copies";
 
 export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {}) {
   const stats = calculateDeckStats(assembled.rows || []);
@@ -163,18 +163,30 @@ export function calculateDeckStats(rows = []) {
 
 function buildSynergyAnalysis(data, rows) {
   const deckIds = new Set(rows.map((row) => row.card.cardNumber));
-  const pairById = new Map();
+  const rowById = new Map(rows.map((row) => [row.card.cardNumber, row]));
+  const quantityByDisplayKey = buildSynergyQuantityIndex(rows);
+  const pairByDisplayKey = new Map();
   for (const row of rows) {
     const synergies = getSynergiesForCard(row.card, data, { minScore: 20 })
       .filter((item) => deckIds.has(item.targetCardId));
     for (const synergy of synergies) {
+      const targetCard = rowById.get(synergy.targetCardId)?.card || synergy.targetCard;
+      const displayPairKey = buildSynergyDisplayPairKey(row.card, targetCard);
+      if (!displayPairKey) continue;
       const pairId = [row.card.cardNumber, synergy.targetCardId].sort().join("__");
       const isPrintedMechanic = (synergy.algorithmRules || []).some((rule) =>
         ["direct_link_pair", "mechanic_setup", "text_bridge"].includes(rule));
+      const sourceGroup = quantityByDisplayKey.get(synergyCardDisplayKey(row.card));
+      const targetGroup = quantityByDisplayKey.get(synergyCardDisplayKey(targetCard));
       const pair = {
         id: pairId,
+        displayPairKey,
         sourceCard: row.card,
-        targetCard: synergy.targetCard,
+        targetCard,
+        sourceCopies: sourceGroup?.quantity || Number(row.quantity || 0),
+        targetCopies: targetGroup?.quantity || Number(rowById.get(synergy.targetCardId)?.quantity || 0),
+        sourceCardNumbers: sourceGroup?.cardNumbers || [row.card.cardNumber],
+        targetCardNumbers: targetGroup?.cardNumbers || [synergy.targetCardId],
         score: synergy.score,
         rank: synergy.rank,
         confidence: synergy.rank === "high" ? "High" : synergy.rank === "good" ? "Medium" : "Low",
@@ -196,19 +208,47 @@ function buildSynergyAnalysis(data, rows) {
             ? ""
             : "The interaction is inferred from curve, color, traits, or shared mechanic signals.",
       };
-      const existing = pairById.get(pairId);
+      const existing = pairByDisplayKey.get(displayPairKey);
       if (!existing || synergyPairPriority(pair) > synergyPairPriority(existing)) {
-        pairById.set(pairId, pair);
+        pairByDisplayKey.set(displayPairKey, pair);
       }
     }
   }
   return selectDeckSynergyPairs(
-    [...pairById.values()].sort((left, right) =>
+    [...pairByDisplayKey.values()].sort((left, right) =>
       synergyPairPriority(right) - synergyPairPriority(left)
       || right.score - left.score
-      || left.id.localeCompare(right.id)),
+      || left.displayPairKey.localeCompare(right.displayPairKey)),
     rows.length,
   );
+}
+
+function buildSynergyQuantityIndex(rows) {
+  const groups = new Map();
+  for (const row of rows) {
+    const key = synergyCardDisplayKey(row.card);
+    const current = groups.get(key) || {
+      quantity: 0,
+      cardNumbers: [],
+    };
+    current.quantity += Number(row.quantity || 0);
+    if (!current.cardNumbers.includes(row.card.cardNumber)) current.cardNumbers.push(row.card.cardNumber);
+    groups.set(key, current);
+  }
+  return groups;
+}
+
+function buildSynergyDisplayPairKey(sourceCard, targetCard) {
+  const sourceKey = synergyCardDisplayKey(sourceCard);
+  const targetKey = synergyCardDisplayKey(targetCard);
+  if (!sourceKey || !targetKey || sourceKey === targetKey) return "";
+  return [sourceKey, targetKey].sort().join("__");
+}
+
+function synergyCardDisplayKey(card) {
+  const name = normalizeSearchText(card?.cardName);
+  if (!name) return String(card?.cardNumber || "");
+  return `${name}::${normalizeSearchText(card?.cardType)}`;
 }
 
 function selectDeckSynergyPairs(pairs, nodeCount) {

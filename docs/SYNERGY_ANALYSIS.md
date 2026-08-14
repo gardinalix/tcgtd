@@ -9,6 +9,10 @@ The MVP synergy system runs inside the existing React tactical UI and does not a
 - `src/services/synergyTextParser.js`: extracts traits, keywords, support roles and textual bridges.
 - `src/services/synergyCacheService.js`: in-memory cache keyed by source card, data snapshot and algorithm version.
 
+The Forge report consolidates each displayed combination once using normalized card name plus card type. This means parallel LINK/PAIR directions and same-name printings do not create repeated visual pairs; when printings are grouped, their deck quantities are summed for the copy guidance shown beside the pair.
+
+For generated decks, those copy counts are the quantities selected by the recommendation engine. For pasted/imported lists, the counts are explicitly preserved quantities rather than new recommendations.
+
 ## Signals Used
 
 - Direct LINK/PAIR references through `linkTargets`.

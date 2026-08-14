@@ -10421,14 +10421,28 @@ body:has(.zero-system-cockpit:not([hidden])) .home-battle-view .zero-core__logo 
 
 .designer-synergy-list header {
   display: grid;
-  grid-template-columns: 1fr auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
   gap: 0.35rem;
   align-items: center;
+}
+
+.designer-synergy-card {
+  display: flex;
+  gap: 0.28rem;
+  align-items: baseline;
+  min-width: 0;
 }
 
 .designer-synergy-list header strong {
   color: var(--hud-text);
   font: 900 0.61rem var(--font-tech);
+}
+
+.designer-synergy-card small {
+  flex: 0 0 auto;
+  color: var(--hud-primary);
+  font: 900 0.52rem var(--font-tech);
+  white-space: nowrap;
 }
 
 .designer-synergy-list header > span {
