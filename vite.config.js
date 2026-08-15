@@ -72,6 +72,7 @@ function copyReactPublicAssets() {
       await copyIfExists("web/app-data.json", "dist/client/app-data.json");
       await copyIfExists("web/home-data.json", "dist/client/home-data.json");
       await copyIfExists("web/robots.txt", "dist/client/robots.txt");
+      await copyIfExists(".openai/hosting.json", "dist/.openai/hosting.json");
       await copyDirectoryIfExists("web/assets", "dist/client/assets");
       await copyDirectoryIfExists("worker", "dist/server");
     },
