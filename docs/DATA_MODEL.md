@@ -41,6 +41,10 @@ The current production seed is SQLite at `data/gundam.db`. Platform tables are d
 - `imports`: manual CSV import runs.
 - `audit_logs`: authentication and user action history.
 
+## External Card Validation
+
+`data/gcgapi_card_audit.json` compares the canonical official Bandai snapshot with the public GCGAPI bulk dataset. This is a validation-only artifact: it records coverage, identity-field differences and availability of structured fields, but does not import GCGAPI rows into `cards` or the public web payload. This boundary avoids silently mixing the ODbL-licensed GCGAPI compilation into the project's canonical database.
+
 ## Frontend State
 
 The React app uses the auth server when available and keeps local fallback state for offline/dev continuity. Production login, register, logout, session, and profile flows are backed by `server/authServer.mjs`.

@@ -41,13 +41,15 @@ Use the full refresh when the public site needs current official cards, prices, 
 & 'C:\Users\bruno\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' 'scripts\refresh_gundam_full.py' --watch-package GD04
 ```
 
-The full refresh updates official Bandai card/product/FAQ/preview snapshots, TCGCSV prices, Egman/Limitless meta event data, advisor/keep reports, SQLite, `web/app-data.json`, cached card images, and Excel workbooks. The latest status is written to `data/latest_full_refresh_report.json`.
+The full refresh updates official Bandai card/product/FAQ/preview snapshots, TCGCSV prices, Egman/Limitless meta event data, advisor/keep reports, SQLite, `web/app-data.json`, cached card images, and Excel workbooks. It also runs a non-blocking comparison against GCGAPI to detect card coverage or identity drift without importing that external dataset. The latest status is written to `data/latest_full_refresh_report.json`; the external comparison is written to `data/gcgapi_card_audit.json`.
 
 For a faster refresh that skips official refetching and workbook/image generation:
 
 ```powershell
 & 'C:\Users\bruno\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' 'scripts\refresh_gundam_full.py' --watch-package GD04 --skip-official-fetch --skip-workbooks --skip-images
 ```
+
+Use `--skip-gcgapi-audit` when an offline refresh must avoid the external comparison. GCGAPI is validation-only: the official Bandai snapshot remains canonical, and no GCGAPI card rows are copied into public data.
 
 ## Production
 

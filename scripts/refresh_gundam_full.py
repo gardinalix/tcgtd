@@ -72,6 +72,11 @@ def parse_args() -> argparse.Namespace:
         help="Skip Egman/Limitless meta event refresh.",
     )
     parser.add_argument(
+        "--skip-gcgapi-audit",
+        action="store_true",
+        help="Skip the non-blocking GCGAPI comparison against the canonical Bandai card snapshot.",
+    )
+    parser.add_argument(
         "--skip-workbooks",
         action="store_true",
         help="Skip workbook generation.",
@@ -186,8 +191,13 @@ def file_info(path: Path) -> dict:
     }
 
 
-def summarize_outputs() -> dict:
+def summarize_outputs(*, gcgapi_audit_skipped: bool = False) -> dict:
     official_report = read_json(DATA_DIR / "latest_refresh_report.json") or {}
+    gcgapi_audit = (
+        {}
+        if gcgapi_audit_skipped
+        else (read_json(DATA_DIR / "gcgapi_card_audit.json") or {})
+    )
     meta_results = read_csv_rows(DATA_DIR / "meta_results.csv")
     meta_events = read_csv_rows(DATA_DIR / "meta_events.csv")
     prices = read_csv_rows(DATA_DIR / "tcgplayer_prices.csv")
@@ -214,6 +224,18 @@ def summarize_outputs() -> dict:
     return {
         "official_counts": official_report.get("counts", {}),
         "official_changes": official_report.get("changes", {}),
+        "external_card_audit": {
+            "status": (
+                "skipped"
+                if gcgapi_audit_skipped
+                else gcgapi_audit.get("status", "not_run")
+            ),
+            "audited_at_utc": gcgapi_audit.get("audited_at_utc", ""),
+            "coverage": gcgapi_audit.get("coverage", {}),
+            "identity_mismatch_cards": (
+                gcgapi_audit.get("field_comparison", {}).get("identity_mismatch_cards")
+            ),
+        },
         "meta": {
             "events": len(meta_events),
             "results": len(meta_results),
@@ -252,6 +274,7 @@ def summarize_outputs() -> dict:
             "meta_workbook": file_info(OUTPUTS_DIR / "gundam-meta-decks.xlsx"),
             "advisor_workbook": file_info(OUTPUTS_DIR / "gundam-deck-advisor.xlsx"),
             "keep_workbook": file_info(OUTPUTS_DIR / "gundam-card-keep-priority.xlsx"),
+            "gcgapi_audit": file_info(DATA_DIR / "gcgapi_card_audit.json"),
         },
     }
 
@@ -269,6 +292,7 @@ def write_failure_report(
     steps: list[dict],
     failed_step: str,
     error: BaseException,
+    gcgapi_audit_skipped: bool = False,
 ) -> None:
     report = {
         "refreshed_at_utc": now_utc(),
@@ -277,7 +301,7 @@ def write_failure_report(
         "failed_step": failed_step,
         "error": str(error),
         "steps": steps,
-        "summary": summarize_outputs(),
+        "summary": summarize_outputs(gcgapi_audit_skipped=gcgapi_audit_skipped),
     }
     write_report(report)
     print(json.dumps(report, ensure_ascii=False, indent=2))
@@ -299,6 +323,14 @@ def main() -> int:
         for package_code in args.watch_package:
             official_command.extend(["--watch-package", package_code])
         steps.append(run_step("Official Bandai catalog + SQLite", official_command))
+
+        if not args.skip_gcgapi_audit:
+            steps.append(
+                run_step_soft(
+                    "GCGAPI external card audit",
+                    [sys.executable, str(SCRIPTS_DIR / "audit_gcgapi_cards.py")],
+                )
+            )
 
         if not args.skip_prices:
             steps.append(
@@ -399,6 +431,7 @@ def main() -> int:
             steps=steps,
             failed_step=failed_step,
             error=error,
+            gcgapi_audit_skipped=args.skip_gcgapi_audit,
         )
         return 1
 
@@ -407,7 +440,7 @@ def main() -> int:
         "started_at_utc": started_at,
         "status": "ok",
         "steps": steps,
-        "summary": summarize_outputs(),
+        "summary": summarize_outputs(gcgapi_audit_skipped=args.skip_gcgapi_audit),
     }
     write_report(report)
     print(json.dumps(report, ensure_ascii=False, indent=2))

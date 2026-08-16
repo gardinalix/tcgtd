@@ -29,3 +29,5 @@ The UI therefore exposes events, results and an observed-player directory immedi
 ## Next ingestion target
 
 The official Gundam Card Game site directs store events and player registration through BANDAI TCG+. Before automating ingestion, confirm a permitted export, API or organizer workflow. Until then, the product should link users to official event information for live availability and use its own normalized dataset for historical results.
+
+Card-data services such as GCGAPI and `apitcg/gundam-tcg-data` are not event sources. GCGAPI may be used as an external card-catalog audit, while event ingestion must retain its own declared event or organizer source.
