@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { CardArt } from "../components/cards/CardArt";
 import { PriceTag } from "../components/cards/PriceTag";
+import { DeckImageExportLayer } from "../components/decks/DeckImageExportLayer.jsx";
 import {
   TacticalDataPanel,
   TacticalPageShell,
@@ -11,6 +12,7 @@ import { deckStats, deckSummaryFromMetaResult, parseDeckUrlList, publicDecksFrom
 
 export function DeckViewPage({ data, deckId, decks, onEditDeck, onSendToForge }) {
   const [inspectedCardNumber, setInspectedCardNumber] = useState("");
+  const [imageExportOpen, setImageExportOpen] = useState(false);
   const mainCards = data.cards || [];
   const mainMap = useMemo(() => new Map(mainCards.map((card) => [card.cardNumber, card])), [mainCards]);
   const publicDeck = useMemo(() => {
@@ -61,6 +63,7 @@ export function DeckViewPage({ data, deckId, decks, onEditDeck, onSendToForge })
         onEditDeck={onEditDeck}
         onSendToForge={onSendToForge}
         onCopy={() => navigator.clipboard?.writeText(buildPlainDeckList(deck, mainMap, "main"))}
+        onImageExport={() => setImageExportOpen(true)}
       />
       <div className="deck-terminal-grid">
         <TacticalDataPanel title="Main deck" subtitle={`${stats.mainCount} cards`} className="deck-terminal-grid__main">
@@ -80,6 +83,14 @@ export function DeckViewPage({ data, deckId, decks, onEditDeck, onSendToForge })
           <StatsBlock title="Rarities" values={stats.rarities} />
         </TacticalDataPanel>
       </div>
+      {imageExportOpen ? (
+        <DeckImageExportLayer
+          deck={deck}
+          rows={mainRows}
+          stats={stats}
+          onClose={() => setImageExportOpen(false)}
+        />
+      ) : null}
     </TacticalPageShell>
   );
 }
@@ -95,6 +106,7 @@ function DeckIdentityHero({
   onEditDeck,
   onSendToForge,
   onCopy,
+  onImageExport,
 }) {
   const colors = Object.keys(stats.colors || {});
   return (
@@ -115,6 +127,7 @@ function DeckIdentityHero({
           {savedDeck ? <button type="button" onClick={() => onEditDeck(deck.id)}>EDITAR NO BUILDER</button> : null}
           {sourceResult ? <button type="button" className="is-forge" onClick={() => onSendToForge?.(sourceResult, "current")}>ENVIAR PARA A FORJA</button> : null}
           <button type="button" onClick={onCopy}>COPIAR LISTA</button>
+          <button type="button" className="is-image-export" onClick={onImageExport}>EXPORTAR IMAGEM</button>
           {deck.sourceUrl ? <a href={deck.sourceUrl} target="_blank" rel="noreferrer">FONTE</a> : null}
         </div>
       </div>
