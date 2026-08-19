@@ -364,6 +364,22 @@ body[data-view]:not([data-view="home"]) :is(input, select, textarea) {
   border-radius: 0 !important;
   background: linear-gradient(90deg, rgba(9,34,48,.7), rgba(3,13,22,.2)) !important;
 }
+
+/* Keep the native option list readable on the dark HUD surface. */
+body[data-view] select {
+  color-scheme: dark;
+}
+
+body[data-view] select option {
+  color: var(--hud-text);
+  background-color: #07111f;
+}
+
+body[data-view] select option:checked {
+  color: #ffffff;
+  background-color: color-mix(in srgb, var(--hud-primary) 62%, #07111f);
+}
+
 body[data-view]:not([data-view="home"]) .tactical-page-shell button:not(.react-builder-card):not(.card-tile),
 body[data-view]:not([data-view="home"]) .tactical-page-shell .button-row a {
   border-radius: 0 !important;
