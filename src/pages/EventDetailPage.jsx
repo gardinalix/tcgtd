@@ -104,14 +104,14 @@ export function EventDetailPage({ data, eventId, onBack, onOpenDeck, onSendToFor
                   <tbody>
                     {results.map((result) => (
                       <tr key={result.resultId}>
-                        <td>{result.placingLabel || result.placingRank || "-"}</td>
-                        <td>{result.playerName || "-"}</td>
-                        <td>{result.archetype || "-"}</td>
-                        <td><ColorDots value={result.colorCombination} /></td>
-                        <td>
+                        <td data-label="Colocação">{result.placingLabel || result.placingRank || "-"}</td>
+                        <td data-label="Jogador">{result.playerName || "-"}</td>
+                        <td data-label="Deck">{result.archetype || "-"}</td>
+                        <td data-label="Cores"><ColorDots value={result.colorCombination} /></td>
+                        <td data-label="Ações">
                           <div className="event-dossier-table-actions">
                             {result.deckId ? <button type="button" onClick={() => onOpenDeck(result.deckId)}>View</button> : null}
-                            {result.deckId ? <button type="button" className="is-forge" onClick={() => onSendToForge?.(result, "current")}>Enviar para a FORJA</button> : null}
+                            {result.deckId ? <button type="button" className="is-forge" aria-label="Enviar para a FORJA" onClick={() => onSendToForge?.(result, "current")}>FORJA →</button> : null}
                             {result.deckUrl ? <a href={result.deckUrl} target="_blank" rel="noreferrer">External</a> : null}
                           </div>
                         </td>

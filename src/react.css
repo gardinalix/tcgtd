@@ -6604,7 +6604,7 @@ body[data-view="eventDetail"] .tactical-page-shell {
 
 .event-dossier-grid {
   display: grid;
-  grid-template-columns: minmax(205px, 270px) minmax(0, 1.48fr) minmax(260px, 360px);
+  grid-template-columns: minmax(190px, 220px) minmax(0, 1fr) minmax(250px, 300px);
   gap: clamp(0.72rem, 0.86vw, 1rem);
   align-items: stretch;
 }
@@ -6612,6 +6612,8 @@ body[data-view="eventDetail"] .tactical-page-shell {
 .event-dossier-rail {
   display: grid;
   gap: clamp(0.62rem, 0.76vw, 0.86rem);
+  align-content: start;
+  grid-auto-rows: max-content;
   min-width: 0;
 }
 
@@ -6734,6 +6736,16 @@ body[data-view="eventDetail"] .tactical-page-shell {
 
 .event-dossier-table tbody tr:hover {
   background: color-mix(in srgb, var(--hud-primary) 7%, transparent);
+}
+
+.event-dossier-table tbody tr:first-child {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--hud-gold, #f6c44d) 7%, transparent), transparent 64%);
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--hud-gold, #f6c44d) 74%, transparent);
+}
+
+.event-dossier-table tbody tr:first-child td:first-child {
+  color: var(--hud-gold, #f6c44d);
+  font-weight: 900;
 }
 
 .event-dossier-table-actions {
@@ -6945,6 +6957,65 @@ body[data-view="eventDetail"] .tactical-page-shell {
     border-right: 0;
     border-bottom: 1px solid color-mix(in srgb, var(--hud-primary) 12%, transparent);
   }
+
+  .event-dossier-table-wrap {
+    overflow: visible;
+  }
+
+  .event-dossier-table,
+  .event-dossier-table tbody,
+  .event-dossier-table tr,
+  .event-dossier-table td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .event-dossier-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .event-dossier-table tbody {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .event-dossier-table tr {
+    padding: 0.72rem;
+    border: 1px solid color-mix(in srgb, var(--hud-primary) 24%, transparent);
+    background: rgba(1, 10, 19, 0.78);
+  }
+
+  .event-dossier-table td {
+    display: grid;
+    grid-template-columns: minmax(68px, 0.34fr) minmax(0, 1fr);
+    gap: 0.65rem;
+    align-items: start;
+    padding: 0.42rem 0;
+    border-bottom-color: color-mix(in srgb, var(--hud-primary) 10%, transparent);
+  }
+
+  .event-dossier-table td::before {
+    content: attr(data-label);
+    color: color-mix(in srgb, var(--hud-primary) 82%, white);
+    font: 900 0.55rem var(--font-tech);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .event-dossier-table td:last-child {
+    border-bottom: 0;
+  }
+
+  .event-dossier-table-actions {
+    gap: 0.36rem;
+  }
 }
 
 /* Deck telemetry scanner: replaces the irrelevant resource panel with hover card intel. */
@@ -7103,6 +7174,90 @@ body[data-view="eventDetail"] .tactical-page-shell {
   .deck-card-scanner__stats {
     grid-template-columns: 1fr;
   }
+
+  .deck-dossier-page .tactical-table-wrap {
+    overflow: visible;
+  }
+
+  .deck-dossier-page .tactical-table,
+  .deck-dossier-page .tactical-table tbody {
+    display: block;
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .deck-dossier-page .tactical-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .deck-dossier-page .tactical-table tbody {
+    display: grid;
+    gap: 0.42rem;
+  }
+
+  .deck-dossier-page .tactical-table tbody tr {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "qty name name name"
+      "qty number color type";
+    gap: 0.28rem 0.5rem;
+    align-items: center;
+    min-width: 0;
+    padding: 0.55rem 0.62rem;
+    border: 1px solid color-mix(in srgb, var(--hud-primary) 18%, transparent);
+    background: rgba(1, 9, 18, 0.72);
+  }
+
+  .deck-dossier-page .tactical-table td {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .deck-dossier-page .deck-row__qty {
+    grid-area: qty;
+    align-self: stretch;
+    display: grid;
+    place-items: center;
+    border-right: 1px solid color-mix(in srgb, var(--hud-primary) 26%, transparent);
+    color: var(--hud-primary);
+    font-weight: 900;
+  }
+
+  .deck-dossier-page .deck-row__number {
+    grid-area: number;
+    color: var(--hud-muted);
+    font-size: 0.62rem;
+    white-space: nowrap;
+  }
+
+  .deck-dossier-page .deck-row__name {
+    grid-area: name;
+    overflow: hidden;
+    color: var(--hud-text);
+    font-weight: 900;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .deck-dossier-page .deck-row__color,
+  .deck-dossier-page .deck-row__type {
+    padding: 0.2rem 0.34rem;
+    border: 1px solid color-mix(in srgb, var(--hud-primary) 18%, transparent);
+    color: color-mix(in srgb, var(--hud-text) 72%, transparent);
+    font-size: 0.54rem;
+    text-transform: uppercase;
+  }
+
+  .deck-dossier-page .deck-row__color { grid-area: color; }
+  .deck-dossier-page .deck-row__type { grid-area: type; }
 }
 
 /* Synergy analysis: tactical relationship terminal. */

@@ -191,11 +191,11 @@ function DeckRows({ rows, activeCardNumber, onInspect }) {
           onMouseEnter={() => onInspect?.(row.card)}
           onFocus={() => onInspect?.(row.card)}
         >
-          <td>{row.quantity}x</td>
-          <td>{row.card.cardNumber}</td>
-          <td>{row.card.cardName}</td>
-          <td>{row.card.color}</td>
-          <td>{row.card.cardType}</td>
+          <td className="deck-row__qty">{row.quantity}x</td>
+          <td className="deck-row__number">{row.card.cardNumber}</td>
+          <td className="deck-row__name">{row.card.cardName}</td>
+          <td className="deck-row__color">{row.card.color}</td>
+          <td className="deck-row__type">{row.card.cardType}</td>
         </tr>
       )}
       emptyTitle="No cards"

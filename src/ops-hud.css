@@ -1082,9 +1082,7 @@ body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-heade
 
 .has-tactical-rail .community-main-grid,
 .has-tactical-rail .community-main-grid.tactical-network-streams,
-.has-tactical-rail .event-dossier-grid,
 .has-tactical-rail .synergy-terminal-grid,
-.has-tactical-rail .deck-terminal-grid,
 .has-tactical-rail .io-terminal-grid,
 .has-tactical-rail .venue-finder-grid,
 .has-tactical-rail .release-intel-grid,
@@ -1098,9 +1096,7 @@ body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .site-heade
 }
 
 .has-tactical-rail .community-main-grid > *,
-.has-tactical-rail .event-dossier-grid > *,
 .has-tactical-rail .synergy-terminal-grid > *,
-.has-tactical-rail .deck-terminal-grid > *,
 .has-tactical-rail .io-terminal-grid > *,
 .has-tactical-rail .venue-finder-grid > *,
 .has-tactical-rail .release-intel-grid > *,
@@ -1803,7 +1799,6 @@ body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-enga
 
   body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .community-main-grid.tactical-network-streams,
   body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .release-intel-grid,
-  body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .event-dossier-grid,
   body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .synergy-terminal-grid,
   body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .deck-terminal-grid,
   body[data-view]:not([data-view="home"]) .app-shell.has-tactical-rail .io-terminal-grid,

@@ -7,8 +7,10 @@ const cardSource = fs.readFileSync(new URL("../src/pages/CardsPage.jsx", import.
 const railSource = fs.readFileSync(new URL("../src/components/layout/TacticalSideRail.jsx", import.meta.url), "utf8");
 const deckMapSource = fs.readFileSync(new URL("../src/components/decks/DeckMap.jsx", import.meta.url), "utf8");
 const deckViewSource = fs.readFileSync(new URL("../src/pages/DeckViewPage.jsx", import.meta.url), "utf8");
+const eventDetailSource = fs.readFileSync(new URL("../src/pages/EventDetailPage.jsx", import.meta.url), "utf8");
 const eventsSource = fs.readFileSync(new URL("../src/pages/EventsPage.jsx", import.meta.url), "utf8");
 const cssSource = fs.readFileSync(new URL("../src/ops-hud.css", import.meta.url), "utf8");
+const reactCssSource = fs.readFileSync(new URL("../src/react.css", import.meta.url), "utf8");
 const mainSource = fs.readFileSync(new URL("../src/main.jsx", import.meta.url), "utf8");
 
 test("operational routes share one persistent tactical subsystem rail", () => {
@@ -88,6 +90,23 @@ test("deck dossier leads with a compact card-backed identity station", () => {
   assert.match(cssSource, /grid-template-areas:\s*\n\s*"copy loadout"\s*\n\s*"metrics metrics"/);
   assert.match(cssSource, /font-size: clamp\(1\.9rem, 3\.2vw, 3\.5rem\) !important/);
   assert.match(cssSource, /grid-template-columns: repeat\(3, minmax\(100px, 148px\)\)/);
+});
+
+test("detail dossiers keep their purpose-built desktop compositions outside the shared two-column reset", () => {
+  const sharedGridRule = cssSource.match(/\.has-tactical-rail \.community-main-grid,[\s\S]*?background: color-mix\([^;]+;\s*\}/)?.[0] || "";
+  assert.ok(sharedGridRule);
+  assert.doesNotMatch(sharedGridRule, /event-dossier-grid|deck-terminal-grid/);
+  assert.match(reactCssSource, /\.event-dossier-grid \{[\s\S]*?grid-template-columns: minmax\(190px, 220px\) minmax\(0, 1fr\) minmax\(250px, 300px\)/);
+  assert.match(reactCssSource, /\.event-dossier-rail \{[\s\S]*?align-content: start;[\s\S]*?grid-auto-rows: max-content/);
+});
+
+test("event results and deck rows become readable records on narrow screens", () => {
+  assert.match(eventDetailSource, /data-label="Colocação"/);
+  assert.match(eventDetailSource, /data-label="Ações"/);
+  assert.match(deckViewSource, /className="deck-row__qty"/);
+  assert.match(deckViewSource, /className="deck-row__type"/);
+  assert.match(reactCssSource, /\.event-dossier-table td::before \{[\s\S]*?content: attr\(data-label\)/);
+  assert.match(reactCssSource, /grid-template-areas:\s*\n\s*"qty name name name"\s*\n\s*"qty number color type"/);
 });
 
 test("the generated deck opens on the full interactive map and keeps the manifest available", () => {
