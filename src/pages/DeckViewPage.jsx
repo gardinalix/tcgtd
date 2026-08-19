@@ -3,10 +3,7 @@ import { CardArt } from "../components/cards/CardArt";
 import { PriceTag } from "../components/cards/PriceTag";
 import {
   TacticalDataPanel,
-  TacticalPageHeader,
   TacticalPageShell,
-  TacticalSummaryCard,
-  TacticalSummaryStrip,
   TacticalTable,
 } from "../components/tactical/TacticalPageShell";
 import { buildDeckRows, buildPlainDeckList, getDeckIssues } from "../domain/deck";
@@ -31,37 +28,40 @@ export function DeckViewPage({ data, deckId, decks, onEditDeck, onSendToForge })
   const stats = deck ? deckStats(deck, mainMap) : null;
   const issues = deck ? getDeckIssues(deck, data.rules || {}, mainMap) : [];
   const mainRows = useMemo(() => deck ? buildDeckRows(deck, "main", mainMap) : [], [deck, mainMap]);
+  const featuredRows = useMemo(
+    () => selectDeckIdentityRows(mainRows, deck?.name),
+    [deck?.name, mainRows],
+  );
   const inspectedCard = mainRows.find((row) => row.card.cardNumber === inspectedCardNumber)?.card || mainRows[0]?.card || null;
 
   if (!deck) {
     return (
       <TacticalPageShell>
-        <TacticalPageHeader title="Deck not found" subtitle="No decklist matched this tactical id." eyebrow="Deck telemetry" />
+        <section className="deck-identity-hero deck-identity-hero--empty">
+          <div className="deck-identity-hero__copy">
+            <span className="eyebrow">Deck telemetry</span>
+            <h1>Deck not found</h1>
+            <p>No decklist matched this tactical id.</p>
+          </div>
+        </section>
       </TacticalPageShell>
     );
   }
 
   return (
     <TacticalPageShell className="deck-dossier-page">
-      <TacticalPageHeader
-        eyebrow="Deck telemetry"
-        title={deck.name}
-        subtitle={issues.length ? issues.join(" ") : "Deck passes current size/color validation checks."}
-        actions={(
-          <div className="button-row">
-          {savedDeck ? <button type="button" onClick={() => onEditDeck(deck.id)}>Edit in builder</button> : null}
-          {sourceResult ? <button type="button" className="is-forge" onClick={() => onSendToForge?.(sourceResult, "current")}>Enviar para a FORJA</button> : null}
-          <button type="button" onClick={() => navigator.clipboard?.writeText(buildPlainDeckList(deck, mainMap, "main"))}>Copy list</button>
-          {deck.sourceUrl ? <a href={deck.sourceUrl} target="_blank" rel="noreferrer">Source</a> : null}
-          </div>
-        )}
+      <DeckIdentityHero
+        deck={deck}
+        stats={stats}
+        issues={issues}
+        featuredRows={featuredRows}
+        savedDeck={savedDeck}
+        sourceResult={sourceResult}
+        onInspect={(cardNumber) => setInspectedCardNumber(cardNumber)}
+        onEditDeck={onEditDeck}
+        onSendToForge={onSendToForge}
+        onCopy={() => navigator.clipboard?.writeText(buildPlainDeckList(deck, mainMap, "main"))}
       />
-      <TacticalSummaryStrip>
-        <TacticalSummaryCard label="Main deck" value={stats.mainCount} detail="Primary card shell." tone="blue" />
-        <TacticalSummaryCard label="Event result" value={deck.result || "-"} detail={deck.event || "No event linked."} tone="gold" />
-        <TacticalSummaryCard label="Colors" value={Object.keys(stats.colors || {}).length} detail={Object.keys(stats.colors || {}).join(" / ") || "No color tags."} tone="green" />
-        <TacticalSummaryCard label="Source" value={savedDeck ? "Saved" : "Public"} detail={deck.author || deck.sourceName || "Local deck."} />
-      </TacticalSummaryStrip>
       <div className="deck-terminal-grid">
         <TacticalDataPanel title="Main deck" subtitle={`${stats.mainCount} cards`} className="deck-terminal-grid__main">
           <DeckRows
@@ -81,6 +81,87 @@ export function DeckViewPage({ data, deckId, decks, onEditDeck, onSendToForge })
         </TacticalDataPanel>
       </div>
     </TacticalPageShell>
+  );
+}
+
+function DeckIdentityHero({
+  deck,
+  stats,
+  issues,
+  featuredRows,
+  savedDeck,
+  sourceResult,
+  onInspect,
+  onEditDeck,
+  onSendToForge,
+  onCopy,
+}) {
+  const colors = Object.keys(stats.colors || {});
+  return (
+    <section className={`deck-identity-hero ${issues.length ? "is-warning" : "is-valid"}`.trim()}>
+      <div className="deck-identity-hero__copy">
+        <span className="eyebrow">07 // DECK IDENTITY</span>
+        <h1>{deck.name}</h1>
+        <div className="deck-identity-hero__status">
+          <i aria-hidden="true" />
+          <span>{issues.length ? issues.join(" ") : "Deck passes current size and color validation checks."}</span>
+        </div>
+        <div className="deck-identity-hero__tags" aria-label="Deck identity tags">
+          <span>{colors.join(" / ") || "COLOR OPEN"}</span>
+          <span>{deck.event || "NO EVENT LINKED"}</span>
+          <span>{deck.author || deck.sourceName || "COMMUNITY DECK"}</span>
+        </div>
+        <div className="deck-identity-hero__actions">
+          {savedDeck ? <button type="button" onClick={() => onEditDeck(deck.id)}>EDITAR NO BUILDER</button> : null}
+          {sourceResult ? <button type="button" className="is-forge" onClick={() => onSendToForge?.(sourceResult, "current")}>ENVIAR PARA A FORJA</button> : null}
+          <button type="button" onClick={onCopy}>COPIAR LISTA</button>
+          {deck.sourceUrl ? <a href={deck.sourceUrl} target="_blank" rel="noreferrer">FONTE</a> : null}
+        </div>
+      </div>
+
+      <div className="deck-identity-hero__loadout" aria-label="Cartas principais do deck">
+        <div className="deck-identity-hero__loadout-head">
+          <span>PRIMARY LOADOUT</span>
+          <b>{String(featuredRows.length).padStart(2, "0")} LOCKS</b>
+        </div>
+        <div className="deck-identity-hero__cards">
+          {featuredRows.map((row, index) => (
+            <button
+              type="button"
+              key={row.card.cardNumber}
+              className="deck-identity-card"
+              data-card-color={normalizeDeckColor(row.card.color)}
+              onClick={() => onInspect?.(row.card.cardNumber)}
+              aria-label={`Inspecionar ${row.card.cardName}`}
+            >
+              <span className="deck-identity-card__index">0{index + 1}</span>
+              <CardArt card={row.card} className="deck-identity-card__art" compact />
+              <span className="deck-identity-card__label">
+                <small>{row.card.cardNumber} · {row.quantity}X</small>
+                <strong>{row.card.cardName}</strong>
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <dl className="deck-identity-hero__metrics">
+        <DeckIdentityMetric label="MAIN DECK" value={stats.mainCount} detail="cartas registradas" />
+        <DeckIdentityMetric label="RESULTADO" value={deck.result || "—"} detail={deck.event || "sem evento vinculado"} />
+        <DeckIdentityMetric label="CORES" value={colors.length} detail={colors.join(" / ") || "sem identificação"} />
+        <DeckIdentityMetric label="ORIGEM" value={savedDeck ? "SALVO" : "PÚBLICO"} detail={deck.author || deck.sourceName || "deck local"} />
+      </dl>
+    </section>
+  );
+}
+
+function DeckIdentityMetric({ label, value, detail }) {
+  return (
+    <div>
+      <dt>{label}</dt>
+      <dd>{value}</dd>
+      <small>{detail}</small>
+    </div>
   );
 }
 
@@ -168,4 +249,41 @@ function hydratePublicDeck(deck, deckCards) {
     Object.assign(main, parseDeckUrlList(deck.deckUrl));
   }
   return { ...deck, main, resource: {} };
+}
+
+function selectDeckIdentityRows(rows, deckName, limit = 3) {
+  const normalizedDeckName = normalizeIdentityText(deckName);
+  return [...rows]
+    .map((row) => {
+      const normalizedCardName = normalizeIdentityText(row.card.cardName);
+      const namedArchetype = normalizedCardName.length >= 6 && normalizedDeckName.includes(normalizedCardName);
+      const unitPriority = String(row.card.cardType || "").toUpperCase() === "UNIT";
+      const score = (namedArchetype ? 10000 : 0)
+        + (unitPriority ? 1000 : 0)
+        + (Number(row.quantity || 0) * 100)
+        + Number(row.card.recentMetaScore || 0);
+      return { ...row, identityScore: score };
+    })
+    .sort((left, right) => right.identityScore - left.identityScore
+      || String(left.card.cardName).localeCompare(String(right.card.cardName)))
+    .slice(0, limit);
+}
+
+function normalizeIdentityText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/gi, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function normalizeDeckColor(value) {
+  const color = normalizeIdentityText(value);
+  if (color.includes("blue") || color.includes("azul")) return "blue";
+  if (color.includes("red") || color.includes("vermelh")) return "red";
+  if (color.includes("green") || color.includes("verde")) return "green";
+  if (color.includes("purple") || color.includes("rox")) return "purple";
+  if (color.includes("white") || color.includes("branc")) return "white";
+  return "neutral";
 }

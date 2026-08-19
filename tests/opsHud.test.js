@@ -6,6 +6,7 @@ const appSource = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "u
 const cardSource = fs.readFileSync(new URL("../src/pages/CardsPage.jsx", import.meta.url), "utf8");
 const railSource = fs.readFileSync(new URL("../src/components/layout/TacticalSideRail.jsx", import.meta.url), "utf8");
 const deckMapSource = fs.readFileSync(new URL("../src/components/decks/DeckMap.jsx", import.meta.url), "utf8");
+const deckViewSource = fs.readFileSync(new URL("../src/pages/DeckViewPage.jsx", import.meta.url), "utf8");
 const eventsSource = fs.readFileSync(new URL("../src/pages/EventsPage.jsx", import.meta.url), "utf8");
 const cssSource = fs.readFileSync(new URL("../src/ops-hud.css", import.meta.url), "utf8");
 const mainSource = fs.readFileSync(new URL("../src/main.jsx", import.meta.url), "utf8");
@@ -76,6 +77,17 @@ test("meta intelligence gives archetypes a primary data station instead of a dec
   assert.match(cssSource, /grid-template-columns: minmax\(0, 1\.18fr\) minmax\(340px, \.82fr\) !important/);
   assert.match(cssSource, /\.meta-archetype-station \{[\s\S]*?grid-row: 1 \/ span 3 !important/);
   assert.match(cssSource, /grid-template-rows: repeat\(12, minmax\(42px, 1fr\)\) !important/);
+});
+
+test("deck dossier leads with a compact card-backed identity station", () => {
+  assert.match(deckViewSource, /className={`deck-identity-hero/);
+  assert.match(deckViewSource, /PRIMARY LOADOUT/);
+  assert.match(deckViewSource, /selectDeckIdentityRows/);
+  assert.doesNotMatch(deckViewSource, /<TacticalPageHeader/);
+  assert.match(cssSource, /Deck dossier identity station/);
+  assert.match(cssSource, /grid-template-areas:\s*\n\s*"copy loadout"\s*\n\s*"metrics metrics"/);
+  assert.match(cssSource, /font-size: clamp\(1\.9rem, 3\.2vw, 3\.5rem\) !important/);
+  assert.match(cssSource, /grid-template-columns: repeat\(3, minmax\(100px, 148px\)\)/);
 });
 
 test("the generated deck opens on the full interactive map and keeps the manifest available", () => {
