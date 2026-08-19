@@ -71,7 +71,9 @@ test("the deck dossier exposes a branded browser-only PNG export bay", () => {
   assert.match(deckViewSource, /EXPORTAR IMAGEM/);
   assert.match(deckViewSource, /<DeckImageExportLayer/);
   assert.match(exportLayerSource, /renderDeckSheetPng/);
+  assert.match(exportLayerSource, /new ClipboardItem\(\{ "image\/png": renderState\.blob \}\)/);
+  assert.match(exportLayerSource, /COPIAR IMAGEM/);
   assert.match(exportLayerSource, /Nenhuma decklist ou imagem é enviada para um serviço externo/);
   assert.match(cssSource, /Tactical Deck Sheet export bay/);
-  assert.match(cssSource, /\.deck-sheet-console__preview img/);
+  assert.match(cssSource, /\.deck-sheet-console__preview img \{[\s\S]*?width: 100%;[\s\S]*?height: 100%;[\s\S]*?object-fit: contain;/);
 });

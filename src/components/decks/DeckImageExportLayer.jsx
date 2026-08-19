@@ -9,11 +9,16 @@ import {
 export function DeckImageExportLayer({ deck, rows, stats, onClose }) {
   const model = useMemo(() => buildDeckSheetModel({ deck, rows, stats }), [deck, rows, stats]);
   const [renderState, setRenderState] = useState({ phase: "rendering", blob: null, previewUrl: "", error: "" });
+  const [copyStatus, setCopyStatus] = useState("");
   const canShare = typeof navigator !== "undefined" && typeof navigator.share === "function" && typeof File === "function";
+  const canCopyImage = typeof navigator !== "undefined"
+    && typeof navigator.clipboard?.write === "function"
+    && typeof ClipboardItem === "function";
 
   useEffect(() => {
     let cancelled = false;
     let objectUrl = "";
+    setCopyStatus("");
     setRenderState({ phase: "rendering", blob: null, previewUrl: "", error: "" });
     renderDeckSheetPng({ deck, rows, stats })
       .then((blob) => {
@@ -50,6 +55,23 @@ export function DeckImageExportLayer({ deck, rows, stats, onClose }) {
       });
     } catch (error) {
       if (error?.name !== "AbortError") downloadDeckSheetBlob(renderState.blob, model.title);
+    }
+  }
+
+  async function copyDeckSheet() {
+    if (!renderState.blob) return;
+    if (!canCopyImage) {
+      setCopyStatus("Este navegador não permite copiar imagens diretamente. Use Baixar PNG.");
+      return;
+    }
+    setCopyStatus("COPIANDO IMAGEM…");
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({ "image/png": renderState.blob }),
+      ]);
+      setCopyStatus("IMAGEM COPIADA // PRONTA PARA COLAR");
+    } catch {
+      setCopyStatus("O navegador bloqueou o clipboard. Autorize o acesso ou use Baixar PNG.");
     }
   }
 
@@ -107,8 +129,16 @@ export function DeckImageExportLayer({ deck, rows, stats, onClose }) {
         </div>
 
         <footer className="deck-sheet-console__footer">
-          <span>{renderState.phase === "ready" ? "PNG READY // HIGH RESOLUTION" : "RENDER CHANNEL ACTIVE"}</span>
+          <span aria-live="polite">{copyStatus || (renderState.phase === "ready" ? "PNG READY // HIGH RESOLUTION" : "RENDER CHANNEL ACTIVE")}</span>
           <nav aria-label="Ações da imagem da decklist">
+            <button
+              type="button"
+              disabled={!renderState.blob}
+              onClick={copyDeckSheet}
+              title={canCopyImage ? "Copiar PNG para o clipboard" : "Clipboard de imagem não suportado neste navegador"}
+            >
+              COPIAR IMAGEM
+            </button>
             <button
               type="button"
               disabled={!renderState.blob}
