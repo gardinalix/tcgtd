@@ -29,6 +29,14 @@ const GENERIC_SHARED_KEYWORDS = new Set([
   "when linked",
   "when paired",
 ]);
+const LINK_PAYOFF_KEYWORDS = new Set([
+  "first strike",
+  "high-maneuver",
+  "breach",
+  "suppression",
+  "blocker",
+  "repair",
+]);
 
 export function getSynergiesForCard(sourceCard, data, options = {}) {
   if (!sourceCard) return [];
@@ -92,11 +100,18 @@ export function evaluateCardSynergy(sourceCard, targetCard, sourceSignals, targe
 
   const sourceLinksTarget = sourceSignals.linkTargets.filter((link) => linkMatchesCard(link, targetCard, targetSignals));
   const targetLinksSource = targetSignals.linkTargets.filter((link) => linkMatchesCard(link, sourceCard, sourceSignals));
+  const linkPayoffKeywords = uniqueList([
+    ...sourceSignals.keywords,
+    ...targetSignals.keywords,
+  ].filter((keyword) => LINK_PAYOFF_KEYWORDS.has(keyword)));
   if (sourceLinksTarget.length || targetLinksSource.length) {
     const pairType = sourceSignals.type === "pilot" || targetSignals.type === "pilot"
       ? sourceSignals.type === "pilot" ? "Unit compatible" : "Pilot compatible"
       : "Direct LINK/PAIR";
-    add("direct_link_pair", pairType, `Direct LINK/PAIR bridge detected through ${displayList([...sourceLinksTarget, ...targetLinksSource])}.`);
+    const payoffNote = linkPayoffKeywords.length
+      ? ` Linked payoff: ${displayList(linkPayoffKeywords)}.`
+      : "";
+    add("direct_link_pair", pairType, `Direct LINK/PAIR bridge detected through ${displayList([...sourceLinksTarget, ...targetLinksSource])}.${payoffNote}`);
   }
 
   const sharedTraits = overlap(sourceSignals.traits, targetSignals.traits);
@@ -215,6 +230,7 @@ export function evaluateCardSynergy(sourceCard, targetCard, sourceSignals, targe
     sharedArchetypes,
     sharedTraits,
     mechanicSetup: uniqueList(mechanicSetup),
+    linkPayoffKeywords,
     textBridgeDetails,
     textBridgeSpecificity,
     textBridgeLabel: textBridgeDetails

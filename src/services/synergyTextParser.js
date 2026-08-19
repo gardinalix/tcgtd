@@ -244,7 +244,7 @@ export function hasConditionalPairOrLinkWindow(signals) {
 export function normalizeText(value) {
   return String(value || "")
     .toLowerCase()
-    .replace(/[【】()[\]{}.,:;!?'"`]/g, " ")
+    .replace(/[【】()[\]{}.,:;!?'"`<>]/g, " ")
     .replace(/\btrait\b/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -282,7 +282,7 @@ export function linkMatchesCard(linkTarget, card, signals = parseCardSignals(car
     .filter((term) => term && !GENERIC_LINK_TERMS.has(term)));
   return alternatives.some((link) =>
     !GENERIC_LINK_TERMS.has(link)
-    && traits.has(link));
+    && traits.has(link.replace(/\btrait\b/g, "").trim()));
 }
 
 function uniqueNormalized(values = []) {

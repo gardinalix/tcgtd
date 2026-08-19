@@ -158,7 +158,7 @@ export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = 
       right.score - left.score
       || Number(right.card.recentTop8DecksUsing || 0) - Number(left.card.recentTop8DecksUsing || 0)
       || String(left.card.cardName).localeCompare(String(right.card.cardName)));
-  const suggestions = rankedSuggestions
+  const candidateSuggestions = rankedSuggestions
     .map((suggestion) => {
       const availabilityAssessment = availability[suggestion.card.cardNumber];
       if (availabilityAssessment?.allowed) return { ...suggestion, action: "add" };
@@ -173,8 +173,16 @@ export function buildZeroForgeWorkspace(data = {}, main = {}, focusCardNumber = 
         replacementReason: `Replace ${replacement.card.cardName} to keep the main deck at ${maxMain} cards.`,
       };
     })
-    .filter(Boolean)
-    .slice(0, Number(options.limit || 8))
+    .filter(Boolean);
+  const limit = Number(options.limit || 8);
+  const prioritySuggestions = candidateSuggestions.filter((suggestion) =>
+    suggestion.bestSourceCardNumber === focusCardNumber
+    && isPriorityForgeRelation(suggestion.relation));
+  const suggestions = [
+    ...prioritySuggestions,
+    ...candidateSuggestions.filter((suggestion) => !prioritySuggestions.includes(suggestion)),
+  ]
+    .slice(0, Math.max(limit, prioritySuggestions.length))
     .map((suggestion, index) => ({ ...suggestion, rank: index + 1 }));
 
   const legality = evaluateMainDeckLegality(main, cardMap, data.rules || {});
@@ -641,6 +649,13 @@ function relationReasons(item) {
   }
   if (rules.has("shared_trait")) reasons.push(`Shares a relevant trait with ${sourceName}`);
   return reasons;
+}
+
+function isPriorityForgeRelation(relation = {}) {
+  const rules = new Set(relation?.algorithmRules || []);
+  return rules.has("direct_link_pair")
+    || rules.has("mechanic_setup")
+    || (rules.has("text_bridge") && Number(relation?.textBridgeSpecificity || 0) >= 4);
 }
 
 function edgeFromRelation(sourceCardNumber, relation) {

@@ -6,6 +6,7 @@ import {
   maxCopiesForCard,
   normalizeSearchText,
   round,
+  titleCase,
   uniqueBy,
 } from "./deckDesignerUtils.js";
 import { buildRecommendationRow } from "./deckRecommendationEngine.js";
@@ -60,7 +61,8 @@ export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {})
     strengths: inferences.slice(0, 3),
     weaknesses,
     matchups,
-    synergies: synergyAnalysis,
+    synergies: synergyAnalysis.displaySynergies,
+    mapSynergies: synergyAnalysis.mapSynergies,
     substitutions,
     stats,
     budgetAssessment,
@@ -166,6 +168,7 @@ function buildSynergyAnalysis(data, rows) {
   const rowById = new Map(rows.map((row) => [row.card.cardNumber, row]));
   const quantityByDisplayKey = buildSynergyQuantityIndex(rows);
   const pairByDisplayKey = new Map();
+  const allPairs = [];
   for (const row of rows) {
     const synergies = getSynergiesForCard(row.card, data, { minScore: 20 })
       .filter((item) => deckIds.has(item.targetCardId));
@@ -196,6 +199,7 @@ function buildSynergyAnalysis(data, rows) {
         algorithmRules: synergy.algorithmRules,
         sharedTraits: synergy.sharedTraits,
         mechanicSetup: synergy.mechanicSetup,
+        linkPayoffKeywords: synergy.linkPayoffKeywords,
         textBridgeDetails: synergy.textBridgeDetails,
         textBridgeSpecificity: synergy.textBridgeSpecificity,
         textBridgeLabel: synergy.textBridgeLabel,
@@ -208,19 +212,44 @@ function buildSynergyAnalysis(data, rows) {
             ? ""
             : "The interaction is inferred from curve, color, traits, or shared mechanic signals.",
       };
+      allPairs.push(pair);
       const existing = pairByDisplayKey.get(displayPairKey);
       if (!existing || synergyPairPriority(pair) > synergyPairPriority(existing)) {
         pairByDisplayKey.set(displayPairKey, pair);
       }
     }
   }
-  return selectDeckSynergyPairs(
+  const displaySynergies = selectDeckSynergyPairs(
     [...pairByDisplayKey.values()].sort((left, right) =>
       synergyPairPriority(right) - synergyPairPriority(left)
       || right.score - left.score
       || left.displayPairKey.localeCompare(right.displayPairKey)),
     rows.length,
+  ).map((pair) => {
+    const variantPayoffs = [...new Set(allPairs
+      .filter((variant) => variant.displayPairKey === pair.displayPairKey)
+      .flatMap((variant) => variant.linkPayoffKeywords || []))];
+    const missingPayoffs = variantPayoffs.filter((payoff) =>
+      !(pair.linkPayoffKeywords || []).includes(payoff));
+    if (!missingPayoffs.length) return pair;
+    return {
+      ...pair,
+      linkPayoffKeywords: [...new Set([...(pair.linkPayoffKeywords || []), ...missingPayoffs])],
+      facts: [
+        ...pair.facts,
+        `Linked variants also provide: ${missingPayoffs.map(titleCase).join(", ")}.`,
+      ],
+    };
+  });
+  const mapSynergies = selectDeckSynergyPairs(
+    allPairs.sort((left, right) =>
+      synergyPairPriority(right) - synergyPairPriority(left)
+      || right.score - left.score
+      || left.id.localeCompare(right.id)),
+    rows.length,
+    { preserveMechanicalVariants: true },
   );
+  return { displaySynergies, mapSynergies };
 }
 
 function buildSynergyQuantityIndex(rows) {
@@ -251,11 +280,14 @@ function synergyCardDisplayKey(card) {
   return `${name}::${normalizeSearchText(card?.cardType)}`;
 }
 
-function selectDeckSynergyPairs(pairs, nodeCount) {
+function selectDeckSynergyPairs(pairs, nodeCount, options = {}) {
   const selected = [];
   const selectedIds = new Set();
   const mechanicalDegree = new Map();
-  const totalLimit = Math.max(24, nodeCount * 3);
+  const preserveMechanicalVariants = Boolean(options.preserveMechanicalVariants);
+  const totalLimit = preserveMechanicalVariants
+    ? Math.max(48, nodeCount * 6)
+    : Math.max(24, nodeCount * 3);
 
   function add(pair, degreeLimit = Number.POSITIVE_INFINITY) {
     if (!pair || selectedIds.has(pair.id) || selected.length >= totalLimit) return false;
@@ -287,9 +319,9 @@ function selectDeckSynergyPairs(pairs, nodeCount) {
       ["direct_link_pair", "mechanic_setup", "text_bridge", "shared_trait", "shared_keyword"].includes(rule)));
 
   direct.forEach((pair) => add(pair));
-  mechanicSetup.forEach((pair) => add(pair, 6));
-  specificText.forEach((pair) => add(pair, 6));
-  broadText.forEach((pair) => add(pair, 4));
+  mechanicSetup.forEach((pair) => add(pair, preserveMechanicalVariants ? Number.POSITIVE_INFINITY : 6));
+  specificText.forEach((pair) => add(pair, preserveMechanicalVariants ? Number.POSITIVE_INFINITY : 6));
+  broadText.forEach((pair) => add(pair, preserveMechanicalVariants ? 8 : 4));
   sharedMechanics.forEach((pair) => add(pair, 3));
   contextOnly.forEach((pair) => add(pair, 2));
 

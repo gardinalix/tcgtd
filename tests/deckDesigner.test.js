@@ -382,6 +382,46 @@ test("deck synergy consolidates same-name card variants and exposes suggested co
   );
 });
 
+test("deck map keeps every same-name printed LINK variant as a separate edge", () => {
+  const data = fixtureData();
+  data.generatedAt = "2026-07-28T00:00:01.000Z";
+  const unit = data.cards.find((item) => item.cardNumber === "TEST-001");
+  const unitVariant = {
+    ...unit,
+    cardNumber: "TEST-015",
+    recentTop8DecksUsing: 18,
+    recentMetaScore: 18,
+  };
+  unit.cardName = "GQuuuuuuX (Omega Psycommu)";
+  unit.cardType = "UNIT";
+  unit.linkTargets = ["Amate Yuzuriha (Machu)"];
+  unitVariant.cardName = unit.cardName;
+  unitVariant.cardType = unit.cardType;
+  unitVariant.linkTargets = ["Amate Yuzuriha (Machu)"];
+  const pilot = data.cards.find((item) => item.cardNumber === "TEST-005");
+  pilot.cardName = "Amate Yuzuriha (Machu)";
+  pilot.cardType = "PILOT";
+  pilot.traits = ["Clan"];
+  data.cards.push(unitVariant);
+
+  const report = analyzeImportedDeck(data, parseMsaDeckList([
+    "1xTEST-001",
+    "1xTEST-015",
+    "1xTEST-005",
+  ].join("\n")));
+  const displayPairs = report.synergies.filter((pair) =>
+    pair.displayPairKey.includes("amate yuzuriha machu"));
+  const mapLinks = report.mapSynergies.filter((pair) =>
+    pair.algorithmRules.includes("direct_link_pair")
+    && pair.sourceCard.cardNumber === "TEST-005");
+
+  assert.equal(displayPairs.length, 1);
+  assert.deepEqual(
+    mapLinks.map((pair) => pair.targetCard.cardNumber).sort(),
+    ["TEST-001", "TEST-015"],
+  );
+});
+
 test("designer lowers confidence and labels limitations without competitive evidence", () => {
   const data = { ...fixtureData(), metaResults: [], metaDeckCards: [], metaEvents: [] };
   const report = designDeck(data, baseCriteria());

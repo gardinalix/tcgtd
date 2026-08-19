@@ -141,6 +141,33 @@ test("a printed Wing Gundam to Heero link is always classified as high synergy",
   assert.match(result.explanation, /Direct LINK\/PAIR bridge/);
 });
 
+test("a LINK payoff keeps First Strike evidence attached to the linked card", () => {
+  const machu = card({
+    cardNumber: "PILOT-MACHU",
+    cardName: "Amate Yuzuriha (Machu)",
+    cardType: "PILOT",
+    traits: ["Clan"],
+  });
+  const firstStrikeUnit = card({
+    cardNumber: "UNIT-FIRST-STRIKE",
+    cardName: "GQuuuuuuX (Omega Psycommu)",
+    cardType: "UNIT",
+    traits: ["Clan"],
+    linkTargets: ["Amate Yuzuriha (Machu)"],
+    effectPreview: "【When Linked】This Unit gains <First Strike> during this turn.",
+  });
+
+  const result = calculateSynergies(machu, {
+    cards: [machu, firstStrikeUnit],
+    metaDeckCards: [],
+  }).find((item) => item.targetCardId === firstStrikeUnit.cardNumber);
+
+  assert.ok(result);
+  assert.ok(result.algorithmRules.includes("direct_link_pair"));
+  assert.ok(result.linkPayoffKeywords.includes("first strike"));
+  assert.match(result.explanation, /Linked payoff: First Strike/);
+});
+
 test("Peacemillion targets only eligible Operation Meteor or G Team Units at Lv.6+", () => {
   const data = {
     cards: [peacemillion, wingZero, wingLevelSix, wingBirdMode, whiteHeero],

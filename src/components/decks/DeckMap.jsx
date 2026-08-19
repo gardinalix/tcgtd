@@ -10,7 +10,8 @@ const MAX_ZOOM = 1.6;
 const FIT_ZOOM = 0.66;
 
 export function DeckMap({ report, onApplySubstitution }) {
-  const graph = useMemo(() => buildDeckGraph(report.rows, report.synergies), [report.rows, report.synergies]);
+  const graphSynergies = report.mapSynergies || report.synergies;
+  const graph = useMemo(() => buildDeckGraph(report.rows, graphSynergies), [graphSynergies, report.rows]);
   const legalityPresentation = getDeckLegalityPresentation(report.legality);
   const [viewMode, setViewMode] = useState("links");
   const [nodePositions, setNodePositions] = useState({});
