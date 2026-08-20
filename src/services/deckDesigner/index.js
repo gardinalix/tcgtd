@@ -1,6 +1,7 @@
 import { analyzeRecommendedDeck } from "./deckAnalysis.js";
 import { assembleRecommendedDeck, scoreRecommendationPool } from "./deckRecommendationEngine.js";
 import {
+  buildDeckSourceComparison,
   buildDeckVariantResearch,
   collectDeckResearch,
   getObservedArchetypesForFilters,
@@ -24,6 +25,7 @@ export {
   scoreRecommendationPool,
 } from "./deckRecommendationEngine.js";
 export {
+  buildDeckSourceComparison,
   buildDeckVariantResearch,
   collectDeckResearch,
   getObservedArchetypesForFilters,

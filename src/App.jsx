@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { SiteHeader } from "./components/layout/SiteHeader";
 import { SiteFooter } from "./components/layout/SiteFooter";
 import { TacticalSideRail } from "./components/layout/TacticalSideRail";
@@ -82,6 +82,7 @@ export function App() {
   const [pendingForgePreset, setPendingForgePreset] = useState(null);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [userState, setUserState] = usePersistentState(REACT_STATE_KEY, createInitialUserState(), normalizeUserState);
+  const routeScrollPositions = useRef(new Map());
 
   const theme = THEME_CONFIG[themeId] || THEME_CONFIG["wing-zero"];
   const metaWindows = useMemo(
@@ -148,13 +149,27 @@ export function App() {
   }, [metaWindows, selectedMetaId]);
 
   useEffect(() => {
-    function syncRoute() {
+    const previousRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+    window.history.replaceState(
+      { ...window.history.state, scrollY: window.scrollY },
+      "",
+      window.location.href,
+    );
+
+    function syncRoute(event) {
       const next = parseRoute();
       setViewState(next.view);
       setRouteId(next.id);
+      const routeKey = `${next.view}:${next.id}`;
+      const restoredScroll = Number(event.state?.scrollY ?? routeScrollPositions.current.get(routeKey) ?? 0);
+      window.requestAnimationFrame(() => window.scrollTo({ top: restoredScroll, left: 0, behavior: "auto" }));
     }
     window.addEventListener("popstate", syncRoute);
-    return () => window.removeEventListener("popstate", syncRoute);
+    return () => {
+      window.removeEventListener("popstate", syncRoute);
+      window.history.scrollRestoration = previousRestoration;
+    };
   }, []);
 
   const mergedFilters = useMemo(() => filters, [filters]);
@@ -175,8 +190,16 @@ export function App() {
   }
 
   function setView(nextView, id = "") {
+    const currentRouteKey = `${view}:${routeId}`;
+    routeScrollPositions.current.set(currentRouteKey, window.scrollY);
+    window.history.replaceState(
+      { ...window.history.state, scrollY: window.scrollY },
+      "",
+      window.location.href,
+    );
     const nextRoute = routeFor(nextView, id);
-    window.history.pushState({}, "", nextRoute);
+    window.history.pushState({ scrollY: 0 }, "", nextRoute);
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     setViewState(nextView);
     setRouteId(id);
   }
@@ -397,6 +420,7 @@ export function App() {
         />
       ) : null}
       <main>
+        <div className="experience-route-stage" key={`${view}:${routeId}`}>
         <Suspense fallback={<div className="route-loading">ACQUIRING SUBSYSTEM…</div>}>
         {routeLoading ? <div className="route-loading">LOADING TACTICAL DATA…</div> : null}
         {["about", "legal", "terms", "privacy"].includes(view) ? <InstitutionalPage kind={view} onNavigate={setView} /> : null}
@@ -551,6 +575,7 @@ export function App() {
         {!shouldGatePrivate && view === "importExport" ? <ImportExportPage data={data} deck={activeDeck} /> : null}
         </> : null}
         </Suspense>
+        </div>
       </main>
       <SiteFooter onViewChange={setView} />
     </div>

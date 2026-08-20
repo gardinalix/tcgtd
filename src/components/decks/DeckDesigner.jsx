@@ -14,6 +14,7 @@ import {
   analyzeImportedDeck,
   applyRecommendedSubstitution,
   assembleRecommendedDeck,
+  buildDeckSourceComparison,
   buildDeckVariantResearch,
   collectDeckResearch,
   getObservedArchetypesForFilters,
@@ -84,6 +85,7 @@ export function DeckDesigner({
   const [zeroForgeOpen, setZeroForgeOpen] = useState(false);
   const [designerForgeDraft, setDesignerForgeDraft] = useState(null);
   const [modeSelectionOpen, setModeSelectionOpen] = useState(false);
+  const [preferredSourceDeckId, setPreferredSourceDeckId] = useState("");
   const metaWindows = useMemo(() => buildMetaWindows(data), [data]);
   const archetypes = useMemo(
     () => [...(data.archetypes || [])].sort((left, right) =>
@@ -114,6 +116,22 @@ export function DeckDesigner({
   const hasActiveArchetypeFilters = Boolean(selectedUnitName || criteria.colors.length);
   const report = variantReports[activeVariantIndex] || null;
   const parsedMsaDeck = useMemo(() => parseMsaDeckList(msaText), [msaText]);
+  const sourceComparisons = useMemo(() => {
+    if (!criteria.archetype.trim()) return [];
+    const research = collectDeckResearch(data, criteria);
+    return buildDeckSourceComparison(research.deckVariants || []);
+  }, [
+    criteria.archetype,
+    criteria.colors,
+    criteria.excludedCards,
+    criteria.requiredCards,
+    criteria.selectedMetaId,
+    criteria.unitQuery,
+    data,
+  ]);
+  const effectiveSourceDeckId = sourceComparisons.some((source) => source.deckId === preferredSourceDeckId)
+    ? preferredSourceDeckId
+    : sourceComparisons[0]?.deckId || "";
 
   useEffect(() => {
     if (initialForgeImport?.id) setZeroForgeOpen(true);
@@ -211,7 +229,9 @@ export function DeckDesigner({
         analyzeRecommendedDeck(data, assembled, assembled.criteria));
       setVariantReports(nextReports);
       setOriginalVariantReports(nextReports);
-      setActiveVariantIndex(0);
+      const preferredVariantIndex = nextReports.findIndex((variant) =>
+        variant.sourceDeck?.deckId === effectiveSourceDeckId);
+      setActiveVariantIndex(preferredVariantIndex >= 0 ? preferredVariantIndex : 0);
       setBriefOpen(false);
       setStatus("success");
     } catch (error) {
@@ -639,6 +659,14 @@ export function DeckDesigner({
           </label>
         </div>
 
+        {criteria.archetype && sourceComparisons.length ? (
+          <DeckSourcePreview
+            sources={sourceComparisons}
+            selectedDeckId={effectiveSourceDeckId}
+            onSelect={setPreferredSourceDeckId}
+          />
+        ) : null}
+
         <details className="deck-designer__constraints">
           <summary>Advanced constraints <span>preferences, collection and budget</span></summary>
           <div className="deck-designer__constraint-grid">
@@ -981,6 +1009,56 @@ function DesignerResult({
   );
 }
 
+function DeckSourcePreview({ sources, selectedDeckId, onSelect }) {
+  const { t } = useLocale();
+  return (
+    <section className="deck-source-preview" aria-labelledby="deck-source-preview-title">
+      <header>
+        <div>
+          <span className="eyebrow">{t("SOURCE COMPARISON // BEFORE GENERATION")}</span>
+          <h3 id="deck-source-preview-title">{t(`${sources.length} registered lists found`)}</h3>
+        </div>
+        <p>{t("The best result is ranked by finish, event size and recency. Core alignment measures proximity to cards repeated across these lists—not win rate.")}</p>
+      </header>
+      <div className="deck-source-preview__grid" role="radiogroup" aria-label={t("Choose which registered list should open first")}>
+        {sources.map((source, index) => {
+          const selected = source.deckId === selectedDeckId;
+          const labels = [
+            source.isBestFinish ? t("BEST RESULT") : "",
+            source.isMostConsistent ? t("FIELD CONSENSUS") : "",
+          ].filter(Boolean);
+          return (
+            <button
+              key={source.deckId}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              className={selected ? "is-selected" : ""}
+              onClick={() => onSelect(source.deckId)}
+            >
+              <span className="deck-source-preview__rank">{String(index + 1).padStart(2, "0")}</span>
+              <span className="deck-source-preview__badges">
+                {(labels.length ? labels : [t("ALTERNATIVE")]).map((label) => <i key={label}>{label}</i>)}
+              </span>
+              <strong>{source.placingLabel} <em>{source.playerName}</em></strong>
+              <span className="deck-source-preview__event">{source.eventName} · {formatDate(source.eventDate)}</span>
+              <span className="deck-source-preview__metrics">
+                <b>{source.coreAlignment == null ? "—" : `${source.coreAlignment}%`} <small>{t("CORE ALIGNMENT")}</small></b>
+                <b>{source.playerCount || "—"} <small>{t("PLAYERS")}</small></b>
+                <b>{source.uniqueCards} <small>{t("UNIQUE CARDS")}</small></b>
+              </span>
+              <span className="deck-source-preview__action">
+                {selected ? t("SELECTED FOR MAP") : t("USE AS STARTING LIST")}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <footer><i /> {t("This list will open first. All source lists stay available as tabs after generation.")}</footer>
+    </section>
+  );
+}
+
 function DeckVariantSelector({ variants, activeVariantIndex, onSelectVariant }) {
   const sourceVariants = variants.filter((variant) => variant.sourceDeck);
   if (!sourceVariants.length) return null;
@@ -1009,10 +1087,16 @@ function DeckVariantSelector({ variants, activeVariantIndex, onSelectVariant }) 
               className={selected ? "is-active" : ""}
               onClick={() => onSelectVariant(index)}
             >
-              <small>{index === 0 ? "PRIMARY TARGET" : `VARIANT ${String(index + 1).padStart(2, "0")}`}</small>
+              <small>{source.isBestFinish && source.isMostConsistent
+                ? "BEST RESULT + CONSENSUS"
+                : source.isBestFinish
+                  ? "BEST RESULT"
+                  : source.isMostConsistent
+                    ? "FIELD CONSENSUS"
+                    : `VARIANT ${String(index + 1).padStart(2, "0")}`}</small>
               <strong>{source.placingLabel || `#${source.placingRank}`} <i>{source.playerName}</i></strong>
               <span>{source.archetype} · {source.colorCombination}</span>
-              <em>{source.eventName} · {formatDate(source.eventDate)}</em>
+              <em>{source.eventName} · {formatDate(source.eventDate)} · {source.coreAlignment == null ? "single source" : `${source.coreAlignment}% core alignment`}</em>
             </button>
           );
         })}

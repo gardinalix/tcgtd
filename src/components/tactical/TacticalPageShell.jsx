@@ -222,8 +222,14 @@ function panelCode(title = "") {
 function navigateSubsystem(event) {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   event.preventDefault();
-  window.history.pushState({}, "", event.currentTarget.getAttribute("href"));
-  window.dispatchEvent(new PopStateEvent("popstate"));
+  window.history.replaceState(
+    { ...window.history.state, scrollY: window.scrollY },
+    "",
+    window.location.href,
+  );
+  window.history.pushState({ scrollY: 0 }, "", event.currentTarget.getAttribute("href"));
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  window.dispatchEvent(new PopStateEvent("popstate", { state: { scrollY: 0 } }));
 }
 
 function inferModuleName(className = "") {

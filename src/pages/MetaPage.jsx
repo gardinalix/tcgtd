@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { CardArt } from "../components/cards/CardArt";
 import {
@@ -11,11 +11,18 @@ import {
 } from "../components/tactical/TacticalPageShell";
 import { buildMetaWindows, buildScopedMetaSignal } from "../domain/meta";
 
+const INITIAL_META_BATCH = 12;
+
 export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpenForge }) {
   const metaWindows = useMemo(() => buildMetaWindows(data), [data]);
   const selectedWindow = metaWindows.find((window) => window.id === selectedMetaId) || metaWindows[0];
   const signal = useMemo(() => buildScopedMetaSignal(data, selectedWindow), [data, selectedWindow]);
   const cardMap = useMemo(() => new Map((data.cards || []).map((card) => [card.cardNumber, card])), [data.cards]);
+  const [signalLimit, setSignalLimit] = useState(INITIAL_META_BATCH);
+  const leadArchetype = signal.archetypeTrends[0];
+  const leadMovement = signal.risers[0] || signal.watch[0];
+
+  useEffect(() => setSignalLimit(INITIAL_META_BATCH), [selectedWindow?.id]);
 
   return (
     <TacticalPageShell className="meta-terminal-page">
@@ -33,6 +40,23 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
         )}
       />
 
+      <section className="meta-command-brief" aria-label="Current field briefing">
+        <span><i /> FIELD BRIEF</span>
+        <div>
+          <small>DOMINANT SHELL</small>
+          <strong>{leadArchetype?.archetype || "Awaiting competitive signal"}</strong>
+        </div>
+        <div>
+          <small>PRIMARY MOVEMENT</small>
+          <strong>{leadMovement ? `${leadMovement.cardName} · ${Number(leadMovement.delta || 0).toFixed(1)}` : "No movement detected"}</strong>
+        </div>
+        {leadArchetype ? (
+          <button type="button" onClick={() => onOpenForge?.({ ...leadArchetype, selectedMetaId: selectedWindow?.id, metaLabel: selectedWindow?.label })}>
+            OPEN DOMINANT SHELL IN FORGE →
+          </button>
+        ) : null}
+      </section>
+
       <TacticalSummaryStrip>
         <TacticalSummaryCard label="Meta window" value={selectedWindow?.shortLabel || "-"} detail={`${signal.context.deckCount} indexed decklists · ${signal.context.eventCount} events.`} tone="blue" />
         <TacticalSummaryCard label="Used cards" value={signal.ranked.length} detail="Cards present in this exact scope." />
@@ -44,7 +68,7 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
       <div className="tactical-card-grid meta-field-matrix">
         <TacticalDataPanel className="meta-archetype-station" title="Trending archetypes" subtitle={`${signal.context.deckCount} lists inside ${selectedWindow?.label || "the selected window"}.`} code="ARC/RAD" mode="radar">
           <div className="cockpit-list meta-archetype-links">
-            {signal.archetypeTrends.map((row) => (
+            {signal.archetypeTrends.slice(0, 8).map((row) => (
               <button
                 key={row.archetype}
                 type="button"
@@ -66,18 +90,24 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
       <TacticalDataPanel title={`Meta signal · ${selectedWindow?.shortLabel || "scope"}`} subtitle={`${signal.ranked.length} cards actually used in ${signal.context.deckCount} indexed lists.`} code="SIG/DB" mode="matrix">
         <TacticalTable
           columns={["Card", "Color", "Band", "Recent tops", "Movement", "Reason"]}
-          rows={signal.ranked.slice(0, 80)}
+          rows={signal.ranked.slice(0, signalLimit)}
           renderRow={(row) => (
             <MetaSignalTableRow key={row.cardNumber} row={row} card={cardMap.get(row.cardNumber)} />
           )}
         />
+        {signalLimit < signal.ranked.length ? (
+          <div className="card-result-expander meta-result-expander">
+            <span><b>{Math.min(signalLimit, signal.ranked.length)}</b> / {signal.ranked.length} SIGNALS ACQUIRED</span>
+            <button type="button" onClick={() => setSignalLimit((current) => Math.min(current + INITIAL_META_BATCH, signal.ranked.length))}>LOAD NEXT SIGNALS</button>
+          </div>
+        ) : null}
       </TacticalDataPanel>
     </TacticalPageShell>
   );
 }
 
 function MetaPanel({ className, title, rows, valueKey, cardMap }) {
-  const visibleRows = rows.slice(0, 6);
+  const visibleRows = rows.slice(0, 4);
 
   return (
     <TacticalDataPanel className={className} title={title} subtitle={`${visibleRows.length} priority signals · complete readout below.`}>
@@ -108,12 +138,12 @@ function MetaSignalTableRow({ row, card }) {
       onFocus={hover.update}
       onBlur={hover.hide}
     >
-      <td>{row.cardNumber} {row.cardName}</td>
-      <td>{row.color}</td>
-      <td>{row.band}</td>
-      <td>{row.recent}</td>
-      <td>{row.delta.toFixed(1)}</td>
-      <td>{row.reason}</td>
+      <td data-label="Card">{row.cardNumber} {row.cardName}</td>
+      <td data-label="Color">{row.color}</td>
+      <td data-label="Band">{row.band}</td>
+      <td data-label="Recent tops">{row.recent}</td>
+      <td data-label="Movement">{row.delta.toFixed(1)}</td>
+      <td data-label="Reason">{row.reason}</td>
       <MetaSignalHoverPreview card={card} row={row} position={hover.position} />
     </tr>
   );

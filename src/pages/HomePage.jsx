@@ -1,10 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useLocale } from "../i18n/LocaleProvider";
 import { buildMetaWindows, buildScopedMetaSignal } from "../domain/meta";
 
 export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
   const { locale } = useLocale();
   const pt = locale === "pt-BR";
+  const [activeMissionCode, setActiveMissionCode] = useState("01");
   const overview = useMemo(() => buildOverview(scopeHomeData(data, selectedMetaId)), [data, selectedMetaId]);
   const modules = [
     {
@@ -57,6 +58,24 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
       featured: true,
     },
   ];
+  const activeMission = modules.find((module) => module.code === activeMissionCode) || modules[0];
+
+  function navigateMissionTabs(event, currentIndex) {
+    const keyTargets = {
+      ArrowLeft: (currentIndex - 1 + modules.length) % modules.length,
+      ArrowUp: (currentIndex - 1 + modules.length) % modules.length,
+      ArrowRight: (currentIndex + 1) % modules.length,
+      ArrowDown: (currentIndex + 1) % modules.length,
+      Home: 0,
+      End: modules.length - 1,
+    };
+    const nextIndex = keyTargets[event.key];
+    if (nextIndex === undefined) return;
+    event.preventDefault();
+    const tabList = event.currentTarget.parentElement;
+    setActiveMissionCode(modules[nextIndex].code);
+    requestAnimationFrame(() => tabList?.children[nextIndex]?.focus());
+  }
 
   return (
     <div className="launch-home" data-view-panel="home">
@@ -78,6 +97,11 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
               ? "Um cockpit tático para pesquisar cartas, acompanhar o cenário competitivo e evoluir listas com evidências — não com palpites."
               : "A tactical cockpit to research cards, track the competitive field and evolve lists with evidence — not guesswork."}
           </p>
+          <div className="launch-live-rail" aria-label={pt ? "Estado do campo competitivo" : "Competitive field status"}>
+            <span><i /> LIVE FIELD</span>
+            <b>{overview.format}</b>
+            <small>{formatNumber(overview.decklists, locale)} {pt ? "listas sincronizadas" : "synchronized lists"}</small>
+          </div>
           <div className="launch-hero__actions">
             <button className="launch-button launch-button--primary" type="button" onClick={() => setView("decks")}>
               {pt ? "ABRIR A FORJA" : "OPEN THE FORGE"}
@@ -115,25 +139,47 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
             ? "Quatro módulos conectados para responder o que jogar, por que jogar e como melhorar."
             : "Four connected modules to answer what to play, why to play it and how to improve."}
         />
-        <ol className="launch-operation-map" aria-label={pt ? "Mapa de subsistemas" : "Subsystem map"}>
-          {modules.map((module) => (
-            <li className={`launch-operation-node${module.featured ? " is-primary" : ""}`} key={module.code}>
-              <button type="button" onClick={() => setView(module.action)}>
-                <span className="launch-operation-node__target" aria-hidden="true"><i />{module.code}</span>
-                <span className="launch-operation-node__copy">
-                  <small>{module.label}</small>
-                  <strong>{module.title}</strong>
-                  <span>{module.description}</span>
-                </span>
-                <span className="launch-operation-node__signal">
-                  <b>{module.metric}</b>
-                  <small>{module.metricLabel}</small>
-                  <em>{module.cta} →</em>
-                </span>
+        <div className="launch-mission-console">
+          <div className="launch-mission-console__tabs" role="tablist" aria-label={pt ? "Selecionar missão" : "Select mission"}>
+            {modules.map((module, index) => (
+              <button
+                key={module.code}
+                type="button"
+                role="tab"
+                aria-selected={module.code === activeMission.code}
+                aria-controls="launch-mission-stage"
+                tabIndex={module.code === activeMission.code ? 0 : -1}
+                className={module.code === activeMission.code ? "is-active" : ""}
+                onClick={() => setActiveMissionCode(module.code)}
+                onKeyDown={(event) => navigateMissionTabs(event, index)}
+              >
+                <span>{module.code}</span>
+                <strong>{module.label}</strong>
               </button>
-            </li>
-          ))}
-        </ol>
+            ))}
+          </div>
+          <article
+            className={`launch-mission-console__stage${activeMission.featured ? " is-primary" : ""}`}
+            id="launch-mission-stage"
+            role="tabpanel"
+            key={activeMission.code}
+          >
+            <span className="launch-mission-console__orbit" aria-hidden="true"><i /><i /><b>{activeMission.code}</b></span>
+            <div className="launch-mission-console__copy">
+              <small>{activeMission.label} // MISSION PATH</small>
+              <h3>{activeMission.title}</h3>
+              <p>{activeMission.description}</p>
+            </div>
+            <div className="launch-mission-console__signal">
+              <small>{activeMission.metricLabel}</small>
+              <strong>{activeMission.metric}</strong>
+              <span><i /> {pt ? "CANAL PRONTO" : "CHANNEL READY"}</span>
+            </div>
+            <button className="launch-button launch-button--primary" type="button" onClick={() => setView(activeMission.action)}>
+              {activeMission.cta} →
+            </button>
+          </article>
+        </div>
       </section>
 
       <section className="launch-section launch-intel" aria-labelledby="intel-title">
@@ -253,10 +299,10 @@ function buildOverview(data = {}) {
   const counts = data.counts || {};
   const latestDecks = (data.latestDecks || data.metaResults || [])
     .filter((deck) => deck?.deckId)
-    .slice(0, 6);
+    .slice(0, 4);
   const metaLeaders = (data.metaLeaders || data.cards || [])
     .filter((card) => card?.cardNumber)
-    .slice(0, 5);
+    .slice(0, 4);
   return {
     cards: Number(counts.cards || counts.main_deck_cards || 0) + Number(counts.resource_cards || 0),
     decklists: Number(counts.decklists || 0),

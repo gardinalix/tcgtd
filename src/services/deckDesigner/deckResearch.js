@@ -102,6 +102,66 @@ export function getObservedArchetypesForUnit(data = {}, unitQuery = "") {
   }));
 }
 
+export function buildDeckSourceComparison(candidates = []) {
+  const sources = candidates.filter((candidate) => candidate?.result?.deckId && candidate.deckRows?.length);
+  if (!sources.length) return [];
+
+  const quantitiesByCard = new Map();
+  const deckQuantities = sources.map((candidate) => {
+    const quantities = new Map();
+    for (const row of candidate.deckRows) {
+      const cardNumber = String(row.cardNumber || "").trim();
+      if (!cardNumber) continue;
+      quantities.set(cardNumber, (quantities.get(cardNumber) || 0) + Number(row.quantity || 0));
+    }
+    for (const [cardNumber, quantity] of quantities) {
+      if (!quantitiesByCard.has(cardNumber)) quantitiesByCard.set(cardNumber, []);
+      quantitiesByCard.get(cardNumber).push(quantity);
+    }
+    return quantities;
+  });
+  const coreThreshold = sources.length === 1 ? 1 : Math.max(2, Math.ceil(sources.length / 2));
+  const consensusCore = new Map([...quantitiesByCard.entries()]
+    .filter(([, quantities]) => quantities.length >= coreThreshold)
+    .map(([cardNumber, quantities]) => [cardNumber, medianQuantity(quantities)]));
+
+  const comparisons = sources.map((candidate, index) => {
+    const quantities = deckQuantities[index];
+    const mainCount = Number(candidate.mainCount || [...quantities.values()].reduce((sum, value) => sum + value, 0));
+    const alignedCopies = [...consensusCore.entries()].reduce((sum, [cardNumber, consensusQuantity]) =>
+      sum + Math.min(Number(quantities.get(cardNumber) || 0), consensusQuantity), 0);
+    return {
+      deckId: candidate.result.deckId,
+      candidateIndex: index,
+      placingLabel: candidate.result.placingLabel || `#${candidate.result.placingRank || "—"}`,
+      placingRank: Number(candidate.result.placingRank || 999),
+      playerName: candidate.result.playerName || "Unknown pilot",
+      playerCount: Number(candidate.result.playerCount || 0),
+      eventName: candidate.result.eventName || "Competitive event",
+      eventDate: candidate.result.eventDate || "",
+      eventType: candidate.result.eventType || "",
+      archetype: candidate.result.archetype || "",
+      colorCombination: candidate.result.colorCombination || candidate.resultColors?.join("/") || "",
+      deckUrl: candidate.result.deckUrl || "",
+      sourceUrl: candidate.result.sourceUrl || "",
+      mainCount,
+      uniqueCards: quantities.size,
+      consensusCards: [...consensusCore.keys()].filter((cardNumber) => quantities.has(cardNumber)).length,
+      coreAlignment: sources.length > 1 && mainCount ? Math.round((alignedCopies / mainCount) * 100) : null,
+      isBestFinish: index === 0,
+    };
+  });
+  const consensusLeaderIndex = sources.length > 1
+    ? comparisons.reduce((bestIndex, comparison, index) =>
+      comparison.coreAlignment > comparisons[bestIndex].coreAlignment ? index : bestIndex, 0)
+    : -1;
+
+  return comparisons.map((comparison, index) => ({
+    ...comparison,
+    isMostConsistent: index === consensusLeaderIndex,
+  }));
+}
+
 export function collectDeckResearch(data = {}, criteria = {}) {
   const cards = data.cards || [];
   const cardMap = new Map(cards.map((card) => [card.cardNumber, card]));
@@ -321,6 +381,8 @@ function isDateInsideWindow(value, window) {
 }
 
 export function buildDeckVariantResearch(data = {}, research = {}) {
+  const sourceComparisons = new Map(buildDeckSourceComparison(research.deckVariants || [])
+    .map((comparison) => [comparison.deckId, comparison]));
   return (research.deckVariants || []).map((candidate, index) => {
     const deckId = candidate.result.deckId;
     const normalizedRows = (research.normalizedRows || [])
@@ -343,6 +405,11 @@ export function buildDeckVariantResearch(data = {}, research = {}) {
       deckUrl: candidate.result.deckUrl || "",
       mainCount: candidate.mainCount,
       variantIndex: index,
+      coreAlignment: sourceComparisons.get(deckId)?.coreAlignment ?? null,
+      consensusCards: sourceComparisons.get(deckId)?.consensusCards || 0,
+      uniqueCards: sourceComparisons.get(deckId)?.uniqueCards || 0,
+      isBestFinish: Boolean(sourceComparisons.get(deckId)?.isBestFinish),
+      isMostConsistent: Boolean(sourceComparisons.get(deckId)?.isMostConsistent),
     };
     const requestedColors = research.selectionInference?.requestedColors || [];
     const requestedArchetype = research.selectionInference?.requestedArchetype || "";
@@ -601,6 +668,15 @@ function eventStrength(eventType = "") {
   if (normalized.includes("major") || normalized.includes("large")) return 3;
   if (normalized.includes("official")) return 2;
   return 1;
+}
+
+function medianQuantity(values = []) {
+  const sorted = values.map(Number).filter(Number.isFinite).sort((left, right) => left - right);
+  if (!sorted.length) return 0;
+  const middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2
+    ? sorted[middle]
+    : Math.round((sorted[middle - 1] + sorted[middle]) / 2);
 }
 
 function scoreColors(requested, actual) {

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CardDetail } from "../components/cards/CardDetail";
 import { CardTable } from "../components/cards/CardTable";
 import { CardTile } from "../components/cards/CardTile";
@@ -10,11 +10,16 @@ import {
 import { filterCards, uniqueValues } from "../utils/cardFilters";
 import { sortCards } from "../domain/cards";
 
+const INITIAL_CARD_BATCH = 24;
+
 export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy, onOpenSynergyMap }) {
   const [selectedCardId, setSelectedCardId] = useState("");
   const [viewMode, setViewMode] = useState("grid");
   const [sortMode, setSortMode] = useState("recent-meta");
   const [printMode, setPrintMode] = useState("all");
+  const [resultLimit, setResultLimit] = useState(INITIAL_CARD_BATCH);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [dossierOpen, setDossierOpen] = useState(false);
   const selectedPanelRef = useRef(null);
   const cards = data.cards || [];
   const resourceCards = data.resourceCards || [];
@@ -29,7 +34,8 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
     return sortCards(filtered, sortMode);
   }, [searchableCards, filters, sortMode, printMode]);
   const selectedCard = searchableCards.find((card) => card.displayId === selectedCardId) || visibleCards[0] || null;
-  const pageCards = visibleCards.slice(0, 160);
+  const pageCards = visibleCards.slice(0, resultLimit);
+  const activeFilterCount = Object.values(filters).filter((value) => value && value !== "Any").length;
   const options = {
     colors: ["Any", ...orderColors(uniqueValues(searchableCards, (card) => card.color))],
     types: ["Any", ...uniqueValues(searchableCards, (card) => card.cardType)],
@@ -42,9 +48,29 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
     return counts;
   }, {}), [searchableCards]);
 
+  useEffect(() => {
+    setResultLimit(INITIAL_CARD_BATCH);
+  }, [filters, sortMode, printMode]);
+
+  useEffect(() => {
+    if (!filtersOpen && !dossierOpen) return undefined;
+    document.body.classList.add("has-v3-drawer");
+    function closeOnEscape(event) {
+      if (event.key !== "Escape") return;
+      setFiltersOpen(false);
+      setDossierOpen(false);
+    }
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.classList.remove("has-v3-drawer");
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [filtersOpen, dossierOpen]);
+
   function selectCard(cardId) {
     setSelectedCardId(cardId);
-    if (window.matchMedia?.("(max-width: 1280px)").matches) {
+    setDossierOpen(true);
+    if (window.matchMedia?.("(min-width: 821px) and (max-width: 1280px)").matches) {
       window.requestAnimationFrame(() => {
         selectedPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
@@ -57,15 +83,22 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
         eyebrow="SUBSYSTEM 01 // OBJECT ACQUISITION"
         title="Card Intelligence Archive"
         subtitle="Scan printings, effects, market references and competitive signals without leaving the active dossier."
+        actions={(
+          <button className="v3-mobile-filter-trigger" type="button" onClick={() => setFiltersOpen(true)}>
+            <span>FILTERS</span>
+            <strong>{activeFilterCount || "ALL"}</strong>
+          </button>
+        )}
       />
       <div className="cards-terminal-grid react-cards-page tactical-acquisition-layout">
       <div className="cards-acquisition-axis" aria-hidden="true">
         <span>OBJECT ACQUISITION</span><i /><b>{String(visibleCards.length).padStart(4, "0")}</b>
       </div>
-      <aside className="panel filter-panel react-filter-panel hud-control-stack" data-hud-zone="SCAN PARAMETERS">
+      <button className={`v3-drawer-backdrop${filtersOpen ? " is-open" : ""}`} type="button" aria-label="Close filters" onClick={() => setFiltersOpen(false)} />
+      <aside className={`panel filter-panel react-filter-panel hud-control-stack${filtersOpen ? " is-open" : ""}`} data-hud-zone="SCAN PARAMETERS" aria-label="Card filters">
         <div className="panel-head">
-          <h2>Analysis parameters</h2>
-          <p>Search and classify units without leaving the tactical database.</p>
+          <div><h2>Analysis parameters</h2><p>Search and classify units without leaving the tactical database.</p></div>
+          <button className="v3-drawer-close" type="button" aria-label="Close filters" onClick={() => setFiltersOpen(false)}>×</button>
         </div>
         <div className="filter-grid">
           <label>
@@ -91,7 +124,14 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
         <span className="hud-field-reticle" aria-hidden="true"><i /><i /></span>
         <div className="panel-head">
           <h2>{visibleCards.length} units found</h2>
-          <p>{printMode === "all" ? "All printings" : printMode === "base" ? "Base printings" : "Alternate printings"} · showing first {pageCards.length}.</p>
+          <p>{printMode === "all" ? "All printings" : printMode === "base" ? "Base printings" : "Alternate printings"} · {pageCards.length} active in this scan.</p>
+        </div>
+        <div className="card-mobile-search">
+          <label className="card-mobile-search__field">
+            <span>QUICK ACQUISITION</span>
+            <input value={filters.search} placeholder="Name, number, effect..." onChange={(event) => setFilter("search", event.target.value)} />
+          </label>
+          <button type="button" onClick={() => setFiltersOpen(true)}>FILTERS {activeFilterCount ? `· ${activeFilterCount}` : ""}</button>
         </div>
         <div className="card-results-toolbar" role="toolbar" aria-label="Card result controls">
           <label className="card-results-toolbar__sort">
@@ -133,9 +173,19 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
             ))}
           </div>
         )}
+        {pageCards.length < visibleCards.length ? (
+          <div className="card-result-expander">
+            <span><b>{pageCards.length}</b> / {visibleCards.length} ACQUIRED</span>
+            <button type="button" onClick={() => setResultLimit((current) => Math.min(current + INITIAL_CARD_BATCH, visibleCards.length))}>
+              LOAD NEXT {Math.min(INITIAL_CARD_BATCH, visibleCards.length - pageCards.length)}
+            </button>
+          </div>
+        ) : null}
       </section>
 
-      <aside className="cards-terminal-side-stack hud-dossier-stack" data-hud-zone="ACTIVE DOSSIER" ref={selectedPanelRef}>
+      <button className={`v3-drawer-backdrop v3-drawer-backdrop--dossier${dossierOpen ? " is-open" : ""}`} type="button" aria-label="Close card dossier" onClick={() => setDossierOpen(false)} />
+      <aside className={`cards-terminal-side-stack hud-dossier-stack${dossierOpen ? " is-open" : ""}`} data-hud-zone="ACTIVE DOSSIER" aria-label="Active card dossier" ref={selectedPanelRef}>
+        <button className="v3-drawer-close v3-dossier-close" type="button" aria-label="Close card dossier" onClick={() => setDossierOpen(false)}>×</button>
         <CardDetail
           card={selectedCard}
           onOpenCard={onOpenCard}

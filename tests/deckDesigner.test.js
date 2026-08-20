@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   analyzeImportedDeck,
   applyRecommendedSubstitution,
+  buildDeckSourceComparison,
   collectDeckResearch,
   designDeck,
   designDeckVariants,
@@ -176,6 +177,26 @@ test("designer selects the best finish and preserves independent source-list var
     assert.equal(report.assemblyMode, "competitive_source");
     assert.equal(report.stats.mainCount, 50);
   }
+});
+
+test("source comparison separates best finish from consensus alignment", () => {
+  const data = fixtureData();
+  setDeckQuantity(data, "deck-2", "TEST-001", 3);
+  setDeckQuantity(data, "deck-2", "TEST-012", 3);
+  setDeckQuantity(data, "deck-3", "TEST-002", 3);
+  setDeckQuantity(data, "deck-3", "TEST-012", 3);
+
+  const research = collectDeckResearch(data, baseCriteria());
+  const comparison = buildDeckSourceComparison(research.deckVariants);
+
+  assert.equal(comparison.length, 3);
+  assert.equal(comparison[0].deckId, "deck-1");
+  assert.equal(comparison[0].isBestFinish, true);
+  assert.equal(comparison.filter((source) => source.isMostConsistent).length, 1);
+  assert.ok(comparison.every((source) =>
+    Number.isInteger(source.coreAlignment)
+    && source.coreAlignment >= 0
+    && source.coreAlignment <= 100));
 });
 
 test("an exact archetype selection does not admit a different blockers archetype", () => {

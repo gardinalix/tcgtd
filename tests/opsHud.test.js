@@ -4,6 +4,9 @@ import test from "node:test";
 
 const appSource = fs.readFileSync(new URL("../src/App.jsx", import.meta.url), "utf8");
 const cardSource = fs.readFileSync(new URL("../src/pages/CardsPage.jsx", import.meta.url), "utf8");
+const homeSource = fs.readFileSync(new URL("../src/pages/HomePage.jsx", import.meta.url), "utf8");
+const metaSource = fs.readFileSync(new URL("../src/pages/MetaPage.jsx", import.meta.url), "utf8");
+const previewsSource = fs.readFileSync(new URL("../src/pages/PreviewsPage.jsx", import.meta.url), "utf8");
 const railSource = fs.readFileSync(new URL("../src/components/layout/TacticalSideRail.jsx", import.meta.url), "utf8");
 const deckMapSource = fs.readFileSync(new URL("../src/components/decks/DeckMap.jsx", import.meta.url), "utf8");
 const deckViewSource = fs.readFileSync(new URL("../src/pages/DeckViewPage.jsx", import.meta.url), "utf8");
@@ -27,6 +30,38 @@ test("card archive uses compact chromatic controls instead of summary dashboard 
   assert.match(cardSource, /data-card-color=/);
   assert.match(cardSource, /className="card-results-toolbar"/);
   assert.doesNotMatch(cardSource, /TacticalSummaryStrip/);
+});
+
+test("experience v3 preserves navigation context and acquires new routes from the top", () => {
+  assert.match(appSource, /history\.scrollRestoration = "manual"/);
+  assert.match(appSource, /routeScrollPositions\.current\.set\(currentRouteKey, window\.scrollY\)/);
+  assert.match(appSource, /window\.history\.pushState\(\{ scrollY: 0 \}/);
+  assert.match(appSource, /className="experience-route-stage"/);
+});
+
+test("dense intelligence screens reveal records progressively", () => {
+  assert.match(cardSource, /const INITIAL_CARD_BATCH = 24/);
+  assert.match(cardSource, /visibleCards\.slice\(0, resultLimit\)/);
+  assert.match(metaSource, /const INITIAL_META_BATCH = 12/);
+  assert.match(metaSource, /signal\.ranked\.slice\(0, signalLimit\)/);
+  assert.match(previewsSource, /const INITIAL_RELEASE_BATCH = 6/);
+  assert.match(previewsSource, /visibleReleases\.slice\(0, releaseLimit\)/);
+});
+
+test("mobile operations use bounded drawers and a compact five-route command bar", () => {
+  assert.match(cardSource, /className={`[^`]*react-filter-panel[^`]*\$\{filtersOpen \? " is-open"/);
+  assert.match(cardSource, /className={`[^`]*cards-terminal-side-stack[^`]*\$\{dossierOpen \? " is-open"/);
+  assert.match(cssSource, /body\[data-view="cards"\][\s\S]*?height: calc\(100dvh - 126px\) !important/);
+  assert.match(cssSource, /\.tactical-side-rail \{ display: none !important; \}/);
+  assert.match(cssSource, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\) !important/);
+});
+
+test("the home mission console supports pointer and keyboard exploration", () => {
+  assert.match(homeSource, /role="tablist"/);
+  assert.match(homeSource, /tabIndex=\{module\.code === activeMission\.code \? 0 : -1\}/);
+  assert.match(homeSource, /ArrowRight/);
+  assert.match(homeSource, /role="tabpanel"/);
+  assert.match(cssSource, /launch-mission-console__orbit::before/);
 });
 
 test("the final HUD layer compresses controls and turns shared cards into telemetry planes", () => {
@@ -127,7 +162,9 @@ test("the operational HUD stylesheet is the final cascade authority", () => {
 test("synergy map hover acquires a node without moving or scaling the card", () => {
   assert.match(cssSource, /Synergy map acquisition: stable telemetry/);
   assert.match(cssSource, /body\[data-view="synergyMap"\][\s\S]*?\.synergy-map-node:hover,[\s\S]*?transform: translate\(-50%, -50%\) !important;/);
-  assert.doesNotMatch(cssSource, /body\[data-view="synergyMap"\][\s\S]*?\.synergy-map-node:hover[\s\S]*?scale\(/);
+  const synergyHoverRule = cssSource.match(/body\[data-view="synergyMap"\][^\{]*?\.synergy-map-node:hover,[\s\S]*?\{([^}]*)\}/)?.[1] || "";
+  assert.ok(synergyHoverRule);
+  assert.doesNotMatch(synergyHoverRule, /scale\(/);
   assert.match(cssSource, /prefers-reduced-motion: reduce[\s\S]*?\.synergy-map-node[\s\S]*?transition: none !important/);
 });
 

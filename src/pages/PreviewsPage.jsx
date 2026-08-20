@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   TacticalDataPanel,
   TacticalPageHeader,
@@ -12,6 +12,7 @@ import officialPreviewRegistry from "../../data/official_preview_registry.json";
 
 const FUTURE_CODE_RE = /^(GD|EB|ST|SC|PC|EVX)\d+/i;
 const GD04_RELEASE_TIME = parseReleaseDate("April 24, 2026");
+const INITIAL_RELEASE_BATCH = 6;
 
 export function PreviewsPage({ data }) {
   const products = data.products || [];
@@ -20,6 +21,7 @@ export function PreviewsPage({ data }) {
   const cards = [...(data.cards || []), ...(data.resourceCards || [])];
   const [selectedCode, setSelectedCode] = useState("future");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [releaseLimit, setReleaseLimit] = useState(INITIAL_RELEASE_BATCH);
 
   const releaseRows = useMemo(
     () => buildReleaseRows({ products, packages, previews, cards }),
@@ -44,6 +46,7 @@ export function PreviewsPage({ data }) {
     if (statusFilter === "released" && !preview.matchedReleasedCard) return false;
     return true;
   });
+  const visibleReleaseRows = visibleReleases.slice(0, releaseLimit);
   const visibleChannelCodes = new Set(visibleReleases.map((row) => row.code));
   const officialChannels = (officialPreviewRegistry.channels || []).filter((channel) => {
     const channelCodes = (channel.products || []).map(normalizeCode);
@@ -51,6 +54,8 @@ export function PreviewsPage({ data }) {
     if (selectedCode === "future") return channelCodes.some((code) => visibleChannelCodes.has(code));
     return channelCodes.includes(selectedCode);
   });
+
+  useEffect(() => setReleaseLimit(INITIAL_RELEASE_BATCH), [selectedCode, statusFilter]);
 
   return (
     <TacticalPageShell className="preview-terminal-page release-intel-page">
@@ -109,7 +114,7 @@ export function PreviewsPage({ data }) {
           className="release-board-panel"
         >
           <div className="release-card-grid">
-            {visibleReleases.map((release) => (
+            {visibleReleaseRows.map((release) => (
               <article key={release.code} className={`release-intel-card release-intel-card--${release.releaseState}`}>
                 <button type="button" className="release-intel-card__image" onClick={() => setSelectedCode(release.code)}>
                   {release.imageUrl ? <img src={release.imageUrl} alt="" loading="lazy" /> : <span>{release.code}</span>}
@@ -136,6 +141,12 @@ export function PreviewsPage({ data }) {
               </article>
             ))}
           </div>
+          {releaseLimit < visibleReleases.length ? (
+            <div className="card-result-expander release-result-expander">
+              <span><b>{visibleReleaseRows.length}</b> / {visibleReleases.length} RELEASES IN RANGE</span>
+              <button type="button" onClick={() => setReleaseLimit((current) => Math.min(current + INITIAL_RELEASE_BATCH, visibleReleases.length))}>LOAD NEXT RELEASES</button>
+            </div>
+          ) : null}
         </TacticalDataPanel>
 
         <TacticalDataPanel
@@ -150,19 +161,19 @@ export function PreviewsPage({ data }) {
             emptyDetail="Try All products or Future / preview queue."
             renderRow={(preview) => (
               <tr key={preview.previewId}>
-                <td>
+                <td data-label="Status">
                   <TacticalStatusBadge tone={preview.matchedReleasedCard ? "green" : "gold"}>
                     {preview.matchedReleasedCard ? "Released match" : "Preview only"}
                   </TacticalStatusBadge>
                 </td>
-                <td>
+                <td data-label="Card / hint">
                   <strong>{preview.cardNumberHint || preview.cardNameHint || "Unidentified card"}</strong>
                   <small>{preview.sectionHeading || preview.productName}</small>
                 </td>
-                <td>{preview.productCode || "-"}</td>
-                <td>{preview.sourceUrl ? <a href={preview.sourceUrl} target="_blank" rel="noreferrer">{preview.sourceType || "Official source"}</a> : preview.sourceType}</td>
-                <td>{preview.sourceDate || preview.productReleaseDate || "-"}</td>
-                <td>{preview.imageUrl ? <a href={preview.imageUrl} target="_blank" rel="noreferrer">Open image</a> : "-"}</td>
+                <td data-label="Set">{preview.productCode || "-"}</td>
+                <td data-label="Source">{preview.sourceUrl ? <a href={preview.sourceUrl} target="_blank" rel="noreferrer">{preview.sourceType || "Official source"}</a> : preview.sourceType}</td>
+                <td data-label="Date">{preview.sourceDate || preview.productReleaseDate || "-"}</td>
+                <td data-label="Image">{preview.imageUrl ? <a href={preview.imageUrl} target="_blank" rel="noreferrer">Open image</a> : "-"}</td>
               </tr>
             )}
           />
