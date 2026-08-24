@@ -1,0 +1,970 @@
+{
+  "schema_version": "tcgtd-competitive-normalized-v1",
+  "items": [
+    {
+      "id": "academy",
+      "display_name": "Academy",
+      "aliases": [
+        "Academy"
+      ],
+      "observed_source_names": [
+        "Academy"
+      ]
+    },
+    {
+      "id": "academy-aggro",
+      "display_name": "Academy Aggro",
+      "aliases": [
+        "Academy Aggro"
+      ],
+      "observed_source_names": [
+        "Academy Aggro"
+      ]
+    },
+    {
+      "id": "aegis-aggro",
+      "display_name": "Aegis Aggro",
+      "aliases": [
+        "Aegis Aggro"
+      ],
+      "observed_source_names": [
+        "Aegis Aggro"
+      ]
+    },
+    {
+      "id": "amuro-aggro",
+      "display_name": "Amuro Aggro",
+      "aliases": [
+        "Amuro Aggro"
+      ],
+      "observed_source_names": [
+        "Amuro Aggro"
+      ]
+    },
+    {
+      "id": "banshee-control",
+      "display_name": "Banshee Control",
+      "aliases": [
+        "Banshee Control"
+      ],
+      "observed_source_names": [
+        "Banshee Control"
+      ]
+    },
+    {
+      "id": "barbatos-blockers",
+      "display_name": "Barbatos Blockers",
+      "aliases": [
+        "Barbatos Blockers"
+      ],
+      "observed_source_names": [
+        "Barbatos Blockers"
+      ]
+    },
+    {
+      "id": "barbatos-breach",
+      "display_name": "Barbatos Breach",
+      "aliases": [
+        "Barbatos Breach"
+      ],
+      "observed_source_names": [
+        "Barbatos Breach"
+      ]
+    },
+    {
+      "id": "barbatos-control",
+      "display_name": "Barbatos Control",
+      "aliases": [
+        "Barbatos Control"
+      ],
+      "observed_source_names": [
+        "Barbatos Control"
+      ]
+    },
+    {
+      "id": "barbatos-ping",
+      "display_name": "Barbatos Ping",
+      "aliases": [
+        "Barbatos Ping"
+      ],
+      "observed_source_names": [
+        "Barbatos Ping"
+      ]
+    },
+    {
+      "id": "barbatos-ping-academy",
+      "display_name": "Barbatos Ping (Academy)",
+      "aliases": [
+        "Barbatos Ping (Academy)"
+      ],
+      "observed_source_names": [
+        "Barbatos Ping (Academy)"
+      ]
+    },
+    {
+      "id": "barbatos-rush",
+      "display_name": "Barbatos Rush",
+      "aliases": [
+        "Barbatos Rush"
+      ],
+      "observed_source_names": [
+        "Barbatos Rush"
+      ]
+    },
+    {
+      "id": "blue-green-cyclops-team",
+      "display_name": "Blue Green Cyclops Team",
+      "aliases": [
+        "Blue Green Cyclops Team"
+      ],
+      "observed_source_names": [
+        "Blue Green Cyclops Team"
+      ]
+    },
+    {
+      "id": "blue-white-control",
+      "display_name": "Blue White Control",
+      "aliases": [
+        "Blue White Control"
+      ],
+      "observed_source_names": [
+        "Blue White Control"
+      ]
+    },
+    {
+      "id": "blue-white-freedom-blockers",
+      "display_name": "Blue White Freedom Blockers",
+      "aliases": [
+        "Blue White Freedom Blockers"
+      ],
+      "observed_source_names": [
+        "Blue White Freedom Blockers"
+      ]
+    },
+    {
+      "id": "blue-white-tempo",
+      "display_name": "Blue White Tempo",
+      "aliases": [
+        "Blue White Tempo"
+      ],
+      "observed_source_names": [
+        "Blue White Tempo"
+      ]
+    },
+    {
+      "id": "blue-white-the-o",
+      "display_name": "Blue White The-O",
+      "aliases": [
+        "Blue White The-O"
+      ],
+      "observed_source_names": [
+        "Blue White The-O"
+      ]
+    },
+    {
+      "id": "blue-white-victory-unicorn",
+      "display_name": "Blue White Victory Unicorn",
+      "aliases": [
+        "Blue White Victory Unicorn"
+      ],
+      "observed_source_names": [
+        "Blue White Victory Unicorn"
+      ]
+    },
+    {
+      "id": "cb-aggro",
+      "display_name": "CB Aggro",
+      "aliases": [
+        "CB Aggro"
+      ],
+      "observed_source_names": [
+        "CB Aggro"
+      ]
+    },
+    {
+      "id": "celestial-being",
+      "display_name": "Celestial Being",
+      "aliases": [
+        "Celestial Being"
+      ],
+      "observed_source_names": [
+        "Celestial Being"
+      ]
+    },
+    {
+      "id": "cyber-newtype",
+      "display_name": "Cyber-Newtype",
+      "aliases": [
+        "Cyber-Newtype"
+      ],
+      "observed_source_names": [
+        "Cyber-Newtype"
+      ]
+    },
+    {
+      "id": "cyber-newtype-aggro",
+      "display_name": "Cyber-Newtype (Aggro)",
+      "aliases": [
+        "Cyber-Newtype (Aggro)"
+      ],
+      "observed_source_names": [
+        "Cyber-Newtype (Aggro)"
+      ]
+    },
+    {
+      "id": "cyber-newtype-full-frontal",
+      "display_name": "Cyber-Newtype (Full Frontal)",
+      "aliases": [
+        "Cyber-Newtype (Full Frontal)"
+      ],
+      "observed_source_names": [
+        "Cyber-Newtype (Full Frontal)"
+      ]
+    },
+    {
+      "id": "cyber-newtype-jupitris",
+      "display_name": "Cyber-Newtype (Jupitris)",
+      "aliases": [
+        "Cyber-Newtype (Jupitris)"
+      ],
+      "observed_source_names": [
+        "Cyber-Newtype (Jupitris)"
+      ]
+    },
+    {
+      "id": "cyber-newtype-zaft",
+      "display_name": "Cyber-Newtype (ZAFT)",
+      "aliases": [
+        "Cyber-Newtype (ZAFT)"
+      ],
+      "observed_source_names": [
+        "Cyber-Newtype (ZAFT)"
+      ]
+    },
+    {
+      "id": "dynames-rush",
+      "display_name": "Dynames Rush",
+      "aliases": [
+        "Dynames Rush"
+      ],
+      "observed_source_names": [
+        "Dynames Rush"
+      ]
+    },
+    {
+      "id": "earth-federation-age",
+      "display_name": "Earth Federation AGE",
+      "aliases": [
+        "Earth Federation AGE"
+      ],
+      "observed_source_names": [
+        "Earth Federation AGE"
+      ]
+    },
+    {
+      "id": "earth-federation-aggro",
+      "display_name": "Earth Federation Aggro",
+      "aliases": [
+        "Earth Federation Aggro"
+      ],
+      "observed_source_names": [
+        "Earth Federation Aggro"
+      ]
+    },
+    {
+      "id": "earth-federation-aggro-breach",
+      "display_name": "Earth Federation Aggro (Breach)",
+      "aliases": [
+        "Earth Federation Aggro (Breach)"
+      ],
+      "observed_source_names": [
+        "Earth Federation Aggro (Breach)"
+      ]
+    },
+    {
+      "id": "earth-federation-aggro-oz",
+      "display_name": "Earth Federation Aggro (OZ)",
+      "aliases": [
+        "Earth Federation Aggro (OZ)"
+      ],
+      "observed_source_names": [
+        "Earth Federation Aggro (OZ)"
+      ]
+    },
+    {
+      "id": "earth-federation-aggro-zaft",
+      "display_name": "Earth Federation Aggro (ZAFT)",
+      "aliases": [
+        "Earth Federation Aggro (ZAFT)"
+      ],
+      "observed_source_names": [
+        "Earth Federation Aggro (ZAFT)"
+      ]
+    },
+    {
+      "id": "earth-federation-breach",
+      "display_name": "Earth Federation Breach",
+      "aliases": [
+        "Earth Federation Breach"
+      ],
+      "observed_source_names": [
+        "Earth Federation Breach"
+      ]
+    },
+    {
+      "id": "epyon-blockers",
+      "display_name": "Epyon Blockers",
+      "aliases": [
+        "Epyon Blockers"
+      ],
+      "observed_source_names": [
+        "Epyon Blockers"
+      ]
+    },
+    {
+      "id": "federation-tempo",
+      "display_name": "Federation Tempo",
+      "aliases": [
+        "Federation Tempo"
+      ],
+      "observed_source_names": [
+        "Federation Tempo"
+      ]
+    },
+    {
+      "id": "freedom-blockers",
+      "display_name": "Freedom Blockers",
+      "aliases": [
+        "Freedom Blockers"
+      ],
+      "observed_source_names": [
+        "Freedom Blockers"
+      ]
+    },
+    {
+      "id": "freedom-blockers-academy",
+      "display_name": "Freedom Blockers (Academy)",
+      "aliases": [
+        "Freedom Blockers (Academy)"
+      ],
+      "observed_source_names": [
+        "Freedom Blockers (Academy)"
+      ]
+    },
+    {
+      "id": "freedom-blockers-unicorn",
+      "display_name": "Freedom Blockers (Unicorn)",
+      "aliases": [
+        "Freedom Blockers (Unicorn)"
+      ],
+      "observed_source_names": [
+        "Freedom Blockers (Unicorn)"
+      ]
+    },
+    {
+      "id": "freedom-ping",
+      "display_name": "Freedom Ping",
+      "aliases": [
+        "Freedom Ping"
+      ],
+      "observed_source_names": [
+        "Freedom Ping"
+      ]
+    },
+    {
+      "id": "gfred-aggro",
+      "display_name": "GFreD Aggro",
+      "aliases": [
+        "GFreD Aggro"
+      ],
+      "observed_source_names": [
+        "GFreD Aggro"
+      ]
+    },
+    {
+      "id": "gfred-zeon-aggro",
+      "display_name": "GFreD Zeon Aggro",
+      "aliases": [
+        "GFreD Zeon Aggro"
+      ],
+      "observed_source_names": [
+        "GFreD Zeon Aggro"
+      ]
+    },
+    {
+      "id": "gquuuuuux",
+      "display_name": "Gquuuuuux",
+      "aliases": [
+        "Gquuuuuux"
+      ],
+      "observed_source_names": [
+        "Gquuuuuux"
+      ]
+    },
+    {
+      "id": "gquuuuuux-omega-psycommu-red-gundam",
+      "display_name": "GQuuuuuuX [Omega Psycommu] (Red Gundam)",
+      "aliases": [
+        "GQuuuuuuX [Omega Psycommu] (Red Gundam)"
+      ],
+      "observed_source_names": [
+        "GQuuuuuuX [Omega Psycommu] (Red Gundam)"
+      ]
+    },
+    {
+      "id": "gquuuuuux-blockers",
+      "display_name": "Gquuuuuux Blockers",
+      "aliases": [
+        "Gquuuuuux Blockers"
+      ],
+      "observed_source_names": [
+        "Gquuuuuux Blockers"
+      ]
+    },
+    {
+      "id": "gundam-barbatos",
+      "display_name": "Gundam Barbatos",
+      "aliases": [
+        "Gundam Barbatos"
+      ],
+      "observed_source_names": [
+        "Gundam Barbatos"
+      ]
+    },
+    {
+      "id": "wing-zero-gw",
+      "display_name": "GW Wing Zero",
+      "aliases": [
+        "GW Wing Zero",
+        "Wing",
+        "Wing Zero",
+        "GW Wing",
+        "Green White Wing",
+        "Wing Zero EW"
+      ],
+      "observed_source_names": [
+        "Wing Zero"
+      ]
+    },
+    {
+      "id": "impulse",
+      "display_name": "Impulse",
+      "aliases": [
+        "Impulse"
+      ],
+      "observed_source_names": [
+        "Impulse"
+      ]
+    },
+    {
+      "id": "impulse-blockers",
+      "display_name": "Impulse Blockers",
+      "aliases": [
+        "Impulse Blockers"
+      ],
+      "observed_source_names": [
+        "Impulse Blockers"
+      ]
+    },
+    {
+      "id": "impulse-ping",
+      "display_name": "Impulse Ping",
+      "aliases": [
+        "Impulse Ping"
+      ],
+      "observed_source_names": [
+        "Impulse Ping"
+      ]
+    },
+    {
+      "id": "jupitris",
+      "display_name": "Jupitris",
+      "aliases": [
+        "Jupitris"
+      ],
+      "observed_source_names": [
+        "Jupitris"
+      ]
+    },
+    {
+      "id": "jupitris-blockers",
+      "display_name": "Jupitris Blockers",
+      "aliases": [
+        "Jupitris Blockers"
+      ],
+      "observed_source_names": [
+        "Jupitris Blockers"
+      ]
+    },
+    {
+      "id": "justice-blockers",
+      "display_name": "Justice Blockers",
+      "aliases": [
+        "Justice Blockers"
+      ],
+      "observed_source_names": [
+        "Justice Blockers"
+      ]
+    },
+    {
+      "id": "justice-blockers-academy",
+      "display_name": "Justice Blockers (Academy)",
+      "aliases": [
+        "Justice Blockers (Academy)"
+      ],
+      "observed_source_names": [
+        "Justice Blockers (Academy)"
+      ]
+    },
+    {
+      "id": "justice-blockers-providence",
+      "display_name": "Justice Blockers (Providence)",
+      "aliases": [
+        "Justice Blockers (Providence)"
+      ],
+      "observed_source_names": [
+        "Justice Blockers (Providence)"
+      ]
+    },
+    {
+      "id": "justice-ping",
+      "display_name": "Justice Ping",
+      "aliases": [
+        "Justice Ping"
+      ],
+      "observed_source_names": [
+        "Justice Ping"
+      ]
+    },
+    {
+      "id": "lupus-control",
+      "display_name": "Lupus Control",
+      "aliases": [
+        "Lupus Control"
+      ],
+      "observed_source_names": [
+        "Lupus Control"
+      ]
+    },
+    {
+      "id": "neo-zeon-wing",
+      "display_name": "Neo Zeon (Wing)",
+      "aliases": [
+        "Neo Zeon (Wing)"
+      ],
+      "observed_source_names": [
+        "Neo Zeon (Wing)"
+      ]
+    },
+    {
+      "id": "neo-zeong",
+      "display_name": "Neo Zeong",
+      "aliases": [
+        "Neo Zeong"
+      ],
+      "observed_source_names": [
+        "Neo Zeong"
+      ]
+    },
+    {
+      "id": "nu-gundam",
+      "display_name": "Nu Gundam",
+      "aliases": [
+        "Nu Gundam"
+      ],
+      "observed_source_names": [
+        "Nu Gundam"
+      ]
+    },
+    {
+      "id": "one-year-war-rush",
+      "display_name": "One Year War Rush",
+      "aliases": [
+        "One Year War Rush"
+      ],
+      "observed_source_names": [
+        "One Year War Rush"
+      ]
+    },
+    {
+      "id": "other",
+      "display_name": "Other",
+      "aliases": [
+        "Other"
+      ],
+      "observed_source_names": [
+        "Other"
+      ]
+    },
+    {
+      "id": "providence",
+      "display_name": "Providence",
+      "aliases": [
+        "Providence"
+      ],
+      "observed_source_names": [
+        "Providence"
+      ]
+    },
+    {
+      "id": "providence-blockers",
+      "display_name": "Providence Blockers",
+      "aliases": [
+        "Providence Blockers"
+      ],
+      "observed_source_names": [
+        "Providence Blockers"
+      ]
+    },
+    {
+      "id": "psycho-gundam",
+      "display_name": "Psycho Gundam",
+      "aliases": [
+        "Psycho Gundam"
+      ],
+      "observed_source_names": [
+        "Psycho Gundam"
+      ]
+    },
+    {
+      "id": "purple-white-control",
+      "display_name": "Purple White Control",
+      "aliases": [
+        "Purple White Control"
+      ],
+      "observed_source_names": [
+        "Purple White Control"
+      ]
+    },
+    {
+      "id": "purple-white-destiny",
+      "display_name": "Purple White Destiny",
+      "aliases": [
+        "Purple White Destiny"
+      ],
+      "observed_source_names": [
+        "Purple White Destiny"
+      ]
+    },
+    {
+      "id": "qubeley-ping",
+      "display_name": "Qubeley Ping",
+      "aliases": [
+        "Qubeley Ping"
+      ],
+      "observed_source_names": [
+        "Qubeley Ping"
+      ]
+    },
+    {
+      "id": "red-blue-newtype-ping",
+      "display_name": "Red Blue Newtype Ping",
+      "aliases": [
+        "Red Blue Newtype Ping"
+      ],
+      "observed_source_names": [
+        "Red Blue Newtype Ping"
+      ]
+    },
+    {
+      "id": "sazabi-base",
+      "display_name": "Sazabi (Base)",
+      "aliases": [
+        "Sazabi (Base)"
+      ],
+      "observed_source_names": [
+        "Sazabi (Base)"
+      ]
+    },
+    {
+      "id": "sazabi-char-s-zaku-ii",
+      "display_name": "Sazabi (Char's Zaku II)",
+      "aliases": [
+        "Sazabi (Char's Zaku II)"
+      ],
+      "observed_source_names": [
+        "Sazabi (Char's Zaku II)"
+      ]
+    },
+    {
+      "id": "shining-gundam-master-gundam",
+      "display_name": "Shining Gundam (Master Gundam)",
+      "aliases": [
+        "Shining Gundam (Master Gundam)"
+      ],
+      "observed_source_names": [
+        "Shining Gundam (Master Gundam)"
+      ]
+    },
+    {
+      "id": "strike-freedom-gundam-aile-strike-gundam",
+      "display_name": "Strike Freedom Gundam (Aile Strike Gundam)",
+      "aliases": [
+        "Strike Freedom Gundam (Aile Strike Gundam)"
+      ],
+      "observed_source_names": [
+        "Strike Freedom Gundam (Aile Strike Gundam)"
+      ]
+    },
+    {
+      "id": "strike-freedom-gundam-base",
+      "display_name": "Strike Freedom Gundam (Base)",
+      "aliases": [
+        "Strike Freedom Gundam (Base)"
+      ],
+      "observed_source_names": [
+        "Strike Freedom Gundam (Base)"
+      ]
+    },
+    {
+      "id": "strike-freedom-gundam-gundam-barbatos-1st-form",
+      "display_name": "Strike Freedom Gundam (Gundam Barbatos 1st Form)",
+      "aliases": [
+        "Strike Freedom Gundam (Gundam Barbatos 1st Form)"
+      ],
+      "observed_source_names": [
+        "Strike Freedom Gundam (Gundam Barbatos 1st Form)"
+      ]
+    },
+    {
+      "id": "strike-freedom-gundam-unicorn-gundam-02-banshee-destroy-mode",
+      "display_name": "Strike Freedom Gundam (Unicorn Gundam 02 Banshee [Destroy Mode] )",
+      "aliases": [
+        "Strike Freedom Gundam (Unicorn Gundam 02 Banshee [Destroy Mode] )"
+      ],
+      "observed_source_names": [
+        "Strike Freedom Gundam (Unicorn Gundam 02 Banshee [Destroy Mode] )"
+      ]
+    },
+    {
+      "id": "strike-freedom-gundam-victory-gundam",
+      "display_name": "Strike Freedom Gundam (Victory Gundam)",
+      "aliases": [
+        "Strike Freedom Gundam (Victory Gundam)"
+      ],
+      "observed_source_names": [
+        "Strike Freedom Gundam (Victory Gundam)"
+      ]
+    },
+    {
+      "id": "strike-tempo",
+      "display_name": "Strike Tempo",
+      "aliases": [
+        "Strike Tempo"
+      ],
+      "observed_source_names": [
+        "Strike Tempo"
+      ]
+    },
+    {
+      "id": "strike-tempo-academy",
+      "display_name": "Strike Tempo (Academy)",
+      "aliases": [
+        "Strike Tempo (Academy)"
+      ],
+      "observed_source_names": [
+        "Strike Tempo (Academy)"
+      ]
+    },
+    {
+      "id": "the-o-blockers",
+      "display_name": "The-O Blockers",
+      "aliases": [
+        "The-O Blockers"
+      ],
+      "observed_source_names": [
+        "The-O Blockers"
+      ]
+    },
+    {
+      "id": "unicorn-blockers",
+      "display_name": "Unicorn Blockers",
+      "aliases": [
+        "Unicorn Blockers"
+      ],
+      "observed_source_names": [
+        "Unicorn Blockers"
+      ]
+    },
+    {
+      "id": "unicorn-gundam-cyber-newtype",
+      "display_name": "Unicorn Gundam (Cyber-Newtype)",
+      "aliases": [
+        "Unicorn Gundam (Cyber-Newtype)"
+      ],
+      "observed_source_names": [
+        "Unicorn Gundam (Cyber-Newtype)"
+      ]
+    },
+    {
+      "id": "unicorn-newtype",
+      "display_name": "Unicorn Newtype",
+      "aliases": [
+        "Unicorn Newtype"
+      ],
+      "observed_source_names": [
+        "Unicorn Newtype"
+      ]
+    },
+    {
+      "id": "unicorn-tempo",
+      "display_name": "Unicorn Tempo",
+      "aliases": [
+        "Unicorn Tempo"
+      ],
+      "observed_source_names": [
+        "Unicorn Tempo"
+      ]
+    },
+    {
+      "id": "vagan",
+      "display_name": "Vagan",
+      "aliases": [
+        "Vagan"
+      ],
+      "observed_source_names": [
+        "Vagan"
+      ]
+    },
+    {
+      "id": "white-command-slinger-academy",
+      "display_name": "White Command Slinger Academy",
+      "aliases": [
+        "White Command Slinger Academy"
+      ],
+      "observed_source_names": [
+        "White Command Slinger Academy"
+      ]
+    },
+    {
+      "id": "white-green-operation-meteor",
+      "display_name": "White Green Operation Meteor",
+      "aliases": [
+        "White Green Operation Meteor"
+      ],
+      "observed_source_names": [
+        "White Green Operation Meteor"
+      ]
+    },
+    {
+      "id": "white-red-coordinator",
+      "display_name": "White Red Coordinator",
+      "aliases": [
+        "White Red Coordinator"
+      ],
+      "observed_source_names": [
+        "White Red Coordinator"
+      ]
+    },
+    {
+      "id": "white-red-tempo",
+      "display_name": "White Red Tempo",
+      "aliases": [
+        "White Red Tempo"
+      ],
+      "observed_source_names": [
+        "White Red Tempo"
+      ]
+    },
+    {
+      "id": "wing-zero-academy",
+      "display_name": "Wing Zero (Academy)",
+      "aliases": [
+        "Wing Zero (Academy)"
+      ],
+      "observed_source_names": [
+        "Wing Zero (Academy)"
+      ]
+    },
+    {
+      "id": "wing-zero-aeug",
+      "display_name": "Wing Zero (AEUG)",
+      "aliases": [
+        "Wing Zero (AEUG)"
+      ],
+      "observed_source_names": [
+        "Wing Zero (AEUG)"
+      ]
+    },
+    {
+      "id": "wing-zero-blockers",
+      "display_name": "Wing Zero (Blockers)",
+      "aliases": [
+        "Wing Zero (Blockers)"
+      ],
+      "observed_source_names": [
+        "Wing Zero (Blockers)"
+      ]
+    },
+    {
+      "id": "wing-zero-breach",
+      "display_name": "Wing Zero (Breach)",
+      "aliases": [
+        "Wing Zero (Breach)"
+      ],
+      "observed_source_names": [
+        "Wing Zero (Breach)"
+      ]
+    },
+    {
+      "id": "wing-zero-deathscythe",
+      "display_name": "Wing Zero (Deathscythe)",
+      "aliases": [
+        "Wing Zero (Deathscythe)"
+      ],
+      "observed_source_names": [
+        "Wing Zero (Deathscythe)"
+      ]
+    },
+    {
+      "id": "wing-zero-shenlong",
+      "display_name": "Wing Zero (Shenlong)",
+      "aliases": [
+        "Wing Zero (Shenlong)"
+      ],
+      "observed_source_names": [
+        "Wing Zero (Shenlong)"
+      ]
+    },
+    {
+      "id": "zaft",
+      "display_name": "Zaft",
+      "aliases": [
+        "Zaft"
+      ],
+      "observed_source_names": [
+        "Zaft"
+      ]
+    },
+    {
+      "id": "zeon-aggro",
+      "display_name": "Zeon Aggro",
+      "aliases": [
+        "Zeon Aggro"
+      ],
+      "observed_source_names": [
+        "Zeon Aggro"
+      ]
+    },
+    {
+      "id": "zeon-aggro-unicorn",
+      "display_name": "Zeon Aggro (Unicorn)",
+      "aliases": [
+        "Zeon Aggro (Unicorn)"
+      ],
+      "observed_source_names": [
+        "Zeon Aggro (Unicorn)"
+      ]
+    },
+    {
+      "id": "zeta",
+      "display_name": "Zeta",
+      "aliases": [
+        "Zeta"
+      ],
+      "observed_source_names": [
+        "Zeta"
+      ]
+    }
+  ]
+}

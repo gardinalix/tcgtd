@@ -1,0 +1,38 @@
+[
+  {
+    "id": "manual-tournament-registry",
+    "name": "Manual tournament registry",
+    "url": null,
+    "source_type": "manual",
+    "confidence": "manual",
+    "adapter": "manual-registry",
+    "status": "active"
+  },
+  {
+    "id": "egman-events",
+    "name": "Egman Events",
+    "url": "https://egmanevents.com/gundam",
+    "source_type": "public_html",
+    "confidence": "trusted",
+    "adapter": "egman-events",
+    "status": "active"
+  },
+  {
+    "id": "limitless-gundam",
+    "name": "Limitless Gundam",
+    "url": "https://play.limitlesstcg.com/tournaments/completed?game=GUNDAM",
+    "source_type": "public_html",
+    "confidence": "trusted",
+    "adapter": "csv-legacy",
+    "status": "active"
+  },
+  {
+    "id": "bandai-official",
+    "name": "Bandai Official Gundam Card Game",
+    "url": "https://www.gundam-gcg.com/en/",
+    "source_type": "official_public",
+    "confidence": "official",
+    "adapter": "bandai-official",
+    "status": "tracked"
+  }
+]

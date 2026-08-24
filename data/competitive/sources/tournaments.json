@@ -1,0 +1,16 @@
+[
+  {
+    "id": "mexico-city-2026-08-23",
+    "name": "Mexico City Regional",
+    "date": "2026-08-23",
+    "country": "Mexico",
+    "city": "Mexico City",
+    "region": "LATAM",
+    "organizer": "SangSang",
+    "format": "GD05",
+    "set": "GD05",
+    "player_count": null,
+    "status": "awaiting_results",
+    "source_ids": ["manual-tournament-registry"]
+  }
+]

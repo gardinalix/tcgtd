@@ -1,0 +1,677 @@
+{
+  "schema_version": "tcgtd-archetype-stats-v1",
+  "archetypes": [
+    {
+      "archetype_id": "wing-zero-gw",
+      "display_name": "GW Wing Zero",
+      "decklists": 202,
+      "wins": 64,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "barbatos-rush",
+      "display_name": "Barbatos Rush",
+      "decklists": 130,
+      "wins": 47,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "zeon-aggro",
+      "display_name": "Zeon Aggro",
+      "decklists": 116,
+      "wins": 41,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "cyber-newtype",
+      "display_name": "Cyber-Newtype",
+      "decklists": 72,
+      "wins": 11,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "justice-blockers",
+      "display_name": "Justice Blockers",
+      "decklists": 51,
+      "wins": 26,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "unicorn-blockers",
+      "display_name": "Unicorn Blockers",
+      "decklists": 49,
+      "wins": 11,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "the-o-blockers",
+      "display_name": "The-O Blockers",
+      "decklists": 45,
+      "wins": 21,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "freedom-blockers",
+      "display_name": "Freedom Blockers",
+      "decklists": 40,
+      "wins": 9,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "banshee-control",
+      "display_name": "Banshee Control",
+      "decklists": 38,
+      "wins": 16,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "qubeley-ping",
+      "display_name": "Qubeley Ping",
+      "decklists": 36,
+      "wins": 13,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "barbatos-ping",
+      "display_name": "Barbatos Ping",
+      "decklists": 28,
+      "wins": 17,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "epyon-blockers",
+      "display_name": "Epyon Blockers",
+      "decklists": 18,
+      "wins": 9,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "freedom-blockers-academy",
+      "display_name": "Freedom Blockers (Academy)",
+      "decklists": 17,
+      "wins": 3,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "earth-federation-aggro",
+      "display_name": "Earth Federation Aggro",
+      "decklists": 16,
+      "wins": 4,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "wing-zero-breach",
+      "display_name": "Wing Zero (Breach)",
+      "decklists": 16,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "other",
+      "display_name": "Other",
+      "decklists": 14,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "providence",
+      "display_name": "Providence",
+      "decklists": 14,
+      "wins": 5,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "gquuuuuux",
+      "display_name": "Gquuuuuux",
+      "decklists": 13,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "shining-gundam-master-gundam",
+      "display_name": "Shining Gundam (Master Gundam)",
+      "decklists": 10,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "federation-tempo",
+      "display_name": "Federation Tempo",
+      "decklists": 8,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "jupitris",
+      "display_name": "Jupitris",
+      "decklists": 8,
+      "wins": 3,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "providence-blockers",
+      "display_name": "Providence Blockers",
+      "decklists": 8,
+      "wins": 5,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "unicorn-tempo",
+      "display_name": "Unicorn Tempo",
+      "decklists": 8,
+      "wins": 4,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "psycho-gundam",
+      "display_name": "Psycho Gundam",
+      "decklists": 7,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-victory-gundam",
+      "display_name": "Strike Freedom Gundam (Victory Gundam)",
+      "decklists": 7,
+      "wins": 0,
+      "best_finish": 2
+    },
+    {
+      "archetype_id": "aegis-aggro",
+      "display_name": "Aegis Aggro",
+      "decklists": 6,
+      "wins": 3,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "dynames-rush",
+      "display_name": "Dynames Rush",
+      "decklists": 6,
+      "wins": 3,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "freedom-blockers-unicorn",
+      "display_name": "Freedom Blockers (Unicorn)",
+      "decklists": 6,
+      "wins": 0,
+      "best_finish": 2
+    },
+    {
+      "archetype_id": "gfred-zeon-aggro",
+      "display_name": "GFreD Zeon Aggro",
+      "decklists": 6,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "nu-gundam",
+      "display_name": "Nu Gundam",
+      "decklists": 6,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-unicorn-gundam-02-banshee-destroy-mode",
+      "display_name": "Strike Freedom Gundam (Unicorn Gundam 02 Banshee [Destroy Mode] )",
+      "decklists": 6,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "cyber-newtype-aggro",
+      "display_name": "Cyber-Newtype (Aggro)",
+      "decklists": 5,
+      "wins": 3,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "justice-blockers-providence",
+      "display_name": "Justice Blockers (Providence)",
+      "decklists": 5,
+      "wins": 4,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-aile-strike-gundam",
+      "display_name": "Strike Freedom Gundam (Aile Strike Gundam)",
+      "decklists": 5,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "barbatos-blockers",
+      "display_name": "Barbatos Blockers",
+      "decklists": 4,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "blue-white-control",
+      "display_name": "Blue White Control",
+      "decklists": 4,
+      "wins": 0,
+      "best_finish": 7
+    },
+    {
+      "archetype_id": "blue-white-victory-unicorn",
+      "display_name": "Blue White Victory Unicorn",
+      "decklists": 4,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
+      "archetype_id": "purple-white-destiny",
+      "display_name": "Purple White Destiny",
+      "decklists": 4,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
+      "archetype_id": "strike-tempo",
+      "display_name": "Strike Tempo",
+      "decklists": 4,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
+      "archetype_id": "unicorn-gundam-cyber-newtype",
+      "display_name": "Unicorn Gundam (Cyber-Newtype)",
+      "decklists": 4,
+      "wins": 3,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "white-green-operation-meteor",
+      "display_name": "White Green Operation Meteor",
+      "decklists": 4,
+      "wins": 0,
+      "best_finish": 2
+    },
+    {
+      "archetype_id": "academy-aggro",
+      "display_name": "Academy Aggro",
+      "decklists": 3,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
+      "archetype_id": "barbatos-breach",
+      "display_name": "Barbatos Breach",
+      "decklists": 3,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "cyber-newtype-full-frontal",
+      "display_name": "Cyber-Newtype (Full Frontal)",
+      "decklists": 3,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "gundam-barbatos",
+      "display_name": "Gundam Barbatos",
+      "decklists": 3,
+      "wins": 0,
+      "best_finish": 4
+    },
+    {
+      "archetype_id": "impulse-blockers",
+      "display_name": "Impulse Blockers",
+      "decklists": 3,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "neo-zeon-wing",
+      "display_name": "Neo Zeon (Wing)",
+      "decklists": 3,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "one-year-war-rush",
+      "display_name": "One Year War Rush",
+      "decklists": 3,
+      "wins": 0,
+      "best_finish": 6
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-gundam-barbatos-1st-form",
+      "display_name": "Strike Freedom Gundam (Gundam Barbatos 1st Form)",
+      "decklists": 3,
+      "wins": 0,
+      "best_finish": 2
+    },
+    {
+      "archetype_id": "blue-green-cyclops-team",
+      "display_name": "Blue Green Cyclops Team",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
+      "archetype_id": "blue-white-freedom-blockers",
+      "display_name": "Blue White Freedom Blockers",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 5
+    },
+    {
+      "archetype_id": "celestial-being",
+      "display_name": "Celestial Being",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
+      "archetype_id": "cyber-newtype-jupitris",
+      "display_name": "Cyber-Newtype (Jupitris)",
+      "decklists": 2,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "earth-federation-age",
+      "display_name": "Earth Federation AGE",
+      "decklists": 2,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "neo-zeong",
+      "display_name": "Neo Zeong",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 9
+    },
+    {
+      "archetype_id": "sazabi-base",
+      "display_name": "Sazabi (Base)",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 2
+    },
+    {
+      "archetype_id": "sazabi-char-s-zaku-ii",
+      "display_name": "Sazabi (Char's Zaku II)",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 2
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-base",
+      "display_name": "Strike Freedom Gundam (Base)",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 5
+    },
+    {
+      "archetype_id": "strike-tempo-academy",
+      "display_name": "Strike Tempo (Academy)",
+      "decklists": 2,
+      "wins": 2,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "white-red-tempo",
+      "display_name": "White Red Tempo",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 5
+    },
+    {
+      "archetype_id": "zeon-aggro-unicorn",
+      "display_name": "Zeon Aggro (Unicorn)",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 4
+    },
+    {
+      "archetype_id": "academy",
+      "display_name": "Academy",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
+      "archetype_id": "amuro-aggro",
+      "display_name": "Amuro Aggro",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 13
+    },
+    {
+      "archetype_id": "barbatos-control",
+      "display_name": "Barbatos Control",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 4
+    },
+    {
+      "archetype_id": "barbatos-ping-academy",
+      "display_name": "Barbatos Ping (Academy)",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "blue-white-tempo",
+      "display_name": "Blue White Tempo",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 5
+    },
+    {
+      "archetype_id": "blue-white-the-o",
+      "display_name": "Blue White The-O",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "cb-aggro",
+      "display_name": "CB Aggro",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "cyber-newtype-zaft",
+      "display_name": "Cyber-Newtype (ZAFT)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 8
+    },
+    {
+      "archetype_id": "earth-federation-aggro-breach",
+      "display_name": "Earth Federation Aggro (Breach)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 8
+    },
+    {
+      "archetype_id": "earth-federation-aggro-oz",
+      "display_name": "Earth Federation Aggro (OZ)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 7
+    },
+    {
+      "archetype_id": "earth-federation-aggro-zaft",
+      "display_name": "Earth Federation Aggro (ZAFT)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 10
+    },
+    {
+      "archetype_id": "earth-federation-breach",
+      "display_name": "Earth Federation Breach",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "freedom-ping",
+      "display_name": "Freedom Ping",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "gfred-aggro",
+      "display_name": "GFreD Aggro",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 9
+    },
+    {
+      "archetype_id": "gquuuuuux-omega-psycommu-red-gundam",
+      "display_name": "GQuuuuuuX [Omega Psycommu] (Red Gundam)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 8
+    },
+    {
+      "archetype_id": "gquuuuuux-blockers",
+      "display_name": "Gquuuuuux Blockers",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 16
+    },
+    {
+      "archetype_id": "impulse",
+      "display_name": "Impulse",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "impulse-ping",
+      "display_name": "Impulse Ping",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 14
+    },
+    {
+      "archetype_id": "jupitris-blockers",
+      "display_name": "Jupitris Blockers",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "justice-blockers-academy",
+      "display_name": "Justice Blockers (Academy)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 4
+    },
+    {
+      "archetype_id": "justice-ping",
+      "display_name": "Justice Ping",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 6
+    },
+    {
+      "archetype_id": "lupus-control",
+      "display_name": "Lupus Control",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "purple-white-control",
+      "display_name": "Purple White Control",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 4
+    },
+    {
+      "archetype_id": "red-blue-newtype-ping",
+      "display_name": "Red Blue Newtype Ping",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 7
+    },
+    {
+      "archetype_id": "unicorn-newtype",
+      "display_name": "Unicorn Newtype",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 5
+    },
+    {
+      "archetype_id": "vagan",
+      "display_name": "Vagan",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
+      "archetype_id": "white-command-slinger-academy",
+      "display_name": "White Command Slinger Academy",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 16
+    },
+    {
+      "archetype_id": "white-red-coordinator",
+      "display_name": "White Red Coordinator",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "wing-zero-academy",
+      "display_name": "Wing Zero (Academy)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 8
+    },
+    {
+      "archetype_id": "wing-zero-aeug",
+      "display_name": "Wing Zero (AEUG)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 8
+    },
+    {
+      "archetype_id": "wing-zero-blockers",
+      "display_name": "Wing Zero (Blockers)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 7
+    },
+    {
+      "archetype_id": "wing-zero-deathscythe",
+      "display_name": "Wing Zero (Deathscythe)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 4
+    },
+    {
+      "archetype_id": "wing-zero-shenlong",
+      "display_name": "Wing Zero (Shenlong)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 2
+    },
+    {
+      "archetype_id": "zaft",
+      "display_name": "Zaft",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "zeta",
+      "display_name": "Zeta",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
+    }
+  ]
+}

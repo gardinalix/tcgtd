@@ -378,6 +378,12 @@ def main() -> int:
 
         if not args.skip_meta:
             steps.append(run_step("Egman/Limitless meta refresh", [sys.executable, str(SCRIPTS_DIR / "fetch_gundam_meta_data.py")]))
+            steps.append(
+                run_step(
+                    "Competitive Data Engine migration",
+                    [find_node_executable(), str(SCRIPTS_DIR / "data-engine.mjs"), "migrate"],
+                )
+            )
 
         steps.append(run_step("Deck advisor data", [sys.executable, str(SCRIPTS_DIR / "build_gundam_deck_advisor_data.py")]))
         steps.append(run_step("Card keep report", [sys.executable, str(SCRIPTS_DIR / "build_card_keep_report.py")]))

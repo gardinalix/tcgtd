@@ -1,0 +1,70 @@
+{
+  "schema_version": "tcgtd-competitive-raw-v1",
+  "adapter_id": "csv-legacy",
+  "inputs": {
+    "events": {
+      "path": "data/meta_events.csv",
+      "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+      "bytes": 63838,
+      "retrieved_at": "2026-08-10T15:56:52.343Z"
+    },
+    "results": {
+      "path": "data/meta_results.csv",
+      "content_hash": "e7fcbdf075494f8481c02177cedc4ba56f5d316044c4764cfab739b38395228e",
+      "bytes": 505257,
+      "retrieved_at": "2026-08-10T15:56:52.359Z"
+    },
+    "deck_cards": {
+      "path": "data/meta_deck_cards.csv",
+      "content_hash": "4ab78bd3cc489be8da0312fed396db3ebdad281a102dfeb84b94e7bf6727afac",
+      "bytes": 3572007,
+      "retrieved_at": "2026-08-10T15:56:52.506Z"
+    },
+    "tournament_registry": {
+      "path": "data/competitive/sources/tournaments.json",
+      "content_hash": "b820dc39c0fb2280f15e1d8b4c8530bda97e41e9cfdc29babd38cc282a9be5cb",
+      "bytes": 364,
+      "retrieved_at": "2026-08-24T12:22:13.241Z"
+    }
+  },
+  "source_registry": [
+    {
+      "id": "manual-tournament-registry",
+      "name": "Manual tournament registry",
+      "url": null,
+      "source_type": "manual",
+      "confidence": "manual",
+      "adapter": "manual-registry",
+      "status": "active"
+    },
+    {
+      "id": "egman-events",
+      "name": "Egman Events",
+      "url": "https://egmanevents.com/gundam",
+      "source_type": "public_html",
+      "confidence": "trusted",
+      "adapter": "egman-events",
+      "status": "active"
+    },
+    {
+      "id": "limitless-gundam",
+      "name": "Limitless Gundam",
+      "url": "https://play.limitlesstcg.com/tournaments/completed?game=GUNDAM",
+      "source_type": "public_html",
+      "confidence": "trusted",
+      "adapter": "csv-legacy",
+      "status": "active"
+    },
+    {
+      "id": "bandai-official",
+      "name": "Bandai Official Gundam Card Game",
+      "url": "https://www.gundam-gcg.com/en/",
+      "source_type": "official_public",
+      "confidence": "official",
+      "adapter": "bandai-official",
+      "status": "tracked"
+    }
+  ],
+  "compressed_payload": "source.json.gz",
+  "content_hash": "2c83eb33516c93b67d0544b4a03356896d810069b4fc49372ca25fd2478b6acb"
+}

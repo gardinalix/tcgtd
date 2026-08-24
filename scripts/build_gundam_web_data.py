@@ -25,9 +25,7 @@ MARKETZEON_LISTINGS_PATH = DATA_DIR / "marketzeon_listings.csv"
 LIGAGUNDAM_PRICE_PATH = DATA_DIR / "ligagundam_price_comparison.csv"
 LIGAGUNDAM_LISTINGS_PATH = DATA_DIR / "ligagundam_listings.csv"
 DATABASE_PATH = DATA_DIR / "gundam.db"
-META_EVENTS_CSV_PATH = DATA_DIR / "meta_events.csv"
-META_RESULTS_CSV_PATH = DATA_DIR / "meta_results.csv"
-META_DECK_CARDS_CSV_PATH = DATA_DIR / "meta_deck_cards.csv"
+COMPETITIVE_FRONTEND_PATH = DATA_DIR / "competitive" / "generated" / "frontend-meta.json"
 
 
 def parse_image_extension(url: str) -> str:
@@ -1132,107 +1130,34 @@ def build_packages(rows: list[dict]) -> list[dict]:
     return packages
 
 
-def load_database_rows(table_name: str, limit: int | None = None) -> list[dict]:
-    if not DATABASE_PATH.exists():
-        return []
-    query = f"SELECT raw_json FROM {table_name}"
-    if limit:
-        query += f" LIMIT {int(limit)}"
-    rows = []
-    with sqlite3.connect(DATABASE_PATH) as conn:
-        for (raw_json,) in conn.execute(query):
-            try:
-                rows.append(json.loads(raw_json))
-            except Exception:
-                continue
-    return rows
+def load_competitive_frontend() -> dict:
+    """Load the versioned competitive data-engine output.
 
-
-def prefer_csv_rows(csv_path: Path) -> bool:
-    if not csv_path.exists():
-        return False
-    if not DATABASE_PATH.exists():
-        return True
-    try:
-        return csv_path.stat().st_mtime > DATABASE_PATH.stat().st_mtime
-    except OSError:
-        return True
-
-
-def load_meta_rows(table_name: str, csv_path: Path) -> list[dict]:
-    if prefer_csv_rows(csv_path):
-        return read_csv_rows(csv_path)
-    database_rows = load_database_rows(table_name)
-    return database_rows or read_csv_rows(csv_path)
+    CSVs remain import/export artifacts.  The public payload must only be
+    derived from the normalized competitive datastore so the frontend has one
+    deterministic source for event, result and deck-card records.
+    """
+    if not COMPETITIVE_FRONTEND_PATH.exists():
+        raise FileNotFoundError(
+            "Competitive data is missing. Run `npm run data:migrate` and "
+            "`npm run data:build` before rebuilding web data."
+        )
+    payload = json.loads(COMPETITIVE_FRONTEND_PATH.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("Competitive frontend payload must be a JSON object.")
+    return payload
 
 
 def build_meta_events() -> list[dict]:
-    return [
-        {
-            "eventId": normalize_text(row.get("event_id")),
-            "sourceName": normalize_text(row.get("source_name")),
-            "eventName": normalize_text(row.get("event_name")),
-            "eventDate": normalize_text(row.get("event_date")),
-            "formatName": normalize_text(row.get("format_name")),
-            "eventType": normalize_text(row.get("event_type")),
-            "playerCount": normalize_text(row.get("player_count")),
-            "organizer": normalize_text(row.get("organizer")),
-            "sourceUrl": normalize_text(row.get("source_url")),
-            "sourcePageTitle": normalize_text(row.get("source_page_title")),
-            "officialStatus": "official" if "official" in normalize_text(row.get("event_type")).lower() else "community",
-        }
-        for row in load_meta_rows("meta_events", META_EVENTS_CSV_PATH)
-    ]
+    return load_competitive_frontend().get("metaEvents", [])
 
 
 def build_meta_results() -> list[dict]:
-    return [
-        {
-            "resultId": normalize_text(row.get("result_id")),
-            "deckId": normalize_text(row.get("deck_id")),
-            "eventId": normalize_text(row.get("event_id")),
-            "sourceName": normalize_text(row.get("source_name")),
-            "eventName": normalize_text(row.get("event_name")),
-            "eventDate": normalize_text(row.get("event_date")),
-            "formatName": normalize_text(row.get("format_name")),
-            "eventType": normalize_text(row.get("event_type")),
-            "playerCount": normalize_text(row.get("player_count")),
-            "playerName": normalize_text(row.get("player_name")),
-            "placingLabel": normalize_text(row.get("placing_label")),
-            "placingRank": normalize_text(row.get("placing_rank")),
-            "archetype": normalize_text(row.get("archetype")),
-            "colorCombination": normalize_text(row.get("color_combination")),
-            "leaderName": normalize_text(row.get("leader_name")),
-            "deckUrl": normalize_text(row.get("deck_url")),
-            "sourceUrl": normalize_text(row.get("source_url")),
-            "hasDecklist": normalize_upper(row.get("has_decklist")) == "TRUE",
-        }
-        for row in load_meta_rows("meta_results", META_RESULTS_CSV_PATH)
-    ]
+    return load_competitive_frontend().get("metaResults", [])
 
 
 def build_meta_deck_cards() -> list[dict]:
-    return [
-        {
-            "deckCardId": normalize_text(row.get("deck_card_id")),
-            "deckId": normalize_text(row.get("deck_id")),
-            "eventId": normalize_text(row.get("event_id")),
-            "eventName": normalize_text(row.get("event_name")),
-            "eventDate": normalize_text(row.get("event_date")),
-            "playerName": normalize_text(row.get("player_name")),
-            "placingLabel": normalize_text(row.get("placing_label")),
-            "placingRank": normalize_text(row.get("placing_rank")),
-            "archetype": normalize_text(row.get("archetype")),
-            "colorCombination": normalize_text(row.get("color_combination")),
-            "cardNumber": normalize_upper(row.get("card_number")),
-            "cardName": normalize_text(row.get("card_name")),
-            "quantity": int(row.get("quantity") or 0),
-            "cardType": normalize_upper(row.get("card_type")),
-            "cardColor": normalize_text(row.get("card_color")),
-            "packageCode": normalize_upper(row.get("package_code")),
-        }
-        for row in load_meta_rows("meta_deck_cards", META_DECK_CARDS_CSV_PATH)
-    ]
+    return load_competitive_frontend().get("metaDeckCards", [])
 
 
 def build_market_listings(groups: dict[str, list[dict]]) -> list[dict]:

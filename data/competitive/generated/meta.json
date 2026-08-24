@@ -1,0 +1,58 @@
+{
+  "schema_version": "tcgtd-competitive-v1",
+  "data_hash": "3f51d6a49d5598f8517aa38047347e0a04aa597ac130da2abeb353e4be9cf361",
+  "counts": {
+    "tournaments": 232,
+    "results": 1133,
+    "decks": 1133,
+    "deck_cards": 17042,
+    "players": 866,
+    "archetypes": 96,
+    "cards": 494
+  },
+  "sources": [
+    {
+      "id": "manual-tournament-registry",
+      "name": "Manual tournament registry",
+      "status": "active",
+      "adapter": "manual-registry",
+      "confidence": "manual",
+      "url": null,
+      "last_checked": null
+    },
+    {
+      "id": "egman-events",
+      "name": "Egman Events",
+      "status": "active",
+      "adapter": "egman-events",
+      "confidence": "trusted",
+      "url": "https://egmanevents.com/gundam",
+      "last_checked": null
+    },
+    {
+      "id": "limitless-gundam",
+      "name": "Limitless Gundam",
+      "status": "active",
+      "adapter": "csv-legacy",
+      "confidence": "trusted",
+      "url": "https://play.limitlesstcg.com/tournaments/completed?game=GUNDAM",
+      "last_checked": null
+    },
+    {
+      "id": "bandai-official",
+      "name": "Bandai Official Gundam Card Game",
+      "status": "tracked",
+      "adapter": "bandai-official",
+      "confidence": "official",
+      "url": "https://www.gundam-gcg.com/en/",
+      "last_checked": null
+    }
+  ],
+  "last_run": {
+    "mode": "migrate",
+    "checked_at": null,
+    "raw_changed": true,
+    "changed_datasets": [],
+    "errors": []
+  }
+}

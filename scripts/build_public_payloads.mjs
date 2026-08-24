@@ -102,7 +102,9 @@ async function buildRightsManifest(source) {
   }
   return {
     schemaVersion: "tcgtd-asset-rights-v1",
-    generatedAt: new Date().toISOString(),
+    // Keep a no-op build byte-for-byte stable so scheduled data checks do not
+    // create commits when neither the source snapshot nor assets changed.
+    generatedAt: source.generatedAt || source.cardSnapshotGeneratedAt || null,
     policy: "Every visual asset must retain a source, known owner, review status and permitted-use record before public release.",
     releaseGate: "Entries with reviewStatus=review_required must be cleared, replaced or removed before general public access.",
     assets: files.map((assetPath) => {

@@ -1,0 +1,24 @@
+{
+  "schema_version": "tcgtd-tournament-detail-v1",
+  "tournament": {
+    "eventId": "mexico-city-2026-08-23",
+    "sourceName": "Manual tournament registry",
+    "eventName": "Mexico City Regional",
+    "eventDate": "2026-08-23",
+    "formatName": "GD05",
+    "eventType": "awaiting_results",
+    "playerCount": "",
+    "organizer": "SangSang",
+    "city": "Mexico City",
+    "country": "Mexico",
+    "region": "LATAM",
+    "sourceUrl": "",
+    "sourcePageTitle": "",
+    "officialStatus": "awaiting_results",
+    "sourceIds": [
+      "manual-tournament-registry"
+    ]
+  },
+  "results": [],
+  "deck_cards": []
+}

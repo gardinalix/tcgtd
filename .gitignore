@@ -6,7 +6,14 @@ dist/
 .scratch/
 *.log
 _backups/
-data/
+# The general card/price cache remains local. Competitive data is a versioned,
+# reproducible static datastore and must stay in Git.
+data/*
+!data/competitive/
+!data/competitive/**
+# Exports are reproducible operator outputs, not the versioned datastore.
+data/competitive/exports/*
+!data/competitive/exports/.gitkeep
 outputs/
 .local/
 **/__pycache__/

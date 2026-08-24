@@ -15,6 +15,10 @@ export default defineConfig({
         target: "http://127.0.0.1:4180",
         changeOrigin: true,
       },
+      "/go": {
+        target: "http://127.0.0.1:4180",
+        changeOrigin: true,
+      },
       "/auth/callback/google": {
         target: "http://127.0.0.1:4180",
         changeOrigin: true,
@@ -46,7 +50,7 @@ function serveReactPublicAssets() {
     configureServer(server) {
       server.middlewares.use(async (request, response, next) => {
         const pathname = decodeURIComponent(new URL(request.url || "/", "http://localhost").pathname);
-        if (["/app-data.json", "/home-data.json", "/robots.txt"].includes(pathname)) {
+        if (["/app-data.json", "/home-data.json", "/robots.txt"].includes(pathname) || pathname.startsWith("/data/competitive/")) {
           return serveFile(response, path.join("web", pathname));
         }
         if (pathname.startsWith("/assets/")) {
@@ -72,6 +76,7 @@ function copyReactPublicAssets() {
       await copyIfExists("web/app-data.json", "dist/client/app-data.json");
       await copyIfExists("web/home-data.json", "dist/client/home-data.json");
       await copyIfExists("web/robots.txt", "dist/client/robots.txt");
+      await copyDirectoryIfExists("web/data/competitive", "dist/client/data/competitive");
       await copyIfExists(".openai/hosting.json", "dist/.openai/hosting.json");
       await copyDirectoryIfExists("web/assets", "dist/client/assets");
       await copyDirectoryIfExists("worker", "dist/server");
