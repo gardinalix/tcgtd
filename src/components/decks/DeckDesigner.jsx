@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { DeckMap } from "./DeckMap";
 import { ZeroForge } from "./ZeroForge.jsx";
+import { DeckImageExportLayer } from "./DeckImageExportLayer.jsx";
 import { buildExBurstDeckText, downloadDeckText } from "../../domain/deckExport.js";
 import { parseMsaDeckList } from "../../domain/deckLibrary.js";
 import {
@@ -82,6 +83,7 @@ export function DeckDesigner({
   const [savedDeckId, setSavedDeckId] = useState("");
   const [saveMessage, setSaveMessage] = useState("");
   const [exportLayerOpen, setExportLayerOpen] = useState(false);
+  const [imageExportOpen, setImageExportOpen] = useState(false);
   const [zeroForgeOpen, setZeroForgeOpen] = useState(false);
   const [designerForgeDraft, setDesignerForgeDraft] = useState(null);
   const [modeSelectionOpen, setModeSelectionOpen] = useState(false);
@@ -725,6 +727,7 @@ export function DeckDesigner({
             onSave={saveRecommendation}
             onEdit={() => onEditDeck?.(savedDeckId)}
             onExportText={() => setExportLayerOpen(true)}
+            onExportImage={() => setImageExportOpen(true)}
             onExportJson={() => downloadJsonReport(report)}
             onReset={resetSubstitutions}
           />
@@ -746,6 +749,7 @@ export function DeckDesigner({
               onSave={saveRecommendation}
               onEdit={() => onEditDeck?.(savedDeckId)}
               onExportText={() => setExportLayerOpen(true)}
+              onExportImage={() => setImageExportOpen(true)}
               onExportJson={() => downloadJsonReport(report)}
               onReset={resetSubstitutions}
             />
@@ -781,6 +785,14 @@ export function DeckDesigner({
       ) : null}
       {exportLayerOpen && report ? (
         <ExBurstExportLayer report={report} onClose={() => setExportLayerOpen(false)} />
+      ) : null}
+      {imageExportOpen && report ? (
+        <DeckImageExportLayer
+          deck={report}
+          rows={report.rows}
+          stats={report.stats}
+          onClose={() => setImageExportOpen(false)}
+        />
       ) : null}
     </div>
   );
@@ -877,6 +889,7 @@ function DeckOperations({
   onSave,
   onEdit,
   onExportText,
+  onExportImage,
   onExportJson,
   onReset,
 }) {
@@ -887,6 +900,7 @@ function DeckOperations({
       {savedDeckId ? <button type="button" onClick={onEdit}>Edit in builder</button> : null}
       <div>
         <button type="button" onClick={onExportText}>Export TXT</button>
+        <button type="button" className="is-image-export" onClick={onExportImage}>Export image</button>
         <button type="button" onClick={onExportJson}>Export JSON</button>
       </div>
       {report.substitutionHistory?.length ? (

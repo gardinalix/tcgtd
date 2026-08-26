@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CardArt } from "../cards/CardArt.jsx";
+import { DeckImageExportLayer } from "./DeckImageExportLayer.jsx";
 import { ExBurstExportLayer } from "./ExBurstExportLayer.jsx";
 import { DeckAssistantPanel } from "./DeckAssistantPanel.jsx";
 import { ForgeDeckViews } from "./ForgeDeckViews.jsx";
@@ -67,6 +68,7 @@ export function ZeroForge({
   const [preview, setPreview] = useState(null);
   const [importOpen, setImportOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
+  const [imageExportOpen, setImageExportOpen] = useState(false);
   const [importText, setImportText] = useState("");
   const [sourceMode, setSourceMode] = useState("zero");
   const [mapZoom, setMapZoom] = useState(1);
@@ -180,6 +182,10 @@ export function ZeroForge({
         setExportOpen(false);
         return;
       }
+      if (imageExportOpen) {
+        setImageExportOpen(false);
+        return;
+      }
       if (importOpen) {
         setImportOpen(false);
         return;
@@ -188,7 +194,7 @@ export function ZeroForge({
     };
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [exportOpen, importOpen, onClose]);
+  }, [exportOpen, imageExportOpen, importOpen, onClose]);
 
   useEffect(() => {
     const liveNodeIds = new Set([
@@ -804,6 +810,17 @@ export function ZeroForge({
           >
             EXPORT
           </button>
+          <button
+            type="button"
+            className="is-image-export"
+            disabled={!workspace.mainCount}
+            onClick={() => {
+              setPreview(null);
+              setImageExportOpen(true);
+            }}
+          >
+            EXPORT IMAGE
+          </button>
           <button type="button" className="is-primary" onClick={saveDraft}>SAVE DRAFT</button>
           {savedDeckId ? (
             <button
@@ -1259,6 +1276,14 @@ export function ZeroForge({
       ) : null}
       {exportOpen ? (
         <ExBurstExportLayer report={exportReport} onClose={() => setExportOpen(false)} />
+      ) : null}
+      {imageExportOpen ? (
+        <DeckImageExportLayer
+          deck={exportReport}
+          rows={workspace.rows}
+          stats={exportReport.stats}
+          onClose={() => setImageExportOpen(false)}
+        />
       ) : null}
       {preview ? (
         <ZeroForgeCardPreview

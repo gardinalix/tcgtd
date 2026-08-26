@@ -9,6 +9,8 @@ import {
 } from "../src/domain/deckImageExport.js";
 
 const deckViewSource = fs.readFileSync(new URL("../src/pages/DeckViewPage.jsx", import.meta.url), "utf8");
+const forgeSource = fs.readFileSync(new URL("../src/components/decks/ZeroForge.jsx", import.meta.url), "utf8");
+const designerSource = fs.readFileSync(new URL("../src/components/decks/DeckDesigner.jsx", import.meta.url), "utf8");
 const exportLayerSource = fs.readFileSync(new URL("../src/components/decks/DeckImageExportLayer.jsx", import.meta.url), "utf8");
 const cssSource = fs.readFileSync(new URL("../src/ops-hud.css", import.meta.url), "utf8");
 
@@ -67,6 +69,20 @@ test("deck sheet filenames are share-safe and identify the TCGTD format", () => 
   assert.equal(deckSheetFilename("Decisões do Piloto"), "decisoes-do-piloto-tcgtd-deck-sheet.png");
 });
 
+test("deck sheet model accepts Designer reports as deck identity", () => {
+  const model = buildDeckSheetModel({
+    deck: {
+      title: "GQuuuuuuX Control",
+      sourceDeck: { playerName: "Pilot 02", eventName: "Regional", placingLabel: "TOP 8" },
+    },
+    rows: createRows(2),
+  });
+  assert.equal(model.title, "GQuuuuuuX Control");
+  assert.equal(model.author, "Pilot 02");
+  assert.equal(model.event, "Regional");
+  assert.equal(model.result, "TOP 8");
+});
+
 test("the deck dossier exposes a branded browser-only PNG export bay", () => {
   assert.match(deckViewSource, /EXPORTAR IMAGEM/);
   assert.match(deckViewSource, /<DeckImageExportLayer/);
@@ -76,4 +92,11 @@ test("the deck dossier exposes a branded browser-only PNG export bay", () => {
   assert.match(exportLayerSource, /Nenhuma decklist ou imagem é enviada para um serviço externo/);
   assert.match(cssSource, /Tactical Deck Sheet export bay/);
   assert.match(cssSource, /\.deck-sheet-console__preview img \{[\s\S]*?width: 100%;[\s\S]*?height: 100%;[\s\S]*?object-fit: contain;/);
+});
+
+test("Forge and Designer expose the same branded image export", () => {
+  assert.match(forgeSource, /<DeckImageExportLayer/);
+  assert.match(forgeSource, /EXPORT IMAGE/);
+  assert.match(designerSource, /<DeckImageExportLayer/);
+  assert.match(designerSource, /onExportImage/);
 });

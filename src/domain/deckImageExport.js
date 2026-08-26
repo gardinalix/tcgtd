@@ -20,6 +20,7 @@ const CARD_CHANNELS = {
 };
 
 export function buildDeckSheetModel({ deck = {}, rows = [], stats = {} } = {}) {
+  const sourceDeck = deck.sourceDeck || {};
   const entries = [...rows]
     .filter((row) => row?.card?.cardNumber && Number(row.quantity || 0) > 0)
     .sort(compareDeckSheetRows)
@@ -52,11 +53,11 @@ export function buildDeckSheetModel({ deck = {}, rows = [], stats = {} } = {}) {
     .sort((left, right) => Number(left.label) - Number(right.label));
 
   return {
-    title: deck.name || "Untitled deck",
-    author: deck.author || deck.playerName || deck.sourceName || "Community pilot",
-    event: deck.event || deck.eventName || "Community deck archive",
-    result: deck.result || deck.placingLabel || "—",
-    format: deck.formatName || deck.format || inferDeckFormat(entries) || "CURRENT",
+    title: deck.name || deck.title || "Untitled deck",
+    author: deck.author || deck.playerName || sourceDeck.playerName || deck.sourceName || "Community pilot",
+    event: deck.event || deck.eventName || sourceDeck.eventName || "Community deck archive",
+    result: deck.result || deck.placingLabel || sourceDeck.placingLabel || "—",
+    format: deck.formatName || deck.format || sourceDeck.formatName || sourceDeck.format || inferDeckFormat(entries) || "CURRENT",
     mainCount: Number(stats.mainCount || entries.reduce((total, entry) => total + entry.quantity, 0)),
     uniqueCount: entries.length,
     colors,
