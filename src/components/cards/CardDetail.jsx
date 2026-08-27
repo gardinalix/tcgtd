@@ -1,6 +1,7 @@
 import { getMetaSignal } from "../../domain/cards";
 import { Badge } from "./Badge";
 import { CardArt } from "./CardArt";
+import { PartnerOffer } from "./PartnerOffer";
 import { PriceTag } from "./PriceTag";
 
 export function CardDetail({ card, onOpenCard, onOpenSynergyMap }) {
@@ -33,6 +34,7 @@ export function CardDetail({ card, onOpenCard, onOpenSynergyMap }) {
           {card.hasAltArt ? <Badge tone="purple">Alt art</Badge> : null}
         </div>
         <PriceTag card={card} compact />
+        <PartnerOffer card={card} />
         <dl className="detail-grid">
           <div><dt>Color</dt><dd>{card.color}</dd></div>
           <div><dt>Rarity</dt><dd>{card.rarity || "-"}</dd></div>

@@ -148,9 +148,13 @@ test("the generated deck opens on the full interactive map and keeps the manifes
   assert.match(deckMapSource, /useState\("links"\)/);
   assert.match(deckMapSource, />INTERACTIVE MAP</);
   assert.match(deckMapSource, />DECK MANIFEST</);
+  assert.match(deckMapSource, /function DeckMapVariantTabs/);
+  assert.match(deckMapSource, /className="deck-map__deck-tabs"/);
+  assert.match(deckMapSource, /onClick=\{\(\) => onSelectVariant\(index\)\}/);
   assert.match(deckMapSource, /if \(activeId && !isActive\) return null/);
   assert.match(deckMapSource, /matchMedia\?\.\("\(max-width: 900px\)"\)/);
   assert.match(cssSource, /Generated deck review: interactive map first/);
+  assert.match(cssSource, /\.deck-map__deck-tabs/);
   assert.match(cssSource, /\.deck-map__workspace\.is-links \{[\s\S]*?min-height: 680px/);
   assert.match(cssSource, /\.deck-map__formation-groups \{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 });

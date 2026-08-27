@@ -9,10 +9,18 @@ const MIN_ZOOM = 0.55;
 const MAX_ZOOM = 1.6;
 const FIT_ZOOM = 0.66;
 
-export function DeckMap({ report, onApplySubstitution }) {
+export function DeckMap({
+  report,
+  variants = [],
+  activeVariantIndex = 0,
+  onSelectVariant,
+  onApplySubstitution,
+}) {
   const graphSynergies = report.mapSynergies || report.synergies;
   const graph = useMemo(() => buildDeckGraph(report.rows, graphSynergies), [graphSynergies, report.rows]);
   const legalityPresentation = getDeckLegalityPresentation(report.legality);
+  const hasVariantTabs = variants.length > 1 && typeof onSelectVariant === "function";
+  const activeVariantKey = getVariantKey(report, activeVariantIndex);
   const [viewMode, setViewMode] = useState("links");
   const [nodePositions, setNodePositions] = useState({});
   const [selectedId, setSelectedId] = useState("");
@@ -254,13 +262,26 @@ export function DeckMap({ report, onApplySubstitution }) {
   }
 
   return (
-    <section className="deck-map">
+    <section
+      className={`deck-map ${hasVariantTabs ? "deck-map--has-variant-tabs" : ""}`.trim()}
+      role={hasVariantTabs ? "tabpanel" : undefined}
+      id={hasVariantTabs ? `deck-map-panel-${activeVariantKey}` : undefined}
+      aria-labelledby={hasVariantTabs ? `deck-map-tab-${activeVariantKey}` : undefined}
+      tabIndex={hasVariantTabs ? 0 : undefined}
+    >
       <header className="deck-map__hudbar">
         <div className="deck-map__mission">
           <span className="eyebrow">DATABASE // DECK LINK MAP</span>
           <h3>{report.title || "Tactical deck map"}</h3>
           <p>{report.strategy}</p>
         </div>
+        {hasVariantTabs ? (
+          <DeckMapVariantTabs
+            variants={variants}
+            activeVariantIndex={activeVariantIndex}
+            onSelectVariant={onSelectVariant}
+          />
+        ) : null}
         <nav className="deck-map__mode-switch" aria-label="Deck analysis view">
           <button type="button" className={viewMode === "links" ? "is-active" : ""} onClick={() => setViewMode("links")}>INTERACTIVE MAP</button>
           <button type="button" className={viewMode === "formation" ? "is-active" : ""} onClick={() => setViewMode("formation")}>DECK MANIFEST</button>
@@ -528,6 +549,71 @@ function DeckFormation({ groups, mainCount, onAnalyze }) {
       </div>
     </section>
   );
+}
+
+function DeckMapVariantTabs({ variants, activeVariantIndex, onSelectVariant }) {
+  return (
+    <nav className="deck-map__deck-tabs" aria-label="Switch deck map">
+      <span>LISTS</span>
+      <div role="tablist" aria-label="Generated deck lists">
+        {variants.map((variant, index) => {
+          const source = variant.sourceDeck;
+          const selected = index === activeVariantIndex;
+          const key = getVariantKey(variant, index);
+          const label = source?.placingLabel || `LIST ${String(index + 1).padStart(2, "0")}`;
+          const detail = source?.playerName || source?.archetype || variant.title || "Generated recommendation";
+          return (
+            <button
+              key={key}
+              id={`deck-map-tab-${key}`}
+              type="button"
+              role="tab"
+              aria-selected={selected}
+              aria-controls={selected ? `deck-map-panel-${key}` : undefined}
+              tabIndex={selected ? 0 : -1}
+              className={selected ? "is-active" : ""}
+              onClick={() => onSelectVariant(index)}
+              onKeyDown={(event) => handleTabKeyDown(event, index, variants, onSelectVariant)}
+            >
+              <small>{source?.isBestFinish ? "BEST RESULT" : `LIST ${String(index + 1).padStart(2, "0")}`}</small>
+              <strong>{label}</strong>
+              <span>{detail}</span>
+            </button>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}
+
+function handleTabKeyDown(event, index, variants, onSelectVariant) {
+  const lastIndex = variants.length - 1;
+  const nextIndex = event.key === "ArrowRight"
+    ? (index === lastIndex ? 0 : index + 1)
+    : event.key === "ArrowLeft"
+      ? (index === 0 ? lastIndex : index - 1)
+      : event.key === "Home"
+        ? 0
+        : event.key === "End"
+          ? lastIndex
+          : null;
+  if (nextIndex == null) return;
+
+  event.preventDefault();
+  onSelectVariant(nextIndex);
+  const nextTabId = `deck-map-tab-${getVariantKey(variants[nextIndex], nextIndex)}`;
+  const focusNextTab = () => globalThis.document?.getElementById(nextTabId)?.focus();
+  if (globalThis.requestAnimationFrame) globalThis.requestAnimationFrame(focusNextTab);
+  else globalThis.setTimeout(focusNextTab, 0);
+}
+
+function getVariantKey(variant, index) {
+  return String(
+    variant?.sourceDeck?.deckId
+    || variant?.importedDeck?.id
+    || variant?.title
+    || `recommendation-${index}`,
+  ).replace(/[^a-z0-9_-]+/gi, "-");
 }
 
 function DeckMapRoster({

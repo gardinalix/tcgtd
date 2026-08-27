@@ -14,6 +14,7 @@ import {
 import { buildExBurstDeckText } from "../src/domain/deckExport.js";
 import { parseMsaDeckList } from "../src/domain/deckLibrary.js";
 import { evaluateMainDeckLegality } from "../src/domain/deckLegality.js";
+import { normalizeSearchText } from "../src/services/deckDesigner/deckDesignerUtils.js";
 
 test("current official legality rules reject Anksha, excess Corsica Base, and banned pairs", () => {
   const anksha = card("GD01-020", "Anksha", "Blue", "UNIT", 2, [], ["damage_push"], 60, 1);
@@ -96,6 +97,61 @@ test("designer infers a coherent color and archetype shell from a main unit alon
   assert.equal(report.selectionInference.supportingDecks, 3);
   assert.ok(report.main["TEST-001"] > 0);
   assert.equal(report.stats.mainCount, 50);
+});
+
+test("Turn A unit identity does not collapse into generic Gundam matches", () => {
+  const data = fixtureData();
+  const turnA = card("TEST-016", "∀ Gundam", "White", "UNIT", 3, ["Militia"], ["blocker"], 3, 1);
+  data.cards.push(turnA);
+  replaceDeckCard(data, "deck-2", "TEST-012", turnA);
+
+  const research = collectDeckResearch(data, {
+    ...baseCriteria(),
+    unitQuery: "∀ Gundam",
+  });
+  const report = designDeck(data, {
+    ...baseCriteria(),
+    unitQuery: "Turn A Gundam",
+  });
+
+  assert.equal(normalizeSearchText("∀ Gundam"), "turn a gundam");
+  assert.equal(normalizeSearchText("Turn A Gundam"), "turn a gundam");
+  assert.equal(normalizeSearchText("Ξ Gundam"), "xi gundam");
+  assert.equal(normalizeSearchText("Xi Gundam"), "xi gundam");
+  assert.deepEqual(research.matchedDecks.map((candidate) => candidate.result.deckId), ["deck-2"]);
+  assert.equal(report.sourceDeck.deckId, "deck-2");
+  assert.equal(report.main["TEST-016"], 2);
+});
+
+test("theoretical unit recommendations always include the selected mobile suit", () => {
+  const data = fixtureData();
+  const turnA = card("TEST-016", "∀ Gundam", "White", "UNIT", 3, ["Militia"], ["blocker"], 3, 1);
+  data.cards.push(turnA);
+  const report = designDeck({ ...data, metaResults: [], metaDeckCards: [], metaEvents: [] }, {
+    ...baseCriteria(),
+    colors: ["White"],
+    archetype: "",
+    unitQuery: "∀ Gundam",
+  });
+
+  assert.equal(report.sourceDeck, undefined);
+  assert.ok(report.main["TEST-016"] >= 1);
+  assert.equal(report.rows.find((row) => row.card.cardNumber === "TEST-016")?.category, "essential");
+});
+
+test("Xi Gundam aliases keep the Greek card anchored in theoretical recommendations", () => {
+  const data = fixtureData();
+  const xi = card("TEST-017", "Ξ Gundam", "White", "UNIT", 4, ["Mafty"], ["breach"], 3, 1);
+  data.cards.push(xi);
+  const report = designDeck({ ...data, metaResults: [], metaDeckCards: [], metaEvents: [] }, {
+    ...baseCriteria(),
+    colors: ["White"],
+    archetype: "",
+    unitQuery: "Xi Gundam",
+  });
+
+  assert.ok(report.main["TEST-017"] >= 1);
+  assert.equal(report.rows.find((row) => row.card.cardNumber === "TEST-017")?.category, "essential");
 });
 
 test("main unit exposes only archetypes observed with that unit", () => {

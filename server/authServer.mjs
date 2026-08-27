@@ -5,7 +5,7 @@ import { createServer } from "node:http";
 import { DatabaseSync } from "node:sqlite";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { handleCommunitySchedules, handleDeckAssistant } from "../worker/index.js";
+import { handleCommunitySchedules, handleDeckAssistant, handlePartnerRedirect } from "../worker/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -54,6 +54,7 @@ const server = createServer(async (request, response) => {
 
     const url = new URL(request.url || "/", APP_URL);
     if (url.pathname === "/api/deck-assistant") return serveDeckAssistant(request, response, url);
+    if (url.pathname === "/go/ligagundam") return servePartnerRedirect(request, response, url);
     if (url.pathname === "/api/community/schedules" || url.pathname.startsWith("/api/community/schedules/")) {
       return serveCommunitySchedules(request, response, url);
     }
@@ -88,6 +89,20 @@ async function serveDeckAssistant(request, response, url) {
     body,
   });
   const result = await handleDeckAssistant(webRequest, process.env);
+  response.statusCode = result.status;
+  result.headers.forEach((value, name) => response.setHeader(name, value));
+  response.end(Buffer.from(await result.arrayBuffer()));
+}
+
+async function servePartnerRedirect(request, response, url) {
+  const webRequest = new Request(url, {
+    method: request.method,
+    headers: request.headers,
+  });
+  const result = await handlePartnerRedirect(webRequest, {
+    ...process.env,
+    DB: createD1Adapter(db),
+  });
   response.statusCode = result.status;
   result.headers.forEach((value, name) => response.setHeader(name, value));
   response.end(Buffer.from(await result.arrayBuffer()));
@@ -826,6 +841,20 @@ function ensureSchema(database) {
       ON community_weekly_schedules(venue_id, active);
     CREATE INDEX IF NOT EXISTS idx_community_schedule_exceptions_schedule_date
       ON community_schedule_exceptions(schedule_id, occurrence_date);
+  `);
+  database.exec(`
+    CREATE TABLE IF NOT EXISTS partner_offer_clicks (
+      id TEXT PRIMARY KEY,
+      partner_id TEXT NOT NULL,
+      source_code TEXT NOT NULL,
+      card_number TEXT,
+      printing_id TEXT,
+      page_path TEXT NOT NULL,
+      destination_host TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS idx_partner_offer_clicks_partner_created_at
+      ON partner_offer_clicks(partner_id, created_at);
   `);
 }
 

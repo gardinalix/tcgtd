@@ -16,7 +16,7 @@ import {
 } from "../../domain/deckLegality.js";
 import { buildMetaWindows } from "../../domain/meta.js";
 
-export const DECK_RESEARCH_VERSION = "deck-research-2026-07-28-legality";
+export const DECK_RESEARCH_VERSION = "deck-research-2026-08-27-unit-identity";
 
 export function getObservedArchetypesForFilters(data = {}, filters = {}) {
   const requestedUnit = normalizeSearchText(filters.unitQuery);
@@ -27,12 +27,13 @@ export function getObservedArchetypesForFilters(data = {}, filters = {}) {
   const selectedMetaWindow = metaWindows.find((window) => window.id === requestedMetaId);
   const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
   const rowsByDeck = groupRowsByDeck(data.metaDeckCards || []);
+  const unitMatchCards = resolveUnitCards(data.cards || [], filters.unitQuery);
   const matchingDeckIds = requestedUnit
     ? new Set((data.metaDeckCards || [])
       .filter((row) =>
         row.deckId
         && row.cardType === "UNIT"
-        && normalizeSearchText(row.cardName) === requestedUnit)
+        && matchesRequestedUnit(row, requestedUnit, unitMatchCards))
       .map((row) => row.deckId))
     : null;
   const recentCutoffDate = selectedMetaWindow?.startDate || String(data.recentCutoffDate || "");
@@ -169,6 +170,8 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   const requestedColors = normalizeColors(criteria.colors);
   const requestedArchetype = String(criteria.archetype || "").trim();
   const requestedUnit = normalizeSearchText(criteria.unitQuery);
+  const unitMatchCards = resolveUnitCards(cards, criteria.unitQuery);
+  const unitAnchorCards = unitMatchCards.slice(0, 1);
   const latestEventDate = data.latestEventDate || latestDate(data.metaResults || []);
   const metaWindows = buildMetaWindows(data);
   const selectedMetaWindow = metaWindows.find((window) => window.id === criteria.selectedMetaId)
@@ -178,6 +181,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
     isDateInsideWindow(result.eventDate, selectedMetaWindow));
   const required = findCardsByTerms(cards, criteria.requiredCards);
   const excluded = findCardsByTerms(cards, criteria.excludedCards);
+  const requiredCards = uniqueBy([...required.cards, ...unitAnchorCards], (card) => card.cardNumber);
   const requiredIds = new Set(required.cards
     .filter((card) => !isCardBanned(card, data.rules))
     .map((card) => card.cardNumber));
@@ -193,6 +197,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       requestedUnit,
       latestEventDate,
       cardMap,
+      unitMatchCards,
     }))
     .map((candidate) => ({
       ...candidate,
@@ -230,15 +235,15 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       && (!requestedColors.length || candidate.colorMatch >= 0.45)
       && (!requestedArchetype || candidate.archetypeMatch >= 0.28))
     : [];
-  const candidatePool = requestedUnit && !requestedArchetype && unitAnchored.length
-    ? unitAnchored
+  const candidatePool = requestedUnit
+    ? (strict.length ? strict : unitAnchored)
     : strict.length
       ? strict
       : related.length
         ? related
-      : sameColors.length
-        ? sameColors
-        : scored;
+        : sameColors.length
+          ? sameColors
+          : scored;
   const mainDeckSize = Number(data.rules?.mainDeckSize || 50);
   const matchedDecks = candidatePool
     .filter((candidate) =>
@@ -253,7 +258,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
     requestedArchetype,
     requestedUnit,
   });
-  const catalogShell = inferCatalogUnitShell(cards, requestedUnit);
+  const catalogShell = inferCatalogUnitShell(cards, requestedUnit, unitMatchCards);
   const resolvedColors = requestedColors.length
     ? requestedColors
     : inferredShell.colors.length
@@ -300,7 +305,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   if (excluded.unresolved.length) {
     limitations.push(`Excluded card terms not found in the official catalog snapshot: ${excluded.unresolved.join(", ")}.`);
   }
-  const requiredOutsideColors = required.cards.filter((card) =>
+  const requiredOutsideColors = requiredCards.filter((card) =>
     resolvedColors.length && card.color !== "Neutral" && !resolvedColors.includes(card.color));
   if (requiredOutsideColors.length) {
     limitations.push(`Required cards outside the selected colors were not included: ${requiredOutsideColors.map((card) => card.cardName).join(", ")}.`);
@@ -353,7 +358,8 @@ export function collectDeckResearch(data = {}, criteria = {}) {
     matchedDecks,
     exactDeckCount: exactDecks.length,
     normalizedRows,
-    requiredCards: required.cards,
+    requiredCards,
+    unitAnchorCards,
     excludedCards: excluded.cards,
     unresolvedRequired: required.unresolved,
     unresolvedExcluded: excluded.unresolved,
@@ -452,12 +458,39 @@ export function buildDeckVariantResearch(data = {}, research = {}) {
   });
 }
 
-function inferCatalogUnitShell(cards, requestedUnit) {
+function resolveUnitCards(cards = [], query = "") {
+  const normalizedQuery = normalizeSearchText(query);
+  if (!normalizedQuery) return [];
+  const units = cards.filter((card) => card.cardType === "UNIT");
+  const exact = units.filter((card) =>
+    normalizeSearchText(card.cardName) === normalizedQuery
+    || normalizeSearchText(card.cardNumber) === normalizedQuery);
+  const matches = exact.length
+    ? exact
+    : units.filter((card) =>
+      normalizeSearchText(card.cardName).includes(normalizedQuery)
+      || normalizeSearchText(card.cardNumber).includes(normalizedQuery));
+  return matches.sort((left, right) =>
+    Number(right.recentTop8DecksUsing || 0) - Number(left.recentTop8DecksUsing || 0)
+    || Number(right.recentMetaScore || 0) - Number(left.recentMetaScore || 0)
+    || String(left.cardNumber).localeCompare(String(right.cardNumber)));
+}
+
+function matchesRequestedUnit(row = {}, requestedUnit = "", unitMatchCards = []) {
+  const normalizedQuery = normalizeSearchText(requestedUnit);
+  if (!normalizedQuery) return false;
+  if (unitMatchCards.length) {
+    const unitIds = new Set(unitMatchCards.map((card) => card.cardNumber));
+    return unitIds.has(row.cardNumber)
+      || normalizeSearchText(row.cardName) === normalizedQuery;
+  }
+  return normalizeSearchText(row.cardName).includes(normalizedQuery)
+    || normalizeSearchText(row.cardNumber).includes(normalizedQuery);
+}
+
+function inferCatalogUnitShell(cards, requestedUnit, unitMatchCards = []) {
   if (!requestedUnit) return { archetype: "", colors: [], matchedCards: 0 };
-  const matches = cards
-    .filter((card) =>
-      card.cardType === "UNIT"
-      && normalizeSearchText(card.cardName).includes(requestedUnit))
+  const matches = (unitMatchCards.length ? unitMatchCards : resolveUnitCards(cards, requestedUnit))
     .sort((left, right) =>
       Number(right.recentTop8DecksUsing || 0) - Number(left.recentTop8DecksUsing || 0)
       || Number(right.recentMetaScore || 0) - Number(left.recentMetaScore || 0));
@@ -596,6 +629,7 @@ function scoreResult({
   requestedUnit,
   latestEventDate,
   cardMap,
+  unitMatchCards,
 }) {
   const declaredColors = normalizeColors(result.colorCombination);
   const resultColors = declaredColors.length
@@ -616,7 +650,7 @@ function scoreResult({
     || normalizedResultArchetype === normalizedRequestedArchetype
     || normalizedResultArchetype.startsWith(`${normalizedRequestedArchetype} `);
   const unitMatch = requestedUnit
-    ? Number(deckRows.some((row) => normalizeSearchText(row.cardName).includes(requestedUnit)))
+    ? Number(deckRows.some((row) => matchesRequestedUnit(row, requestedUnit, unitMatchCards)))
     : 0.7;
   const finish = placingWeight(result.placingRank);
   const recent = recencyWeight(result.eventDate, latestEventDate);

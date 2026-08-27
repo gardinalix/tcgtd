@@ -32,6 +32,9 @@ export default {
     if (url.pathname === "/api/deck-assistant") {
       return handleDeckAssistant(request, env);
     }
+    if (url.pathname === "/go/ligagundam") {
+      return handlePartnerRedirect(request, env);
+    }
     const isSpaNavigation = request.method === "GET"
       && request.headers.get("accept")?.includes("text/html");
     const assetRequest = isSpaNavigation
@@ -66,9 +69,13 @@ const FORGE_RATE_LIMIT = 12;
 const FORGE_RATE_WINDOW_MS = 10 * 60 * 1_000;
 const FEEDBACK_RATE_LIMIT = 4;
 const FEEDBACK_RATE_WINDOW_MS = 15 * 60 * 1_000;
+const PARTNER_CLICK_RATE_LIMIT = 60;
+const PARTNER_CLICK_RATE_WINDOW_MS = 10 * 60 * 1_000;
 const forgeRateBuckets = new Map();
 const feedbackRateBuckets = new Map();
+const partnerClickRateBuckets = new Map();
 const FEEDBACK_CATEGORIES = new Set(["bug", "data", "layout", "rights", "suggestion"]);
+const LIGAGUNDAM_HOSTS = new Set(["ligagundam.com.br", "www.ligagundam.com.br"]);
 
 export function handleHealth(request, env = {}) {
   if (request.method !== "GET") return json({ message: "Método não permitido." }, 405, { Allow: "GET" });
@@ -172,6 +179,39 @@ export async function handleFeedback(request, env = {}) {
   } catch {
     return json({ message: "O canal recebeu a transmissão, mas não conseguiu registrá-la. Tente novamente." }, 503);
   }
+}
+
+export async function handlePartnerRedirect(request, env = {}) {
+  if (request.method !== "GET") return json({ message: "Método não permitido." }, 405, { Allow: "GET" });
+
+  const url = new URL(request.url);
+  const destination = safeLigaGundamDestination(url.searchParams.get("to"));
+  if (!destination) return json({ message: "Oferta da LigaGundam inválida ou indisponível." }, 400);
+
+  const rateKey = `anonymous:${request.headers.get("cf-connecting-ip") || "local"}`;
+  const rateLimit = consumeRateLimit(partnerClickRateBuckets, rateKey, PARTNER_CLICK_RATE_LIMIT, PARTNER_CLICK_RATE_WINDOW_MS);
+  if (rateLimit.allowed && env.DB) {
+    try {
+      await env.DB.prepare(`
+        INSERT INTO partner_offer_clicks (
+          id, partner_id, source_code, card_number, printing_id, page_path, destination_host, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      `).bind(
+        createId("partnerclick"),
+        "ligagundam",
+        "LIGA",
+        sanitizePartnerValue(url.searchParams.get("card"), 80),
+        sanitizePartnerValue(url.searchParams.get("printing"), 120),
+        sanitizePagePath(url.searchParams.get("from")),
+        destination.hostname,
+        new Date().toISOString(),
+      ).run();
+    } catch {
+      // External navigation must continue even when aggregate click logging is unavailable.
+    }
+  }
+
+  return partnerRedirect(applyAffiliateDeepLink(destination, env.LIGAGUNDAM_AFFILIATE_DEEPLINK_TEMPLATE));
 }
 
 export async function handleCommunitySchedules(request, env = {}) {
@@ -733,6 +773,42 @@ async function synchronizeUser(db, user) {
 function sanitizePagePath(value) {
   const path = String(value || "/").trim().replace(/[\u0000-\u001f\u007f]/g, "");
   return (path.startsWith("/") ? path : "/").slice(0, 240);
+}
+
+function sanitizePartnerValue(value, maxLength) {
+  return String(value || "").trim().replace(/[\u0000-\u001f\u007f]/g, "").slice(0, maxLength);
+}
+
+function safeLigaGundamDestination(value) {
+  try {
+    const destination = new URL(value);
+    if (destination.protocol !== "https:" || !LIGAGUNDAM_HOSTS.has(destination.hostname.toLowerCase())) return null;
+    return destination;
+  } catch {
+    return null;
+  }
+}
+
+function applyAffiliateDeepLink(destination, template) {
+  const rawTemplate = String(template || "").trim();
+  if (!rawTemplate || !rawTemplate.includes("{{destination}}")) return destination.toString();
+
+  try {
+    const affiliateUrl = new URL(rawTemplate.replaceAll("{{destination}}", encodeURIComponent(destination.toString())));
+    return affiliateUrl.protocol === "https:" ? affiliateUrl.toString() : destination.toString();
+  } catch {
+    return destination.toString();
+  }
+}
+
+function partnerRedirect(destination) {
+  const headers = new Headers({
+    location: destination,
+    "cache-control": "no-store",
+    "referrer-policy": "no-referrer",
+  });
+  applySecurityHeaders(headers);
+  return new Response(null, { status: 302, headers });
 }
 
 function createId(prefix) {

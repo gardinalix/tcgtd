@@ -14,7 +14,7 @@ import {
   getCardCopyLimit,
 } from "../../domain/deckLegality.js";
 
-export const DECK_RECOMMENDATION_VERSION = "deck-recommendation-2026-07-28-legality";
+export const DECK_RECOMMENDATION_VERSION = "deck-recommendation-2026-08-27-unit-identity";
 
 export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {}) {
   const cards = data.cards || [];

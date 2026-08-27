@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { DeckMap } from "./DeckMap";
 import { ZeroForge } from "./ZeroForge.jsx";
+import { DeckImageExportLayer } from "./DeckImageExportLayer.jsx";
 import { buildExBurstDeckText, downloadDeckText } from "../../domain/deckExport.js";
 import { parseMsaDeckList } from "../../domain/deckLibrary.js";
 import {
@@ -21,7 +22,10 @@ import {
   normalizeDeckEvidence,
   scoreRecommendationPool,
 } from "../../services/deckDesigner/index.js";
-import { DESIGNER_COLORS } from "../../services/deckDesigner/deckDesignerUtils.js";
+import {
+  DESIGNER_COLORS,
+  normalizeSearchText,
+} from "../../services/deckDesigner/deckDesignerUtils.js";
 import { createZeroForgeDraftFromDesignerReport } from "../../services/deckDesigner/zeroForgeEngine.js";
 import { getLocaleTag } from "../../i18n/translations.js";
 import { useLocale } from "../../i18n/LocaleProvider.jsx";
@@ -82,6 +86,7 @@ export function DeckDesigner({
   const [savedDeckId, setSavedDeckId] = useState("");
   const [saveMessage, setSaveMessage] = useState("");
   const [exportLayerOpen, setExportLayerOpen] = useState(false);
+  const [imageExportOpen, setImageExportOpen] = useState(false);
   const [zeroForgeOpen, setZeroForgeOpen] = useState(false);
   const [designerForgeDraft, setDesignerForgeDraft] = useState(null);
   const [modeSelectionOpen, setModeSelectionOpen] = useState(false);
@@ -725,6 +730,7 @@ export function DeckDesigner({
             onSave={saveRecommendation}
             onEdit={() => onEditDeck?.(savedDeckId)}
             onExportText={() => setExportLayerOpen(true)}
+            onExportImage={() => setImageExportOpen(true)}
             onExportJson={() => downloadJsonReport(report)}
             onReset={resetSubstitutions}
           />
@@ -746,6 +752,7 @@ export function DeckDesigner({
               onSave={saveRecommendation}
               onEdit={() => onEditDeck?.(savedDeckId)}
               onExportText={() => setExportLayerOpen(true)}
+              onExportImage={() => setImageExportOpen(true)}
               onExportJson={() => downloadJsonReport(report)}
               onReset={resetSubstitutions}
             />
@@ -781,6 +788,14 @@ export function DeckDesigner({
       ) : null}
       {exportLayerOpen && report ? (
         <ExBurstExportLayer report={report} onClose={() => setExportLayerOpen(false)} />
+      ) : null}
+      {imageExportOpen && report ? (
+        <DeckImageExportLayer
+          deck={report}
+          rows={report.rows}
+          stats={report.stats}
+          onClose={() => setImageExportOpen(false)}
+        />
       ) : null}
     </div>
   );
@@ -877,6 +892,7 @@ function DeckOperations({
   onSave,
   onEdit,
   onExportText,
+  onExportImage,
   onExportJson,
   onReset,
 }) {
@@ -887,6 +903,7 @@ function DeckOperations({
       {savedDeckId ? <button type="button" onClick={onEdit}>Edit in builder</button> : null}
       <div>
         <button type="button" onClick={onExportText}>Export TXT</button>
+        <button type="button" className="is-image-export" onClick={onExportImage}>Export image</button>
         <button type="button" onClick={onExportJson}>Export JSON</button>
       </div>
       {report.substitutionHistory?.length ? (
@@ -961,22 +978,17 @@ function DesignerResult({
       </header>
       {saveMessage ? <p className="deck-designer-result__save-status">{t(saveMessage)}</p> : null}
 
-      <DeckVariantSelector
-        variants={variants}
-        activeVariantIndex={activeVariantIndex}
-        onSelectVariant={onSelectVariant}
-      />
-
       <div className="deck-variant-maps">
-        {variants.map((variant, index) => (
-          <div
-            key={variant.sourceDeck?.deckId || `theoretical-${index}`}
-            className={`deck-variant-map ${index === activeVariantIndex ? "is-active" : ""}`.trim()}
-            hidden={index !== activeVariantIndex}
-          >
-            <DeckMap report={variant} onApplySubstitution={onApplySubstitution} />
-          </div>
-        ))}
+        <div className="deck-variant-map is-active">
+          <DeckMap
+            key={variantMapKey(report, activeVariantIndex)}
+            report={report}
+            variants={variants}
+            activeVariantIndex={activeVariantIndex}
+            onSelectVariant={onSelectVariant}
+            onApplySubstitution={onApplySubstitution}
+          />
+        </div>
       </div>
 
       {(report.limitations || []).length ? (
@@ -1055,64 +1067,6 @@ function DeckSourcePreview({ sources, selectedDeckId, onSelect }) {
         })}
       </div>
       <footer><i /> {t("This list will open first. All source lists stay available as tabs after generation.")}</footer>
-    </section>
-  );
-}
-
-function DeckVariantSelector({ variants, activeVariantIndex, onSelectVariant }) {
-  const sourceVariants = variants.filter((variant) => variant.sourceDeck);
-  if (!sourceVariants.length) return null;
-  const active = variants[activeVariantIndex]?.sourceDeck;
-
-  return (
-    <section className="deck-variant-selector" aria-label="Competitive deck variants">
-      <header>
-        <div>
-          <span className="eyebrow">COMPETITIVE DECK FEED // INTACT LISTS</span>
-          <h3>Choose the source deck</h3>
-        </div>
-        <p>The primary map uses the best finish, then event size and recency. Every variant is a separate registered list—quantities and relationships never mix.</p>
-      </header>
-      <div className="deck-variant-selector__tabs" role="tablist" aria-label="Available source decks">
-        {variants.map((variant, index) => {
-          const source = variant.sourceDeck;
-          if (!source) return null;
-          const selected = index === activeVariantIndex;
-          return (
-            <button
-              key={source.deckId}
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              className={selected ? "is-active" : ""}
-              onClick={() => onSelectVariant(index)}
-            >
-              <small>{source.isBestFinish && source.isMostConsistent
-                ? "BEST RESULT + CONSENSUS"
-                : source.isBestFinish
-                  ? "BEST RESULT"
-                  : source.isMostConsistent
-                    ? "FIELD CONSENSUS"
-                    : `VARIANT ${String(index + 1).padStart(2, "0")}`}</small>
-              <strong>{source.placingLabel || `#${source.placingRank}`} <i>{source.playerName}</i></strong>
-              <span>{source.archetype} · {source.colorCombination}</span>
-              <em>{source.eventName} · {formatDate(source.eventDate)} · {source.coreAlignment == null ? "single source" : `${source.coreAlignment}% core alignment`}</em>
-            </button>
-          );
-        })}
-      </div>
-      {active ? (
-        <footer>
-          <span>
-            <b>{active.modified ? "LOCAL VARIANT" : "LOCKED SOURCE"}</b>
-            {active.modified ? " Substitutions applied to this map only" : ` ${active.mainCount} cards reproduced from the registered list`}
-          </span>
-          <nav>
-            {active.deckUrl ? <a href={active.deckUrl} target="_blank" rel="noreferrer">Open decklist</a> : null}
-            {active.sourceUrl ? <a href={active.sourceUrl} target="_blank" rel="noreferrer">Open event source</a> : null}
-          </nav>
-        </footer>
-      ) : null}
     </section>
   );
 }
@@ -1338,7 +1292,16 @@ function inferInitialColors(value = "") {
 }
 
 function normalizeSelectionValue(value = "") {
-  return String(value || "").trim().toLocaleLowerCase();
+  return normalizeSearchText(value);
+}
+
+function variantMapKey(variant, index) {
+  return String(
+    variant?.sourceDeck?.deckId
+    || variant?.importedDeck?.id
+    || variant?.title
+    || `recommendation-${index}`,
+  );
 }
 
 function formatMatchingDeckCount(value) {

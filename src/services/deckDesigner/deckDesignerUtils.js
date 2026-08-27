@@ -17,6 +17,8 @@ const COLOR_ALIASES = {
 
 export function normalizeSearchText(value = "") {
   return String(value || "")
+    .replaceAll("∀", " Turn A ")
+    .replace(/[Ξξ]/gu, " Xi ")
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^\p{L}\p{N}]+/gu, " ")
