@@ -39,6 +39,14 @@ const ANALYSIS_STAGES = [
   "Explaining synergies and substitutions",
 ];
 
+const BASIC_SYNERGY_STAGES = [
+  "Reading card identity and official effects",
+  "Mapping traits, links and tactical roles",
+  "Balancing the legal 50-card curve",
+  "Checking colors, copy limits and restrictions",
+  "Explaining basic synergies and risks",
+];
+
 const MSA_ANALYSIS_STAGES = [
   "Reading the MSA decklist",
   "Matching card numbers to the catalog",
@@ -58,6 +66,7 @@ export function DeckDesigner({
   selectedMetaId,
   onSelectedMetaChange,
 }) {
+  const { t } = useLocale();
   const defaultArchetype = data.defaults?.template_archetype || data.archetypes?.[0]?.archetype || "";
   const defaultProfile = data.archetypes?.find((item) => item.archetype === defaultArchetype);
   const [criteria, setCriteria] = useState(() => ({
@@ -67,6 +76,8 @@ export function DeckDesigner({
     unitQuery: "",
     archetype: initialCriteria?.archetype || defaultArchetype,
     selectedMetaId: initialCriteria?.selectedMetaId || selectedMetaId || "current",
+    competitiveIntelligence: initialCriteria?.competitiveIntelligence === true,
+    counterArchetype: "",
     preferences: "",
     requiredCards: "",
     excludedCards: "",
@@ -98,6 +109,25 @@ export function DeckDesigner({
       || String(left.archetype).localeCompare(String(right.archetype))),
     [data.archetypes],
   );
+  const counterTargets = useMemo(() => {
+    const families = new Map();
+    for (const profile of archetypes) {
+      const base = String(profile.archetype || "").replace(/\s*\([^)]*\)\s*$/, "").trim();
+      if (!base || base === profile.archetype) continue;
+      const group = families.get(base) || { value: base, label: `${base} · all variants`, recentDecklists: 0, count: 0 };
+      group.recentDecklists += Number(profile.recentDecklists || 0);
+      group.count += 1;
+      families.set(base, group);
+    }
+    return [
+      ...[...families.values()].filter((group) => group.count > 1),
+      ...archetypes.map((profile) => ({
+        value: profile.archetype,
+        label: profile.archetype,
+        recentDecklists: Number(profile.recentDecklists || 0),
+      })),
+    ];
+  }, [archetypes]);
   const unitNames = useMemo(() => [...new Set((data.cards || [])
     .filter((card) => card.cardType === "UNIT")
     .filter((card) => Number(card.recentTop8DecksUsing || 0) > 0)
@@ -122,11 +152,13 @@ export function DeckDesigner({
   const report = variantReports[activeVariantIndex] || null;
   const parsedMsaDeck = useMemo(() => parseMsaDeckList(msaText), [msaText]);
   const sourceComparisons = useMemo(() => {
-    if (!criteria.archetype.trim()) return [];
+    if (!criteria.competitiveIntelligence || !criteria.archetype.trim()) return [];
     const research = collectDeckResearch(data, criteria);
     return buildDeckSourceComparison(research.deckVariants || []);
   }, [
     criteria.archetype,
+    criteria.competitiveIntelligence,
+    criteria.counterArchetype,
     criteria.colors,
     criteria.excludedCards,
     criteria.requiredCards,
@@ -195,7 +227,7 @@ export function DeckDesigner({
     }
     setStatus("loading");
     setModeSelectionOpen(false);
-    setAnalysisPipeline("design");
+    setAnalysisPipeline(criteria.competitiveIntelligence ? "competitive" : "basic");
     setErrorMessage("");
     setSaveMessage("");
     setSavedDeckId("");
@@ -203,8 +235,10 @@ export function DeckDesigner({
       setActiveStage(0);
       await nextFrame();
       const research = collectDeckResearch(data, criteria);
-      const competitiveVariants = buildDeckVariantResearch(data, research);
-      if (!competitiveVariants.length && (data.metaResults || []).length) {
+      const competitiveVariants = research.criteria?.competitiveIntelligence && !research.counterPlan?.active
+        ? buildDeckVariantResearch(data, research)
+        : [];
+      if (research.criteria?.competitiveIntelligence && !competitiveVariants.length && (data.metaResults || []).length) {
         throw new Error("No complete registered decklist matched these filters. Remove a constraint or choose another unit/archetype.");
       }
       const researchSets = competitiveVariants.length ? competitiveVariants : [research];
@@ -628,6 +662,48 @@ export function DeckDesigner({
               <option value="casual">Casual flexibility</option>
             </select>
           </label>
+          <label className="deck-designer__intelligence-field">
+            <span>{t("Competitive intelligence")} <em>{t("optional competitive layer")}</em></span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={criteria.competitiveIntelligence}
+              className={criteria.competitiveIntelligence ? "is-enabled" : ""}
+              onClick={() => setCriteria((current) => ({
+                ...current,
+                competitiveIntelligence: !current.competitiveIntelligence,
+                counterArchetype: current.competitiveIntelligence ? "" : current.counterArchetype,
+              }))}
+            >
+              <i aria-hidden="true" />
+              <strong>{criteria.competitiveIntelligence ? t("ENABLED") : t("BASIC SYNERGY")}</strong>
+              <small>{criteria.competitiveIntelligence ? t("Meta, placements and counter plan are active") : t("Uses card text, traits, links and curve only")}</small>
+            </button>
+          </label>
+          <label className="deck-designer__counter-field">
+            <span>{t("Counter target")} <em>{t("optional · theory-assisted")}</em></span>
+            <select
+              value={criteria.counterArchetype}
+              disabled={!criteria.competitiveIntelligence}
+              onChange={(event) => setCriteria((current) => ({ ...current, counterArchetype: event.target.value }))}
+            >
+              <option value="">{t("Build for the open field")}</option>
+              {counterTargets
+                .filter((item) => item.value !== criteria.archetype)
+                .map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label} · {item.recentDecklists || 0} recent
+                  </option>
+                ))}
+            </select>
+            <small>
+              {!criteria.competitiveIntelligence
+                ? t("Enable competitive intelligence to select a counter target.")
+                : criteria.counterArchetype
+                ? t("Prioritizes mechanic tags that pressure this opponent profile. It does not claim a measured win rate.")
+                : t("Leave empty to optimize for the broad competitive field.")}
+            </small>
+          </label>
           <label className="deck-designer__meta-field">
             <span>Meta / format <em>evidence scope</em></span>
             <select
@@ -664,7 +740,7 @@ export function DeckDesigner({
           </label>
         </div>
 
-        {criteria.archetype && sourceComparisons.length ? (
+        {criteria.competitiveIntelligence && criteria.archetype && !criteria.counterArchetype && sourceComparisons.length ? (
           <DeckSourcePreview
             sources={sourceComparisons}
             selectedDeckId={effectiveSourceDeckId}
@@ -763,7 +839,9 @@ export function DeckDesigner({
       {status === "loading" ? (
         <AnalysisProgress
           activeStage={activeStage}
-          stages={analysisPipeline === "msa" ? MSA_ANALYSIS_STAGES : ANALYSIS_STAGES}
+          stages={analysisPipeline === "msa"
+            ? MSA_ANALYSIS_STAGES
+            : analysisPipeline === "competitive" ? ANALYSIS_STAGES : BASIC_SYNERGY_STAGES}
         />
       ) : null}
       {status === "error" ? (
@@ -1009,6 +1087,7 @@ function DesignerResult({
             <InsightPanel title="Observed facts" items={report.observedFacts} tone="fact" />
             <InsightPanel title="Strengths · theoretical" items={report.strengths} tone="inference" />
             <InsightPanel title="Weaknesses / risks" items={report.weaknesses} tone="risk" />
+            {report.counterPlan?.active ? <CounterPlanPanel plan={report.counterPlan} /> : null}
             <MatchupPanel rows={report.matchups} />
           </aside>
         </div>
@@ -1017,6 +1096,21 @@ function DesignerResult({
           <EvidencePanel report={report} />
         </div>
       </details>
+    </section>
+  );
+}
+
+function CounterPlanPanel({ plan }) {
+  const { t } = useLocale();
+  return (
+    <section className="deck-counter-plan" aria-label={`Counter plan against ${plan.targetArchetype}`}>
+      <span className="eyebrow">{t("COUNTER PLAN // THEORY")}</span>
+      <strong>{t("Target")}: {plan.targetArchetype}</strong>
+      <p>{t("Prioritized answers")}: {plan.answerTags.join(" · ") || t("no mapped mechanics")}.</p>
+      {plan.objectives.length ? (
+        <ul>{plan.objectives.map((objective) => <li key={objective}>{t(objective)}</li>)}</ul>
+      ) : <p>{t("No structured counter tags are available for this profile yet.")}</p>}
+      <small>{t("Built from catalog mechanics, not head-to-head game records.")}</small>
     </section>
   );
 }

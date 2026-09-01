@@ -82,6 +82,63 @@ test("designer assembles a legal deck and honors required/excluded constraints",
   assert.ok(report.rows.every((row) => ["essential", "flexible", "experimental"].includes(row.category)));
 });
 
+test("counter plan keeps the selected shell while surfacing a transparent target-specific inference", () => {
+  const data = fixtureData();
+  data.archetypes.push({
+    archetype: "Strike Freedom",
+    commonColorCombination: "Blue/White",
+    signatureTraits: ["Orb", "Coordinator"],
+    signatureTags: ["blocker", "draw", "link", "pair", "token"],
+    recentDecklists: 7,
+  });
+  const report = designDeck(data, { ...baseCriteria(), counterArchetype: "Strike Freedom" });
+
+  assert.equal(report.criteria.counterArchetype, "Strike Freedom");
+  assert.equal(report.counterPlan.active, true);
+  assert.equal(report.counterPlan.targetArchetype, "Strike Freedom");
+  assert.ok(report.rows.some((row) => row.counterScore > 0));
+  assert.equal(report.matchups[0].opponent, "Strike Freedom");
+  assert.match(report.matchups[0].basis, /No head-to-head result/i);
+  assert.match(report.strategy, /Counter plan: Strike Freedom/i);
+});
+
+test("counter plan can aggregate a named family across observed opponent variants", () => {
+  const data = fixtureData();
+  data.archetypes.push(
+    {
+      archetype: "Strike Freedom Gundam (Aile Strike Gundam)",
+      signatureTags: ["blocker", "draw"],
+      recentDecklists: 5,
+    },
+    {
+      archetype: "Strike Freedom Gundam (Victory Gundam)",
+      signatureTags: ["token", "link"],
+      recentDecklists: 7,
+    },
+  );
+  const report = designDeck(data, { ...baseCriteria(), counterArchetype: "Strike Freedom Gundam" });
+
+  assert.equal(report.counterPlan.targetArchetype, "Strike Freedom Gundam");
+  assert.equal(report.counterPlan.sampleDecklists, 12);
+  assert.ok(report.counterPlan.targetTags.includes("token"));
+  assert.ok(report.counterPlan.targetTags.includes("blocker"));
+});
+
+test("basic synergy mode excludes competitive adoption, source lists and counter weighting", () => {
+  const report = designDeck(fixtureData(), {
+    ...baseCriteria(),
+    competitiveIntelligence: false,
+    counterArchetype: "Strike Freedom",
+  });
+
+  assert.equal(report.criteria.competitiveIntelligence, false);
+  assert.equal(report.sourceDeck, undefined);
+  assert.equal(report.counterPlan.active, false);
+  assert.ok(report.rows.every((row) => row.source === "inferred"));
+  assert.match(report.strategy, /built from basic synergy/i);
+  assert.match(report.evidenceSummary, /Basic synergy mode/i);
+});
+
 test("designer infers a coherent color and archetype shell from a main unit alone", () => {
   const data = fixtureData();
   const report = designDeck(data, {

@@ -45,7 +45,9 @@ export function designDeck(data, criteria) {
 
 export function designDeckVariants(data, criteria) {
   const research = collectDeckResearch(data, criteria);
-  const variants = buildDeckVariantResearch(data, research);
+  const variants = research.criteria?.competitiveIntelligence && !research.counterPlan?.active
+    ? buildDeckVariantResearch(data, research)
+    : [];
   const researchSets = variants.length ? variants : [research];
   return researchSets.map((variantResearch) => {
     const resolvedCriteria = variantResearch.criteria;
@@ -165,6 +167,7 @@ export function compactDeckDesign(report = {}) {
     confidence: report.confidence,
     confidenceValue: report.confidenceValue,
     strategy: report.strategy,
+    counterPlan: report.counterPlan,
     facts: report.facts,
     observedFacts: report.observedFacts,
     limitations: report.limitations,
@@ -179,6 +182,8 @@ export function compactDeckDesign(report = {}) {
       category: row.category,
       confidence: row.confidence,
       source: row.source,
+      counterScore: row.counterScore,
+      counterReasons: row.counterReasons,
       reason: row.recommendationReason,
     })),
     substitutionHistory: report.substitutionHistory || [],

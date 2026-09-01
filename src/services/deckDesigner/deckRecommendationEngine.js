@@ -13,15 +13,19 @@ import {
   evaluateMainDeckLegality,
   getCardCopyLimit,
 } from "../../domain/deckLegality.js";
+import { scoreCounterFit } from "./counterPlan.js";
 
 export const DECK_RECOMMENDATION_VERSION = "deck-recommendation-2026-08-27-unit-identity";
 
 export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {}) {
   const cards = data.cards || [];
+  const competitiveIntelligence = criteria.competitiveIntelligence !== false;
   const selectedColors = normalizeColors(criteria.colors);
   const requiredIds = new Set((evidence.requiredCards || []).map((card) => card.cardNumber));
   const excludedIds = new Set((evidence.excludedCards || []).map((card) => card.cardNumber));
-  const observedById = new Map((evidence.cardEvidence || []).map((item) => [item.card.cardNumber, item]));
+  const observedById = competitiveIntelligence
+    ? new Map((evidence.cardEvidence || []).map((item) => [item.card.cardNumber, item]))
+    : new Map();
   const archetypeProfile = (data.archetypes || []).find((profile) =>
     normalizeSearchText(profile.archetype) === normalizeSearchText(criteria.archetype))
     || bestArchetypeProfile(data.archetypes || [], criteria.archetype);
@@ -31,6 +35,7 @@ export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {})
   const preferenceText = normalizeSearchText(criteria.preferences);
   const budget = Number(criteria.budgetBrl || 0);
   const targetPricePerCopy = budget > 0 ? budget / Number(data.rules?.mainDeckSize || 50) : 0;
+  const counterPlan = evidence.counterPlan || {};
 
   const pool = cards
     .filter((card) => getCardCopyLimit(card, data.rules) > 0)
@@ -41,10 +46,11 @@ export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {})
       const traitAffinity = affinity(card.traits, signatureTraits);
       const tagAffinity = affinity(card.synergyTags, signatureTags);
       const unitAffinity = unitTokens && normalizeSearchText(card.cardName).includes(unitTokens) ? 1 : 0;
-      const archetypeAffinity = Math.max(
+      const observedArchetypeAffinity = Math.max(
         ...(card.topArchetypes || []).map((item) => tokenOverlap(criteria.archetype, item.label)),
         0,
       );
+      const archetypeAffinity = competitiveIntelligence ? observedArchetypeAffinity : 0;
       const preferenceAffinity = preferenceText
         ? tokenOverlap(
           preferenceText,
@@ -56,7 +62,9 @@ export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {})
           ].join(" "),
         )
         : 0;
-      const metaSignal = clamp(Math.log1p(Number(card.recentTop8DecksUsing || 0)) / Math.log(180));
+      const metaSignal = competitiveIntelligence
+        ? clamp(Math.log1p(Number(card.recentTop8DecksUsing || 0)) / Math.log(180))
+        : 0;
       const observedSignal = observed
         ? clamp((observed.weightedUsageRate * 0.62) + (Math.min(1, observed.expectedCopies / 4) * 0.38))
         : 0;
@@ -69,19 +77,24 @@ export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {})
         + (metaSignal * 0.08),
       );
       const price = cardPriceBrl(card);
+      const counterFit = scoreCounterFit(card, counterPlan);
       const pricePenalty = targetPricePerCopy > 0 && price > targetPricePerCopy
         ? Math.min(0.32, ((price / targetPricePerCopy) - 1) * 0.08)
         : 0;
       const focusAdjustment = criteria.focus === "casual"
         ? theoreticalSignal * 0.08
-        : metaSignal * 0.1;
+        : competitiveIntelligence ? metaSignal * 0.1 : theoreticalSignal * 0.06;
       const requiredBoost = requiredIds.has(card.cardNumber) ? 1 : 0;
+      const identitySignal = Math.max(traitAffinity, tagAffinity, archetypeAffinity, unitAffinity);
+      const counterEligible = Boolean(observed) || identitySignal >= 0.34;
+      const counterBonus = competitiveIntelligence && counterPlan.active && counterEligible ? counterFit.score * 0.1 : 0;
       const finalScore = clamp(
         (observedSignal * 0.58)
         + (theoreticalSignal * 0.18)
         + (preferenceAffinity * 0.08)
         + (metaSignal * 0.1)
         + focusAdjustment
+        + counterBonus
         + requiredBoost
         - pricePenalty,
       );
@@ -96,6 +109,11 @@ export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {})
         preferenceAffinity,
         metaSignal,
         price,
+        counterScore: counterFit.score,
+        counterReasons: counterFit.reasons,
+        counterTags: counterFit.matchedTags,
+        counterEligible,
+        identitySignal,
         required: requiredIds.has(card.cardNumber),
         score: finalScore,
         expectedCopies: observed?.expectedCopies || (requiredIds.has(card.cardNumber) ? 2 : 0),
@@ -104,7 +122,9 @@ export function scoreRecommendationPool(data = {}, evidence = {}, criteria = {})
     .filter((candidate) =>
       candidate.required
       || candidate.observed
-      || candidate.score >= (evidence.matchedDecks?.length ? 0.22 : 0.08))
+      || (competitiveIntelligence
+        ? candidate.score >= (evidence.matchedDecks?.length ? 0.22 : 0.08)
+        : candidate.identitySignal > 0 || candidate.preferenceAffinity > 0))
     .sort((left, right) =>
       Number(right.required) - Number(left.required)
       || right.score - left.score
@@ -138,6 +158,8 @@ export function assembleRecommendedDeck(data = {}, scored = {}, criteria = {}) {
       quantities[candidate.card.cardNumber] = Number(quantities[candidate.card.cardNumber] || 0) + 1;
     }
   }
+
+  reserveCounterSlots(quantities, pool, cardMap, data.rules, criteria);
 
   while (sumQuantities(quantities) < mainDeckSize) {
     const next = pool
@@ -272,6 +294,9 @@ export function buildRecommendationRow(candidate, quantity, sampleSize) {
     usageRate: round(usageRate, 2),
     decksUsing: candidate.observed?.decksUsing || 0,
     expectedCopies: round(candidate.expectedCopies, 2),
+    counterScore: round(candidate.counterScore || 0, 3),
+    counterReasons: candidate.counterReasons || [],
+    counterTags: candidate.counterTags || [],
     recommendationReason: recommendationReason(candidate, category),
   };
 }
@@ -280,14 +305,18 @@ function ensureViablePool(data, pool, criteria, excludedCards = []) {
   const poolIds = new Set(pool.map((candidate) => candidate.card.cardNumber));
   const excludedIds = new Set(excludedCards.map((card) => card.cardNumber));
   const selectedColors = normalizeColors(criteria.colors);
+  const competitiveIntelligence = criteria.competitiveIntelligence !== false;
   const fallback = (data.cards || [])
     .filter((card) => getCardCopyLimit(card, data.rules) > 0)
     .filter((card) => !selectedColors.length || card.color === "Neutral" || selectedColors.includes(card.color))
     .filter((card) => !excludedIds.has(card.cardNumber))
     .filter((card) => !poolIds.has(card.cardNumber))
-    .sort((left, right) =>
-      Number(right.recentTop8DecksUsing || 0) - Number(left.recentTop8DecksUsing || 0)
-      || Number(right.recentMetaScore || 0) - Number(left.recentMetaScore || 0))
+    .sort((left, right) => competitiveIntelligence
+      ? Number(right.recentTop8DecksUsing || 0) - Number(left.recentTop8DecksUsing || 0)
+        || Number(right.recentMetaScore || 0) - Number(left.recentMetaScore || 0)
+      : Number(left.cost || 99) - Number(right.cost || 99)
+        || String(left.cardNumber).localeCompare(String(right.cardNumber)))
+    .slice(0, competitiveIntelligence ? undefined : 180)
     .map((card) => ({
       card,
       source: "inferred",
@@ -296,13 +325,43 @@ function ensureViablePool(data, pool, criteria, excludedCards = []) {
       tagAffinity: 0,
       archetypeAffinity: 0,
       unitAffinity: 0,
-      metaSignal: clamp(Math.log1p(Number(card.recentTop8DecksUsing || 0)) / Math.log(180)),
+      metaSignal: competitiveIntelligence
+        ? clamp(Math.log1p(Number(card.recentTop8DecksUsing || 0)) / Math.log(180))
+        : 0,
       price: cardPriceBrl(card),
+      counterScore: 0,
+      counterReasons: [],
+      counterTags: [],
+      counterEligible: false,
+      identitySignal: 0,
       required: false,
-      score: 0.08 + clamp(Number(card.recentMetaScore || 0) / 100) * 0.12,
+      score: competitiveIntelligence
+        ? 0.08 + clamp(Number(card.recentMetaScore || 0) / 100) * 0.12
+        : 0.08,
       expectedCopies: 0,
     }));
   return [...pool, ...fallback];
+}
+
+function reserveCounterSlots(quantities, pool, cardMap, rules, criteria) {
+  if (!String(criteria.counterArchetype || "").trim()) return;
+  const reserveLimit = Math.min(6, Number(rules?.mainDeckSize || 50));
+  let reserved = 0;
+  const candidates = pool
+    .filter((candidate) => candidate.counterEligible && Number(candidate.counterScore || 0) > 0)
+    .sort((left, right) => right.counterScore - left.counterScore
+      || right.identitySignal - left.identitySignal
+      || Number(Boolean(right.observed)) - Number(Boolean(left.observed))
+      || right.score - left.score);
+
+  for (const candidate of candidates) {
+    if (reserved >= reserveLimit) break;
+    const current = Number(quantities[candidate.card.cardNumber] || 0);
+    const cap = maxCopiesForCard(candidate.card, rules);
+    if (current >= cap || !canAddCardToMain(quantities, candidate.card, cardMap, rules)) continue;
+    quantities[candidate.card.cardNumber] = current + 1;
+    reserved += 1;
+  }
 }
 
 function marginalCopyScore(candidate, currentCopies, criteria) {
@@ -319,13 +378,17 @@ function marginalCopyScore(candidate, currentCopies, criteria) {
 function recommendationReason(candidate, category) {
   if (candidate.required) return "Included as a user constraint; quantity is limited by official copy rules.";
   if (candidate.source === "observed") {
-    return `${Math.round((candidate.observed?.usageRate || 0) * 100)}% adoption in the matched sample; ${category} slot by observed prevalence.`;
+    const counterReason = candidate.counterReasons?.[0]
+      ? ` Counter plan: ${candidate.counterReasons[0]}.`
+      : "";
+    return `${Math.round((candidate.observed?.usageRate || 0) * 100)}% adoption in the matched sample; ${category} slot by observed prevalence.${counterReason}`;
   }
   const signals = [];
   if (candidate.traitAffinity) signals.push("trait fit");
   if (candidate.tagAffinity) signals.push("mechanic fit");
   if (candidate.archetypeAffinity) signals.push("archetype signal");
   if (candidate.metaSignal) signals.push("general meta use");
+  if (candidate.counterReasons?.[0]) signals.push(`counter plan: ${candidate.counterReasons[0]}`);
   return `Theoretical inclusion from ${signals.join(", ") || "same-color curve coverage"}; not observed in the matched sample.`;
 }
 

@@ -34,5 +34,14 @@ test("compact Designer reports preserve their legality result", () => {
     rulesEffectiveDate: "2026-07-24",
   };
 
-  assert.deepEqual(compactDeckDesign({ legality }).legality, legality);
+  const counterPlan = { active: true, targetArchetype: "Strike Freedom Gundam" };
+  const compact = compactDeckDesign({
+    legality,
+    counterPlan,
+    rows: [{ card: { cardNumber: "TEST-001" }, counterScore: 0.75, counterReasons: ["pressure setup turns"] }],
+  });
+
+  assert.deepEqual(compact.legality, legality);
+  assert.deepEqual(compact.counterPlan, counterPlan);
+  assert.equal(compact.cardRecommendations[0].counterScore, 0.75);
 });

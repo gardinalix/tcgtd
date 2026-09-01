@@ -1464,6 +1464,100 @@ body[data-view]:not([data-view="home"]) .event-dossier-hero {
   }
 }
 
+/* Counter-plan controls are an optional mission parameter, not a win-rate claim. */
+.deck-designer__counter-field { grid-area: counter; }
+.deck-designer__intelligence-field { grid-area: intelligence; }
+.deck-designer__meta-field { grid-area: meta; }
+
+.deck-designer__intelligence-field > button {
+  display: grid;
+  grid-template-columns: 11px auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.48rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.58rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--hud-primary) 26%, transparent);
+  color: var(--hud-muted);
+  background: rgba(0, 7, 16, 0.86);
+  cursor: pointer;
+  text-align: left;
+}
+
+.deck-designer__intelligence-field > button > i {
+  width: 9px;
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.deck-designer__intelligence-field > button > strong {
+  color: inherit;
+  font: 800 0.68rem var(--font-tech);
+  letter-spacing: 0.08em;
+}
+
+.deck-designer__intelligence-field > button > small {
+  min-width: 0;
+  color: inherit;
+  font-size: 0.66rem;
+  line-height: 1.2;
+}
+
+.deck-designer__intelligence-field > button.is-enabled {
+  border-color: color-mix(in srgb, #f2c94c 62%, transparent);
+  color: #f8dc78;
+  background: linear-gradient(100deg, color-mix(in srgb, #f2c94c 12%, transparent), transparent 65%), rgba(0, 7, 16, 0.9);
+}
+
+.deck-designer__intelligence-field > button.is-enabled > i {
+  background: #f2c94c;
+  box-shadow: 0 0 8px color-mix(in srgb, #f2c94c 74%, transparent);
+}
+
+.deck-counter-plan {
+  display: grid;
+  gap: 0.42rem;
+  padding: 0.82rem;
+  border: 1px solid color-mix(in srgb, #f2c94c 46%, transparent);
+  background: linear-gradient(125deg, color-mix(in srgb, #f2c94c 10%, transparent), transparent 58%), rgba(7, 12, 22, 0.7);
+}
+
+.deck-counter-plan > strong {
+  color: #f8dc78;
+  font: 800 0.8rem var(--font-tech);
+  letter-spacing: 0.06em;
+}
+
+.deck-counter-plan > p,
+.deck-counter-plan > small,
+.deck-counter-plan li { color: var(--hud-muted); }
+.deck-counter-plan > p { margin: 0; font-size: 0.77rem; }
+.deck-counter-plan > ul { display: grid; gap: 0.28rem; margin: 0; padding-left: 1.1rem; font-size: 0.73rem; }
+.deck-counter-plan > small { font-size: 0.68rem; }
+
+@media (min-width: 981px) {
+  .deck-designer:not(.is-engaged) .deck-designer__primary-fields {
+    grid-template-areas:
+      "unit strategy"
+      "focus intelligence"
+      "counter counter"
+      "meta meta";
+  }
+
+  .deck-designer:not(.is-engaged) .deck-designer__strategy-field {
+    padding-left: 0.85rem;
+    border-left: 1px solid color-mix(in srgb, #9368ff 24%, transparent);
+  }
+}
+
+@media (max-width: 980px) {
+  .deck-designer:not(.is-engaged) .deck-designer__primary-fields {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas: "unit" "strategy" "focus" "intelligence" "counter" "meta" !important;
+  }
+}
+
 /* Community intelligence and image-first card gallery */
 .community-nav {
   position: sticky;

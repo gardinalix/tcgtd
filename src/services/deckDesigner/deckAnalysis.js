@@ -31,11 +31,11 @@ export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {})
   const confidenceValue = overallConfidence(assembled, stats);
   const observedFacts = [
     `Legality check: ${legality.legal ? "passed" : "failed"} under the official rules effective ${legality.rulesEffectiveDate || "for the current snapshot"}.`,
-    ...buildObservedFacts(assembled, stats),
+    ...buildObservedFacts(assembled, stats, assembled.criteria?.competitiveIntelligence !== false),
   ];
-  const inferences = buildTheoreticalInferences(assembled.rows || [], stats, assembled);
-  const weaknesses = buildWeaknesses(assembled.rows || [], stats, assembled);
-  const matchups = buildMatchupProjections(assembled.rows || [], stats);
+  const inferences = buildTheoreticalInferences(assembled.rows || [], stats, assembled, assembled.counterPlan);
+  const weaknesses = buildWeaknesses(assembled.rows || [], stats, assembled, assembled.counterPlan);
+  const matchups = buildMatchupProjections(assembled.rows || [], stats, assembled.counterPlan);
   const strategy = buildStrategy(criteria, assembled, stats);
   const budgetLimit = Number(criteria.budgetBrl || 0);
   const budgetAssessment = {
@@ -61,6 +61,7 @@ export function analyzeRecommendedDeck(data = {}, assembled = {}, criteria = {})
     strengths: inferences.slice(0, 3),
     weaknesses,
     matchups,
+    counterPlan: assembled.counterPlan,
     synergies: synergyAnalysis.displaySynergies,
     mapSynergies: synergyAnalysis.mapSynergies,
     substitutions,
@@ -439,7 +440,7 @@ function compareCards(source, target) {
   };
 }
 
-function buildObservedFacts(report, stats) {
+function buildObservedFacts(report, stats, competitiveIntelligence) {
   const sample = report.facts?.matchedDecklists || 0;
   if (report.importedDeck) {
     const coverage = report.importedDeck.originalMainCount
@@ -452,6 +453,12 @@ function buildObservedFacts(report, stats) {
         : `Catalog recognition covered ${report.importedDeck.recognizedMainCount} main-deck cards (${coverage}%) and ${report.importedDeck.recognizedResourceCount} resource cards.`,
       `The analyzed main deck has an average cost of ${stats.averageCost}; every recognized imported quantity was preserved.`,
       `${sample} normalized competitive decklist(s) were available as contextual evidence for the inferred colors and strategy.`,
+    ];
+  }
+  if (!competitiveIntelligence) {
+    return [
+      "Basic synergy mode: competitive adoption, placements, and matchup counter weighting were not used.",
+      `The proposed main deck has ${stats.mainCount} cards with an average cost of ${stats.averageCost}.`,
     ];
   }
   const facts = [
@@ -468,7 +475,7 @@ function buildObservedFacts(report, stats) {
   return facts;
 }
 
-function buildTheoreticalInferences(rows, stats, report) {
+function buildTheoreticalInferences(rows, stats, report, counterPlan = {}) {
   const mechanics = Object.entries(stats.mechanics).sort((left, right) => right[1] - left[1]);
   const blockers = mechanics.find(([name]) => normalizeSearchText(name) === "blocker")?.[1] || 0;
   const consistency = mechanics
@@ -480,7 +487,7 @@ function buildTheoreticalInferences(rows, stats, report) {
   const inferences = [];
   if (report.selectionInference?.active) {
     const shell = `${report.selectionInference.resolvedArchetype || "the strategy"} in ${(report.selectionInference.resolvedColors || []).join("/") || "open colors"}`;
-    inferences.push(report.selectionInference.basis === "competitive_lists"
+    inferences.push(report.selectionInference.basis === "competitive_lists" && report.criteria?.competitiveIntelligence !== false
       ? `Theoretical: ${shell} was selected as the strongest observed shell across ${report.selectionInference.supportingDecks} relevant list(s).`
       : `Theoretical: ${shell} was inferred from the selected unit's catalog color and archetype signals because no matching competitive shell was observed.`);
   }
@@ -488,26 +495,34 @@ function buildTheoreticalInferences(rows, stats, report) {
   if (blockers >= 6) inferences.push(`Theoretical: ${blockers} cards with Blocker signals provide a meaningful defensive layer.`);
   if (consistency >= 6) inferences.push(`Theoretical: ${consistency} draw/search-tagged slots should reduce dead hands.`);
   if (pressure >= 6) inferences.push(`Theoretical: ${pressure} pressure-tagged slots support proactive damage conversion.`);
+  if (counterPlan.active) {
+    const counterSlots = rows
+      .filter((row) => Number(row.counterScore || 0) > 0)
+      .reduce((sum, row) => sum + Number(row.quantity || 0), 0);
+    inferences.push(`Theoretical counter plan: ${counterSlots} slot(s) carry mechanics mapped against ${counterPlan.targetArchetype}.`);
+  }
   if (!inferences.length) inferences.push("Theoretical: the list prioritizes observed card adoption over a single dominant mechanic.");
   return inferences;
 }
 
-function buildWeaknesses(rows, stats, report) {
+function buildWeaknesses(rows, stats, report, counterPlan = {}) {
   const weaknesses = [];
   const consistency = (stats.mechanics.draw || 0) + (stats.mechanics.search || 0);
   if (stats.averageCost >= 3.5) weaknesses.push("Theoretical: the higher average cost can produce slower opening sequences.");
   if (consistency < 5) weaknesses.push("Theoretical: limited draw/search signals may increase hand variance.");
-  if ((report.facts?.matchedDecklists || 0) < 5) weaknesses.push("Evidence risk: the relevant competitive sample is small, so flex slots are less stable.");
+  if (report.criteria?.competitiveIntelligence !== false && (report.facts?.matchedDecklists || 0) < 5) weaknesses.push("Evidence risk: the relevant competitive sample is small, so flex slots are less stable.");
   const inferred = rows.filter((row) => row.source === "inferred").reduce((sum, row) => sum + row.quantity, 0);
   if (inferred) weaknesses.push(`Evidence risk: ${inferred} slot(s) are theoretically inferred rather than observed in the matched sample.`);
+  if (counterPlan.active) weaknesses.push(`Counter risk: ${counterPlan.targetArchetype} is targeted through catalog mechanic tags, not measured head-to-head results.`);
+  if (report.criteria?.competitiveIntelligence === false) weaknesses.push("Basic synergy mode does not measure competitive performance or individual matchups.");
   return weaknesses.length ? weaknesses : ["No opponent-level game data is available; hidden matchup weaknesses cannot be measured directly."];
 }
 
-function buildMatchupProjections(rows, stats) {
+function buildMatchupProjections(rows, stats, counterPlan = {}) {
   const blockers = stats.mechanics.blocker || 0;
   const pressure = (stats.mechanics.damage_push || 0) + (stats.mechanics.breach || 0);
   const consistency = (stats.mechanics.draw || 0) + (stats.mechanics.search || 0);
-  return [
+  const generic = [
     {
       opponent: "Fast pressure shells",
       outlook: blockers >= 6 || stats.averageCost <= 3 ? "Likely stable" : "Potentially difficult",
@@ -531,12 +546,27 @@ function buildMatchupProjections(rows, stats) {
       basis: `Theory based on ${consistency} draw/search-tagged slots; opponent-level event data is unavailable.`,
     },
   ];
+  if (!counterPlan.active) return generic;
+  const counterSlots = rows
+    .filter((row) => Number(row.counterScore || 0) > 0)
+    .reduce((sum, row) => sum + Number(row.quantity || 0), 0);
+  return [{
+    opponent: counterPlan.targetArchetype,
+    outlook: counterSlots ? "Targeted / theoretical" : "Target selected / limited answers",
+    confidence: "Low",
+    basis: counterSlots
+      ? `Theory: ${counterSlots} slot(s) use mechanics mapped to this profile (${counterPlan.answerTags.join(", ")}). No head-to-head result is claimed.`
+      : "The target profile has no mapped answer tags represented in this list; no head-to-head result is available.",
+  }, ...generic];
 }
 
 function buildStrategy(criteria, report, stats) {
   const archetype = criteria.archetype || "selected archetype";
   const focus = criteria.focus === "casual" ? "casual flexibility" : "competitive consistency";
   const exact = report.exactDeckCount || 0;
+  const counterSuffix = report.counterPlan?.active
+    ? ` Counter plan: ${report.counterPlan.targetArchetype}; flex priorities use catalog mechanic tags and are not a measured matchup prediction.`
+    : "";
   if (report.importedDeck) {
     return `${report.importedDeck.name} was imported from MSA and preserved card for card. The analysis infers ${archetype} from the catalog, then evaluates curve, roles, synergies and risks without rebuilding the list. Average cost: ${stats.averageCost}.`;
   }
@@ -545,7 +575,10 @@ function buildStrategy(criteria, report, stats) {
       ? `${archetype} derived from ${report.sourceDeck.playerName}'s ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`} list at ${report.sourceDeck.eventName}, with ${report.substitutionHistory?.length || 0} applied substitution(s). Statistics and synergies reflect the modified variant. Average cost: ${stats.averageCost}.`
       : `${archetype} as registered by ${report.sourceDeck.playerName} for ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`} at ${report.sourceDeck.eventName}. This map preserves the source list intact; AI analysis is limited to roles, synergies, risks and optional substitutions. Average cost: ${stats.averageCost}.`;
   }
-  return `${archetype} tuned for ${focus}. The shell follows weighted adoption from ${report.facts?.matchedDecklists || 0} relevant lists (${exact} exact matches), then uses official card text, curve and synergy signals to resolve flex slots. Average cost: ${stats.averageCost}.`;
+  if (criteria.competitiveIntelligence === false) {
+    return `${archetype} built from basic synergy. Card text, traits, printed links, tactical tags and curve shape determine the list; competitive adoption, placements and counter targets are excluded. Average cost: ${stats.averageCost}.`;
+  }
+  return `${archetype} tuned for ${focus}. The shell follows weighted adoption from ${report.facts?.matchedDecklists || 0} relevant lists (${exact} exact matches), then uses official card text, curve and synergy signals to resolve flex slots. Average cost: ${stats.averageCost}.${counterSuffix}`;
 }
 
 function buildEvidenceSummary(report) {
@@ -556,6 +589,9 @@ function buildEvidenceSummary(report) {
     return report.sourceDeck.modified
       ? `Source deck: ${report.sourceDeck.playerName}, ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`}, ${report.sourceDeck.eventName} (${report.sourceDeck.eventDate || "date unavailable"}). This local variant has substitutions and no longer exactly matches the registered list.`
       : `Source deck: ${report.sourceDeck.playerName}, ${report.sourceDeck.placingLabel || `place ${report.sourceDeck.placingRank}`}, ${report.sourceDeck.eventName} (${report.sourceDeck.eventDate || "date unavailable"}). Quantities are reproduced without cross-list averaging.`;
+  }
+  if (report.criteria?.competitiveIntelligence === false) {
+    return "Basic synergy mode: the recommendation uses official card data, traits, printed links, mechanic tags and curve coverage without competitive weighting.";
   }
   const sample = report.facts?.matchedDecklists || 0;
   return sample
@@ -578,6 +614,12 @@ function overallConfidence(report, stats) {
         ? 0.05
         : 0;
     return clamp(0.58 + placingSignal + fieldSignal);
+  }
+  if (report.criteria?.competitiveIntelligence === false) {
+    const inferredSlots = (report.rows || [])
+      .filter((row) => row.source === "inferred")
+      .reduce((sum, row) => sum + row.quantity, 0);
+    return clamp(0.36 + ((1 - inferredSlots / Math.max(1, stats.mainCount)) * 0.12));
   }
   const sample = report.facts?.matchedDecklists || 0;
   const exact = report.facts?.exactDecklists || report.exactDeckCount || 0;

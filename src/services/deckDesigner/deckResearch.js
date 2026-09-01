@@ -15,6 +15,7 @@ import {
   quantitiesFromRows,
 } from "../../domain/deckLegality.js";
 import { buildMetaWindows } from "../../domain/meta.js";
+import { buildCounterPlan } from "./counterPlan.js";
 
 export const DECK_RESEARCH_VERSION = "deck-research-2026-08-27-unit-identity";
 
@@ -177,10 +178,27 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   const selectedMetaWindow = metaWindows.find((window) => window.id === criteria.selectedMetaId)
     || metaWindows.find((window) => window.id === "current")
     || metaWindows[0];
+  const competitiveIntelligence = criteria.competitiveIntelligence !== false;
   const scopedResults = (data.metaResults || []).filter((result) =>
     isDateInsideWindow(result.eventDate, selectedMetaWindow));
   const required = findCardsByTerms(cards, criteria.requiredCards);
   const excluded = findCardsByTerms(cards, criteria.excludedCards);
+  const counterPlan = competitiveIntelligence
+    ? buildCounterPlan(data, criteria.counterArchetype)
+    : buildCounterPlan(data, "");
+  if (!competitiveIntelligence) {
+    return buildBasicSynergyResearch({
+      data,
+      criteria,
+      requestedColors,
+      requestedArchetype,
+      unitMatchCards,
+      selectedMetaWindow,
+      required,
+      excluded,
+      counterPlan,
+    });
+  }
   const requiredCards = uniqueBy([...required.cards, ...unitAnchorCards], (card) => card.cardNumber);
   const requiredIds = new Set(required.cards
     .filter((card) => !isCardBanned(card, data.rules))
@@ -305,6 +323,14 @@ export function collectDeckResearch(data = {}, criteria = {}) {
   if (excluded.unresolved.length) {
     limitations.push(`Excluded card terms not found in the official catalog snapshot: ${excluded.unresolved.join(", ")}.`);
   }
+  if (counterPlan.unresolved) {
+    limitations.push(`Counter target \"${counterPlan.requestedArchetype}\" was not found in the current archetype catalog; no counter weighting was applied.`);
+  } else if (counterPlan.active) {
+    limitations.push(`Counter plan for ${counterPlan.targetArchetype} is a structured tag-based inference. No opponent-level head-to-head records are currently available.`);
+  }
+  if (!competitiveIntelligence) {
+    limitations.push("Basic synergy mode does not use competitive adoption, placements, or matchup counter weighting.");
+  }
   const requiredOutsideColors = requiredCards.filter((card) =>
     resolvedColors.length && card.color !== "Neutral" && !resolvedColors.includes(card.color));
   if (requiredOutsideColors.length) {
@@ -341,10 +367,14 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       selectedMetaId: selectedMetaWindow?.id || criteria.selectedMetaId || "current",
       metaLabel: selectedMetaWindow?.label || "Current format",
       unitQuery: String(criteria.unitQuery || "").trim(),
+      counterArchetype: counterPlan.active ? counterPlan.targetArchetype : "",
+      competitiveIntelligence,
     },
     selectionInference: {
       active: hasAutoSelection,
-      basis: inferredShell.deckCount ? "competitive_lists" : catalogShell.matchedCards ? "card_catalog" : "none",
+      basis: competitiveIntelligence && inferredShell.deckCount
+        ? "competitive_lists"
+        : catalogShell.matchedCards ? "card_catalog" : "none",
       requestedColors,
       requestedArchetype,
       resolvedColors,
@@ -353,6 +383,7 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       matchedCards: catalogShell.matchedCards,
       weightedScore: round(inferredShell.score, 3),
     },
+    counterPlan,
     deckVariants,
     primaryDeckId: deckVariants[0]?.result.deckId || "",
     matchedDecks,
@@ -374,6 +405,95 @@ export function collectDeckResearch(data = {}, criteria = {}) {
       latestEventDate: latestDate(matchedDecks.map((item) => item.result)),
       catalogCards: cards.length,
       illegalDecklistsExcluded: illegalDecks.length,
+    },
+  };
+}
+
+function buildBasicSynergyResearch({
+  data,
+  criteria,
+  requestedColors,
+  requestedArchetype,
+  unitMatchCards,
+  selectedMetaWindow,
+  required,
+  excluded,
+  counterPlan,
+}) {
+  const profile = requestedArchetype
+    ? (data.archetypes || [])
+      .map((item) => ({ item, score: tokenOverlap(requestedArchetype, item.archetype) }))
+      .sort((left, right) => right.score - left.score)[0]?.item
+    : null;
+  const unitAnchorCards = unitMatchCards.slice(0, 1);
+  const requiredCards = uniqueBy([...required.cards, ...unitAnchorCards], (card) => card.cardNumber);
+  const resolvedColors = requestedColors.length
+    ? requestedColors
+    : profile ? normalizeColors(profile.commonColorCombination) : normalizeColors(unitAnchorCards.map((card) => card.color));
+  const resolvedArchetype = requestedArchetype || profile?.archetype || "";
+  const limitations = [
+    "Basic synergy mode does not use competitive adoption, placements, or matchup counter weighting.",
+  ];
+  if (required.unresolved.length) {
+    limitations.push(`Required card terms not found in the official catalog snapshot: ${required.unresolved.join(", ")}.`);
+  }
+  if (excluded.unresolved.length) {
+    limitations.push(`Excluded card terms not found in the official catalog snapshot: ${excluded.unresolved.join(", ")}.`);
+  }
+  const bannedRequired = required.cards.filter((card) => isCardBanned(card, data.rules));
+  if (bannedRequired.length) {
+    limitations.push(`Required banned cards were ignored: ${bannedRequired.map((card) => `${card.cardName} (${card.cardNumber})`).join(", ")}.`);
+  }
+  const requiredOutsideColors = requiredCards.filter((card) =>
+    resolvedColors.length && card.color !== "Neutral" && !resolvedColors.includes(card.color));
+  if (requiredOutsideColors.length) {
+    limitations.push(`Required cards outside the selected colors were not included: ${requiredOutsideColors.map((card) => card.cardName).join(", ")}.`);
+  }
+
+  return {
+    version: DECK_RESEARCH_VERSION,
+    criteria: {
+      ...criteria,
+      colors: resolvedColors,
+      archetype: resolvedArchetype,
+      selectedMetaId: selectedMetaWindow?.id || criteria.selectedMetaId || "current",
+      metaLabel: selectedMetaWindow?.label || "Current format",
+      unitQuery: String(criteria.unitQuery || "").trim(),
+      counterArchetype: "",
+      competitiveIntelligence: false,
+    },
+    selectionInference: {
+      active: false,
+      basis: "basic_synergy",
+      requestedColors,
+      requestedArchetype,
+      resolvedColors,
+      resolvedArchetype,
+      supportingDecks: 0,
+      matchedCards: unitAnchorCards.length,
+      weightedScore: 0,
+    },
+    counterPlan,
+    deckVariants: [],
+    primaryDeckId: "",
+    matchedDecks: [],
+    exactDeckCount: 0,
+    normalizedRows: [],
+    requiredCards,
+    unitAnchorCards,
+    excludedCards: excluded.cards,
+    unresolvedRequired: required.unresolved,
+    unresolvedExcluded: excluded.unresolved,
+    sources: buildSources(data, []),
+    limitations,
+    facts: {
+      matchedDecklists: 0,
+      exactDecklists: 0,
+      eventCount: 0,
+      wins: 0,
+      topEight: 0,
+      latestEventDate: "",
+      illegalDecklistsExcluded: 0,
     },
   };
 }
