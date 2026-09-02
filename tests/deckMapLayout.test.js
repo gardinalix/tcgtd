@@ -78,6 +78,35 @@ test("the highest-degree card occupies the central command position", () => {
   assert.equal(center.id, "A");
 });
 
+test("the map bounds a dense legacy report to readable connection limits", () => {
+  const denseRows = Array.from({ length: 50 }, (_, index) => row(
+    `N${String(index).padStart(2, "0")}`,
+    "flexible",
+    ["Shared trait"],
+    ["shared"],
+    2,
+  ));
+  const denseSynergies = denseRows.flatMap((source, leftIndex) => denseRows
+    .slice(leftIndex + 1)
+    .map((target) => ({
+      sourceCard: source.card,
+      targetCard: target.card,
+      score: 90,
+      rank: "high",
+      algorithmRules: ["direct_link_pair"],
+    })));
+
+  const graph = buildDeckGraph(denseRows, denseSynergies);
+  const degree = new Map(graph.nodes.map((node) => [node.id, 0]));
+  graph.edges.forEach((edge) => {
+    degree.set(edge.source, (degree.get(edge.source) || 0) + 1);
+    degree.set(edge.target, (degree.get(edge.target) || 0) + 1);
+  });
+
+  assert.ok(graph.edges.length <= 84);
+  assert.ok([...degree.values()].every((value) => value <= 5));
+});
+
 function row(cardNumber, category, traits, synergyTags, cost) {
   return {
     quantity: 4,

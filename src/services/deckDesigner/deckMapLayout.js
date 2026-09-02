@@ -1,18 +1,27 @@
 const MAX_STRUCTURAL_EDGES_PER_NODE = 2;
+const MAX_GRAPH_EDGES = 84;
+const MAX_REPORTED_EDGES_PER_NODE = 3;
 
 export function buildDeckGraph(rows = [], synergies = []) {
   const uniqueRows = uniqueBy(rows.filter((row) => row?.card?.cardNumber), (row) => row.card.cardNumber);
   const rowById = new Map(uniqueRows.map((row) => [row.card.cardNumber, row]));
   const edges = [];
   const edgeIds = new Set();
+  const reportedDegree = new Map();
 
   for (const synergy of synergies) {
+    if (edges.length >= MAX_GRAPH_EDGES) break;
     const source = synergy?.sourceCard?.cardNumber;
     const target = synergy?.targetCard?.cardNumber;
     if (!rowById.has(source) || !rowById.has(target) || source === target) continue;
     const id = edgeId(source, target);
     if (edgeIds.has(id)) continue;
+    const sourceDegree = reportedDegree.get(source) || 0;
+    const targetDegree = reportedDegree.get(target) || 0;
+    if (sourceDegree >= MAX_REPORTED_EDGES_PER_NODE || targetDegree >= MAX_REPORTED_EDGES_PER_NODE) continue;
     edgeIds.add(id);
+    reportedDegree.set(source, sourceDegree + 1);
+    reportedDegree.set(target, targetDegree + 1);
     const strength = synergy.rank || strengthFromScore(synergy.score);
     const rules = new Set(synergy.algorithmRules || []);
     const isPrintedMechanic = ["direct_link_pair", "mechanic_setup", "text_bridge"]
@@ -63,15 +72,15 @@ export function buildDeckGraph(rows = [], synergies = []) {
     .forEach((edge) => {
       const sourceDegree = structuralDegree.get(edge.source) || 0;
       const targetDegree = structuralDegree.get(edge.target) || 0;
-      if (sourceDegree >= MAX_STRUCTURAL_EDGES_PER_NODE && targetDegree >= MAX_STRUCTURAL_EDGES_PER_NODE) return;
-      if (edges.length >= Math.max(uniqueRows.length * 2, 12)) return;
+      if (sourceDegree >= MAX_STRUCTURAL_EDGES_PER_NODE || targetDegree >= MAX_STRUCTURAL_EDGES_PER_NODE) return;
+      if (edges.length >= Math.min(MAX_GRAPH_EDGES, Math.max(uniqueRows.length * 2, 12))) return;
       edges.push(edge);
       edgeIds.add(edge.id);
       structuralDegree.set(edge.source, sourceDegree + 1);
       structuralDegree.set(edge.target, targetDegree + 1);
     });
 
-  connectIsolatedNodes(uniqueRows, edges, edgeIds);
+  connectIsolatedNodes(uniqueRows, edges, edgeIds, MAX_GRAPH_EDGES);
 
   const degree = new Map(uniqueRows.map((row) => [row.card.cardNumber, 0]));
   for (const edge of edges) {
@@ -130,13 +139,14 @@ function layoutNodes(rows) {
   }));
 }
 
-function connectIsolatedNodes(rows, edges, edgeIds) {
+function connectIsolatedNodes(rows, edges, edgeIds, maxEdges) {
   const connected = new Set(edges.flatMap((edge) => [edge.source, edge.target]));
   const anchor = rows
     .slice()
     .sort((left, right) => categoryWeight(right.category) - categoryWeight(left.category))[0];
   if (!anchor) return;
   for (const row of rows) {
+    if (edges.length >= maxEdges) break;
     const source = row.card.cardNumber;
     if (connected.has(source) || source === anchor.card.cardNumber) continue;
     const candidates = rows

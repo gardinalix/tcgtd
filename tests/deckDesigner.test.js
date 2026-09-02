@@ -566,6 +566,18 @@ test("designer lowers confidence and labels limitations without competitive evid
   assert.ok(report.rows.some((row) => row.source === "inferred"));
 });
 
+test("basic-synergy decks reuse a coherent card core instead of filling every slot with a singleton", () => {
+  const data = fixtureData();
+  const report = designDeck(data, {
+    ...baseCriteria(),
+    competitiveIntelligence: false,
+  });
+
+  assert.equal(report.stats.mainCount, 50);
+  assert.ok(report.rows.length <= 20);
+  assert.ok(report.rows.some((row) => row.quantity >= 2));
+});
+
 test("substitution comparison applies Lfrith to Flat and recalculates deck telemetry", () => {
   const data = fixtureData();
   const report = designDeck(data, baseCriteria());

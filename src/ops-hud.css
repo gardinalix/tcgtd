@@ -4399,3 +4399,28 @@ body[data-view="decks"] .deck-variant-selector__tabs button > em { overflow: hid
 @media (prefers-reduced-motion: reduce) {
   body[data-view="decks"] .deck-source-preview__grid > button { transition: none !important; }
 }
+
+/* Keep the pre-generation Forge briefing on one explicit grid. The source
+   preview introduced a two-column area map after an earlier three-column
+   layout had already been applied, leaving the launch control in a collapsed
+   implicit track on some desktop widths. */
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__brief {
+  grid-template-columns: minmax(260px, .68fr) minmax(0, 1.32fr) !important;
+  grid-template-areas:
+    "head head"
+    "colors fields"
+    "sources sources"
+    "constraints constraints"
+    "launch launch" !important;
+}
+
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__brief-head { grid-area: head !important; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__colors { grid-area: colors !important; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__primary-fields { grid-area: fields !important; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-source-preview { grid-area: sources !important; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__constraints { grid-area: constraints !important; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__launch {
+  grid-area: launch !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  min-width: 0 !important;
+}

@@ -147,6 +147,7 @@ export function assembleRecommendedDeck(data = {}, scored = {}, criteria = {}) {
   const pool = ensureViablePool(data, scored.scoredPool || [], criteria, scored.excludedCards || []);
   const quantities = {};
   const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
+  const targetDistinctCards = preferredDistinctCardCount(mainDeckSize, pool.length);
 
   for (const candidate of pool.filter((item) => item.required)) {
     const targetQuantity = Math.min(
@@ -162,10 +163,15 @@ export function assembleRecommendedDeck(data = {}, scored = {}, criteria = {}) {
   reserveCounterSlots(quantities, pool, cardMap, data.rules, criteria);
 
   while (sumQuantities(quantities) < mainDeckSize) {
-    const next = pool
+    const eligible = pool
       .filter((candidate) =>
         Number(quantities[candidate.card.cardNumber] || 0) < maxCopiesForCard(candidate.card, data.rules)
-        && canAddCardToMain(quantities, candidate.card, cardMap, data.rules))
+        && canAddCardToMain(quantities, candidate.card, cardMap, data.rules));
+    const established = eligible.filter((candidate) => Number(quantities[candidate.card.cardNumber] || 0) > 0);
+    const candidates = Object.keys(quantities).length < targetDistinctCards || !established.length
+      ? eligible
+      : established;
+    const next = candidates
       .map((candidate) => ({
         candidate,
         marginal: marginalCopyScore(candidate, Number(quantities[candidate.card.cardNumber] || 0), criteria),
@@ -365,14 +371,31 @@ function reserveCounterSlots(quantities, pool, cardMap, rules, criteria) {
 }
 
 function marginalCopyScore(candidate, currentCopies, criteria) {
-  const target = Math.max(1, Math.round(candidate.expectedCopies || (candidate.source === "observed" ? 1 : 0)));
+  const target = preferredCopyCount(candidate);
   const withinObservedTarget = currentCopies < target;
-  const duplicateDecay = withinObservedTarget ? 1.18 : 0.34 / (currentCopies - target + 1);
+  const duplicateDecay = currentCopies === 0
+    ? 1
+    : withinObservedTarget
+      ? 0.86
+      : 0.22 / (currentCopies - target + 1);
   const curveValue = Number(candidate.card.cost || 0);
   const curveBalance = curveValue <= 4 ? 0.055 : 0;
   const required = candidate.required && currentCopies < Math.max(1, target) ? 1.4 : 0;
   const casualVariety = criteria.focus === "casual" && currentCopies >= 2 ? -0.06 : 0;
   return (candidate.score * duplicateDecay) + curveBalance + required + casualVariety;
+}
+
+function preferredDistinctCardCount(mainDeckSize, poolSize) {
+  const target = Math.round(mainDeckSize / 2.5);
+  return Math.min(poolSize, Math.max(14, Math.min(20, target)));
+}
+
+function preferredCopyCount(candidate) {
+  const observedTarget = Number(candidate.expectedCopies || 0);
+  if (observedTarget > 0) return Math.max(1, Math.round(observedTarget));
+  if (candidate.required) return 2;
+  if (candidate.source === "observed") return 2;
+  return Number(candidate.identitySignal || 0) >= 0.45 ? 3 : 2;
 }
 
 function recommendationReason(candidate, category) {

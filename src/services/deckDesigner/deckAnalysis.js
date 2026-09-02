@@ -287,7 +287,7 @@ function selectDeckSynergyPairs(pairs, nodeCount, options = {}) {
   const mechanicalDegree = new Map();
   const preserveMechanicalVariants = Boolean(options.preserveMechanicalVariants);
   const totalLimit = preserveMechanicalVariants
-    ? Math.max(48, nodeCount * 6)
+    ? Math.min(72, Math.max(24, nodeCount * 2))
     : Math.max(24, nodeCount * 3);
 
   function add(pair, degreeLimit = Number.POSITIVE_INFINITY) {
@@ -319,9 +319,9 @@ function selectDeckSynergyPairs(pairs, nodeCount, options = {}) {
     !(pair.algorithmRules || []).some((rule) =>
       ["direct_link_pair", "mechanic_setup", "text_bridge", "shared_trait", "shared_keyword"].includes(rule)));
 
-  direct.forEach((pair) => add(pair));
-  mechanicSetup.forEach((pair) => add(pair, preserveMechanicalVariants ? Number.POSITIVE_INFINITY : 6));
-  specificText.forEach((pair) => add(pair, preserveMechanicalVariants ? Number.POSITIVE_INFINITY : 6));
+  direct.forEach((pair) => add(pair, preserveMechanicalVariants ? 3 : Number.POSITIVE_INFINITY));
+  mechanicSetup.forEach((pair) => add(pair, preserveMechanicalVariants ? 3 : 6));
+  specificText.forEach((pair) => add(pair, preserveMechanicalVariants ? 3 : 6));
   broadText.forEach((pair) => add(pair, preserveMechanicalVariants ? 8 : 4));
   sharedMechanics.forEach((pair) => add(pair, 3));
   contextOnly.forEach((pair) => add(pair, 2));
