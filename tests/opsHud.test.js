@@ -96,8 +96,11 @@ test("the active dossier stretches with the complete card field instead of creat
 
 test("the deck mission station assigns every parameter a readable field and keeps execution out of the side column", () => {
   assert.match(cssSource, /"head head"\s*\n\s*"colors fields"\s*\n\s*"constraints constraints"\s*\n\s*"launch launch"/);
-  assert.match(cssSource, /"unit strategy"\s*\n\s*"focus meta"/);
+  assert.match(cssSource, /"unit strategy"\s*\n\s*"focus meta"\s*\n\s*"intelligence counter"/);
   assert.match(cssSource, /\.deck-designer__meta-field \{ grid-area: meta !important; \}/);
+  assert.match(cssSource, /\.deck-designer__intelligence-field \{ grid-area: intelligence !important; \}/);
+  assert.match(cssSource, /\.deck-designer__counter-field \{ grid-area: counter !important; \}/);
+  assert.match(cssSource, /@media \(max-width: 900px\)[\s\S]*?"unit"\s*\n\s*"strategy"\s*\n\s*"focus"\s*\n\s*"meta"\s*\n\s*"intelligence"\s*\n\s*"counter"/);
   assert.match(cssSource, /deck-designer-input-mode > button::before[\s\S]*?border-radius: 0 !important/);
 });
 

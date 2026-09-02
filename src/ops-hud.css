@@ -4416,11 +4416,53 @@ body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-des
 
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__brief-head { grid-area: head !important; }
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__colors { grid-area: colors !important; }
-body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__primary-fields { grid-area: fields !important; }
+/* All six controls must receive named tracks. Leaving the intelligence and
+   counter controls unassigned creates implicit zero-width columns, which is
+   what turned the strategy signal into vertical text at desktop widths. */
+body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__primary-fields {
+  display: grid !important;
+  grid-area: fields !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) !important;
+  grid-template-areas:
+    "unit strategy"
+    "focus meta"
+    "intelligence counter" !important;
+  min-width: 0 !important;
+}
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__primary-fields > label {
+  min-width: 0 !important;
+  width: auto !important;
+}
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__intelligence-field { grid-area: intelligence !important; }
+body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__counter-field { grid-area: counter !important; }
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-source-preview { grid-area: sources !important; }
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__constraints { grid-area: constraints !important; }
 body[data-view="decks"] .app-shell.has-tactical-rail .deck-designer:not(.is-engaged) .deck-designer__launch {
   grid-area: launch !important;
   grid-template-columns: minmax(0, 1fr) auto !important;
   min-width: 0 !important;
+}
+
+@media (max-width: 900px) {
+  body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__brief {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas:
+      "head"
+      "colors"
+      "fields"
+      "sources"
+      "constraints"
+      "launch" !important;
+  }
+
+  body[data-view="decks"] .app-shell.has-tactical-rail .decks-terminal-page.is-designer-mode .deck-designer:not(.is-engaged) .deck-designer__primary-fields {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas:
+      "unit"
+      "strategy"
+      "focus"
+      "meta"
+      "intelligence"
+      "counter" !important;
+  }
 }
