@@ -98,6 +98,27 @@ def fetch_marketzeon_bundle_url() -> str:
     return f"{MARKETZEON_ROOT}/assets/{match.group(0)}"
 
 
+def has_existing_marketzeon_cache() -> bool:
+    return all(path.exists() and path.stat().st_size > 0 for path in (LISTINGS_CSV_PATH, COMPARISON_CSV_PATH, SNAPSHOT_JSON_PATH))
+
+
+def emit_cached_result(error: Exception) -> None:
+    print(
+        json.dumps(
+            {
+                "status": "cached",
+                "source": "MarketZeon public listings bundle",
+                "note": "MarketZeon no longer exposes its public listings bundle; keeping the last complete local cache.",
+                "error": str(error),
+                "listings": str(LISTINGS_CSV_PATH),
+                "comparison": str(COMPARISON_CSV_PATH),
+                "snapshot": str(SNAPSHOT_JSON_PATH),
+            },
+            ensure_ascii=False,
+        )
+    )
+
+
 def quote_js_object_keys(js: str) -> str:
     return re.sub(r"([{,])([A-Za-z_$][A-Za-z0-9_$]*):", r'\1"\2":', js)
 
@@ -291,11 +312,17 @@ def main() -> None:
     args = parser.parse_args()
 
     fetched_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    bundle_url = fetch_marketzeon_bundle_url()
-    bundle = ps_fetch_text(bundle_url)
-    raw_listings = extract_listing_arrays(bundle)
-    listings = [listing for listing in (normalize_listing(raw, fetched_at) for raw in raw_listings) if listing]
-    comparison = build_comparison(listings, args.usd_brl_multiplier, fetched_at)
+    try:
+        bundle_url = fetch_marketzeon_bundle_url()
+        bundle = ps_fetch_text(bundle_url)
+        raw_listings = extract_listing_arrays(bundle)
+        listings = [listing for listing in (normalize_listing(raw, fetched_at) for raw in raw_listings) if listing]
+        comparison = build_comparison(listings, args.usd_brl_multiplier, fetched_at)
+    except Exception as exc:  # noqa: BLE001
+        if has_existing_marketzeon_cache():
+            emit_cached_result(exc)
+            return
+        raise
 
     write_csv(LISTINGS_CSV_PATH, LISTING_COLUMNS, listings)
     write_csv(COMPARISON_CSV_PATH, COMPARISON_COLUMNS, comparison)

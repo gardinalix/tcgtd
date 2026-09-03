@@ -76,7 +76,7 @@ export function DeckDesigner({
     unitQuery: "",
     archetype: initialCriteria?.archetype || defaultArchetype,
     selectedMetaId: initialCriteria?.selectedMetaId || selectedMetaId || "current",
-    competitiveIntelligence: initialCriteria?.competitiveIntelligence === true,
+    competitiveIntelligence: initialCriteria?.competitiveIntelligence !== false,
     counterArchetype: "",
     preferences: "",
     requiredCards: "",

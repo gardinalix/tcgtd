@@ -30,7 +30,12 @@ TCGCSV_PRODUCTS_CACHE_PATH = DATA_DIR / "tcgcsv_gundam_products.json"
 TCGCSV_ROOT = "https://tcgcsv.com/tcgplayer"
 GUNDAM_CATEGORY_ID = 86
 DEFAULT_USD_BRL_MULTIPLIER = 5.0
-USER_AGENT = "Mozilla/5.0 Codex Gundam Card DB; non-commercial community price cache"
+# Keep the product identifier in a parenthesized comment.  PowerShell validates
+# User-Agent values strictly and rejects the previous bare semicolon form before
+# it can send the request.
+USER_AGENT = "Mozilla/5.0 (Codex Gundam Card DB; non-commercial community price cache)"
+DEFAULT_REQUEST_RETRIES = 3
+DEFAULT_RETRY_BACKOFF_SECONDS = 1.0
 
 MAP_COLUMNS = [
     "card_number",
@@ -90,6 +95,18 @@ def main() -> None:
     parser.add_argument("--usd-brl-multiplier", type=float, default=DEFAULT_USD_BRL_MULTIPLIER)
     parser.add_argument("--sleep-seconds", type=float, default=0.15)
     parser.add_argument(
+        "--request-retries",
+        type=int,
+        default=DEFAULT_REQUEST_RETRIES,
+        help="Retries for a transient TCGCSV request failure after the first attempt.",
+    )
+    parser.add_argument(
+        "--retry-backoff-seconds",
+        type=float,
+        default=DEFAULT_RETRY_BACKOFF_SECONDS,
+        help="Base delay used between retried TCGCSV requests.",
+    )
+    parser.add_argument(
         "--include-sealed-products",
         action="store_true",
         help="Keep sealed products in the raw product cache. Card-price mapping always ignores sealed products.",
@@ -101,7 +118,11 @@ def main() -> None:
     generated_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
     try:
-        groups = fetch_groups(args.category_id)
+        groups = fetch_groups(
+            args.category_id,
+            retries=args.request_retries,
+            retry_backoff_seconds=args.retry_backoff_seconds,
+        )
     except Exception as exc:  # noqa: BLE001
         if PRICE_CACHE_CSV_PATH.exists() and PRICE_CACHE_JSON_PATH.exists():
             print(
@@ -125,8 +146,16 @@ def main() -> None:
 
     for group in groups:
         group_id = int(group["groupId"])
-        products_payload = fetch_json(f"{TCGCSV_ROOT}/{args.category_id}/{group_id}/products")
-        prices_payload = fetch_json(f"{TCGCSV_ROOT}/{args.category_id}/{group_id}/prices")
+        products_payload = fetch_json(
+            f"{TCGCSV_ROOT}/{args.category_id}/{group_id}/products",
+            retries=args.request_retries,
+            retry_backoff_seconds=args.retry_backoff_seconds,
+        )
+        prices_payload = fetch_json(
+            f"{TCGCSV_ROOT}/{args.category_id}/{group_id}/prices",
+            retries=args.request_retries,
+            retry_backoff_seconds=args.retry_backoff_seconds,
+        )
         products = products_payload.get("results", [])
         prices = prices_payload.get("results", [])
         all_products.extend(products)
@@ -318,13 +347,50 @@ def build_printing_price_rows(
     )
 
 
-def fetch_groups(category_id: int) -> list[dict[str, Any]]:
-    payload = fetch_json(f"{TCGCSV_ROOT}/{category_id}/groups")
+def fetch_groups(
+    category_id: int,
+    *,
+    retries: int = DEFAULT_REQUEST_RETRIES,
+    retry_backoff_seconds: float = DEFAULT_RETRY_BACKOFF_SECONDS,
+) -> list[dict[str, Any]]:
+    payload = fetch_json(
+        f"{TCGCSV_ROOT}/{category_id}/groups",
+        retries=retries,
+        retry_backoff_seconds=retry_backoff_seconds,
+    )
     groups = payload.get("results", [])
     return sorted(groups, key=lambda row: str(row.get("publishedOn") or ""), reverse=True)
 
 
-def fetch_json(url: str) -> dict[str, Any]:
+def fetch_json(
+    url: str,
+    *,
+    retries: int = DEFAULT_REQUEST_RETRIES,
+    retry_backoff_seconds: float = DEFAULT_RETRY_BACKOFF_SECONDS,
+) -> dict[str, Any]:
+    attempts = max(1, retries + 1)
+    last_error: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            return fetch_json_once(url)
+        except Exception as exc:  # noqa: BLE001
+            last_error = exc
+            if attempt == attempts:
+                break
+            delay = max(0.0, retry_backoff_seconds) * attempt
+            print(
+                f"TCGCSV request failed (attempt {attempt}/{attempts}) for {url}; "
+                f"retrying in {delay:.1f}s: {exc}",
+                file=sys.stderr,
+            )
+            if delay:
+                time.sleep(delay)
+    raise RuntimeError(
+        f"Tcgcsv request failed after {attempts} attempt(s) for {url}: {last_error}"
+    ) from last_error
+
+
+def fetch_json_once(url: str) -> dict[str, Any]:
     if sys.platform.startswith("win"):
         try:
             payload_text = ps_fetch_text(url, user_agent=USER_AGENT, timeout_seconds=90)
@@ -348,6 +414,8 @@ def fetch_json(url: str) -> dict[str, Any]:
         except urllib.error.URLError as exc:
             raise RuntimeError(f"Tcgcsv request failed for {url}: {exc.reason}") from exc
 
+    if not isinstance(payload, dict):
+        raise RuntimeError(f"Tcgcsv request returned a non-object JSON payload for {url}")
     if payload.get("success") is False:
         raise RuntimeError(f"Tcgcsv request returned errors for {url}: {payload.get('errors')}")
     return payload

@@ -21,6 +21,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filterDraft, setFilterDraft] = useState(filters);
   const [dossierOpen, setDossierOpen] = useState(false);
+  const [isMobileLayout, setIsMobileLayout] = useState(() => window.matchMedia?.("(max-width: 820px)").matches ?? false);
   const selectedPanelRef = useRef(null);
   const cards = data.cards || [];
   const resourceCards = data.resourceCards || [];
@@ -52,6 +53,14 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   useEffect(() => {
     setResultLimit(INITIAL_CARD_BATCH);
   }, [filters, sortMode, printMode]);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 820px)");
+    const syncMobileLayout = () => setIsMobileLayout(media.matches);
+    syncMobileLayout();
+    media.addEventListener("change", syncMobileLayout);
+    return () => media.removeEventListener("change", syncMobileLayout);
+  }, []);
 
   useEffect(() => {
     if (!filtersOpen && !dossierOpen) return undefined;
@@ -103,6 +112,8 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   const selectedCardIndex = selectedCard
     ? visibleCards.findIndex((card) => (card.displayId || card.cardNumber) === (selectedCard.displayId || selectedCard.cardNumber))
     : -1;
+  const filterSheetIsHidden = isMobileLayout && !filtersOpen;
+  const dossierSheetIsHidden = isMobileLayout && !dossierOpen;
 
   function selectRelativeCard(direction) {
     if (!visibleCards.length || selectedCardIndex < 0) return;
@@ -128,7 +139,15 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
         <span>OBJECT ACQUISITION</span><i /><b>{String(visibleCards.length).padStart(4, "0")}</b>
       </div>
       <button className={`v3-drawer-backdrop${filtersOpen ? " is-open" : ""}`} type="button" aria-label="Cancel filter changes" onClick={closeFilters} />
-      <aside className={`panel filter-panel react-filter-panel hud-control-stack${filtersOpen ? " is-open" : ""}`} data-hud-zone="SCAN PARAMETERS" aria-label="Card filters" aria-hidden={!filtersOpen && undefined}>
+      <aside
+        className={`panel filter-panel react-filter-panel hud-control-stack${filtersOpen ? " is-open" : ""}`}
+        data-hud-zone="SCAN PARAMETERS"
+        aria-label="Card filters"
+        aria-hidden={filterSheetIsHidden || undefined}
+        aria-modal={isMobileLayout && filtersOpen ? true : undefined}
+        inert={filterSheetIsHidden ? "true" : undefined}
+        role={isMobileLayout ? "dialog" : undefined}
+      >
         <div className="panel-head">
           <div><h2>Analysis parameters</h2><p>Search and classify units without leaving the tactical database.</p></div>
           <button className="v3-drawer-close" type="button" aria-label="Cancel filter changes" onClick={closeFilters}>×</button>
@@ -222,7 +241,16 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
       </section>
 
       <button className={`v3-drawer-backdrop v3-drawer-backdrop--dossier${dossierOpen ? " is-open" : ""}`} type="button" aria-label="Close card dossier" onClick={() => setDossierOpen(false)} />
-      <aside className={`cards-terminal-side-stack hud-dossier-stack${dossierOpen ? " is-open" : ""}`} data-hud-zone="ACTIVE DOSSIER" aria-label="Active card dossier" ref={selectedPanelRef}>
+      <aside
+        className={`cards-terminal-side-stack hud-dossier-stack${dossierOpen ? " is-open" : ""}`}
+        data-hud-zone="ACTIVE DOSSIER"
+        aria-label="Active card dossier"
+        aria-hidden={dossierSheetIsHidden || undefined}
+        aria-modal={isMobileLayout && dossierOpen ? true : undefined}
+        inert={dossierSheetIsHidden ? "true" : undefined}
+        ref={selectedPanelRef}
+        role={isMobileLayout ? "dialog" : undefined}
+      >
         <button className="v3-drawer-close v3-dossier-close" type="button" aria-label="Close card dossier" onClick={() => setDossierOpen(false)}>×</button>
         <CardDetail
           card={selectedCard}

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { useLocale } from "../../i18n/LocaleProvider";
 import { translate } from "../../i18n/translations";
 
@@ -19,12 +20,38 @@ const NAV_GROUPS = {
 
 export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user, data, metaWindows = [], selectedMetaId = "current", onMetaChange, onViewChange, onSignIn, search, onSearchChange }) {
   const { locale, setLocale } = useLocale();
+  const [mobileUtilitiesOpen, setMobileUtilitiesOpen] = useState(false);
+  const mobileUtilitiesToggleRef = useRef(null);
   const systemStatus = locale === "pt-BR" ? "REDE TÁTICA ONLINE" : "TACTICAL NETWORK ONLINE";
   const systemMode = locale === "pt-BR" ? "MÓDULO GUNDAM ATIVO" : "GUNDAM MODULE ACTIVE";
   const activeFormat = metaWindows.find((window) => window.id === selectedMetaId)?.shortLabel
     || data?.activeFormat
     || data?.gameModule?.activeFormat
     || "GD05";
+
+  useEffect(() => {
+    if (!mobileUtilitiesOpen) return undefined;
+    function closeOnEscape(event) {
+      if (event.key === "Escape") closeMobileUtilities();
+    }
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [mobileUtilitiesOpen]);
+
+  function closeMobileUtilities() {
+    setMobileUtilitiesOpen(false);
+    window.requestAnimationFrame(() => mobileUtilitiesToggleRef.current?.focus());
+  }
+
+  function changeLocale(nextLocale) {
+    setLocale(nextLocale);
+    setMobileUtilitiesOpen(false);
+  }
+
+  function changeTheme(nextThemeId) {
+    onThemeChange?.(nextThemeId);
+    setMobileUtilitiesOpen(false);
+  }
 
   return (
     <header className="site-header panel cockpit-panel cockpit-topbar cockpit-shell-topbar">
@@ -64,29 +91,43 @@ export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user
         ))}
       </nav>
 
-      <div className="site-header__actions cockpit-pilot-panel">
-        <label className="hud-theme-selector">
-          <span>{locale === "pt-BR" ? "HUD" : "HUD"}</span>
-          <select value={theme.id} onChange={(event) => onThemeChange?.(event.target.value)} aria-label={locale === "pt-BR" ? "Selecionar tema da HUD" : "Select HUD theme"}>
-            {themeOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
-          </select>
-        </label>
-        <div className="language-switch" role="group" aria-label={locale === "pt-BR" ? "Idioma" : "Language"}>
-          <button type="button" className={locale === "pt-BR" ? "is-active" : ""} onClick={() => setLocale("pt-BR")} aria-pressed={locale === "pt-BR"}>PT-BR</button>
-          <button type="button" className={locale === "en" ? "is-active" : ""} onClick={() => setLocale("en")} aria-pressed={locale === "en"}>ENG</button>
-        </div>
-        <span className="pilot-avatar" aria-hidden="true" />
-        <button type="button" className="pilot-label pilot-label-button" onClick={() => user ? onViewChange("profile") : onSignIn?.()}>
-          {user ? `${translate("PILOT")}: ${user.publicName.toUpperCase()}` : (locale === "pt-BR" ? "ENTRAR" : "SIGN IN")}
+      <div className={`site-header__actions cockpit-pilot-panel${mobileUtilitiesOpen ? " is-mobile-utility-open" : ""}`}>
+        <button
+          ref={mobileUtilitiesToggleRef}
+          className="mobile-utility-toggle"
+          type="button"
+          aria-expanded={mobileUtilitiesOpen}
+          aria-controls="mobile-utility-panel"
+          onClick={() => setMobileUtilitiesOpen((isOpen) => !isOpen)}
+        >
+          <span>{locale === "pt-BR" ? "CONTROLES" : "CONTROLS"}</span>
+          <i aria-hidden="true" />
         </button>
-        <label className="site-format-badge site-format-selector">
-          <small>{locale === "pt-BR" ? "META / FORMATO" : "META / FORMAT"}</small>
-          <select value={selectedMetaId} onChange={(event) => onMetaChange?.(event.target.value)} aria-label={locale === "pt-BR" ? "Selecionar meta ou formato" : "Select meta or format"}>
-            {metaWindows.length
-              ? metaWindows.map((window) => <option key={window.id} value={window.id}>{formatMetaWindowLabel(window, locale)}</option>)
-              : <option value={selectedMetaId}>{activeFormat}</option>}
-          </select>
-        </label>
+        {mobileUtilitiesOpen ? <button className="mobile-utility-backdrop" type="button" aria-label={locale === "pt-BR" ? "Fechar controles" : "Close controls"} onClick={closeMobileUtilities} /> : null}
+        <div id="mobile-utility-panel" className="mobile-utility-panel" aria-label={locale === "pt-BR" ? "Controles do sistema" : "System controls"}>
+          <label className="hud-theme-selector">
+            <span>{locale === "pt-BR" ? "HUD" : "HUD"}</span>
+            <select value={theme.id} onChange={(event) => changeTheme(event.target.value)} aria-label={locale === "pt-BR" ? "Selecionar tema da HUD" : "Select HUD theme"}>
+              {themeOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
+            </select>
+          </label>
+          <div className="language-switch" role="group" aria-label={locale === "pt-BR" ? "Idioma" : "Language"}>
+            <button type="button" className={locale === "pt-BR" ? "is-active" : ""} onClick={() => changeLocale("pt-BR")} aria-pressed={locale === "pt-BR"}>PT-BR</button>
+            <button type="button" className={locale === "en" ? "is-active" : ""} onClick={() => changeLocale("en")} aria-pressed={locale === "en"}>ENG</button>
+          </div>
+          <span className="pilot-avatar" aria-hidden="true" />
+          <button type="button" className="pilot-label pilot-label-button" onClick={() => user ? onViewChange("profile") : onSignIn?.()}>
+            {user ? `${translate("PILOT")}: ${user.publicName.toUpperCase()}` : (locale === "pt-BR" ? "ENTRAR" : "SIGN IN")}
+          </button>
+          <label className="site-format-badge site-format-selector">
+            <small>{locale === "pt-BR" ? "META / FORMATO" : "META / FORMAT"}</small>
+            <select value={selectedMetaId} onChange={(event) => { onMetaChange?.(event.target.value); setMobileUtilitiesOpen(false); }} aria-label={locale === "pt-BR" ? "Selecionar meta ou formato" : "Select meta or format"}>
+              {metaWindows.length
+                ? metaWindows.map((window) => <option key={window.id} value={window.id}>{formatMetaWindowLabel(window, locale)}</option>)
+                : <option value={selectedMetaId}>{activeFormat}</option>}
+            </select>
+          </label>
+        </div>
       </div>
     </header>
   );

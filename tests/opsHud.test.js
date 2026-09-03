@@ -8,6 +8,7 @@ const homeSource = fs.readFileSync(new URL("../src/pages/HomePage.jsx", import.m
 const metaSource = fs.readFileSync(new URL("../src/pages/MetaPage.jsx", import.meta.url), "utf8");
 const previewsSource = fs.readFileSync(new URL("../src/pages/PreviewsPage.jsx", import.meta.url), "utf8");
 const railSource = fs.readFileSync(new URL("../src/components/layout/TacticalSideRail.jsx", import.meta.url), "utf8");
+const deckDesignerSource = fs.readFileSync(new URL("../src/components/decks/DeckDesigner.jsx", import.meta.url), "utf8");
 const deckMapSource = fs.readFileSync(new URL("../src/components/decks/DeckMap.jsx", import.meta.url), "utf8");
 const deckViewSource = fs.readFileSync(new URL("../src/pages/DeckViewPage.jsx", import.meta.url), "utf8");
 const eventDetailSource = fs.readFileSync(new URL("../src/pages/EventDetailPage.jsx", import.meta.url), "utf8");
@@ -160,6 +161,12 @@ test("the generated deck opens on the full interactive map and keeps the manifes
   assert.match(cssSource, /\.deck-map__deck-tabs/);
   assert.match(cssSource, /\.deck-map__workspace\.is-links \{[\s\S]*?min-height: 680px/);
   assert.match(cssSource, /\.deck-map__formation-groups \{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+});
+
+test("competitive deck tabs stay available by default when matching source lists exist", () => {
+  assert.match(deckDesignerSource, /competitiveIntelligence: initialCriteria\?\.competitiveIntelligence !== false/);
+  assert.match(deckDesignerSource, /variants=\{variants\}/);
+  assert.match(deckMapSource, /variants\.length > 1/);
 });
 
 test("the operational HUD stylesheet is the final cascade authority", () => {
