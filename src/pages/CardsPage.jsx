@@ -7,7 +7,7 @@ import {
   TacticalPageHeader,
   TacticalPageShell,
 } from "../components/tactical/TacticalPageShell";
-import { filterCards, uniqueValues } from "../utils/cardFilters";
+import { DEFAULT_FILTERS as DEFAULT_CARD_FILTERS, filterCards, uniqueValues } from "../utils/cardFilters";
 import { sortCards } from "../domain/cards";
 
 const INITIAL_CARD_BATCH = 24;
@@ -19,6 +19,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   const [printMode, setPrintMode] = useState("all");
   const [resultLimit, setResultLimit] = useState(INITIAL_CARD_BATCH);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filterDraft, setFilterDraft] = useState(filters);
   const [dossierOpen, setDossierOpen] = useState(false);
   const selectedPanelRef = useRef(null);
   const cards = data.cards || [];
@@ -77,6 +78,38 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
     }
   }
 
+  function openFilters() {
+    setFilterDraft(filters);
+    setFiltersOpen(true);
+  }
+
+  function closeFilters() {
+    setFiltersOpen(false);
+  }
+
+  function updateDraftFilter(key, value) {
+    setFilterDraft((current) => ({ ...current, [key]: value }));
+  }
+
+  function clearDraftFilters() {
+    setFilterDraft({ ...DEFAULT_CARD_FILTERS });
+  }
+
+  function applyDraftFilters() {
+    Object.entries(filterDraft).forEach(([key, value]) => setFilter(key, value));
+    setFiltersOpen(false);
+  }
+
+  const selectedCardIndex = selectedCard
+    ? visibleCards.findIndex((card) => (card.displayId || card.cardNumber) === (selectedCard.displayId || selectedCard.cardNumber))
+    : -1;
+
+  function selectRelativeCard(direction) {
+    if (!visibleCards.length || selectedCardIndex < 0) return;
+    const nextIndex = (selectedCardIndex + direction + visibleCards.length) % visibleCards.length;
+    selectCard(visibleCards[nextIndex].displayId || visibleCards[nextIndex].cardNumber);
+  }
+
   return (
     <TacticalPageShell className="cards-terminal-page card-gallery-v2">
       <TacticalPageHeader
@@ -84,7 +117,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
         title="Card Intelligence Archive"
         subtitle="Scan printings, effects, market references and competitive signals without leaving the active dossier."
         actions={(
-          <button className="v3-mobile-filter-trigger" type="button" onClick={() => setFiltersOpen(true)}>
+          <button className="v3-mobile-filter-trigger" type="button" onClick={openFilters}>
             <span>FILTERS</span>
             <strong>{activeFilterCount || "ALL"}</strong>
           </button>
@@ -94,29 +127,33 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
       <div className="cards-acquisition-axis" aria-hidden="true">
         <span>OBJECT ACQUISITION</span><i /><b>{String(visibleCards.length).padStart(4, "0")}</b>
       </div>
-      <button className={`v3-drawer-backdrop${filtersOpen ? " is-open" : ""}`} type="button" aria-label="Close filters" onClick={() => setFiltersOpen(false)} />
-      <aside className={`panel filter-panel react-filter-panel hud-control-stack${filtersOpen ? " is-open" : ""}`} data-hud-zone="SCAN PARAMETERS" aria-label="Card filters">
+      <button className={`v3-drawer-backdrop${filtersOpen ? " is-open" : ""}`} type="button" aria-label="Cancel filter changes" onClick={closeFilters} />
+      <aside className={`panel filter-panel react-filter-panel hud-control-stack${filtersOpen ? " is-open" : ""}`} data-hud-zone="SCAN PARAMETERS" aria-label="Card filters" aria-hidden={!filtersOpen && undefined}>
         <div className="panel-head">
           <div><h2>Analysis parameters</h2><p>Search and classify units without leaving the tactical database.</p></div>
-          <button className="v3-drawer-close" type="button" aria-label="Close filters" onClick={() => setFiltersOpen(false)}>×</button>
+          <button className="v3-drawer-close" type="button" aria-label="Cancel filter changes" onClick={closeFilters}>×</button>
         </div>
         <div className="filter-grid">
           <label>
             <span>Search</span>
-            <input value={filters.search} placeholder="Name, number, text..." onChange={(event) => setFilter("search", event.target.value)} />
+            <input value={filtersOpen ? filterDraft.search : filters.search} placeholder="Name, number, text..." onChange={(event) => filtersOpen ? updateDraftFilter("search", event.target.value) : setFilter("search", event.target.value)} />
           </label>
-          <Select label="Set" value={filters.set} options={options.sets} onChange={(value) => setFilter("set", value)} />
-          <ColorFilter value={filters.color} options={options.colors} counts={colorCounts} onChange={(value) => setFilter("color", value)} />
-          <Select label="Type" value={filters.type} options={options.types} onChange={(value) => setFilter("type", value)} />
-          <Select label="Rarity" value={filters.rarity} options={options.rarities} onChange={(value) => setFilter("rarity", value)} />
+          <Select label="Set" value={filtersOpen ? filterDraft.set : filters.set} options={options.sets} onChange={(value) => filtersOpen ? updateDraftFilter("set", value) : setFilter("set", value)} />
+          <ColorFilter value={filtersOpen ? filterDraft.color : filters.color} options={options.colors} counts={colorCounts} onChange={(value) => filtersOpen ? updateDraftFilter("color", value) : setFilter("color", value)} />
+          <Select label="Type" value={filtersOpen ? filterDraft.type : filters.type} options={options.types} onChange={(value) => filtersOpen ? updateDraftFilter("type", value) : setFilter("type", value)} />
+          <Select label="Rarity" value={filtersOpen ? filterDraft.rarity : filters.rarity} options={options.rarities} onChange={(value) => filtersOpen ? updateDraftFilter("rarity", value) : setFilter("rarity", value)} />
           <label>
             <span>Cost</span>
-            <input value={filters.cost} placeholder="<=3" onChange={(event) => setFilter("cost", event.target.value)} />
+            <input value={filtersOpen ? filterDraft.cost : filters.cost} placeholder="<=3" onChange={(event) => filtersOpen ? updateDraftFilter("cost", event.target.value) : setFilter("cost", event.target.value)} />
           </label>
           <label>
             <span>Trait / keyword</span>
-            <input value={filters.trait} placeholder="Blocker, Earth..." onChange={(event) => setFilter("trait", event.target.value)} />
+            <input value={filtersOpen ? filterDraft.trait : filters.trait} placeholder="Blocker, Earth..." onChange={(event) => filtersOpen ? updateDraftFilter("trait", event.target.value) : setFilter("trait", event.target.value)} />
           </label>
+        </div>
+        <div className="v3-filter-sheet-actions">
+          <button type="button" onClick={clearDraftFilters}>CLEAR ALL</button>
+          <button type="button" className="is-primary" onClick={applyDraftFilters}>APPLY FILTERS</button>
         </div>
       </aside>
 
@@ -131,7 +168,8 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
             <span>QUICK ACQUISITION</span>
             <input value={filters.search} placeholder="Name, number, effect..." onChange={(event) => setFilter("search", event.target.value)} />
           </label>
-          <button type="button" onClick={() => setFiltersOpen(true)}>FILTERS {activeFilterCount ? `· ${activeFilterCount}` : ""}</button>
+          {filters.search ? <button className="card-mobile-search__clear" type="button" onClick={() => setFilter("search", "")} aria-label="Clear card search">CLEAR</button> : null}
+          <button type="button" onClick={openFilters}>FILTERS {activeFilterCount ? `· ${activeFilterCount}` : ""}</button>
         </div>
         <div className="card-results-toolbar" role="toolbar" aria-label="Card result controls">
           <label className="card-results-toolbar__sort">
@@ -190,6 +228,9 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
           card={selectedCard}
           onOpenCard={onOpenCard}
           onOpenSynergyMap={onOpenSynergyMap}
+          onPrevious={visibleCards.length > 1 ? () => selectRelativeCard(-1) : undefined}
+          onNext={visibleCards.length > 1 ? () => selectRelativeCard(1) : undefined}
+          positionLabel={selectedCardIndex >= 0 ? `${selectedCardIndex + 1} / ${visibleCards.length}` : ""}
         />
         <SynergyPanel
           sourceCard={selectedCard}

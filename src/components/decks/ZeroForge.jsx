@@ -82,6 +82,7 @@ export function ZeroForge({
   const [mobilePanel, setMobilePanel] = useState("deck");
   const [intelTab, setIntelTab] = useState("analysis");
   const [assistantOpen, setAssistantOpen] = useState(false);
+  const [mobileInspectorCard, setMobileInspectorCard] = useState(null);
   const [sourceMetadata, setSourceMetadata] = useState(initialDraft?.sourceMetadata || null);
   const [originalMain, setOriginalMain] = useState(initialDraft?.originalMain || {});
   const [changeHistory, setChangeHistory] = useState([]);
@@ -186,6 +187,10 @@ export function ZeroForge({
         setImageExportOpen(false);
         return;
       }
+      if (mobileInspectorCard) {
+        setMobileInspectorCard(null);
+        return;
+      }
       if (importOpen) {
         setImportOpen(false);
         return;
@@ -194,7 +199,7 @@ export function ZeroForge({
     };
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [exportOpen, imageExportOpen, importOpen, onClose]);
+  }, [exportOpen, imageExportOpen, importOpen, mobileInspectorCard, onClose]);
 
   useEffect(() => {
     const liveNodeIds = new Set([
@@ -348,6 +353,10 @@ export function ZeroForge({
 
   function showCardPreview(card, event) {
     if (!card || typeof window === "undefined") return;
+    if (isCompactForgeViewport()) {
+      setMobileInspectorCard(card);
+      return;
+    }
     const rect = event.currentTarget?.getBoundingClientRect?.();
     const pointX = Number.isFinite(event.clientX) && event.clientX > 0
       ? event.clientX
@@ -364,12 +373,22 @@ export function ZeroForge({
   }
 
   function previewHandlers(card) {
+    if (isCompactForgeViewport()) return {};
     return {
       onMouseEnter: (event) => showCardPreview(card, event),
       onMouseLeave: hideCardPreview,
       onFocus: (event) => showCardPreview(card, event),
       onBlur: hideCardPreview,
     };
+  }
+
+  function inspectOrAddLibraryCard(card) {
+    if (isCompactForgeViewport()) {
+      setFocusCardNumber(card.cardNumber);
+      setMobileInspectorCard(card);
+      return;
+    }
+    addCard(card.cardNumber);
   }
 
   function dropOnMap(event) {
@@ -882,7 +901,7 @@ export function ZeroForge({
                   draggable={!locked}
                   className={`zero-forge-library-card ${locked ? atCapacity ? "is-capacity" : "is-locked" : ""} ${focusCardNumber === card.cardNumber ? "is-focused" : ""}`.trim()}
                   onDragStart={(event) => startDrag(event, card.cardNumber)}
-                  onClick={() => addCard(card.cardNumber)}
+                  onClick={() => inspectOrAddLibraryCard(card)}
                   aria-label={locked ? t(assessment?.reason) : t(`Add ${card.cardName}`)}
                   {...previewHandlers(card)}
                 >
@@ -1052,7 +1071,10 @@ export function ZeroForge({
                       type="button"
                       onPointerDown={(event) => startMapNodeDrag(event, nodeId)}
                     onKeyDown={(event) => moveMapNodeWithKeyboard(event, nodeId)}
-                    onClick={() => handleMapNodeClick(nodeId, () => setFocusCardNumber(nodeId))}
+                    onClick={() => handleMapNodeClick(nodeId, () => {
+                      setFocusCardNumber(nodeId);
+                      if (isCompactForgeViewport()) setMobileInspectorCard(row.card);
+                    })}
                     aria-label={`${row.card.cardName}. Drag to rearrange, or use the arrow keys while focused.`}
                     >
                       <CardArt card={row.card} className="zero-forge-node__art" compact />
@@ -1292,6 +1314,16 @@ export function ZeroForge({
           workspace={workspace}
         />
       ) : null}
+      {mobileInspectorCard ? (
+        <ZeroForgeMobileCardInspector
+          card={mobileInspectorCard}
+          quantity={Number(main[mobileInspectorCard.cardNumber] || 0)}
+          assessment={workspace.availability[mobileInspectorCard.cardNumber]}
+          onClose={() => setMobileInspectorCard(null)}
+          onAdd={() => addCard(mobileInspectorCard.cardNumber)}
+          onRemove={() => removeCard(mobileInspectorCard.cardNumber)}
+        />
+      ) : null}
     </section>,
     document.body,
   );
@@ -1529,8 +1561,70 @@ function ZeroForgeCardPreview({ preview, main, workspace }) {
   );
 }
 
+function ZeroForgeMobileCardInspector({ card, quantity, assessment, onClose, onAdd, onRemove }) {
+  const { locale } = useLocale();
+  const isPortuguese = locale === "pt-BR";
+  const effect = card.effectPreview || card.effectText || card.cardText || "No normalized effect preview available.";
+  const isBlocked = !assessment?.allowed;
+  const addLabel = isBlocked
+    ? assessment?.type === "copy_limit" ? (isPortuguese ? "LIMITE DE CÓPIAS" : "COPY LIMIT") : assessment?.type === "main_deck_size" ? (isPortuguese ? "DECK COMPLETO" : "DECK FULL") : (isPortuguese ? "BLOQUEADA" : "LOCKED")
+    : quantity ? (isPortuguese ? "ADICIONAR CÓPIA" : "ADD COPY") : (isPortuguese ? "ADICIONAR AO DECK" : "ADD TO DECK");
+
+  return (
+    <div className="zero-forge-mobile-inspector" role="presentation" onMouseDown={(event) => {
+      if (event.target === event.currentTarget) onClose();
+    }}>
+      <section className="zero-forge-mobile-inspector__sheet" role="dialog" aria-modal="true" aria-labelledby="zero-forge-mobile-inspector-title">
+        <div className="zero-forge-mobile-inspector__grip" aria-hidden="true" />
+        <header>
+          <span>{isPortuguese ? "INTELIGÊNCIA DA CARTA" : "CARD INTELLIGENCE"}</span>
+          <button type="button" onClick={onClose} aria-label={isPortuguese ? "Fechar inspector da carta" : "Close card inspector"}>×</button>
+        </header>
+        <div className="zero-forge-mobile-inspector__identity">
+          <CardArt card={card} className="zero-forge-mobile-inspector__art" />
+          <div>
+            <small>{card.cardNumber} · {card.color || "-"}</small>
+            <h2 id="zero-forge-mobile-inspector-title">{card.cardName}</h2>
+            <p>{card.cardType || "-"} · {card.rarity || "-"} · {card.packageCodes?.join(" / ") || "-"}</p>
+            <strong>{quantity ? isPortuguese ? `${quantity} NO DECK` : `${quantity} IN DECK` : isPortuguese ? "FORA DO DECK" : "NOT IN DECK"}</strong>
+          </div>
+        </div>
+        <dl className="zero-forge-mobile-inspector__stats">
+          <div><dt>LEVEL</dt><dd>{card.level ?? "-"}</dd></div>
+          <div><dt>COST</dt><dd>{card.cost ?? "-"}</dd></div>
+          <div><dt>AP</dt><dd>{card.ap ?? "-"}</dd></div>
+          <div><dt>HP</dt><dd>{card.hp ?? "-"}</dd></div>
+        </dl>
+        {card.traits?.length ? <InspectorTags label="TRAITS" values={card.traits} /> : null}
+        {card.linkTargets?.length ? <InspectorTags label="LINK / PAIR" values={card.linkTargets} /> : null}
+        <section className="zero-forge-mobile-inspector__effect">
+          <span>{isPortuguese ? "EFEITO" : "EFFECT"}</span>
+          <p>{effect}</p>
+        </section>
+        <footer>
+          {quantity ? <button type="button" onClick={onRemove}>{isPortuguese ? "REMOVER UMA" : "REMOVE ONE"}</button> : null}
+          <button type="button" className="is-primary" disabled={isBlocked} onClick={onAdd}>{addLabel}</button>
+        </footer>
+      </section>
+    </div>
+  );
+}
+
+function InspectorTags({ label, values }) {
+  return (
+    <section className="zero-forge-mobile-inspector__tags">
+      <span>{label}</span>
+      <div>{values.map((value) => <b key={value}>{value}</b>)}</div>
+    </section>
+  );
+}
+
 function clamp(value, minimum, maximum) {
   return Math.min(maximum, Math.max(minimum, value));
+}
+
+function isCompactForgeViewport() {
+  return typeof window !== "undefined" && window.matchMedia?.("(max-width: 760px), (max-height: 500px) and (max-width: 900px)").matches;
 }
 
 function buildPreviewGeometry(card, rawPointX, rawPointY) {

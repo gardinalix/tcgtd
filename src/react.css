@@ -20347,3 +20347,223 @@ body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .military-hud-loa
     animation: none !important;
   }
 }
+
+/* ZERO Forge mobile inspector: touch opens intelligence, actions remain explicit. */
+.zero-forge-mobile-inspector { display: none; }
+
+@media (max-width: 760px), (max-height: 500px) and (max-width: 900px) {
+  .zero-forge-mobile-inspector {
+    position: fixed;
+    z-index: 1200;
+    inset: 0;
+    display: grid;
+    align-items: end;
+    background: rgba(0, 5, 10, 0.8);
+  }
+
+  .zero-forge-mobile-inspector__sheet {
+    position: relative;
+    display: grid;
+    gap: 14px;
+    width: 100%;
+    max-height: min(92dvh, 860px);
+    padding: 14px 16px max(18px, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid rgba(87, 232, 255, 0.56);
+    border-bottom: 0;
+    border-radius: 18px 18px 0 0;
+    color: #dff7ff;
+    background: #030c14;
+    box-shadow: 0 -26px 72px rgba(0, 0, 0, 0.68);
+  }
+
+  .zero-forge-mobile-inspector__grip {
+    justify-self: center;
+    width: 42px;
+    height: 4px;
+    margin-bottom: 2px;
+    border-radius: 999px;
+    background: rgba(87, 232, 255, 0.64);
+  }
+
+  .zero-forge-mobile-inspector__sheet > header {
+    position: sticky;
+    z-index: 2;
+    top: -14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: -14px -16px 0;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid rgba(87, 232, 255, 0.14);
+    background: #030c14;
+  }
+
+  .zero-forge-mobile-inspector__sheet > header > span,
+  .zero-forge-mobile-inspector__effect > span,
+  .zero-forge-mobile-inspector__tags > span {
+    color: #61e6ff;
+    font: 900 0.52rem/1 var(--font-tech);
+    letter-spacing: 0.12em;
+  }
+
+  .zero-forge-mobile-inspector__sheet > header button {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(87, 232, 255, 0.26);
+    color: #dff7ff;
+    background: #071923;
+    font: 300 1.55rem/1 sans-serif;
+    place-items: center;
+  }
+
+  .zero-forge-mobile-inspector__identity {
+    display: grid;
+    grid-template-columns: minmax(108px, 34vw) minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  .zero-forge-mobile-inspector__art {
+    width: 100%;
+    aspect-ratio: 0.714;
+    object-fit: contain;
+    background: #01060b;
+  }
+
+  .zero-forge-mobile-inspector__identity > div {
+    display: grid;
+    gap: 7px;
+    min-width: 0;
+  }
+
+  .zero-forge-mobile-inspector__identity small,
+  .zero-forge-mobile-inspector__identity p {
+    margin: 0;
+    color: #819da8;
+    font: 750 0.6rem/1.35 var(--font-tech);
+    letter-spacing: 0.03em;
+  }
+
+  .zero-forge-mobile-inspector__identity h2 {
+    margin: 0;
+    color: #f1fbff;
+    font: 900 clamp(1.05rem, 5vw, 1.42rem)/1.04 var(--font-display);
+    letter-spacing: 0.02em;
+  }
+
+  .zero-forge-mobile-inspector__identity strong {
+    color: #56f2b3;
+    font: 900 0.54rem/1.2 var(--font-tech);
+    letter-spacing: 0.08em;
+  }
+
+  .zero-forge-mobile-inspector__stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    background: rgba(87, 232, 255, 0.16);
+  }
+
+  .zero-forge-mobile-inspector__stats > div {
+    display: grid;
+    gap: 6px;
+    min-height: 62px;
+    padding: 9px 7px;
+    background: #07141e;
+  }
+
+  .zero-forge-mobile-inspector__stats dt {
+    color: #7794a0;
+    font: 800 0.44rem/1 var(--font-tech);
+    letter-spacing: 0.08em;
+  }
+
+  .zero-forge-mobile-inspector__stats dd {
+    margin: 0;
+    color: #effbff;
+    font: 900 0.9rem/1 var(--font-display);
+  }
+
+  .zero-forge-mobile-inspector__tags {
+    display: grid;
+    gap: 8px;
+  }
+
+  .zero-forge-mobile-inspector__tags > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .zero-forge-mobile-inspector__tags b {
+    padding: 6px 8px;
+    border: 1px solid rgba(87, 232, 255, 0.22);
+    color: #c7e8ef;
+    background: #07151f;
+    font: 800 0.56rem/1.1 var(--font-tech);
+  }
+
+  .zero-forge-mobile-inspector__effect {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+    border-left: 2px solid #61e6ff;
+    background: linear-gradient(90deg, rgba(87, 232, 255, 0.08), transparent);
+  }
+
+  .zero-forge-mobile-inspector__effect p {
+    margin: 0;
+    color: #d9edf3;
+    font: 650 0.94rem/1.56 var(--font-tech);
+  }
+
+  .zero-forge-mobile-inspector__sheet > footer {
+    position: sticky;
+    bottom: max(-18px, calc(env(safe-area-inset-bottom) * -1));
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0 -16px max(-18px, calc(env(safe-area-inset-bottom) * -1));
+    padding: 12px 16px max(12px, env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(87, 232, 255, 0.18);
+    background: #030c14;
+  }
+
+  .zero-forge-mobile-inspector__sheet > footer button {
+    min-height: 50px;
+    padding: 0 10px;
+    border: 1px solid rgba(87, 232, 255, 0.34);
+    color: #bfe7ef;
+    background: #071923;
+    font: 900 0.56rem/1 var(--font-tech);
+    letter-spacing: 0.08em;
+  }
+
+  .zero-forge-mobile-inspector__sheet > footer button:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .zero-forge-mobile-inspector__sheet > footer .is-primary {
+    border-color: #56f2b3;
+    color: #02100b;
+    background: #56f2b3;
+  }
+
+  .zero-forge-mobile-inspector__sheet > footer button:disabled {
+    border-color: rgba(124, 148, 158, 0.28);
+    color: #607985;
+    background: #08131a;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zero-forge-mobile-inspector,
+  .zero-forge-mobile-inspector * {
+    scroll-behavior: auto !important;
+  }
+}

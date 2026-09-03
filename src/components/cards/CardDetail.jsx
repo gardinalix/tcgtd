@@ -4,7 +4,7 @@ import { CardArt } from "./CardArt";
 import { PartnerOffer } from "./PartnerOffer";
 import { PriceTag } from "./PriceTag";
 
-export function CardDetail({ card, onOpenCard, onOpenSynergyMap }) {
+export function CardDetail({ card, onOpenCard, onOpenSynergyMap, onPrevious, onNext, positionLabel = "" }) {
   if (!card) {
     return (
       <aside className="panel react-card-detail">
@@ -24,6 +24,13 @@ export function CardDetail({ card, onOpenCard, onOpenSynergyMap }) {
       <div className="react-card-detail__body">
         <span className="eyebrow">{card.displayCardNumber || card.cardNumber}</span>
         <h2>{card.cardName}</h2>
+        {onPrevious || onNext ? (
+          <nav className="card-detail-navigator" aria-label="Navigate card results">
+            <button type="button" onClick={onPrevious} disabled={!onPrevious}>← PREVIOUS</button>
+            <span>{positionLabel}</span>
+            <button type="button" onClick={onNext} disabled={!onNext}>NEXT →</button>
+          </nav>
+        ) : null}
         <div className="button-row card-detail-actions">
           {onOpenCard ? <button type="button" onClick={() => onOpenCard(card.cardNumber)}>Open dossier page</button> : null}
           {onOpenSynergyMap ? <button type="button" onClick={() => onOpenSynergyMap(card.cardNumber)}>Synergy map</button> : null}
@@ -41,6 +48,9 @@ export function CardDetail({ card, onOpenCard, onOpenSynergyMap }) {
           <div><dt>Cost</dt><dd>{card.cost || "-"}</dd></div>
           <div><dt>Level</dt><dd>{card.level || "-"}</dd></div>
           <div><dt>AP / HP</dt><dd>{card.ap || "-"} / {card.hp || "-"}</dd></div>
+          <div><dt>Set</dt><dd>{card.packageCodes?.join(" / ") || card.whereToGetIt || "-"}</dd></div>
+          {card.sourceTitle ? <div><dt>Series</dt><dd>{card.sourceTitle}</dd></div> : null}
+          {card.pilot ? <div><dt>Pilot</dt><dd>{card.pilot}</dd></div> : null}
         </dl>
         <DetailTagList label="LINK / PAIR" values={card.linkTargets || []} empty="No printed link loaded." />
         <DetailTagList label="Traits" values={card.traits || []} empty="No traits loaded." />

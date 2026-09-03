@@ -7,7 +7,7 @@ export function CardTile({ card, onSelect, onOpenSynergyMap }) {
   }
 
   return (
-    <article className="library-card react-card-tile card-gallery-tile" onClick={selectCard}>
+    <article className="library-card react-card-tile card-gallery-tile">
       <button
         type="button"
         className="library-card__select"
