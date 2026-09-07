@@ -31,6 +31,8 @@ export function PreviewsPage({ data }) {
   const futureRows = releaseRows.filter((row) => row.releaseState === "future" || row.previewOnlyCount > 0 || row.releasedCardCount === 0);
   const previewOnlyRows = previews.filter((row) => !row.matchedReleasedCard);
   const confirmedRows = previews.filter((row) => row.matchedReleasedCard);
+  const reportedRows = previews.filter(isReportedSignal);
+  const officialRows = previews.filter((row) => !isReportedSignal(row));
 
   const visibleReleases = releaseRows.filter((row) => {
     if (selectedCode === "future" && row.releaseState !== "future" && row.previewOnlyCount === 0 && row.releasedCardCount > 0) return false;
@@ -44,6 +46,8 @@ export function PreviewsPage({ data }) {
     if (selectedCode !== "all" && selectedCode !== "future" && code !== selectedCode) return false;
     if (statusFilter === "preview-only" && preview.matchedReleasedCard) return false;
     if (statusFilter === "released" && !preview.matchedReleasedCard) return false;
+    if (statusFilter === "reported" && !isReportedSignal(preview)) return false;
+    if (statusFilter === "official" && isReportedSignal(preview)) return false;
     return true;
   });
   const visibleReleaseRows = visibleReleases.slice(0, releaseLimit);
@@ -62,7 +66,7 @@ export function PreviewsPage({ data }) {
       <TacticalPageHeader
         eyebrow="Preview Radar"
         title="Release Intel / Official Previews"
-        subtitle="Future products, official reveal signals and preview-only cards are grouped by collection so GD05, EB01, ST10 and later releases are visible in one place."
+        subtitle="Future products, first-party reveals and separately labeled reported sightings are grouped by collection. Only official catalog rows enter deckbuilding and legality."
         actions={(
           <div className="preview-terminal-actions">
             <select value={selectedCode} onChange={(event) => setSelectedCode(event.target.value)}>
@@ -76,6 +80,8 @@ export function PreviewsPage({ data }) {
               <option value="all">All signals</option>
               <option value="preview-only">Preview only</option>
               <option value="released">Matched released</option>
+              <option value="official">Official sources</option>
+              <option value="reported">Reported / review</option>
             </select>
           </div>
         )}
@@ -83,14 +89,14 @@ export function PreviewsPage({ data }) {
 
       <TacticalSummaryStrip>
         <TacticalSummaryCard label="Future products" value={futureRows.length} detail="Unreleased or waiting for card rows." tone="blue" />
-        <TacticalSummaryCard label="Preview-only cards" value={previewOnlyRows.length} detail="No released card match yet." tone="gold" />
-        <TacticalSummaryCard label="Matched reveals" value={confirmedRows.length} detail="Preview now linked to released cards." tone="green" />
-        <TacticalSummaryCard label="Official channels" value={officialChannels.length} detail="First-party reveal sources under watch." tone="neutral" />
+        <TacticalSummaryCard label="Official signals" value={officialRows.length} detail={`${previewOnlyRows.filter((row) => !isReportedSignal(row)).length} still awaiting a catalog row.`} tone="gold" />
+        <TacticalSummaryCard label="Reported sightings" value={reportedRows.length} detail="Tracked for review; never added to deckbuilding." tone="blue" />
+        <TacticalSummaryCard label="Catalog matches" value={confirmedRows.length} detail="Preview now linked to released cards." tone="green" />
       </TacticalSummaryStrip>
 
       <TacticalDataPanel
-        title="Official reveal monitor"
-        subtitle="Product pages, the official English social channel and the official card catalog are tracked separately. Social reveals stay source-linked until the catalog confirms their card rows."
+        title="Reveal source monitor"
+        subtitle="Product pages, the official English social channel and the card catalog are tracked separately. Community sightings stay in review and cannot become playable cards by themselves."
         className="official-reveal-monitor-panel"
         code="GD06/LINK"
         mode="signal"
@@ -110,7 +116,7 @@ export function PreviewsPage({ data }) {
       <section className="release-intel-grid">
         <TacticalDataPanel
           title="Future collection board"
-          subtitle="Only official future rows after GD04 are shown. Counts are from existing database/previews; missing cards are not invented."
+          subtitle="Rows are dated from the official product calendar. A reported sighting can raise a collection in the queue, but never invents a playable card row."
           className="release-board-panel"
         >
           <div className="release-card-grid">
@@ -150,8 +156,8 @@ export function PreviewsPage({ data }) {
         </TacticalDataPanel>
 
         <TacticalDataPanel
-          title="Official signal queue"
-          subtitle="Only card preview signals from collections after GD04. Preview-only means it has not matched a released card number yet."
+          title="Reveal evidence queue"
+          subtitle="First-party signals and reported sightings are separated by status. Preview-only means it has not matched a released card number yet."
           className="preview-queue-panel"
         >
           <TacticalTable
@@ -162,8 +168,8 @@ export function PreviewsPage({ data }) {
             renderRow={(preview) => (
               <tr key={preview.previewId}>
                 <td data-label="Status">
-                  <TacticalStatusBadge tone={preview.matchedReleasedCard ? "green" : "gold"}>
-                    {preview.matchedReleasedCard ? "Released match" : "Preview only"}
+                  <TacticalStatusBadge tone={previewStatusTone(preview)}>
+                    {previewStatusLabel(preview)}
                   </TacticalStatusBadge>
                 </td>
                 <td data-label="Card / hint">
@@ -231,7 +237,7 @@ function buildReleaseRows({ products, packages, previews, cards }) {
         releasedCardCount,
         previewCount: productPreviews.length,
         previewOnlyCount: productPreviews.filter((preview) => !preview.matchedReleasedCard).length,
-        releaseState: isPostGd04Signal(product) ? "future" : "released",
+        releaseState: isFutureRelease(product.releaseDate) ? "future" : "released",
       };
     });
 
@@ -257,6 +263,22 @@ function isFutureRelease(value) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   return time > today.getTime();
+}
+
+function isReportedSignal(preview) {
+  return ["reported", "derived", "unverified"].includes(String(preview?.confidence || "").trim().toLowerCase())
+    || String(preview?.classification || "").trim().toLowerCase() === "reported_card_reveal";
+}
+
+function previewStatusLabel(preview) {
+  if (preview.matchedReleasedCard) return "Catalog match";
+  if (isReportedSignal(preview)) return "Reported / review";
+  return "Official preview";
+}
+
+function previewStatusTone(preview) {
+  if (preview.matchedReleasedCard) return "green";
+  return isReportedSignal(preview) ? "blue" : "gold";
 }
 
 function isPostGd04Signal(item) {

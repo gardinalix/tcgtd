@@ -611,6 +611,10 @@ function buildIncomingMessage(data) {
   const cardMap = new Map([...(data.cards || []), ...(data.resourceCards || [])].map((card) => [normalizePackageCode(card.cardNumber), card]));
   const previewSignals = (data.previews || [])
     .filter(isPostGd04Signal)
+    // Community sightings are intentionally visible only in the Preview Radar.
+    // The global "new data synchronized" message is reserved for first-party
+    // signals so an unverified leak is never presented as a catalog update.
+    .filter((preview) => !isReportedPreview(preview))
     .filter((preview) => preview.imageUrl || preview.cardNumberHint || preview.cardNameHint)
     .sort((left, right) => previewSortValue(right) - previewSortValue(left));
   const latestCards = previewSignals
@@ -656,6 +660,11 @@ function previewSortValue(preview) {
   if (Number.isFinite(sourceTime)) return sourceTime;
   if (Number.isFinite(releaseTime)) return releaseTime;
   return 0;
+}
+
+function isReportedPreview(preview) {
+  return ["reported", "derived", "unverified"].includes(String(preview?.confidence || "").trim().toLowerCase())
+    || String(preview?.classification || "").trim().toLowerCase() === "reported_card_reveal";
 }
 
 function buildIncomingPreviewCard(preview, cardMap) {

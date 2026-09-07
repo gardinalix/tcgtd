@@ -259,12 +259,7 @@ async function update() {
   const errors = [];
   const checkedAt = new Date().toISOString();
   if (!options["skip-fetch"]) {
-    try {
-      await runPublicCollector();
-    } catch (error) {
-      errors.push({ source_id: "public-collector-bridge", status: "error", error: error.message });
-      console.warn(`Public source check failed; retaining the last valid dataset. ${error.message}`);
-    }
+    await runPublicCollector(errors);
   }
   const migration = await migrate({ mode: "update", checked_at: checkedAt, errors });
   try {
@@ -294,8 +289,23 @@ async function writeRunReport(data, checkedAt, errors) {
   await Promise.all([writeJsonIfChanged(repositoryPath, report), writeJsonIfChanged(publicPath, report)]);
 }
 
-async function runPublicCollector() {
-  await egmanAdapter.fetch({ runCollector: () => runPython(["scripts/fetch_gundam_meta_data.py"]) });
+async function runPublicCollector(errors = []) {
+  // Competitive rows refer to card numbers. Refresh the canonical Bandai
+  // catalog first so a newly revealed/released card is resolved before an
+  // event decklist references it. Keeping this in the default update command
+  // also prevents the preview radar from silently lagging behind meta data.
+  try {
+    await runPython(["scripts/fetch_gundam_gcg_data.py"]);
+  } catch (error) {
+    errors.push({ source_id: "bandai-official", status: "error", error: error.message });
+    console.warn(`Official catalog check failed; retaining the last valid catalog snapshot. ${error.message}`);
+  }
+  try {
+    await egmanAdapter.fetch({ runCollector: () => runPython(["scripts/fetch_gundam_meta_data.py"]) });
+  } catch (error) {
+    errors.push({ source_id: "competitive-public-sources", status: "error", error: error.message });
+    console.warn(`Competitive source check failed; retaining the last valid tournament dataset. ${error.message}`);
+  }
 }
 
 async function runPython(args) {

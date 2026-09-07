@@ -34,5 +34,23 @@
     "confidence": "official",
     "adapter": "bandai-official",
     "status": "tracked"
+  },
+  {
+    "id": "exburst-gundam",
+    "name": "ExBurst Gundam",
+    "url": "https://exburst.dev/gundam",
+    "source_type": "community_card_database",
+    "confidence": "reported",
+    "adapter": "manual-review",
+    "status": "tracked"
+  },
+  {
+    "id": "gundeck-ai",
+    "name": "GUNDECK.AI",
+    "url": "https://gundeck.ai/",
+    "source_type": "derived_ranked_game_intelligence",
+    "confidence": "derived",
+    "adapter": "methodology-reference",
+    "status": "tracked"
   }
 ]

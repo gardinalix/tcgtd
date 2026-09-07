@@ -46,6 +46,24 @@
       "confidence": "official",
       "url": "https://www.gundam-gcg.com/en/",
       "last_checked": null
+    },
+    {
+      "id": "exburst-gundam",
+      "name": "ExBurst Gundam",
+      "status": "tracked",
+      "adapter": "manual-review",
+      "confidence": "reported",
+      "url": "https://exburst.dev/gundam",
+      "last_checked": null
+    },
+    {
+      "id": "gundeck-ai",
+      "name": "GUNDECK.AI",
+      "status": "tracked",
+      "adapter": "methodology-reference",
+      "confidence": "derived",
+      "url": "https://gundeck.ai/",
+      "last_checked": null
     }
   ],
   "last_run": {

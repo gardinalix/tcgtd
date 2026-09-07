@@ -43,11 +43,8 @@ MAX_WORKERS = 12
 COMPETITIVE_CUT_LIMIT = 16
 
 EGMAN_BASE_URL = "https://egmanevents.com/"
-EGMAN_FORMAT_URLS = [
-    "https://egmanevents.com/gundam-gd01-format",
-    "https://egmanevents.com/gundam-gd02-format",
-    "https://egmanevents.com/gundam-gd03-format",
-]
+EGMAN_FORMAT_URL_TEMPLATE = "https://egmanevents.com/gundam-gd{number:02d}-format"
+FALLBACK_EGMAN_FORMAT_NUMBERS = (1, 2, 3)
 LIMITLESS_BASE_URL = "https://play.limitlesstcg.com/"
 LIMITLESS_COMPLETED_URL = "https://play.limitlesstcg.com/tournaments/completed?game=GUNDAM"
 
@@ -210,14 +207,52 @@ def load_card_lookup() -> dict[str, dict]:
     return lookup
 
 
+def discover_egman_format_urls() -> list[str]:
+    """Build the Egman format queue from the local official card snapshot.
+
+    The previous fixed GD01–GD03 list stopped discovering current tournament
+    pages as soon as a new booster released. A package only enters the official
+    snapshot once Bandai exposes it in the catalog, which makes it a safer
+    discovery boundary than guessing future Egman URLs.
+    """
+    numbers: set[int] = set()
+    if CARD_SNAPSHOT_PATH.exists():
+        try:
+            snapshot = json.loads(CARD_SNAPSHOT_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            snapshot = {}
+        for package in snapshot.get("packages", []):
+            match = re.fullmatch(r"GD(\d+)", normalize_space(package.get("package_code", "")).upper())
+            if match:
+                numbers.add(int(match.group(1)))
+
+    if not numbers:
+        numbers.update(FALLBACK_EGMAN_FORMAT_NUMBERS)
+    return [EGMAN_FORMAT_URL_TEMPLATE.format(number=number) for number in sorted(numbers)]
+
+
 def parse_egman_format_pages() -> tuple[list[str], list[dict]]:
     sources: list[dict] = []
     table_urls: set[str] = set()
 
-    for format_url in EGMAN_FORMAT_URLS:
+    for format_url in discover_egman_format_urls():
         slug = urlparse(format_url).path.strip("/").replace("/", "_") or "format"
         cache_path = EGMAN_DIR / "formats" / f"{slug}.html"
-        page_html = fetch_text(format_url, cache_path)
+        try:
+            page_html = fetch_text(format_url, cache_path)
+        except RuntimeError:
+            # A catalog package can appear before a third-party format archive
+            # exists. Preserve the rest of the refresh rather than failing all
+            # current event coverage for one not-yet-published page.
+            sources.append(
+                {
+                    "record_type": "egman_format_page_unavailable",
+                    "record_id": slug,
+                    "source_url": format_url,
+                    "cache_file": "",
+                }
+            )
+            continue
         tree = parse_html(page_html)
         for anchor in find_all(tree, tag="a", attr_exists="href"):
             href = normalize_space(anchor.get("href"))
@@ -743,6 +778,20 @@ def build_source_coverage() -> list[dict]:
             "coverage_level": "public_tournament_results_and_decklists",
             "notes": "Useful secondary source for recent public Gundam tournaments with standings and submitted decklists.",
             "source_url": LIMITLESS_COMPLETED_URL,
+        },
+        {
+            "source_name": "GUNDECK.AI",
+            "status": "tracked_methodology_only",
+            "coverage_level": "ranked_game_trend_reference",
+            "notes": "Its MSA game-log methodology is useful for trend and consistency ideas. No inferred GUNDECK.AI game is merged into verified tournament standings or full decklists without a permitted structured source.",
+            "source_url": "https://gundeck.ai/",
+        },
+        {
+            "source_name": "ExBurst Gundam",
+            "status": "tracked_manual_review",
+            "coverage_level": "community_card_and_public_deck_reference",
+            "notes": "Useful for early community card discovery and public deck imports. Reported card signals remain outside the official catalog until Bandai confirms the card number.",
+            "source_url": "https://exburst.dev/gundam",
         },
         {
             "source_name": "Gundam GCG Meta Decks (@GundamTCGmeta)",

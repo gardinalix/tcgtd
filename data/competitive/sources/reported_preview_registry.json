@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "policy": "Third-party sightings belong only in the Preview Radar. Each record needs a traceable source URL and remains reported/unconfirmed until Bandai adds the card number to the official catalog. Do not copy these rows into cards, deck legality, or competitive statistics.",
+  "sources": [
+    {
+      "id": "exburst-gundam",
+      "label": "ExBurst Gundam",
+      "url": "https://exburst.dev/gundam",
+      "source_type": "community_card_database",
+      "confidence": "reported",
+      "status": "tracked_manual_review"
+    },
+    {
+      "id": "gundeck-ai",
+      "label": "GUNDECK.AI",
+      "url": "https://gundeck.ai/",
+      "source_type": "derived_ranked_game_intelligence",
+      "confidence": "derived",
+      "status": "tracked_methodology_only"
+    }
+  ],
+  "reveals": []
+}
