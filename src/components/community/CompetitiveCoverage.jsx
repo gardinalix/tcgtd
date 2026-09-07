@@ -30,7 +30,7 @@ export function CompetitiveCoverage({ data, metaWindow }) {
   return (
     <section className="research-surface" data-no-translate aria-label={say("Cobertura e metodologia do meta", "Meta coverage and methodology")}>
       <header className="research-heading">
-        <div><span className="research-kicker">TCGTD / META</span><h2>{say("O que os resultados mostram", "What the results show")}</h2><p>{metaWindow?.startDate} → {metaWindow?.endDate}</p></div>
+        <div><h2>{say("Resultados de torneios", "Tournament results")}</h2><p>{metaWindow?.startDate} → {metaWindow?.endDate}</p></div>
         <label>{say("Fonte deste painel", "Source for this panel")}<select value={source} onChange={event => setSource(event.target.value)}><option value="all">{say("Todas as fontes de torneios", "All tournament sources")}</option>{coverage.sources.map(name => <option key={name}>{name}</option>)}</select></label>
       </header>
       <dl className="research-metrics">

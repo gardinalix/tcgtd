@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { CardArt } from "../components/cards/CardArt";
 import { CompetitiveCoverage } from "../components/community/CompetitiveCoverage";
+import { useLocale } from "../i18n/LocaleProvider";
 import {
   TacticalDataPanel,
-  TacticalPageHeader,
   TacticalPageShell,
   TacticalSummaryCard,
   TacticalSummaryStrip,
@@ -15,6 +15,14 @@ import { buildMetaWindows, buildScopedMetaSignal } from "../domain/meta";
 const INITIAL_META_BATCH = 12;
 
 export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpenForge }) {
+  const { locale, t } = useLocale();
+  const pt = locale === "pt-BR";
+  const periodLabel = window => {
+    if (!pt) return window.label;
+    if (window.id === "rolling-30") return "Últimos 30 dias";
+    if (window.id === "all") return "Todo o histórico competitivo";
+    return t(window.label).replace("Current format", "Formato atual");
+  };
   const metaWindows = useMemo(() => buildMetaWindows(data), [data]);
   const selectedWindow = metaWindows.find((window) => window.id === selectedMetaId) || metaWindows[0];
   const signal = useMemo(() => buildScopedMetaSignal(data, selectedWindow), [data, selectedWindow]);
@@ -27,19 +35,17 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
 
   return (
     <TacticalPageShell className="meta-terminal-page">
-      <TacticalPageHeader
-        eyebrow="SUBSYSTEM 03 // FIELD MONITORING"
-        title="Battlefield Intelligence"
-        subtitle={`Movement calculated only from ${selectedWindow?.label || "the selected competitive window"}. Cards without an indexed list in this scope are excluded.`}
-        actions={(
-          <label className="meta-window-selector">
-            <span>Meta / format</span>
+      <header className="research-surface meta-research-header" data-no-translate>
+        <div>
+          <h1>{pt ? "Meta competitivo" : "Competitive meta"}</h1>
+        </div>
+          <label className="meta-research-period">
+            <span>{pt ? "Período / formato" : "Period / format"}</span>
             <select value={selectedWindow?.id || selectedMetaId} onChange={(event) => onMetaChange?.(event.target.value)}>
-              {metaWindows.map((window) => <option key={window.id} value={window.id}>{window.label}</option>)}
+              {metaWindows.map((window) => <option key={window.id} value={window.id}>{periodLabel(window)}</option>)}
             </select>
           </label>
-        )}
-      />
+      </header>
 
       <CompetitiveCoverage data={data} metaWindow={selectedWindow} />
 

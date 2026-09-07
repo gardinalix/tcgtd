@@ -55,12 +55,12 @@ body[data-view] .tactical-page-shell .research-surface input:not([type="checkbox
 .research-surface .contribution-consent { display: flex; align-items: start; gap: 12px; margin-block: 24px; font-size: 1rem; }
 .contribution-consent input { width: 24px; height: 24px; min-height: 24px; flex-shrink: 0; margin-top: 2px; }
 .contribution-review { margin-top: 24px; }
-/* Compact the META header so the first viewport reaches the actual research. */
-.meta-terminal-page .tactical-page-header { min-height: 0; padding-block: 24px; }
-.meta-terminal-page .tactical-page-header h1 { font-size: clamp(1.75rem, 3vw, 2.6rem); }
-.meta-terminal-page .tactical-page-header__radar, .meta-terminal-page .tactical-header-readout { display: none; }
+.meta-research-header { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, .65fr); align-items: center; gap: 24px; margin-bottom: 0; }
+.meta-research-header p { margin-bottom: 0; }
+body[data-view="meta"] .meta-terminal-page .meta-research-header .meta-research-period select { font-family: system-ui, sans-serif !important; letter-spacing: normal; }
 .meta-terminal-page .tactical-summary-card small { white-space: normal; text-overflow: clip; }
 @media (max-width: 760px) {
+  .meta-research-header { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .research-heading { flex-direction: column; gap: 12px; }
   .research-heading > label { width: 100%; }
   .research-columns { grid-template-columns: minmax(0, 1fr); gap: 24px; }
