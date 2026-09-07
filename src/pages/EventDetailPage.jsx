@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { resolveEventWinner } from "../domain/eventEvidence.js";
 import {
   TacticalEmptyState,
   TacticalPageHeader,
@@ -24,11 +25,11 @@ export function EventDetailPage({ data, eventId, onBack, onOpenDeck, onSendToFor
       .sort((left, right) => Number(left.placingRank || 999) - Number(right.placingRank || 999)),
     [data.metaResults, eventId],
   );
-  const winner = results[0];
+  const { winner, status: winnerStatus } = resolveEventWinner(results);
   const display = event ? normalizeEventDisplay(event) : null;
   const colorBreakdown = useMemo(() => buildColorBreakdown(results), [results]);
   const archetypeBreakdown = useMemo(() => countBy(results, "archetype"), [results]);
-  const topCut = event?.topCut || event?.topCutSize || (results.length ? `Top ${Math.min(results.length, 8)}` : "Not sourced");
+  const topCut = event?.topCut || event?.topCutSize || "Not sourced";
 
   if (!event) {
     return (
@@ -65,7 +66,7 @@ export function EventDetailPage({ data, eventId, onBack, onOpenDeck, onSendToFor
             <DossierInfoCard
               title="Winner"
               primary={winner?.playerName || "Not available"}
-              secondary={winner?.archetype || "No winner row linked."}
+              secondary={winnerStatus === "conflicting" ? "Conflicting first-place records. Source review required." : winner?.archetype || "No winner row linked."}
               icon="crest"
             />
             <DossierInfoCard

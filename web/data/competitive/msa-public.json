@@ -1,0 +1,269 @@
+{
+  "schemaVersion": "tcgtd-msa-public-v1",
+  "sourceUrl": "https://mobilesuitarena.com/",
+  "observedAt": "2026-09-07T15:49:11.501Z",
+  "status": "partial_public_index",
+  "coverage": "recent_homepage_sample",
+  "capabilities": {
+    "winners": true,
+    "matchDates": false,
+    "decklists": false,
+    "archetypes": false,
+    "completeHistory": false
+  },
+  "contentHash": "88a27e3f8f3460e8aa4efb2fcfd10fcf224da3ab261cba862dca60dececcf483",
+  "items": [
+    {
+      "id": "593a6d11-834c-416c-b9e8-ef4e4d2d0200",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/593a6d11-834c-416c-b9e8-ef4e4d2d0200",
+      "mode": "Ranked",
+      "ended": true,
+      "winnerSeat": 1,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "e9219efa-e694-4695-a000-d26e3cc3d081",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/e9219efa-e694-4695-a000-d26e3cc3d081",
+      "mode": "Casual",
+      "ended": true,
+      "winnerSeat": 0,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "d7d1f572-2745-46e6-8f1e-df470a5d3a70",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/d7d1f572-2745-46e6-8f1e-df470a5d3a70",
+      "mode": "Ranked",
+      "ended": true,
+      "winnerSeat": 1,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "1e4b5e26-6113-4bdb-bb82-fd10ccee7696",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/1e4b5e26-6113-4bdb-bb82-fd10ccee7696",
+      "mode": "Casual",
+      "ended": true,
+      "winnerSeat": 1,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "0f7ff406-f5e9-4439-808e-18dd6b19058b",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/0f7ff406-f5e9-4439-808e-18dd6b19058b",
+      "mode": "Casual",
+      "ended": true,
+      "winnerSeat": 0,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "6141ab88-7d94-40af-8eb6-2e3a58bb009c",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/6141ab88-7d94-40af-8eb6-2e3a58bb009c",
+      "mode": "Casual",
+      "ended": true,
+      "winnerSeat": 1,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "7857a14f-4e2a-474d-856d-dac5f1d56545",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/7857a14f-4e2a-474d-856d-dac5f1d56545",
+      "mode": "Ranked",
+      "ended": true,
+      "winnerSeat": 1,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "b001a06f-7a3c-48e3-94d5-0ae82b6de5a9",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/b001a06f-7a3c-48e3-94d5-0ae82b6de5a9",
+      "mode": "Casual",
+      "ended": true,
+      "winnerSeat": 1,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "b5cf6444-5ee3-45b5-b9ad-ba24c70563be",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/b5cf6444-5ee3-45b5-b9ad-ba24c70563be",
+      "mode": "Casual",
+      "ended": true,
+      "winnerSeat": 0,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "dfef59f7-890e-401e-bd2c-e2f65fee6e39",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/dfef59f7-890e-401e-bd2c-e2f65fee6e39",
+      "mode": "Casual",
+      "ended": true,
+      "winnerSeat": 0,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "9c27f55d-a6ab-4e46-9f98-275867f6248e",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/9c27f55d-a6ab-4e46-9f98-275867f6248e",
+      "mode": "Casual",
+      "ended": true,
+      "winnerSeat": 0,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    },
+    {
+      "id": "0c9f6fda-dc4c-43d0-907d-9bdf61e7ff0b",
+      "sourceId": "msa-public",
+      "sourceUrl": "https://mobilesuitarena.com/game/0c9f6fda-dc4c-43d0-907d-9bdf61e7ff0b",
+      "mode": "Ranked",
+      "ended": true,
+      "winnerSeat": 1,
+      "playedAt": null,
+      "season": null,
+      "firstObservedAt": "2026-09-07T15:49:11.501Z",
+      "players": [
+        {
+          "archetype": null,
+          "deckId": null
+        },
+        {
+          "archetype": null,
+          "deckId": null
+        }
+      ]
+    }
+  ]
+}

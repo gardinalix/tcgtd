@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { CardArt } from "../components/cards/CardArt";
+import { CompetitiveCoverage } from "../components/community/CompetitiveCoverage";
 import {
   TacticalDataPanel,
   TacticalPageHeader,
@@ -40,6 +41,8 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
         )}
       />
 
+      <CompetitiveCoverage data={data} metaWindow={selectedWindow} />
+
       <section className="meta-command-brief" aria-label="Current field briefing">
         <span><i /> FIELD BRIEF</span>
         <div>
@@ -48,7 +51,7 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
         </div>
         <div>
           <small>PRIMARY MOVEMENT</small>
-          <strong>{leadMovement ? `${leadMovement.cardName} · ${Number(leadMovement.delta || 0).toFixed(1)}` : "No movement detected"}</strong>
+          <strong>{!signal.context.comparisonAvailable ? "No comparable previous period" : leadMovement ? `${leadMovement.cardName} · ${Number(leadMovement.delta || 0).toFixed(1)}` : "No movement detected"}</strong>
         </div>
         {leadArchetype ? (
           <button type="button" onClick={() => onOpenForge?.({ ...leadArchetype, selectedMetaId: selectedWindow?.id, metaLabel: selectedWindow?.label })}>
@@ -60,13 +63,13 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
       <TacticalSummaryStrip>
         <TacticalSummaryCard label="Meta window" value={selectedWindow?.shortLabel || "-"} detail={`${signal.context.deckCount} indexed decklists · ${signal.context.eventCount} events.`} tone="blue" />
         <TacticalSummaryCard label="Used cards" value={signal.ranked.length} detail="Cards present in this exact scope." />
-        <TacticalSummaryCard label="Risers" value={signal.risers.length} detail="Positive tactical movement." tone="green" />
-        <TacticalSummaryCard label="Fallers" value={signal.fallers.length} detail="Negative tactical movement." tone="red" />
+        <TacticalSummaryCard label="Risers" value={signal.context.comparisonAvailable ? signal.risers.length : "—"} detail={signal.context.comparisonAvailable ? "Positive tactical movement." : "No comparable previous period"} tone="green" />
+        <TacticalSummaryCard label="Fallers" value={signal.context.comparisonAvailable ? signal.fallers.length : "—"} detail={signal.context.comparisonAvailable ? "Negative tactical movement." : "No comparable previous period"} tone="red" />
         <TacticalSummaryCard label="Watch list" value={signal.watch.length} detail="Cards under observation." tone="gold" />
       </TacticalSummaryStrip>
 
       <div className="tactical-card-grid meta-field-matrix">
-        <TacticalDataPanel className="meta-archetype-station" title="Trending archetypes" subtitle={`${signal.context.deckCount} lists inside ${selectedWindow?.label || "the selected window"}.`} code="ARC/RAD" mode="radar">
+        <TacticalDataPanel className="meta-archetype-station" title="Trending archetypes" subtitle={`${signal.context.resultCount} results inside ${selectedWindow?.label || "the selected window"}.`} code="ARC/RAD" mode="radar">
           <div className="cockpit-list meta-archetype-links">
             {signal.archetypeTrends.slice(0, 8).map((row) => (
               <button
@@ -75,7 +78,7 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
                 className="cockpit-list-row meta-archetype-link"
                 onClick={() => onOpenForge?.({ ...row, selectedMetaId: selectedWindow?.id, metaLabel: selectedWindow?.label })}
               >
-                <span><strong>{row.archetype}</strong><small>{row.recentDecklists} lists · {row.commonColorCombination || "colors unclassified"}</small></span>
+                <span><strong>{row.archetype}</strong><small>{row.recentDecklists} results · {row.commonColorCombination || "colors unclassified"}</small></span>
                 <b>{row.recentMetaScore.toFixed(1)}%</b>
                 <em>FORGE →</em>
               </button>
@@ -92,7 +95,7 @@ export function MetaPage({ data, selectedMetaId = "current", onMetaChange, onOpe
           columns={["Card", "Color", "Band", "Recent tops", "Movement", "Reason"]}
           rows={signal.ranked.slice(0, signalLimit)}
           renderRow={(row) => (
-            <MetaSignalTableRow key={row.cardNumber} row={row} card={cardMap.get(row.cardNumber)} />
+            <MetaSignalTableRow key={row.cardNumber} row={row} card={cardMap.get(row.cardNumber)} comparisonAvailable={signal.context.comparisonAvailable} />
           )}
         />
         {signalLimit < signal.ranked.length ? (
@@ -125,7 +128,7 @@ function MetaPanel({ className, title, rows, valueKey, cardMap }) {
   );
 }
 
-function MetaSignalTableRow({ row, card }) {
+function MetaSignalTableRow({ row, card, comparisonAvailable }) {
   const hover = useCardHoverPreview(card, row);
 
   return (
@@ -142,7 +145,7 @@ function MetaSignalTableRow({ row, card }) {
       <td data-label="Color">{row.color}</td>
       <td data-label="Band">{row.band}</td>
       <td data-label="Recent tops">{row.recent}</td>
-      <td data-label="Movement">{row.delta.toFixed(1)}</td>
+      <td data-label="Movement" title={comparisonAvailable ? undefined : "No comparable previous period"}>{comparisonAvailable ? row.delta.toFixed(1) : "—"}</td>
       <td data-label="Reason">{row.reason}</td>
       <MetaSignalHoverPreview card={card} row={row} position={hover.position} />
     </tr>

@@ -12,6 +12,16 @@
       ]
     },
     {
+      "id": "academy-dawn-of-fold",
+      "display_name": "Academy (Dawn of Fold)",
+      "aliases": [
+        "Academy (Dawn of Fold)"
+      ],
+      "observed_source_names": [
+        "Academy (Dawn of Fold)"
+      ]
+    },
+    {
       "id": "academy-aggro",
       "display_name": "Academy Aggro",
       "aliases": [
@@ -142,6 +152,26 @@
       ]
     },
     {
+      "id": "cb-exia",
+      "display_name": "CB Exia",
+      "aliases": [
+        "CB Exia"
+      ],
+      "observed_source_names": [
+        "CB Exia"
+      ]
+    },
+    {
+      "id": "cb-kyrios",
+      "display_name": "CB Kyrios",
+      "aliases": [
+        "CB Kyrios"
+      ],
+      "observed_source_names": [
+        "CB Kyrios"
+      ]
+    },
+    {
       "id": "celestial-being",
       "display_name": "Celestial Being",
       "aliases": [
@@ -149,6 +179,16 @@
       ],
       "observed_source_names": [
         "Celestial Being"
+      ]
+    },
+    {
+      "id": "clan",
+      "display_name": "Clan",
+      "aliases": [
+        "Clan"
+      ],
+      "observed_source_names": [
+        "Clan"
       ]
     },
     {
@@ -202,6 +242,56 @@
       ]
     },
     {
+      "id": "destiny",
+      "display_name": "Destiny",
+      "aliases": [
+        "Destiny"
+      ],
+      "observed_source_names": [
+        "Destiny"
+      ]
+    },
+    {
+      "id": "destiny-barbatos",
+      "display_name": "Destiny (Barbatos)",
+      "aliases": [
+        "Destiny (Barbatos)"
+      ],
+      "observed_source_names": [
+        "Destiny (Barbatos)"
+      ]
+    },
+    {
+      "id": "destiny-militia",
+      "display_name": "Destiny (Militia)",
+      "aliases": [
+        "Destiny (Militia)"
+      ],
+      "observed_source_names": [
+        "Destiny (Militia)"
+      ]
+    },
+    {
+      "id": "destiny-blockers",
+      "display_name": "Destiny Blockers",
+      "aliases": [
+        "Destiny Blockers"
+      ],
+      "observed_source_names": [
+        "Destiny Blockers"
+      ]
+    },
+    {
+      "id": "destiny-blockers-barbatos",
+      "display_name": "Destiny Blockers (Barbatos)",
+      "aliases": [
+        "Destiny Blockers (Barbatos)"
+      ],
+      "observed_source_names": [
+        "Destiny Blockers (Barbatos)"
+      ]
+    },
+    {
       "id": "dynames-rush",
       "display_name": "Dynames Rush",
       "aliases": [
@@ -252,6 +342,16 @@
       ]
     },
     {
+      "id": "earth-federation-aggro-virsago",
+      "display_name": "Earth Federation Aggro (Virsago)",
+      "aliases": [
+        "Earth Federation Aggro (Virsago)"
+      ],
+      "observed_source_names": [
+        "Earth Federation Aggro (Virsago)"
+      ]
+    },
+    {
       "id": "earth-federation-aggro-zaft",
       "display_name": "Earth Federation Aggro (ZAFT)",
       "aliases": [
@@ -269,6 +369,16 @@
       ],
       "observed_source_names": [
         "Earth Federation Breach"
+      ]
+    },
+    {
+      "id": "earth-federation-tempo",
+      "display_name": "Earth Federation Tempo",
+      "aliases": [
+        "Earth Federation Tempo"
+      ],
+      "observed_source_names": [
+        "Earth Federation Tempo"
       ]
     },
     {
@@ -497,6 +607,36 @@
       ]
     },
     {
+      "id": "league-militaire-banshee-norn",
+      "display_name": "League Militaire (Banshee Norn)",
+      "aliases": [
+        "League Militaire (Banshee Norn)"
+      ],
+      "observed_source_names": [
+        "League Militaire (Banshee Norn)"
+      ]
+    },
+    {
+      "id": "league-militaire-neo-zeong",
+      "display_name": "League Militaire (Neo Zeong)",
+      "aliases": [
+        "League Militaire (Neo Zeong)"
+      ],
+      "observed_source_names": [
+        "League Militaire (Neo Zeong)"
+      ]
+    },
+    {
+      "id": "league-militaire-ping",
+      "display_name": "League Militaire Ping",
+      "aliases": [
+        "League Militaire Ping"
+      ],
+      "observed_source_names": [
+        "League Militaire Ping"
+      ]
+    },
+    {
       "id": "lockuro-aggro",
       "display_name": "Lockuro Aggro",
       "aliases": [
@@ -514,6 +654,16 @@
       ],
       "observed_source_names": [
         "Lupus Control"
+      ]
+    },
+    {
+      "id": "minerva-squad",
+      "display_name": "Minerva Squad",
+      "aliases": [
+        "Minerva Squad"
+      ],
+      "observed_source_names": [
+        "Minerva Squad"
       ]
     },
     {
@@ -707,6 +857,16 @@
       ]
     },
     {
+      "id": "the-o-banshee-norn",
+      "display_name": "The-O (Banshee Norn)",
+      "aliases": [
+        "The-O (Banshee Norn)"
+      ],
+      "observed_source_names": [
+        "The-O (Banshee Norn)"
+      ]
+    },
+    {
       "id": "the-o-blockers",
       "display_name": "The-O Blockers",
       "aliases": [
@@ -717,6 +877,46 @@
       ]
     },
     {
+      "id": "turn-a-tempo",
+      "display_name": "Turn-A Tempo",
+      "aliases": [
+        "Turn-A Tempo"
+      ],
+      "observed_source_names": [
+        "Turn-A Tempo"
+      ]
+    },
+    {
+      "id": "unicorn-awakened",
+      "display_name": "Unicorn Awakened",
+      "aliases": [
+        "Unicorn Awakened"
+      ],
+      "observed_source_names": [
+        "Unicorn Awakened"
+      ]
+    },
+    {
+      "id": "unicorn-awakened-academy",
+      "display_name": "Unicorn Awakened ( Academy )",
+      "aliases": [
+        "Unicorn Awakened ( Academy )"
+      ],
+      "observed_source_names": [
+        "Unicorn Awakened ( Academy )"
+      ]
+    },
+    {
+      "id": "unicorn-banshee-norn",
+      "display_name": "Unicorn Banshee Norn",
+      "aliases": [
+        "Unicorn Banshee Norn"
+      ],
+      "observed_source_names": [
+        "Unicorn Banshee Norn"
+      ]
+    },
+    {
       "id": "unicorn-blockers",
       "display_name": "Unicorn Blockers",
       "aliases": [
@@ -724,6 +924,16 @@
       ],
       "observed_source_names": [
         "Unicorn Blockers"
+      ]
+    },
+    {
+      "id": "unicorn-gundam-academy",
+      "display_name": "Unicorn Gundam (Academy)",
+      "aliases": [
+        "Unicorn Gundam (Academy)"
+      ],
+      "observed_source_names": [
+        "Unicorn Gundam (Academy)"
       ]
     },
     {
@@ -764,6 +974,16 @@
       ],
       "observed_source_names": [
         "Vagan"
+      ]
+    },
+    {
+      "id": "vulture",
+      "display_name": "Vulture",
+      "aliases": [
+        "Vulture"
+      ],
+      "observed_source_names": [
+        "Vulture"
       ]
     },
     {
@@ -847,6 +1067,16 @@
       ]
     },
     {
+      "id": "wing-zero-unicorn-awakened",
+      "display_name": "Wing Zero (Unicorn Awakened)",
+      "aliases": [
+        "Wing Zero (Unicorn Awakened)"
+      ],
+      "observed_source_names": [
+        "Wing Zero (Unicorn Awakened)"
+      ]
+    },
+    {
       "id": "zaft",
       "display_name": "Zaft",
       "aliases": [
@@ -874,6 +1104,16 @@
       ],
       "observed_source_names": [
         "Zeon Aggro (Unicorn)"
+      ]
+    },
+    {
+      "id": "zeong-rush",
+      "display_name": "Zeong Rush",
+      "aliases": [
+        "Zeong Rush"
+      ],
+      "observed_source_names": [
+        "Zeong Rush"
       ]
     },
     {

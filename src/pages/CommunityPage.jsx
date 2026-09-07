@@ -43,7 +43,7 @@ export function CommunityPage({ data, onNavigate, onOpenEvent }) {
         />
         <CommunityModule
           code="02"
-          title="Players do Bandai"
+          title="Community players"
           detail="Aggregate public handles observed in event results; verified account linking remains a separate future step."
           action="Browse players"
           onClick={() => onNavigate("players")}
@@ -76,7 +76,7 @@ export function CommunityPage({ data, onNavigate, onOpenEvent }) {
               <span key={player.id}>
                 <b>{String(index + 1).padStart(2, "0")}</b>
                 <span><strong>{player.displayName}</strong><small>{player.eventCount} events · {player.topCuts} Top 8</small></span>
-                <em>{player.wins} wins</em>
+                <em>{player.wins} titles</em>
               </span>
             ))}
           </div>

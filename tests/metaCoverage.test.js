@@ -1,0 +1,20 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { buildMetaCoverage } from "../src/domain/metaCoverage.js";
+import { buildScopedMetaSignal } from "../src/domain/meta.js";
+test("partial lists and unclassified results use separate, explicit denominators", () => {
+  const data = { metaResults: [{ resultId: "a", deckId: "a", eventId: "e", eventDate: "2026-09-01", placingRank: 1, archetype: "A", sourceName: "Official" }, { resultId: "b", deckId: "b", eventId: "e", eventDate: "2026-09-01", placingRank: 2, archetype: "Other", sourceName: "Community" }], metaDeckCards: [{ deckId: "a", cardNumber: "ST01-001", quantity: 4 }] };
+  const window = { startDate: "2026-09-01", endDate: "2026-09-07" };
+  const coverage = buildMetaCoverage(data, window);
+  assert.equal(coverage.listCount, 1);
+  assert.equal(coverage.unclassified, 1);
+  assert.ok(coverage.archetypes.every(row => row.share === .5));
+  assert.equal(buildMetaCoverage(data, window, "Official").results.length, 1);
+  const signal = buildScopedMetaSignal(data, window);
+  assert.equal(signal.context.deckCount, 1);
+  assert.equal(signal.ranked[0].recentScore, 100);
+  assert.equal(signal.archetypeTrends[0].recentMetaScore, 50);
+  assert.equal(signal.context.comparisonAvailable, false);
+  assert.equal(signal.risers.length, 0);
+  assert.equal(signal.ranked[0].delta, 0);
+});

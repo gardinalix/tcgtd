@@ -273,9 +273,9 @@ function buildLegacyProvenance(row, sourceRegistry, metadata) {
     sourceUrl: clean(row.source_url) || definition.url || null,
     sourceType: definition.source_type || "legacy_csv",
     confidence: definition.confidence || sourceConfidence(sourceId, sourceRegistry),
-    retrievedAt: metadata?.retrieved_at || null,
-    contentHash: metadata?.content_hash || null,
-    adapterId: "csv-legacy",
+    retrievedAt: row.community_provenance?.retrieved_at || metadata?.retrieved_at || null,
+    contentHash: row.community_provenance?.content_hash || metadata?.content_hash || null,
+    adapterId: row.community_provenance ? "community-reviewed" : "csv-legacy",
   });
 }
 

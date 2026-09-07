@@ -12,6 +12,8 @@
     "data:validate": "node scripts/data-engine.mjs validate",
     "data:build": "node scripts/data-engine.mjs build",
     "data:export": "node scripts/data-engine.mjs export",
+    "data:msa": "node scripts/collect-msa-public.mjs",
+    "data:community": "node scripts/import-community-event.mjs",
     "test": "node --test tests/*.test.js",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "auth": "node server/authServer.mjs",

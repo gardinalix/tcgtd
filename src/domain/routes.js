@@ -14,6 +14,7 @@ export const ROUTES = {
   prices: "/prices",
   meta: "/meta",
   community: "/community",
+  contribute: "/community/contribute",
   events: "/community/events",
   eventDetail: "/community/events",
   players: "/community/players",
@@ -50,6 +51,7 @@ export function parseRoute(location = window.location) {
   if (segments[0] === "deck") return { view: "deckView", id: decodeURIComponent(segments[1] || "") };
   if (segments[0] === "events") return { view: segments[1] ? "eventDetail" : "events", id: decodeURIComponent(segments[1] || "") };
   if (segments[0] === "community") {
+    if (segments[1] === "contribute") return { view: "contribute", id: "" };
     if (segments[1] === "events") return { view: segments[2] ? "eventDetail" : "events", id: decodeURIComponent(segments[2] || "") };
     if (segments[1] === "players") return { view: "players", id: "" };
     if (segments[1] === "schedules") return { view: "scheduleManager", id: "" };

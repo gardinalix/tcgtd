@@ -4,6 +4,11 @@ export const SUPPORTED_LOCALES = ["pt-BR", "en"];
 let runtimeLocale = DEFAULT_LOCALE;
 
 const PT_BR = {
+  "No comparable previous period": "Sem período anterior comparável",
+  "Conflicting first-place records. Source review required.": "Primeiros lugares conflitantes. A fonte precisa de revisão.",
+  "Contribute results": "Contribuir com resultados",
+  "Community players": "Jogadores da comunidade",
+  "titles": "títulos",
   "TCG TACTICAL DATABASE": "TCG TACTICAL DATABASE",
   "Tactical interface": "Interface tática",
   "Tactical System": "Sistema tático",

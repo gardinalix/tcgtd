@@ -1,13 +1,43 @@
 {
   "schema_version": "tcgtd-validation-v1",
   "valid": true,
-  "input_hash": "70d2d846d409251ce46d5b6ff457d508c9eec8e38daed1232f691fb37c2dd132",
+  "input_hash": "4ad56ad73b56439a9a57cde37c708d3e2e95cd862c6f30bce0969e4d53921f4c",
   "issues": [
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 0233eea3d7cfa50d.",
+      "record_id": "c47651f3601159c1"
+    },
     {
       "level": "warning",
       "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 9 in tournament 0283cf3c9337c413.",
       "record_id": "77644489cc02532d"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 4 in tournament 042e221da26da09a.",
+      "record_id": "415962093bae90ff"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 8 in tournament 042e221da26da09a.",
+      "record_id": "b6900de822c3ff1b"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 8 in tournament 042e221da26da09a.",
+      "record_id": "bc6507627826006d"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 8 in tournament 042e221da26da09a.",
+      "record_id": "987bf4a6ed83f1f0"
     },
     {
       "level": "warning",
@@ -204,6 +234,12 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 292df6ce0e1e6e4f.",
+      "record_id": "4701fb3c0ca91e9a"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament 2e15e8c2460fc1f1.",
       "record_id": "0820977d38df134c"
     },
@@ -360,6 +396,12 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 33a627d5eae17139.",
+      "record_id": "313090bcccc49854"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 4 in tournament 38558530dfcbeecb.",
       "record_id": "7c1f8bd491939bf6"
     },
@@ -374,6 +416,60 @@
       "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament 3877671e85798d5a.",
       "record_id": "a52eb795c80149b4"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 3b181ea6efa33e2e.",
+      "record_id": "07f772d37cc34779"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 3b181ea6efa33e2e.",
+      "record_id": "916298f1f2609f4a"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 8 in tournament 3b181ea6efa33e2e.",
+      "record_id": "f8da6ef396292c99"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 47a6f1bb779c082a.",
+      "record_id": "055d953e53cae971"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 47a6f1bb779c082a.",
+      "record_id": "6bceb4a6e718df50"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 47a6f1bb779c082a.",
+      "record_id": "0338742b11676ddf"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 47a6f1bb779c082a.",
+      "record_id": "463d2794ec1be33d"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 47a6f1bb779c082a.",
+      "record_id": "cdebe771d0a88791"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 4 in tournament 47a6f1bb779c082a.",
+      "record_id": "4f8da68f31d56970"
     },
     {
       "level": "warning",
@@ -402,8 +498,26 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 5b42511d07e2bfd4.",
+      "record_id": "3e1da2193dc57b0d"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 3 in tournament 5dd7d0fe1eb7e10c.",
       "record_id": "69b45e35865847f8"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 5e137700b1d751a1.",
+      "record_id": "4ef51b9db56ed088"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 5e137700b1d751a1.",
+      "record_id": "e633fa65fa080eba"
     },
     {
       "level": "warning",
@@ -516,6 +630,42 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 79d47d2ba3c2f811.",
+      "record_id": "5604735a1938aec7"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 79d47d2ba3c2f811.",
+      "record_id": "085a8c8ccdc8f8c3"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 7e0a3c2f2c57623c.",
+      "record_id": "ae6425f2f89bf64d"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 7e0a3c2f2c57623c.",
+      "record_id": "297fab5ce10183c5"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 4 in tournament 7e0a3c2f2c57623c.",
+      "record_id": "694ec3443d5bf1c8"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 7ee1f6e92446b6af.",
+      "record_id": "3db3918fde5d2973"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament 7f0ab62dff5bb54d.",
       "record_id": "8d9d7fa5fd3f6de5"
     },
@@ -606,6 +756,12 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 80d853787ff3150a.",
+      "record_id": "53e70ac748c444d2"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament 81bc7100a574b168.",
       "record_id": "3556e1ba709aa4de"
     },
@@ -614,6 +770,42 @@
       "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament 81bc7100a574b168.",
       "record_id": "ab5b8da90b29fe0a"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 82dc686fa326c2d5.",
+      "record_id": "aa7e777bf291c61a"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 82dc686fa326c2d5.",
+      "record_id": "d30221a995e93e18"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 82dc686fa326c2d5.",
+      "record_id": "432d01625453d773"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 82dc686fa326c2d5.",
+      "record_id": "c7ce2d97ec193d4c"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 2 in tournament 82dc686fa326c2d5.",
+      "record_id": "d1dbdcdcbd3d0b82"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 4 in tournament 82dc686fa326c2d5.",
+      "record_id": "2af2949e913b6fb3"
     },
     {
       "level": "warning",
@@ -684,6 +876,18 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 85dc4168d8840217.",
+      "record_id": "f8b4f0982dace30b"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 3 in tournament 85dc4168d8840217.",
+      "record_id": "c0b157c0176fd8a3"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament 85ffc7d8946cfe46.",
       "record_id": "c97e2344e2166d81"
     },
@@ -732,6 +936,12 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 8b6eea35e9be20fa.",
+      "record_id": "220c9d187a21c27b"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament 8c945770bd1a17b5.",
       "record_id": "8d24c3ee37b47cce"
     },
@@ -758,6 +968,24 @@
       "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament 8c945770bd1a17b5.",
       "record_id": "434b0a51f7639389"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 8e9a2d211c0d382f.",
+      "record_id": "59b8736dfc4fac16"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 8e9a2d211c0d382f.",
+      "record_id": "e14cd49768927e86"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament 8fee678fe046ac37.",
+      "record_id": "3631f8042821e2bd"
     },
     {
       "level": "warning",
@@ -996,6 +1224,12 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament a6e6c11d6312c0aa.",
+      "record_id": "24af3692a8d89bba"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament a76bdf6ac72ae97a.",
       "record_id": "ce570802a5ffe9bf"
     },
@@ -1052,6 +1286,78 @@
       "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament ade9638c38045226.",
       "record_id": "23523529c1545dd3"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "c158cb1cf6c0d6e9"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "72dc4c8a6f4f16fd"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "8564f2e7e8e40a7f"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "5a4c50824df91b82"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "cae783ade01d4529"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "0e16ba98d5bcf4dc"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 4 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "26743b87b9869d15"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 4 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "b44adaa73c39f7f6"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 4 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "88e1d9578847a1b7"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 8 in tournament ae9c0c0b3eee5ee6.",
+      "record_id": "551bc2720928a905"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament b04f4141a0a802b6.",
+      "record_id": "492d40d761854300"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament b04f4141a0a802b6.",
+      "record_id": "dc766bebe947a0bb"
     },
     {
       "level": "warning",
@@ -1230,6 +1536,12 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament bd89dc7318ec2cd8.",
+      "record_id": "a1bed91678bd9e26"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament bd97bf6d3caad53e.",
       "record_id": "4f12fee589dad810"
     },
@@ -1248,6 +1560,12 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament c2f11e9e43668789.",
+      "record_id": "fcc470c84c7ac133"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament c9cb0e01934afa76.",
       "record_id": "004f29c2b5df0ef0"
     },
@@ -1262,6 +1580,18 @@
       "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament cd4561ce2fbde76a.",
       "record_id": "a48d049dfbf484ac"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament cec5a1f88d35f309.",
+      "record_id": "7a176d0f2e5e2625"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament cec5a1f88d35f309.",
+      "record_id": "faa0086f69a39bbf"
     },
     {
       "level": "warning",
@@ -1460,6 +1790,12 @@
       "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 16 in tournament e616c13df642931b.",
       "record_id": "4a3ac8fac18d7b52"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament e7b622cf225c3cf2.",
+      "record_id": "f5594257fba803d5"
     },
     {
       "level": "warning",
@@ -1686,6 +2022,12 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 4 in tournament f6a1ed47389c1a7d.",
+      "record_id": "f4e71a73757c680d"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament f85a919fbc8c1ef8.",
       "record_id": "c671768c7384c6d8"
     },
@@ -1790,6 +2132,48 @@
       "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 4 in tournament fdc9628caca327f2.",
       "record_id": "2ebf8b40f5dcf56a"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ffdfbc8e07eba653.",
+      "record_id": "b2d851eda5c3062d"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ffdfbc8e07eba653.",
+      "record_id": "04c684c845243aca"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ffdfbc8e07eba653.",
+      "record_id": "991996bd23d69459"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ffdfbc8e07eba653.",
+      "record_id": "0a95575ab2e77159"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ffdfbc8e07eba653.",
+      "record_id": "358e8be897f1f7bd"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 1 in tournament ffdfbc8e07eba653.",
+      "record_id": "d4d7bb058c73b9bb"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 4 in tournament ffdfbc8e07eba653.",
+      "record_id": "205a19cf4a141ba7"
     }
   ]
 }

@@ -3,6 +3,7 @@ const ITEMS = [
   ["events", "Events & results"],
   ["players", "Players"],
   ["venues", "Stores & weekly finder"],
+  ["contribute", "Contribute results"],
 ];
 
 export function CommunityNav({ active, onNavigate }) {
@@ -13,6 +14,7 @@ export function CommunityNav({ active, onNavigate }) {
           key={id}
           type="button"
           className={active === id ? "is-active" : ""}
+          aria-current={active === id ? "page" : undefined}
           onClick={() => onNavigate(id)}
         >
           {label}

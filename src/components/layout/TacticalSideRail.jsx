@@ -16,7 +16,7 @@ const RAIL_GROUPS = [
   {
     label: "NETWORK",
     items: [
-      { view: "community", code: "NW", label: "Overview", match: ["community"] },
+      { view: "community", code: "NW", label: "Overview", match: ["community", "contribute"] },
       { view: "events", code: "EV", label: "Events", match: ["events", "eventDetail"] },
       { view: "players", code: "PL", label: "Players", match: ["players"] },
       { view: "venues", code: "VN", label: "Venues", match: ["venues"] },

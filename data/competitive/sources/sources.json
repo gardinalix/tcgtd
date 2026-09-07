@@ -45,6 +45,24 @@
     "status": "tracked"
   },
   {
+    "id": "source-community-stores",
+    "name": "Community stores",
+    "url": null,
+    "source_type": "organizer_submission",
+    "confidence": "community",
+    "adapter": "community-reviewed",
+    "status": "manual_review"
+  },
+  {
+    "id": "msa-public",
+    "name": "Mobile Suit Arena public index",
+    "url": "https://mobilesuitarena.com/",
+    "source_type": "digital_partial_index",
+    "confidence": "reported",
+    "adapter": "msa-public-home",
+    "status": "partial_public_index"
+  },
+  {
     "id": "gundeck-ai",
     "name": "GUNDECK.AI",
     "url": "https://gundeck.ai/",

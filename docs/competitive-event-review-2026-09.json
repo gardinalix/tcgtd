@@ -1,0 +1,2589 @@
+{
+  "observedAt": "2026-09-07T17:14:02.764Z",
+  "description": "Multiple first-place records within one indexed event. Review source/event grouping before making corrections.",
+  "eventCount": 83,
+  "events": [
+    {
+      "eventId": "79d47d2ba3c2f811",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-24",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "4cb9c2a5114126a7",
+          "playerName": "Kafeore5011",
+          "archetype": "Providence",
+          "deckId": "5e995deb5dc151a4"
+        },
+        {
+          "resultId": "5604735a1938aec7",
+          "playerName": "Retrox17",
+          "archetype": "Unicorn Banshee Norn",
+          "deckId": "ef8cc26eb549271d"
+        },
+        {
+          "resultId": "085a8c8ccdc8f8c3",
+          "playerName": "ricco_kurniawan",
+          "archetype": "Barbatos Rush",
+          "deckId": "47c1ca839f43ec22"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "3b181ea6efa33e2e",
+      "eventName": "Shop Championship",
+      "date": "2026-05-23",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "90ce37690e389424",
+          "playerName": "FsIjJ1loZz33938",
+          "archetype": "The-O Blockers",
+          "deckId": "423099e7dec55b31"
+        },
+        {
+          "resultId": "07f772d37cc34779",
+          "playerName": "Kokojoni",
+          "archetype": "GW Wing Zero",
+          "deckId": "6f5d1f6941ac3b26"
+        },
+        {
+          "resultId": "916298f1f2609f4a",
+          "playerName": "MS88836048",
+          "archetype": "Providence",
+          "deckId": "b7eb5b5e54d4a24d"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "e7b622cf225c3cf2",
+      "eventName": "Store Championship",
+      "date": "2026-05-21",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "c3658a6ff2dcb11f",
+          "playerName": "NiyA_GCG",
+          "archetype": "Zeon Aggro",
+          "deckId": "6ea000eb2144a0f4"
+        },
+        {
+          "resultId": "f5594257fba803d5",
+          "playerName": "ban43143",
+          "archetype": "Barbatos Rush",
+          "deckId": "dfb2ded425dcdf47"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "5b42511d07e2bfd4",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-17",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "143cce9ee2434bcd",
+          "playerName": "AJI72359244",
+          "archetype": "Destiny Blockers",
+          "deckId": "b64adfefa7a5cc41"
+        },
+        {
+          "resultId": "3e1da2193dc57b0d",
+          "playerName": "travis_DB",
+          "archetype": "GW Wing Zero",
+          "deckId": "257636fbe9a7bdf9"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "33a627d5eae17139",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-14",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "adbf53c95723f027",
+          "playerName": "kaitoPTCG",
+          "archetype": "Justice Blockers",
+          "deckId": "c060be6c1c583f59"
+        },
+        {
+          "resultId": "313090bcccc49854",
+          "playerName": "ricco_kurniawan",
+          "archetype": "Freedom Blockers",
+          "deckId": "8409487268ad75f0"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "5e137700b1d751a1",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-10",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "15562102209e1985",
+          "playerName": "Fate_ws",
+          "archetype": "Zeong Rush",
+          "deckId": "6721b0f146bfbc59"
+        },
+        {
+          "resultId": "4ef51b9db56ed088",
+          "playerName": "fuca_iri",
+          "archetype": "GW Wing Zero",
+          "deckId": "f763a57ab690831a"
+        },
+        {
+          "resultId": "e633fa65fa080eba",
+          "playerName": "msk_games",
+          "archetype": "Justice Blockers",
+          "deckId": "2017d1bef76d2cbd"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "c2f11e9e43668789",
+      "eventName": "Store Championship",
+      "date": "2026-05-10",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "7b02928a3801a051",
+          "playerName": "1in_r",
+          "archetype": "League Militaire Ping",
+          "deckId": "2fe6b0afb43358ca"
+        },
+        {
+          "resultId": "fcc470c84c7ac133",
+          "playerName": "birasaan",
+          "archetype": "Neo Zeong",
+          "deckId": "e07491b17335beeb"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "292df6ce0e1e6e4f",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-09",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "8d0ababe11d01bc9",
+          "playerName": "BabaYaga",
+          "archetype": "The-O Blockers",
+          "deckId": "9c177a41e6bdb69e"
+        },
+        {
+          "resultId": "4701fb3c0ca91e9a",
+          "playerName": "Pizzagram",
+          "archetype": "Barbatos Rush",
+          "deckId": "1dc52e6a8844b7f2"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "bd89dc7318ec2cd8",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-07",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "e3073675b4fda608",
+          "playerName": "Itsuki",
+          "archetype": "Zaft",
+          "deckId": "5933715557eae55f"
+        },
+        {
+          "resultId": "a1bed91678bd9e26",
+          "playerName": "JerBear_IRL",
+          "archetype": "Neo Zeong",
+          "deckId": "9d9b4206fb2d2c1e"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "82dc686fa326c2d5",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-06",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "8939f53ee714f714",
+          "playerName": "AndrewM",
+          "archetype": "GW Wing Zero",
+          "deckId": "138e2b0997c5103f"
+        },
+        {
+          "resultId": "aa7e777bf291c61a",
+          "playerName": "GCG_tombo",
+          "archetype": "Gquuuuuux",
+          "deckId": "81584cc3f239c355"
+        },
+        {
+          "resultId": "d30221a995e93e18",
+          "playerName": "InxHYGw3FJEob3F",
+          "archetype": "Zeong Rush",
+          "deckId": "014ec64d8323beac"
+        },
+        {
+          "resultId": "432d01625453d773",
+          "playerName": "agatsucoys",
+          "archetype": "Providence",
+          "deckId": "bc1265b4a4ef5ac1"
+        },
+        {
+          "resultId": "c7ce2d97ec193d4c",
+          "playerName": "mika_evolve",
+          "archetype": "Justice Blockers",
+          "deckId": "8a8dab9abfcf93ce"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "80d853787ff3150a",
+      "eventName": "Shop Battle",
+      "date": "2026-05-05",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "c31e8d9dbb05f991",
+          "playerName": "GCG_particle_R",
+          "archetype": "Justice Blockers",
+          "deckId": "3b2b588a7f3171f2"
+        },
+        {
+          "resultId": "53e70ac748c444d2",
+          "playerName": "shuyukokin14",
+          "archetype": "Justice Blockers",
+          "deckId": "bdbf6c331109253a"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "8e9a2d211c0d382f",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-05",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "fad2d00af7751ddf",
+          "playerName": "KobaPokemom",
+          "archetype": "Barbatos Rush",
+          "deckId": "d0d25581b42f78be"
+        },
+        {
+          "resultId": "59b8736dfc4fac16",
+          "playerName": "Matt",
+          "archetype": "Earth Federation Aggro",
+          "deckId": "fb38896296ae8336"
+        },
+        {
+          "resultId": "e14cd49768927e86",
+          "playerName": "sy596_02",
+          "archetype": "Unicorn Banshee Norn",
+          "deckId": "436b1535d34077aa"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "7e0a3c2f2c57623c",
+      "eventName": "Store Championship",
+      "date": "2026-05-04",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "9c391ef7212970c7",
+          "playerName": "KLBeH_999",
+          "archetype": "Barbatos Rush",
+          "deckId": "9145545065ec46a1"
+        },
+        {
+          "resultId": "ae6425f2f89bf64d",
+          "playerName": "Rich",
+          "archetype": "Barbatos Rush",
+          "deckId": "77a19d3411d4cf4a"
+        },
+        {
+          "resultId": "297fab5ce10183c5",
+          "playerName": "ulzax",
+          "archetype": "Justice Blockers",
+          "deckId": "a7f15e682ee51263"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "b04f4141a0a802b6",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-04",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "ca6b7e172b7fa3a7",
+          "playerName": "Bookoff_yagiTCG",
+          "archetype": "Neo Zeong",
+          "deckId": "29521f924940ffe4"
+        },
+        {
+          "resultId": "492d40d761854300",
+          "playerName": "So_ichi2000",
+          "archetype": "Barbatos Rush",
+          "deckId": "e56ff7646e1db350"
+        },
+        {
+          "resultId": "dc766bebe947a0bb",
+          "playerName": "sefi",
+          "archetype": "League Militaire (Neo Zeong)",
+          "deckId": "c2eeba1aac35a8b8"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "a6e6c11d6312c0aa",
+      "eventName": "Store Championships",
+      "date": "2026-05-03",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "3db2c297a7715466",
+          "playerName": "Sarx91",
+          "archetype": "Barbatos Rush",
+          "deckId": "32ac0f38f3a45f83"
+        },
+        {
+          "resultId": "24af3692a8d89bba",
+          "playerName": "mozart4302",
+          "archetype": "Destiny Blockers",
+          "deckId": "f6955f49507cc37c"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "ffdfbc8e07eba653",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-03",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "ecd3dc3d89e8da12",
+          "playerName": "Aurrox",
+          "archetype": "Barbatos Rush",
+          "deckId": "298192376b7fc4c5"
+        },
+        {
+          "resultId": "b2d851eda5c3062d",
+          "playerName": "Christopher Nichols",
+          "archetype": "Unicorn Gundam (Academy)",
+          "deckId": "4e5cc2437e0e8da2"
+        },
+        {
+          "resultId": "04c684c845243aca",
+          "playerName": "ZEIKIN_GCG",
+          "archetype": "GW Wing Zero",
+          "deckId": "6d3b2cea3f318bd0"
+        },
+        {
+          "resultId": "991996bd23d69459",
+          "playerName": "cuts_ssb",
+          "archetype": "Barbatos Rush",
+          "deckId": "dec7b9e4e56847af"
+        },
+        {
+          "resultId": "0a95575ab2e77159",
+          "playerName": "ivris_191",
+          "archetype": "Unicorn Banshee Norn",
+          "deckId": "b49ca7c0fc1c0a8f"
+        },
+        {
+          "resultId": "358e8be897f1f7bd",
+          "playerName": "note462041",
+          "archetype": "Justice Blockers",
+          "deckId": "4922833ac707e679"
+        },
+        {
+          "resultId": "d4d7bb058c73b9bb",
+          "playerName": "rody_soul",
+          "archetype": "Unicorn Banshee Norn",
+          "deckId": "0d057f272734b226"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "ae9c0c0b3eee5ee6",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-02",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "4a64614bbae7136c",
+          "playerName": "BTT",
+          "archetype": "Destiny Blockers",
+          "deckId": "699ac165741a1517"
+        },
+        {
+          "resultId": "c158cb1cf6c0d6e9",
+          "playerName": "Handstand",
+          "archetype": "Zeong Rush",
+          "deckId": "19a4b5d5064c6c2f"
+        },
+        {
+          "resultId": "72dc4c8a6f4f16fd",
+          "playerName": "Hinata Hirune",
+          "archetype": "Lupus Control",
+          "deckId": "34642d9a63847bd1"
+        },
+        {
+          "resultId": "8564f2e7e8e40a7f",
+          "playerName": "dragon_g_core",
+          "archetype": "Barbatos Rush",
+          "deckId": "33653f73c57bc751"
+        },
+        {
+          "resultId": "5a4c50824df91b82",
+          "playerName": "ichi2299",
+          "archetype": "Justice Blockers",
+          "deckId": "b5698d1be6c93909"
+        },
+        {
+          "resultId": "cae783ade01d4529",
+          "playerName": "kokojonitv",
+          "archetype": "GW Wing Zero",
+          "deckId": "d21002b56790063c"
+        },
+        {
+          "resultId": "0e16ba98d5bcf4dc",
+          "playerName": "seipla_gcg",
+          "archetype": "League Militaire (Banshee Norn)",
+          "deckId": "9e40171e629f7e4a"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "cec5a1f88d35f309",
+      "eventName": "Store Championships",
+      "date": "2026-05-02",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "2fbb3c5e825efc3b",
+          "playerName": "Gez",
+          "archetype": "GW Wing Zero",
+          "deckId": "bedb3e94c82c457c"
+        },
+        {
+          "resultId": "7a176d0f2e5e2625",
+          "playerName": "Mitch",
+          "archetype": "Zeong Rush",
+          "deckId": "4b9fa8b43e1720d7"
+        },
+        {
+          "resultId": "faa0086f69a39bbf",
+          "playerName": "promproxy",
+          "archetype": "Zeong Rush",
+          "deckId": "06783d9e9742a4f5"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "7ee1f6e92446b6af",
+      "eventName": "Newtype Challenge",
+      "date": "2026-05-01",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "0f319cf638fed733",
+          "playerName": "Dave",
+          "archetype": "Barbatos Rush",
+          "deckId": "a47f5da56d56a026"
+        },
+        {
+          "resultId": "3db3918fde5d2973",
+          "playerName": "note462041",
+          "archetype": "Justice Blockers",
+          "deckId": "9f121b2cc2deadcc"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "0233eea3d7cfa50d",
+      "eventName": "Shop Battle",
+      "date": "2026-04-30",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "bb591d45103b9e06",
+          "playerName": "Teosoonteck",
+          "archetype": "Earth Federation Aggro",
+          "deckId": "2ae3a3d1a4a9ada9"
+        },
+        {
+          "resultId": "c47651f3601159c1",
+          "playerName": "pipipigcg",
+          "archetype": "League Militaire (Neo Zeong)",
+          "deckId": "f11c796fcd7d2e64"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "8b6eea35e9be20fa",
+      "eventName": "Store Championships",
+      "date": "2026-04-30",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "5ddf0fa9ae9d4ff9",
+          "playerName": "cardboxtsu",
+          "archetype": "Barbatos Rush",
+          "deckId": "73aa816146a696fa"
+        },
+        {
+          "resultId": "220c9d187a21c27b",
+          "playerName": "mikan_box_games",
+          "archetype": "Earth Federation Aggro",
+          "deckId": "338c3a63486c90a0"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "47a6f1bb779c082a",
+      "eventName": "Shop Battle",
+      "date": "2026-04-29",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "cac63fcde22d3ff6",
+          "playerName": "Bird_sec_SOL",
+          "archetype": "Destiny Blockers",
+          "deckId": "61592c962095e34c"
+        },
+        {
+          "resultId": "055d953e53cae971",
+          "playerName": "Zero_one8323",
+          "archetype": "Destiny Blockers",
+          "deckId": "611935ebeca4150b"
+        },
+        {
+          "resultId": "6bceb4a6e718df50",
+          "playerName": "pipipigcg",
+          "archetype": "League Militaire (Neo Zeong)",
+          "deckId": "0d4dc3d11021568b"
+        },
+        {
+          "resultId": "0338742b11676ddf",
+          "playerName": "satotsu0620",
+          "archetype": "GW Wing Zero",
+          "deckId": "0b02474286be40cc"
+        },
+        {
+          "resultId": "463d2794ec1be33d",
+          "playerName": "shadoba_master",
+          "archetype": "The-O Blockers",
+          "deckId": "a199369928fc98bb"
+        },
+        {
+          "resultId": "cdebe771d0a88791",
+          "playerName": "shuyukokin14",
+          "archetype": "CB Kyrios",
+          "deckId": "86e1c27603d90bb7"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "85dc4168d8840217",
+      "eventName": "Shop Battle",
+      "date": "2026-04-28",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "298cf72ac0629724",
+          "playerName": "Jake_TSD",
+          "archetype": "GW Wing Zero",
+          "deckId": "45e1728c680c5ea4"
+        },
+        {
+          "resultId": "f8b4f0982dace30b",
+          "playerName": "lawrencelam_369",
+          "archetype": "Neo Zeong",
+          "deckId": "ffaca1f94be900c4"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "8fee678fe046ac37",
+      "eventName": "Shop Battle",
+      "date": "2026-04-26",
+      "sourceUrl": "https://egmanevents.com/gd04-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "15fb03241a698ba5",
+          "playerName": "GCG_patema",
+          "archetype": "Neo Zeong",
+          "deckId": "35723eb12f3dbade"
+        },
+        {
+          "resultId": "3631f8042821e2bd",
+          "playerName": "ichi2299",
+          "archetype": "League Militaire (Banshee Norn)",
+          "deckId": "ae5d45f21e44481b"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "e3245561b30ca96a",
+      "eventName": "Store Preliminaries",
+      "date": "2026-04-16",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "cb9ae4bb0cbb00cd",
+          "playerName": "Chun9632548",
+          "archetype": "Lupus Control",
+          "deckId": "c8c28de3adaf44cd"
+        },
+        {
+          "resultId": "323a3b74ac8518a2",
+          "playerName": "pozcket__rua",
+          "archetype": "Zeon Aggro",
+          "deckId": "66699a241875ca86"
+        },
+        {
+          "resultId": "a06fa2f6dc89582c",
+          "playerName": "shuyukokin14",
+          "archetype": "Unicorn Blockers",
+          "deckId": "35424f23b1ac8064"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "9d4ac1830c33180f",
+      "eventName": "Newtype Challenge",
+      "date": "2026-04-11",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "63319aa87d6dbb93",
+          "playerName": "Red",
+          "archetype": "The-O Blockers",
+          "deckId": "8aee89ca922a2df6"
+        },
+        {
+          "resultId": "bcd14eaecbee4535",
+          "playerName": "zeo_040708",
+          "archetype": "Impulse",
+          "deckId": "193dfb2f35c33b06"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "63c1d82b677a5ae5",
+      "eventName": "Store Preliminaries",
+      "date": "2026-04-07",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "919b267db67fc70b",
+          "playerName": "ochi_gcg",
+          "archetype": "Impulse Blockers",
+          "deckId": "a6736de562a6fea1"
+        },
+        {
+          "resultId": "a0240f7b554f2402",
+          "playerName": "tyasoba_",
+          "archetype": "Unicorn Blockers",
+          "deckId": "ab3c145582c702d1"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "f24fd5b3c84b9cf8",
+      "eventName": "Store Preliminaries",
+      "date": "2026-04-05",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "6c4891b3309d5839",
+          "playerName": "YANADA193",
+          "archetype": "Providence",
+          "deckId": "dab4092ef8e3e299"
+        },
+        {
+          "resultId": "0c6e3cde481f8c18",
+          "playerName": "sho_hata3113",
+          "archetype": "Justice Blockers",
+          "deckId": "ebb7f9907d9bf20b"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "dbf69710c004768e",
+      "eventName": "Store Preliminaries",
+      "date": "2026-04-04",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "3f2e664a834442b0",
+          "playerName": "anton__1113",
+          "archetype": "Barbatos Rush",
+          "deckId": "7c9c905d0e75e863"
+        },
+        {
+          "resultId": "b811946d6e1a0702",
+          "playerName": "ike_coj",
+          "archetype": "Barbatos Rush",
+          "deckId": "d4d223e376f70216"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "fdc9628caca327f2",
+      "eventName": "Newtype Challenge",
+      "date": "2026-04-04",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "37ebe42a582e1050",
+          "playerName": "W.D.E.H.R.L.N.T.M.U.T.R.P.C.W.P.S.T.S",
+          "archetype": "Banshee Control",
+          "deckId": "1961e822815f8ac0"
+        },
+        {
+          "resultId": "b182fc957b7b2bc4",
+          "playerName": "ilNipotastro",
+          "archetype": "The-O Blockers",
+          "deckId": "8e704488727e9bd7"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "96798a3dd8fb3b97",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-31",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "7cf88184db09c656",
+          "playerName": "4cost5000",
+          "archetype": "Barbatos Rush",
+          "deckId": "3a73b9153a075d98"
+        },
+        {
+          "resultId": "7327020b932592d5",
+          "playerName": "Kokojoni",
+          "archetype": "GW Wing Zero",
+          "deckId": "a166a8572eb4d12d"
+        },
+        {
+          "resultId": "8dbfbe29dc9a3172",
+          "playerName": "kikuchi_GCG114",
+          "archetype": "GW Wing Zero",
+          "deckId": "3a385be4a646a58e"
+        },
+        {
+          "resultId": "b20dfcb86f05e1e2",
+          "playerName": "sTokkim",
+          "archetype": "GW Wing Zero",
+          "deckId": "f2c66b7d935d0a77"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "509a6b76acdd3189",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-29",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "88121ac14cd74831",
+          "playerName": "Jacob",
+          "archetype": "GW Wing Zero",
+          "deckId": "1dee42a4de1593ba"
+        },
+        {
+          "resultId": "1d17985cb42bb6b8",
+          "playerName": "Paul S",
+          "archetype": "Banshee Control",
+          "deckId": "b2cb59b9ca29d7cf"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "a88aa0cb26837fdd",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-26",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "8ad27180f796f1fb",
+          "playerName": "Zerohamster",
+          "archetype": "Banshee Control",
+          "deckId": "92c5467c9cd4e194"
+        },
+        {
+          "resultId": "2e9d3037fee32b1d",
+          "playerName": "botyatyakokura",
+          "archetype": "Barbatos Ping",
+          "deckId": "1e4f20d696e382fb"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "3877671e85798d5a",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-25",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "82f8fd98b436309e",
+          "playerName": "NiyA_GCG",
+          "archetype": "Barbatos Rush",
+          "deckId": "c355566826dd3762"
+        },
+        {
+          "resultId": "435c01047186031d",
+          "playerName": "QuzyYx1yfA24497",
+          "archetype": "Providence",
+          "deckId": "02e1af6adf665cba"
+        },
+        {
+          "resultId": "a52eb795c80149b4",
+          "playerName": "Tengu413",
+          "archetype": "The-O Blockers",
+          "deckId": "6da5301939c5d94a"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "bcc0f370920195b8",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-22",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "c0edeeeb15c3442e",
+          "playerName": "AdShan97",
+          "archetype": "The-O Blockers",
+          "deckId": "71d0370e04bb5f2c"
+        },
+        {
+          "resultId": "fa62d5511489ceec",
+          "playerName": "Bainfire",
+          "archetype": "The-O Blockers",
+          "deckId": "a2bbdd5c5242fd31"
+        },
+        {
+          "resultId": "b4de91ed89d98d25",
+          "playerName": "Tim",
+          "archetype": "Banshee Control",
+          "deckId": "1d597c1dfd78e9e4"
+        },
+        {
+          "resultId": "245e302b8cbd8827",
+          "playerName": "Tim",
+          "archetype": "Banshee Control",
+          "deckId": "bb6920255bfddfe3"
+        },
+        {
+          "resultId": "f90da5e395c810e2",
+          "playerName": "kumazeno",
+          "archetype": "Barbatos Rush",
+          "deckId": "1df87505668915c0"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "f9daf12b0ce0a9a0",
+      "eventName": "Shop Battle",
+      "date": "2026-03-22",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "834b71671cc921d2",
+          "playerName": "AdShan97",
+          "archetype": "The-O Blockers",
+          "deckId": "78ff852c178d66b2"
+        },
+        {
+          "resultId": "248c74fc4003bf22",
+          "playerName": "Bainfire",
+          "archetype": "The-O Blockers",
+          "deckId": "b74f192514109a1e"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "a1584cd9934cb712",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-21",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "e7a25c3b2dcc703b",
+          "playerName": "Jeremy",
+          "archetype": "Jupitris",
+          "deckId": "5301489557475ad1"
+        },
+        {
+          "resultId": "c4321ca47014c9e9",
+          "playerName": "Pizzagram",
+          "archetype": "Zeon Aggro",
+          "deckId": "d2bd867b8a571754"
+        },
+        {
+          "resultId": "100fff73e3713501",
+          "playerName": "Pizzagram",
+          "archetype": "Zeon Aggro",
+          "deckId": "2b83876d47f74fb1"
+        },
+        {
+          "resultId": "3fbade0ea4f770d5",
+          "playerName": "Pleebs",
+          "archetype": "Providence Blockers",
+          "deckId": "8453900fd9e4d6e5"
+        },
+        {
+          "resultId": "39027d1ffcc6a366",
+          "playerName": "Pleebs",
+          "archetype": "Providence Blockers",
+          "deckId": "1e5ab6ec3ae2bc0d"
+        },
+        {
+          "resultId": "62d2f904b1bff8a7",
+          "playerName": "Pleebs",
+          "archetype": "Justice Blockers (Providence)",
+          "deckId": "fba35afa309628dd"
+        },
+        {
+          "resultId": "fe9af07792e47fc3",
+          "playerName": "Pleebs",
+          "archetype": "Justice Blockers (Providence)",
+          "deckId": "5f9b7fdae31b8c13"
+        },
+        {
+          "resultId": "afd1d763d2947fae",
+          "playerName": "Runsyn",
+          "archetype": "Banshee Control",
+          "deckId": "b602b365188be073"
+        },
+        {
+          "resultId": "acb29fa38376e2f6",
+          "playerName": "Runsyn",
+          "archetype": "Banshee Control",
+          "deckId": "9fcaa2acc78cbf41"
+        },
+        {
+          "resultId": "54ac0529ba8963e6",
+          "playerName": "Tyler Whitley",
+          "archetype": "Providence Blockers",
+          "deckId": "f7b6c9d3d3830a99"
+        },
+        {
+          "resultId": "67b7fdeecf16609c",
+          "playerName": "Tyler Whitley",
+          "archetype": "Justice Blockers (Providence)",
+          "deckId": "3fe24c8bdd35b193"
+        },
+        {
+          "resultId": "4f155a10c08ac685",
+          "playerName": "akiba_193TCG",
+          "archetype": "GW Wing Zero",
+          "deckId": "c1bdcc45c8b176bc"
+        },
+        {
+          "resultId": "5dabefcab7382865",
+          "playerName": "hiroaki32456",
+          "archetype": "Barbatos Rush",
+          "deckId": "a1e1374540fdc304"
+        },
+        {
+          "resultId": "b4e1b9783d63803d",
+          "playerName": "opocg555",
+          "archetype": "Justice Blockers",
+          "deckId": "a95e9ed680a7c865"
+        },
+        {
+          "resultId": "34ea5bd5e0fa3401",
+          "playerName": "touchxxKDT",
+          "archetype": "Justice Blockers",
+          "deckId": "511cc000a940cc8b"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "70ef91c56a411277",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-20",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "9c66025255719446",
+          "playerName": "Vesio89",
+          "archetype": "Justice Blockers",
+          "deckId": "e32b5044d20aedd9"
+        },
+        {
+          "resultId": "07b9b40a1ef99d83",
+          "playerName": "cardboxtsu",
+          "archetype": "Barbatos Rush",
+          "deckId": "c9319357b6ca7b1e"
+        },
+        {
+          "resultId": "71de2804d8a025b8",
+          "playerName": "glacier0724",
+          "archetype": "Barbatos Rush",
+          "deckId": "9dd294fbaefee6d3"
+        },
+        {
+          "resultId": "0cda99fa63d3cade",
+          "playerName": "sha_gcg",
+          "archetype": "Barbatos Rush",
+          "deckId": "ce2f7dbc0a65da1e"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "538a3045801a782d",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-19",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "43bf8a6e8593b780",
+          "playerName": "hotaruocg",
+          "archetype": "Justice Blockers",
+          "deckId": "849dd643ad55b066"
+        },
+        {
+          "resultId": "30b59b253a8788ab",
+          "playerName": "yot1192",
+          "archetype": "Barbatos Breach",
+          "deckId": "98a64a7f61408b0e"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "56b6e641c96b6cc9",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-08",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "d1c68ea36cb671c4",
+          "playerName": "cheekama19",
+          "archetype": "Justice Blockers",
+          "deckId": "e68598171a6c7ec5"
+        },
+        {
+          "resultId": "105dceeea81b1036",
+          "playerName": "seagull_sendai",
+          "archetype": "Barbatos Rush",
+          "deckId": "478ce4117ad4c42a"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "25d100ffcbafd9f6",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-07",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "89aabb6ad1e752cd",
+          "playerName": "akiba_193TCG",
+          "archetype": "The-O Blockers",
+          "deckId": "01030abb7a808a89"
+        },
+        {
+          "resultId": "8dc1c00c73344383",
+          "playerName": "vortex_tcg",
+          "archetype": "Barbatos Blockers",
+          "deckId": "d17187faaf30f747"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "b8e25d2401357e8a",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-05",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "c8ff28fad9b0ff6d",
+          "playerName": "ZEIKIN_GCG",
+          "archetype": "Barbatos Ping",
+          "deckId": "08fa1ff1e721c59e"
+        },
+        {
+          "resultId": "c7ff72f2901262d2",
+          "playerName": "kagamigaharaVAC",
+          "archetype": "Earth Federation Aggro",
+          "deckId": "71cb3480db3ff481"
+        },
+        {
+          "resultId": "27eacdf1a0b63d03",
+          "playerName": "shuyukokin14",
+          "archetype": "Freedom Blockers",
+          "deckId": "d1801b78b7cad01e"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "1c3c2077096d6278",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-03",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "704f7a91ad56f123",
+          "playerName": "TEO_TTV_",
+          "archetype": "Barbatos Ping",
+          "deckId": "4e14e6e1859bf17d"
+        },
+        {
+          "resultId": "a1d2361f1b5261a0",
+          "playerName": "osyo9poke",
+          "archetype": "Providence",
+          "deckId": "3d916e4f7a04fa16"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "81bc7100a574b168",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-02",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "bf19e48fcd132436",
+          "playerName": "Eriq Hopkins",
+          "archetype": "Barbatos Rush",
+          "deckId": "1670c48f5eede162"
+        },
+        {
+          "resultId": "3556e1ba709aa4de",
+          "playerName": "Kugel",
+          "archetype": "Unicorn Blockers",
+          "deckId": "06c1da3118968da7"
+        },
+        {
+          "resultId": "ab5b8da90b29fe0a",
+          "playerName": "Randy Ritchie",
+          "archetype": "Unicorn Blockers",
+          "deckId": "63e2373c174215a0"
+        },
+        {
+          "resultId": "97696affdafb60c5",
+          "playerName": "Randy Ritchie",
+          "archetype": "Unicorn Blockers",
+          "deckId": "23efe647b4d6944e"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "8c945770bd1a17b5",
+      "eventName": "Newtype Challenge",
+      "date": "2026-03-01",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "99c640100e97f929",
+          "playerName": "Jiyuu",
+          "archetype": "Justice Blockers (Providence)",
+          "deckId": "1596bf5df6460748"
+        },
+        {
+          "resultId": "8d24c3ee37b47cce",
+          "playerName": "Matthew",
+          "archetype": "Barbatos Rush",
+          "deckId": "2fc44a0fd4d779a4"
+        },
+        {
+          "resultId": "908928db95742bdd",
+          "playerName": "brandywooo",
+          "archetype": "Banshee Control",
+          "deckId": "766655dab9bcc5c9"
+        },
+        {
+          "resultId": "b4054e88188f9ae3",
+          "playerName": "kumazeno",
+          "archetype": "Barbatos Rush",
+          "deckId": "596848e01e37f6bb"
+        },
+        {
+          "resultId": "f80208c4ad34db92",
+          "playerName": "sAtEnSn",
+          "archetype": "Barbatos Ping",
+          "deckId": "01513c0e97b2a049"
+        },
+        {
+          "resultId": "434b0a51f7639389",
+          "playerName": "sPOF8h7eww4G0Uc",
+          "archetype": "The-O Blockers",
+          "deckId": "136e869ae0bb2f91"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "1bd1878445db4b73",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-28",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "b3d0ab50638920d3",
+          "playerName": "Amato_Ggun",
+          "archetype": "Barbatos Ping",
+          "deckId": "4d9d3244f76cadc1"
+        },
+        {
+          "resultId": "2a7c040381fee24e",
+          "playerName": "Kalani",
+          "archetype": "Earth Federation Aggro",
+          "deckId": "6ad6bbaf91fffa3f"
+        },
+        {
+          "resultId": "f02665a6e38d0b6e",
+          "playerName": "Klac",
+          "archetype": "The-O Blockers",
+          "deckId": "03167cc17d4d1594"
+        },
+        {
+          "resultId": "50d2ce308383fc1c",
+          "playerName": "Sam Chek",
+          "archetype": "Banshee Control",
+          "deckId": "1a0a8cef7e03d7fa"
+        },
+        {
+          "resultId": "f36fc6b5d9342243",
+          "playerName": "ketyorina123",
+          "archetype": "Barbatos Rush",
+          "deckId": "fc38807d3aa4c70a"
+        },
+        {
+          "resultId": "f1322217e958b24c",
+          "playerName": "masoukisin_2",
+          "archetype": "Barbatos Rush",
+          "deckId": "89e45366262c0947"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "85ffc7d8946cfe46",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-25",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "d2e6e6e6d6f89fb5",
+          "playerName": "Kokojoni",
+          "archetype": "GW Wing Zero",
+          "deckId": "9938be6553e1c4c0"
+        },
+        {
+          "resultId": "c97e2344e2166d81",
+          "playerName": "Rizona_ituki",
+          "archetype": "Zeon Aggro",
+          "deckId": "2ebfad6300de7182"
+        },
+        {
+          "resultId": "b46570bce1aa2571",
+          "playerName": "raaa_1538",
+          "archetype": "Barbatos Ping",
+          "deckId": "5921377a7f5740b3"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "15c929470ee01824",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-23",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "68b17526d649c4bd",
+          "playerName": "ChaosSusan",
+          "archetype": "Dynames Rush",
+          "deckId": "c9f2a9431ad6f53e"
+        },
+        {
+          "resultId": "dbd3e89ddf7dd460",
+          "playerName": "NiyA_GCG",
+          "archetype": "GW Wing Zero",
+          "deckId": "8796224a56f8259a"
+        },
+        {
+          "resultId": "736af8fe6a80660e",
+          "playerName": "mika_evolve",
+          "archetype": "Barbatos Rush",
+          "deckId": "5a010ebb0406acbe"
+        },
+        {
+          "resultId": "fd80be38a0ab6b59",
+          "playerName": "zenjiro_otas",
+          "archetype": "The-O Blockers",
+          "deckId": "3ce76368ba5a1727"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "ebd8a5c645768a9f",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-22",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "050b52f22fc2446b",
+          "playerName": "Its_Rully",
+          "archetype": "GW Wing Zero",
+          "deckId": "24cfef75f889c04a"
+        },
+        {
+          "resultId": "6274c7831140a1c4",
+          "playerName": "RulieTV",
+          "archetype": "Zaft",
+          "deckId": "2dd3a4b62060bd7e"
+        },
+        {
+          "resultId": "9baaeb89aac292bf",
+          "playerName": "kouchi5656",
+          "archetype": "Barbatos Rush",
+          "deckId": "28c11d4994fdd16a"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "2efefe2051f8f3cc",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-21",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "7e4478c2a25fe72f",
+          "playerName": "Amato_Ggun",
+          "archetype": "Barbatos Ping",
+          "deckId": "d30f3a775de6c6cc"
+        },
+        {
+          "resultId": "47fc507eb2d2e19a",
+          "playerName": "Benny_Official",
+          "archetype": "Zeon Aggro",
+          "deckId": "c79b7e4aa3806943"
+        },
+        {
+          "resultId": "7b5bb7cf2e118783",
+          "playerName": "Jer",
+          "archetype": "GW Wing Zero",
+          "deckId": "0f92e94b297a257a"
+        },
+        {
+          "resultId": "b00f2b1cd83f01f1",
+          "playerName": "Vern",
+          "archetype": "Dynames Rush",
+          "deckId": "38889d1c99f5a010"
+        },
+        {
+          "resultId": "def070553cd1655f",
+          "playerName": "Vltem",
+          "archetype": "Banshee Control",
+          "deckId": "023d1424c647e5a5"
+        },
+        {
+          "resultId": "c9cf6f6f0289e685",
+          "playerName": "bribtype",
+          "archetype": "Providence",
+          "deckId": "bb76f772659ca154"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "aa027073d44c0764",
+      "eventName": "Shop Battle",
+      "date": "2026-02-21",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "db43d180fb5fcf23",
+          "playerName": "panya0121",
+          "archetype": "Dynames Rush",
+          "deckId": "0dd7a0146361c98c"
+        },
+        {
+          "resultId": "d8f9f540cc906801",
+          "playerName": "toritsuka_02",
+          "archetype": "GW Wing Zero",
+          "deckId": "bffd60ef10a25b3b"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "86d2eb1f7bc0a001",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-18",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "3e15b5fefe7c6c73",
+          "playerName": "Nyann",
+          "archetype": "Banshee Control",
+          "deckId": "3a18e8e32864842b"
+        },
+        {
+          "resultId": "5321d807459f9306",
+          "playerName": "reiasebe",
+          "archetype": "Banshee Control",
+          "deckId": "74967e2b424840a7"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "cf2cead68e0044e3",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-14",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "8089016a592663bd",
+          "playerName": "Atomsk",
+          "archetype": "Banshee Control",
+          "deckId": "ed526756c3f8cacb"
+        },
+        {
+          "resultId": "7db4d0775b375a03",
+          "playerName": "aron66666",
+          "archetype": "The-O Blockers",
+          "deckId": "6f69157dc8f75e66"
+        },
+        {
+          "resultId": "a2f706bae4257f41",
+          "playerName": "shaozui",
+          "archetype": "Barbatos Rush",
+          "deckId": "a8ead3af88b4fe00"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "1ffb33c6cac382fd",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-12",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "63955610afc21a45",
+          "playerName": "PotatoToastTCG",
+          "archetype": "Barbatos Rush",
+          "deckId": "9413a562a6f3fe0d"
+        },
+        {
+          "resultId": "bee03a6aab4db101",
+          "playerName": "gigant_555",
+          "archetype": "Justice Blockers",
+          "deckId": "2331e1248bdd8737"
+        },
+        {
+          "resultId": "59368366c8211cfe",
+          "playerName": "soukikettousya",
+          "archetype": "Zeon Aggro",
+          "deckId": "d722b266767c16cf"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "0e70e605ecb4371d",
+      "eventName": "Shop Battle",
+      "date": "2026-02-10",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "dda632093b607b2d",
+          "playerName": "onegi09",
+          "archetype": "Justice Blockers",
+          "deckId": "469b9a3b9a50f092"
+        },
+        {
+          "resultId": "80a1149d389d23c8",
+          "playerName": "shuyukokin14",
+          "archetype": "The-O Blockers",
+          "deckId": "79adacfa758e4f9f"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "a76bdf6ac72ae97a",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-08",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "460eb6f92ddc0f2c",
+          "playerName": "1021raiden96nek",
+          "archetype": "CB Aggro",
+          "deckId": "4fc822597ac6aa8b"
+        },
+        {
+          "resultId": "ce570802a5ffe9bf",
+          "playerName": "Ganryu_iwaki",
+          "archetype": "The-O Blockers",
+          "deckId": "d76eb1284ec8438b"
+        },
+        {
+          "resultId": "86eba60238b362a7",
+          "playerName": "ad_tcgotaku",
+          "archetype": "Justice Blockers",
+          "deckId": "b35a68561279ebb8"
+        },
+        {
+          "resultId": "9c27d2bce4f559bd",
+          "playerName": "desutoroi_ganta",
+          "archetype": "GW Wing Zero",
+          "deckId": "984a8ea9a23a63dc"
+        },
+        {
+          "resultId": "3fe67d419fc35710",
+          "playerName": "kirinn888",
+          "archetype": "Banshee Control",
+          "deckId": "8e7f797feadbbc29"
+        },
+        {
+          "resultId": "25c55d86d60f3313",
+          "playerName": "mint_nagoya",
+          "archetype": "Federation Tempo",
+          "deckId": "bead6543843d5900"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "fb28bcfdce6367fa",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-07",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "33b9e46c929ae9b5",
+          "playerName": "LuyTCG",
+          "archetype": "Providence Blockers",
+          "deckId": "1f49a7f4d8c1fe53"
+        },
+        {
+          "resultId": "cbf17141f1649aa0",
+          "playerName": "TSUTAYA_BP",
+          "archetype": "Barbatos Rush",
+          "deckId": "6f74d4a780c92cef"
+        },
+        {
+          "resultId": "27447ee4289bce54",
+          "playerName": "justfarewell_",
+          "archetype": "GW Wing Zero",
+          "deckId": "025a7e515e67acfe"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "91445a8b271060de",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-05",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "99afb4ece456aac4",
+          "playerName": "hdsWY0vR6l15le6",
+          "archetype": "Barbatos Blockers",
+          "deckId": "171a33c3056188fb"
+        },
+        {
+          "resultId": "ea2f250620fd93fc",
+          "playerName": "hekkusyun26",
+          "archetype": "Justice Blockers",
+          "deckId": "c0840503e22e0d3b"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "a53d090a8f8fc8a6",
+      "eventName": "Shop Battle",
+      "date": "2026-02-05",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "94c4678b29dc72e1",
+          "playerName": "ryosangata0225",
+          "archetype": "Zeon Aggro",
+          "deckId": "d548a25ab655aa17"
+        },
+        {
+          "resultId": "f4418f4839da6a02",
+          "playerName": "vortex_tcg",
+          "archetype": "Earth Federation AGE",
+          "deckId": "4766f8f479f79436"
+        },
+        {
+          "resultId": "7d811c0da2494a14",
+          "playerName": "vortex_tcg",
+          "archetype": "Barbatos Rush",
+          "deckId": "d5599f9b05a4e0d6"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "11b1ea74cc46012a",
+      "eventName": "Shop Battle",
+      "date": "2026-02-02",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "3319584395eee127",
+          "playerName": "Towa",
+          "archetype": "Jupitris Blockers",
+          "deckId": "e157bb37c293297b"
+        },
+        {
+          "resultId": "156c5a63b95deccd",
+          "playerName": "tsugarumaron",
+          "archetype": "Cyber-Newtype (Jupitris)",
+          "deckId": "1f6ba7a448638c8f"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "a3d901b9663812c8",
+      "eventName": "Shop Battle",
+      "date": "2026-02-01",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "083637e515f606ea",
+          "playerName": "VelvetQuince",
+          "archetype": "Unicorn Gundam (Cyber-Newtype)",
+          "deckId": "6da168ecd54b516b"
+        },
+        {
+          "resultId": "4474c6cab3b241fc",
+          "playerName": "rootsbrandcast1",
+          "archetype": "Earth Federation AGE",
+          "deckId": "3d98685f6de52766"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "b78c77a8148afb7d",
+      "eventName": "Newtype Challenge",
+      "date": "2026-02-01",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "61f68961a3d872be",
+          "playerName": "020405tt",
+          "archetype": "GW Wing Zero",
+          "deckId": "86d5ef15a7ffa066"
+        },
+        {
+          "resultId": "7896cb973a35be51",
+          "playerName": "cbenya0040",
+          "archetype": "Zeon Aggro",
+          "deckId": "f22f2b47c0e3466b"
+        },
+        {
+          "resultId": "df365715b387f747",
+          "playerName": "hasaharuru",
+          "archetype": "Zeon Aggro",
+          "deckId": "27cbdbfe55dd6a5e"
+        },
+        {
+          "resultId": "c27f4c98a71bf72c",
+          "playerName": "negiumaianan",
+          "archetype": "GW Wing Zero",
+          "deckId": "8f8d2ae4789b8d8d"
+        },
+        {
+          "resultId": "63621652b57d19b8",
+          "playerName": "ricco_kurniawan",
+          "archetype": "Freedom Blockers",
+          "deckId": "e848c9e96306ff0d"
+        },
+        {
+          "resultId": "462ee8e5a469316b",
+          "playerName": "sho_hata3113",
+          "archetype": "Qubeley Ping",
+          "deckId": "010778b5565e11f2"
+        },
+        {
+          "resultId": "9767b596623bf5fc",
+          "playerName": "ym0131pm",
+          "archetype": "Freedom Blockers",
+          "deckId": "fb0f70ea9a215377"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "60c32d8bde36b093",
+      "eventName": "Shop Battle",
+      "date": "2026-01-31",
+      "sourceUrl": "https://egmanevents.com/gd03-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "9297464f5333be6b",
+          "playerName": "GPROJECT_NAKATU",
+          "archetype": "Jupitris",
+          "deckId": "cfbbfc9ac2744971"
+        },
+        {
+          "resultId": "b9fa52ff82c7e736",
+          "playerName": "ds_ikebukur0",
+          "archetype": "Cyber-Newtype",
+          "deckId": "7c116c05f4edf05c"
+        },
+        {
+          "resultId": "44e87f5d1924c812",
+          "playerName": "marvelous0304",
+          "archetype": "GW Wing Zero",
+          "deckId": "cb6b3f6b51e06cb6"
+        },
+        {
+          "resultId": "5a39a501904466f3",
+          "playerName": "osaka_193TCG",
+          "archetype": "GW Wing Zero",
+          "deckId": "1530ab4bda1e02c8"
+        },
+        {
+          "resultId": "f9d5c63791eb3267",
+          "playerName": "tanaTsinn",
+          "archetype": "Gquuuuuux",
+          "deckId": "1080852e90c97fec"
+        },
+        {
+          "resultId": "2fdbe10c03d909e0",
+          "playerName": "touchxxKDT",
+          "archetype": "Barbatos Rush",
+          "deckId": "5b4854ca6fe22b0a"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "b8025463f348a665",
+      "eventName": "Newtype Challenge",
+      "date": "2025-12-16",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "9853f78e9ebe961f",
+          "playerName": "E16398662",
+          "archetype": "GW Wing Zero",
+          "deckId": "5c25e369a8d27920"
+        },
+        {
+          "resultId": "30fa850930eb522a",
+          "playerName": "tommy_wave",
+          "archetype": "Unicorn Gundam (Cyber-Newtype)",
+          "deckId": "90c975b71da3e585"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "cd4561ce2fbde76a",
+      "eventName": "Newtype Challenge",
+      "date": "2025-12-07",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "8030150e012db774",
+          "playerName": "Leon",
+          "archetype": "Barbatos Rush",
+          "deckId": "f4292959ecd68cdb"
+        },
+        {
+          "resultId": "fdce6dc25936d5fa",
+          "playerName": "Toot",
+          "archetype": "GW Wing Zero",
+          "deckId": "0db3483c6dacb40a"
+        },
+        {
+          "resultId": "a48d049dfbf484ac",
+          "playerName": "pd6KCP88jZQtyfs",
+          "archetype": "Qubeley Ping",
+          "deckId": "078faf9deb4a1bd6"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "6d4f67080588ceb8",
+      "eventName": "Newtype Challenge",
+      "date": "2025-12-06",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "1894ee9e5df0394d",
+          "playerName": "Nameaki Taiko",
+          "archetype": "GW Wing Zero",
+          "deckId": "80c2e1eececfe2a0"
+        },
+        {
+          "resultId": "5edcaa64d673a3d7",
+          "playerName": "hoshizorajam",
+          "archetype": "Neo Zeon (Wing)",
+          "deckId": "7d02fdea9d5dd593"
+        },
+        {
+          "resultId": "4c85446bbc350791",
+          "playerName": "kou26304120",
+          "archetype": "Psycho Gundam",
+          "deckId": "22cf77235b3e503b"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "7f0ab62dff5bb54d",
+      "eventName": "Tokyo Qualifiers",
+      "date": "2025-11-30",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "09b3b175a1d8af60",
+          "playerName": "Anvil",
+          "archetype": "Barbatos Rush",
+          "deckId": "d617e30f95dd5f98"
+        },
+        {
+          "resultId": "8d9d7fa5fd3f6de5",
+          "playerName": "Chofu Kinako",
+          "archetype": "Barbatos Rush",
+          "deckId": "e75addb951583bba"
+        },
+        {
+          "resultId": "867f9e1b1aeb07f8",
+          "playerName": "Ed",
+          "archetype": "GW Wing Zero",
+          "deckId": "4a047cc3398f23d4"
+        },
+        {
+          "resultId": "2bf2f3922f95ae35",
+          "playerName": "Itau",
+          "archetype": "GW Wing Zero",
+          "deckId": "a41dae46da264970"
+        },
+        {
+          "resultId": "e92bb85ba8e2bc55",
+          "playerName": "Kecho",
+          "archetype": "Zeon Aggro",
+          "deckId": "40013a7a078104ca"
+        },
+        {
+          "resultId": "d7d86760513a3c49",
+          "playerName": "Kou",
+          "archetype": "GW Wing Zero",
+          "deckId": "3d0bdeaf4c989dbe"
+        },
+        {
+          "resultId": "9d118043050f6af4",
+          "playerName": "Maruko",
+          "archetype": "Zeon Aggro",
+          "deckId": "36ce770784819c0d"
+        },
+        {
+          "resultId": "45c4e7cd1b29529d",
+          "playerName": "Power Ninja",
+          "archetype": "GW Wing Zero",
+          "deckId": "00e48ae34e132342"
+        },
+        {
+          "resultId": "76180d0e21334686",
+          "playerName": "Saruru",
+          "archetype": "Neo Zeon (Wing)",
+          "deckId": "f8a9c3b30e9b5dac"
+        },
+        {
+          "resultId": "1c49e122183c479f",
+          "playerName": "Space Pirate",
+          "archetype": "GW Wing Zero",
+          "deckId": "99817e3e35029a7b"
+        },
+        {
+          "resultId": "97600450230090d1",
+          "playerName": "TIS",
+          "archetype": "GW Wing Zero",
+          "deckId": "15e4ecfab8f21855"
+        },
+        {
+          "resultId": "2c6346dce394985d",
+          "playerName": "Tatsuya",
+          "archetype": "GW Wing Zero",
+          "deckId": "8cd2e3dec69d3e64"
+        },
+        {
+          "resultId": "85e4dee29bf3c8e9",
+          "playerName": "Tk",
+          "archetype": "GW Wing Zero",
+          "deckId": "58ef71d0c7cf0407"
+        },
+        {
+          "resultId": "3d8e4625a7d35ba1",
+          "playerName": "Yassu",
+          "archetype": "Zeon Aggro",
+          "deckId": "54682fbffdad86ad"
+        },
+        {
+          "resultId": "027580c70df77064",
+          "playerName": "Yoshinaka",
+          "archetype": "GW Wing Zero",
+          "deckId": "1ed3c83b846c2cd7"
+        },
+        {
+          "resultId": "fb3e3c1ba093d1f5",
+          "playerName": "kaesaru",
+          "archetype": "Zeon Aggro",
+          "deckId": "4f194aeeb6dd3efc"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "4a4441cc2347c75a",
+      "eventName": "Newtype Challenge",
+      "date": "2025-11-24",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "cb592bb1971af6e2",
+          "playerName": "Veno_Mu3",
+          "archetype": "GW Wing Zero",
+          "deckId": "4d8ba78e340f88a5"
+        },
+        {
+          "resultId": "1cc8ff321f4367e3",
+          "playerName": "YS_NAGOYAGAME",
+          "archetype": "Epyon Blockers",
+          "deckId": "c35e2201f40e85d2"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "e1c473e0209aeb9c",
+      "eventName": "Newtype Challenge",
+      "date": "2025-11-23",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "0783dab11822d9c2",
+          "playerName": "Arise_asb",
+          "archetype": "GW Wing Zero",
+          "deckId": "7292a3a29f54f23e"
+        },
+        {
+          "resultId": "77fe0ed4121294d4",
+          "playerName": "Em Dash",
+          "archetype": "GW Wing Zero",
+          "deckId": "1995614bbb2bb20a"
+        },
+        {
+          "resultId": "ae196a5bacba4173",
+          "playerName": "TheOmnistar",
+          "archetype": "Qubeley Ping",
+          "deckId": "ff5b90a76bfbe13f"
+        },
+        {
+          "resultId": "53455a8dc4c6ae06",
+          "playerName": "soukikettousya",
+          "archetype": "Zeon Aggro",
+          "deckId": "677c23e9e7255542"
+        },
+        {
+          "resultId": "3e1aaf41834003ee",
+          "playerName": "yuyuyuVG",
+          "archetype": "Justice Blockers",
+          "deckId": "c8f4013fdeb54eee"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "a4bdce6190641f93",
+      "eventName": "Newtype Challenge",
+      "date": "2025-11-22",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "382c6deb002fc5b5",
+          "playerName": "carolineferino",
+          "archetype": "Qubeley Ping",
+          "deckId": "7dad084cf1aa997f"
+        },
+        {
+          "resultId": "449bbba22f7169e6",
+          "playerName": "geromeyromeb",
+          "archetype": "Psycho Gundam",
+          "deckId": "a1f3773389b77753"
+        },
+        {
+          "resultId": "e22753cf0cc03ccb",
+          "playerName": "hiroaki32456",
+          "archetype": "Barbatos Rush",
+          "deckId": "687dae476aed9339"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "30903eb4bfbebd03",
+      "eventName": "Shop Battle",
+      "date": "2025-11-20",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "88f170e9a358b322",
+          "playerName": "JPX1OA",
+          "archetype": "Unicorn Blockers",
+          "deckId": "e517ced0d0c74c3f"
+        },
+        {
+          "resultId": "6e1a853b1d81b516",
+          "playerName": "taketake2239",
+          "archetype": "Gquuuuuux",
+          "deckId": "e27c377dbc7acd4d"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "f85a919fbc8c1ef8",
+      "eventName": "World Champion 25-26 Japan Area Qualifiers Aichi Venue",
+      "date": "2025-11-09",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "9a5f05a093467113",
+          "playerName": "Akira",
+          "archetype": "Barbatos Rush",
+          "deckId": "ae584d7d3a9e263a"
+        },
+        {
+          "resultId": "c671768c7384c6d8",
+          "playerName": "Heishuu",
+          "archetype": "Barbatos Rush",
+          "deckId": "d811be9989601687"
+        },
+        {
+          "resultId": "0ce5f7176e8dfe96",
+          "playerName": "Kiara",
+          "archetype": "Zeon Aggro",
+          "deckId": "e0057003fdefc0ac"
+        },
+        {
+          "resultId": "729658cf88da9eaf",
+          "playerName": "Kurenomi",
+          "archetype": "Zeon Aggro",
+          "deckId": "6da9ca6a149d087d"
+        },
+        {
+          "resultId": "3985662ea6384a94",
+          "playerName": "Noshi Noshi",
+          "archetype": "Zeon Aggro",
+          "deckId": "5de034972dc1924b"
+        },
+        {
+          "resultId": "61869c1273474c13",
+          "playerName": "Nukesaku",
+          "archetype": "Freedom Blockers (Academy)",
+          "deckId": "a8f25f2a24d2f5e0"
+        },
+        {
+          "resultId": "19a16b8b1ed93a3a",
+          "playerName": "Shotie",
+          "archetype": "GW Wing Zero",
+          "deckId": "ece0ab682b348d16"
+        },
+        {
+          "resultId": "0fc0e864e4848242",
+          "playerName": "VRB",
+          "archetype": "Zeon Aggro",
+          "deckId": "63a58b6df89ceb6a"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "c9cb0e01934afa76",
+      "eventName": "Newtype Challenge",
+      "date": "2025-11-05",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "8ace74a53d079b19",
+          "playerName": "sho_hata3113",
+          "archetype": "Qubeley Ping",
+          "deckId": "553a1e2399008fef"
+        },
+        {
+          "resultId": "004f29c2b5df0ef0",
+          "playerName": "woods_3_",
+          "archetype": "Zeon Aggro",
+          "deckId": "df1bc8f1b5cb5eae"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "ade9638c38045226",
+      "eventName": "Newtype Challenge",
+      "date": "2025-11-04",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "9f923863b9e450cb",
+          "playerName": "cardshop2024",
+          "archetype": "Zeon Aggro",
+          "deckId": "9e1302d86ced0207"
+        },
+        {
+          "resultId": "00a4e5a7c7d6abe6",
+          "playerName": "nk0703kitasan",
+          "archetype": "Justice Blockers",
+          "deckId": "f315cc9bf6506f1f"
+        },
+        {
+          "resultId": "0d42be7dd857aa9a",
+          "playerName": "pakupaku_564",
+          "archetype": "GW Wing Zero",
+          "deckId": "ba14a9ff260058d5"
+        },
+        {
+          "resultId": "23523529c1545dd3",
+          "playerName": "uvicdigimon",
+          "archetype": "Zeon Aggro",
+          "deckId": "f8bee424d88df0d5"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "6169983bacbe1b9d",
+      "eventName": "Hiroshima Qualifiers",
+      "date": "2025-11-03",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "24a39648d8432e02",
+          "playerName": "Nine1",
+          "archetype": "Freedom Blockers",
+          "deckId": "f5cc73cda52b636e"
+        },
+        {
+          "resultId": "0a9b234cb0112427",
+          "playerName": "RYO",
+          "archetype": "GW Wing Zero",
+          "deckId": "3c5b6a84e3b6537f"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "88f157b75a16b796",
+      "eventName": "Newtype Challenge",
+      "date": "2025-11-03",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "e890f3b187f850a5",
+          "playerName": "KYC_AB",
+          "archetype": "Qubeley Ping",
+          "deckId": "f6d3f6619b3fb849"
+        },
+        {
+          "resultId": "33bb0dab0acd9e8f",
+          "playerName": "Ke Ga Ni",
+          "archetype": "Barbatos Rush",
+          "deckId": "af26f19eb61a1489"
+        },
+        {
+          "resultId": "554c03b991db7bbf",
+          "playerName": "Midoriushi",
+          "archetype": "Barbatos Rush",
+          "deckId": "fe22098ad0de9173"
+        },
+        {
+          "resultId": "69addf549f9bee7f",
+          "playerName": "TomoharuSaito",
+          "archetype": "Qubeley Ping",
+          "deckId": "c80049abf402eb27"
+        },
+        {
+          "resultId": "1a94b4b3dc02e5d4",
+          "playerName": "kaicho_nekuros",
+          "archetype": "Freedom Blockers (Academy)",
+          "deckId": "01e8b47969b6fee9"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "bd97bf6d3caad53e",
+      "eventName": "Newtype Challenge",
+      "date": "2025-11-02",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "763367d359405869",
+          "playerName": "Caesar_Zenon13",
+          "archetype": "Zeon Aggro",
+          "deckId": "d2259149d1f29cdc"
+        },
+        {
+          "resultId": "4f12fee589dad810",
+          "playerName": "DGsumiyoshi",
+          "archetype": "Zeon Aggro",
+          "deckId": "a93573fafff6040d"
+        },
+        {
+          "resultId": "8585570029d99dd9",
+          "playerName": "HagotU56",
+          "archetype": "Epyon Blockers",
+          "deckId": "a86794e4d0d66d9a"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "2e15e8c2460fc1f1",
+      "eventName": "Shop Battle",
+      "date": "2025-11-01",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "3c8b699c7bada055",
+          "playerName": "m6QxmIFIasI8MZj",
+          "archetype": "Epyon Blockers",
+          "deckId": "b1e431af57672262"
+        },
+        {
+          "resultId": "0820977d38df134c",
+          "playerName": "sPOF8h7eww4G0Uc",
+          "archetype": "Zeon Aggro",
+          "deckId": "d8ceca57a911dfda"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "30a98e62a52781cd",
+      "eventName": "Newtype Challenge",
+      "date": "2025-11-01",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "d8581f2597d5247b",
+          "playerName": "TSUTAYA_BP",
+          "archetype": "GW Wing Zero",
+          "deckId": "c07b682dd68c6d10"
+        },
+        {
+          "resultId": "c2f6bd1c30082c0a",
+          "playerName": "bb_150cm",
+          "archetype": "Zeon Aggro",
+          "deckId": "ad11e0af44c802e2"
+        },
+        {
+          "resultId": "6094f9f961b78bfe",
+          "playerName": "cardbox_kochi",
+          "archetype": "Aegis Aggro",
+          "deckId": "85a06148ca0be506"
+        },
+        {
+          "resultId": "009e5e60f0da8e97",
+          "playerName": "hamadai12",
+          "archetype": "Strike Tempo (Academy)",
+          "deckId": "a8954566b3fd1914"
+        },
+        {
+          "resultId": "8b7467b3e9164e26",
+          "playerName": "katoo02",
+          "archetype": "GW Wing Zero",
+          "deckId": "325ef806b95935b1"
+        },
+        {
+          "resultId": "d9096f936de419c3",
+          "playerName": "pallllaq",
+          "archetype": "Freedom Ping",
+          "deckId": "949154cdfab2a0aa"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "eda0c140a29fee81",
+      "eventName": "GD02 Release Event",
+      "date": "2025-11-01",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "4db53d102934877e",
+          "playerName": "ck_akihabara",
+          "archetype": "Earth Federation Breach",
+          "deckId": "f222e080973e3866"
+        },
+        {
+          "resultId": "cadca08c4e65fe04",
+          "playerName": "touchxxKDT",
+          "archetype": "Cyber-Newtype",
+          "deckId": "440d7d75218e0082"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "337c0268995a70b6",
+      "eventName": "Shop Battle",
+      "date": "2025-10-31",
+      "sourceUrl": "https://egmanevents.com/gd02-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "b615caa295bacb1d",
+          "playerName": "NU_SATOU3",
+          "archetype": "GW Wing Zero",
+          "deckId": "cffb4b7225cad067"
+        },
+        {
+          "resultId": "74c71fec6ad42355",
+          "playerName": "card_spiral_2",
+          "archetype": "Freedom Blockers",
+          "deckId": "21d82b8fac361107"
+        },
+        {
+          "resultId": "b73a875348e797d1",
+          "playerName": "leftwingman033",
+          "archetype": "Barbatos Ping",
+          "deckId": "49c6528b4b38bf92"
+        },
+        {
+          "resultId": "526e8acacd22766f",
+          "playerName": "touchxxKDT",
+          "archetype": "Strike Tempo (Academy)",
+          "deckId": "8b26afcd0bd2e351"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "a348dd888d6a6e49",
+      "eventName": "Tokyo Area A Qualifiers",
+      "date": "2025-09-14",
+      "sourceUrl": "https://egmanevents.com/gd01-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "dde1b42ac532cd36",
+          "playerName": "Chariko",
+          "archetype": "Federation Tempo",
+          "deckId": "734ba9ad6bec6ac6"
+        },
+        {
+          "resultId": "69eaeae17e3acff6",
+          "playerName": "Chirami",
+          "archetype": "Freedom Blockers",
+          "deckId": "c856abad31c91834"
+        },
+        {
+          "resultId": "7dc5eeed7966a86e",
+          "playerName": "Haruki",
+          "archetype": "Zeon Aggro",
+          "deckId": "4b40e643048c6ef8"
+        },
+        {
+          "resultId": "cee9725dc62a8fab",
+          "playerName": "Kaito",
+          "archetype": "Cyber-Newtype",
+          "deckId": "97c9cffc8c4f65ac"
+        },
+        {
+          "resultId": "2026fcf991e43ba1",
+          "playerName": "Rау",
+          "archetype": "Zeon Aggro",
+          "deckId": "f784d346d40ef77d"
+        },
+        {
+          "resultId": "487b584849f1244f",
+          "playerName": "Sho-chan",
+          "archetype": "Zeon Aggro",
+          "deckId": "711719d366c99a85"
+        },
+        {
+          "resultId": "8237df64feee09d5",
+          "playerName": "Takuan",
+          "archetype": "Justice Blockers",
+          "deckId": "0c07b92a02f0ff5f"
+        },
+        {
+          "resultId": "f8965a754745414f",
+          "playerName": "fijieee",
+          "archetype": "Freedom Blockers",
+          "deckId": "9bb3dc1580adc047"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    },
+    {
+      "eventId": "314ae1a20b67b645",
+      "eventName": "Bandai Japan Release Event",
+      "date": "2025-08-02",
+      "sourceUrl": "https://egmanevents.com/gd01-tournament-deck-lists",
+      "sourceName": "Egman Events",
+      "reportedFirstPlaces": [
+        {
+          "resultId": "dd01df67a6b089d3",
+          "playerName": "Abe",
+          "archetype": "Zeon Aggro",
+          "deckId": "a29b7690f09739e4"
+        },
+        {
+          "resultId": "cc41865181b3b9ee",
+          "playerName": "Serimaru",
+          "archetype": "GW Wing Zero",
+          "deckId": "a35720d6a1b10a70"
+        }
+      ],
+      "reviewStatus": "needs_source_review"
+    }
+  ]
+}

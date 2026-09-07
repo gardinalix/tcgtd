@@ -1,14 +1,14 @@
 {
   "schema_version": "tcgtd-competitive-v1",
-  "data_hash": "7b716f728c67854205e1b06b0ca66a08e425d057990b76fd79428cdb4f8fb865",
+  "data_hash": "65ed72d0464e90fbbb1695e6dc9ebbeac103fcd12b33f42c5a64f23adcc5339b",
   "counts": {
-    "tournaments": 232,
-    "results": 1132,
-    "decks": 1132,
-    "deck_cards": 17082,
-    "players": 863,
-    "archetypes": 88,
-    "cards": 451
+    "tournaments": 281,
+    "results": 1328,
+    "decks": 1328,
+    "deck_cards": 20106,
+    "players": 1006,
+    "archetypes": 112,
+    "cards": 506
   },
   "sources": [
     {
@@ -57,6 +57,24 @@
       "last_checked": "2026-09-07T02:45:35.582Z"
     },
     {
+      "id": "source-community-stores",
+      "name": "Community stores",
+      "status": "manual_review",
+      "adapter": "community-reviewed",
+      "confidence": "community",
+      "url": null,
+      "last_checked": null
+    },
+    {
+      "id": "msa-public",
+      "name": "Mobile Suit Arena public index",
+      "status": "partial_public_index",
+      "adapter": "msa-public-home",
+      "confidence": "reported",
+      "url": "https://mobilesuitarena.com/",
+      "last_checked": null
+    },
+    {
       "id": "gundeck-ai",
       "name": "GUNDECK.AI",
       "status": "tracked",
@@ -67,8 +85,8 @@
     }
   ],
   "last_run": {
-    "mode": "update",
-    "checked_at": "2026-09-07T02:45:35.582Z",
+    "mode": "migrate",
+    "checked_at": null,
     "raw_changed": true,
     "changed_datasets": [
       "tournaments",
@@ -77,7 +95,8 @@
       "deck_cards",
       "players",
       "archetypes",
-      "cards"
+      "cards",
+      "conflicts"
     ],
     "errors": []
   }

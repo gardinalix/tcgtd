@@ -36,6 +36,7 @@ const BuilderPage = lazyNamed(() => import("./pages/BuilderPage"), "BuilderPage"
 const CardPage = lazyNamed(() => import("./pages/CardPage"), "CardPage");
 const CardsPage = lazyNamed(() => import("./pages/CardsPage"), "CardsPage");
 const CommunityPage = lazyNamed(() => import("./pages/CommunityPage"), "CommunityPage");
+const ContributePage = lazyNamed(() => import("./pages/ContributePage"), "ContributePage");
 const DecksPage = lazyNamed(() => import("./pages/DecksPage"), "DecksPage");
 const DeckViewPage = lazyNamed(() => import("./pages/DeckViewPage"), "DeckViewPage");
 const EventDetailPage = lazyNamed(() => import("./pages/EventDetailPage"), "EventDetailPage");
@@ -61,11 +62,11 @@ const LEGACY_STATE_KEY = "gundam-card-hub-state";
 const THEME_STATE_KEY = "gundam-tactical-theme-id";
 const META_SCOPE_STATE_KEY = "tcgtd-meta-scope-id";
 const PRIVATE_VIEWS = new Set(["builder", "profile", "accountSettings", "scheduleManager"]);
-const LIGHTWEIGHT_VIEWS = new Set(["home", "about", "legal", "terms", "privacy", "feedback", "login", "register", "logout", "authCallback"]);
+const LIGHTWEIGHT_VIEWS = new Set(["home", "about", "legal", "terms", "privacy", "feedback", "login", "register", "logout", "authCallback", "contribute"]);
 const TACTICAL_VIEWS = new Set([
   "cards", "card", "synergy", "synergyMap", "decks", "builder", "deckView", "importExport",
   "meta", "prices", "community", "events", "eventDetail", "players", "venues", "scheduleManager", "previews",
-  "profile", "accountSettings", "settings",
+  "profile", "accountSettings", "settings", "contribute",
 ]);
 
 export function App() {
@@ -534,6 +535,7 @@ export function App() {
             onOpenEvent={(eventId) => setView("eventDetail", eventId)}
           />
         ) : null}
+        {!shouldGatePrivate && view === "contribute" ? <ContributePage onNavigate={setView} /> : null}
         {!shouldGatePrivate && view === "players" ? <PlayersPage data={data} onNavigate={setView} /> : null}
         {!shouldGatePrivate && view === "venues" ? <VenuesPage data={data} onNavigate={setView} /> : null}
         {!shouldGatePrivate && view === "scheduleManager" ? <ScheduleManagerPage onNavigate={setView} /> : null}

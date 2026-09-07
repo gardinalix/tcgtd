@@ -6,6 +6,7 @@ import { gzipSync } from "node:zlib";
 import { csvLegacyAdapter } from "./data-engine/adapters/csvLegacyAdapter.mjs";
 import { egmanAdapter } from "./data-engine/adapters/egmanAdapter.mjs";
 import { manualAdapter } from "./data-engine/adapters/manualAdapter.mjs";
+import { readReviewedContributions } from "./data-engine/adapters/communityAdapter.mjs";
 import {
   COMPETITIVE_ROOT, PATHS, ROOT, buildCanonicalFromLegacy, buildGeneratedData, contentHash,
   readJson, readText, toCsv, unwrap, validateCompetitiveData, writeJsonIfChanged,
@@ -124,12 +125,13 @@ async function migrate(runContext = {}) {
   ]);
   const legacy = { payload: legacyPayload, parsed: csvLegacyAdapter.parse(legacyPayload) };
   const registry = { metadata: manualPayload.metadata, rows: manualAdapter.parse(manualPayload) };
+  const community = await readReviewedContributions(path.join(PATHS.sources, "community-events"));
   const sourceRegistryRows = Array.isArray(sourceRegistry) ? sourceRegistry : sourceRegistry.items || [];
   const aliasRows = Array.isArray(aliasConfig) ? aliasConfig : aliasConfig.items || [];
   const rawChanged = await writeRawSnapshot({ legacy, registry, sourceRegistry: sourceRegistryRows });
   const data = buildCanonicalFromLegacy({
-    events: legacy.parsed.events,
-    results: legacy.parsed.results,
+    events: [...legacy.parsed.events, ...community.events],
+    results: [...legacy.parsed.results, ...community.results],
     deckCards: legacy.parsed.deckCards,
     registry: registry.rows,
     aliases: aliasRows,

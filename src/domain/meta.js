@@ -151,8 +151,8 @@ export function buildScopedMetaSignal(data = {}, metaWindow) {
   const previousUsage = buildCardUsage(previousDeckRows);
   const cardMap = new Map((data.cards || []).map((card) => [card.cardNumber, card]));
   const rowMap = new Map([...selectedDeckRows, ...previousDeckRows].map((row) => [row.cardNumber, row]));
-  const currentDeckCount = selectedDeckIds.size;
-  const previousDeckCount = previousDeckIds.size;
+  const currentDeckCount = new Set(selectedDeckRows.filter((row) => row.cardNumber && (row.quantity == null || Number(row.quantity) > 0)).map((row) => row.deckId)).size;
+  const previousDeckCount = new Set(previousDeckRows.filter((row) => row.cardNumber && (row.quantity == null || Number(row.quantity) > 0)).map((row) => row.deckId)).size;
   const allCardNumbers = new Set([...currentUsage.keys(), ...previousUsage.keys()]);
 
   const allSignals = [...allCardNumbers].map((cardNumber) => {
@@ -161,7 +161,7 @@ export function buildScopedMetaSignal(data = {}, metaWindow) {
     const previous = previousUsage.get(cardNumber)?.size || 0;
     const recentScore = currentDeckCount ? (recent / currentDeckCount) * 100 : 0;
     const previousScore = previousDeckCount ? (previous / previousDeckCount) * 100 : 0;
-    const delta = recentScore - previousScore;
+    const delta = previousDeckCount && currentDeckCount ? recentScore - previousScore : 0;
     const band = classifyScopedCard(recentScore, recent);
     const previousBand = classifyScopedCard(previousScore, previous);
     return {
@@ -191,7 +191,7 @@ export function buildScopedMetaSignal(data = {}, metaWindow) {
     .filter((row) => Math.abs(row.delta) >= 1)
     .sort((left, right) => Math.abs(right.delta) - Math.abs(left.delta))
     .slice(0, 12);
-  const archetypeTrends = buildScopedArchetypes(selectedResults, currentDeckCount, selectedDeckRows);
+  const archetypeTrends = buildScopedArchetypes(selectedResults, selectedResults.length, selectedDeckRows);
 
   return {
     ranked,
@@ -204,6 +204,7 @@ export function buildScopedMetaSignal(data = {}, metaWindow) {
       window: selectedWindow,
       deckCount: currentDeckCount,
       previousDeckCount,
+      comparisonAvailable: Boolean(currentDeckCount && previousDeckCount),
       resultCount: selectedResults.length,
       eventCount: new Set(selectedResults.map((row) => row.eventId).filter(Boolean)).size,
     },
@@ -238,7 +239,7 @@ function classifyScopedCard(share, deckCount) {
 function buildCardUsage(rows = []) {
   const usage = new Map();
   for (const row of rows) {
-    if (!row.cardNumber || !row.deckId) continue;
+    if (!row.cardNumber || !row.deckId || (row.quantity != null && Number(row.quantity) <= 0)) continue;
     const decks = usage.get(row.cardNumber) || new Set();
     decks.add(row.deckId);
     usage.set(row.cardNumber, decks);
