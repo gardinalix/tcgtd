@@ -4,6 +4,7 @@ import json
 import csv
 import re
 import sqlite3
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -1298,15 +1299,22 @@ def main() -> None:
     meta_results = build_meta_results()
     meta_deck_cards = build_meta_deck_cards()
     market_listings = build_market_listings(marketzeon_listing_groups)
+    indexed_event_dates = [
+        str(row.get("eventDate", ""))[:10]
+        for row in [*meta_events, *meta_results]
+        if str(row.get("eventDate", ""))[:10]
+    ]
+    latest_indexed_event_date = max(indexed_event_dates, default=advisor_snapshot.get("latest_event_date"))
+    payload_generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
     payload = {
-        "generatedAt": advisor_snapshot.get("snapshot_generated_utc"),
+        "generatedAt": payload_generated_at,
         "advisorSnapshotGeneratedAt": advisor_snapshot.get("snapshot_generated_utc"),
         "metaSnapshotGeneratedAt": advisor_snapshot.get("meta_snapshot_generated_utc"),
         "cardSnapshotGeneratedAt": gcg_snapshot.get("snapshot_generated_utc"),
         "recentWindowDays": advisor_snapshot.get("recent_window_days"),
         "recentCutoffDate": advisor_snapshot.get("recent_cutoff_date"),
-        "latestEventDate": advisor_snapshot.get("latest_event_date"),
+        "latestEventDate": latest_indexed_event_date,
         "fxRate": fx_rate,
         "defaults": advisor_snapshot.get("defaults", {}),
         "counts": advisor_snapshot.get("counts", {}),

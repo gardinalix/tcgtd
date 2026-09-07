@@ -4,62 +4,62 @@
     {
       "card_id": "ST01-010",
       "card_name": "Amuro Ray",
-      "deck_count": 616,
-      "total_quantity": 2422
-    },
-    {
-      "card_id": "ST01-001",
-      "card_name": "Gundam",
-      "deck_count": 593,
-      "total_quantity": 2148
+      "deck_count": 615,
+      "total_quantity": 2416
     },
     {
       "card_id": "GD01-100",
       "card_name": "A Show of Resolve",
-      "deck_count": 590,
-      "total_quantity": 1544
+      "deck_count": 598,
+      "total_quantity": 1543
+    },
+    {
+      "card_id": "ST01-001",
+      "card_name": "Gundam",
+      "deck_count": 592,
+      "total_quantity": 2144
     },
     {
       "card_id": "GD01-118",
       "card_name": "Overflowing Affection",
-      "deck_count": 576,
-      "total_quantity": 2159
+      "deck_count": 575,
+      "total_quantity": 2155
     },
     {
       "card_id": "GD01-086",
       "card_name": "Gundam Lfrith",
-      "deck_count": 562,
-      "total_quantity": 2212
+      "deck_count": 553,
+      "total_quantity": 2177
     },
     {
       "card_id": "ST04-001",
       "card_name": "Aile Strike Gundam",
-      "deck_count": 513,
-      "total_quantity": 1889
+      "deck_count": 515,
+      "total_quantity": 1881
     },
     {
       "card_id": "ST04-010",
       "card_name": "Kira Yamato",
-      "deck_count": 496,
-      "total_quantity": 1814
+      "deck_count": 495,
+      "total_quantity": 1804
     },
     {
       "card_id": "ST04-012",
       "card_name": "Striker Pack",
-      "deck_count": 401,
-      "total_quantity": 1126
+      "deck_count": 399,
+      "total_quantity": 1120
     },
     {
       "card_id": "GD01-008",
       "card_name": "Guntank",
-      "deck_count": 378,
-      "total_quantity": 1480
+      "deck_count": 380,
+      "total_quantity": 1488
     },
     {
       "card_id": "ST02-016",
       "card_name": "Corsica Base",
-      "deck_count": 364,
-      "total_quantity": 1188
+      "deck_count": 366,
+      "total_quantity": 1192
     },
     {
       "card_id": "GD01-020",
@@ -70,14 +70,14 @@
     {
       "card_id": "GD02-079",
       "card_name": "Rick Dias",
-      "deck_count": 332,
-      "total_quantity": 1098
+      "deck_count": 342,
+      "total_quantity": 1120
     },
     {
       "card_id": "ST01-005",
       "card_name": "GM",
-      "deck_count": 332,
-      "total_quantity": 1209
+      "deck_count": 334,
+      "total_quantity": 1217
     },
     {
       "card_id": "ST01-009",
@@ -88,206 +88,200 @@
     {
       "card_id": "ST01-014",
       "card_name": "Unforeseen Incident",
-      "deck_count": 257,
-      "total_quantity": 455
+      "deck_count": 266,
+      "total_quantity": 481
     },
     {
       "card_id": "GD01-018",
       "card_name": "ReZEL",
-      "deck_count": 251,
-      "total_quantity": 849
+      "deck_count": 250,
+      "total_quantity": 847
     },
     {
       "card_id": "GD01-024",
       "card_name": "Wing Gundam Zero",
-      "deck_count": 241,
-      "total_quantity": 889
+      "deck_count": 237,
+      "total_quantity": 871
     },
     {
       "card_id": "ST02-001",
       "card_name": "Wing Gundam",
-      "deck_count": 239,
-      "total_quantity": 931
+      "deck_count": 235,
+      "total_quantity": 914
     },
     {
       "card_id": "ST02-010",
       "card_name": "Heero Yuy",
-      "deck_count": 239,
-      "total_quantity": 919
+      "deck_count": 235,
+      "total_quantity": 904
     },
     {
       "card_id": "GD01-126",
       "card_name": "Underground Desert Base",
-      "deck_count": 225,
-      "total_quantity": 800
+      "deck_count": 229,
+      "total_quantity": 811
     },
     {
       "card_id": "GD01-073",
       "card_name": "Sword Strike Gundam",
-      "deck_count": 210,
-      "total_quantity": 585
+      "deck_count": 206,
+      "total_quantity": 572
     },
     {
       "card_id": "ST03-013",
       "card_name": "Close Combat",
-      "deck_count": 200,
-      "total_quantity": 722
-    },
-    {
-      "card_id": "ST05-010",
-      "card_name": "Mikazuki Augus",
-      "deck_count": 185,
-      "total_quantity": 740
-    },
-    {
-      "card_id": "GD01-093",
-      "card_name": "Marida Cruz",
-      "deck_count": 183,
-      "total_quantity": 725
-    },
-    {
-      "card_id": "GD02-054",
-      "card_name": "Gundam Barbatos 1st Form",
-      "deck_count": 183,
-      "total_quantity": 728
-    },
-    {
-      "card_id": "GD01-044",
-      "card_name": "Kshatriya",
-      "deck_count": 180,
-      "total_quantity": 707
+      "deck_count": 198,
+      "total_quantity": 713
     },
     {
       "card_id": "GD01-065",
       "card_name": "Freedom Gundam",
-      "deck_count": 180,
-      "total_quantity": 442
+      "deck_count": 187,
+      "total_quantity": 455
+    },
+    {
+      "card_id": "ST05-010",
+      "card_name": "Mikazuki Augus",
+      "deck_count": 184,
+      "total_quantity": 736
+    },
+    {
+      "card_id": "GD02-054",
+      "card_name": "Gundam Barbatos 1st Form",
+      "deck_count": 182,
+      "total_quantity": 724
+    },
+    {
+      "card_id": "GD01-093",
+      "card_name": "Marida Cruz",
+      "deck_count": 181,
+      "total_quantity": 714
+    },
+    {
+      "card_id": "GD01-044",
+      "card_name": "Kshatriya",
+      "deck_count": 178,
+      "total_quantity": 700
     },
     {
       "card_id": "ST03-008",
       "card_name": "Zaku Ⅱ",
-      "deck_count": 170,
-      "total_quantity": 672
+      "deck_count": 176,
+      "total_quantity": 692
     },
     {
       "card_id": "ST04-015",
       "card_name": "Archangel",
-      "deck_count": 165,
-      "total_quantity": 464
-    },
-    {
-      "card_id": "GD01-111",
-      "card_name": "Battle of Aces",
-      "deck_count": 155,
-      "total_quantity": 400
+      "deck_count": 163,
+      "total_quantity": 461
     },
     {
       "card_id": "GD01-066",
       "card_name": "Justice Gundam",
-      "deck_count": 153,
-      "total_quantity": 472
+      "deck_count": 152,
+      "total_quantity": 467
+    },
+    {
+      "card_id": "GD01-111",
+      "card_name": "Battle of Aces",
+      "deck_count": 152,
+      "total_quantity": 390
     },
     {
       "card_id": "ST05-004",
       "card_name": "Graze Custom",
-      "deck_count": 148,
-      "total_quantity": 551
+      "deck_count": 149,
+      "total_quantity": 555
     },
     {
       "card_id": "GD03-056",
       "card_name": "Gundam Barbatos Adapt",
-      "deck_count": 147,
-      "total_quantity": 588
+      "deck_count": 146,
+      "total_quantity": 584
     },
     {
       "card_id": "GD01-068",
       "card_name": "Perfect Strike Gundam",
       "deck_count": 145,
-      "total_quantity": 352
-    },
-    {
-      "card_id": "ST05-006",
-      "card_name": "Hyakuren",
-      "deck_count": 142,
-      "total_quantity": 482
-    },
-    {
-      "card_id": "GD02-055",
-      "card_name": "Gundam Gusion Rebake",
-      "deck_count": 141,
-      "total_quantity": 435
+      "total_quantity": 351
     },
     {
       "card_id": "GD01-035",
       "card_name": "Zaku Ⅱ",
+      "deck_count": 142,
+      "total_quantity": 553
+    },
+    {
+      "card_id": "GD02-055",
+      "card_name": "Gundam Gusion Rebake",
       "deck_count": 140,
-      "total_quantity": 545
+      "total_quantity": 432
     },
     {
-      "card_id": "GD01-025",
-      "card_name": "Gundam Deathscythe",
-      "deck_count": 136,
-      "total_quantity": 489
-    },
-    {
-      "card_id": "GD01-090",
-      "card_name": "Duo Maxwell",
-      "deck_count": 136,
-      "total_quantity": 488
+      "card_id": "ST05-006",
+      "card_name": "Hyakuren",
+      "deck_count": 140,
+      "total_quantity": 474
     },
     {
       "card_id": "ST03-006",
       "card_name": "Char's Zaku Ⅱ",
-      "deck_count": 136,
-      "total_quantity": 538
+      "deck_count": 138,
+      "total_quantity": 544
+    },
+    {
+      "card_id": "GD01-025",
+      "card_name": "Gundam Deathscythe",
+      "deck_count": 135,
+      "total_quantity": 485
+    },
+    {
+      "card_id": "GD01-090",
+      "card_name": "Duo Maxwell",
+      "deck_count": 135,
+      "total_quantity": 484
     },
     {
       "card_id": "ST01-015",
       "card_name": "White Base",
-      "deck_count": 134,
-      "total_quantity": 258
+      "deck_count": 133,
+      "total_quantity": 256
     },
     {
       "card_id": "ST04-016",
       "card_name": "Vesalius",
-      "deck_count": 134,
-      "total_quantity": 425
+      "deck_count": 133,
+      "total_quantity": 421
     },
     {
       "card_id": "GD01-030",
       "card_name": "Rick Dom",
-      "deck_count": 130,
-      "total_quantity": 503
-    },
-    {
-      "card_id": "GD01-003",
-      "card_name": "Unicorn Gundam 02 Banshee (Destroy Mode)",
-      "deck_count": 128,
-      "total_quantity": 271
+      "deck_count": 132,
+      "total_quantity": 506
     },
     {
       "card_id": "GD03-034",
       "card_name": "GQuuuuuuX (Omega Psycommu)",
+      "deck_count": 129,
+      "total_quantity": 333
+    },
+    {
+      "card_id": "GD01-003",
+      "card_name": "Unicorn Gundam 02 Banshee (Destroy Mode)",
       "deck_count": 127,
-      "total_quantity": 327
-    },
-    {
-      "card_id": "ST02-002",
-      "card_name": "Wing Gundam (Bird Mode)",
-      "deck_count": 125,
-      "total_quantity": 423
-    },
-    {
-      "card_id": "GD01-072",
-      "card_name": "Launcher Strike Gundam",
-      "deck_count": 124,
-      "total_quantity": 297
+      "total_quantity": 269
     },
     {
       "card_id": "ST03-011",
       "card_name": "Char Aznable",
+      "deck_count": 125,
+      "total_quantity": 493
+    },
+    {
+      "card_id": "GD01-072",
+      "card_name": "Launcher Strike Gundam",
       "deck_count": 123,
-      "total_quantity": 488
+      "total_quantity": 294
     },
     {
       "card_id": "GD03-109",
@@ -296,16 +290,22 @@
       "total_quantity": 449
     },
     {
+      "card_id": "ST02-002",
+      "card_name": "Wing Gundam (Bird Mode)",
+      "deck_count": 120,
+      "total_quantity": 410
+    },
+    {
       "card_id": "GD01-026",
       "card_name": "Char's Zaku Ⅱ",
-      "deck_count": 119,
-      "total_quantity": 462
+      "deck_count": 118,
+      "total_quantity": 458
     },
     {
       "card_id": "ST05-014",
       "card_name": "Fatal Strike",
-      "deck_count": 114,
-      "total_quantity": 362
+      "deck_count": 116,
+      "total_quantity": 366
     },
     {
       "card_id": "GD02-013",
@@ -314,22 +314,22 @@
       "total_quantity": 351
     },
     {
-      "card_id": "GD01-051",
-      "card_name": "Kshatriya",
-      "deck_count": 102,
-      "total_quantity": 254
-    },
-    {
       "card_id": "GD03-001",
       "card_name": "Gundam NT-1",
-      "deck_count": 101,
-      "total_quantity": 177
+      "deck_count": 106,
+      "total_quantity": 183
+    },
+    {
+      "card_id": "GD01-051",
+      "card_name": "Kshatriya",
+      "deck_count": 99,
+      "total_quantity": 243
     },
     {
       "card_id": "ST03-001",
       "card_name": "Sinanju",
-      "deck_count": 88,
-      "total_quantity": 303
+      "deck_count": 87,
+      "total_quantity": 300
     },
     {
       "card_id": "GD01-004",
@@ -341,73 +341,73 @@
       "card_id": "GD01-088",
       "card_name": "Banagher Links",
       "deck_count": 84,
-      "total_quantity": 290
+      "total_quantity": 291
     },
     {
       "card_id": "ST04-011",
       "card_name": "Athrun Zala",
       "deck_count": 82,
-      "total_quantity": 303
-    },
-    {
-      "card_id": "ST03-010",
-      "card_name": "Full Frontal",
-      "deck_count": 77,
-      "total_quantity": 189
+      "total_quantity": 302
     },
     {
       "card_id": "GD01-128",
       "card_name": "Mining Asteroid Palau",
       "deck_count": 76,
-      "total_quantity": 224
+      "total_quantity": 218
+    },
+    {
+      "card_id": "ST03-010",
+      "card_name": "Full Frontal",
+      "deck_count": 75,
+      "total_quantity": 184
     },
     {
       "card_id": "GD01-109",
       "card_name": "The Path to Victory or Defeat",
-      "deck_count": 73,
-      "total_quantity": 219
+      "deck_count": 72,
+      "total_quantity": 217
+    },
+    {
+      "card_id": "GD02-129",
+      "card_name": "Argama",
+      "deck_count": 71,
+      "total_quantity": 150
     },
     {
       "card_id": "ST01-011",
       "card_name": "Suletta Mercury",
-      "deck_count": 69,
-      "total_quantity": 175
+      "deck_count": 70,
+      "total_quantity": 177
     },
     {
       "card_id": "GD01-002",
       "card_name": "Unicorn Gundam (Destroy Mode)",
-      "deck_count": 68,
-      "total_quantity": 182
+      "deck_count": 69,
+      "total_quantity": 185
     },
     {
       "card_id": "GD03-002",
       "card_name": "The-O",
-      "deck_count": 64,
-      "total_quantity": 237
+      "deck_count": 62,
+      "total_quantity": 229
     },
     {
       "card_id": "GD03-003",
       "card_name": "Messala",
-      "deck_count": 64,
-      "total_quantity": 210
+      "deck_count": 62,
+      "total_quantity": 204
     },
     {
-      "card_id": "GD03-084",
-      "card_name": "Paptimus Scirocco",
+      "card_id": "ST04-008",
+      "card_name": "Ginn",
       "deck_count": 62,
-      "total_quantity": 211
+      "total_quantity": 180
     },
     {
       "card_id": "GD01-029",
       "card_name": "Shenlong Gundam",
       "deck_count": 61,
-      "total_quantity": 170
-    },
-    {
-      "card_id": "ST04-008",
-      "card_name": "Ginn",
-      "deck_count": 61,
-      "total_quantity": 176
+      "total_quantity": 171
     },
     {
       "card_id": "GD01-129",
@@ -416,34 +416,40 @@
       "total_quantity": 112
     },
     {
+      "card_id": "GD03-084",
+      "card_name": "Paptimus Scirocco",
+      "deck_count": 60,
+      "total_quantity": 203
+    },
+    {
       "card_id": "GD03-050",
       "card_name": "Gundam Barbatos Lupus",
       "deck_count": 59,
-      "total_quantity": 148
+      "total_quantity": 149
     },
     {
       "card_id": "ST03-015",
       "card_name": "Rewloola",
-      "deck_count": 57,
-      "total_quantity": 179
-    },
-    {
-      "card_id": "GD02-129",
-      "card_name": "Argama",
-      "deck_count": 56,
-      "total_quantity": 112
-    },
-    {
-      "card_id": "GD01-091",
-      "card_name": "Chang Wufei",
-      "deck_count": 54,
-      "total_quantity": 142
+      "deck_count": 58,
+      "total_quantity": 178
     },
     {
       "card_id": "GD01-023",
       "card_name": "Char's Gelgoog",
-      "deck_count": 53,
-      "total_quantity": 104
+      "deck_count": 56,
+      "total_quantity": 108
+    },
+    {
+      "card_id": "GD01-091",
+      "card_name": "Chang Wufei",
+      "deck_count": 55,
+      "total_quantity": 145
+    },
+    {
+      "card_id": "ST04-006",
+      "card_name": "Aegis Gundam",
+      "deck_count": 54,
+      "total_quantity": 146
     },
     {
       "card_id": "GD01-123",
@@ -452,16 +458,10 @@
       "total_quantity": 110
     },
     {
-      "card_id": "ST04-006",
-      "card_name": "Aegis Gundam",
-      "deck_count": 53,
-      "total_quantity": 142
-    },
-    {
       "card_id": "GD01-067",
       "card_name": "Gundam Aerial Rebuild",
-      "deck_count": 51,
-      "total_quantity": 103
+      "deck_count": 52,
+      "total_quantity": 105
     },
     {
       "card_id": "GD01-060",
@@ -478,14 +478,14 @@
     {
       "card_id": "GD01-005",
       "card_name": "Unicorn Gundam (Unicorn Mode)",
-      "deck_count": 44,
-      "total_quantity": 128
+      "deck_count": 45,
+      "total_quantity": 132
     },
     {
-      "card_id": "GD02-091",
-      "card_name": "Haman Karn",
+      "card_id": "GD05-002",
+      "card_name": "Strike Freedom Gundam",
       "deck_count": 40,
-      "total_quantity": 139
+      "total_quantity": 128
     },
     {
       "card_id": "GD02-036",
@@ -494,28 +494,34 @@
       "total_quantity": 119
     },
     {
-      "card_id": "GD03-125",
-      "card_name": "Peacemillion",
+      "card_id": "GD02-091",
+      "card_name": "Haman Karn",
       "deck_count": 39,
-      "total_quantity": 115
+      "total_quantity": 137
     },
     {
       "card_id": "GD03-035",
       "card_name": "GFreD",
-      "deck_count": 38,
-      "total_quantity": 114
+      "deck_count": 39,
+      "total_quantity": 117
     },
     {
-      "card_id": "GD03-063",
-      "card_name": "0 Gundam",
-      "deck_count": 38,
-      "total_quantity": 118
+      "card_id": "GD05-081",
+      "card_name": "Kira Yamato",
+      "deck_count": 39,
+      "total_quantity": 142
     },
     {
       "card_id": "GD03-092",
       "card_name": "Nyaan",
+      "deck_count": 37,
+      "total_quantity": 110
+    },
+    {
+      "card_id": "GD03-063",
+      "card_name": "0 Gundam",
       "deck_count": 36,
-      "total_quantity": 107
+      "total_quantity": 112
     },
     {
       "card_id": "GD02-046",
@@ -524,46 +530,40 @@
       "total_quantity": 73
     },
     {
+      "card_id": "GD03-125",
+      "card_name": "Peacemillion",
+      "deck_count": 34,
+      "total_quantity": 98
+    },
+    {
       "card_id": "GD02-058",
       "card_name": "Ryusei-Go (Graze Custom Ⅱ)",
-      "deck_count": 33,
-      "total_quantity": 93
+      "deck_count": 32,
+      "total_quantity": 90
     },
     {
       "card_id": "GD03-127",
       "card_name": "Jachin Due",
-      "deck_count": 32,
-      "total_quantity": 76
+      "deck_count": 31,
+      "total_quantity": 72
     },
     {
       "card_id": "ST05-001",
       "card_name": "Gundam Barbatos 4th Form",
-      "deck_count": 32,
-      "total_quantity": 75
+      "deck_count": 31,
+      "total_quantity": 73
     },
     {
       "card_id": "GD03-033",
       "card_name": "Providence Gundam",
-      "deck_count": 31,
-      "total_quantity": 104
+      "deck_count": 30,
+      "total_quantity": 101
     },
     {
       "card_id": "GD03-091",
       "card_name": "Rau Le Creuset",
-      "deck_count": 31,
-      "total_quantity": 100
-    },
-    {
-      "card_id": "GD01-009",
-      "card_name": "G-Fighter",
-      "deck_count": 29,
-      "total_quantity": 60
-    },
-    {
-      "card_id": "GD01-120",
-      "card_name": "Naval Bombardment",
-      "deck_count": 29,
-      "total_quantity": 53
+      "deck_count": 30,
+      "total_quantity": 97
     },
     {
       "card_id": "GD02-074",
@@ -572,16 +572,34 @@
       "total_quantity": 70
     },
     {
-      "card_id": "GD03-010",
-      "card_name": "Full Armor Unicorn Gundam (Destroy Mode)",
-      "deck_count": 29,
-      "total_quantity": 60
+      "card_id": "GD01-009",
+      "card_name": "G-Fighter",
+      "deck_count": 28,
+      "total_quantity": 58
+    },
+    {
+      "card_id": "GD01-120",
+      "card_name": "Naval Bombardment",
+      "deck_count": 28,
+      "total_quantity": 52
     },
     {
       "card_id": "GD01-001",
       "card_name": "Gundam",
-      "deck_count": 28,
-      "total_quantity": 50
+      "deck_count": 27,
+      "total_quantity": 49
+    },
+    {
+      "card_id": "GD03-010",
+      "card_name": "Full Armor Unicorn Gundam (Destroy Mode)",
+      "deck_count": 27,
+      "total_quantity": 56
+    },
+    {
+      "card_id": "ST04-007",
+      "card_name": "Aegis Gundam (MA Mode)",
+      "deck_count": 26,
+      "total_quantity": 88
     },
     {
       "card_id": "GD01-013",
@@ -590,40 +608,16 @@
       "total_quantity": 62
     },
     {
-      "card_id": "GD01-033",
-      "card_name": "Gundam Deathscythe",
-      "deck_count": 25,
-      "total_quantity": 53
-    },
-    {
-      "card_id": "GD05-002",
-      "card_name": "Strike Freedom Gundam",
-      "deck_count": 25,
-      "total_quantity": 84
-    },
-    {
-      "card_id": "ST04-007",
-      "card_name": "Aegis Gundam (MA Mode)",
-      "deck_count": 25,
-      "total_quantity": 86
-    },
-    {
       "card_id": "ST08-005",
       "card_name": "Messer Type-F02 Minelayer",
       "deck_count": 25,
       "total_quantity": 81
     },
     {
-      "card_id": "GD03-101",
-      "card_name": "A Healthy Curiosity",
+      "card_id": "GD01-033",
+      "card_name": "Gundam Deathscythe",
       "deck_count": 24,
-      "total_quantity": 88
-    },
-    {
-      "card_id": "GD05-081",
-      "card_name": "Kira Yamato",
-      "deck_count": 24,
-      "total_quantity": 89
+      "total_quantity": 50
     },
     {
       "card_id": "GD01-085",
@@ -634,8 +628,32 @@
     {
       "card_id": "GD02-107",
       "card_name": "All-Range Attack",
+      "deck_count": 23,
+      "total_quantity": 58
+    },
+    {
+      "card_id": "GD03-101",
+      "card_name": "A Healthy Curiosity",
+      "deck_count": 23,
+      "total_quantity": 85
+    },
+    {
+      "card_id": "ST02-011",
+      "card_name": "Zechs Merquise",
+      "deck_count": 23,
+      "total_quantity": 76
+    },
+    {
+      "card_id": "ST05-015",
+      "card_name": "Isaribi",
+      "deck_count": 23,
+      "total_quantity": 74
+    },
+    {
+      "card_id": "GD02-002",
+      "card_name": "Gundam Epyon",
       "deck_count": 22,
-      "total_quantity": 57
+      "total_quantity": 63
     },
     {
       "card_id": "GD02-126",
@@ -644,28 +662,22 @@
       "total_quantity": 74
     },
     {
+      "card_id": "GD04-068",
+      "card_name": "Silver Bullet",
+      "deck_count": 22,
+      "total_quantity": 49
+    },
+    {
+      "card_id": "GD05-005",
+      "card_name": "Strike Rouge (Ootori)",
+      "deck_count": 22,
+      "total_quantity": 62
+    },
+    {
       "card_id": "ST02-014",
       "card_name": "Siege Ploy",
-      "deck_count": 22,
-      "total_quantity": 39
-    },
-    {
-      "card_id": "ST05-015",
-      "card_name": "Isaribi",
-      "deck_count": 22,
-      "total_quantity": 73
-    },
-    {
-      "card_id": "GD03-018",
-      "card_name": "Altron Gundam",
       "deck_count": 21,
-      "total_quantity": 36
-    },
-    {
-      "card_id": "ST02-011",
-      "card_name": "Zechs Merquise",
-      "deck_count": 21,
-      "total_quantity": 69
+      "total_quantity": 38
     },
     {
       "card_id": "GD01-039",
@@ -674,16 +686,22 @@
       "total_quantity": 77
     },
     {
-      "card_id": "GD02-002",
-      "card_name": "Gundam Epyon",
+      "card_id": "GD03-018",
+      "card_name": "Altron Gundam",
       "deck_count": 20,
-      "total_quantity": 61
+      "total_quantity": 34
     },
     {
-      "card_id": "ST09-004",
-      "card_name": "Freedom Gundam",
+      "card_id": "ST07-005",
+      "card_name": "Gundam Dynames",
       "deck_count": 20,
-      "total_quantity": 37
+      "total_quantity": 80
+    },
+    {
+      "card_id": "ST07-011",
+      "card_name": "Lockon Stratos (Neil)",
+      "deck_count": 20,
+      "total_quantity": 77
     },
     {
       "card_id": "GD03-005",
@@ -692,16 +710,22 @@
       "total_quantity": 35
     },
     {
-      "card_id": "ST07-005",
-      "card_name": "Gundam Dynames",
+      "card_id": "GD05-010",
+      "card_name": "Kira's Strike Rouge",
       "deck_count": 19,
-      "total_quantity": 76
+      "total_quantity": 61
     },
     {
-      "card_id": "ST07-011",
-      "card_name": "Lockon Stratos (Neil)",
+      "card_id": "ST08-015",
+      "card_name": "Davao",
       "deck_count": 19,
-      "total_quantity": 73
+      "total_quantity": 31
+    },
+    {
+      "card_id": "GD01-031",
+      "card_name": "Gelgoog",
+      "deck_count": 18,
+      "total_quantity": 56
     },
     {
       "card_id": "GD03-094",
@@ -710,34 +734,58 @@
       "total_quantity": 60
     },
     {
+      "card_id": "ST03-016",
+      "card_name": "Falmel",
+      "deck_count": 18,
+      "total_quantity": 51
+    },
+    {
       "card_id": "ST05-002",
       "card_name": "Gundam Barbatos 2nd Form",
       "deck_count": 18,
       "total_quantity": 42
     },
     {
-      "card_id": "ST09-005",
-      "card_name": "Zaku Warrior",
-      "deck_count": 18,
-      "total_quantity": 61
-    },
-    {
       "card_id": "GD01-016",
       "card_name": "Jegan",
       "deck_count": 17,
-      "total_quantity": 64
+      "total_quantity": 63
     },
     {
-      "card_id": "GD01-031",
-      "card_name": "Gelgoog",
+      "card_id": "GD02-025",
+      "card_name": "Gundam Heavyarms",
       "deck_count": 17,
-      "total_quantity": 51
+      "total_quantity": 41
     },
     {
-      "card_id": "ST08-015",
-      "card_name": "Davao",
+      "card_id": "GD03-032",
+      "card_name": "Zaku (Four Snake Eyes') [YETI] (GQ)",
       "deck_count": 17,
-      "total_quantity": 27
+      "total_quantity": 67
+    },
+    {
+      "card_id": "GD05-111",
+      "card_name": "Airframe​ Seizure",
+      "deck_count": 17,
+      "total_quantity": 62
+    },
+    {
+      "card_id": "ST06-005",
+      "card_name": "Red Gundam",
+      "deck_count": 17,
+      "total_quantity": 60
+    },
+    {
+      "card_id": "ST06-009",
+      "card_name": "Amate Yuzuriha (Machu)",
+      "deck_count": 17,
+      "total_quantity": 68
+    },
+    {
+      "card_id": "ST09-005",
+      "card_name": "Zaku Warrior",
+      "deck_count": 17,
+      "total_quantity": 57
     },
     {
       "card_id": "GD01-107",
@@ -752,64 +800,76 @@
       "total_quantity": 52
     },
     {
-      "card_id": "GD02-025",
-      "card_name": "Gundam Heavyarms",
+      "card_id": "ST06-001",
+      "card_name": "GQuuuuuuX (Omega Psycommu)",
       "deck_count": 16,
-      "total_quantity": 38
+      "total_quantity": 50
+    },
+    {
+      "card_id": "ST06-008",
+      "card_name": "Sugai's Gelgoog (GQ)",
+      "deck_count": 16,
+      "total_quantity": 61
+    },
+    {
+      "card_id": "ST06-010",
+      "card_name": "Shuji Itō",
+      "deck_count": 16,
+      "total_quantity": 61
     },
     {
       "card_id": "GD03-008",
       "card_name": "Bolinoak Sammahn",
-      "deck_count": 16,
-      "total_quantity": 48
-    },
-    {
-      "card_id": "GD03-032",
-      "card_name": "Zaku (Four Snake Eyes') [YETI] (GQ)",
-      "deck_count": 16,
-      "total_quantity": 63
-    },
-    {
-      "card_id": "ST03-016",
-      "card_name": "Falmel",
-      "deck_count": 16,
-      "total_quantity": 47
-    },
-    {
-      "card_id": "ST06-005",
-      "card_name": "Red Gundam",
-      "deck_count": 16,
-      "total_quantity": 57
-    },
-    {
-      "card_id": "GD04-068",
-      "card_name": "Silver Bullet",
       "deck_count": 15,
-      "total_quantity": 38
+      "total_quantity": 45
     },
     {
-      "card_id": "GD05-005",
-      "card_name": "Strike Rouge (Ootori)",
+      "card_id": "GD04-016",
+      "card_name": "Zoloat (League Militaire)",
       "deck_count": 15,
-      "total_quantity": 47
+      "total_quantity": 56
     },
     {
-      "card_id": "ST06-009",
-      "card_name": "Amate Yuzuriha (Machu)",
-      "deck_count": 15,
-      "total_quantity": 60
+      "card_id": "GD02-038",
+      "card_name": "GQuuuuuuX (Omega Psycommu)",
+      "deck_count": 14,
+      "total_quantity": 37
     },
     {
       "card_id": "GD03-016",
       "card_name": "Full Armor Unicorn Gundam (Unicorn Mode)",
       "deck_count": 14,
+      "total_quantity": 46
+    },
+    {
+      "card_id": "GD04-003",
+      "card_name": "Victory Gundam",
+      "deck_count": 14,
+      "total_quantity": 56
+    },
+    {
+      "card_id": "GD04-006",
+      "card_name": "V-Dash Gundam",
+      "deck_count": 14,
       "total_quantity": 48
     },
     {
-      "card_id": "GD05-010",
-      "card_name": "Kira's Strike Rouge",
+      "card_id": "GD04-081",
+      "card_name": "Üso Ewin",
       "deck_count": 14,
-      "total_quantity": 46
+      "total_quantity": 56
+    },
+    {
+      "card_id": "GD04-121",
+      "card_name": "Reineforce Jr.",
+      "deck_count": 14,
+      "total_quantity": 45
+    },
+    {
+      "card_id": "GD05-110",
+      "card_name": "Darkness Finger",
+      "deck_count": 14,
+      "total_quantity": 51
     },
     {
       "card_id": "ST03-007",
@@ -818,28 +878,10 @@
       "total_quantity": 45
     },
     {
-      "card_id": "ST06-001",
-      "card_name": "GQuuuuuuX (Omega Psycommu)",
-      "deck_count": 14,
-      "total_quantity": 43
-    },
-    {
-      "card_id": "ST06-008",
-      "card_name": "Sugai's Gelgoog (GQ)",
-      "deck_count": 14,
-      "total_quantity": 54
-    },
-    {
-      "card_id": "ST06-010",
-      "card_name": "Shuji Itō",
-      "deck_count": 14,
-      "total_quantity": 54
-    },
-    {
-      "card_id": "GD02-038",
-      "card_name": "GQuuuuuuX (Omega Psycommu)",
+      "card_id": "GD01-106",
+      "card_name": "Fortress Defense",
       "deck_count": 13,
-      "total_quantity": 33
+      "total_quantity": 27
     },
     {
       "card_id": "GD03-053",
@@ -848,10 +890,10 @@
       "total_quantity": 33
     },
     {
-      "card_id": "GD05-111",
-      "card_name": "Airframe​ Seizure",
+      "card_id": "ST09-004",
+      "card_name": "Freedom Gundam",
       "deck_count": 13,
-      "total_quantity": 52
+      "total_quantity": 23
     },
     {
       "card_id": "GD01-069",
@@ -878,10 +920,10 @@
       "total_quantity": 29
     },
     {
-      "card_id": "GD05-110",
-      "card_name": "Darkness Finger",
+      "card_id": "ST06-007",
+      "card_name": "Ortega's Rick Dom (GQ)",
       "deck_count": 12,
-      "total_quantity": 48
+      "total_quantity": 43
     },
     {
       "card_id": "GD01-010",
@@ -896,52 +938,16 @@
       "total_quantity": 15
     },
     {
-      "card_id": "GD01-106",
-      "card_name": "Fortress Defense",
-      "deck_count": 11,
-      "total_quantity": 23
-    },
-    {
       "card_id": "GD02-085",
       "card_name": "Four Murasame",
       "deck_count": 11,
       "total_quantity": 35
     },
     {
-      "card_id": "GD04-016",
-      "card_name": "Zoloat (League Militaire)",
-      "deck_count": 11,
-      "total_quantity": 42
-    },
-    {
-      "card_id": "GD04-117",
-      "card_name": "Graceful Demeanor",
-      "deck_count": 11,
-      "total_quantity": 16
-    },
-    {
-      "card_id": "ST06-007",
-      "card_name": "Ortega's Rick Dom (GQ)",
-      "deck_count": 11,
-      "total_quantity": 39
-    },
-    {
-      "card_id": "ST09-001",
-      "card_name": "Impulse Gundam",
-      "deck_count": 11,
-      "total_quantity": 44
-    },
-    {
-      "card_id": "ST09-002",
-      "card_name": "Force Impulse Gundam",
-      "deck_count": 11,
-      "total_quantity": 40
-    },
-    {
-      "card_id": "ST09-006",
-      "card_name": "Sword Impulse Gundam",
-      "deck_count": 11,
-      "total_quantity": 29
+      "card_id": "GD01-117",
+      "card_name": "The Witch and the Bride",
+      "deck_count": 10,
+      "total_quantity": 13
     },
     {
       "card_id": "GD02-001",
@@ -956,28 +962,10 @@
       "total_quantity": 22
     },
     {
-      "card_id": "GD04-003",
-      "card_name": "Victory Gundam",
+      "card_id": "GD05-015",
+      "card_name": "M1 Astray Shrike",
       "deck_count": 10,
-      "total_quantity": 40
-    },
-    {
-      "card_id": "GD04-006",
-      "card_name": "V-Dash Gundam",
-      "deck_count": 10,
-      "total_quantity": 39
-    },
-    {
-      "card_id": "GD04-081",
-      "card_name": "Üso Ewin",
-      "deck_count": 10,
-      "total_quantity": 40
-    },
-    {
-      "card_id": "GD04-121",
-      "card_name": "Reineforce Jr.",
-      "deck_count": 10,
-      "total_quantity": 39
+      "total_quantity": 38
     },
     {
       "card_id": "ST05-013",
@@ -986,28 +974,16 @@
       "total_quantity": 15
     },
     {
+      "card_id": "ST06-014",
+      "card_name": "Clan Battle",
+      "deck_count": 10,
+      "total_quantity": 25
+    },
+    {
       "card_id": "ST08-001",
       "card_name": "Ξ Gundam",
       "deck_count": 10,
       "total_quantity": 19
-    },
-    {
-      "card_id": "ST09-008",
-      "card_name": "Shinn Asuka",
-      "deck_count": 10,
-      "total_quantity": 38
-    },
-    {
-      "card_id": "ST09-010",
-      "card_name": "Minerva",
-      "deck_count": 10,
-      "total_quantity": 35
-    },
-    {
-      "card_id": "GD01-117",
-      "card_name": "The Witch and the Bride",
-      "deck_count": 9,
-      "total_quantity": 12
     },
     {
       "card_id": "GD02-007",
@@ -1016,10 +992,28 @@
       "total_quantity": 26
     },
     {
+      "card_id": "GD03-039",
+      "card_name": "Red Gundam",
+      "deck_count": 9,
+      "total_quantity": 35
+    },
+    {
       "card_id": "GD04-077",
       "card_name": "Flat (Militia)",
       "deck_count": 9,
-      "total_quantity": 25
+      "total_quantity": 28
+    },
+    {
+      "card_id": "GD04-117",
+      "card_name": "Graceful Demeanor",
+      "deck_count": 9,
+      "total_quantity": 14
+    },
+    {
+      "card_id": "GD05-114",
+      "card_name": "Widespread Annihilation",
+      "deck_count": 9,
+      "total_quantity": 17
     },
     {
       "card_id": "ST02-013",
@@ -1028,28 +1022,28 @@
       "total_quantity": 19
     },
     {
-      "card_id": "ST04-002",
-      "card_name": "Strike Gundam",
-      "deck_count": 9,
-      "total_quantity": 22
-    },
-    {
       "card_id": "ST06-004",
       "card_name": "Gelgoog (GQ)",
       "deck_count": 9,
       "total_quantity": 27
     },
     {
-      "card_id": "ST06-014",
-      "card_name": "Clan Battle",
+      "card_id": "ST09-001",
+      "card_name": "Impulse Gundam",
       "deck_count": 9,
-      "total_quantity": 21
+      "total_quantity": 36
     },
     {
-      "card_id": "ST09-007",
-      "card_name": "Blast Impulse Gundam",
+      "card_id": "ST09-002",
+      "card_name": "Force Impulse Gundam",
       "deck_count": 9,
-      "total_quantity": 26
+      "total_quantity": 32
+    },
+    {
+      "card_id": "ST09-006",
+      "card_name": "Sword Impulse Gundam",
+      "deck_count": 9,
+      "total_quantity": 23
     },
     {
       "card_id": "GD01-027",
@@ -1058,10 +1052,16 @@
       "total_quantity": 10
     },
     {
-      "card_id": "GD01-055",
-      "card_name": "BuCUE",
+      "card_id": "GD01-041",
+      "card_name": "Shenlong Gundam",
       "deck_count": 8,
-      "total_quantity": 24
+      "total_quantity": 18
+    },
+    {
+      "card_id": "GD01-076",
+      "card_name": "Michaelis",
+      "deck_count": 8,
+      "total_quantity": 30
     },
     {
       "card_id": "GD01-087",
@@ -1070,10 +1070,40 @@
       "total_quantity": 13
     },
     {
-      "card_id": "GD03-039",
+      "card_id": "GD03-072",
+      "card_name": "Aile Strike Gundam",
+      "deck_count": 8,
+      "total_quantity": 24
+    },
+    {
+      "card_id": "GD04-011",
+      "card_name": "Victory Gundam",
+      "deck_count": 8,
+      "total_quantity": 22
+    },
+    {
+      "card_id": "GD05-085",
+      "card_name": "Amuro Ray",
+      "deck_count": 8,
+      "total_quantity": 28
+    },
+    {
+      "card_id": "GD05-129",
+      "card_name": "Axis",
+      "deck_count": 8,
+      "total_quantity": 23
+    },
+    {
+      "card_id": "ST06-002",
+      "card_name": "GQuuuuuuX (Omega Psycommu)",
+      "deck_count": 8,
+      "total_quantity": 26
+    },
+    {
+      "card_id": "ST06-006",
       "card_name": "Red Gundam",
       "deck_count": 8,
-      "total_quantity": 31
+      "total_quantity": 28
     },
     {
       "card_id": "ST08-010",
@@ -1082,16 +1112,16 @@
       "total_quantity": 30
     },
     {
-      "card_id": "GD01-041",
-      "card_name": "Shenlong Gundam",
-      "deck_count": 7,
-      "total_quantity": 15
+      "card_id": "ST09-008",
+      "card_name": "Shinn Asuka",
+      "deck_count": 8,
+      "total_quantity": 31
     },
     {
-      "card_id": "GD01-076",
-      "card_name": "Michaelis",
+      "card_id": "GD01-055",
+      "card_name": "BuCUE",
       "deck_count": 7,
-      "total_quantity": 27
+      "total_quantity": 21
     },
     {
       "card_id": "GD02-095",
@@ -1106,16 +1136,34 @@
       "total_quantity": 16
     },
     {
-      "card_id": "GD04-011",
-      "card_name": "Victory Gundam",
+      "card_id": "GD05-014",
+      "card_name": "Javelin",
       "deck_count": 7,
-      "total_quantity": 19
+      "total_quantity": 28
+    },
+    {
+      "card_id": "GD05-017",
+      "card_name": "Nu Gundam",
+      "deck_count": 7,
+      "total_quantity": 27
+    },
+    {
+      "card_id": "GD05-027",
+      "card_name": "Jegan",
+      "deck_count": 7,
+      "total_quantity": 28
+    },
+    {
+      "card_id": "GD05-029",
+      "card_name": "Kayra's Re-GZ",
+      "deck_count": 7,
+      "total_quantity": 28
     },
     {
       "card_id": "GD05-033",
       "card_name": "Master Gundam",
       "deck_count": 7,
-      "total_quantity": 27
+      "total_quantity": 26
     },
     {
       "card_id": "GD05-066",
@@ -1127,7 +1175,7 @@
       "card_id": "GD05-069",
       "card_name": "Gundam Maxter",
       "deck_count": 7,
-      "total_quantity": 27
+      "total_quantity": 28
     },
     {
       "card_id": "GD05-072",
@@ -1136,16 +1184,10 @@
       "total_quantity": 25
     },
     {
-      "card_id": "GD05-085",
-      "card_name": "Amuro Ray",
-      "deck_count": 7,
-      "total_quantity": 26
-    },
-    {
       "card_id": "GD05-089",
       "card_name": "Master Asia",
       "deck_count": 7,
-      "total_quantity": 27
+      "total_quantity": 25
     },
     {
       "card_id": "GD05-097",
@@ -1157,7 +1199,7 @@
       "card_id": "GD05-120",
       "card_name": "Shining Finger",
       "deck_count": 7,
-      "total_quantity": 19
+      "total_quantity": 17
     },
     {
       "card_id": "GD05-121",
@@ -1166,28 +1208,22 @@
       "total_quantity": 26
     },
     {
+      "card_id": "GD05-125",
+      "card_name": "Ra Cailum",
+      "deck_count": 7,
+      "total_quantity": 24
+    },
+    {
       "card_id": "ST03-009",
       "card_name": "Gouf",
       "deck_count": 7,
       "total_quantity": 14
     },
     {
-      "card_id": "ST06-002",
-      "card_name": "GQuuuuuuX (Omega Psycommu)",
+      "card_id": "ST09-007",
+      "card_name": "Blast Impulse Gundam",
       "deck_count": 7,
-      "total_quantity": 22
-    },
-    {
-      "card_id": "ST06-006",
-      "card_name": "Red Gundam",
-      "deck_count": 7,
-      "total_quantity": 24
-    },
-    {
-      "card_id": "ST09-009",
-      "card_name": "Giant Killing",
-      "deck_count": 7,
-      "total_quantity": 13
+      "total_quantity": 23
     },
     {
       "card_id": "GD01-021",
@@ -1214,6 +1250,18 @@
       "total_quantity": 22
     },
     {
+      "card_id": "GD02-024",
+      "card_name": "Red Gundam",
+      "deck_count": 6,
+      "total_quantity": 14
+    },
+    {
+      "card_id": "GD02-032",
+      "card_name": "White Gundam",
+      "deck_count": 6,
+      "total_quantity": 16
+    },
+    {
       "card_id": "GD02-109",
       "card_name": "Undying Persistence",
       "deck_count": 6,
@@ -1232,40 +1280,34 @@
       "total_quantity": 19
     },
     {
-      "card_id": "GD03-072",
-      "card_name": "Aile Strike Gundam",
-      "deck_count": 6,
-      "total_quantity": 16
-    },
-    {
       "card_id": "GD03-114",
       "card_name": "Look of Determination",
       "deck_count": 6,
       "total_quantity": 17
     },
     {
+      "card_id": "GD04-015",
+      "card_name": "Gun EZ",
+      "deck_count": 6,
+      "total_quantity": 13
+    },
+    {
       "card_id": "GD04-101",
       "card_name": "Kindhearted",
       "deck_count": 6,
-      "total_quantity": 22
-    },
-    {
-      "card_id": "GD05-027",
-      "card_name": "Jegan",
-      "deck_count": 6,
-      "total_quantity": 24
+      "total_quantity": 17
     },
     {
       "card_id": "GD05-050",
       "card_name": "Gundam Exia Repair",
       "deck_count": 6,
-      "total_quantity": 24
+      "total_quantity": 20
     },
     {
       "card_id": "GD05-123",
       "card_name": "Archangel",
       "deck_count": 6,
-      "total_quantity": 18
+      "total_quantity": 16
     },
     {
       "card_id": "ST01-006",
@@ -1274,16 +1316,22 @@
       "total_quantity": 17
     },
     {
+      "card_id": "ST04-002",
+      "card_name": "Strike Gundam",
+      "deck_count": 6,
+      "total_quantity": 15
+    },
+    {
       "card_id": "ST08-002",
       "card_name": "Ξ Gundam",
       "deck_count": 6,
       "total_quantity": 21
     },
     {
-      "card_id": "GD01-006",
-      "card_name": "Delta Plus",
-      "deck_count": 5,
-      "total_quantity": 10
+      "card_id": "ST09-010",
+      "card_name": "Minerva",
+      "deck_count": 6,
+      "total_quantity": 22
     },
     {
       "card_id": "GD01-036",
@@ -1296,6 +1344,12 @@
       "card_name": "Shamblo",
       "deck_count": 5,
       "total_quantity": 9
+    },
+    {
+      "card_id": "GD01-050",
+      "card_name": "LaGOWE",
+      "deck_count": 5,
+      "total_quantity": 18
     },
     {
       "card_id": "GD01-052",
@@ -1316,10 +1370,10 @@
       "total_quantity": 15
     },
     {
-      "card_id": "GD02-024",
-      "card_name": "Red Gundam",
+      "card_id": "GD02-076",
+      "card_name": "Buster Gundam",
       "deck_count": 5,
-      "total_quantity": 12
+      "total_quantity": 10
     },
     {
       "card_id": "GD02-100",
@@ -1334,10 +1388,10 @@
       "total_quantity": 8
     },
     {
-      "card_id": "GD03-049",
-      "card_name": "Gundam Exia (Trans-Am)",
+      "card_id": "GD02-117",
+      "card_name": "A New Sign",
       "deck_count": 5,
-      "total_quantity": 14
+      "total_quantity": 10
     },
     {
       "card_id": "GD03-069",
@@ -1361,115 +1415,49 @@
       "card_id": "GD04-017",
       "card_name": "Zeong",
       "deck_count": 5,
-      "total_quantity": 14
-    },
-    {
-      "card_id": "GD04-050",
-      "card_name": "Destiny Gundam",
-      "deck_count": 5,
       "total_quantity": 15
     },
     {
-      "card_id": "GD04-065",
-      "card_name": "Unicorn Gundam 02 Banshee Norn (Destroy Mode)",
+      "card_id": "GD04-109",
+      "card_name": "Overwhelming Pressure",
       "deck_count": 5,
-      "total_quantity": 16
+      "total_quantity": 11
     },
     {
-      "card_id": "GD04-098",
-      "card_name": "Riddhe Marcenas",
-      "deck_count": 5,
-      "total_quantity": 15
-    },
-    {
-      "card_id": "GD05-015",
-      "card_name": "M1 Astray Shrike",
+      "card_id": "GD05-003",
+      "card_name": "Waldfeld's Murasame",
       "deck_count": 5,
       "total_quantity": 20
     },
     {
-      "card_id": "GD05-017",
+      "card_id": "GD05-004",
+      "card_name": "Akatsuki (Oowashi)",
+      "deck_count": 5,
+      "total_quantity": 20
+    },
+    {
+      "card_id": "GD05-020",
       "card_name": "Nu Gundam",
       "deck_count": 5,
-      "total_quantity": 19
+      "total_quantity": 15
     },
     {
-      "card_id": "GD05-019",
-      "card_name": "Re-GZ",
+      "card_id": "GD05-082",
+      "card_name": "Andrew Waldfeld",
       "deck_count": 5,
       "total_quantity": 20
     },
     {
-      "card_id": "GD05-029",
-      "card_name": "Kayra's Re-GZ",
+      "card_id": "ST06-012",
+      "card_name": "Schoolgirl and Smuggler",
       "deck_count": 5,
       "total_quantity": 17
-    },
-    {
-      "card_id": "GD05-049",
-      "card_name": "Sazabi",
-      "deck_count": 5,
-      "total_quantity": 17
-    },
-    {
-      "card_id": "GD05-067",
-      "card_name": "Wing Gundam Zero (EW)",
-      "deck_count": 5,
-      "total_quantity": 16
-    },
-    {
-      "card_id": "GD05-075",
-      "card_name": "Royal Gundam",
-      "deck_count": 5,
-      "total_quantity": 19
-    },
-    {
-      "card_id": "GD05-098",
-      "card_name": "Heero Yuy",
-      "deck_count": 5,
-      "total_quantity": 12
-    },
-    {
-      "card_id": "GD05-125",
-      "card_name": "Ra Cailum",
-      "deck_count": 5,
-      "total_quantity": 17
-    },
-    {
-      "card_id": "GD05-128",
-      "card_name": "Gundam Fight",
-      "deck_count": 5,
-      "total_quantity": 19
-    },
-    {
-      "card_id": "ST07-009",
-      "card_name": "Setsuna F. Seiei",
-      "deck_count": 5,
-      "total_quantity": 15
-    },
-    {
-      "card_id": "ST07-015",
-      "card_name": "Ptolemaios",
-      "deck_count": 5,
-      "total_quantity": 18
     },
     {
       "card_id": "ST08-014",
       "card_name": "Valiant",
       "deck_count": 5,
       "total_quantity": 16
-    },
-    {
-      "card_id": "GD01-050",
-      "card_name": "LaGOWE",
-      "deck_count": 4,
-      "total_quantity": 14
-    },
-    {
-      "card_id": "GD01-071",
-      "card_name": "Gundam Pharact",
-      "deck_count": 4,
-      "total_quantity": 12
     },
     {
       "card_id": "GD01-074",
@@ -1490,22 +1478,10 @@
       "total_quantity": 6
     },
     {
-      "card_id": "GD02-032",
-      "card_name": "White Gundam",
-      "deck_count": 4,
-      "total_quantity": 9
-    },
-    {
       "card_id": "GD02-037",
       "card_name": "Gundam Virsago",
       "deck_count": 4,
       "total_quantity": 7
-    },
-    {
-      "card_id": "GD02-087",
-      "card_name": "Orga, Crot, and Shani",
-      "deck_count": 4,
-      "total_quantity": 10
     },
     {
       "card_id": "GD02-112",
@@ -1550,46 +1526,22 @@
       "total_quantity": 8
     },
     {
-      "card_id": "GD04-015",
-      "card_name": "Gun EZ",
+      "card_id": "GD05-001",
+      "card_name": "V2 Gundam",
       "deck_count": 4,
-      "total_quantity": 8
+      "total_quantity": 5
     },
     {
-      "card_id": "GD04-033",
-      "card_name": "Neo Zeong",
-      "deck_count": 4,
-      "total_quantity": 11
-    },
-    {
-      "card_id": "GD04-056",
-      "card_name": "Sword Impulse Gundam",
-      "deck_count": 4,
-      "total_quantity": 8
-    },
-    {
-      "card_id": "GD04-063",
-      "card_name": "GN Armor Type-E",
+      "card_id": "GD05-067",
+      "card_name": "Wing Gundam Zero (EW)",
       "deck_count": 4,
       "total_quantity": 9
-    },
-    {
-      "card_id": "GD05-008",
-      "card_name": "Dijeh",
-      "deck_count": 4,
-      "total_quantity": 15
-    },
-    {
-      "card_id": "GD05-042",
-      "card_name": "Shining Gundam",
-      "deck_count": 4,
-      "total_quantity": 15
     },
     {
       "card_id": "GD05-068",
       "card_name": "Shining Gundam (Super Mode)",
       "deck_count": 4,
-      "total_quantity": 11
+      "total_quantity": 7
     },
     {
       "card_id": "GD05-093",
@@ -1598,34 +1550,28 @@
       "total_quantity": 14
     },
     {
-      "card_id": "GD05-114",
-      "card_name": "Widespread Annihilation",
+      "card_id": "GD05-128",
+      "card_name": "Gundam Fight",
+      "deck_count": 4,
+      "total_quantity": 9
+    },
+    {
+      "card_id": "ST09-009",
+      "card_name": "Giant Killing",
       "deck_count": 4,
       "total_quantity": 6
     },
     {
-      "card_id": "GD05-129",
-      "card_name": "Axis",
-      "deck_count": 4,
-      "total_quantity": 14
-    },
-    {
-      "card_id": "ST03-003",
-      "card_name": "Geara Zulu",
-      "deck_count": 4,
+      "card_id": "EB01-054",
+      "card_name": "Gaplant TR-5 \"Hrairoo\" Unit 1",
+      "deck_count": 3,
       "total_quantity": 8
     },
     {
-      "card_id": "ST06-012",
-      "card_name": "Schoolgirl and Smuggler",
-      "deck_count": 4,
-      "total_quantity": 15
-    },
-    {
-      "card_id": "ST07-001",
-      "card_name": "Gundam Exia",
-      "deck_count": 4,
-      "total_quantity": 12
+      "card_id": "GD01-006",
+      "card_name": "Delta Plus",
+      "deck_count": 3,
+      "total_quantity": 5
     },
     {
       "card_id": "GD01-049",
@@ -1640,6 +1586,12 @@
       "total_quantity": 12
     },
     {
+      "card_id": "GD01-071",
+      "card_name": "Gundam Pharact",
+      "deck_count": 3,
+      "total_quantity": 10
+    },
+    {
       "card_id": "GD01-105",
       "card_name": "Citizens, Take a Stand!",
       "deck_count": 3,
@@ -1652,22 +1604,22 @@
       "total_quantity": 8
     },
     {
-      "card_id": "GD01-130",
-      "card_name": "13th Tactical Testing Sector",
+      "card_id": "GD01-127",
+      "card_name": "Gamow",
       "deck_count": 3,
-      "total_quantity": 11
+      "total_quantity": 6
+    },
+    {
+      "card_id": "GD02-087",
+      "card_name": "Orga, Crot, and Shani",
+      "deck_count": 3,
+      "total_quantity": 7
     },
     {
       "card_id": "GD02-111",
       "card_name": "Decisive Last Resort",
       "deck_count": 3,
       "total_quantity": 5
-    },
-    {
-      "card_id": "GD02-117",
-      "card_name": "A New Sign",
-      "deck_count": 3,
-      "total_quantity": 7
     },
     {
       "card_id": "GD02-121",
@@ -1682,10 +1634,28 @@
       "total_quantity": 12
     },
     {
+      "card_id": "GD03-017",
+      "card_name": "Kämpfer",
+      "deck_count": 3,
+      "total_quantity": 11
+    },
+    {
       "card_id": "GD03-021",
       "card_name": "Gundam Deathscythe Hell",
       "deck_count": 3,
       "total_quantity": 5
+    },
+    {
+      "card_id": "GD03-024",
+      "card_name": "Hy-Gogg",
+      "deck_count": 3,
+      "total_quantity": 12
+    },
+    {
+      "card_id": "GD03-027",
+      "card_name": "Z’Gok E",
+      "deck_count": 3,
+      "total_quantity": 12
     },
     {
       "card_id": "GD03-068",
@@ -1700,52 +1670,76 @@
       "total_quantity": 10
     },
     {
-      "card_id": "GD03-087",
-      "card_name": "Sarah Zabiarov",
-      "deck_count": 3,
-      "total_quantity": 10
-    },
-    {
-      "card_id": "GD04-034",
-      "card_name": "Gundam Kyrios",
+      "card_id": "GD03-090",
+      "card_name": "Mikhail Kaminsky",
       "deck_count": 3,
       "total_quantity": 12
     },
     {
-      "card_id": "GD04-090",
-      "card_name": "Hallelujah Haptism",
-      "deck_count": 3,
-      "total_quantity": 12
-    },
-    {
-      "card_id": "GD04-130",
-      "card_name": "Industrial 7",
+      "card_id": "GD03-106",
+      "card_name": "M.A.V. Tactics",
       "deck_count": 3,
       "total_quantity": 4
     },
     {
-      "card_id": "GD05-020",
-      "card_name": "Nu Gundam",
+      "card_id": "GD03-108",
+      "card_name": "How Many Miles to the Battlefield?",
       "deck_count": 3,
       "total_quantity": 12
     },
     {
-      "card_id": "GD05-024",
-      "card_name": "Gundam AGE-2 Normal (SP Ver.)",
+      "card_id": "GD04-050",
+      "card_name": "Destiny Gundam",
       "deck_count": 3,
-      "total_quantity": 6
+      "total_quantity": 9
+    },
+    {
+      "card_id": "GD05-042",
+      "card_name": "Shining Gundam",
+      "deck_count": 3,
+      "total_quantity": 8
+    },
+    {
+      "card_id": "GD05-049",
+      "card_name": "Sazabi",
+      "deck_count": 3,
+      "total_quantity": 10
     },
     {
       "card_id": "GD05-053",
       "card_name": "Quess's Jagd Doga",
       "deck_count": 3,
-      "total_quantity": 9
+      "total_quantity": 12
     },
     {
-      "card_id": "GD05-060",
-      "card_name": "Gundam Flauros (Ryusei-Go)",
+      "card_id": "GD05-055",
+      "card_name": "Destiny Gundam",
+      "deck_count": 3,
+      "total_quantity": 4
+    },
+    {
+      "card_id": "GD05-062",
+      "card_name": "Hobby Hizack",
+      "deck_count": 3,
+      "total_quantity": 12
+    },
+    {
+      "card_id": "GD05-064",
+      "card_name": "Force Impulse Gundam",
       "deck_count": 3,
       "total_quantity": 6
+    },
+    {
+      "card_id": "GD05-075",
+      "card_name": "Royal Gundam",
+      "deck_count": 3,
+      "total_quantity": 8
+    },
+    {
+      "card_id": "GD05-077",
+      "card_name": "Leo",
+      "deck_count": 3,
+      "total_quantity": 11
     },
     {
       "card_id": "ST01-007",
@@ -1760,10 +1754,10 @@
       "total_quantity": 5
     },
     {
-      "card_id": "ST07-004",
-      "card_name": "Gundam Virtue",
+      "card_id": "ST03-003",
+      "card_name": "Geara Zulu",
       "deck_count": 3,
-      "total_quantity": 12
+      "total_quantity": 5
     },
     {
       "card_id": "ST08-006",
@@ -1776,12 +1770,6 @@
       "card_name": "Lane Aim",
       "deck_count": 3,
       "total_quantity": 9
-    },
-    {
-      "card_id": "EB01-054",
-      "card_name": "Gaplant TR-5 \"Hrairoo\" Unit 1",
-      "deck_count": 2,
-      "total_quantity": 8
     },
     {
       "card_id": "GD01-045",
@@ -1814,10 +1802,10 @@
       "total_quantity": 4
     },
     {
-      "card_id": "GD01-127",
-      "card_name": "Gamow",
+      "card_id": "GD01-130",
+      "card_name": "13th Tactical Testing Sector",
       "deck_count": 2,
-      "total_quantity": 4
+      "total_quantity": 8
     },
     {
       "card_id": "GD02-059",
@@ -1832,16 +1820,16 @@
       "total_quantity": 8
     },
     {
+      "card_id": "GD02-110",
+      "card_name": "Awakened Power",
+      "deck_count": 2,
+      "total_quantity": 5
+    },
+    {
       "card_id": "GD03-013",
       "card_name": "Hizack",
       "deck_count": 2,
       "total_quantity": 7
-    },
-    {
-      "card_id": "GD03-017",
-      "card_name": "Kämpfer",
-      "deck_count": 2,
-      "total_quantity": 8
     },
     {
       "card_id": "GD03-019",
@@ -1850,28 +1838,16 @@
       "total_quantity": 8
     },
     {
-      "card_id": "GD03-024",
-      "card_name": "Hy-Gogg",
+      "card_id": "GD03-049",
+      "card_name": "Gundam Exia (Trans-Am)",
       "deck_count": 2,
-      "total_quantity": 8
+      "total_quantity": 5
     },
     {
-      "card_id": "GD03-027",
-      "card_name": "Z’Gok E",
+      "card_id": "GD03-087",
+      "card_name": "Sarah Zabiarov",
       "deck_count": 2,
-      "total_quantity": 7
-    },
-    {
-      "card_id": "GD03-045",
-      "card_name": "Balient",
-      "deck_count": 2,
-      "total_quantity": 8
-    },
-    {
-      "card_id": "GD03-057",
-      "card_name": "GN Armor (Type-E)",
-      "deck_count": 2,
-      "total_quantity": 7
+      "total_quantity": 6
     },
     {
       "card_id": "GD03-088",
@@ -1880,62 +1856,26 @@
       "total_quantity": 8
     },
     {
-      "card_id": "GD03-090",
-      "card_name": "Mikhail Kaminsky",
-      "deck_count": 2,
-      "total_quantity": 8
-    },
-    {
-      "card_id": "GD03-106",
-      "card_name": "M.A.V. Tactics",
-      "deck_count": 2,
-      "total_quantity": 2
-    },
-    {
       "card_id": "GD03-113",
       "card_name": "Human Karma",
       "deck_count": 2,
       "total_quantity": 5
     },
     {
-      "card_id": "GD04-001",
-      "card_name": "Gundam",
+      "card_id": "GD04-033",
+      "card_name": "Neo Zeong",
       "deck_count": 2,
-      "total_quantity": 2
-    },
-    {
-      "card_id": "GD04-037",
-      "card_name": "Gundam Kyrios (Trans-Am)",
-      "deck_count": 2,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD04-038",
-      "card_name": "Gundam Exia",
-      "deck_count": 2,
-      "total_quantity": 6
+      "total_quantity": 4
     },
     {
       "card_id": "GD04-040",
       "card_name": "Schuzrum-Galluss",
       "deck_count": 2,
-      "total_quantity": 7
-    },
-    {
-      "card_id": "GD04-085",
-      "card_name": "Suletta Mercury",
-      "deck_count": 2,
       "total_quantity": 8
     },
     {
-      "card_id": "GD04-108",
-      "card_name": "Witches from Earth",
-      "deck_count": 2,
-      "total_quantity": 5
-    },
-    {
-      "card_id": "GD04-109",
-      "card_name": "Overwhelming Pressure",
+      "card_id": "GD04-066",
+      "card_name": "Unicorn Gundam (Awakened)",
       "deck_count": 2,
       "total_quantity": 5
     },
@@ -1946,88 +1886,70 @@
       "total_quantity": 4
     },
     {
-      "card_id": "GD05-001",
-      "card_name": "V2 Gundam",
-      "deck_count": 2,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD05-004",
-      "card_name": "Akatsuki (Oowashi)",
+      "card_id": "GD05-008",
+      "card_name": "Dijeh",
       "deck_count": 2,
       "total_quantity": 6
     },
     {
-      "card_id": "GD05-006",
-      "card_name": "Hashmal",
+      "card_id": "GD05-016",
+      "card_name": "Murasame",
       "deck_count": 2,
       "total_quantity": 2
     },
     {
-      "card_id": "GD05-018",
-      "card_name": "Gundam Calibarn",
-      "deck_count": 2,
-      "total_quantity": 6
-    },
-    {
-      "card_id": "GD05-022",
-      "card_name": "Gundam Schwarzette",
-      "deck_count": 2,
-      "total_quantity": 6
-    },
-    {
-      "card_id": "GD05-028",
-      "card_name": "Kayra's Jegan",
+      "card_id": "GD05-019",
+      "card_name": "Re-GZ",
       "deck_count": 2,
       "total_quantity": 8
     },
     {
-      "card_id": "GD05-035",
-      "card_name": "Dragon Gundam",
+      "card_id": "GD05-036",
+      "card_name": "Haow Gundam",
+      "deck_count": 2,
+      "total_quantity": 2
+    },
+    {
+      "card_id": "GD05-052",
+      "card_name": "Sazabi",
+      "deck_count": 2,
+      "total_quantity": 8
+    },
+    {
+      "card_id": "GD05-060",
+      "card_name": "Gundam Flauros (Ryusei-Go)",
+      "deck_count": 2,
+      "total_quantity": 3
+    },
+    {
+      "card_id": "GD05-061",
+      "card_name": "Geara Doga",
       "deck_count": 2,
       "total_quantity": 4
     },
     {
-      "card_id": "GD05-048",
-      "card_name": "Gundam Kyrios (Flight Mode)",
+      "card_id": "GD05-070",
+      "card_name": "Tallgeese Ⅲ",
       "deck_count": 2,
-      "total_quantity": 6
-    },
-    {
-      "card_id": "GD05-055",
-      "card_name": "Destiny Gundam",
-      "deck_count": 2,
-      "total_quantity": 5
-    },
-    {
-      "card_id": "GD05-062",
-      "card_name": "Hobby Hizack",
-      "deck_count": 2,
-      "total_quantity": 8
+      "total_quantity": 7
     },
     {
       "card_id": "GD05-071",
       "card_name": "Gundam Sandrock Custom (EW)",
       "deck_count": 2,
-      "total_quantity": 7
-    },
-    {
-      "card_id": "GD05-074",
-      "card_name": "Noin's Taurus",
-      "deck_count": 2,
       "total_quantity": 6
-    },
-    {
-      "card_id": "GD05-077",
-      "card_name": "Leo",
-      "deck_count": 2,
-      "total_quantity": 7
     },
     {
       "card_id": "GD05-079",
       "card_name": "Gundam Heavyarms Custom (EW)",
       "deck_count": 2,
-      "total_quantity": 8
+      "total_quantity": 6
+    },
+    {
+      "card_id": "GD05-098",
+      "card_name": "Heero Yuy",
+      "deck_count": 2,
+      "total_quantity": 4
     },
     {
       "card_id": "GD05-100",
@@ -2036,28 +1958,22 @@
       "total_quantity": 7
     },
     {
-      "card_id": "GD05-107",
-      "card_name": "Interwoven Blessings",
+      "card_id": "GD05-105",
+      "card_name": "Exclusively Defense-Oriented Policy",
       "deck_count": 2,
       "total_quantity": 4
     },
     {
-      "card_id": "GD05-112",
-      "card_name": "Hoka Kyoten Juzetsujin",
+      "card_id": "GD05-106",
+      "card_name": "Mutual Attraction",
       "deck_count": 2,
-      "total_quantity": 3
+      "total_quantity": 4
     },
     {
-      "card_id": "GD05-122",
-      "card_name": "Graviton Hammer",
+      "card_id": "GD05-107",
+      "card_name": "Interwoven Blessings",
       "deck_count": 2,
       "total_quantity": 3
-    },
-    {
-      "card_id": "GD05-130",
-      "card_name": "Presidential Office",
-      "deck_count": 2,
-      "total_quantity": 5
     },
     {
       "card_id": "ST02-006",
@@ -2066,10 +1982,10 @@
       "total_quantity": 5
     },
     {
-      "card_id": "ST07-002",
+      "card_id": "ST07-001",
       "card_name": "Gundam Exia",
       "deck_count": 2,
-      "total_quantity": 6
+      "total_quantity": 8
     },
     {
       "card_id": "ST07-006",
@@ -2084,10 +2000,10 @@
       "total_quantity": 8
     },
     {
-      "card_id": "ST07-010",
-      "card_name": "Tieria Erde",
+      "card_id": "ST07-009",
+      "card_name": "Setsuna F. Seiei",
       "deck_count": 2,
-      "total_quantity": 6
+      "total_quantity": 7
     },
     {
       "card_id": "ST07-012",
@@ -2096,80 +2012,38 @@
       "total_quantity": 7
     },
     {
+      "card_id": "ST07-015",
+      "card_name": "Ptolemaios",
+      "deck_count": 2,
+      "total_quantity": 8
+    },
+    {
       "card_id": "ST08-008",
       "card_name": "Gustav Karl Type-00",
       "deck_count": 2,
       "total_quantity": 8
     },
     {
-      "card_id": "ST09-003",
-      "card_name": "Saviour Gundam",
-      "deck_count": 2,
-      "total_quantity": 8
-    },
-    {
-      "card_id": "EB01-030",
-      "card_name": "Big-Rang",
+      "card_id": "EB01-024",
+      "card_name": "GQuuuuuuX (Omega Psycommu)",
       "deck_count": 1,
-      "total_quantity": 3
+      "total_quantity": 2
     },
     {
       "card_id": "EB01-032",
       "card_name": "Gundam Ez8 High Mobility Custom",
       "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "EB01-034",
-      "card_name": "Gundam Lfrith Ur",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "EB01-035",
-      "card_name": "Gundam Lfrith Thorn",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "EB01-036",
-      "card_name": "Darilbalde",
-      "deck_count": 1,
-      "total_quantity": 4
+      "total_quantity": 2
     },
     {
       "card_id": "EB01-041",
       "card_name": "Strike Freedom Gundam (EX)",
       "deck_count": 1,
-      "total_quantity": 1
-    },
-    {
-      "card_id": "EB01-046",
-      "card_name": "Striker Custom (EX)",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "EB01-056",
-      "card_name": "Gundam Geminass 01",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "EB01-068",
-      "card_name": "Chall Acustica",
-      "deck_count": 1,
-      "total_quantity": 4
+      "total_quantity": 3
     },
     {
       "card_id": "EB01-071",
       "card_name": "Ittou Tsurugi",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "EB01-088",
-      "card_name": "Miorine Rembran & Academy Ship",
       "deck_count": 1,
       "total_quantity": 4
     },
@@ -2192,10 +2066,22 @@
       "total_quantity": 2
     },
     {
+      "card_id": "GD01-028",
+      "card_name": "Gundam Sandrock",
+      "deck_count": 1,
+      "total_quantity": 2
+    },
+    {
       "card_id": "GD01-038",
       "card_name": "Adzam",
       "deck_count": 1,
       "total_quantity": 2
+    },
+    {
+      "card_id": "GD01-043",
+      "card_name": "Rasid's Maganac",
+      "deck_count": 1,
+      "total_quantity": 3
     },
     {
       "card_id": "GD01-046",
@@ -2226,12 +2112,6 @@
       "card_name": "Elan Ceres (Enhanced Person Number 4)",
       "deck_count": 1,
       "total_quantity": 3
-    },
-    {
-      "card_id": "GD01-104",
-      "card_name": "Signs of a Revolution",
-      "deck_count": 1,
-      "total_quantity": 2
     },
     {
       "card_id": "GD01-110",
@@ -2276,20 +2156,26 @@
       "total_quantity": 4
     },
     {
+      "card_id": "GD02-028",
+      "card_name": "Abdul's Maganac",
+      "deck_count": 1,
+      "total_quantity": 3
+    },
+    {
       "card_id": "GD02-029",
       "card_name": "Gundam AGE-1 Normal",
       "deck_count": 1,
       "total_quantity": 3
     },
     {
-      "card_id": "GD02-039",
-      "card_name": "Haman Karn's Gaza C",
+      "card_id": "GD02-030",
+      "card_name": "Genoace",
       "deck_count": 1,
       "total_quantity": 4
     },
     {
-      "card_id": "GD02-040",
-      "card_name": "Gundam Ashtaron",
+      "card_id": "GD02-039",
+      "card_name": "Haman Karn's Gaza C",
       "deck_count": 1,
       "total_quantity": 4
     },
@@ -2300,34 +2186,10 @@
       "total_quantity": 2
     },
     {
-      "card_id": "GD02-042",
-      "card_name": "Gundam Ashtaron (MA Mode)",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD02-043",
-      "card_name": "Daughtress Weapon",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD02-044",
-      "card_name": "Daughtress Command",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
       "card_id": "GD02-048",
       "card_name": "Zaku Ⅲ (Sleeves)",
       "deck_count": 1,
       "total_quantity": 2
-    },
-    {
-      "card_id": "GD02-049",
-      "card_name": "Daughtress",
-      "deck_count": 1,
-      "total_quantity": 4
     },
     {
       "card_id": "GD02-067",
@@ -2370,12 +2232,6 @@
       "card_name": "Beneath the Mask",
       "deck_count": 1,
       "total_quantity": 2
-    },
-    {
-      "card_id": "GD02-110",
-      "card_name": "Awakened Power",
-      "deck_count": 1,
-      "total_quantity": 1
     },
     {
       "card_id": "GD02-122",
@@ -2432,8 +2288,8 @@
       "total_quantity": 4
     },
     {
-      "card_id": "GD03-044",
-      "card_name": "Daughtress Flyer",
+      "card_id": "GD03-045",
+      "card_name": "Balient",
       "deck_count": 1,
       "total_quantity": 4
     },
@@ -2458,6 +2314,12 @@
     {
       "card_id": "GD03-055",
       "card_name": "Gundam Hajiroboshi (2nd Form)",
+      "deck_count": 1,
+      "total_quantity": 4
+    },
+    {
+      "card_id": "GD03-057",
+      "card_name": "GN Armor (Type-E)",
       "deck_count": 1,
       "total_quantity": 4
     },
@@ -2510,12 +2372,6 @@
       "total_quantity": 4
     },
     {
-      "card_id": "GD03-108",
-      "card_name": "How Many Miles to the Battlefield?",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
       "card_id": "GD03-122",
       "card_name": "Veteran Tactics",
       "deck_count": 1,
@@ -2534,188 +2390,74 @@
       "total_quantity": 4
     },
     {
-      "card_id": "GD04-008",
-      "card_name": "Gundam",
-      "deck_count": 1,
-      "total_quantity": 2
-    },
-    {
-      "card_id": "GD04-018",
-      "card_name": "Gundam Pharact",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD04-020",
-      "card_name": "Gundam Lfrith Ur",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD04-021",
-      "card_name": "Gundam Lfrith Thorn",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
       "card_id": "GD04-024",
       "card_name": "Gundam Aerial Rebuild",
       "deck_count": 1,
       "total_quantity": 3
     },
     {
-      "card_id": "GD04-025",
-      "card_name": "Gundvölva",
+      "card_id": "GD04-065",
+      "card_name": "Unicorn Gundam 02 Banshee Norn (Destroy Mode)",
       "deck_count": 1,
       "total_quantity": 3
     },
     {
-      "card_id": "GD04-030",
-      "card_name": "Chuchu's Demi Trainer",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD04-036",
-      "card_name": "Gundam Throne Eins",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD04-041",
-      "card_name": "Gundam Throne Drei",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD04-046",
-      "card_name": "Gundam Dynames",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD04-047",
-      "card_name": "Gundam Virtue",
+      "card_id": "GD04-085",
+      "card_name": "Suletta Mercury",
       "deck_count": 1,
       "total_quantity": 4
     },
     {
-      "card_id": "GD04-054",
-      "card_name": "Gundam Virtue (Trans-Am)",
+      "card_id": "GD04-095",
+      "card_name": "Lunamaria Hawke",
       "deck_count": 1,
       "total_quantity": 2
     },
     {
-      "card_id": "GD04-066",
-      "card_name": "Unicorn Gundam (Awakened)",
+      "card_id": "GD04-098",
+      "card_name": "Riddhe Marcenas",
       "deck_count": 1,
       "total_quantity": 3
     },
     {
-      "card_id": "GD04-067",
-      "card_name": "∀ Gundam",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD04-069",
-      "card_name": "∀ Gundam",
-      "deck_count": 1,
-      "total_quantity": 2
-    },
-    {
-      "card_id": "GD04-073",
-      "card_name": "∀ Gundam",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD04-074",
-      "card_name": "Kapool",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD04-078",
-      "card_name": "Borjarnon",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD04-087",
-      "card_name": "Elan Ceres (Enhanced Person Number 5)",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD04-088",
-      "card_name": "Tokwan",
-      "deck_count": 1,
-      "total_quantity": 2
-    },
-    {
-      "card_id": "GD04-089",
-      "card_name": "Nena Trinity",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD04-092",
-      "card_name": "Michael Trinity",
-      "deck_count": 1,
-      "total_quantity": 2
-    },
-    {
-      "card_id": "GD04-097",
-      "card_name": "Loran Cehack",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD04-106",
-      "card_name": "Indiscriminate Violence",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD04-124",
-      "card_name": "9th Tactical Testing Sector",
+      "card_id": "GD04-105",
+      "card_name": "Encounter",
       "deck_count": 1,
       "total_quantity": 1
     },
     {
-      "card_id": "GD04-125",
-      "card_name": "Trinity Warship",
+      "card_id": "GD04-108",
+      "card_name": "Witches from Earth",
       "deck_count": 1,
       "total_quantity": 2
     },
     {
-      "card_id": "GD04-129",
-      "card_name": "Willgem",
+      "card_id": "GD04-110",
+      "card_name": "Financier",
       "deck_count": 1,
       "total_quantity": 3
     },
     {
-      "card_id": "GD05-003",
-      "card_name": "Waldfeld's Murasame",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD05-007",
-      "card_name": "Asshimar",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD05-012",
-      "card_name": "Forbidden Gundam",
+      "card_id": "GD04-122",
+      "card_name": "Jaburo",
       "deck_count": 1,
       "total_quantity": 2
     },
     {
-      "card_id": "GD05-014",
-      "card_name": "Javelin",
+      "card_id": "GD04-130",
+      "card_name": "Industrial 7",
+      "deck_count": 1,
+      "total_quantity": 3
+    },
+    {
+      "card_id": "GD05-018",
+      "card_name": "Gundam Calibarn",
+      "deck_count": 1,
+      "total_quantity": 3
+    },
+    {
+      "card_id": "GD05-022",
+      "card_name": "Gundam Schwarzette",
       "deck_count": 1,
       "total_quantity": 4
     },
@@ -2732,82 +2474,58 @@
       "total_quantity": 3
     },
     {
+      "card_id": "GD05-028",
+      "card_name": "Kayra's Jegan",
+      "deck_count": 1,
+      "total_quantity": 4
+    },
+    {
       "card_id": "GD05-030",
       "card_name": "Michaelis",
       "deck_count": 1,
       "total_quantity": 3
     },
     {
-      "card_id": "GD05-036",
-      "card_name": "Haow Gundam",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD05-040",
-      "card_name": "Abyss Gundam",
+      "card_id": "GD05-034",
+      "card_name": "Gaia Gundam",
       "deck_count": 1,
       "total_quantity": 4
     },
     {
-      "card_id": "GD05-051",
-      "card_name": "Gundam Barbatos Lupus Rex",
-      "deck_count": 1,
-      "total_quantity": 2
-    },
-    {
-      "card_id": "GD05-052",
-      "card_name": "Sazabi",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD05-054",
-      "card_name": "Alpha Azieru",
-      "deck_count": 1,
-      "total_quantity": 1
-    },
-    {
-      "card_id": "GD05-056",
-      "card_name": "Rezin's Geara Doga",
-      "deck_count": 1,
-      "total_quantity": 4
-    },
-    {
-      "card_id": "GD05-058",
-      "card_name": "Shiden Custom (Ryusei-Go)",
-      "deck_count": 1,
-      "total_quantity": 2
-    },
-    {
-      "card_id": "GD05-061",
-      "card_name": "Geara Doga",
-      "deck_count": 1,
-      "total_quantity": 2
-    },
-    {
-      "card_id": "GD05-063",
-      "card_name": "Gyunei's Jagd Doga",
+      "card_id": "GD05-037",
+      "card_name": "Destroy Gundam",
       "deck_count": 1,
       "total_quantity": 3
     },
     {
-      "card_id": "GD05-064",
-      "card_name": "Force Impulse Gundam",
+      "card_id": "GD05-039",
+      "card_name": "Chaos Gundam",
       "deck_count": 1,
       "total_quantity": 2
     },
     {
-      "card_id": "GD05-070",
-      "card_name": "Tallgeese Ⅲ",
-      "deck_count": 1,
-      "total_quantity": 3
-    },
-    {
-      "card_id": "GD05-073",
-      "card_name": "Altron Gundam (EW)",
+      "card_id": "GD05-041",
+      "card_name": "Gaia Gundam (MA Mode)",
       "deck_count": 1,
       "total_quantity": 2
+    },
+    {
+      "card_id": "GD05-045",
+      "card_name": "Chaos Gundam (MA Mode)",
+      "deck_count": 1,
+      "total_quantity": 4
+    },
+    {
+      "card_id": "GD05-046",
+      "card_name": "Abyss Gundam (MA Mode)",
+      "deck_count": 1,
+      "total_quantity": 4
+    },
+    {
+      "card_id": "GD05-047",
+      "card_name": "Exass",
+      "deck_count": 1,
+      "total_quantity": 4
     },
     {
       "card_id": "GD05-076",
@@ -2822,10 +2540,10 @@
       "total_quantity": 3
     },
     {
-      "card_id": "GD05-082",
-      "card_name": "Andrew Waldfeld",
+      "card_id": "GD05-086",
+      "card_name": "Kayra Su",
       "deck_count": 1,
-      "total_quantity": 4
+      "total_quantity": 1
     },
     {
       "card_id": "GD05-088",
@@ -2834,8 +2552,20 @@
       "total_quantity": 4
     },
     {
-      "card_id": "GD05-094",
-      "card_name": "Quess Paraya",
+      "card_id": "GD05-090",
+      "card_name": "Stellar Loussier",
+      "deck_count": 1,
+      "total_quantity": 4
+    },
+    {
+      "card_id": "GD05-091",
+      "card_name": "Sting Oakley",
+      "deck_count": 1,
+      "total_quantity": 4
+    },
+    {
+      "card_id": "GD05-092",
+      "card_name": "Auel Neider",
       "deck_count": 1,
       "total_quantity": 3
     },
@@ -2846,10 +2576,16 @@
       "total_quantity": 2
     },
     {
-      "card_id": "GD05-106",
-      "card_name": "Mutual Attraction",
+      "card_id": "GD05-099",
+      "card_name": "Trowa Barton",
       "deck_count": 1,
-      "total_quantity": 2
+      "total_quantity": 3
+    },
+    {
+      "card_id": "GD05-102",
+      "card_name": "Wings of Light",
+      "deck_count": 1,
+      "total_quantity": 1
     },
     {
       "card_id": "GD05-109",
@@ -2864,8 +2600,20 @@
       "total_quantity": 2
     },
     {
+      "card_id": "GD05-122",
+      "card_name": "Graviton Hammer",
+      "deck_count": 1,
+      "total_quantity": 1
+    },
+    {
       "card_id": "GD05-126",
       "card_name": "Quiet Zero",
+      "deck_count": 1,
+      "total_quantity": 4
+    },
+    {
+      "card_id": "GD05-127",
+      "card_name": "Girty Lue",
       "deck_count": 1,
       "total_quantity": 4
     },
@@ -2878,12 +2626,6 @@
     {
       "card_id": "ST01-012",
       "card_name": "Thoroughly Damaged",
-      "deck_count": 1,
-      "total_quantity": 2
-    },
-    {
-      "card_id": "ST02-004",
-      "card_name": "Gundam Sandrock",
       "deck_count": 1,
       "total_quantity": 2
     },
@@ -2942,10 +2684,10 @@
       "total_quantity": 2
     },
     {
-      "card_id": "ST07-013",
-      "card_name": "Armed Intervention",
+      "card_id": "ST07-004",
+      "card_name": "Gundam Virtue",
       "deck_count": 1,
-      "total_quantity": 3
+      "total_quantity": 4
     },
     {
       "card_id": "ST07-014",
@@ -2960,8 +2702,8 @@
       "total_quantity": 4
     },
     {
-      "card_id": "ST10-009",
-      "card_name": "Graze Duel Type",
+      "card_id": "ST09-003",
+      "card_name": "Saviour Gundam",
       "deck_count": 1,
       "total_quantity": 4
     }

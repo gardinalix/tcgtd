@@ -37,6 +37,15 @@ test("current meta window follows the latest released GD booster", () => {
   assert.ok(!windows.some((window) => window.formatCode === "GD06"));
 });
 
+test("current meta window retains newer indexed results when metadata is stale", () => {
+  const windows = buildMetaWindows({
+    ...DATA,
+    metaResults: [...DATA.metaResults, { deckId: "fresh-1", eventId: "fresh-event", eventDate: "2026-09-03" }],
+  });
+
+  assert.equal(windows.find((window) => window.id === "current").endDate, "2026-09-03");
+});
+
 test("scoped meta excludes cards and archetypes absent from the selected window", () => {
   const current = buildMetaWindows(DATA).find((window) => window.id === "current");
   const signal = buildScopedMetaSignal(DATA, current);

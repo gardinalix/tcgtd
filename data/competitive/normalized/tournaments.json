@@ -16,7 +16,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -24,8 +24,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -46,7 +46,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -54,8 +54,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -76,7 +76,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -84,8 +84,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -106,7 +106,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -114,8 +114,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -136,7 +136,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -144,8 +144,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -166,7 +166,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -174,8 +174,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -196,7 +196,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -204,8 +204,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -226,7 +226,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -234,8 +234,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -256,7 +256,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -264,8 +264,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -286,7 +286,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -294,8 +294,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -316,7 +316,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -324,8 +324,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -346,7 +346,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -354,8 +354,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -376,7 +376,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -384,8 +384,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -406,7 +406,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -414,8 +414,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -436,7 +436,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -444,8 +444,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -466,7 +466,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -474,8 +474,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -496,7 +496,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -504,8 +504,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -526,7 +526,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -534,8 +534,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -556,7 +556,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -564,8 +564,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -586,7 +586,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -594,8 +594,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -616,7 +616,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -624,8 +624,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -646,7 +646,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -654,8 +654,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -676,7 +676,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -684,8 +684,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -706,7 +706,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -714,8 +714,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -736,7 +736,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -744,8 +744,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -766,7 +766,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -774,8 +774,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -796,7 +796,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -804,8 +804,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -826,7 +826,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -834,8 +834,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -856,7 +856,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -864,8 +864,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -886,7 +886,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -894,8 +894,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -916,7 +916,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -924,8 +924,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -946,7 +946,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -954,8 +954,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -976,7 +976,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -984,8 +984,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1006,7 +1006,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1014,8 +1014,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1036,7 +1036,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1044,8 +1044,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1066,7 +1066,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1074,8 +1074,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1096,7 +1096,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1104,8 +1104,8 @@
           "source_url": "https://egmanevents.com/gd01-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1126,7 +1126,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1134,8 +1134,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1156,7 +1156,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1164,8 +1164,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1186,7 +1186,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1194,8 +1194,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1216,7 +1216,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1224,8 +1224,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1246,7 +1246,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1254,8 +1254,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1276,7 +1276,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1284,8 +1284,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1306,7 +1306,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1314,8 +1314,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1336,7 +1336,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1344,8 +1344,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1366,7 +1366,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1374,8 +1374,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1396,7 +1396,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1404,8 +1404,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1426,7 +1426,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1434,8 +1434,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1456,7 +1456,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1464,8 +1464,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1486,7 +1486,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1494,8 +1494,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1516,7 +1516,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1524,8 +1524,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1546,7 +1546,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1554,8 +1554,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1576,7 +1576,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1584,8 +1584,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1606,7 +1606,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1614,8 +1614,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1636,7 +1636,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1644,8 +1644,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1666,7 +1666,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1674,8 +1674,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1696,7 +1696,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1704,8 +1704,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1726,7 +1726,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1734,8 +1734,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1756,7 +1756,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1764,8 +1764,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1786,7 +1786,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1794,8 +1794,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1816,7 +1816,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1824,8 +1824,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1846,7 +1846,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1854,8 +1854,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1876,7 +1876,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1884,8 +1884,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1906,7 +1906,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1914,8 +1914,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1936,7 +1936,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1944,8 +1944,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1966,7 +1966,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -1974,8 +1974,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -1996,7 +1996,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2004,8 +2004,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2026,7 +2026,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2034,8 +2034,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2056,7 +2056,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2064,8 +2064,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2086,7 +2086,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2094,8 +2094,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2116,7 +2116,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2124,8 +2124,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2146,7 +2146,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2154,8 +2154,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2176,7 +2176,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2184,8 +2184,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2206,7 +2206,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2214,8 +2214,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2236,7 +2236,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2244,8 +2244,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2266,7 +2266,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2274,8 +2274,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2296,7 +2296,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2304,8 +2304,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2326,7 +2326,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2334,8 +2334,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2356,7 +2356,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2364,8 +2364,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2386,7 +2386,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2394,8 +2394,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2416,7 +2416,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2424,8 +2424,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2446,7 +2446,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2454,8 +2454,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2476,7 +2476,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2484,8 +2484,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2506,7 +2506,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2514,8 +2514,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2536,7 +2536,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2544,8 +2544,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2566,7 +2566,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2574,8 +2574,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2596,7 +2596,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2604,8 +2604,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2626,7 +2626,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2634,8 +2634,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2656,7 +2656,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2664,8 +2664,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2686,7 +2686,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2694,8 +2694,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2716,7 +2716,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2724,8 +2724,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2746,7 +2746,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2754,8 +2754,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2776,7 +2776,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2784,8 +2784,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2806,7 +2806,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2814,8 +2814,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2836,7 +2836,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2844,8 +2844,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2866,7 +2866,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2874,8 +2874,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2896,7 +2896,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2904,8 +2904,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2926,7 +2926,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2934,8 +2934,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2956,7 +2956,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2964,8 +2964,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -2986,7 +2986,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -2994,8 +2994,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3016,7 +3016,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3024,8 +3024,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3046,7 +3046,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3054,8 +3054,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3076,7 +3076,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3084,8 +3084,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3106,7 +3106,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3114,8 +3114,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3136,7 +3136,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3144,8 +3144,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3166,7 +3166,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3174,8 +3174,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3196,7 +3196,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3204,8 +3204,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3226,7 +3226,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3234,8 +3234,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3256,7 +3256,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3264,8 +3264,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3286,7 +3286,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3294,8 +3294,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3316,7 +3316,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3324,8 +3324,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3346,7 +3346,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3354,8 +3354,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3376,7 +3376,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3384,8 +3384,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3406,7 +3406,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3414,8 +3414,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3436,7 +3436,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3444,8 +3444,8 @@
           "source_url": "https://egmanevents.com/gd02-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3466,7 +3466,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3474,8 +3474,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3496,7 +3496,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3504,8 +3504,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3526,7 +3526,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3534,8 +3534,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3556,7 +3556,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3564,8 +3564,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3586,7 +3586,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3594,8 +3594,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3616,7 +3616,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3624,8 +3624,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3646,7 +3646,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3654,8 +3654,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3676,7 +3676,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3684,8 +3684,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3706,7 +3706,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3714,8 +3714,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3736,7 +3736,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3744,8 +3744,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3766,7 +3766,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3774,8 +3774,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3796,7 +3796,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3804,8 +3804,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3826,7 +3826,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3834,8 +3834,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3856,7 +3856,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3864,8 +3864,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3886,7 +3886,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3894,8 +3894,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3916,7 +3916,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3924,8 +3924,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3946,7 +3946,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3954,8 +3954,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -3976,7 +3976,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -3984,8 +3984,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4006,7 +4006,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4014,8 +4014,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4036,7 +4036,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4044,8 +4044,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4066,7 +4066,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4074,8 +4074,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4096,7 +4096,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4104,8 +4104,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4126,7 +4126,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4134,8 +4134,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4156,7 +4156,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4164,8 +4164,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4186,7 +4186,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4194,8 +4194,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4216,7 +4216,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4224,8 +4224,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4246,7 +4246,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4254,8 +4254,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4276,7 +4276,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4284,8 +4284,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4306,7 +4306,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4314,8 +4314,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4336,7 +4336,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4344,8 +4344,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4366,7 +4366,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4374,8 +4374,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4396,7 +4396,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4404,8 +4404,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4426,7 +4426,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4434,8 +4434,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4456,7 +4456,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4464,8 +4464,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4486,7 +4486,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4494,8 +4494,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4516,7 +4516,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4524,8 +4524,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4546,7 +4546,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4554,8 +4554,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4576,7 +4576,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4584,8 +4584,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4606,7 +4606,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4614,8 +4614,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4636,7 +4636,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4644,8 +4644,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4666,7 +4666,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4674,8 +4674,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4696,7 +4696,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4704,8 +4704,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4726,7 +4726,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4734,8 +4734,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4756,7 +4756,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4764,8 +4764,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4786,7 +4786,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4794,8 +4794,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4816,7 +4816,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4824,8 +4824,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4846,7 +4846,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4854,8 +4854,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4876,7 +4876,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4884,8 +4884,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4906,7 +4906,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4914,8 +4914,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4936,7 +4936,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4944,8 +4944,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4966,7 +4966,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -4974,8 +4974,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -4996,7 +4996,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5004,8 +5004,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5026,7 +5026,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5034,8 +5034,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5056,7 +5056,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5064,8 +5064,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5086,7 +5086,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5094,8 +5094,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5116,7 +5116,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5124,8 +5124,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5146,7 +5146,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5154,8 +5154,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5176,7 +5176,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5184,8 +5184,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5206,7 +5206,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5214,8 +5214,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5236,7 +5236,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5244,8 +5244,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5266,7 +5266,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5274,8 +5274,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5296,7 +5296,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5304,8 +5304,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5326,7 +5326,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5334,8 +5334,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5356,7 +5356,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5364,8 +5364,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5386,7 +5386,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5394,8 +5394,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5416,7 +5416,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5424,8 +5424,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5446,7 +5446,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5454,8 +5454,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5476,7 +5476,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5484,8 +5484,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5506,7 +5506,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5514,8 +5514,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5536,7 +5536,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5544,8 +5544,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5566,7 +5566,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5574,8 +5574,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5596,7 +5596,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5604,8 +5604,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5626,7 +5626,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5634,8 +5634,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5656,7 +5656,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5664,8 +5664,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5686,7 +5686,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5694,8 +5694,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5716,7 +5716,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5724,8 +5724,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5746,7 +5746,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5754,8 +5754,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5776,7 +5776,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5784,8 +5784,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5806,7 +5806,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5814,8 +5814,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5836,7 +5836,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5844,8 +5844,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5866,7 +5866,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5874,8 +5874,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5896,7 +5896,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5904,8 +5904,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5926,7 +5926,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5934,8 +5934,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5956,7 +5956,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5964,8 +5964,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -5986,7 +5986,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -5994,8 +5994,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6016,7 +6016,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6024,8 +6024,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6046,7 +6046,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6054,8 +6054,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6076,7 +6076,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6084,8 +6084,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6106,7 +6106,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6114,8 +6114,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6136,7 +6136,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6144,8 +6144,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6166,7 +6166,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6174,8 +6174,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6196,7 +6196,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6204,8 +6204,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6226,7 +6226,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6234,8 +6234,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6256,7 +6256,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6264,8 +6264,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6286,7 +6286,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6294,8 +6294,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6316,7 +6316,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6324,8 +6324,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6346,7 +6346,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6354,8 +6354,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6376,7 +6376,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6384,8 +6384,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6406,7 +6406,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6414,8 +6414,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6436,7 +6436,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6444,8 +6444,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6466,7 +6466,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6474,8 +6474,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6496,7 +6496,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6504,8 +6504,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6526,7 +6526,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6534,8 +6534,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6556,7 +6556,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6564,8 +6564,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6586,7 +6586,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6594,8 +6594,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6616,7 +6616,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6624,8 +6624,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6646,7 +6646,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6654,8 +6654,8 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
@@ -6676,7 +6676,7 @@
       "source_ids": [
         "egman-events"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "egman-events",
@@ -6684,222 +6684,12 @@
           "source_url": "https://egmanevents.com/gd03-tournament-deck-lists",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
       "source_page_title": "[GD03]"
-    },
-    {
-      "id": "8f30cbecf7a15486",
-      "name": "Eagle's Nest S6GW1.0 EARLY BANLIST Webcam Locals",
-      "date": "2026-07-16",
-      "country": null,
-      "city": null,
-      "region": null,
-      "organizer": "The Eagle's Nest",
-      "format": null,
-      "set": null,
-      "player_count": 10,
-      "status": "partial_results",
-      "source_ids": [
-        "limitless-gundam"
-      ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
-      "provenance": [
-        {
-          "source_id": "limitless-gundam",
-          "source_name": "Limitless",
-          "source_url": "https://play.limitlesstcg.com/tournament/6a5447fe063cb29d318e9dfb/standings",
-          "source_type": "public_html",
-          "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
-          "adapter_id": "csv-legacy"
-        }
-      ],
-      "source_page_title": "Eagle's Nest S6GW1.0 EARLY BANLIST Webcam Locals"
-    },
-    {
-      "id": "2d2202e595e12189",
-      "name": "MOKI TOYS SHOP GCG MSA S2 W11",
-      "date": "2026-07-20",
-      "country": null,
-      "city": null,
-      "region": null,
-      "organizer": "Moki Toys Shop",
-      "format": null,
-      "set": null,
-      "player_count": 10,
-      "status": "partial_results",
-      "source_ids": [
-        "limitless-gundam"
-      ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
-      "provenance": [
-        {
-          "source_id": "limitless-gundam",
-          "source_name": "Limitless",
-          "source_url": "https://play.limitlesstcg.com/tournament/6a438d8083fd320299bd49c3/standings",
-          "source_type": "public_html",
-          "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
-          "adapter_id": "csv-legacy"
-        }
-      ],
-      "source_page_title": "MOKI TOYS SHOP GCG MSA S2 W11"
-    },
-    {
-      "id": "69bf3a7b13bba966",
-      "name": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals",
-      "date": "2026-07-23",
-      "country": null,
-      "city": null,
-      "region": null,
-      "organizer": "The Eagle's Nest",
-      "format": null,
-      "set": null,
-      "player_count": 35,
-      "status": "partial_results",
-      "source_ids": [
-        "limitless-gundam"
-      ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
-      "provenance": [
-        {
-          "source_id": "limitless-gundam",
-          "source_name": "Limitless",
-          "source_url": "https://play.limitlesstcg.com/tournament/6a5d9a9f937230b102d3ff56/standings",
-          "source_type": "public_html",
-          "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
-          "adapter_id": "csv-legacy"
-        }
-      ],
-      "source_page_title": "Eagle's Nest S6GW2.0 EARLY BANLIST GD05 MSA Locals"
-    },
-    {
-      "id": "1c30b4cbcd5b68dd",
-      "name": "MOKI TOYS SHOP GCG MSA S3 W1",
-      "date": "2026-07-27",
-      "country": null,
-      "city": null,
-      "region": null,
-      "organizer": "Moki Toys Shop",
-      "format": null,
-      "set": null,
-      "player_count": 7,
-      "status": "partial_results",
-      "source_ids": [
-        "limitless-gundam"
-      ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
-      "provenance": [
-        {
-          "source_id": "limitless-gundam",
-          "source_name": "Limitless",
-          "source_url": "https://play.limitlesstcg.com/tournament/6a66e75f937230b102d4667a/standings",
-          "source_type": "public_html",
-          "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
-          "adapter_id": "csv-legacy"
-        }
-      ],
-      "source_page_title": "MOKI TOYS SHOP GCG MSA S3 W1"
-    },
-    {
-      "id": "dcc49e890a2d061a",
-      "name": "Eagle's Nest S6GW3.0 GD05 Webcam Locals",
-      "date": "2026-07-30",
-      "country": null,
-      "city": null,
-      "region": null,
-      "organizer": "The Eagle's Nest",
-      "format": null,
-      "set": null,
-      "player_count": 18,
-      "status": "partial_results",
-      "source_ids": [
-        "limitless-gundam"
-      ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
-      "provenance": [
-        {
-          "source_id": "limitless-gundam",
-          "source_name": "Limitless",
-          "source_url": "https://play.limitlesstcg.com/tournament/6a66895a52c24ac2da64d13d/standings",
-          "source_type": "public_html",
-          "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
-          "adapter_id": "csv-legacy"
-        }
-      ],
-      "source_page_title": "Eagle's Nest S6GW3.0 GD05 Webcam Locals"
-    },
-    {
-      "id": "99e2af88ede03209",
-      "name": "MOKI TOYS SHOP GCG MSA S3 W2",
-      "date": "2026-08-03",
-      "country": null,
-      "city": null,
-      "region": null,
-      "organizer": "Moki Toys Shop",
-      "format": null,
-      "set": null,
-      "player_count": 8,
-      "status": "partial_results",
-      "source_ids": [
-        "limitless-gundam"
-      ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
-      "provenance": [
-        {
-          "source_id": "limitless-gundam",
-          "source_name": "Limitless",
-          "source_url": "https://play.limitlesstcg.com/tournament/6a66e98852c24ac2da64d5a3/standings",
-          "source_type": "public_html",
-          "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
-          "adapter_id": "csv-legacy"
-        }
-      ],
-      "source_page_title": "MOKI TOYS SHOP GCG MSA S3 W2"
-    },
-    {
-      "id": "d5deba1fe036ec94",
-      "name": "Eagle's Nest S6GW4.0 GD05 Webcam Locals",
-      "date": "2026-08-06",
-      "country": null,
-      "city": null,
-      "region": null,
-      "organizer": "The Eagle's Nest",
-      "format": null,
-      "set": null,
-      "player_count": 25,
-      "status": "partial_results",
-      "source_ids": [
-        "limitless-gundam"
-      ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
-      "provenance": [
-        {
-          "source_id": "limitless-gundam",
-          "source_name": "Limitless",
-          "source_url": "https://play.limitlesstcg.com/tournament/6a70b1d62b308b6067b48aee/standings",
-          "source_type": "public_html",
-          "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
-          "adapter_id": "csv-legacy"
-        }
-      ],
-      "source_page_title": "Eagle's Nest S6GW4.0 GD05 Webcam Locals"
     },
     {
       "id": "bac323015bc6d7e1",
@@ -6916,7 +6706,7 @@
       "source_ids": [
         "limitless-gundam"
       ],
-      "last_updated": "2026-08-10T15:56:52.343Z",
+      "last_updated": "2026-09-06T20:00:14.357Z",
       "provenance": [
         {
           "source_id": "limitless-gundam",
@@ -6924,12 +6714,102 @@
           "source_url": "https://play.limitlesstcg.com/tournament/6a66e9b7937230b102d4668b/standings",
           "source_type": "public_html",
           "confidence": "trusted",
-          "retrieved_at": "2026-08-10T15:56:52.343Z",
-          "content_hash": "5f88a1868d06104713dba01e93b22f7e62651ff145ded24f2137baa6e81ef088",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
           "adapter_id": "csv-legacy"
         }
       ],
       "source_page_title": "MOKI TOYS SHOP GCG MSA S3 W3"
+    },
+    {
+      "id": "5f04122ffec35182",
+      "name": "Eagle's Nest S6GW5.0 GD05 Webcam Locals",
+      "date": "2026-08-13",
+      "country": null,
+      "city": null,
+      "region": null,
+      "organizer": "The Eagle's Nest",
+      "format": null,
+      "set": null,
+      "player_count": 20,
+      "status": "partial_results",
+      "source_ids": [
+        "limitless-gundam"
+      ],
+      "last_updated": "2026-09-06T20:00:14.357Z",
+      "provenance": [
+        {
+          "source_id": "limitless-gundam",
+          "source_name": "Limitless",
+          "source_url": "https://play.limitlesstcg.com/tournament/6a77c163cdc0391d7fa612f3/standings",
+          "source_type": "public_html",
+          "confidence": "trusted",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
+          "adapter_id": "csv-legacy"
+        }
+      ],
+      "source_page_title": "Eagle's Nest S6GW5.0 GD05 Webcam Locals"
+    },
+    {
+      "id": "3d27f718fd8ec41d",
+      "name": "MOKI TOYS SHOP GCG MSA S3 W4",
+      "date": "2026-08-17",
+      "country": null,
+      "city": null,
+      "region": null,
+      "organizer": "Moki Toys Shop",
+      "format": null,
+      "set": null,
+      "player_count": 12,
+      "status": "partial_results",
+      "source_ids": [
+        "limitless-gundam"
+      ],
+      "last_updated": "2026-09-06T20:00:14.357Z",
+      "provenance": [
+        {
+          "source_id": "limitless-gundam",
+          "source_name": "Limitless",
+          "source_url": "https://play.limitlesstcg.com/tournament/6a66e9de937230b102d4668d/standings",
+          "source_type": "public_html",
+          "confidence": "trusted",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
+          "adapter_id": "csv-legacy"
+        }
+      ],
+      "source_page_title": "MOKI TOYS SHOP GCG MSA S3 W4"
+    },
+    {
+      "id": "af1c4a7b49ff655a",
+      "name": "Eagle's Nest S6GW6.0 GD05 Webcam Locals",
+      "date": "2026-08-20",
+      "country": null,
+      "city": null,
+      "region": null,
+      "organizer": "The Eagle's Nest",
+      "format": null,
+      "set": null,
+      "player_count": 24,
+      "status": "partial_results",
+      "source_ids": [
+        "limitless-gundam"
+      ],
+      "last_updated": "2026-09-06T20:00:14.357Z",
+      "provenance": [
+        {
+          "source_id": "limitless-gundam",
+          "source_name": "Limitless",
+          "source_url": "https://play.limitlesstcg.com/tournament/6a7f141e5a30714095570055/standings",
+          "source_type": "public_html",
+          "confidence": "trusted",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
+          "adapter_id": "csv-legacy"
+        }
+      ],
+      "source_page_title": "Eagle's Nest S6GW6.0 GD05 Webcam Locals"
     },
     {
       "id": "mexico-city-2026-08-23",
@@ -6959,6 +6839,126 @@
           "adapter_id": "manual-registry"
         }
       ]
+    },
+    {
+      "id": "c2b9364bbedfa9f0",
+      "name": "MOKI TOYS SHOP GCG MSA S3 W5",
+      "date": "2026-08-24",
+      "country": null,
+      "city": null,
+      "region": null,
+      "organizer": "Moki Toys Shop",
+      "format": null,
+      "set": null,
+      "player_count": 4,
+      "status": "partial_results",
+      "source_ids": [
+        "limitless-gundam"
+      ],
+      "last_updated": "2026-09-06T20:00:14.357Z",
+      "provenance": [
+        {
+          "source_id": "limitless-gundam",
+          "source_name": "Limitless",
+          "source_url": "https://play.limitlesstcg.com/tournament/6a66e9fe937230b102d4668e/standings",
+          "source_type": "public_html",
+          "confidence": "trusted",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
+          "adapter_id": "csv-legacy"
+        }
+      ],
+      "source_page_title": "MOKI TOYS SHOP GCG MSA S3 W5"
+    },
+    {
+      "id": "1dcfc550651eb29d",
+      "name": "Eagle's Nest S6GW7.0 GD05 Webcam Locals",
+      "date": "2026-08-27",
+      "country": null,
+      "city": null,
+      "region": null,
+      "organizer": "The Eagle's Nest",
+      "format": null,
+      "set": null,
+      "player_count": 21,
+      "status": "partial_results",
+      "source_ids": [
+        "limitless-gundam"
+      ],
+      "last_updated": "2026-09-06T20:00:14.357Z",
+      "provenance": [
+        {
+          "source_id": "limitless-gundam",
+          "source_name": "Limitless",
+          "source_url": "https://play.limitlesstcg.com/tournament/6a8a605481741245b151c7de/standings",
+          "source_type": "public_html",
+          "confidence": "trusted",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
+          "adapter_id": "csv-legacy"
+        }
+      ],
+      "source_page_title": "Eagle's Nest S6GW7.0 GD05 Webcam Locals"
+    },
+    {
+      "id": "6cede4e6d9ee93ac",
+      "name": "MOKI TOYS SHOP GCG MSA S3 W6",
+      "date": "2026-08-31",
+      "country": null,
+      "city": null,
+      "region": null,
+      "organizer": "Moki Toys Shop",
+      "format": null,
+      "set": null,
+      "player_count": 3,
+      "status": "partial_results",
+      "source_ids": [
+        "limitless-gundam"
+      ],
+      "last_updated": "2026-09-06T20:00:14.357Z",
+      "provenance": [
+        {
+          "source_id": "limitless-gundam",
+          "source_name": "Limitless",
+          "source_url": "https://play.limitlesstcg.com/tournament/6a66ea2052c24ac2da64d5a5/standings",
+          "source_type": "public_html",
+          "confidence": "trusted",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
+          "adapter_id": "csv-legacy"
+        }
+      ],
+      "source_page_title": "MOKI TOYS SHOP GCG MSA S3 W6"
+    },
+    {
+      "id": "801df62b9ccd3852",
+      "name": "Eagle's Nest S6GW8.0 GD05 Webcam Locals",
+      "date": "2026-09-03",
+      "country": null,
+      "city": null,
+      "region": null,
+      "organizer": "The Eagle's Nest",
+      "format": null,
+      "set": null,
+      "player_count": 21,
+      "status": "partial_results",
+      "source_ids": [
+        "limitless-gundam"
+      ],
+      "last_updated": "2026-09-06T20:00:14.357Z",
+      "provenance": [
+        {
+          "source_id": "limitless-gundam",
+          "source_name": "Limitless",
+          "source_url": "https://play.limitlesstcg.com/tournament/6a937e44abb94822375038c8/standings",
+          "source_type": "public_html",
+          "confidence": "trusted",
+          "retrieved_at": "2026-09-06T20:00:14.357Z",
+          "content_hash": "87e5fe8a597784c338591404e1547abaf9b31420bb31b2d502a6b5aafc36b931",
+          "adapter_id": "csv-legacy"
+        }
+      ],
+      "source_page_title": "Eagle's Nest S6GW8.0 GD05 Webcam Locals"
     }
   ]
 }

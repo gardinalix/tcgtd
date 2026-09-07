@@ -62,8 +62,16 @@ export function buildMetaWindows(data = {}) {
     .map((row) => parseIsoDate(row.eventDate))
     .filter(Number.isFinite)
     .sort((left, right) => left - right);
-  const latestTime = parseIsoDate(data.latestEventDate) || resultDates.at(-1) || Date.now();
-  const earliestTime = resultDates[0] || latestTime;
+  const eventDates = (data.metaEvents || [])
+    .map((row) => parseIsoDate(row.eventDate))
+    .filter(Number.isFinite)
+    .sort((left, right) => left - right);
+  // A stale metadata field must never clip newer indexed results. The payload
+  // can be assembled from independent card and tournament snapshots.
+  const latestCandidates = [parseIsoDate(data.latestEventDate), resultDates.at(-1), eventDates.at(-1)]
+    .filter(Number.isFinite);
+  const latestTime = latestCandidates.length ? Math.max(...latestCandidates) : Date.now();
+  const earliestTime = resultDates[0] || eventDates[0] || latestTime;
   const boosters = (data.products || [])
     .map((product) => ({
       code: String(product.productCode || "").trim().toUpperCase(),

@@ -52,6 +52,22 @@ test("legacy CSV adapter parses escaped fields and migration builds normalized r
   assert.equal(validateCompetitiveData(data).valid, true);
 });
 
+test("zero-quantity source rows are excluded without blocking a valid decklist", () => {
+  const data = buildCanonicalFromLegacy({
+    events: [{ event_id: "e1", source_name: "Egman Events", event_name: "Regional Test", event_date: "2026-08-23" }],
+    results: [{ result_id: "r1", deck_id: "d1", event_id: "e1", source_name: "Egman Events", player_name: "Pilot", placing_rank: "1", archetype: "Wing", has_decklist: "TRUE" }],
+    deckCards: [
+      { deck_card_id: "dc1", deck_id: "d1", source_name: "Egman Events", card_number: "GD05-001", card_name: "Included", quantity: "4" },
+      { deck_card_id: "dc2", deck_id: "d1", source_name: "Egman Events", card_number: "GD05-002", card_name: "Removed", quantity: "0" },
+    ],
+    aliases,
+    sourceRegistry: [{ id: "egman-events", name: "Egman Events", confidence: "trusted", source_type: "public_html" }],
+  });
+
+  assert.deepEqual(data.deck_cards.map((row) => row.card_id), ["GD05-001"]);
+  assert.equal(validateCompetitiveData(data).valid, true);
+});
+
 test("validation blocks an empty import from replacing a valid historical result dataset", () => {
   const result = validateCompetitiveData(
     { tournaments: [], results: [], decks: [], deck_cards: [], players: [], archetypes: [], cards: [] },

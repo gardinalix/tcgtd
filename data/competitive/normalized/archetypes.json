@@ -32,16 +32,6 @@
       ]
     },
     {
-      "id": "amuro-aggro",
-      "display_name": "Amuro Aggro",
-      "aliases": [
-        "Amuro Aggro"
-      ],
-      "observed_source_names": [
-        "Amuro Aggro"
-      ]
-    },
-    {
       "id": "banshee-control",
       "display_name": "Banshee Control",
       "aliases": [
@@ -139,36 +129,6 @@
       ],
       "observed_source_names": [
         "Blue White Freedom Blockers"
-      ]
-    },
-    {
-      "id": "blue-white-tempo",
-      "display_name": "Blue White Tempo",
-      "aliases": [
-        "Blue White Tempo"
-      ],
-      "observed_source_names": [
-        "Blue White Tempo"
-      ]
-    },
-    {
-      "id": "blue-white-the-o",
-      "display_name": "Blue White The-O",
-      "aliases": [
-        "Blue White The-O"
-      ],
-      "observed_source_names": [
-        "Blue White The-O"
-      ]
-    },
-    {
-      "id": "blue-white-victory-unicorn",
-      "display_name": "Blue White Victory Unicorn",
-      "aliases": [
-        "Blue White Victory Unicorn"
-      ],
-      "observed_source_names": [
-        "Blue White Victory Unicorn"
       ]
     },
     {
@@ -537,6 +497,16 @@
       ]
     },
     {
+      "id": "lockuro-aggro",
+      "display_name": "Lockuro Aggro",
+      "aliases": [
+        "Lockuro Aggro"
+      ],
+      "observed_source_names": [
+        "Lockuro Aggro"
+      ]
+    },
+    {
       "id": "lupus-control",
       "display_name": "Lupus Control",
       "aliases": [
@@ -627,26 +597,6 @@
       ]
     },
     {
-      "id": "purple-white-control",
-      "display_name": "Purple White Control",
-      "aliases": [
-        "Purple White Control"
-      ],
-      "observed_source_names": [
-        "Purple White Control"
-      ]
-    },
-    {
-      "id": "purple-white-destiny",
-      "display_name": "Purple White Destiny",
-      "aliases": [
-        "Purple White Destiny"
-      ],
-      "observed_source_names": [
-        "Purple White Destiny"
-      ]
-    },
-    {
       "id": "qubeley-ping",
       "display_name": "Qubeley Ping",
       "aliases": [
@@ -654,16 +604,6 @@
       ],
       "observed_source_names": [
         "Qubeley Ping"
-      ]
-    },
-    {
-      "id": "red-blue-newtype-ping",
-      "display_name": "Red Blue Newtype Ping",
-      "aliases": [
-        "Red Blue Newtype Ping"
-      ],
-      "observed_source_names": [
-        "Red Blue Newtype Ping"
       ]
     },
     {
@@ -827,16 +767,6 @@
       ]
     },
     {
-      "id": "white-command-slinger-academy",
-      "display_name": "White Command Slinger Academy",
-      "aliases": [
-        "White Command Slinger Academy"
-      ],
-      "observed_source_names": [
-        "White Command Slinger Academy"
-      ]
-    },
-    {
       "id": "white-green-operation-meteor",
       "display_name": "White Green Operation Meteor",
       "aliases": [
@@ -854,16 +784,6 @@
       ],
       "observed_source_names": [
         "White Red Coordinator"
-      ]
-    },
-    {
-      "id": "white-red-tempo",
-      "display_name": "White Red Tempo",
-      "aliases": [
-        "White Red Tempo"
-      ],
-      "observed_source_names": [
-        "White Red Tempo"
       ]
     },
     {

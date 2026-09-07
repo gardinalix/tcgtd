@@ -1,14 +1,14 @@
 {
   "schema_version": "tcgtd-competitive-v1",
-  "data_hash": "3f51d6a49d5598f8517aa38047347e0a04aa597ac130da2abeb353e4be9cf361",
+  "data_hash": "7b716f728c67854205e1b06b0ca66a08e425d057990b76fd79428cdb4f8fb865",
   "counts": {
     "tournaments": 232,
-    "results": 1133,
-    "decks": 1133,
-    "deck_cards": 17042,
-    "players": 866,
-    "archetypes": 96,
-    "cards": 494
+    "results": 1132,
+    "decks": 1132,
+    "deck_cards": 17082,
+    "players": 863,
+    "archetypes": 88,
+    "cards": 451
   },
   "sources": [
     {
@@ -18,7 +18,7 @@
       "adapter": "manual-registry",
       "confidence": "manual",
       "url": null,
-      "last_checked": null
+      "last_checked": "2026-09-07T02:45:35.582Z"
     },
     {
       "id": "egman-events",
@@ -27,7 +27,7 @@
       "adapter": "egman-events",
       "confidence": "trusted",
       "url": "https://egmanevents.com/gundam",
-      "last_checked": null
+      "last_checked": "2026-09-07T02:45:35.582Z"
     },
     {
       "id": "limitless-gundam",
@@ -36,7 +36,7 @@
       "adapter": "csv-legacy",
       "confidence": "trusted",
       "url": "https://play.limitlesstcg.com/tournaments/completed?game=GUNDAM",
-      "last_checked": null
+      "last_checked": "2026-09-07T02:45:35.582Z"
     },
     {
       "id": "bandai-official",
@@ -45,7 +45,7 @@
       "adapter": "bandai-official",
       "confidence": "official",
       "url": "https://www.gundam-gcg.com/en/",
-      "last_checked": null
+      "last_checked": "2026-09-07T02:45:35.582Z"
     },
     {
       "id": "exburst-gundam",
@@ -54,7 +54,7 @@
       "adapter": "manual-review",
       "confidence": "reported",
       "url": "https://exburst.dev/gundam",
-      "last_checked": null
+      "last_checked": "2026-09-07T02:45:35.582Z"
     },
     {
       "id": "gundeck-ai",
@@ -63,14 +63,22 @@
       "adapter": "methodology-reference",
       "confidence": "derived",
       "url": "https://gundeck.ai/",
-      "last_checked": null
+      "last_checked": "2026-09-07T02:45:35.582Z"
     }
   ],
   "last_run": {
-    "mode": "migrate",
-    "checked_at": null,
+    "mode": "update",
+    "checked_at": "2026-09-07T02:45:35.582Z",
     "raw_changed": true,
-    "changed_datasets": [],
+    "changed_datasets": [
+      "tournaments",
+      "results",
+      "decks",
+      "deck_cards",
+      "players",
+      "archetypes",
+      "cards"
+    ],
     "errors": []
   }
 }
