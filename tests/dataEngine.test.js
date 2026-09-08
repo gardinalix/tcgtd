@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFileSync } from "node:fs";
 import { csvLegacyAdapter } from "../scripts/data-engine/adapters/csvLegacyAdapter.mjs";
 import {
   buildCanonicalFromLegacy,
@@ -14,6 +15,44 @@ const aliases = [{
   display_name: "GW Wing Zero",
   aliases: ["Wing", "Wing Zero", "GW Wing", "Green White Wing", "Wing Zero EW"],
 }];
+
+const eaglesNest = JSON.parse(readFileSync(new URL("./fixtures/eagles-nest-zero-quantity.json", import.meta.url), "utf8"));
+
+test("Eagle's Nest Blue White Control retains 50 cards and excludes all five zero rows from derived data", () => {
+  const original = structuredClone(eaglesNest);
+  const zeroRows = eaglesNest.deckCards.filter(row => Number(row.quantity) === 0);
+  assert.equal(zeroRows.length, 5);
+  const data = buildCanonicalFromLegacy(eaglesNest);
+  assert.equal(validateCompetitiveData(data).valid, true);
+  assert.equal(data.deck_cards.length, 16);
+  assert.equal(data.deck_cards.reduce((sum, row) => sum + row.quantity, 0), 50);
+  assert.deepEqual(data.deck_cards.map(row => [row.card_id, row.quantity]).sort(),
+    eaglesNest.deckCards.filter(row => Number(row.quantity) > 0).map(row => [row.card_number, Number(row.quantity)]).sort());
+  const generated = buildGeneratedData(data);
+  assert.equal(generated.frontend.metaDeckCards.length, 16);
+  assert.equal(generated.tournamentPayloads[eaglesNest.events[0].event_id].deck_cards.length, 16);
+  for (const row of zeroRows) {
+    assert.ok(!data.cards.some(card => card.id === row.card_number));
+    assert.ok(!JSON.stringify(generated).includes(row.card_number));
+  }
+  assert.deepEqual(eaglesNest, original, "raw evidence remains unchanged");
+});
+
+test("only explicit zero is filtered; malformed or out-of-range quantities fail validation", () => {
+  for (const quantity of [-1, "-1", "0.5", "1.5", "4cards", "bad", "", null, 5]) {
+    const input = structuredClone(eaglesNest);
+    input.deckCards[0].quantity = quantity;
+    const validation = validateCompetitiveData(buildCanonicalFromLegacy(input));
+    assert.equal(validation.valid, false, `quantity ${JSON.stringify(quantity)}`);
+    assert.ok(validation.issues.some(issue => issue.code === "invalid_card_quantity"));
+  }
+});
+
+test("a zero row cannot shadow a later positive count for the same card", () => {
+  const input = structuredClone(eaglesNest);
+  input.deckCards.unshift({ ...input.deckCards[0], quantity: 0 });
+  assert.deepEqual(buildCanonicalFromLegacy(input), buildCanonicalFromLegacy(eaglesNest));
+});
 
 test("archetype aliases preserve source text while resolving the canonical identity", () => {
   const normalized = normalizeArchetype("Green White Wing", aliases);

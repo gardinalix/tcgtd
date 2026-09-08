@@ -401,11 +401,13 @@ export function buildCanonicalFromLegacy({ events = [], results = [], deckCards 
     const deckId = clean(row.deck_id);
     if (!deckId || !deckById.has(deckId)) continue;
     const cardId = clean(row.card_number)?.toUpperCase();
-    const quantity = nullableInt(row.quantity);
+    const quantityText = clean(row.quantity);
+    const quantity = quantityText == null ? null : Number(quantityText);
     // Source exports sometimes retain a card row after its count is reduced to
     // zero. It is not part of the submitted list and must not make an
-    // otherwise valid event import fail validation.
-    if (!cardId || quantity == null || quantity < 1) continue;
+    // otherwise valid event import fail validation. Never turn zero into a copy.
+    // Keep other invalid counts for validation, without truncating fractions.
+    if (!cardId || quantity === 0) continue;
     const deckCardKey = `${deckId}|${cardId}`;
     if (deckCardKeys.has(deckCardKey)) continue;
     deckCardKeys.add(deckCardKey);

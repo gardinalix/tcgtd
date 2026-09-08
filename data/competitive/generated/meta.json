@@ -88,16 +88,7 @@
     "mode": "migrate",
     "checked_at": null,
     "raw_changed": true,
-    "changed_datasets": [
-      "tournaments",
-      "results",
-      "decks",
-      "deck_cards",
-      "players",
-      "archetypes",
-      "cards",
-      "conflicts"
-    ],
+    "changed_datasets": [],
     "errors": []
   }
 }

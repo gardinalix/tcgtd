@@ -74,6 +74,24 @@
       "status": "tracked"
     },
     {
+      "id": "source-community-stores",
+      "name": "Community stores",
+      "url": null,
+      "source_type": "organizer_submission",
+      "confidence": "community",
+      "adapter": "community-reviewed",
+      "status": "manual_review"
+    },
+    {
+      "id": "msa-public",
+      "name": "Mobile Suit Arena public index",
+      "url": "https://mobilesuitarena.com/",
+      "source_type": "digital_partial_index",
+      "confidence": "reported",
+      "adapter": "msa-public-home",
+      "status": "partial_public_index"
+    },
+    {
       "id": "gundeck-ai",
       "name": "GUNDECK.AI",
       "url": "https://gundeck.ai/",
@@ -84,5 +102,5 @@
     }
   ],
   "compressed_payload": "source.json.gz",
-  "content_hash": "72def2cfe58d60fbca9fa8039d580d3aa1839e6f350d8f8e9138117b4a81b26b"
+  "content_hash": "72c474cf31da5effdc43437cf3c127daf5ef2bb876a05a0d0a3c9e3241bf145f"
 }
