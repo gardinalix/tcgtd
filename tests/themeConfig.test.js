@@ -60,11 +60,11 @@ test("the Portuguese hero title keeps its highlighted phrase in one inline flow"
 });
 
 test("the production orbital brand mark is available to the header and boot sequence", () => {
-  const logoUrl = new URL("../web/assets/brand/tcgtd-orbital-mark-v2.png", import.meta.url);
+  const logoUrl = new URL("../web/assets/brand/tcgtd-orbital-mark-v3.svg", import.meta.url);
   assert.equal(existsSync(fileURLToPath(logoUrl)), true);
 
   const header = readFileSync(fileURLToPath(new URL("../src/components/layout/SiteHeader.jsx", import.meta.url)), "utf8");
   const app = readFileSync(fileURLToPath(new URL("../src/App.jsx", import.meta.url)), "utf8");
-  assert.match(header, /tcgtd-orbital-mark-v2\.png/);
-  assert.match(app, /tcgtd-orbital-mark-v2\.png/);
+  assert.match(header, /tcgtd-orbital-mark-v3\.svg/);
+  assert.match(app, /tcgtd-orbital-mark-v3\.svg/);
 });

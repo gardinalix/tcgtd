@@ -130,7 +130,7 @@ export async function renderDeckSheetPng(input) {
   drawSheetBackground(context, layout, primary, secondary);
 
   const [brandMark, cardImages] = await Promise.all([
-    loadDeckSheetImage("/assets/brand/tcgtd-orbital-mark-v2.png"),
+    loadDeckSheetImage("/assets/brand/tcgtd-orbital-mark-v3.svg"),
     loadCardImages(model.entries),
   ]);
   drawSheetHeader(context, model, layout, primary, secondary, brandMark);

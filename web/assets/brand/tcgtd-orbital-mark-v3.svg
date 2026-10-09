@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs><linearGradient id="orbit" x1="15" y1="104" x2="112" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#9C88FF"/><stop offset="1" stop-color="#39DFFF"/></linearGradient></defs>
+  <path d="M64 7 72 40 64 35 56 40Z M64 121 56 88 64 93 72 88Z M7 64 40 56 35 64 40 72Z M121 64 88 72 93 64 88 56Z" fill="#EAF8FF"/>
+  <path d="M48 25A42 42 0 0 0 25 48M80 25A42 42 0 0 1 103 48M103 80A42 42 0 0 1 80 103M48 103A42 42 0 0 1 25 80" stroke="#EAF8FF" stroke-width="7"/>
+  <path d="M84 50A25 25 0 0 0 44 50M44 78A25 25 0 0 0 84 78" stroke="#39DFFF" stroke-width="5"/>
+  <path d="m64 48 14 8v16l-14 8-14-8V56Z" fill="#071C2C" stroke="#39DFFF" stroke-width="3"/>
+  <path d="m64 56 7 4v8l-7 4-7-4v-8Z" fill="#EAF8FF"/>
+  <path d="M24 75C9 87 6 99 15 104c13 8 55-11 84-35s32-44 5-39" stroke="#06121F" stroke-width="10" stroke-linecap="round"/>
+  <path d="M24 75C9 87 6 99 15 104c13 8 55-11 84-35s32-44 5-39" stroke="url(#orbit)" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="104" cy="30" r="5" fill="#06121F" stroke="#39DFFF" stroke-width="3"/>
+  <circle cx="25" cy="102" r="5" fill="#06121F" stroke="#9C88FF" stroke-width="3"/>
+</svg>

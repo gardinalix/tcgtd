@@ -866,7 +866,7 @@ function TacticalBootScreen({ theme }) {
         <span className="tactical-boot-screen__ring tactical-boot-screen__ring--outer" />
         <span className="tactical-boot-screen__ring tactical-boot-screen__ring--inner" />
         <span className="tactical-boot-screen__pulse" />
-        <span className="tcgtd-insignia" aria-hidden="true"><img src="/assets/brand/tcgtd-orbital-mark-v2.png" alt="" /></span>
+        <span className="tcgtd-insignia" aria-hidden="true"><img src="/assets/brand/tcgtd-orbital-mark-v3.svg" alt="" /></span>
       </div>
       <div className="tactical-boot-screen__copy">
         <span>TCG TACTICAL NETWORK // ONLINE</span>
