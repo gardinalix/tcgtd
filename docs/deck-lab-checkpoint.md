@@ -1,4 +1,10 @@
-# Estado atual — 09/10/2026: cópia local restaurada ao site no ar
+# Estado atual — 09/10/2026: menus alinhados localmente; publicação autorizada e indisponível
+
+Após a restauração abaixo, o usuário pediu refatoração do alinhamento dos menus e publicação. O ajuste foi concluído sobre a base restaurada, aprovado em 173 testes, build e QA de 320 a 1440px. A consulta Sites continua sem função executável e nenhum deploy foi iniciado. Consulte `menu-alignment-20261009.md` para escopo, artefato e continuação. A autorização deste ajuste não retoma os pacotes antigos arquivados.
+
+---
+
+# Base restaurada — 09/10/2026: cópia local alinhada ao site no ar
 
 O usuário substituiu a solicitação de publicação por restauração local: usar o online como referência e retirar todas as pendências não publicadas do projeto ativo. A publicação daquele pacote foi cancelada. Não retomar as funcionalidades arquivadas nem publicar o pacote antigo com base nas autorizações anteriores.
 

@@ -54,7 +54,7 @@ export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user
   }
 
   return (
-    <header className="site-header panel cockpit-panel cockpit-topbar cockpit-shell-topbar">
+    <header id="site-navigation" className="site-header panel cockpit-panel cockpit-topbar cockpit-shell-topbar">
       <button className="site-brand zero-brand" type="button" aria-label="TCG Tactical Database" onClick={() => onViewChange("home")}>
         <span className="site-brand__mark zero-brand__seal tcgtd-insignia" aria-hidden="true">
           <img src="/assets/brand/tcgtd-orbital-mark-v3.svg" alt="" />
@@ -70,6 +70,7 @@ export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user
         <span>{translate("Command input")}</span>
         <input
           type="search"
+          aria-label={locale === "pt-BR" ? "Buscar cartas" : "Search cards"}
           placeholder={translate("Name, number, set, text, trait...")}
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
