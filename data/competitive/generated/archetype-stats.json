@@ -114,13 +114,6 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "other",
-      "display_name": "Other",
-      "decklists": 15,
-      "wins": 1,
-      "best_finish": 1
-    },
-    {
       "archetype_id": "zeong-rush",
       "display_name": "Zeong Rush",
       "decklists": 15,
@@ -137,22 +130,8 @@
     {
       "archetype_id": "neo-zeong",
       "display_name": "Neo Zeong",
-      "decklists": 14,
+      "decklists": 13,
       "wins": 7,
-      "best_finish": 1
-    },
-    {
-      "archetype_id": "shining-gundam-master-gundam",
-      "display_name": "Shining Gundam (Master Gundam)",
-      "decklists": 13,
-      "wins": 3,
-      "best_finish": 1
-    },
-    {
-      "archetype_id": "strike-freedom-gundam-victory-gundam",
-      "display_name": "Strike Freedom Gundam (Victory Gundam)",
-      "decklists": 13,
-      "wins": 1,
       "best_finish": 1
     },
     {
@@ -168,6 +147,13 @@
       "decklists": 10,
       "wins": 5,
       "best_finish": 1
+    },
+    {
+      "archetype_id": "other",
+      "display_name": "Other",
+      "decklists": 10,
+      "wins": 0,
+      "best_finish": 2
     },
     {
       "archetype_id": "federation-tempo",
@@ -189,13 +175,6 @@
       "decklists": 8,
       "wins": 5,
       "best_finish": 1
-    },
-    {
-      "archetype_id": "strike-freedom-gundam-aile-strike-gundam",
-      "display_name": "Strike Freedom Gundam (Aile Strike Gundam)",
-      "decklists": 8,
-      "wins": 0,
-      "best_finish": 3
     },
     {
       "archetype_id": "unicorn-banshee-norn",
@@ -240,13 +219,6 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "blue-white-control",
-      "display_name": "Blue White Control",
-      "decklists": 6,
-      "wins": 0,
-      "best_finish": 2
-    },
-    {
       "archetype_id": "freedom-blockers-unicorn",
       "display_name": "Freedom Blockers (Unicorn)",
       "decklists": 6,
@@ -259,13 +231,6 @@
       "decklists": 6,
       "wins": 1,
       "best_finish": 1
-    },
-    {
-      "archetype_id": "blue-white-freedom-blockers",
-      "display_name": "Blue White Freedom Blockers",
-      "decklists": 5,
-      "wins": 0,
-      "best_finish": 7
     },
     {
       "archetype_id": "cyber-newtype-aggro",
@@ -289,18 +254,11 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "nu-gundam",
-      "display_name": "Nu Gundam",
+      "archetype_id": "shining-gundam-master-gundam",
+      "display_name": "Shining Gundam (Master Gundam)",
       "decklists": 4,
-      "wins": 1,
-      "best_finish": 1
-    },
-    {
-      "archetype_id": "strike-freedom-gundam-base",
-      "display_name": "Strike Freedom Gundam (Base)",
-      "decklists": 4,
-      "wins": 2,
-      "best_finish": 1
+      "wins": 0,
+      "best_finish": 5
     },
     {
       "archetype_id": "strike-tempo",
@@ -380,25 +338,11 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "one-year-war-rush",
-      "display_name": "One Year War Rush",
+      "archetype_id": "white-red-zaft",
+      "display_name": "White Red Zaft",
       "decklists": 3,
       "wins": 0,
-      "best_finish": 2
-    },
-    {
-      "archetype_id": "strike-freedom-gundam-gundam-barbatos-1st-form",
-      "display_name": "Strike Freedom Gundam (Gundam Barbatos 1st Form)",
-      "decklists": 3,
-      "wins": 0,
-      "best_finish": 4
-    },
-    {
-      "archetype_id": "strike-freedom-gundam-unicorn-gundam-02-banshee-destroy-mode",
-      "display_name": "Strike Freedom Gundam (Unicorn Gundam 02 Banshee [Destroy Mode] )",
-      "decklists": 3,
-      "wins": 0,
-      "best_finish": 2
+      "best_finish": 3
     },
     {
       "archetype_id": "academy-dawn-of-fold",
@@ -406,13 +350,6 @@
       "decklists": 2,
       "wins": 1,
       "best_finish": 1
-    },
-    {
-      "archetype_id": "blue-green-cyclops-team",
-      "display_name": "Blue Green Cyclops Team",
-      "decklists": 2,
-      "wins": 0,
-      "best_finish": 3
     },
     {
       "archetype_id": "cyber-newtype-jupitris",
@@ -436,18 +373,11 @@
       "best_finish": 4
     },
     {
-      "archetype_id": "gquuuuuux-omega-psycommu-red-gundam",
-      "display_name": "GQuuuuuuX [Omega Psycommu] (Red Gundam)",
+      "archetype_id": "strike-freedom-gundam-victory-gundam",
+      "display_name": "Strike Freedom Gundam (Victory Gundam)",
       "decklists": 2,
-      "wins": 0,
-      "best_finish": 15
-    },
-    {
-      "archetype_id": "sazabi-base",
-      "display_name": "Sazabi (Base)",
-      "decklists": 2,
-      "wins": 0,
-      "best_finish": 7
+      "wins": 1,
+      "best_finish": 1
     },
     {
       "archetype_id": "strike-tempo-academy",
@@ -611,6 +541,13 @@
       "best_finish": 9
     },
     {
+      "archetype_id": "gquuuuuux-omega-psycommu-red-gundam",
+      "display_name": "GQuuuuuuX [Omega Psycommu] (Red Gundam)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
       "archetype_id": "gquuuuuux-blockers",
       "display_name": "Gquuuuuux Blockers",
       "decklists": 1,
@@ -660,13 +597,6 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "lockuro-aggro",
-      "display_name": "Lockuro Aggro",
-      "decklists": 1,
-      "wins": 0,
-      "best_finish": 5
-    },
-    {
       "archetype_id": "minerva-squad",
       "display_name": "Minerva Squad",
       "decklists": 1,
@@ -674,11 +604,32 @@
       "best_finish": 4
     },
     {
-      "archetype_id": "sazabi-char-s-zaku-ii",
-      "display_name": "Sazabi (Char's Zaku II)",
+      "archetype_id": "nu-gundam",
+      "display_name": "Nu Gundam",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 7
+    },
+    {
+      "archetype_id": "purple-white-destiny",
+      "display_name": "Purple White Destiny",
       "decklists": 1,
       "wins": 0,
       "best_finish": 4
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-aile-strike-gundam",
+      "display_name": "Strike Freedom Gundam (Aile Strike Gundam)",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 15
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-unicorn-gundam-02-banshee-destroy-mode",
+      "display_name": "Strike Freedom Gundam (Unicorn Gundam 02 Banshee [Destroy Mode] )",
+      "decklists": 1,
+      "wins": 1,
+      "best_finish": 1
     },
     {
       "archetype_id": "the-o-banshee-norn",
@@ -721,20 +672,6 @@
       "decklists": 1,
       "wins": 0,
       "best_finish": 9
-    },
-    {
-      "archetype_id": "white-green-operation-meteor",
-      "display_name": "White Green Operation Meteor",
-      "decklists": 1,
-      "wins": 0,
-      "best_finish": 3
-    },
-    {
-      "archetype_id": "white-red-coordinator",
-      "display_name": "White Red Coordinator",
-      "decklists": 1,
-      "wins": 0,
-      "best_finish": 14
     },
     {
       "archetype_id": "wing-zero-academy",

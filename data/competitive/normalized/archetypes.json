@@ -112,36 +112,6 @@
       ]
     },
     {
-      "id": "blue-green-cyclops-team",
-      "display_name": "Blue Green Cyclops Team",
-      "aliases": [
-        "Blue Green Cyclops Team"
-      ],
-      "observed_source_names": [
-        "Blue Green Cyclops Team"
-      ]
-    },
-    {
-      "id": "blue-white-control",
-      "display_name": "Blue White Control",
-      "aliases": [
-        "Blue White Control"
-      ],
-      "observed_source_names": [
-        "Blue White Control"
-      ]
-    },
-    {
-      "id": "blue-white-freedom-blockers",
-      "display_name": "Blue White Freedom Blockers",
-      "aliases": [
-        "Blue White Freedom Blockers"
-      ],
-      "observed_source_names": [
-        "Blue White Freedom Blockers"
-      ]
-    },
-    {
       "id": "cb-aggro",
       "display_name": "CB Aggro",
       "aliases": [
@@ -637,16 +607,6 @@
       ]
     },
     {
-      "id": "lockuro-aggro",
-      "display_name": "Lockuro Aggro",
-      "aliases": [
-        "Lockuro Aggro"
-      ],
-      "observed_source_names": [
-        "Lockuro Aggro"
-      ]
-    },
-    {
       "id": "lupus-control",
       "display_name": "Lupus Control",
       "aliases": [
@@ -697,16 +657,6 @@
       ]
     },
     {
-      "id": "one-year-war-rush",
-      "display_name": "One Year War Rush",
-      "aliases": [
-        "One Year War Rush"
-      ],
-      "observed_source_names": [
-        "One Year War Rush"
-      ]
-    },
-    {
       "id": "other",
       "display_name": "Other",
       "aliases": [
@@ -747,6 +697,16 @@
       ]
     },
     {
+      "id": "purple-white-destiny",
+      "display_name": "Purple White Destiny",
+      "aliases": [
+        "Purple White Destiny"
+      ],
+      "observed_source_names": [
+        "Purple White Destiny"
+      ]
+    },
+    {
       "id": "qubeley-ping",
       "display_name": "Qubeley Ping",
       "aliases": [
@@ -754,26 +714,6 @@
       ],
       "observed_source_names": [
         "Qubeley Ping"
-      ]
-    },
-    {
-      "id": "sazabi-base",
-      "display_name": "Sazabi (Base)",
-      "aliases": [
-        "Sazabi (Base)"
-      ],
-      "observed_source_names": [
-        "Sazabi (Base)"
-      ]
-    },
-    {
-      "id": "sazabi-char-s-zaku-ii",
-      "display_name": "Sazabi (Char's Zaku II)",
-      "aliases": [
-        "Sazabi (Char's Zaku II)"
-      ],
-      "observed_source_names": [
-        "Sazabi (Char's Zaku II)"
       ]
     },
     {
@@ -794,26 +734,6 @@
       ],
       "observed_source_names": [
         "Strike Freedom Gundam (Aile Strike Gundam)"
-      ]
-    },
-    {
-      "id": "strike-freedom-gundam-base",
-      "display_name": "Strike Freedom Gundam (Base)",
-      "aliases": [
-        "Strike Freedom Gundam (Base)"
-      ],
-      "observed_source_names": [
-        "Strike Freedom Gundam (Base)"
-      ]
-    },
-    {
-      "id": "strike-freedom-gundam-gundam-barbatos-1st-form",
-      "display_name": "Strike Freedom Gundam (Gundam Barbatos 1st Form)",
-      "aliases": [
-        "Strike Freedom Gundam (Gundam Barbatos 1st Form)"
-      ],
-      "observed_source_names": [
-        "Strike Freedom Gundam (Gundam Barbatos 1st Form)"
       ]
     },
     {
@@ -987,23 +907,13 @@
       ]
     },
     {
-      "id": "white-green-operation-meteor",
-      "display_name": "White Green Operation Meteor",
+      "id": "white-red-zaft",
+      "display_name": "White Red Zaft",
       "aliases": [
-        "White Green Operation Meteor"
+        "White Red Zaft"
       ],
       "observed_source_names": [
-        "White Green Operation Meteor"
-      ]
-    },
-    {
-      "id": "white-red-coordinator",
-      "display_name": "White Red Coordinator",
-      "aliases": [
-        "White Red Coordinator"
-      ],
-      "observed_source_names": [
-        "White Red Coordinator"
+        "White Red Zaft"
       ]
     },
     {

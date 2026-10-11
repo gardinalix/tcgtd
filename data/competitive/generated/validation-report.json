@@ -1,7 +1,7 @@
 {
   "schema_version": "tcgtd-validation-v1",
   "valid": true,
-  "input_hash": "4ad56ad73b56439a9a57cde37c708d3e2e95cd862c6f30bce0969e4d53921f4c",
+  "input_hash": "c27c8738cac6769067c18a5ec25934eec950177310e986115d0ca59aee8e1153",
   "issues": [
     {
       "level": "warning",

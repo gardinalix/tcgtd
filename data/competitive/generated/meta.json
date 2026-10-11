@@ -1,14 +1,14 @@
 {
   "schema_version": "tcgtd-competitive-v1",
-  "data_hash": "65ed72d0464e90fbbb1695e6dc9ebbeac103fcd12b33f42c5a64f23adcc5339b",
+  "data_hash": "b736ff64abc45e6436713408416954aeeb0d49da48caa228a3426e293ef027e9",
   "counts": {
-    "tournaments": 281,
-    "results": 1328,
-    "decks": 1328,
-    "deck_cards": 20106,
-    "players": 1006,
-    "archetypes": 112,
-    "cards": 506
+    "tournaments": 278,
+    "results": 1290,
+    "decks": 1290,
+    "deck_cards": 19332,
+    "players": 997,
+    "archetypes": 103,
+    "cards": 497
   },
   "sources": [
     {
@@ -88,7 +88,15 @@
     "mode": "migrate",
     "checked_at": null,
     "raw_changed": true,
-    "changed_datasets": [],
+    "changed_datasets": [
+      "tournaments",
+      "results",
+      "decks",
+      "deck_cards",
+      "players",
+      "archetypes",
+      "cards"
+    ],
     "errors": []
   }
 }
