@@ -56,7 +56,9 @@ The build emits static files to `dist/client/`, copies Worker source to `dist/se
 
 Smoke-test the local frontend and affected routes, including direct navigation, public JSON loading and representative card images. If authentication or backend behavior changes, configure a private local `.env`, run `npm run migrate:auth` and `npm run auth`, and verify the relevant APIs through Vite's development proxy. Migration alone does not require new live account or data writes.
 
-`.github/workflows/validate.yml` runs dependency installation, normalized data validation, Node tests and the build on pushes and pull requests to `main`. It has read-only repository permissions and no deployment step. The separate tournament update workflow is optional, writes data commits and never deploys the site; review its scheduling and repository permissions after moving to GitHub.
+`.github/workflows/validate.yml` runs dependency installation, normalized data validation, Node tests and the build on pushes and pull requests to `main`. It has read-only repository permissions and no deployment step.
+
+The separate GitHub tournament updater is paused during migration: its schedule is removed and its job is explicitly disabled. Its Python payload builder requires the ignored advisor/card/price snapshots or local SQLite database. Without those inputs, a fresh runner can overwrite the committed card catalog, rules and prices with empty values. Re-enable the job and schedule only after implementing and validating a complete fresh-clone update path that preserves the existing public payload on missing or failed inputs. Local update commands are unchanged.
 
 ## Hosted state and publication
 

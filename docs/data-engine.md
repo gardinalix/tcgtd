@@ -99,6 +99,8 @@ The public collector is best-effort. If it is unavailable or parsing fails, the 
 
 ## GitHub Actions
 
-`.github/workflows/update-tournament-data.yml` runs once daily and supports **Run workflow** (`workflow_dispatch`). It has a 15-minute timeout, one concurrent run, validates before committing, and commits only a real diff. It is deliberately a convenience rather than a dependency: do not enable paid GitHub Actions spending or add a billing method for this engine. If the repository's free automation is unavailable, disable the schedule and use the same local commands above.
+`.github/workflows/update-tournament-data.yml` is paused for the GitHub migration: its schedule is removed and its job is disabled. The current Python payload builder depends on ignored local advisor/card/price snapshots; a fresh GitHub runner can otherwise clear the card catalog, rules and prices. Re-enable it only after a complete update passes validation from a tracked-only clone and preserves the committed public payload when inputs are missing or fail. Use the same local commands above while it is paused.
+
+The retained workflow has a 15-minute timeout, one concurrent run, validates before committing, and commits only a real diff. It is deliberately a convenience rather than a dependency: do not enable paid GitHub Actions spending or add a billing method for this engine.
 
 The workflow only updates versioned data and static build artifacts; it never publishes. Follow the repository's local-first approval flow before any live deployment.

@@ -65,6 +65,6 @@ The normal frontend build requires Node only. Source refresh and workbook/image 
 
 Git contains application code, public data, assets, schema and documentation. It does not transfer the hosted D1 database, user records, secrets, provider registrations, domain/DNS configuration or browser-local collections and decks.
 
-The Git migration preserves the existing Sites deployment. Changes must be implemented and validated locally, and live publication requires explicit approval under [AGENTS.md](AGENTS.md). The validation workflow performs no deployment. The optional tournament update workflow updates repository data and performs no deployment.
+The Git migration preserves the existing Sites deployment. Changes must be implemented and validated locally, and live publication requires explicit approval under [AGENTS.md](AGENTS.md). The validation workflow performs no deployment. The GitHub tournament updater is paused because its payload builder requires ignored local snapshots; it must pass a fresh-clone update check before being re-enabled. Local data update commands remain available.
 
 See [the Git migration notes](docs/GIT-MIGRATION.md) for scope, exclusions and verification.

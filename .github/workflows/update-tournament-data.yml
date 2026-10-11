@@ -1,10 +1,6 @@
 name: Update tournament data
 
 on:
-  schedule:
-    # Daily, intentionally conservative. If GitHub Actions is unavailable or
-    # reaches an account limit, local `npm run data:update` remains complete.
-    - cron: "17 09 * * *"
   workflow_dispatch:
 
 permissions:
@@ -16,6 +12,10 @@ concurrency:
 
 jobs:
   update:
+    # Paused for the GitHub migration: the payload builder requires ignored
+    # advisor/card/price snapshots. A fresh runner would erase public card data.
+    # Re-enable only after the full updater passes a tracked-only clone check.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
