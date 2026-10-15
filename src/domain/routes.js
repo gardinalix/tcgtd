@@ -43,16 +43,17 @@ export function parseRoute(location = window.location) {
 
   const path = normalizePath(location.pathname);
   const segments = path.split("/").filter(Boolean);
+  const originalSegments = (location.pathname || "/").split("/").filter(Boolean);
   if (!segments.length) return { view: "home", id: "" };
-  if (segments[0] === "auth" && segments[1] === "callback") return { view: "authCallback", id: segments[2] || "" };
-  if (segments[0] === "card") return { view: "card", id: decodeURIComponent(segments[1] || "") };
-  if (segments[0] === "synergy") return { view: "synergy", id: decodeURIComponent(segments[1] || "") };
-  if (segments[0] === "synergy-map") return { view: "synergyMap", id: decodeURIComponent(segments[1] || "") };
-  if (segments[0] === "deck") return { view: "deckView", id: decodeURIComponent(segments[1] || "") };
-  if (segments[0] === "events") return { view: segments[1] ? "eventDetail" : "events", id: decodeURIComponent(segments[1] || "") };
+  if (segments[0] === "auth" && segments[1] === "callback") return { view: "authCallback", id: originalSegments[2] || "" };
+  if (segments[0] === "card") return { view: "card", id: decodeURIComponent(originalSegments[1] || "") };
+  if (segments[0] === "synergy") return { view: "synergy", id: decodeURIComponent(originalSegments[1] || "") };
+  if (segments[0] === "synergy-map") return { view: "synergyMap", id: decodeURIComponent(originalSegments[1] || "") };
+  if (segments[0] === "deck") return { view: "deckView", id: decodeURIComponent(originalSegments[1] || "") };
+  if (segments[0] === "events") return { view: segments[1] ? "eventDetail" : "events", id: decodeURIComponent(originalSegments[1] || "") };
   if (segments[0] === "community") {
     if (segments[1] === "contribute") return { view: "contribute", id: "" };
-    if (segments[1] === "events") return { view: segments[2] ? "eventDetail" : "events", id: decodeURIComponent(segments[2] || "") };
+    if (segments[1] === "events") return { view: segments[2] ? "eventDetail" : "events", id: decodeURIComponent(originalSegments[2] || "") };
     if (segments[1] === "players") return { view: "players", id: "" };
     if (segments[1] === "schedules") return { view: "scheduleManager", id: "" };
     if (["stores", "venues", "map"].includes(segments[1])) return { view: "venues", id: "" };
