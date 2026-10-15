@@ -8,6 +8,7 @@
     "build": "npm run data:build && node scripts/build_public_payloads.mjs && vite build",
     "build:public-data": "node scripts/build_public_payloads.mjs",
     "data:update": "node scripts/data-engine.mjs update",
+    "cards:update": "node scripts/run-python.mjs scripts/refresh_card_pool.py",
     "data:migrate": "node scripts/data-engine.mjs migrate",
     "data:validate": "node scripts/data-engine.mjs validate",
     "data:build": "node scripts/data-engine.mjs build",

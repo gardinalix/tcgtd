@@ -19,6 +19,7 @@ from urllib.request import Request, urlopen
 from lxml import html
 
 from ps_fetch import fetch_text as ps_fetch_text
+from card_catalog import validate_catalog, validate_package_count
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,7 +50,7 @@ if sys.platform.startswith("win"):
 else:
     import ssl
 
-    SSL_CONTEXT = ssl._create_unverified_context()
+    SSL_CONTEXT = ssl.create_default_context()
 FETCH_RETRIES = 3
 FETCH_TIMEOUT = 45
 MAX_WORKERS = 8
@@ -1157,6 +1158,8 @@ def main() -> int:
     cards_index_path = CARDS_DIR / "index.html"
     cards_index_html = fetch_text(CARDS_INDEX_URL, cards_index_path)
     packages = parse_cards_index(cards_index_html)
+    if not packages:
+        raise ValueError("No official packages found; existing catalog was preserved.")
 
     package_rows: list[dict] = []
     detail_jobs: list[tuple[str, PackageInfo]] = []
@@ -1174,6 +1177,7 @@ def main() -> int:
         package_cache_path = CARDS_DIR / f"package_{package.package_id}.html"
         package_html = fetch_text(package_url, package_cache_path)
         result_count, detail_ids = parse_detail_ids(package_html)
+        validate_package_count(package.package_id, result_count, detail_ids)
         package_rows.append(
             {
                 "package_id": package.package_id,
@@ -1195,6 +1199,8 @@ def main() -> int:
             }
         )
 
+    # A reprint can appear in multiple product lists. Fetch each printing once.
+    detail_jobs = list({detail_id: (detail_id, package) for detail_id, package in reversed(detail_jobs)}.values())
     cards, faqs, card_detail_source_rows = fetch_all_card_details(detail_jobs)
     source_rows.extend(card_detail_source_rows)
     released_card_counts: dict[str, int] = {}
@@ -1286,7 +1292,14 @@ def main() -> int:
         "sources": source_rows,
     }
 
-    (DATA_DIR / "gundam_gcg_snapshot.json").write_text(
+    snapshot_path = DATA_DIR / "gundam_gcg_snapshot.json"
+    public_path = ROOT / "web" / "app-data.json"
+    validate_catalog(
+        snapshot,
+        json.loads(snapshot_path.read_text(encoding="utf-8")) if snapshot_path.exists() else None,
+        json.loads(public_path.read_text(encoding="utf-8")) if public_path.exists() else None,
+    )
+    snapshot_path.write_text(
         json.dumps(snapshot, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )

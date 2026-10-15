@@ -7,6 +7,7 @@ import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
+from card_catalog import validate_catalog
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,6 +71,8 @@ def read_csv_rows(path: Path) -> list[dict]:
 
 
 def parse_count_list(value: object) -> list[dict]:
+    if isinstance(value, list):
+        return value
     items = []
     for raw_item in parse_csvish_list(value):
         match = re.match(r"^(.*)\s+\((\d+)\)$", raw_item)
@@ -1123,9 +1126,9 @@ def build_packages(rows: list[dict]) -> list[dict]:
                 "packageCode": normalize_upper(row.get("package_code")),
                 "packageLabel": normalize_text(row.get("package_label")),
                 "packageKind": normalize_text(row.get("package_kind")),
-                "resultCount": int(row.get("result_count", 0) or 0),
-                "detailCount": int(row.get("detail_count", 0) or 0),
-                "packageUrl": normalize_text(row.get("package_url")),
+                "resultCount": int(row.get("cards_expected", row.get("result_count", 0)) or 0),
+                "detailCount": int(row.get("cards_found", row.get("detail_count", 0)) or 0),
+                "packageUrl": normalize_text(row.get("cards_search_url", row.get("package_url"))),
             }
         )
     return packages
@@ -1252,12 +1255,96 @@ def build_rules(advisor_snapshot: dict) -> dict:
     }
 
 
+def catalog_advisor_rows(snapshot: dict, advisor: dict, previous: dict) -> tuple[list[dict], list[dict]]:
+    # The official catalog owns card identity. Advisor snapshots may lag a new
+    # release, or be absent entirely in a GitHub/cloud checkout.
+    from build_gundam_deck_advisor_data import build_canonical_cards, build_card_advisor_rows, build_resource_rows
+
+    canonical = build_canonical_cards(snapshot["cards"])
+    rows = build_card_advisor_rows(canonical, {}, {}, None)
+    advisor_by_number = {row["card_number"]: row for row in advisor.get("card_advisor_rows", [])}
+    previous_by_number = {row["cardNumber"]: row for row in previous.get("cards", [])}
+    fields = {
+        "copy_limit": "copyLimit", "restriction_note": "restrictionNote",
+        "recent_meta_score": "recentMetaScore", "overall_meta_score": "overallMetaScore",
+        "recent_top8_decks_using": "recentTop8DecksUsing", "all_top8_decks_using": "allTop8DecksUsing",
+        "top_archetypes": "topArchetypes", "top_color_pairs": "topColorPairs",
+    }
+    for row in rows:
+        old = previous_by_number.get(row["card_number"], {})
+        stats = advisor_by_number.get(row["card_number"], {})
+        for snake, camel in fields.items():
+            if snake in stats:
+                row[snake] = stats[snake]
+            elif camel in old:
+                row[snake] = old[camel]
+    return rows, build_resource_rows(canonical)
+
+
+def preserve_market_fields(cards: list[dict], previous: list[dict], *, tcg: bool, printing_tcg: bool, marketzeon: bool, liga: bool) -> None:
+    previous_by_number = {row["cardNumber"]: row for row in previous}
+
+    def restore(target: dict, old: dict, keep_tcg: bool) -> None:
+        for key, value in old.items():
+            if ((keep_tcg and key.startswith(("tcgplayer", "marketPrice", "lowPrice", "midPrice", "highPrice", "price", "usdBrl")))
+                    or (marketzeon and key.startswith("marketZeon"))
+                    or (liga and key.startswith("ligaGundam"))):
+                target[key] = value
+
+    for card in cards:
+        old = previous_by_number.get(card["cardNumber"], {})
+        restore(card, old, tcg)
+        printings = {row["detailSearchId"]: row for row in old.get("printings", [])}
+        for printing in card.get("printings", []):
+            restore(printing, printings.get(printing["detailSearchId"], {}), printing_tcg)
+
+
+def finalize_payload(payload: dict, previous: dict, advisor: dict, catalog: dict, *, preserve_tcg: bool, preserve_printing_tcg: bool, preserve_marketzeon: bool, preserve_liga: bool) -> dict:
+    if not advisor:
+        for key in ("advisorSnapshotGeneratedAt", "metaSnapshotGeneratedAt", "recentWindowDays", "recentCutoffDate",
+                    "defaults", "rules", "archetypes", "templates", "colorPairs", "sources", "filters", "counts"):
+            if key in previous:
+                payload[key] = previous[key]
+    if not catalog:
+        for key in ("cards", "resourceCards", "previews", "products", "packages", "cardSnapshotGeneratedAt"):
+            if key in previous:
+                payload[key] = previous[key]
+        if not payload["cards"]:
+            raise ValueError("No official catalog or valid public card payload. Run npm run cards:update first.")
+    else:
+        old_cards = [*previous.get("cards", []), *previous.get("resourceCards", [])]
+        cards = [*payload["cards"], *payload["resourceCards"]]
+        missing = {row["cardNumber"] for row in old_cards} - {row["cardNumber"] for row in cards}
+        if missing:
+            raise ValueError(f"Public catalog lost {len(missing)} card(s); existing payload was preserved.")
+        preserve_market_fields(cards, old_cards, tcg=preserve_tcg, printing_tcg=preserve_printing_tcg,
+                               marketzeon=preserve_marketzeon, liga=preserve_liga)
+        filters = dict(payload.get("filters", {}))
+        filters["colors"] = ["Any", *sorted({row["color"] for row in cards})]
+        filters["cardTypes"] = ["Any", *sorted({row["cardType"] for row in payload["cards"]})]
+        filters["synergyTags"] = ["Any", *sorted({tag for row in payload["cards"] for tag in row.get("synergyTags", [])})]
+        filters["traits"] = ["Any", *sorted({tag for row in cards for tag in row.get("traits", [])})]
+        payload["filters"] = filters
+    payload["counts"] = {**payload.get("counts", {}), "main_deck_cards": len(payload["cards"]), "resource_cards": len(payload["resourceCards"])}
+    if not payload.get("fxRate"):
+        payload["fxRate"] = previous.get("fxRate", {})
+    if preserve_marketzeon:
+        payload["marketListings"] = previous.get("marketListings", [])
+    # Repeated builds with identical inputs must not create timestamp-only diffs.
+    if {k: v for k, v in payload.items() if k != "generatedAt"} == {k: v for k, v in previous.items() if k != "generatedAt"}:
+        payload["generatedAt"] = previous["generatedAt"]
+    return payload
+
+
 def main() -> None:
     WEB_DIR.mkdir(parents=True, exist_ok=True)
     advisor_snapshot = load_snapshot("gundam_deck_advisor_snapshot", ADVISOR_PATH)
     gcg_snapshot = load_snapshot("gundam_gcg_snapshot", GCG_PATH)
+    previous = json.loads(OUTPUT_JSON_PATH.read_text(encoding="utf-8")) if OUTPUT_JSON_PATH.exists() else {}
+    if gcg_snapshot:
+        validate_catalog(gcg_snapshot, public=previous)
     price_map = load_price_map()
-    fx_rate = load_fx_rate()
+    fx_rate = load_fx_rate() or previous.get("fxRate", {})
     marketzeon_price_map = load_marketzeon_price_map()
     ligagundam_price_map = load_ligagundam_price_map()
     marketzeon_listing_groups = load_marketzeon_listing_groups()
@@ -1266,8 +1353,12 @@ def main() -> None:
 
     canonical_rows = choose_canonical_rows(gcg_snapshot.get("cards", []))
     printing_rows = group_printing_rows(gcg_snapshot.get("cards", []))
+    if gcg_snapshot:
+        advisor_rows, resource_rows = catalog_advisor_rows(gcg_snapshot, advisor_snapshot, previous)
+    else:
+        advisor_rows, resource_rows = [], []
     main_cards = build_main_cards(
-        advisor_snapshot.get("card_advisor_rows", []),
+        advisor_rows,
         canonical_rows,
         printing_rows,
         price_map,
@@ -1279,7 +1370,7 @@ def main() -> None:
         tcgplayer_printing_price_groups,
     )
     resource_cards = build_resource_cards(
-        advisor_snapshot.get("resource_rows", []),
+        resource_rows,
         canonical_rows,
         printing_rows,
         price_map,
@@ -1358,6 +1449,10 @@ def main() -> None:
         "marketListings": market_listings,
     }
 
+    payload = finalize_payload(payload, previous, advisor_snapshot, gcg_snapshot,
+                               preserve_tcg=not price_map, preserve_printing_tcg=not tcgplayer_printing_price_groups,
+                               preserve_marketzeon=not marketzeon_price_map and not marketzeon_listing_groups,
+                               preserve_liga=not ligagundam_price_map and not ligagundam_listing_groups)
     js_payload = "window.GUNDAM_DECK_BUILDER_DATA = " + json.dumps(
         payload,
         ensure_ascii=False,
@@ -1374,17 +1469,17 @@ def main() -> None:
             {
                 "output": str(OUTPUT_JS_PATH),
                 "json_output": str(OUTPUT_JSON_PATH),
-                "cards": len(main_cards),
-                "resource_cards": len(resource_cards),
-                "archetypes": len(archetypes),
-                "templates": len(templates),
-                "previews": len(previews),
-                "products": len(products),
-                "packages": len(packages),
+                "cards": len(payload["cards"]),
+                "resource_cards": len(payload["resourceCards"]),
+                "archetypes": len(payload["archetypes"]),
+                "templates": len(payload["templates"]),
+                "previews": len(payload["previews"]),
+                "products": len(payload["products"]),
+                "packages": len(payload["packages"]),
                 "meta_events": len(meta_events),
                 "meta_results": len(meta_results),
                 "meta_deck_cards": len(meta_deck_cards),
-                "market_listings": len(market_listings),
+                "market_listings": len(payload["marketListings"]),
             },
             indent=2,
         )
