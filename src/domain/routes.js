@@ -32,6 +32,12 @@ export const ROUTES = {
   feedback: "/feedback",
 };
 
+const ROUTE_ALIASES = {
+  "/products": "previews",
+  "/forge": "decks",
+  "/deck-designer": "decks",
+};
+
 export function parseRoute(location = window.location) {
   const rawHash = location.hash?.replace(/^#/, "") || "";
   const searchParams = new URLSearchParams(location.search || "");
@@ -60,6 +66,9 @@ export function parseRoute(location = window.location) {
     return { view: "community", id: "" };
   }
   if (segments[0] === "settings" && segments[1] === "account") return { view: "accountSettings", id: "" };
+
+  const aliasView = ROUTE_ALIASES[path.toLowerCase()];
+  if (aliasView) return { view: aliasView, id: "" };
 
   const route = Object.entries(ROUTES).find(([, routePath]) => normalizePath(routePath).toLowerCase() === path.toLowerCase());
   return { view: route?.[0] || "home", id: "" };
