@@ -43,6 +43,7 @@ export function PricesPage({ data }) {
         <TacticalSummaryCard label="Avg BR markup" value={avgMarkup === null ? "N/A" : `${avgMarkup >= 0 ? "+" : ""}${avgMarkup.toFixed(0)}%`} />
       </TacticalSummaryStrip>
       <TacticalDataPanel title="BR markup watchlist" subtitle="Cards with the highest MarketZeon low price versus TCGPlayer BRL reference.">
+        <div className="react-table-wrap" tabIndex={0} role="region" aria-label="Market price comparison">
         <table className="data-table react-card-table">
           <thead>
             <tr>
@@ -73,8 +74,10 @@ export function PricesPage({ data }) {
             ))}
           </tbody>
         </table>
+        </div>
       </TacticalDataPanel>
       <TacticalDataPanel title="Best BR opportunities" subtitle="Cards currently below the converted TCGPlayer reference.">
+        <div className="react-table-wrap" tabIndex={0} role="region" aria-label="Market price comparison">
         <table className="data-table react-card-table">
           <thead>
             <tr>
@@ -99,8 +102,10 @@ export function PricesPage({ data }) {
             ))}
           </tbody>
         </table>
+        </div>
       </TacticalDataPanel>
       <TacticalDataPanel title="Highest TCG references" subtitle="Fallback view from synchronized TCGCSV cache.">
+        <div className="react-table-wrap" tabIndex={0} role="region" aria-label="Market price comparison">
         <table className="data-table react-card-table">
           <thead>
             <tr>
@@ -125,6 +130,7 @@ export function PricesPage({ data }) {
             ))}
           </tbody>
         </table>
+        </div>
       </TacticalDataPanel>
     </TacticalPageShell>
   );

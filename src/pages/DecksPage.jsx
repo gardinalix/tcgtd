@@ -88,7 +88,7 @@ export function DecksPage({
         <nav className="deck-designer-routebar" aria-label="Deck workspace">
           <div>
             <span className="eyebrow">SUBSYSTEM 02 // STRATEGIC OPTIMIZATION</span>
-            <strong>TACTICAL FORGE</strong>
+            <h1>TACTICAL FORGE</h1>
           </div>
           <span className="deck-designer-routebar__status"><i /> SYSTEM STANDBY</span>
           <div className="deck-designer-routebar__modes">
