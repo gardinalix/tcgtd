@@ -1,7 +1,7 @@
 {
   "schema_version": "tcgtd-validation-v1",
   "valid": true,
-  "input_hash": "c27c8738cac6769067c18a5ec25934eec950177310e986115d0ca59aee8e1153",
+  "input_hash": "b21a37b74d86b5a31ca4b93e7b6db09cc56480f23ac53db4a7f2d575584d79d0",
   "issues": [
     {
       "level": "warning",
@@ -1038,6 +1038,30 @@
     {
       "level": "warning",
       "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 3 in tournament 9eccd49477d134ec.",
+      "record_id": "3964f117eb111316"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 5 in tournament 9eccd49477d134ec.",
+      "record_id": "8c32a0a10c626212"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 5 in tournament 9eccd49477d134ec.",
+      "record_id": "07d90148968578d0"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 5 in tournament 9eccd49477d134ec.",
+      "record_id": "c1a4437bcbc12a28"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 4 in tournament 9f3218c789ef6d78.",
       "record_id": "d81f6552e57b34c3"
     },
@@ -1268,6 +1292,30 @@
       "code": "duplicate_placement",
       "message": "Incompatible duplicate placement 1 in tournament aa027073d44c0764.",
       "record_id": "d8f9f540cc906801"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 3 in tournament ab0c868c8899a036.",
+      "record_id": "79398d0253135d8d"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 5 in tournament ab0c868c8899a036.",
+      "record_id": "a26386475d38dbd3"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 5 in tournament ab0c868c8899a036.",
+      "record_id": "613ea42a889b395b"
+    },
+    {
+      "level": "warning",
+      "code": "duplicate_placement",
+      "message": "Incompatible duplicate placement 5 in tournament ab0c868c8899a036.",
+      "record_id": "f141e0396d108f22"
     },
     {
       "level": "warning",

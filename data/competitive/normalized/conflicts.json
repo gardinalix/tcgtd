@@ -2034,6 +2034,58 @@
         "085a8c8ccdc8f8c3"
       ],
       "message": "Source labels multiple players with the same placement; records were preserved without inventing a tiebreaker."
+    },
+    {
+      "id": "duplicate-placement-65873e3a2750",
+      "type": "duplicate_placement",
+      "status": "needs_review",
+      "tournament_id": "9eccd49477d134ec",
+      "placement": 3,
+      "result_ids": [
+        "facd421f8056383a",
+        "3964f117eb111316"
+      ],
+      "message": "Source labels multiple players with the same placement; records were preserved without inventing a tiebreaker."
+    },
+    {
+      "id": "duplicate-placement-3237c8041820",
+      "type": "duplicate_placement",
+      "status": "needs_review",
+      "tournament_id": "9eccd49477d134ec",
+      "placement": 5,
+      "result_ids": [
+        "703d246d8a25d4e9",
+        "8c32a0a10c626212",
+        "07d90148968578d0",
+        "c1a4437bcbc12a28"
+      ],
+      "message": "Source labels multiple players with the same placement; records were preserved without inventing a tiebreaker."
+    },
+    {
+      "id": "duplicate-placement-870fbf27779f",
+      "type": "duplicate_placement",
+      "status": "needs_review",
+      "tournament_id": "ab0c868c8899a036",
+      "placement": 3,
+      "result_ids": [
+        "50c388d5afa11fed",
+        "79398d0253135d8d"
+      ],
+      "message": "Source labels multiple players with the same placement; records were preserved without inventing a tiebreaker."
+    },
+    {
+      "id": "duplicate-placement-cb35083c6e69",
+      "type": "duplicate_placement",
+      "status": "needs_review",
+      "tournament_id": "ab0c868c8899a036",
+      "placement": 5,
+      "result_ids": [
+        "4498e45feb1fcac0",
+        "a26386475d38dbd3",
+        "613ea42a889b395b",
+        "f141e0396d108f22"
+      ],
+      "message": "Source labels multiple players with the same placement; records were preserved without inventing a tiebreaker."
     }
   ]
 }

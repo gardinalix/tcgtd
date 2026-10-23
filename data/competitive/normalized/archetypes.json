@@ -112,6 +112,26 @@
       ]
     },
     {
+      "id": "blue-white-control",
+      "display_name": "Blue White Control",
+      "aliases": [
+        "Blue White Control"
+      ],
+      "observed_source_names": [
+        "Blue White Control"
+      ]
+    },
+    {
+      "id": "blue-white-freedom-blockers",
+      "display_name": "Blue White Freedom Blockers",
+      "aliases": [
+        "Blue White Freedom Blockers"
+      ],
+      "observed_source_names": [
+        "Blue White Freedom Blockers"
+      ]
+    },
+    {
       "id": "cb-aggro",
       "display_name": "CB Aggro",
       "aliases": [
@@ -442,16 +462,6 @@
       ]
     },
     {
-      "id": "gquuuuuux-omega-psycommu-red-gundam",
-      "display_name": "GQuuuuuuX [Omega Psycommu] (Red Gundam)",
-      "aliases": [
-        "GQuuuuuuX [Omega Psycommu] (Red Gundam)"
-      ],
-      "observed_source_names": [
-        "GQuuuuuuX [Omega Psycommu] (Red Gundam)"
-      ]
-    },
-    {
       "id": "gquuuuuux-blockers",
       "display_name": "Gquuuuuux Blockers",
       "aliases": [
@@ -697,16 +707,6 @@
       ]
     },
     {
-      "id": "purple-white-destiny",
-      "display_name": "Purple White Destiny",
-      "aliases": [
-        "Purple White Destiny"
-      ],
-      "observed_source_names": [
-        "Purple White Destiny"
-      ]
-    },
-    {
       "id": "qubeley-ping",
       "display_name": "Qubeley Ping",
       "aliases": [
@@ -714,6 +714,36 @@
       ],
       "observed_source_names": [
         "Qubeley Ping"
+      ]
+    },
+    {
+      "id": "red-green-cb",
+      "display_name": "Red Green CB",
+      "aliases": [
+        "Red Green CB"
+      ],
+      "observed_source_names": [
+        "Red Green CB"
+      ]
+    },
+    {
+      "id": "sazabi-base",
+      "display_name": "Sazabi (Base)",
+      "aliases": [
+        "Sazabi (Base)"
+      ],
+      "observed_source_names": [
+        "Sazabi (Base)"
+      ]
+    },
+    {
+      "id": "sazabi-char-s-zaku-ii",
+      "display_name": "Sazabi (Char's Zaku II)",
+      "aliases": [
+        "Sazabi (Char's Zaku II)"
+      ],
+      "observed_source_names": [
+        "Sazabi (Char's Zaku II)"
       ]
     },
     {
@@ -734,6 +764,16 @@
       ],
       "observed_source_names": [
         "Strike Freedom Gundam (Aile Strike Gundam)"
+      ]
+    },
+    {
+      "id": "strike-freedom-gundam-base",
+      "display_name": "Strike Freedom Gundam (Base)",
+      "aliases": [
+        "Strike Freedom Gundam (Base)"
+      ],
+      "observed_source_names": [
+        "Strike Freedom Gundam (Base)"
       ]
     },
     {
@@ -904,6 +944,16 @@
       ],
       "observed_source_names": [
         "Vulture"
+      ]
+    },
+    {
+      "id": "white-red-tempo",
+      "display_name": "White Red Tempo",
+      "aliases": [
+        "White Red Tempo"
+      ],
+      "observed_source_names": [
+        "White Red Tempo"
       ]
     },
     {
