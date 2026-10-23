@@ -42,18 +42,18 @@ export function parseRoute(location = window.location) {
   }
 
   const path = normalizePath(location.pathname);
-  const segments = path.split("/").filter(Boolean);
-  const originalSegments = (location.pathname || "/").split("/").filter(Boolean);
+  const rawSegments = path.split("/").filter(Boolean);
+  const segments = rawSegments.map((segment) => segment.toLowerCase());
   if (!segments.length) return { view: "home", id: "" };
-  if (segments[0] === "auth" && segments[1] === "callback") return { view: "authCallback", id: originalSegments[2] || "" };
-  if (segments[0] === "card") return { view: "card", id: decodeURIComponent(originalSegments[1] || "") };
-  if (segments[0] === "synergy") return { view: "synergy", id: decodeURIComponent(originalSegments[1] || "") };
-  if (segments[0] === "synergy-map") return { view: "synergyMap", id: decodeURIComponent(originalSegments[1] || "") };
-  if (segments[0] === "deck") return { view: "deckView", id: decodeURIComponent(originalSegments[1] || "") };
-  if (segments[0] === "events") return { view: segments[1] ? "eventDetail" : "events", id: decodeURIComponent(originalSegments[1] || "") };
+  if (segments[0] === "auth" && segments[1] === "callback") return { view: "authCallback", id: rawSegments[2] || "" };
+  if (segments[0] === "card") return { view: "card", id: decodeURIComponent(rawSegments[1] || "") };
+  if (segments[0] === "synergy") return { view: "synergy", id: decodeURIComponent(rawSegments[1] || "") };
+  if (segments[0] === "synergy-map") return { view: "synergyMap", id: decodeURIComponent(rawSegments[1] || "") };
+  if (segments[0] === "deck") return { view: "deckView", id: decodeURIComponent(rawSegments[1] || "") };
+  if (segments[0] === "events") return { view: segments[1] ? "eventDetail" : "events", id: decodeURIComponent(rawSegments[1] || "") };
   if (segments[0] === "community") {
     if (segments[1] === "contribute") return { view: "contribute", id: "" };
-    if (segments[1] === "events") return { view: segments[2] ? "eventDetail" : "events", id: decodeURIComponent(originalSegments[2] || "") };
+    if (segments[1] === "events") return { view: segments[2] ? "eventDetail" : "events", id: decodeURIComponent(rawSegments[2] || "") };
     if (segments[1] === "players") return { view: "players", id: "" };
     if (segments[1] === "schedules") return { view: "scheduleManager", id: "" };
     if (["stores", "venues", "map"].includes(segments[1])) return { view: "venues", id: "" };
@@ -61,7 +61,7 @@ export function parseRoute(location = window.location) {
   }
   if (segments[0] === "settings" && segments[1] === "account") return { view: "accountSettings", id: "" };
 
-  const route = Object.entries(ROUTES).find(([, routePath]) => normalizePath(routePath) === path);
+  const route = Object.entries(ROUTES).find(([, routePath]) => normalizePath(routePath).toLowerCase() === path.toLowerCase());
   return { view: route?.[0] || "home", id: "" };
 }
 
@@ -76,5 +76,5 @@ export function routeFor(view, id = "") {
 
 function normalizePath(pathname = "/") {
   const path = pathname.replace(/\/+$/, "") || "/";
-  return path.toLowerCase();
+  return path;
 }

@@ -397,7 +397,7 @@ export function App() {
   const hasTacticalRail = TACTICAL_VIEWS.has(view) && !shouldGatePrivate;
 
   return (
-    <div className={`app-shell react-shell ${hasTacticalRail ? "has-tactical-rail" : ""}`} data-locale={locale}>
+    <div className={`app-shell react-shell hud-app ${hasTacticalRail ? "has-tactical-rail" : ""}`} data-locale={locale}>
       <SiteHeader
         view={view}
         theme={theme}
@@ -420,7 +420,7 @@ export function App() {
           onViewChange={setView}
         />
       ) : null}
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <div className="experience-route-stage" key={`${view}:${routeId}`}>
         <Suspense fallback={<div className="route-loading">ACQUIRING SUBSYSTEM…</div>}>
         {routeLoading ? <div className="route-loading">LOADING TACTICAL DATA…</div> : null}

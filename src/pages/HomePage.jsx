@@ -79,6 +79,7 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
 
   return (
     <div className="launch-home" data-view-panel="home">
+      <div className="home-command-strip"><span><i /> {pt ? "CENTRO DE OPERAÇÕES" : "OPERATIONS CENTER"}</span><strong>{theme.unitId} / {theme.operation}</strong><span>GCG // TACTICAL INTELLIGENCE</span></div>
       <section className="launch-hero" aria-labelledby="launch-title">
         <div className="launch-hero__grid" aria-hidden="true" />
         <div className="launch-hero__copy">
@@ -88,9 +89,7 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
           </p>
           <h1 id="launch-title">
             {pt ? "Transforme dados do meta em" : "Turn meta data into"}
-            <span aria-label={pt ? " decisões de deck." : undefined}>
-              {pt ? <> decis<span className="launch-hero__nasal-o" aria-hidden="true">o</span>es de deck.</> : " deck decisions."}
-            </span>
+            <span>{pt ? " decisões de deck." : " deck decisions."}</span>
           </h1>
           <p className="launch-hero__summary">
             {pt
@@ -118,8 +117,9 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
         </div>
 
         <div className="launch-hero__visual" aria-label={`${theme.gundamName} tactical system`}>
-          <div className="launch-reticle launch-reticle--outer" />
-          <div className="launch-reticle launch-reticle--inner" />
+          <span className="unit-registration">MOBILE SUIT // {theme.unitId}</span>
+          <div className="launch-reticle launch-reticle--outer" aria-hidden="true" />
+          <div className="launch-reticle launch-reticle--inner" aria-hidden="true" />
           <img src={theme.gundamImage} alt={theme.gundamName} />
           <div className="launch-unit-label">
             <small>{theme.unitId}</small>

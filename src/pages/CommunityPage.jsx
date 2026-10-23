@@ -32,8 +32,7 @@ export function CommunityPage({ data, onNavigate, onOpenEvent }) {
         <TacticalSummaryCard label="Geographic coverage" value={snapshot.coverage.geographicEvents} detail="Events with verified location fields." />
       </TacticalSummaryStrip>
 
-      <section className="community-module-grid tactical-network-topology">
-        <div className="tactical-network-core" aria-hidden="true"><i /><span>OPS<br />NETWORK</span></div>
+      <section className="network-modules">
         <CommunityModule
           code="01"
           title="Events & results"
@@ -97,7 +96,7 @@ export function CommunityPage({ data, onNavigate, onOpenEvent }) {
 
 function CommunityModule({ code, title, detail, action, onClick }) {
   return (
-    <article className="community-module-card">
+    <article className="network-module">
       <span>{code}</span>
       <h2>{title}</h2>
       <p>{detail}</p>
