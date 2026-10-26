@@ -14,15 +14,15 @@
       "shortLabel": "GD05",
       "formatCode": "GD05",
       "startDate": "2026-07-24",
-      "endDate": "2026-10-08"
+      "endDate": "2026-10-22"
     },
     {
       "id": "rolling-30",
       "label": "Rolling field · 30 days",
       "shortLabel": "30D",
       "formatCode": "GD05",
-      "startDate": "2026-09-09",
-      "endDate": "2026-10-08"
+      "startDate": "2026-09-23",
+      "endDate": "2026-10-22"
     },
     {
       "id": "gd04",
@@ -62,103 +62,143 @@
       "shortLabel": "ALL",
       "formatCode": "ALL",
       "startDate": "2025-02-14",
-      "endDate": "2026-10-08"
+      "endDate": "2026-10-22"
     }
   ],
   "metaSnapshots": {
     "current": {
       "activeFormat": "GD05",
       "counts": {
-        "decklists": 25,
-        "events": 5
+        "decklists": 37,
+        "events": 7
       },
       "latestDecks": [
         {
-          "deckId": "daa36b971ae9721b",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
+          "deckId": "c05d1186db696a0b",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "SdotAkuma",
+          "playerName": "xLust",
           "placingLabel": "1",
           "placingRank": 1,
-          "archetype": "",
+          "archetype": "Sazabi (Char's Zaku II)",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "bbd74dcaac91eaf1",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
+          "deckId": "3c522b22f0be4060",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "Geicokiller",
+          "playerName": "KotyAngeloff",
           "placingLabel": "2",
           "placingRank": 2,
-          "archetype": "",
+          "archetype": "White Red Zaft",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "2b065749108a9ba9",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "DoubtWithAZero",
-          "placingLabel": "3",
-          "placingRank": 3,
-          "archetype": "",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "c1f9689a20875a13",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "its_Philnami",
-          "placingLabel": "4",
-          "placingRank": 4,
-          "archetype": "",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "807af0035f994d57",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "Moonshield",
-          "placingLabel": "5",
-          "placingRank": 5,
-          "archetype": "",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "7dcbd698f163b7da",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
+          "deckId": "3e635b7dcca233b8",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
           "formatName": "",
           "eventType": "partial_results",
           "playerName": "ZimZamBlam",
+          "placingLabel": "3",
+          "placingRank": 3,
+          "archetype": "Blue White Freedom Blockers",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "ca9eb76c421ee61e",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "Dertyeggs",
+          "placingLabel": "4",
+          "placingRank": 4,
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "5631e39679ac87b4",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "biffvandelay",
+          "placingLabel": "5",
+          "placingRank": 5,
+          "archetype": "Strike Freedom Gundam (Aile Strike Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "856614af15ac1ecd",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "Mariamne",
           "placingLabel": "6",
           "placingRank": 6,
-          "archetype": "",
+          "archetype": "Neo Zeong",
           "colorCombination": "",
           "sourceName": "Limitless"
         }
       ],
       "latestEvents": [
+        {
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 12,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6ad51a4b8a8383117e3eec5e/standings"
+        },
+        {
+          "eventId": "ab0c868c8899a036",
+          "eventName": "MOKI TOYS SHOP GCG Battle of the Aces I",
+          "eventDate": "2026-10-17",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 9,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6ac72cbd245696afb3518c9a/standings"
+        },
+        {
+          "eventId": "9eccd49477d134ec",
+          "eventName": "Eagle's Nest Season Six Finals!!!",
+          "eventDate": "2026-10-15",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 8,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6acafa3f115c12b73a5a110f/standings"
+        },
+        {
+          "eventId": "0b6dad06a31b6f5a",
+          "eventName": "Starlight Hangar - Gundam Weekend Tournament",
+          "eventDate": "2026-10-11",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 11,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6acb47688a8383117e3e944b/standings"
+        },
         {
           "eventId": "bedba223208acb8c",
           "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
@@ -178,46 +218,6 @@
           "playerCount": 16,
           "sourceName": "Limitless",
           "sourceUrl": "https://play.limitlesstcg.com/tournament/6ab7d892880ed327106dd28c/standings"
-        },
-        {
-          "eventId": "1808d34757266e9b",
-          "eventName": "MOKI TOYS SHOP GCG MSA S3 W10",
-          "eventDate": "2026-09-28",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 6,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66eaa852c24ac2da64d5ad/standings"
-        },
-        {
-          "eventId": "0f7c592e4798c8f6",
-          "eventName": "MOKI TOYS SHOP GCG MSA S3 W9",
-          "eventDate": "2026-09-21",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 5,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66ea89937230b102d46692/standings"
-        },
-        {
-          "eventId": "e143ff595ad8c146",
-          "eventName": "MOKI TOYS SHOP GCG MSA S3 W8",
-          "eventDate": "2026-09-14",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 8,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66ea6d52c24ac2da64d5a8/standings"
-        },
-        {
-          "eventId": "mexico-city-2026-08-23",
-          "eventName": "Mexico City Regional",
-          "eventDate": "2026-08-23",
-          "formatName": "GD05",
-          "eventType": "awaiting_results",
-          "playerCount": "",
-          "sourceName": "Manual tournament registry",
-          "sourceUrl": ""
         }
       ],
       "metaLeaders": [
@@ -226,8 +226,8 @@
           "cardName": "Overflowing Affection",
           "cardType": "COMMAND",
           "color": "White",
-          "recentMetaScore": 56.00000000000001,
-          "recentTop8DecksUsing": 14,
+          "recentMetaScore": 62.16216216216216,
+          "recentTop8DecksUsing": 23,
           "imageUrl": "./assets/card-images/GD01-118.webp"
         },
         {
@@ -235,132 +235,172 @@
           "cardName": "Darkness Finger",
           "cardType": "COMMAND",
           "color": "Red",
-          "recentMetaScore": 36,
-          "recentTop8DecksUsing": 9,
+          "recentMetaScore": 43.24324324324324,
+          "recentTop8DecksUsing": 16,
           "imageUrl": "./assets/card-images/GD05-110.webp"
         },
         {
-          "cardNumber": "GD05-111",
-          "cardName": "Airframe​ Seizure",
+          "cardNumber": "GD01-100",
+          "cardName": "A Show of Resolve",
           "cardType": "COMMAND",
-          "color": "Red",
-          "recentMetaScore": 36,
-          "recentTop8DecksUsing": 9,
-          "imageUrl": "./assets/card-images/GD05-111.webp"
-        },
-        {
-          "cardNumber": "GD01-128",
-          "cardName": "Mining Asteroid Palau",
-          "cardType": "BASE",
-          "color": "Red",
-          "recentMetaScore": 32,
-          "recentTop8DecksUsing": 8,
-          "imageUrl": "./assets/card-images/GD01-128.webp"
+          "color": "Blue",
+          "recentMetaScore": 43.24324324324324,
+          "recentTop8DecksUsing": 16,
+          "imageUrl": "./assets/card-images/GD01-100.webp"
         },
         {
           "cardNumber": "GD02-079",
           "cardName": "Rick Dias",
           "cardType": "UNIT",
           "color": "White",
-          "recentMetaScore": 28.000000000000004,
-          "recentTop8DecksUsing": 7,
+          "recentMetaScore": 40.54054054054054,
+          "recentTop8DecksUsing": 15,
           "imageUrl": "./assets/card-images/GD02-079.webp"
+        },
+        {
+          "cardNumber": "GD05-081",
+          "cardName": "Kira Yamato",
+          "cardType": "PILOT",
+          "color": "Blue",
+          "recentMetaScore": 37.83783783783784,
+          "recentTop8DecksUsing": 14,
+          "imageUrl": "./assets/card-images/GD05-081.webp"
         }
       ]
     },
     "rolling-30": {
       "activeFormat": "30D",
       "counts": {
-        "decklists": 25,
-        "events": 5
+        "decklists": 37,
+        "events": 7
       },
       "latestDecks": [
         {
-          "deckId": "daa36b971ae9721b",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
+          "deckId": "c05d1186db696a0b",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "SdotAkuma",
+          "playerName": "xLust",
           "placingLabel": "1",
           "placingRank": 1,
-          "archetype": "",
+          "archetype": "Sazabi (Char's Zaku II)",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "bbd74dcaac91eaf1",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
+          "deckId": "3c522b22f0be4060",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "Geicokiller",
+          "playerName": "KotyAngeloff",
           "placingLabel": "2",
           "placingRank": 2,
-          "archetype": "",
+          "archetype": "White Red Zaft",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "2b065749108a9ba9",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "DoubtWithAZero",
-          "placingLabel": "3",
-          "placingRank": 3,
-          "archetype": "",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "c1f9689a20875a13",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "its_Philnami",
-          "placingLabel": "4",
-          "placingRank": 4,
-          "archetype": "",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "807af0035f994d57",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "Moonshield",
-          "placingLabel": "5",
-          "placingRank": 5,
-          "archetype": "",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "7dcbd698f163b7da",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
+          "deckId": "3e635b7dcca233b8",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
           "formatName": "",
           "eventType": "partial_results",
           "playerName": "ZimZamBlam",
+          "placingLabel": "3",
+          "placingRank": 3,
+          "archetype": "Blue White Freedom Blockers",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "ca9eb76c421ee61e",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "Dertyeggs",
+          "placingLabel": "4",
+          "placingRank": 4,
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "5631e39679ac87b4",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "biffvandelay",
+          "placingLabel": "5",
+          "placingRank": 5,
+          "archetype": "Strike Freedom Gundam (Aile Strike Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "856614af15ac1ecd",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "Mariamne",
           "placingLabel": "6",
           "placingRank": 6,
-          "archetype": "",
+          "archetype": "Neo Zeong",
           "colorCombination": "",
           "sourceName": "Limitless"
         }
       ],
       "latestEvents": [
+        {
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 12,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6ad51a4b8a8383117e3eec5e/standings"
+        },
+        {
+          "eventId": "ab0c868c8899a036",
+          "eventName": "MOKI TOYS SHOP GCG Battle of the Aces I",
+          "eventDate": "2026-10-17",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 9,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6ac72cbd245696afb3518c9a/standings"
+        },
+        {
+          "eventId": "9eccd49477d134ec",
+          "eventName": "Eagle's Nest Season Six Finals!!!",
+          "eventDate": "2026-10-15",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 8,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6acafa3f115c12b73a5a110f/standings"
+        },
+        {
+          "eventId": "0b6dad06a31b6f5a",
+          "eventName": "Starlight Hangar - Gundam Weekend Tournament",
+          "eventDate": "2026-10-11",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 11,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6acb47688a8383117e3e944b/standings"
+        },
         {
           "eventId": "bedba223208acb8c",
           "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
@@ -380,36 +420,6 @@
           "playerCount": 16,
           "sourceName": "Limitless",
           "sourceUrl": "https://play.limitlesstcg.com/tournament/6ab7d892880ed327106dd28c/standings"
-        },
-        {
-          "eventId": "1808d34757266e9b",
-          "eventName": "MOKI TOYS SHOP GCG MSA S3 W10",
-          "eventDate": "2026-09-28",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 6,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66eaa852c24ac2da64d5ad/standings"
-        },
-        {
-          "eventId": "0f7c592e4798c8f6",
-          "eventName": "MOKI TOYS SHOP GCG MSA S3 W9",
-          "eventDate": "2026-09-21",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 5,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66ea89937230b102d46692/standings"
-        },
-        {
-          "eventId": "e143ff595ad8c146",
-          "eventName": "MOKI TOYS SHOP GCG MSA S3 W8",
-          "eventDate": "2026-09-14",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 8,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66ea6d52c24ac2da64d5a8/standings"
         }
       ],
       "metaLeaders": [
@@ -418,8 +428,8 @@
           "cardName": "Overflowing Affection",
           "cardType": "COMMAND",
           "color": "White",
-          "recentMetaScore": 56.00000000000001,
-          "recentTop8DecksUsing": 14,
+          "recentMetaScore": 62.16216216216216,
+          "recentTop8DecksUsing": 23,
           "imageUrl": "./assets/card-images/GD01-118.webp"
         },
         {
@@ -427,36 +437,36 @@
           "cardName": "Darkness Finger",
           "cardType": "COMMAND",
           "color": "Red",
-          "recentMetaScore": 36,
-          "recentTop8DecksUsing": 9,
+          "recentMetaScore": 43.24324324324324,
+          "recentTop8DecksUsing": 16,
           "imageUrl": "./assets/card-images/GD05-110.webp"
         },
         {
-          "cardNumber": "GD05-111",
-          "cardName": "Airframe​ Seizure",
+          "cardNumber": "GD01-100",
+          "cardName": "A Show of Resolve",
           "cardType": "COMMAND",
-          "color": "Red",
-          "recentMetaScore": 36,
-          "recentTop8DecksUsing": 9,
-          "imageUrl": "./assets/card-images/GD05-111.webp"
-        },
-        {
-          "cardNumber": "GD01-128",
-          "cardName": "Mining Asteroid Palau",
-          "cardType": "BASE",
-          "color": "Red",
-          "recentMetaScore": 32,
-          "recentTop8DecksUsing": 8,
-          "imageUrl": "./assets/card-images/GD01-128.webp"
+          "color": "Blue",
+          "recentMetaScore": 43.24324324324324,
+          "recentTop8DecksUsing": 16,
+          "imageUrl": "./assets/card-images/GD01-100.webp"
         },
         {
           "cardNumber": "GD02-079",
           "cardName": "Rick Dias",
           "cardType": "UNIT",
           "color": "White",
-          "recentMetaScore": 28.000000000000004,
-          "recentTop8DecksUsing": 7,
+          "recentMetaScore": 40.54054054054054,
+          "recentTop8DecksUsing": 15,
           "imageUrl": "./assets/card-images/GD02-079.webp"
+        },
+        {
+          "cardNumber": "GD05-081",
+          "cardName": "Kira Yamato",
+          "cardType": "PILOT",
+          "color": "Blue",
+          "recentMetaScore": 37.83783783783784,
+          "recentTop8DecksUsing": 14,
+          "imageUrl": "./assets/card-images/GD05-081.webp"
         }
       ]
     },
@@ -1271,96 +1281,136 @@
     "all": {
       "activeFormat": "ALL",
       "counts": {
-        "decklists": 1263,
-        "events": 277
+        "decklists": 1275,
+        "events": 279
       },
       "latestDecks": [
         {
-          "deckId": "daa36b971ae9721b",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
+          "deckId": "c05d1186db696a0b",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "SdotAkuma",
+          "playerName": "xLust",
           "placingLabel": "1",
           "placingRank": 1,
-          "archetype": "",
+          "archetype": "Sazabi (Char's Zaku II)",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "bbd74dcaac91eaf1",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
+          "deckId": "3c522b22f0be4060",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "Geicokiller",
+          "playerName": "KotyAngeloff",
           "placingLabel": "2",
           "placingRank": 2,
-          "archetype": "",
+          "archetype": "White Red Zaft",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "2b065749108a9ba9",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "DoubtWithAZero",
-          "placingLabel": "3",
-          "placingRank": 3,
-          "archetype": "",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "c1f9689a20875a13",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "its_Philnami",
-          "placingLabel": "4",
-          "placingRank": 4,
-          "archetype": "",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "807af0035f994d57",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "Moonshield",
-          "placingLabel": "5",
-          "placingRank": 5,
-          "archetype": "",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "7dcbd698f163b7da",
-          "eventId": "bedba223208acb8c",
-          "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-          "eventDate": "2026-10-08",
+          "deckId": "3e635b7dcca233b8",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
           "formatName": "",
           "eventType": "partial_results",
           "playerName": "ZimZamBlam",
+          "placingLabel": "3",
+          "placingRank": 3,
+          "archetype": "Blue White Freedom Blockers",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "ca9eb76c421ee61e",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "Dertyeggs",
+          "placingLabel": "4",
+          "placingRank": 4,
+          "archetype": "Strike Freedom Gundam (Victory Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "5631e39679ac87b4",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "biffvandelay",
+          "placingLabel": "5",
+          "placingRank": 5,
+          "archetype": "Strike Freedom Gundam (Aile Strike Gundam)",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "856614af15ac1ecd",
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "Mariamne",
           "placingLabel": "6",
           "placingRank": 6,
-          "archetype": "",
+          "archetype": "Neo Zeong",
           "colorCombination": "",
           "sourceName": "Limitless"
         }
       ],
       "latestEvents": [
+        {
+          "eventId": "6d1a23d043b93ed6",
+          "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+          "eventDate": "2026-10-22",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 12,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6ad51a4b8a8383117e3eec5e/standings"
+        },
+        {
+          "eventId": "ab0c868c8899a036",
+          "eventName": "MOKI TOYS SHOP GCG Battle of the Aces I",
+          "eventDate": "2026-10-17",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 9,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6ac72cbd245696afb3518c9a/standings"
+        },
+        {
+          "eventId": "9eccd49477d134ec",
+          "eventName": "Eagle's Nest Season Six Finals!!!",
+          "eventDate": "2026-10-15",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 8,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6acafa3f115c12b73a5a110f/standings"
+        },
+        {
+          "eventId": "0b6dad06a31b6f5a",
+          "eventName": "Starlight Hangar - Gundam Weekend Tournament",
+          "eventDate": "2026-10-11",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 11,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6acb47688a8383117e3e944b/standings"
+        },
         {
           "eventId": "bedba223208acb8c",
           "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
@@ -1380,46 +1430,6 @@
           "playerCount": 16,
           "sourceName": "Limitless",
           "sourceUrl": "https://play.limitlesstcg.com/tournament/6ab7d892880ed327106dd28c/standings"
-        },
-        {
-          "eventId": "1808d34757266e9b",
-          "eventName": "MOKI TOYS SHOP GCG MSA S3 W10",
-          "eventDate": "2026-09-28",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 6,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66eaa852c24ac2da64d5ad/standings"
-        },
-        {
-          "eventId": "0f7c592e4798c8f6",
-          "eventName": "MOKI TOYS SHOP GCG MSA S3 W9",
-          "eventDate": "2026-09-21",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 5,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66ea89937230b102d46692/standings"
-        },
-        {
-          "eventId": "e143ff595ad8c146",
-          "eventName": "MOKI TOYS SHOP GCG MSA S3 W8",
-          "eventDate": "2026-09-14",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 8,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66ea6d52c24ac2da64d5a8/standings"
-        },
-        {
-          "eventId": "mexico-city-2026-08-23",
-          "eventName": "Mexico City Regional",
-          "eventDate": "2026-08-23",
-          "formatName": "GD05",
-          "eventType": "awaiting_results",
-          "playerCount": "",
-          "sourceName": "Manual tournament registry",
-          "sourceUrl": ""
         }
       ],
       "metaLeaders": [
@@ -1428,8 +1438,8 @@
           "cardName": "Amuro Ray",
           "cardType": "PILOT",
           "color": "Blue",
-          "recentMetaScore": 54.94853523357086,
-          "recentTop8DecksUsing": 694,
+          "recentMetaScore": 54.58823529411765,
+          "recentTop8DecksUsing": 696,
           "imageUrl": "./assets/card-images/ST01-010.webp"
         },
         {
@@ -1437,8 +1447,8 @@
           "cardName": "Gundam",
           "cardType": "UNIT",
           "color": "Blue",
-          "recentMetaScore": 53.285827395091054,
-          "recentTop8DecksUsing": 673,
+          "recentMetaScore": 52.94117647058824,
+          "recentTop8DecksUsing": 675,
           "imageUrl": "./assets/card-images/ST01-001.webp"
         },
         {
@@ -1446,8 +1456,8 @@
           "cardName": "Overflowing Affection",
           "cardType": "COMMAND",
           "color": "White",
-          "recentMetaScore": 51.543942992874115,
-          "recentTop8DecksUsing": 651,
+          "recentMetaScore": 51.76470588235295,
+          "recentTop8DecksUsing": 660,
           "imageUrl": "./assets/card-images/GD01-118.webp"
         },
         {
@@ -1455,8 +1465,8 @@
           "cardName": "A Show of Resolve",
           "cardType": "COMMAND",
           "color": "Blue",
-          "recentMetaScore": 51.46476642913698,
-          "recentTop8DecksUsing": 650,
+          "recentMetaScore": 51.68627450980392,
+          "recentTop8DecksUsing": 659,
           "imageUrl": "./assets/card-images/GD01-100.webp"
         },
         {
@@ -1464,22 +1474,62 @@
           "cardName": "Gundam Lfrith",
           "cardType": "UNIT",
           "color": "White",
-          "recentMetaScore": 50.43547110055424,
-          "recentTop8DecksUsing": 637,
+          "recentMetaScore": 50.50980392156863,
+          "recentTop8DecksUsing": 644,
           "imageUrl": "./assets/card-images/GD01-086.webp"
         }
       ]
     }
   },
-  "generatedAt": "2026-10-11T17:55:43Z",
+  "generatedAt": "2026-10-23T13:02:12Z",
   "counts": {
-    "cards": 956,
+    "cards": 1087,
     "resource_cards": 108,
-    "decklists": 1280,
-    "events": 278,
-    "archetypes": 104
+    "decklists": 1300,
+    "events": 280,
+    "archetypes": 109
   },
   "latestEvents": [
+    {
+      "eventId": "6d1a23d043b93ed6",
+      "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+      "eventDate": "2026-10-22",
+      "formatName": "",
+      "eventType": "partial_results",
+      "playerCount": 12,
+      "sourceName": "Limitless",
+      "sourceUrl": "https://play.limitlesstcg.com/tournament/6ad51a4b8a8383117e3eec5e/standings"
+    },
+    {
+      "eventId": "ab0c868c8899a036",
+      "eventName": "MOKI TOYS SHOP GCG Battle of the Aces I",
+      "eventDate": "2026-10-17",
+      "formatName": "",
+      "eventType": "partial_results",
+      "playerCount": 9,
+      "sourceName": "Limitless",
+      "sourceUrl": "https://play.limitlesstcg.com/tournament/6ac72cbd245696afb3518c9a/standings"
+    },
+    {
+      "eventId": "9eccd49477d134ec",
+      "eventName": "Eagle's Nest Season Six Finals!!!",
+      "eventDate": "2026-10-15",
+      "formatName": "",
+      "eventType": "partial_results",
+      "playerCount": 8,
+      "sourceName": "Limitless",
+      "sourceUrl": "https://play.limitlesstcg.com/tournament/6acafa3f115c12b73a5a110f/standings"
+    },
+    {
+      "eventId": "0b6dad06a31b6f5a",
+      "eventName": "Starlight Hangar - Gundam Weekend Tournament",
+      "eventDate": "2026-10-11",
+      "formatName": "",
+      "eventType": "partial_results",
+      "playerCount": 11,
+      "sourceName": "Limitless",
+      "sourceUrl": "https://play.limitlesstcg.com/tournament/6acb47688a8383117e3e944b/standings"
+    },
     {
       "eventId": "bedba223208acb8c",
       "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
@@ -1499,179 +1549,139 @@
       "playerCount": 16,
       "sourceName": "Limitless",
       "sourceUrl": "https://play.limitlesstcg.com/tournament/6ab7d892880ed327106dd28c/standings"
-    },
-    {
-      "eventId": "1808d34757266e9b",
-      "eventName": "MOKI TOYS SHOP GCG MSA S3 W10",
-      "eventDate": "2026-09-28",
-      "formatName": "",
-      "eventType": "partial_results",
-      "playerCount": 6,
-      "sourceName": "Limitless",
-      "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66eaa852c24ac2da64d5ad/standings"
-    },
-    {
-      "eventId": "0f7c592e4798c8f6",
-      "eventName": "MOKI TOYS SHOP GCG MSA S3 W9",
-      "eventDate": "2026-09-21",
-      "formatName": "",
-      "eventType": "partial_results",
-      "playerCount": 5,
-      "sourceName": "Limitless",
-      "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66ea89937230b102d46692/standings"
-    },
-    {
-      "eventId": "e143ff595ad8c146",
-      "eventName": "MOKI TOYS SHOP GCG MSA S3 W8",
-      "eventDate": "2026-09-14",
-      "formatName": "",
-      "eventType": "partial_results",
-      "playerCount": 8,
-      "sourceName": "Limitless",
-      "sourceUrl": "https://play.limitlesstcg.com/tournament/6a66ea6d52c24ac2da64d5a8/standings"
-    },
-    {
-      "eventId": "mexico-city-2026-08-23",
-      "eventName": "Mexico City Regional",
-      "eventDate": "2026-08-23",
-      "formatName": "GD05",
-      "eventType": "awaiting_results",
-      "playerCount": "",
-      "sourceName": "Manual tournament registry",
-      "sourceUrl": ""
     }
   ],
   "latestDecks": [
     {
-      "deckId": "daa36b971ae9721b",
-      "eventId": "bedba223208acb8c",
-      "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-      "eventDate": "2026-10-08",
+      "deckId": "c05d1186db696a0b",
+      "eventId": "6d1a23d043b93ed6",
+      "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+      "eventDate": "2026-10-22",
       "formatName": "",
       "eventType": "partial_results",
-      "playerName": "SdotAkuma",
+      "playerName": "xLust",
       "placingLabel": "1",
       "placingRank": 1,
-      "archetype": "",
+      "archetype": "Sazabi (Char's Zaku II)",
       "colorCombination": "",
       "sourceName": "Limitless"
     },
     {
-      "deckId": "bbd74dcaac91eaf1",
-      "eventId": "bedba223208acb8c",
-      "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-      "eventDate": "2026-10-08",
+      "deckId": "3c522b22f0be4060",
+      "eventId": "6d1a23d043b93ed6",
+      "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+      "eventDate": "2026-10-22",
       "formatName": "",
       "eventType": "partial_results",
-      "playerName": "Geicokiller",
+      "playerName": "KotyAngeloff",
       "placingLabel": "2",
       "placingRank": 2,
-      "archetype": "",
+      "archetype": "White Red Zaft",
       "colorCombination": "",
       "sourceName": "Limitless"
     },
     {
-      "deckId": "2b065749108a9ba9",
-      "eventId": "bedba223208acb8c",
-      "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-      "eventDate": "2026-10-08",
-      "formatName": "",
-      "eventType": "partial_results",
-      "playerName": "DoubtWithAZero",
-      "placingLabel": "3",
-      "placingRank": 3,
-      "archetype": "",
-      "colorCombination": "",
-      "sourceName": "Limitless"
-    },
-    {
-      "deckId": "c1f9689a20875a13",
-      "eventId": "bedba223208acb8c",
-      "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-      "eventDate": "2026-10-08",
-      "formatName": "",
-      "eventType": "partial_results",
-      "playerName": "its_Philnami",
-      "placingLabel": "4",
-      "placingRank": 4,
-      "archetype": "",
-      "colorCombination": "",
-      "sourceName": "Limitless"
-    },
-    {
-      "deckId": "807af0035f994d57",
-      "eventId": "bedba223208acb8c",
-      "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-      "eventDate": "2026-10-08",
-      "formatName": "",
-      "eventType": "partial_results",
-      "playerName": "Moonshield",
-      "placingLabel": "5",
-      "placingRank": 5,
-      "archetype": "",
-      "colorCombination": "",
-      "sourceName": "Limitless"
-    },
-    {
-      "deckId": "7dcbd698f163b7da",
-      "eventId": "bedba223208acb8c",
-      "eventName": "Eagle's Nest S6GW11.0 GD05 + ST11-14 Webcam Locals",
-      "eventDate": "2026-10-08",
+      "deckId": "3e635b7dcca233b8",
+      "eventId": "6d1a23d043b93ed6",
+      "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+      "eventDate": "2026-10-22",
       "formatName": "",
       "eventType": "partial_results",
       "playerName": "ZimZamBlam",
+      "placingLabel": "3",
+      "placingRank": 3,
+      "archetype": "Blue White Freedom Blockers",
+      "colorCombination": "",
+      "sourceName": "Limitless"
+    },
+    {
+      "deckId": "ca9eb76c421ee61e",
+      "eventId": "6d1a23d043b93ed6",
+      "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+      "eventDate": "2026-10-22",
+      "formatName": "",
+      "eventType": "partial_results",
+      "playerName": "Dertyeggs",
+      "placingLabel": "4",
+      "placingRank": 4,
+      "archetype": "Strike Freedom Gundam (Victory Gundam)",
+      "colorCombination": "",
+      "sourceName": "Limitless"
+    },
+    {
+      "deckId": "5631e39679ac87b4",
+      "eventId": "6d1a23d043b93ed6",
+      "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+      "eventDate": "2026-10-22",
+      "formatName": "",
+      "eventType": "partial_results",
+      "playerName": "biffvandelay",
+      "placingLabel": "5",
+      "placingRank": 5,
+      "archetype": "Strike Freedom Gundam (Aile Strike Gundam)",
+      "colorCombination": "",
+      "sourceName": "Limitless"
+    },
+    {
+      "deckId": "856614af15ac1ecd",
+      "eventId": "6d1a23d043b93ed6",
+      "eventName": "Eagle's Nest S7GW1.0 GD05 + ST11-14 Webcam Locals",
+      "eventDate": "2026-10-22",
+      "formatName": "",
+      "eventType": "partial_results",
+      "playerName": "Mariamne",
       "placingLabel": "6",
       "placingRank": 6,
-      "archetype": "",
+      "archetype": "Neo Zeong",
       "colorCombination": "",
       "sourceName": "Limitless"
     }
   ],
   "metaLeaders": [
     {
-      "cardNumber": "GD05-081",
-      "cardName": "Kira Yamato",
-      "cardType": "PILOT",
-      "color": "Blue",
-      "recentMetaScore": 31.5,
-      "recentTop8DecksUsing": 5,
-      "imageUrl": "./assets/card-images/GD05-081.webp"
-    },
-    {
-      "cardNumber": "GD05-002",
-      "cardName": "Strike Freedom Gundam",
-      "cardType": "UNIT",
-      "color": "Blue",
-      "recentMetaScore": 29.8,
-      "recentTop8DecksUsing": 4,
-      "imageUrl": "./assets/card-images/GD05-002.webp"
-    },
-    {
-      "cardNumber": "GD05-111",
-      "cardName": "Airframe​ Seizure",
+      "cardNumber": "GD01-118",
+      "cardName": "Overflowing Affection",
       "cardType": "COMMAND",
-      "color": "Red",
-      "recentMetaScore": 26.3,
-      "recentTop8DecksUsing": 9,
-      "imageUrl": "./assets/card-images/GD05-111.webp"
+      "color": "White",
+      "recentMetaScore": 31.9,
+      "recentTop8DecksUsing": 23,
+      "imageUrl": "./assets/card-images/GD01-118.webp"
     },
     {
       "cardNumber": "GD05-110",
       "cardName": "Darkness Finger",
       "cardType": "COMMAND",
       "color": "Red",
-      "recentMetaScore": 26.3,
-      "recentTop8DecksUsing": 9,
+      "recentMetaScore": 31.3,
+      "recentTop8DecksUsing": 16,
       "imageUrl": "./assets/card-images/GD05-110.webp"
+    },
+    {
+      "cardNumber": "ST03-013",
+      "cardName": "Close Combat",
+      "cardType": "COMMAND",
+      "color": "Red",
+      "recentMetaScore": 28.1,
+      "recentTop8DecksUsing": 13,
+      "imageUrl": "./assets/card-images/ST03-013.webp"
     },
     {
       "cardNumber": "GD01-100",
       "cardName": "A Show of Resolve",
       "cardType": "COMMAND",
       "color": "Blue",
-      "recentMetaScore": 23,
-      "recentTop8DecksUsing": 7,
+      "recentMetaScore": 24.3,
+      "recentTop8DecksUsing": 16,
       "imageUrl": "./assets/card-images/GD01-100.webp"
+    },
+    {
+      "cardNumber": "GD02-079",
+      "cardName": "Rick Dias",
+      "cardType": "UNIT",
+      "color": "White",
+      "recentMetaScore": 23.2,
+      "recentTop8DecksUsing": 15,
+      "imageUrl": "./assets/card-images/GD02-079.webp"
     }
   ]
 }

@@ -79,74 +79,65 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
 
   return (
     <div className="launch-home" data-view-panel="home">
-      <section className="launch-hero" aria-labelledby="launch-title">
-        <div className="launch-hero__grid" aria-hidden="true" />
-        <div className="launch-hero__copy">
-          <p className="launch-kicker">
-            <span className="launch-live-dot" />
-            TCG TACTICAL DATABASE // GUNDAM CARD GAME
-          </p>
-          <h1 id="launch-title">
-            {pt ? "Transforme dados do meta em" : "Turn meta data into"}
-            <span aria-label={pt ? " decisões de deck." : undefined}>
-              {pt ? <> decis<span className="launch-hero__nasal-o" aria-hidden="true">o</span>es de deck.</> : " deck decisions."}
-            </span>
-          </h1>
-          <p className="launch-hero__summary">
-            {pt
-              ? "Um cockpit tático para pesquisar cartas, acompanhar o cenário competitivo e evoluir listas com evidências — não com palpites."
-              : "A tactical cockpit to research cards, track the competitive field and evolve lists with evidence — not guesswork."}
-          </p>
-          <div className="launch-live-rail" aria-label={pt ? "Estado do campo competitivo" : "Competitive field status"}>
-            <span><i /> LIVE FIELD</span>
-            <b>{overview.format}</b>
-            <small>{formatNumber(overview.decklists, locale)} {pt ? "listas sincronizadas" : "synchronized lists"}</small>
+      <div className="bridge-heading">
+        <div><span className="bridge-heading__index">00</span><h1 id="bridge-title">{pt ? "PONTE DE COMANDO" : "COMMAND BRIDGE"}</h1></div>
+        <span>GUNDAM CARD GAME <i aria-hidden="true">//</i> {overview.format}</span>
+      </div>
+      <section className="cockpit-bridge" aria-labelledby="bridge-title">
+        <div className="bridge-orders bridge-panel">
+          <div className="bridge-panel__bar"><span>01 / {pt ? "CONTROLE DE MISSÃO" : "MISSION CONTROL"}</span><i aria-hidden="true" /></div>
+          <div className="bridge-orders__body">
+            <div className="bridge-unit-id"><img src={theme.factionLogo} alt="" /><span>{theme.unitId}<small>{theme.stateLabel}</small></span></div>
+            <h2>{pt ? "Transforme dados do meta em" : "Turn meta data into"}<span>{pt ? " decisões de deck." : " deck decisions."}</span></h2>
+            <p>{pt ? "Pesquise o arsenal. Leia o campo. Prepare sua próxima lista." : "Search the arsenal. Read the field. Prepare your next list."}</p>
+            <div className="bridge-orders__actions">
+              <button className="launch-button launch-button--primary" type="button" onClick={() => setView("decks")}>{pt ? "INICIAR FORJA" : "LAUNCH FORGE"}<span aria-hidden="true">→</span></button>
+              <button className="launch-button launch-button--ghost" type="button" onClick={() => setView("cards")}>{pt ? "ACESSAR ARSENAL" : "OPEN ARSENAL"}<span aria-hidden="true">→</span></button>
+            </div>
+            <div className="bridge-scope"><span>{pt ? "ESCOPO COMPETITIVO" : "COMPETITIVE SCOPE"}</span><strong>{overview.format}</strong><small>{formatNumber(overview.decklists, locale)} {pt ? "listas no recorte selecionado" : "lists in the selected scope"}</small></div>
           </div>
-          <div className="launch-hero__actions">
-            <button className="launch-button launch-button--primary" type="button" onClick={() => setView("decks")}>
-              {pt ? "ABRIR A FORJA" : "OPEN THE FORGE"}
-            </button>
-            <button className="launch-button launch-button--ghost" type="button" onClick={() => setView("cards")}>
-              {pt ? "EXPLORAR DATABASE" : "EXPLORE DATABASE"}
-            </button>
+        </div>
+        <div className="bridge-viewport bridge-panel" aria-label={`${theme.gundamName} — ${theme.unitId}`}>
+          <div className="bridge-panel__bar"><span>02 / {pt ? "MONITOR DA UNIDADE" : "UNIT MONITOR"}</span><span>{theme.unitId}</span></div>
+          <div className="bridge-viewport__screen">
+            <img className="bridge-viewport__unit" src={theme.gundamImage} alt={theme.gundamName} />
+            <svg className="bridge-sight" viewBox="0 0 600 500" fill="none" aria-hidden="true">
+              <path d="M90 95H50V145 M510 95H550V145 M90 405H50V355 M510 405H550V355" />
+              <circle cx="300" cy="250" r="170" strokeDasharray="80 12 3 12" />
+              <circle cx="300" cy="250" r="191" strokeDasharray="1 11" />
+              <path d="M280 250H292 M308 250H320 M300 230V242 M300 258V270 M300 40V60 M300 440V460 M10 250H30 M570 250H590" />
+              <path d="M28 175V325 M572 175V325" strokeDasharray="2 8" />
+            </svg>
+            <span className="bridge-viewport__mode">{theme.operation}</span>
+            <div className="bridge-viewport__identity"><span>MOBILE SUIT / {theme.unitId}</span><strong>{theme.gundamName}</strong><small>{theme.stateLabel}</small></div>
           </div>
-          <dl className="launch-hero__telemetry" aria-label={pt ? "Resumo do sistema" : "System overview"}>
-            <Telemetry value={formatNumber(overview.cards, locale)} label={pt ? "cartas" : "cards"} />
-            <Telemetry value={formatNumber(overview.decklists, locale)} label={pt ? "decklists" : "decklists"} />
-            <Telemetry value={overview.format} label={pt ? "formato em foco" : "focus format"} />
+          <div className="bridge-viewport__footer"><span>{pt ? "UNIDADE SELECIONADA" : "SELECTED UNIT"}</span><span>{theme.pilot}</span></div>
+        </div>
+        <aside className="bridge-intel bridge-panel" aria-label={pt ? "Leitura do campo" : "Field readout"}>
+          <div className="bridge-panel__bar"><span>03 / FIELD INTEL</span><i aria-hidden="true" /></div>
+          <dl className="bridge-readouts">
+            <Telemetry value={formatNumber(overview.cards, locale)} label={pt ? "CARTAS NO ARSENAL" : "CARDS IN ARSENAL"} />
+            <Telemetry value={formatNumber(overview.decklists, locale)} label={pt ? "LISTAS NO ESCOPO" : "LISTS IN SCOPE"} />
+            <Telemetry value={formatNumber(overview.events, locale)} label={pt ? "EVENTOS NO ESCOPO" : "EVENTS IN SCOPE"} />
           </dl>
-        </div>
-
-        <div className="launch-hero__visual" aria-label={`${theme.gundamName} tactical system`}>
-          <div className="launch-reticle launch-reticle--outer" />
-          <div className="launch-reticle launch-reticle--inner" />
-          <img src={theme.gundamImage} alt={theme.gundamName} />
-          <div className="launch-unit-label">
-            <small>{theme.unitId}</small>
-            <strong>{theme.gundamName}</strong>
-            <span>{theme.stateLabel}</span>
+          <div className="bridge-intel__signals"><h2>{pt ? "SINAIS DO META" : "META SIGNALS"}</h2>
+            {overview.metaLeaders.slice(0, 3).map((card, index) => <button key={card.cardNumber} type="button" onClick={() => setView("card", card.cardNumber)}><span>{String(index + 1).padStart(2, "0")}</span><span><strong>{card.cardName}</strong><small>{card.cardNumber}</small></span><b aria-hidden="true">→</b></button>)}
+            {!overview.metaLeaders.length && <p>{pt ? "Sem sinais para este recorte." : "No signals in this scope."}</p>}
           </div>
-        </div>
-
+        </aside>
       </section>
 
       <section className="launch-section launch-mission" aria-labelledby="mission-title">
-        <SectionHeading
-          index="01"
-          eyebrow={pt ? "CAPACIDADES DO SISTEMA" : "SYSTEM CAPABILITIES"}
-          title={pt ? "Da pesquisa à decisão tática" : "From research to tactical decision"}
-          description={pt
-            ? "Quatro módulos conectados para responder o que jogar, por que jogar e como melhorar."
-            : "Four connected modules to answer what to play, why to play it and how to improve."}
-        />
-        <div className="launch-mission-console">
-          <div className="launch-mission-console__tabs" role="tablist" aria-label={pt ? "Selecionar missão" : "Select mission"}>
+        <div className="bridge-dock-heading"><h2 id="mission-title">{pt ? "SELECIONAR OPERAÇÃO" : "SELECT OPERATION"}</h2><span>04 / MISSION SELECT</span></div>
+        <div className="bridge-mission">
+          <div className="bridge-mission__tabs" role="tablist" aria-label={pt ? "Selecionar missão" : "Select mission"}>
             {modules.map((module, index) => (
               <button
                 key={module.code}
                 type="button"
                 role="tab"
                 aria-selected={module.code === activeMission.code}
+                id={`mission-tab-${module.code}`}
                 aria-controls="launch-mission-stage"
                 tabIndex={module.code === activeMission.code ? 0 : -1}
                 className={module.code === activeMission.code ? "is-active" : ""}
@@ -159,18 +150,19 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
             ))}
           </div>
           <article
-            className={`launch-mission-console__stage${activeMission.featured ? " is-primary" : ""}`}
+            className={`bridge-mission__stage${activeMission.featured ? " is-primary" : ""}`}
             id="launch-mission-stage"
             role="tabpanel"
+            aria-labelledby={`mission-tab-${activeMission.code}`}
             key={activeMission.code}
           >
-            <span className="launch-mission-console__orbit" aria-hidden="true"><i /><i /><b>{activeMission.code}</b></span>
-            <div className="launch-mission-console__copy">
+
+            <div className="bridge-mission__copy">
               <small>{activeMission.label} // MISSION PATH</small>
               <h3>{activeMission.title}</h3>
               <p>{activeMission.description}</p>
             </div>
-            <div className="launch-mission-console__signal">
+            <div className="bridge-mission__signal">
               <small>{activeMission.metricLabel}</small>
               <strong>{activeMission.metric}</strong>
               <span><i /> {pt ? "CANAL PRONTO" : "CHANNEL READY"}</span>
@@ -186,7 +178,8 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
         <SectionHeading
           index="02"
           eyebrow={pt ? "INTELIGÊNCIA ATUAL" : "CURRENT INTELLIGENCE"}
-          title={pt ? "O campo competitivo, condensado" : "The competitive field, condensed"}
+          id="intel-title"
+          title={pt ? "Relatório do campo" : "Field report"}
           description={pt
             ? "Amostras do banco atual. Cada resultado mantém o evento, a colocação e a fonte de origem."
             : "Samples from the current database. Every result retains its event, placement and source."}
@@ -209,7 +202,7 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
                     <strong>{deck.eventName || "Event"}</strong>
                     <small>{formatDate(deck.eventDate, locale)} // {deck.formatName || overview.format}</small>
                   </span>
-                  <span aria-hidden="true">↗</span>
+                  <span aria-hidden="true">→</span>
                 </button>
               ))}
             </div>
@@ -239,6 +232,7 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
 
       <section className="launch-section launch-onboarding" aria-labelledby="onboarding-title">
         <SectionHeading
+          id="onboarding-title"
           index="03"
           eyebrow={pt ? "INICIAR OPERAÇÃO" : "START OPERATION"}
           title={pt ? "Seu próximo passo depende da missão" : "Your next step depends on the mission"}
@@ -285,11 +279,11 @@ function Telemetry({ value, label }) {
   return <div><dt>{label}</dt><dd>{value}</dd></div>;
 }
 
-function SectionHeading({ index, eyebrow, title, description }) {
+function SectionHeading({ id, index, eyebrow, title, description }) {
   return (
     <header className="launch-section-heading">
       <span>{index}</span>
-      <div><small>{eyebrow}</small><h2>{title}</h2></div>
+      <div><small>{eyebrow}</small><h2 id={id}>{title}</h2></div>
       <p>{description}</p>
     </header>
   );

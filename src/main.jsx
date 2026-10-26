@@ -8,8 +8,9 @@ import "./tactical-system.css";
 import "./hud-system-v2.css";
 import "./ops-hud.css";
 import "./alpha.css";
-import "./mobile-first.css";
 import "./navigation.css";
+import "./military-hud.css";
+import "./cockpit-bridge.css";
 import { App } from "./App";
 import { LocaleProvider } from "./i18n/LocaleProvider";
 

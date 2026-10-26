@@ -9,126 +9,79 @@ const NAV_ITEMS = [
   ["community", "Network", "04"],
   ["previews", "Signals", "05"],
 ];
-
 const NAV_GROUPS = {
-  cards: new Set(["cards", "card", "synergy", "synergyMap"]),
-  decks: new Set(["decks", "builder", "deckView"]),
-  meta: new Set(["meta"]),
-  community: new Set(["community", "events", "eventDetail", "players", "venues"]),
-  previews: new Set(["previews"]),
+  cards: ["cards", "card", "synergy", "synergyMap"],
+  decks: ["decks", "builder", "deckView", "importExport"],
+  meta: ["meta", "prices"],
+  community: ["community", "contribute", "events", "eventDetail", "players", "venues", "scheduleManager"],
+  previews: ["previews"],
 };
 
 export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user, data, metaWindows = [], selectedMetaId = "current", onMetaChange, onViewChange, onSignIn, search, onSearchChange }) {
   const { locale, setLocale } = useLocale();
-  const [mobileUtilitiesOpen, setMobileUtilitiesOpen] = useState(false);
-  const mobileUtilitiesToggleRef = useRef(null);
-  const systemStatus = locale === "pt-BR" ? "REDE TÁTICA ONLINE" : "TACTICAL NETWORK ONLINE";
-  const systemMode = locale === "pt-BR" ? "MÓDULO GUNDAM ATIVO" : "GUNDAM MODULE ACTIVE";
-  const activeFormat = metaWindows.find((window) => window.id === selectedMetaId)?.shortLabel
-    || data?.activeFormat
-    || data?.gameModule?.activeFormat
-    || "GD05";
+  const pt = locale === "pt-BR";
+  const [utilitiesOpen, setUtilitiesOpen] = useState(false);
+  const toggleRef = useRef(null);
+  const headerRef = useRef(null);
+  const activeFormat = metaWindows.find((window) => window.id === selectedMetaId)?.shortLabel || data?.activeFormat || "GD05";
 
+  useEffect(() => { setUtilitiesOpen(false); }, [view]);
   useEffect(() => {
-    if (!mobileUtilitiesOpen) return undefined;
-    function closeOnEscape(event) {
-      if (event.key === "Escape") closeMobileUtilities();
+    if (!utilitiesOpen) return;
+    function onKey(event) {
+      if (event.key === "Escape") {
+        setUtilitiesOpen(false);
+        toggleRef.current?.focus();
+      }
     }
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [mobileUtilitiesOpen]);
-
-  function closeMobileUtilities() {
-    setMobileUtilitiesOpen(false);
-    window.requestAnimationFrame(() => mobileUtilitiesToggleRef.current?.focus());
-  }
-
-  function changeLocale(nextLocale) {
-    setLocale(nextLocale);
-    setMobileUtilitiesOpen(false);
-  }
-
-  function changeTheme(nextThemeId) {
-    onThemeChange?.(nextThemeId);
-    setMobileUtilitiesOpen(false);
-  }
+    function onOutside(event) {
+      if (!headerRef.current?.contains(event.target)) setUtilitiesOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onOutside);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onOutside);
+    };
+  }, [utilitiesOpen]);
 
   return (
-    <header id="site-navigation" className="site-header panel cockpit-panel cockpit-topbar cockpit-shell-topbar">
-      <button className="site-brand zero-brand" type="button" aria-label="TCG Tactical Database" onClick={() => onViewChange("home")}>
-        <span className="site-brand__mark zero-brand__seal tcgtd-insignia" aria-hidden="true">
-          <img src="/assets/brand/tcgtd-orbital-mark-v3.svg" alt="" />
-        </span>
-        <span>
-          <small>{translate(systemStatus)}</small>
-          <strong>{translate("TCG TACTICAL DATABASE")}</strong>
-          <em>{translate("TCG // TACTICAL DATABASE")} · {translate(systemMode)}</em>
-        </span>
-      </button>
-
-      <label className="global-search command-input">
-        <span>{translate("Command input")}</span>
-        <input
-          type="search"
-          aria-label={locale === "pt-BR" ? "Buscar cartas" : "Search cards"}
-          placeholder={translate("Name, number, set, text, trait...")}
-          value={search}
-          onChange={(event) => onSearchChange(event.target.value)}
-        />
-      </label>
-
-      <nav className="site-nav" aria-label={translate("Primary navigation")}>
-        {NAV_ITEMS.map(([id, label, code]) => (
-          <button
-            key={id}
-            type="button"
-            className={NAV_GROUPS[id]?.has(view) ? "is-active" : ""}
-            aria-current={NAV_GROUPS[id]?.has(view) ? "page" : undefined}
-            onClick={() => onViewChange(id)}
-          >
-            <small>{code}</small>
-            <span>{translate(label)}</span>
-          </button>
-        ))}
-      </nav>
-
-      <div className={`site-header__actions cockpit-pilot-panel${mobileUtilitiesOpen ? " is-mobile-utility-open" : ""}`}>
-        <button
-          ref={mobileUtilitiesToggleRef}
-          className="mobile-utility-toggle"
-          type="button"
-          aria-expanded={mobileUtilitiesOpen}
-          aria-controls="mobile-utility-panel"
-          onClick={() => setMobileUtilitiesOpen((isOpen) => !isOpen)}
-        >
-          <span>{locale === "pt-BR" ? "CONTROLES" : "CONTROLS"}</span>
-          <i aria-hidden="true" />
+    <header id="site-navigation" className="hud-header" ref={headerRef}>
+      <a className="hud-skip" href="#main-content">{pt ? "Pular para o conteúdo" : "Skip to content"}</a>
+      <div className="hud-header__command">
+        <button className="hud-brand" type="button" onClick={() => onViewChange("home")} aria-label="TCG Tactical Database — Home">
+          <img src="/assets/brand/tcgtd-orbital-mark-v3.svg" alt="" width="40" height="40" />
+          <span><small>GUNDAM CARD GAME</small><strong>TCG TACTICAL DATABASE</strong></span>
         </button>
-        {mobileUtilitiesOpen ? <button className="mobile-utility-backdrop" type="button" aria-label={locale === "pt-BR" ? "Fechar controles" : "Close controls"} onClick={closeMobileUtilities} /> : null}
-        <div id="mobile-utility-panel" className="mobile-utility-panel" aria-label={locale === "pt-BR" ? "Controles do sistema" : "System controls"}>
-          <label className="hud-theme-selector">
-            <span>{locale === "pt-BR" ? "HUD" : "HUD"}</span>
-            <select value={theme.id} onChange={(event) => changeTheme(event.target.value)} aria-label={locale === "pt-BR" ? "Selecionar tema da HUD" : "Select HUD theme"}>
-              {themeOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
-            </select>
-          </label>
-          <div className="language-switch" role="group" aria-label={locale === "pt-BR" ? "Idioma" : "Language"}>
-            <button type="button" className={locale === "pt-BR" ? "is-active" : ""} onClick={() => changeLocale("pt-BR")} aria-pressed={locale === "pt-BR"}>PT-BR</button>
-            <button type="button" className={locale === "en" ? "is-active" : ""} onClick={() => changeLocale("en")} aria-pressed={locale === "en"}>ENG</button>
+        <label className="hud-search">
+          <span aria-hidden="true">⌕</span>
+          <input type="search" aria-label={pt ? "Buscar cartas" : "Search cards"} placeholder={pt ? "Buscar nome, código, efeito…" : "Search name, code, effect…"} value={search} onKeyDown={(event) => { if (event.key === "Enter") onViewChange("cards"); }} onChange={(event) => onSearchChange(event.target.value)} />
+          <small>DATABASE</small>
+        </label>
+        <button ref={toggleRef} className="hud-controls-toggle" type="button" aria-expanded={utilitiesOpen} aria-controls="hud-system-controls" onClick={() => setUtilitiesOpen((open) => !open)}>
+          <span aria-hidden="true">☷</span>{pt ? "CONTROLES" : "CONTROLS"}
+        </button>
+        <div id="hud-system-controls" className={`hud-controls${utilitiesOpen ? " is-open" : ""}`}>
+          <label><span>HUD / UNIT</span><select value={theme.id} onChange={(event) => onThemeChange?.(event.target.value)} aria-label={pt ? "Selecionar tema da HUD" : "Select HUD theme"}>{themeOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}</select></label>
+          <label><span>{pt ? "META / FORMATO" : "META / FORMAT"}</span><select value={selectedMetaId} onChange={(event) => onMetaChange?.(event.target.value)} aria-label={pt ? "Selecionar meta ou formato" : "Select meta or format"}>{metaWindows.length ? metaWindows.map((window) => <option key={window.id} value={window.id}>{formatMetaWindowLabel(window, locale)}</option>) : <option value={selectedMetaId}>{activeFormat}</option>}</select></label>
+          <div className="hud-language" role="group" aria-label={pt ? "Idioma" : "Language"}>
+            <button type="button" aria-pressed={pt} onClick={() => setLocale("pt-BR")}>PT</button><button type="button" aria-pressed={!pt} onClick={() => setLocale("en")}>EN</button>
           </div>
-          <span className="pilot-avatar" aria-hidden="true" />
-          <button type="button" className="pilot-label pilot-label-button" onClick={() => user ? onViewChange("profile") : onSignIn?.()}>
-            {user ? `${translate("PILOT")}: ${user.publicName.toUpperCase()}` : (locale === "pt-BR" ? "ENTRAR" : "SIGN IN")}
-          </button>
-          <label className="site-format-badge site-format-selector">
-            <small>{locale === "pt-BR" ? "META / FORMATO" : "META / FORMAT"}</small>
-            <select value={selectedMetaId} onChange={(event) => { onMetaChange?.(event.target.value); setMobileUtilitiesOpen(false); }} aria-label={locale === "pt-BR" ? "Selecionar meta ou formato" : "Select meta or format"}>
-              {metaWindows.length
-                ? metaWindows.map((window) => <option key={window.id} value={window.id}>{formatMetaWindowLabel(window, locale)}</option>)
-                : <option value={selectedMetaId}>{activeFormat}</option>}
-            </select>
-          </label>
+          <button type="button" className="hud-session" onClick={() => { setUtilitiesOpen(false); user ? onViewChange("profile") : onSignIn?.(); }}>{user ? user.publicName : pt ? "ENTRAR" : "SIGN IN"}</button>
+          <nav className="hud-controls__links" aria-label={pt ? "Mais módulos" : "More modules"}>
+            {[["events", pt ? "Eventos" : "Events"], ["prices", pt ? "Mercado" : "Market"], ["players", pt ? "Jogadores" : "Players"], ["venues", pt ? "Lojas e agenda" : "Venues & schedule"], ["importExport", "Import / Export"], ["settings", pt ? "Configurações" : "Settings"]].map(([id, label]) => <button type="button" key={id} onClick={() => { setUtilitiesOpen(false); onViewChange(id); }}>{label} →</button>)}
+          </nav>
         </div>
+      </div>
+      <div className="hud-header__bus">
+        <span className="hud-header__module"><i /> GUNDAM CARD GAME <b>{activeFormat}</b></span>
+        <nav className="hud-primary-nav" aria-label={translate("Primary navigation")}>
+          {NAV_ITEMS.map(([id, label, code]) => {
+            const active = NAV_GROUPS[id].includes(view);
+            return <button key={id} type="button" className={active ? "is-active" : ""} aria-current={active ? "page" : undefined} onClick={() => onViewChange(id)}><small>{code}</small><span>{translate(label)}</span><i aria-hidden="true" /></button>;
+          })}
+        </nav>
+        <span className="hud-header__edition">{theme.unitId} <b>HUD</b></span>
       </div>
     </header>
   );

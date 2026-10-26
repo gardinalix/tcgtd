@@ -15,7 +15,7 @@ export function InstitutionalPage({ kind, onNavigate }) {
         {page.sections.map((section) => (
           <section key={section.title}>
             <h2>{section.title}</h2>
-            {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {(section.paragraphs || []).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             {section.items?.length ? <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul> : null}
           </section>
         ))}

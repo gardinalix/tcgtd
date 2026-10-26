@@ -29,8 +29,8 @@ class TcgcsvPriceImportTests(unittest.TestCase):
     def test_fetch_json_retries_a_transient_request_failure(self) -> None:
         with patch.object(
             tcgcsv,
-            "ps_fetch_text",
-            side_effect=[RuntimeError("connection reset"), '{"success": true, "results": []}'],
+            "fetch_json_once",
+            side_effect=[RuntimeError("connection reset"), {"success": True, "results": []}],
         ) as fetch_text, patch.object(tcgcsv.time, "sleep") as sleep:
             payload = tcgcsv.fetch_json(
                 "https://example.test/tcgplayer/86/groups",

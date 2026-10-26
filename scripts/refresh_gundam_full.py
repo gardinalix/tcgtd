@@ -420,11 +420,8 @@ def main() -> int:
                 run_step(
                     "React/Vite production build",
                     [
-                        "powershell.exe",
-                        "-ExecutionPolicy",
-                        "Bypass",
-                        "-File",
-                        str(SCRIPTS_DIR / "react_build.ps1"),
+                        *(["cmd.exe", "/c", "npm"] if sys.platform.startswith("win") else ["npm"]),
+                        "run", "build",
                     ],
                 )
             )

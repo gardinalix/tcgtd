@@ -39,24 +39,19 @@ test("every Gundam theme defines a complete and visibly distinct HUD palette", (
   assert.equal(primaryColors.size, THEME_OPTIONS.length);
 });
 
-test("the home hero visibly renders the selected mecha", () => {
-  const launchCss = readFileSync(fileURLToPath(new URL("../src/launch.css", import.meta.url)), "utf8");
-  const heroImageRule = launchCss.match(/\.launch-hero__visual img\s*\{([\s\S]*?)\}/)?.[1] || "";
+test("the command bridge visibly renders the selected mecha", () => {
+  const bridgeCss = readFileSync(fileURLToPath(new URL("../src/cockpit-bridge.css", import.meta.url)), "utf8");
+  const heroImageRule = bridgeCss.match(/\.bridge-viewport__unit\s*\{([\s\S]*?)\}/)?.[1] || "";
 
-  assert.match(heroImageRule, /display:\s*block/);
+  assert.match(heroImageRule, /object-fit:\s*cover/);
   assert.doesNotMatch(heroImageRule, /display:\s*none/);
-  assert.match(heroImageRule, /opacity:\s*0\.9/);
+  assert.match(heroImageRule, /opacity:\s*0?\.9/);
 });
 
-test("the Portuguese hero title keeps its highlighted phrase in one inline flow", () => {
+test("the Portuguese hero title uses the actual accented text in its highlighted phrase", () => {
   const home = readFileSync(fileURLToPath(new URL("../src/pages/HomePage.jsx", import.meta.url)), "utf8");
-  const launchCss = readFileSync(fileURLToPath(new URL("../src/launch.css", import.meta.url)), "utf8");
-
-  assert.match(home, /launch-hero__nasal-o/);
-  assert.match(home, /aria-label=\{pt \? " decisões de deck\." : undefined\}/);
-  assert.match(launchCss, /\.launch-hero h1 > span\s*\{\s*display: block/);
-  assert.match(launchCss, /\.launch-hero__nasal-o\s*\{[\s\S]*?display: inline-block/);
-  assert.match(launchCss, /\.launch-hero__nasal-o::before\s*\{[\s\S]*?content: "~"/);
+  assert.match(home, /<span>\{pt \? " decisões de deck\." : " deck decisions\."\}<\/span>/);
+  assert.doesNotMatch(home, /launch-hero__nasal-o|aria-hidden="true">o<\/span>/);
 });
 
 test("the production orbital brand mark is available to the header and boot sequence", () => {

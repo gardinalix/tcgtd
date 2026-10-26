@@ -57,14 +57,19 @@ npm run data:validate  # Read-only validation of normalized competitive data
 npm run data:build     # Rebuild competitive projections from versioned records
 npm run data:update    # Fetch public sources and refresh data; review changes before committing
 npm run data:export    # Generate local CSV/JSON exports
+npm run cards:update   # Fetch the official card pool; preserve existing prices, rules and competitive data
 ```
 
 The normal frontend build requires Node only. Source refresh and workbook/image generation also use Python. Individual tools require additional packages such as `lxml`, `openpyxl` and Pillow; install the packages used by the tool you intend to run. See [the data engine guide](docs/data-engine.md), [database notes](DATABASE.md) and [deployment guide](docs/DEPLOY_GUIDE.md).
+
+For a card-only refresh, install Python and `lxml` (`python -m pip install lxml==6.1.1`), then run `npm run cards:update`. The cloud network must allow `www.gundam-gcg.com` over HTTPS. The updater does not fetch prices or tournament sources, modify the hosted database, or deploy. It rebuilds the public card pool directly from the official catalog even when the local advisor/SQLite caches are absent or stale. Review `data/latest_card_pool_report.json` and the public payload diff, run the validation commands, then follow the local-first publication approval in `AGENTS.md`.
+
+`npm run cards:update -- --skip-fetch` reprocesses an existing official snapshot; it fails when that snapshot is absent. Missing official or price inputs in a general payload build preserve the committed public data. Empty, malformed, incomplete or shrinking official card collections fail before replacing the catalog/payload; investigate actual official removals before intentionally changing that guard. The tournament scheduler remains paused.
 
 ## Git and hosting
 
 Git contains application code, public data, assets, schema and documentation. It does not transfer the hosted D1 database, user records, secrets, provider registrations, domain/DNS configuration or browser-local collections and decks.
 
-The Git migration preserves the existing Sites deployment. Changes must be implemented and validated locally, and live publication requires explicit approval under [AGENTS.md](AGENTS.md). The validation workflow performs no deployment. The GitHub tournament updater is paused because its payload builder requires ignored local snapshots; it must pass a fresh-clone update check before being re-enabled. Local data update commands remain available.
+The Git migration preserves the existing Sites deployment. Changes must be implemented and validated locally, and live publication requires explicit approval under [AGENTS.md](AGENTS.md). The validation workflow performs no deployment. The GitHub tournament updater remains paused: the general payload builder now preserves public card data without local caches, but tournament migration still requires local legacy CSV inputs and the complete network update must pass a fresh-clone check before being re-enabled. Local data update commands remain available.
 
 See [the Git migration notes](docs/GIT-MIGRATION.md) for scope, exclusions and verification.
