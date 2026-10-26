@@ -39,13 +39,13 @@ test("every Gundam theme defines a complete and visibly distinct HUD palette", (
   assert.equal(primaryColors.size, THEME_OPTIONS.length);
 });
 
-test("the home hero visibly renders the selected mecha", () => {
-  const launchCss = readFileSync(fileURLToPath(new URL("../src/launch.css", import.meta.url)), "utf8");
-  const heroImageRule = launchCss.match(/\.launch-hero__visual img\s*\{([\s\S]*?)\}/)?.[1] || "";
+test("the command bridge visibly renders the selected mecha", () => {
+  const bridgeCss = readFileSync(fileURLToPath(new URL("../src/cockpit-bridge.css", import.meta.url)), "utf8");
+  const heroImageRule = bridgeCss.match(/\.bridge-viewport__unit\s*\{([\s\S]*?)\}/)?.[1] || "";
 
-  assert.match(heroImageRule, /display:\s*block/);
+  assert.match(heroImageRule, /object-fit:\s*cover/);
   assert.doesNotMatch(heroImageRule, /display:\s*none/);
-  assert.match(heroImageRule, /opacity:\s*0\.9/);
+  assert.match(heroImageRule, /opacity:\s*0?\.9/);
 });
 
 test("the Portuguese hero title uses the actual accented text in its highlighted phrase", () => {

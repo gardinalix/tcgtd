@@ -51,7 +51,7 @@ export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user
       <div className="hud-header__command">
         <button className="hud-brand" type="button" onClick={() => onViewChange("home")} aria-label="TCG Tactical Database — Home">
           <img src="/assets/brand/tcgtd-orbital-mark-v3.svg" alt="" width="40" height="40" />
-          <span><small>TCGTD // TACTICAL SYSTEMS</small><strong>TCG TACTICAL DATABASE</strong></span>
+          <span><small>GUNDAM CARD GAME</small><strong>TCG TACTICAL DATABASE</strong></span>
         </button>
         <label className="hud-search">
           <span aria-hidden="true">⌕</span>
@@ -81,7 +81,7 @@ export function SiteHeader({ view, theme, themeOptions = [], onThemeChange, user
             return <button key={id} type="button" className={active ? "is-active" : ""} aria-current={active ? "page" : undefined} onClick={() => onViewChange(id)}><small>{code}</small><span>{translate(label)}</span><i aria-hidden="true" /></button>;
           })}
         </nav>
-        <span className="hud-header__edition">PUBLIC ALPHA <b>01</b></span>
+        <span className="hud-header__edition">{theme.unitId} <b>HUD</b></span>
       </div>
     </header>
   );

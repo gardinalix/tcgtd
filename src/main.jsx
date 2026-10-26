@@ -10,6 +10,7 @@ import "./ops-hud.css";
 import "./alpha.css";
 import "./navigation.css";
 import "./military-hud.css";
+import "./cockpit-bridge.css";
 import { App } from "./App";
 import { LocaleProvider } from "./i18n/LocaleProvider";
 
