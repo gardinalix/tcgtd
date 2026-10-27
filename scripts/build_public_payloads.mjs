@@ -110,11 +110,12 @@ async function buildRightsManifest(source) {
     assets: files.map((assetPath) => {
       const isCardImage = assetPath.startsWith("assets/card-images/");
       const isProjectBrand = assetPath.startsWith("assets/brand/");
+      const isGeneratedCockpit = assetPath === "assets/backgrounds/orbital-cockpit.webp";
       const sourceUrl = isCardImage ? (cardOrigins.get(assetPath) || "") : "";
-      if (isProjectBrand) {
+      if (isProjectBrand || isGeneratedCockpit) {
         return {
           path: `/${assetPath}`,
-          kind: "project_brand_asset",
+          kind: isGeneratedCockpit ? "project_interface_asset" : "project_brand_asset",
           game: "platform",
           source: "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
           sourceUrl: "",

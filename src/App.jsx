@@ -434,6 +434,7 @@ export function App() {
         {shouldGatePrivate ? <LoginPage message="Login required for this cockpit section." onLogin={handleLogin} onSocialLogin={startSocialLogin} onRegister={() => setView("register")} onPlatformLogin={handlePlatformSignIn} /> : null}
         {!shouldGatePrivate && view === "home" ? (
           <HomePage
+            user={currentUser}
             data={data}
             theme={theme}
             selectedMetaId={selectedMetaWindow?.id || selectedMetaId}

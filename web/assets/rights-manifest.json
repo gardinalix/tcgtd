@@ -95,6 +95,21 @@
       "reviewStatus": "review_required"
     },
     {
+      "path": "/assets/backgrounds/orbital-cockpit.webp",
+      "kind": "project_interface_asset",
+      "game": "platform",
+      "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+      "sourceUrl": "",
+      "rightsHolder": "TCG Tactical Database project",
+      "copyrightOwner": "TCG Tactical Database project",
+      "licenseStatus": "project_asset",
+      "license": "Reserved for TCG Tactical Database product and brand use",
+      "attribution": "TCG Tactical Database original brand asset.",
+      "permittedUse": "TCG Tactical Database product surfaces, metadata and community communications",
+      "usageNotes": "Do not reuse as a third-party Trading Card Game publisher mark.",
+      "reviewStatus": "approved"
+    },
+    {
       "path": "/assets/backgrounds/unicorn-space-extension.png",
       "kind": "background_art",
       "game": "platform",
