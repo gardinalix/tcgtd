@@ -1,18 +1,20 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { CardArt } from "../components/cards/CardArt";
 import { PriceTag } from "../components/cards/PriceTag";
 import { DeckImageExportLayer } from "../components/decks/DeckImageExportLayer.jsx";
+import { ExBurstExportLayer } from "../components/decks/ExBurstExportLayer.jsx";
+import "../components/decks/deckExports.css";
 import {
   TacticalDataPanel,
   TacticalPageShell,
   TacticalTable,
 } from "../components/tactical/TacticalPageShell";
-import { buildDeckRows, buildPlainDeckList, getDeckIssues } from "../domain/deck";
+import { buildDeckRows, getDeckIssues } from "../domain/deck";
 import { deckStats, deckSummaryFromMetaResult, parseDeckUrlList, publicDecksFromMeta } from "../domain/deckLibrary";
 
 export function DeckViewPage({ data, deckId, decks, onEditDeck, onSendToForge }) {
   const [inspectedCardNumber, setInspectedCardNumber] = useState("");
-  const [imageExportOpen, setImageExportOpen] = useState(false);
   const mainCards = data.cards || [];
   const mainMap = useMemo(() => new Map(mainCards.map((card) => [card.cardNumber, card])), [mainCards]);
   const publicDeck = useMemo(() => {
@@ -62,9 +64,8 @@ export function DeckViewPage({ data, deckId, decks, onEditDeck, onSendToForge })
         onInspect={(cardNumber) => setInspectedCardNumber(cardNumber)}
         onEditDeck={onEditDeck}
         onSendToForge={onSendToForge}
-        onCopy={() => navigator.clipboard?.writeText(buildPlainDeckList(deck, mainMap, "main"))}
-        onImageExport={() => setImageExportOpen(true)}
       />
+      <DeckExports key={deckId} deck={deck} rows={mainRows} stats={stats} />
       <div className="deck-terminal-grid">
         <TacticalDataPanel title="Main deck" subtitle={`${stats.mainCount} cards`} className="deck-terminal-grid__main">
           <DeckRows
@@ -83,15 +84,75 @@ export function DeckViewPage({ data, deckId, decks, onEditDeck, onSendToForge })
           <StatsBlock title="Rarities" values={stats.rarities} />
         </TacticalDataPanel>
       </div>
-      {imageExportOpen ? (
-        <DeckImageExportLayer
-          deck={deck}
-          rows={mainRows}
-          stats={stats}
-          onClose={() => setImageExportOpen(false)}
-        />
-      ) : null}
     </TacticalPageShell>
+  );
+}
+
+function DeckExports({ deck, rows, stats }) {
+  const [channel, setChannel] = useState(null);
+  const modalRef = useRef(null);
+  const triggerRef = useRef(null);
+  const report = useMemo(() => ({ title: deck.name, main: deck.main, rows, stats }), [deck, rows, stats]);
+  const hasList = Object.values(deck.main || {}).some((quantity) => Number(quantity) > 0);
+
+  useEffect(() => {
+    if (!channel) return;
+    const trigger = triggerRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    // The text layer autofocuses its payload. Keep that focus when already inside.
+    if (!modalRef.current?.contains(document.activeElement)) {
+      modalRef.current?.querySelector("button")?.focus();
+    }
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      if (trigger?.isConnected) trigger.focus();
+    };
+  }, [channel]);
+
+  function openExport(event, nextChannel) {
+    triggerRef.current = event.currentTarget;
+    setChannel(nextChannel);
+  }
+
+  function containFocus(event) {
+    if (event.key !== "Tab") return;
+    const controls = [...modalRef.current.querySelectorAll('button:not(:disabled), a[href], textarea, [tabindex="0"]')]
+      .filter((element) => element.getClientRects().length);
+    const first = controls[0];
+    const last = controls.at(-1);
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
+  }
+
+  return (
+    <>
+      <section className="deck-dossier-exports" aria-label="Exportar deck">
+        <div>
+          <h2>EXPORTAR DECK</h2>
+          <p>{hasList ? "Copie ou baixe a lista em TXT, ou salve a imagem em PNG." : "Este deck ainda não tem uma lista de cartas disponível para exportar."}</p>
+        </div>
+        <div className="deck-dossier-exports__actions">
+          <button type="button" disabled={!hasList} aria-haspopup="dialog" onClick={(event) => openExport(event, "text")}>EXPORTAR LISTA</button>
+          <button type="button" disabled={!rows.length} aria-haspopup="dialog" onClick={(event) => openExport(event, "image")}>EXPORTAR IMAGEM</button>
+        </div>
+      </section>
+      {channel ? createPortal(
+        <div className="deck-dossier-export-modal" ref={modalRef} onKeyDown={containFocus}>
+          {channel === "text" ? (
+            <ExBurstExportLayer report={report} onClose={() => setChannel(null)} />
+          ) : (
+            <DeckImageExportLayer deck={deck} rows={rows} stats={stats} onClose={() => setChannel(null)} />
+          )}
+        </div>,
+        document.getElementById("root") || document.body,
+      ) : null}
+    </>
   );
 }
 
@@ -105,8 +166,6 @@ function DeckIdentityHero({
   onInspect,
   onEditDeck,
   onSendToForge,
-  onCopy,
-  onImageExport,
 }) {
   const colors = Object.keys(stats.colors || {});
   return (
@@ -126,8 +185,6 @@ function DeckIdentityHero({
         <div className="deck-identity-hero__actions">
           {savedDeck ? <button type="button" onClick={() => onEditDeck(deck.id)}>EDITAR NO BUILDER</button> : null}
           {sourceResult ? <button type="button" className="is-forge" onClick={() => onSendToForge?.(sourceResult, "current")}>ENVIAR PARA A FORJA</button> : null}
-          <button type="button" onClick={onCopy}>COPIAR LISTA</button>
-          <button type="button" className="is-image-export" onClick={onImageExport}>EXPORTAR IMAGEM</button>
           {deck.sourceUrl ? <a href={deck.sourceUrl} target="_blank" rel="noreferrer">FONTE</a> : null}
         </div>
       </div>

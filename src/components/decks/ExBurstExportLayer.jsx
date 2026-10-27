@@ -40,7 +40,7 @@ export function ExBurstExportLayer({ report, onClose }) {
           <div>
             <span className="eyebrow">TRANSFER LAYER // EXBURST</span>
             <h2 id="deck-export-title">ExBurst text format</h2>
-            <p>One entry per card in <code>4xCARD-NUMBER</code> format, ready to copy or save.</p>
+            <p>One entry per card in 4xCARD-NUMBER format, ready to copy or save.</p>
           </div>
           <button type="button" className="deck-export-layer__close" onClick={onClose} aria-label="Close export layer">×</button>
         </header>
