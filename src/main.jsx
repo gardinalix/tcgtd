@@ -11,6 +11,7 @@ import "./alpha.css";
 import "./navigation.css";
 import "./military-hud.css";
 import "./cockpit-bridge.css";
+import "./wing-zero-cockpit.css";
 import { App } from "./App";
 import { LocaleProvider } from "./i18n/LocaleProvider";
 

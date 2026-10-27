@@ -110,7 +110,8 @@ async function buildRightsManifest(source) {
     assets: files.map((assetPath) => {
       const isCardImage = assetPath.startsWith("assets/card-images/");
       const isProjectBrand = assetPath.startsWith("assets/brand/");
-      const isGeneratedCockpit = assetPath === "assets/backgrounds/orbital-cockpit.webp";
+      const isWingZeroArtwork = ["assets/backgrounds/wing-zero-dawn-cockpit.webp", "assets/gundams/wing-zero-blueprint.webp"].includes(assetPath);
+      const isGeneratedCockpit = assetPath === "assets/backgrounds/orbital-cockpit.webp" || isWingZeroArtwork;
       const sourceUrl = isCardImage ? (cardOrigins.get(assetPath) || "") : "";
       if (isProjectBrand || isGeneratedCockpit) {
         return {
@@ -120,10 +121,10 @@ async function buildRightsManifest(source) {
           source: "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
           sourceUrl: "",
           rightsHolder: "TCG Tactical Database project",
-          copyrightOwner: "TCG Tactical Database project",
+          copyrightOwner: isWingZeroArtwork ? "Generated composition for TCGTD; Gundam characters and designs belong to their respective rights holders" : "TCG Tactical Database project",
           licenseStatus: "project_asset",
           license: "Reserved for TCG Tactical Database product and brand use",
-          attribution: "TCG Tactical Database original brand asset.",
+          attribution: isWingZeroArtwork ? "AI-generated Wing Zero theme artwork for TCGTD. Gundam belongs to its respective rights holders." : "TCG Tactical Database original brand asset.",
           permittedUse: "TCG Tactical Database product surfaces, metadata and community communications",
           usageNotes: "Do not reuse as a third-party Trading Card Game publisher mark.",
           reviewStatus: "approved",
