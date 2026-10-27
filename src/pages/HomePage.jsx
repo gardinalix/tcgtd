@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useLocale } from "../i18n/LocaleProvider";
 import { buildMetaWindows, buildScopedMetaSignal } from "../domain/meta";
 
-export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
+export function HomePage({ data, theme, user, selectedMetaId = "current", setView }) {
   const { locale } = useLocale();
   const pt = locale === "pt-BR";
   const [activeMissionCode, setActiveMissionCode] = useState("01");
@@ -79,52 +79,47 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
 
   return (
     <div className="launch-home" data-view-panel="home">
-      <div className="bridge-heading">
-        <div><span className="bridge-heading__index">00</span><h1 id="bridge-title">{pt ? "PONTE DE COMANDO" : "COMMAND BRIDGE"}</h1></div>
-        <span>GUNDAM CARD GAME <i aria-hidden="true">//</i> {overview.format}</span>
-      </div>
-      <section className="cockpit-bridge" aria-labelledby="bridge-title">
-        <div className="bridge-orders bridge-panel">
-          <div className="bridge-panel__bar"><span>01 / {pt ? "CONTROLE DE MISSÃO" : "MISSION CONTROL"}</span><i aria-hidden="true" /></div>
-          <div className="bridge-orders__body">
-            <div className="bridge-unit-id"><img src={theme.factionLogo} alt="" /><span>{theme.unitId}<small>{theme.stateLabel}</small></span></div>
-            <h2>{pt ? "Transforme dados do meta em" : "Turn meta data into"}<span>{pt ? " decisões de deck." : " deck decisions."}</span></h2>
-            <p>{pt ? "Pesquise o arsenal. Leia o campo. Prepare sua próxima lista." : "Search the arsenal. Read the field. Prepare your next list."}</p>
-            <div className="bridge-orders__actions">
-              <button className="launch-button launch-button--primary" type="button" onClick={() => setView("decks")}>{pt ? "INICIAR FORJA" : "LAUNCH FORGE"}<span aria-hidden="true">→</span></button>
-              <button className="launch-button launch-button--ghost" type="button" onClick={() => setView("cards")}>{pt ? "ACESSAR ARSENAL" : "OPEN ARSENAL"}<span aria-hidden="true">→</span></button>
+      <section className="orbital-cockpit" aria-labelledby="orbital-title">
+        <div className="orbital-flight-deck">
+          <nav className="orbital-menu orbital-panel" aria-label={pt ? "Menu do cockpit" : "Cockpit menu"}>
+            <div className="orbital-panel-title"><span>{pt ? "MENU PRINCIPAL" : "MAIN MENU"}</span><span aria-hidden="true">//</span></div>
+            {[["home", pt ? "INÍCIO" : "HOME"], ["cards", pt ? "ARSENAL" : "ARSENAL"], ["decks", pt ? "FORJA TÁTICA" : "TACTICAL FORGE"], ["meta", pt ? "RADAR DO META" : "META RADAR"], ["events", pt ? "TORNEIOS" : "TOURNAMENTS"], ["community", pt ? "COMUNIDADE" : "COMMUNITY"], ["previews", pt ? "TRANSMISSÕES" : "TRANSMISSIONS"]].map(([view, label]) => <button key={view} type="button" className={view === "home" ? "is-active" : ""} aria-current={view === "home" ? "page" : undefined} onClick={() => setView(view)}><CockpitIcon kind={view} /><span>{label}</span><b aria-hidden="true">›</b></button>)}
+            <div className="orbital-menu__signature"><img src={theme.factionLogo} alt="" /><span>{theme.gundamName}<small>{theme.unitId} // {theme.stateLabel}</small></span></div>
+          </nav>
+          <div className="orbital-window">
+            <div className="orbital-window__coordinates"><span>GUNDAM CARD GAME<br />TCGTD / {pt ? "PONTE DE COMANDO" : "COMMAND BRIDGE"}</span><span>{overview.format}<br />{pt ? "ESCOPO SELECIONADO" : "SELECTED SCOPE"}</span></div>
+            <div className="orbital-welcome">
+              <span className="orbital-welcome__eyebrow">{theme.operation}</span>
+              <h1 id="orbital-title">{pt ? "BEM-VINDO," : "WELCOME,"}<br /><span>{user?.publicName || (pt ? "PILOTO" : "PILOT")}</span></h1>
+              <p>{pt ? "Dados do meta para" : "Meta intelligence for"}<span>{pt ? " decisões de deck." : " deck decisions."}</span></p>
+              <img className="orbital-welcome__insignia" src={theme.factionLogo} alt="" />
+              <button type="button" className="orbital-launch" onClick={() => setView("decks")}>{pt ? "INICIAR OPERAÇÃO NA FORJA" : "LAUNCH TACTICAL FORGE"}<span aria-hidden="true">›</span></button>
             </div>
-            <div className="bridge-scope"><span>{pt ? "ESCOPO COMPETITIVO" : "COMPETITIVE SCOPE"}</span><strong>{overview.format}</strong><small>{formatNumber(overview.decklists, locale)} {pt ? "listas no recorte selecionado" : "lists in the selected scope"}</small></div>
           </div>
+          <aside className="orbital-status orbital-panel" aria-label={pt ? "Unidade e piloto" : "Unit and pilot"}>
+            <div className="orbital-panel-title"><span>{pt ? "UNIDADE" : "UNIT STATUS"}</span><img src={theme.factionLogo} alt="" /></div>
+            <div className="orbital-status__unit"><img src={theme.gundamImage} alt={theme.gundamName} /><span>{theme.unitId}</span></div>
+            <h2>{theme.gundamName}</h2>
+            <dl className="orbital-status__readouts"><div><dt>{pt ? "PILOTO" : "PILOT"}</dt><dd>{user?.publicName || (pt ? "VISITANTE" : "GUEST")}</dd></div><div><dt>{pt ? "SISTEMA" : "SYSTEM"}</dt><dd>{theme.stateLabel}</dd></div><div><dt>{pt ? "FORMATO" : "FORMAT"}</dt><dd>{overview.format}</dd></div></dl>
+            <button type="button" onClick={() => setView(user ? "profile" : "login")}>{user ? (pt ? "ABRIR PERFIL" : "OPEN PROFILE") : (pt ? "IDENTIFICAR PILOTO" : "IDENTIFY PILOT")}<span aria-hidden="true">›</span></button>
+          </aside>
         </div>
-        <div className="bridge-viewport bridge-panel" aria-label={`${theme.gundamName} — ${theme.unitId}`}>
-          <div className="bridge-panel__bar"><span>02 / {pt ? "MONITOR DA UNIDADE" : "UNIT MONITOR"}</span><span>{theme.unitId}</span></div>
-          <div className="bridge-viewport__screen">
-            <img className="bridge-viewport__unit" src={theme.gundamImage} alt={theme.gundamName} />
-            <svg className="bridge-sight" viewBox="0 0 600 500" fill="none" aria-hidden="true">
-              <path d="M90 95H50V145 M510 95H550V145 M90 405H50V355 M510 405H550V355" />
-              <circle cx="300" cy="250" r="170" strokeDasharray="80 12 3 12" />
-              <circle cx="300" cy="250" r="191" strokeDasharray="1 11" />
-              <path d="M280 250H292 M308 250H320 M300 230V242 M300 258V270 M300 40V60 M300 440V460 M10 250H30 M570 250H590" />
-              <path d="M28 175V325 M572 175V325" strokeDasharray="2 8" />
-            </svg>
-            <span className="bridge-viewport__mode">{theme.operation}</span>
-            <div className="bridge-viewport__identity"><span>MOBILE SUIT / {theme.unitId}</span><strong>{theme.gundamName}</strong><small>{theme.stateLabel}</small></div>
-          </div>
-          <div className="bridge-viewport__footer"><span>{pt ? "UNIDADE SELECIONADA" : "SELECTED UNIT"}</span><span>{theme.pilot}</span></div>
+        <div className="orbital-instruments">
+          <section className="orbital-radar orbital-panel" aria-labelledby="orbital-radar-title">
+            <div className="orbital-panel-title"><h2 id="orbital-radar-title">{pt ? "MAPA TÁTICO" : "TACTICAL MAP"}</h2><span>SYNERGY / GCG</span></div>
+            <div className="orbital-radar__body"><svg viewBox="0 0 300 220" fill="none" aria-hidden="true"><ellipse cx="150" cy="110" rx="126" ry="83" /><ellipse cx="150" cy="110" rx="100" ry="65" /><circle cx="150" cy="110" r="65" /><ellipse cx="150" cy="110" rx="30" ry="65" /><ellipse cx="150" cy="110" rx="65" ry="24" /><path d="M20 110H280 M150 12V208 M47 35L253 185 M48 183L252 37" /><path className="orbital-radar__orbit" d="M39 142Q160 4 264 94Q180 212 39 142Z" /><circle className="orbital-radar__node" cx="150" cy="110" r="5" /><circle className="orbital-radar__node" cx="82" cy="94" r="4" /><circle className="orbital-radar__node" cx="231" cy="115" r="4" /></svg><div><span>{pt ? "RELAÇÕES ENTRE CARTAS" : "CARD RELATIONSHIPS"}</span><strong>{formatNumber(overview.cards, locale)}</strong><small>{pt ? "cartas no arsenal" : "cards in the arsenal"}</small><button type="button" onClick={() => setView(overview.metaLeaders[0] ? "synergyMap" : "cards", overview.metaLeaders[0]?.cardNumber || "")}>{pt ? "ABRIR MAPA" : "OPEN MAP"} <span aria-hidden="true">›</span></button></div></div>
+          </section>
+          <section className="orbital-feed orbital-panel" aria-labelledby="orbital-feed-title">
+            <div className="orbital-panel-title"><h2 id="orbital-feed-title">{pt ? "TRANSMISSÕES DO CAMPO" : "FIELD TRANSMISSIONS"}</h2><button type="button" onClick={() => setView("events")}>{pt ? "TODAS" : "ALL"} ›</button></div>
+            {overview.latestDecks.slice(0, 3).map((deck, index) => <button className="orbital-feed__entry" type="button" key={`${deck.deckId}-${index}`} onClick={() => setView("deckView", deck.deckId)}><span>{deck.placingLabel || String(index + 1).padStart(2, "0")}</span><span><small>{formatDate(deck.eventDate, locale)} / {deck.formatName || overview.format}</small><strong>{deck.archetype || deck.eventName}</strong><em>{deck.eventName}</em></span><b aria-hidden="true">›</b></button>)}
+            {!overview.latestDecks.length && <p>{pt ? "Nenhum resultado neste recorte." : "No results in this scope."}</p>}
+          </section>
+          <section className="orbital-signals orbital-panel" aria-labelledby="orbital-signals-title">
+            <div className="orbital-panel-title"><h2 id="orbital-signals-title">{pt ? "SINAIS DO META" : "META SIGNALS"}</h2><span>{overview.format}</span></div>
+            {overview.metaLeaders.slice(0, 3).map((card) => <button className="orbital-signals__entry" key={card.cardNumber} type="button" onClick={() => setView("card", card.cardNumber)}><img src={assetUrl(card.imageUrl)} alt="" /><span><strong>{card.cardName}</strong><small>{card.cardNumber}</small></span><span aria-hidden="true">›</span></button>)}
+            <div className="orbital-signals__scope"><span>{formatNumber(overview.decklists, locale)} {pt ? "LISTAS" : "LISTS"}</span><span>{formatNumber(overview.events, locale)} {pt ? "EVENTOS" : "EVENTS"}</span></div>
+          </section>
         </div>
-        <aside className="bridge-intel bridge-panel" aria-label={pt ? "Leitura do campo" : "Field readout"}>
-          <div className="bridge-panel__bar"><span>03 / FIELD INTEL</span><i aria-hidden="true" /></div>
-          <dl className="bridge-readouts">
-            <Telemetry value={formatNumber(overview.cards, locale)} label={pt ? "CARTAS NO ARSENAL" : "CARDS IN ARSENAL"} />
-            <Telemetry value={formatNumber(overview.decklists, locale)} label={pt ? "LISTAS NO ESCOPO" : "LISTS IN SCOPE"} />
-            <Telemetry value={formatNumber(overview.events, locale)} label={pt ? "EVENTOS NO ESCOPO" : "EVENTS IN SCOPE"} />
-          </dl>
-          <div className="bridge-intel__signals"><h2>{pt ? "SINAIS DO META" : "META SIGNALS"}</h2>
-            {overview.metaLeaders.slice(0, 3).map((card, index) => <button key={card.cardNumber} type="button" onClick={() => setView("card", card.cardNumber)}><span>{String(index + 1).padStart(2, "0")}</span><span><strong>{card.cardName}</strong><small>{card.cardNumber}</small></span><b aria-hidden="true">→</b></button>)}
-            {!overview.metaLeaders.length && <p>{pt ? "Sem sinais para este recorte." : "No signals in this scope."}</p>}
-          </div>
-        </aside>
       </section>
 
       <section className="launch-section launch-mission" aria-labelledby="mission-title">
@@ -174,62 +169,6 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
         </div>
       </section>
 
-      <section className="launch-section launch-intel" aria-labelledby="intel-title">
-        <SectionHeading
-          index="02"
-          eyebrow={pt ? "INTELIGÊNCIA ATUAL" : "CURRENT INTELLIGENCE"}
-          id="intel-title"
-          title={pt ? "Relatório do campo" : "Field report"}
-          description={pt
-            ? "Amostras do banco atual. Cada resultado mantém o evento, a colocação e a fonte de origem."
-            : "Samples from the current database. Every result retains its event, placement and source."}
-        />
-        <div className="launch-intel__layout">
-          <div className="launch-intel__events">
-            <div className="launch-panel-title">
-              <span>{pt ? "RESULTADOS RECENTES" : "RECENT RESULTS"}</span>
-              <button type="button" onClick={() => setView("events")}>{pt ? "TODOS OS EVENTOS" : "ALL EVENTS"}</button>
-            </div>
-            <div className="launch-result-list">
-              {overview.latestDecks.map((deck, index) => (
-                <button className="launch-result" type="button" key={`${deck.deckId}-${index}`} onClick={() => setView("deckView", deck.deckId)}>
-                  <span className="launch-result__rank">{deck.placingLabel || "—"}</span>
-                  <span className="launch-result__main">
-                    <strong>{deck.archetype || (pt ? "Arquétipo não informado" : "Archetype unavailable")}</strong>
-                    <small>{deck.playerName || (pt ? "Piloto não informado" : "Pilot unavailable")}</small>
-                  </span>
-                  <span className="launch-result__event">
-                    <strong>{deck.eventName || "Event"}</strong>
-                    <small>{formatDate(deck.eventDate, locale)} // {deck.formatName || overview.format}</small>
-                  </span>
-                  <span aria-hidden="true">→</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <aside className="launch-intel__cards">
-            <div className="launch-panel-title">
-              <span>{pt ? "SINAIS DO META" : "META SIGNALS"}</span>
-              <button type="button" onClick={() => setView("meta")}>{pt ? "RADAR COMPLETO" : "FULL RADAR"}</button>
-            </div>
-            <div className="launch-signal-list">
-              {overview.metaLeaders.map((card, index) => (
-                <button className="launch-signal" type="button" key={card.cardNumber} onClick={() => setView("card", card.cardNumber)}>
-                  <span className="launch-signal__index">{String(index + 1).padStart(2, "0")}</span>
-                  <img src={assetUrl(card.imageUrl)} alt="" loading="lazy" />
-                  <span>
-                    <strong>{card.cardName}</strong>
-                    <small>{card.cardNumber} // {card.color || card.cardType}</small>
-                  </span>
-                  <b>{Number(card.recentMetaScore || 0).toFixed(1)}</b>
-                </button>
-              ))}
-            </div>
-          </aside>
-        </div>
-      </section>
-
       <section className="launch-section launch-onboarding" aria-labelledby="onboarding-title">
         <SectionHeading
           id="onboarding-title"
@@ -275,8 +214,17 @@ export function HomePage({ data, theme, selectedMetaId = "current", setView }) {
   );
 }
 
-function Telemetry({ value, label }) {
-  return <div><dt>{label}</dt><dd>{value}</dd></div>;
+function CockpitIcon({ kind }) {
+  const paths = {
+    home: "M3 11L12 3L21 11M5 10V21H10V15H14V21H19V10",
+    cards: "M5 3H19V21H5ZM8 7H16M8 11H16M8 15H13",
+    decks: "M5 5H19V19H5ZM9 1V5M15 1V5M9 19V23M15 19V23M1 9H5M19 9H23M1 15H5M19 15H23M9 9H15V15H9Z",
+    meta: "M3 20V13H7V20M10 20V8H14V20M17 20V3H21V20",
+    events: "M7 3H17V8C17 15 7 15 7 8ZM7 5H3V8C3 11 7 11 7 11M17 5H21V8C21 11 17 11 17 11M12 13V20M7 21H17",
+    community: "M8 11A4 4 0 1 0 8 3A4 4 0 0 0 8 11ZM1 21V18C1 12 15 12 15 18V21M17 4C22 4 22 11 17 11M18 14C22 14 23 17 23 21",
+    previews: "M3 21L12 3L21 21M7 15H17M5 10C1 7 1 4 4 1M19 10C23 7 23 4 20 1",
+  };
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[kind] || paths.cards} /></svg>;
 }
 
 function SectionHeading({ id, index, eyebrow, title, description }) {
