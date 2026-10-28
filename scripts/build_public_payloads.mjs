@@ -113,7 +113,8 @@ async function buildRightsManifest(source) {
       const generatedUnit = ["assets/backgrounds/wing-zero-dawn-cockpit.webp", "assets/gundams/wing-zero-blueprint.webp"].includes(assetPath)
         ? "Wing Zero"
         : ["assets/backgrounds/epyon-libra-cockpit.webp", "assets/gundams/epyon-blueprint.webp"].includes(assetPath) ? "Epyon"
-        : ["assets/backgrounds/unicorn-industrial-cockpit.webp", "assets/gundams/unicorn-blueprint.webp"].includes(assetPath) ? "Unicorn" : "";
+        : ["assets/backgrounds/unicorn-industrial-cockpit.webp", "assets/gundams/unicorn-blueprint.webp"].includes(assetPath) ? "Unicorn"
+        : ["assets/backgrounds/barbatos-arbrau-cockpit.webp", "assets/gundams/barbatos-blueprint.webp"].includes(assetPath) ? "Barbatos" : "";
       const isGeneratedCockpit = assetPath === "assets/backgrounds/orbital-cockpit.webp" || Boolean(generatedUnit);
       const sourceUrl = isCardImage ? (cardOrigins.get(assetPath) || "") : "";
       if (isProjectBrand || isGeneratedCockpit) {
