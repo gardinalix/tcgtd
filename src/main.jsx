@@ -13,6 +13,7 @@ import "./military-hud.css";
 import "./cockpit-bridge.css";
 import "./wing-zero-cockpit.css";
 import "./epyon-cockpit.css";
+import "./unicorn-cockpit.css";
 import { App } from "./App";
 import { LocaleProvider } from "./i18n/LocaleProvider";
 
