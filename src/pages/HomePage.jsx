@@ -104,20 +104,30 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
             <button type="button" onClick={() => setView(user ? "profile" : "login")}>{user ? (pt ? "ABRIR PERFIL" : "OPEN PROFILE") : (pt ? "IDENTIFICAR PILOTO" : "IDENTIFY PILOT")}<span aria-hidden="true">›</span></button>
           </aside>
         </div>
+        <div className="console-deck-label"><span>{pt ? "CONSOLE TÁTICO" : "TACTICAL CONSOLE"}</span><span>{theme.unitId} / {theme.operation}</span></div>
         <div className="orbital-instruments">
           <section className="orbital-radar orbital-panel" aria-labelledby="orbital-radar-title">
+            <div className="console-screen">
             <div className="orbital-panel-title"><h2 id="orbital-radar-title">{pt ? "MAPA TÁTICO" : "TACTICAL MAP"}</h2><span>SYNERGY / GCG</span></div>
-            <div className="orbital-radar__body"><svg viewBox="0 0 300 220" fill="none" aria-hidden="true"><ellipse cx="150" cy="110" rx="126" ry="83" /><ellipse cx="150" cy="110" rx="100" ry="65" /><circle cx="150" cy="110" r="65" /><ellipse cx="150" cy="110" rx="30" ry="65" /><ellipse cx="150" cy="110" rx="65" ry="24" /><path d="M20 110H280 M150 12V208 M47 35L253 185 M48 183L252 37" /><path className="orbital-radar__orbit" d="M39 142Q160 4 264 94Q180 212 39 142Z" /><circle className="orbital-radar__node" cx="150" cy="110" r="5" /><circle className="orbital-radar__node" cx="82" cy="94" r="4" /><circle className="orbital-radar__node" cx="231" cy="115" r="4" /></svg><div><span>{pt ? "RELAÇÕES ENTRE CARTAS" : "CARD RELATIONSHIPS"}</span><strong>{formatNumber(overview.cards, locale)}</strong><small>{pt ? "cartas no arsenal" : "cards in the arsenal"}</small><button type="button" onClick={() => setView(overview.metaLeaders[0] ? "synergyMap" : "cards", overview.metaLeaders[0]?.cardNumber || "")}>{pt ? "ABRIR MAPA" : "OPEN MAP"} <span aria-hidden="true">›</span></button></div></div>
+            <div className="orbital-radar__body"><svg viewBox="0 0 300 220" fill="none" aria-hidden="true"><g className="console-radar__ticks">{Array.from({ length: 48 }, (_, i) => <path key={i} d={`M150 15V${i % 4 === 0 ? 25 : 19}`} transform={`rotate(${i * 7.5} 150 110)`} />)}</g><circle className="console-radar__outer" cx="150" cy="110" r="94" /><circle cx="150" cy="110" r="43" /><path className="console-radar__sweep" d="M150 110L215 42A94 94 0 0 1 244 110Z" /><ellipse cx="150" cy="110" rx="126" ry="83" /><ellipse cx="150" cy="110" rx="100" ry="65" /><circle cx="150" cy="110" r="65" /><ellipse cx="150" cy="110" rx="30" ry="65" /><ellipse cx="150" cy="110" rx="65" ry="24" /><path d="M20 110H280 M150 12V208 M47 35L253 185 M48 183L252 37" /><path className="orbital-radar__orbit" d="M39 142Q160 4 264 94Q180 212 39 142Z" /><circle className="orbital-radar__node" cx="150" cy="110" r="5" /><circle className="orbital-radar__node" cx="82" cy="94" r="4" /><circle className="orbital-radar__node" cx="231" cy="115" r="4" /></svg><div><span>{pt ? "RELAÇÕES ENTRE CARTAS" : "CARD RELATIONSHIPS"}</span><strong>{formatNumber(overview.cards, locale)}</strong><small>{pt ? "cartas no arsenal" : "cards in the arsenal"}</small><button type="button" onClick={() => setView(overview.metaLeaders[0] ? "synergyMap" : "cards", overview.metaLeaders[0]?.cardNumber || "")}>{pt ? "ABRIR MAPA" : "OPEN MAP"} <span aria-hidden="true">›</span></button></div></div>
+            <ConsoleReadout label={pt ? "ARSENAL INDEXADO" : "INDEXED ARSENAL"} value={overview.format} />
+            </div>
           </section>
           <section className="orbital-feed orbital-panel" aria-labelledby="orbital-feed-title">
+            <div className="console-screen">
             <div className="orbital-panel-title"><h2 id="orbital-feed-title">{pt ? "TRANSMISSÕES DO CAMPO" : "FIELD TRANSMISSIONS"}</h2><button type="button" onClick={() => setView("events")}>{pt ? "TODAS" : "ALL"} ›</button></div>
-            {overview.latestDecks.slice(0, 3).map((deck, index) => <button className="orbital-feed__entry" type="button" key={`${deck.deckId}-${index}`} onClick={() => setView("deckView", deck.deckId)}><span>{deck.placingLabel || String(index + 1).padStart(2, "0")}</span><span><small>{formatDate(deck.eventDate, locale)} / {deck.formatName || overview.format}</small><strong>{deck.archetype || deck.eventName}</strong><em>{deck.eventName}</em></span><b aria-hidden="true">›</b></button>)}
+            {overview.latestDecks.slice(0, 3).map((deck, index) => <button className="orbital-feed__entry" type="button" key={`${deck.deckId}-${index}`} onClick={() => setView("deckView", deck.deckId)}><span className="console-ranking"><small>{pt ? "POS." : "RANK"}</small>{deck.placingLabel || String(index + 1).padStart(2, "0")}</span><span><small>{formatDate(deck.eventDate, locale)} / {deck.formatName || overview.format}</small><strong>{deck.archetype || deck.eventName}</strong><em>{deck.eventName}</em></span><b aria-hidden="true">›</b></button>)}
             {!overview.latestDecks.length && <p>{pt ? "Nenhum resultado neste recorte." : "No results in this scope."}</p>}
+            <ConsoleReadout label={pt ? "RESULTADOS NO RECORTE" : "RESULTS IN SCOPE"} value={`${formatNumber(overview.decklists, locale)} ${pt ? "LISTAS" : "LISTS"}`} />
+            </div>
           </section>
           <section className="orbital-signals orbital-panel" aria-labelledby="orbital-signals-title">
+            <div className="console-screen">
             <div className="orbital-panel-title"><h2 id="orbital-signals-title">{pt ? "SINAIS DO META" : "META SIGNALS"}</h2><span>{overview.format}</span></div>
             {overview.metaLeaders.slice(0, 3).map((card) => <button className="orbital-signals__entry" key={card.cardNumber} type="button" onClick={() => setView("card", card.cardNumber)}><img src={assetUrl(card.imageUrl)} alt="" /><span><strong>{card.cardName}</strong><small>{card.cardNumber}</small></span><span aria-hidden="true">›</span></button>)}
-            <div className="orbital-signals__scope"><span>{formatNumber(overview.decklists, locale)} {pt ? "LISTAS" : "LISTS"}</span><span>{formatNumber(overview.events, locale)} {pt ? "EVENTOS" : "EVENTS"}</span></div>
+            {!overview.metaLeaders.length && <p className="console-empty">{pt ? "Nenhum sinal neste recorte." : "No signals in this scope."}</p>}
+            <ConsoleReadout label={pt ? "ESCOPO DO RADAR" : "RADAR SCOPE"} value={`${formatNumber(overview.events, locale)} ${pt ? "EVENTOS" : "EVENTS"}`} />
+            </div>
           </section>
         </div>
       </section>
@@ -140,6 +150,7 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
                 onKeyDown={(event) => navigateMissionTabs(event, index)}
               >
                 <span>{module.code}</span>
+                <CockpitIcon kind={module.action} />
                 <strong>{module.label}</strong>
               </button>
             ))}
@@ -152,6 +163,7 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
             key={activeMission.code}
           >
 
+            <div className="console-mission-display" aria-hidden="true"><img src={theme.cockpitUnitImage || theme.gundamImage} alt="" /><span>{theme.unitId}</span></div>
             <div className="bridge-mission__copy">
               <small>{activeMission.label} // MISSION PATH</small>
               <h3>{activeMission.title}</h3>
@@ -181,16 +193,19 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
         />
         <div className="launch-paths">
           <button type="button" onClick={() => setView("cards")}>
+            <CockpitIcon kind="cards" />
             <small>01 // {pt ? "NOVO NO JOGO" : "NEW TO THE GAME"}</small>
             <strong>{pt ? "Conhecer cartas e coleções" : "Discover cards and sets"}</strong>
             <span>{pt ? "Comece pela base de cartas e use filtros táticos." : "Start with the card database and tactical filters."}</span>
           </button>
           <button type="button" onClick={() => setView("meta")}>
+            <CockpitIcon kind="meta" />
             <small>02 // {pt ? "JOGADOR COMPETITIVO" : "COMPETITIVE PLAYER"}</small>
             <strong>{pt ? "Ler o meta e os resultados" : "Read the meta and results"}</strong>
             <span>{pt ? "Compare arquétipos, listas e desempenho recente." : "Compare archetypes, lists and recent performance."}</span>
           </button>
           <button type="button" onClick={() => setView("decks")}>
+            <CockpitIcon kind="decks" />
             <small>03 // {pt ? "DECK EM EVOLUÇÃO" : "EVOLVING DECK"}</small>
             <strong>{pt ? "Levar a lista para a Forja" : "Take the list to the Forge"}</strong>
             <span>{pt ? "Valide, diagnostique e refine sem perder autoria." : "Validate, diagnose and refine without losing authorship."}</span>
@@ -199,6 +214,7 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
       </section>
 
       <section className="launch-community-band" aria-label={pt ? "Comunidade" : "Community"}>
+        <CockpitIcon kind="previews" />
         <div>
           <small>COMMUNITY UPLINK // {pt ? "CANAL ABERTO" : "CHANNEL OPEN"}</small>
           <h2>{pt ? "Um sistema construído com a comunidade." : "A system built with the community."}</h2>
@@ -212,6 +228,10 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
       </section>
     </div>
   );
+}
+
+function ConsoleReadout({ label, value }) {
+  return <div className="console-readout"><span><i aria-hidden="true" />{label}</span><strong>{value}</strong></div>;
 }
 
 function CockpitIcon({ kind }) {
