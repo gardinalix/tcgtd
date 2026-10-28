@@ -98,7 +98,7 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
           </div>
           <aside className="orbital-status orbital-panel" aria-label={pt ? "Unidade e piloto" : "Unit and pilot"}>
             <div className="orbital-panel-title"><span>{pt ? "UNIDADE" : "UNIT STATUS"}</span><img src={theme.factionLogo} alt="" /></div>
-            <div className="orbital-status__unit"><img src={theme.gundamImage} alt={theme.gundamName} /><span>{theme.unitId}</span></div>
+            <div className="orbital-status__unit"><img src={theme.cockpitUnitImage || theme.gundamImage} alt={theme.gundamName} /><span>{theme.unitId}</span></div>
             <h2>{theme.gundamName}</h2>
             <dl className="orbital-status__readouts"><div><dt>{pt ? "PILOTO" : "PILOT"}</dt><dd>{user?.publicName || (pt ? "VISITANTE" : "GUEST")}</dd></div><div><dt>{pt ? "SISTEMA" : "SYSTEM"}</dt><dd>{theme.stateLabel}</dd></div><div><dt>{pt ? "FORMATO" : "FORMAT"}</dt><dd>{overview.format}</dd></div></dl>
             <button type="button" onClick={() => setView(user ? "profile" : "login")}>{user ? (pt ? "ABRIR PERFIL" : "OPEN PROFILE") : (pt ? "IDENTIFICAR PILOTO" : "IDENTIFY PILOT")}<span aria-hidden="true">›</span></button>

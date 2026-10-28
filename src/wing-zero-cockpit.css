@@ -1,0 +1,181 @@
+/* Wing Zero / dawn cockpit. Every rule is scoped to the selected unit. */
+body[data-theme="wing-zero"] {
+  --wing-glass: #030b15ed;
+  --wing-line: #5986aa;
+  --wing-red: #ee5363;
+}
+
+body[data-theme="wing-zero"] #root .hud-app.hud-app > main {
+  background: linear-gradient(#020812a8, #020812eb), url('/assets/backgrounds/wing-zero-dawn-cockpit.webp') center top / cover fixed !important;
+}
+
+body[data-theme="wing-zero"] #root .hud-app .launch-home { background: #030911 !important; }
+
+body[data-theme="wing-zero"] .orbital-cockpit {
+  padding: 32px 30px 30px;
+  background: linear-gradient(0deg, #030911 0%, #03091100 36%), url('/assets/backgrounds/wing-zero-dawn-cockpit.webp') center top / 100% auto no-repeat;
+}
+
+body[data-theme="wing-zero"] .orbital-flight-deck {
+  grid-template-columns: 200px minmax(0, 1fr) 210px;
+  min-height: 500px;
+  gap: 28px;
+}
+
+body[data-theme="wing-zero"] .orbital-panel {
+  border: 1px solid var(--wing-line);
+  border-radius: 0;
+  background: linear-gradient(120deg, #07131eef, #01060bf5);
+  box-shadow: 0 0 0 3px #030609, 0 0 0 5px #293440, 0 8px 18px #0009, inset 0 1px #a4bed54d;
+}
+
+body[data-theme="wing-zero"] .orbital-panel::before {
+  inset: -4px 16px auto;
+  height: 1px;
+  background: linear-gradient(90deg, #8ed4ff, #355c7c 32%, transparent 80%);
+  box-shadow: 0 0 5px #6db7ff70;
+}
+
+body[data-theme="wing-zero"] .orbital-panel::after {
+  inset: auto 16px -5px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--wing-red) 0 9%, transparent 9% 86%, #537aa1 86%);
+}
+
+body[data-theme="wing-zero"] .orbital-panel-title {
+  border-bottom-color: #46749a80;
+  font-size: 14px;
+  letter-spacing: .08em;
+}
+
+body[data-theme="wing-zero"] .orbital-menu,
+body[data-theme="wing-zero"] .orbital-status { margin-block: 10px; }
+
+body[data-theme="wing-zero"] #root .hud-app .orbital-menu > button {
+  min-height: 45px;
+  border-bottom: 1px solid #3a67844d;
+  font-size: 14px;
+}
+
+body[data-theme="wing-zero"] #root .hud-app .orbital-menu > button:is(.is-active, :hover) {
+  background: linear-gradient(110deg, #184e82c7, #0b243b);
+  border-color: #84bfe9;
+  box-shadow: inset 3px 0 #b6e3ff, inset 0 0 20px #4c9dee30;
+}
+
+body[data-theme="wing-zero"] .orbital-window { padding: 26px 4px 28px; }
+body[data-theme="wing-zero"] .orbital-window__coordinates { font-size: 10px; color: #c3dcf3; }
+body[data-theme="wing-zero"] .orbital-welcome {
+  align-self: flex-start;
+  width: min(390px, 68%);
+  margin: auto 0 0;
+  padding: 24px 12px 16px;
+  text-align: left;
+  background: radial-gradient(ellipse at left, #020b1ad9, #020b194d 65%, transparent);
+}
+
+body[data-theme="wing-zero"] .orbital-welcome__eyebrow {
+  padding: 0 0 8px;
+  background: transparent;
+  border: 0;
+  color: #badbff;
+  letter-spacing: .2em;
+}
+
+body[data-theme="wing-zero"] #root .hud-app .orbital-welcome h1 {
+  margin: 12px 0 18px;
+  font: 600 clamp(30px, 3vw, 48px)/1.05 "Rajdhani", sans-serif;
+  letter-spacing: .06em;
+  text-shadow: 0 2px 10px #000b;
+}
+
+body[data-theme="wing-zero"] #root .hud-app .orbital-welcome p {
+  margin: 0;
+  max-width: 32ch;
+  color: #e3edfb;
+  font-size: 16px;
+  line-height: 1.45;
+  letter-spacing: .02em;
+}
+
+body[data-theme="wing-zero"] .orbital-welcome__insignia { display: none; }
+body[data-theme="wing-zero"] #root .hud-app .orbital-launch {
+  margin-top: 22px;
+  padding: 12px 16px;
+  gap: 16px;
+  font-size: 14px;
+  background: linear-gradient(100deg, #0e2c4ed9, #051222e6);
+  border-color: #81b8df;
+  box-shadow: inset 0 0 12px #4686bf26;
+}
+
+body[data-theme="wing-zero"] .orbital-status__unit {
+  height: 205px;
+  border-color: #3e7195;
+  background: repeating-linear-gradient(0deg, transparent 0 23px, #6bbae417 24px), repeating-linear-gradient(90deg, transparent 0 23px, #6bbae417 24px), #020b16;
+}
+
+body[data-theme="wing-zero"] .orbital-status__unit > img {
+  object-fit: contain;
+  padding: 6px 6px 27px;
+  opacity: .8;
+  mix-blend-mode: screen;
+}
+
+body[data-theme="wing-zero"] #root .hud-app .orbital-status h2 { font-size: 22px; letter-spacing: .1em; }
+body[data-theme="wing-zero"] .orbital-status__readouts dd { color: #d4edff; }
+body[data-theme="wing-zero"] .orbital-instruments { gap: 22px; margin-top: 26px; }
+body[data-theme="wing-zero"] .orbital-instruments .orbital-panel { background: linear-gradient(120deg, #07121ff2, #01060bf7); }
+body[data-theme="wing-zero"] .orbital-radar__body > svg { stroke: #9ac7ed; filter: none; }
+body[data-theme="wing-zero"] .orbital-radar__body .orbital-radar__orbit { stroke: #ba8e84; }
+body[data-theme="wing-zero"] .orbital-radar__node { fill: #ff6476; stroke: #ffd3d9; }
+body[data-theme="wing-zero"] #root .hud-app :is(.orbital-feed__entry, .orbital-signals__entry) { border-bottom-color: #345269; }
+
+/* The selected cockpit continues into the database, decks and other routes. */
+body[data-theme="wing-zero"] .hud-header {
+  background: #04090f;
+  border-bottom-color: #7fa7c5;
+  box-shadow: 0 3px #020508, 0 5px #333d4b, 0 8px #080d13;
+}
+body[data-theme="wing-zero"] .hud-header__command { background: linear-gradient(110deg, #121b28, #030a12 35%, #0b131e); border-bottom-color: #304d68; }
+body[data-theme="wing-zero"] .hud-header__bus { background: #050c15; }
+body[data-theme="wing-zero"] .hud-search { border-color: #4b799e; background: #08182a; border-radius: 24px; box-shadow: none; }
+body[data-theme="wing-zero"] .hud-brand > img { filter: grayscale(1) brightness(1.4); }
+body[data-theme="wing-zero"] .hud-header .hud-primary-nav button:is(.is-active, :hover) { border-bottom-color: #8dcaff; background: #14334f; box-shadow: inset 0 -2px #6d9cc5; text-shadow: none; }
+body[data-theme="wing-zero"] .hud-sidebar { background: #040c16f5; border-right-color: #3c5d78; box-shadow: inset -4px 0 #111c29, inset -5px 0 #4b6277; }
+body[data-theme="wing-zero"] #root .hud-app .module-heading { background: linear-gradient(110deg, #102239ed, #040c16f5) !important; border-color: #496c8b !important; border-left-color: #a9cae6 !important; box-shadow: 0 3px #02060c, inset 0 1px #b2d1f026 !important; }
+body[data-theme="wing-zero"] #root .hud-app :is(.tactical-data-panel, .react-data-card, .network-module, .react-card-results, .react-filter-panel, .auth-terminal-card, .synergy-panel) { background: linear-gradient(120deg, #071524f5, #030a13f5) !important; border-color: #3e6181 !important; border-top-color: #8ebbdc !important; box-shadow: 0 3px #010408, inset 0 1px #91b6d326 !important; }
+body[data-theme="wing-zero"] #root .hud-app .hud-metrics { background: #061322f5 !important; border-color: #557b9b; box-shadow: none; }
+body[data-theme="wing-zero"] #root .hud-app :is(.react-table, .tactical-table, .data-table) th { background: #10263a !important; }
+body[data-theme="wing-zero"] #root .hud-app .zero-forge { --forge-bg: #030912; --forge-panel: #071422; --forge-panel-strong: #11283b; --forge-cyan: #9bd4ff; }
+body[data-theme="wing-zero"] #root .hud-app :is(.bridge-mission, .launch-paths > button, .launch-community-band, .bridge-mission__stage) { background: linear-gradient(120deg, #0c1c2c, #030b15); border-color: #44647e; box-shadow: none; }
+body[data-theme="wing-zero"] #root .hud-app .site-footer { background: #030910; border-top-color: #354f68; }
+
+@media (min-width: 1600px) {
+  body[data-theme="wing-zero"] .orbital-flight-deck { grid-template-columns: 220px minmax(0, 1fr) 225px; min-height: 520px; gap: 30px; }
+  body[data-theme="wing-zero"] .orbital-cockpit { padding-inline: 36px; }
+  body[data-theme="wing-zero"] .orbital-welcome { width: min(420px, 62%); margin-bottom: 14px; }
+}
+
+@media (min-width: 821px) and (max-width: 1199px) {
+  body[data-theme="wing-zero"] .orbital-flight-deck { grid-template-columns: 160px minmax(0, 1fr) 180px; gap: 18px; }
+  body[data-theme="wing-zero"] .orbital-cockpit { padding-inline: 22px; background-size: auto 730px; }
+  body[data-theme="wing-zero"] .orbital-welcome { width: 85%; padding-inline: 0; }
+  body[data-theme="wing-zero"] .orbital-status__unit { height: 180px; }
+}
+
+@media (max-width: 820px) {
+  body[data-theme="wing-zero"] #root .hud-app.hud-app > main { background-attachment: scroll !important; }
+  body[data-theme="wing-zero"] .orbital-cockpit { padding: 20px 22px 28px; background-size: auto 610px; background-position: 68% top; }
+  body[data-theme="wing-zero"] .orbital-flight-deck { grid-template-columns: minmax(0, 1fr); gap: 24px; min-height: 0; }
+  body[data-theme="wing-zero"] .orbital-window { min-height: 490px; padding: 8px 0 16px; }
+  body[data-theme="wing-zero"] .orbital-window__coordinates { font-size: 8px; gap: 12px; }
+  body[data-theme="wing-zero"] .orbital-welcome { width: 100%; max-width: 360px; margin: auto 0 0; padding: 20px 10px 10px; background: linear-gradient(90deg, #020b1ae8, #020b19a6 75%, transparent); }
+  body[data-theme="wing-zero"] #root .hud-app .orbital-welcome h1 { font-size: clamp(30px, 9vw, 40px); }
+  body[data-theme="wing-zero"] #root .hud-app .orbital-welcome p { font-size: 15px; }
+  body[data-theme="wing-zero"] #root .hud-app .orbital-launch { justify-content: space-between; }
+  body[data-theme="wing-zero"] .orbital-status { margin: 0; }
+  body[data-theme="wing-zero"] .orbital-status__unit { height: 100%; min-height: 185px; }
+  body[data-theme="wing-zero"] .orbital-instruments { gap: 26px; }
+  body[data-theme="wing-zero"] .hud-primary-nav { background: #040c17fa; border-top-color: #6989a6; box-shadow: 0 -3px #182534, 0 -5px #03070c; }
+}
