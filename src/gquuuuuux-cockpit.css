@@ -1,0 +1,142 @@
+/* GQuuuuuuX / Izuma prototype cockpit. Every selector stays inside this unit theme. */
+body[data-theme="gquuuuuux"] {
+  --gquuuuuux-line: #3a6e7e;
+}
+
+body[data-theme="gquuuuuux"] #root .hud-app.hud-app > main {
+  background: linear-gradient(#0607099e, #060708e8), url('/assets/backgrounds/gquuuuuux-izuma-cockpit.webp') center top / cover fixed !important;
+}
+body[data-theme="gquuuuuux"] #root .hud-app .launch-home { background: #060607 !important; }
+body[data-theme="gquuuuuux"] .orbital-cockpit {
+  padding: 32px 30px 30px;
+  background: linear-gradient(0deg, #060607 0%, #06060700 38%), url('/assets/backgrounds/gquuuuuux-izuma-cockpit.webp') center top / 100% auto no-repeat;
+}
+body[data-theme="gquuuuuux"] .orbital-flight-deck { grid-template-columns: 200px minmax(0, 1fr) 210px; gap: 28px; min-height: 510px; }
+body[data-theme="gquuuuuux"] .orbital-panel {
+  border: 1px solid var(--gquuuuuux-line);
+  border-top-color: #83c8dd;
+  border-radius: 0;
+  background: linear-gradient(135deg, #08101af2, #04070af7 60%);
+  box-shadow: 0 0 0 3px #080b0f, 0 0 0 5px #39464a, 0 0 0 6px #0a0f15, 0 8px 22px #000000aa, inset 0 1px #a6d6e54d, 0 0 12px #35b4da1a;
+}
+/* Prototype instrumentation: magenta command lights, cyan sensor rails. */
+body[data-theme="gquuuuuux"] .orbital-panel::before { inset: -5px 18px auto; height: 3px; background: linear-gradient(90deg, #20333e 0 7%, #ff4b9f 7% 36%, #20333e 36% 71%, #65dcf9 71% 88%, #20333e 88%); box-shadow: 0 0 9px #ff4b9f44; }
+body[data-theme="gquuuuuux"] .orbital-panel::after { inset: auto 18px -5px; height: 2px; background: linear-gradient(90deg, #65dcf9 0 19%, transparent 19% 73%, #ff4b9f 73% 87%, transparent 87%); opacity: .9; box-shadow: none; }
+body[data-theme="gquuuuuux"] .orbital-panel-title { border-bottom-color: #3e718080; color: #c7effb; font-size: 14px; letter-spacing: .07em; }
+body[data-theme="gquuuuuux"] #root .hud-app .orbital-panel-title h2 { color: #d6f3fc; text-shadow: none; }
+body[data-theme="gquuuuuux"] .orbital-panel-title > span:last-child:not(:first-child) { color: #86d7f0; }
+body[data-theme="gquuuuuux"] .orbital-panel-title img { filter: brightness(1.15); }
+body[data-theme="gquuuuuux"] .orbital-menu,
+body[data-theme="gquuuuuux"] .orbital-status { margin-block: 10px; }
+body[data-theme="gquuuuuux"] #root .hud-app .orbital-menu > button { min-height: 45px; border-bottom: 1px solid #3c515866; color: #bcd2d9; font-size: 14px; }
+body[data-theme="gquuuuuux"] .orbital-menu svg { color: #74d5f3; }
+body[data-theme="gquuuuuux"] #root .hud-app .orbital-menu > button:is(.is-active, :hover) { color: #fff2fa; border-color: #ff79bb; background: linear-gradient(105deg, #7b174bb3, #260d21c7); box-shadow: inset 3px 0 #ffe2f2, inset 0 -1px #ff55ad, 0 0 15px #ff27852b; }
+body[data-theme="gquuuuuux"] .orbital-menu__signature { color: #96dff5; }
+body[data-theme="gquuuuuux"] .orbital-menu__signature small { color: #ff8bc0; }
+
+body[data-theme="gquuuuuux"] .orbital-window { position: relative; isolation: isolate; padding: 26px 4px 24px; }
+/* Decorative targeting glass; the controls and data remain real HTML. */
+body[data-theme="gquuuuuux"] .orbital-window::before { content: ""; position: absolute; z-index: -1; pointer-events: none; width: min(42%, 270px); aspect-ratio: 1; top: 17%; left: 49%; border: 1px solid #ff55a48c; border-left-color: #65dcf9; border-radius: 50%; background: radial-gradient(circle at center, transparent 0 38%, #65dcf944 38.3% 38.8%, transparent 39%), linear-gradient(90deg, transparent calc(50% - .5px), #ff5aae55 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), #ff5aae55 50%, transparent calc(50% + .5px)); box-shadow: 0 0 0 12px #ff4b9f09; }
+body[data-theme="gquuuuuux"] .orbital-window::after { content: ""; position: absolute; z-index: -1; pointer-events: none; width: 11px; height: 11px; top: calc(17% - 5px); left: 70%; border: 1px solid #ff65b2; background: #0a132a99; transform: rotate(45deg); }
+body[data-theme="gquuuuuux"] .orbital-window__coordinates { color: #d7f3fc; font-size: 10px; }
+body[data-theme="gquuuuuux"] .orbital-welcome { align-self: flex-start; width: min(380px, 70%); margin: auto 0 0; padding: 20px 14px 14px; text-align: left; background: linear-gradient(90deg, #060709ee, #060709b3 75%, transparent); }
+body[data-theme="gquuuuuux"] .orbital-welcome__eyebrow { padding: 0 0 8px; border: 0; color: #ff97ca; background: transparent; letter-spacing: .16em; }
+body[data-theme="gquuuuuux"] #root .hud-app .orbital-welcome h1 { margin: 10px 0 16px; font: 600 clamp(28px, 2.7vw, 42px)/1.08 "Rajdhani", sans-serif; letter-spacing: .05em; color: #f1fbfe; text-shadow: 0 2px 12px #000000; }
+body[data-theme="gquuuuuux"] #root .hud-app .orbital-welcome p { max-width: 32ch; margin: 0; font-size: 16px; line-height: 1.45; letter-spacing: .02em; color: #d9e7eb; }
+body[data-theme="gquuuuuux"] .orbital-welcome__insignia { display: none; }
+body[data-theme="gquuuuuux"] #root .hud-app .orbital-launch { margin-top: 20px; padding: 12px 16px; gap: 16px; font-size: 14px; border-color: #ff6cb6; border-right-color: #65dcf9; color: #fff3fa; background: linear-gradient(110deg, #561136de, #0c1428ed); box-shadow: inset 0 0 12px #ff4b9f26, 0 0 14px #ff2c8e22; }
+body[data-theme="gquuuuuux"] #root .hud-app .orbital-launch:hover { background: #722048; box-shadow: 0 0 18px #ff4b9f55; }
+
+body[data-theme="gquuuuuux"] .orbital-status__unit { height: 205px; border-color: #884365; background: repeating-linear-gradient(0deg, transparent 0 23px, #ff4b9f13 24px), repeating-linear-gradient(90deg, transparent 0 23px, #65dcf913 24px), #070b15; }
+body[data-theme="gquuuuuux"] .orbital-status__unit > img { object-fit: contain; padding: 6px 6px 27px; opacity: .85; mix-blend-mode: screen; }
+body[data-theme="gquuuuuux"] .orbital-status__unit > span { background: #0a0c0ee8; color: #a2e2f6; }
+body[data-theme="gquuuuuux"] #root .hud-app .orbital-status h2 { font-size: 22px; letter-spacing: .1em; color: #ff86bf; }
+body[data-theme="gquuuuuux"] .orbital-status__readouts > div { border-top-color: #3b535a; }
+body[data-theme="gquuuuuux"] .orbital-status__readouts dt { color: #a7bdc4; }
+body[data-theme="gquuuuuux"] .orbital-status__readouts dd { color: #c6edf9; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.orbital-status > button, .orbital-radar__body button, .orbital-panel-title > button) { color: #dff5fc; border-color: #4a8ea2; background: linear-gradient(#1a2c32, #0e1012); }
+body[data-theme="gquuuuuux"] .orbital-instruments { gap: 22px; margin-top: 26px; }
+body[data-theme="gquuuuuux"] .orbital-instruments .orbital-panel { background: linear-gradient(135deg, #08101af5, #04070af7); }
+body[data-theme="gquuuuuux"] .orbital-radar__body > svg { stroke: #70bdd5; filter: drop-shadow(0 0 4px #34c1ec55); }
+body[data-theme="gquuuuuux"] .orbital-radar__body .orbital-radar__orbit { stroke: #ff70b6; }
+body[data-theme="gquuuuuux"] .orbital-radar__node { fill: #ff4b9f; stroke: #ffe5f3; }
+body[data-theme="gquuuuuux"] .orbital-radar__body strong { color: #d7f3fc; }
+body[data-theme="gquuuuuux"] .orbital-radar__body :is(small, div > span) { color: #acc9d2; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.orbital-feed__entry, .orbital-signals__entry) { color: #cdecf5; border-bottom-color: #3c5259; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.orbital-feed__entry, .orbital-signals__entry):hover { background: #2e87a228; }
+body[data-theme="gquuuuuux"] .orbital-feed__entry > span:first-child { color: #ff86bf; }
+body[data-theme="gquuuuuux"] :is(.orbital-feed__entry strong, .orbital-signals__entry strong) { color: #e2edf1; }
+body[data-theme="gquuuuuux"] :is(.orbital-feed__entry small, .orbital-feed__entry em, .orbital-signals__entry small) { color: #a0c0ca; }
+body[data-theme="gquuuuuux"] .orbital-signals__entry img { border-color: #4a7b8a; }
+body[data-theme="gquuuuuux"] .orbital-signals__scope { color: #ff97ca; }
+
+/* Carry the GQuuuuuuX palette across every route, including the deck exports. */
+body[data-theme="gquuuuuux"] .hud-header { background: #070708; border-bottom-color: #417d8f; box-shadow: 0 3px #040506, 0 5px #242e31, 0 8px #070708, 0 10px 18px #36c2ed1c; }
+body[data-theme="gquuuuuux"] .hud-header__command { background: linear-gradient(110deg, #0f1215, #070708 45%, #0d0f12); border-bottom-color: #354d54; }
+body[data-theme="gquuuuuux"] .hud-header__bus { background: #08090b; }
+body[data-theme="gquuuuuux"] .hud-brand > img { filter: grayscale(.7) brightness(1.4); }
+body[data-theme="gquuuuuux"] .hud-search { background: #0b0c0e; border-color: #3b6b79; box-shadow: none; }
+body[data-theme="gquuuuuux"] .hud-header .hud-primary-nav button { color: #bccfd5; border-left-color: #3b555d66; }
+body[data-theme="gquuuuuux"] .hud-header .hud-primary-nav button:is(.is-active, :hover) { color: #fff2fa; border-bottom-color: #ff63ad; background: linear-gradient(0deg, #5f163ca6, #12101d); box-shadow: inset 0 -2px #ff6db3, inset 0 -10px 24px #ff298e26; text-shadow: 0 0 10px #ff4b9f55; }
+body[data-theme="gquuuuuux"] .hud-header .hud-controls select { border-color: #3f606a; background-color: #0f1114; color: #d0e6ec; }
+body[data-theme="gquuuuuux"] .hud-header .hud-controls.is-open { background: #0c0e10fa; border-color: #4b90a5; box-shadow: 0 16px 40px #000000bb; }
+body[data-theme="gquuuuuux"] .hud-sidebar { background: #090a0cf5; border-right-color: #3e5c65; box-shadow: inset -4px 0 #15181c, inset -5px 0 #3b565e; }
+body[data-theme="gquuuuuux"] .hud-sidebar .hud-sidebar__group button.is-active { border-color: #c9558e; color: #fff0f8; background: linear-gradient(90deg, #511634, #111524); box-shadow: inset 3px 0 #ff65b0; }
+body[data-theme="gquuuuuux"] .hud-sidebar__status { background: #171b2099; }
+body[data-theme="gquuuuuux"] #root .hud-app .module-heading { background: linear-gradient(110deg, #181624ef, #070e1bf5) !important; border-color: #496a83 !important; border-left-color: #ff6db6 !important; box-shadow: 0 3px #04070d, inset 0 1px #73d8ff26 !important; }
+body[data-theme="gquuuuuux"] #root .hud-app .module-heading h1 { color: #e6f8fd !important; text-shadow: none !important; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.tactical-data-panel, .react-data-card, .network-module, .react-card-results, .react-filter-panel, .auth-terminal-card, .synergy-panel) { background: linear-gradient(120deg, #0f1216f5, #090b0df5) !important; border-color: #3c5a64 !important; border-top-color: #65a8bc !important; box-shadow: 0 3px #040506, inset 0 1px #7db6c726 !important; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.panel-head, .tactical-panel-header) { border-bottom-color: #3d5b64 !important; }
+body[data-theme="gquuuuuux"] #root .hud-app .hud-metrics { background: #0e1114f5 !important; border-color: #548fa1; box-shadow: none; }
+body[data-theme="gquuuuuux"] #root .hud-app .hud-metric > strong { color: #d4f2fc !important; text-shadow: none !important; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.react-table, .tactical-table, .data-table) th { background: #19202a !important; }
+body[data-theme="gquuuuuux"] #root .hud-app .institutional-page { background: #0e1012ed !important; }
+body[data-theme="gquuuuuux"] #root .hud-app .zero-forge { --forge-bg: #090b0d; --forge-panel: #111418; --forge-panel-strong: #1c292d; --forge-cyan: #92def5; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.bridge-mission, .launch-paths > button, .launch-community-band, .bridge-mission__stage) { background: linear-gradient(120deg, #16191d, #0a0c0e); border-color: #3e5d66; box-shadow: none; }
+body[data-theme="gquuuuuux"] #root .hud-app .bridge-mission__tabs { border-bottom-color: #3e5d66; }
+body[data-theme="gquuuuuux"] #root .hud-app .bridge-mission__tabs button { background: #111417; border-color: #3e5d66; color: #c8dde4; }
+body[data-theme="gquuuuuux"] #root .hud-app .bridge-mission__tabs button.is-active { background: linear-gradient(#33122b, #541735); box-shadow: inset 0 -2px #ff72b7; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.bridge-mission__tabs button span, .bridge-mission__signal strong, .bridge-mission__copy > small, .bridge-dock-heading > span) { color: #aae5f7; }
+body[data-theme="gquuuuuux"] .deck-dossier-exports { background: linear-gradient(110deg, #29142bed, #091323ed); border-color: #7085a0; border-left-color: #ff6bb3; }
+body[data-theme="gquuuuuux"] .deck-dossier-exports__actions button { border-color: #bb5d8b; background: #41182f; color: #fff0f8; }
+body[data-theme="gquuuuuux"] .deck-dossier-export-modal .deck-export-layer__dialog { border-color: #cd6b9f; background: linear-gradient(135deg, #24152d, #091220 60%); box-shadow: 0 0 40px #ff3a9726; }
+body[data-theme="gquuuuuux"] #root .hud-app .site-footer { background: #07080a; border-top-color: #354b52; }
+
+/* Instrument controls and dossier glass keep the same cool prototype instrument glass. */
+body[data-theme="gquuuuuux"] #root .hud-app :is(.hud-search input, .hud-controls select, .react-filter-panel input, .react-filter-panel select, .card-results-toolbar select) { background-color: #0d0e10; color: #dbebf0; border-color: #4e6e77; }
+body[data-theme="gquuuuuux"] #root .hud-app .hud-controls-toggle { background: #101113; color: #abe1f2; border-color: #53a3bc; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.react-card-detail, .cards-terminal-side-stack) { background: #0d0e10f5 !important; border-color: #4e6e77 !important; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.card-detail-actions, .card-detail-navigator) button { background: #1b2629; border-color: #4e8494; color: #c8e8f2; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.bridge-mission__copy h3, .panel-head h2) { color: #d7ecf3; }
+body[data-theme="gquuuuuux"] #root .hud-app :is(.bridge-mission__copy p, .bridge-mission__signal small, .hud-sidebar__label) { color: #95b1ba; }
+body[data-theme="gquuuuuux"] #root .hud-app .hud-search input::placeholder { color: #95b1ba; }
+body[data-theme="gquuuuuux"] #root .hud-app .bridge-mission__signal { border-left-color: #4e6e77; }
+
+@media (min-width: 1600px) {
+  body[data-theme="gquuuuuux"] .orbital-flight-deck { grid-template-columns: 220px minmax(0, 1fr) 225px; gap: 30px; min-height: 520px; }
+  body[data-theme="gquuuuuux"] .orbital-cockpit { padding-inline: 36px; }
+  body[data-theme="gquuuuuux"] .orbital-welcome { width: min(380px, 60%); margin-bottom: 10px; }
+}
+@media (min-width: 821px) and (max-width: 1199px) {
+  body[data-theme="gquuuuuux"] .orbital-flight-deck { grid-template-columns: 160px minmax(0, 1fr) 180px; gap: 18px; }
+  body[data-theme="gquuuuuux"] .orbital-cockpit { padding-inline: 22px; background-size: auto 730px; }
+  body[data-theme="gquuuuuux"] .orbital-welcome { width: 90%; padding-inline: 6px; }
+  body[data-theme="gquuuuuux"] .orbital-status__unit { height: 180px; }
+}
+@media (max-width: 820px) {
+  body[data-theme="gquuuuuux"] #root .hud-app.hud-app > main { background-attachment: scroll !important; }
+  body[data-theme="gquuuuuux"] .orbital-cockpit { padding: 20px 22px 28px; background-size: auto 610px; background-position: 50% top; }
+  body[data-theme="gquuuuuux"] .orbital-flight-deck { grid-template-columns: minmax(0, 1fr); gap: 24px; min-height: 0; }
+  body[data-theme="gquuuuuux"] .orbital-window { min-height: 490px; padding: 8px 0 16px; }
+  body[data-theme="gquuuuuux"] .orbital-window::before { width: 55%; left: 36%; top: 65px; }
+  body[data-theme="gquuuuuux"] .orbital-window::after { top: 60px; left: 63%; }
+  body[data-theme="gquuuuuux"] .orbital-window__coordinates { font-size: 8px; gap: 12px; }
+  body[data-theme="gquuuuuux"] .orbital-welcome { width: 100%; max-width: 360px; margin: auto 0 0; padding: 20px 10px 10px; background: linear-gradient(90deg, #07080ae8, #090c0fa6 75%, transparent); }
+  body[data-theme="gquuuuuux"] #root .hud-app .orbital-welcome h1 { font-size: clamp(30px, 9vw, 40px); }
+  body[data-theme="gquuuuuux"] #root .hud-app .orbital-welcome p { font-size: 15px; }
+  body[data-theme="gquuuuuux"] #root .hud-app .orbital-launch { justify-content: space-between; }
+  body[data-theme="gquuuuuux"] .orbital-status { margin: 0; }
+  body[data-theme="gquuuuuux"] .orbital-status__unit { height: 100%; min-height: 185px; }
+  body[data-theme="gquuuuuux"] .orbital-instruments { gap: 26px; }
+  body[data-theme="gquuuuuux"] .hud-primary-nav { background: #0b0d0ffa; border-top-color: #5591a3; box-shadow: 0 -3px #16202c, 0 -5px #050608; }
+}

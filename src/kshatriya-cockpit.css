@@ -1,0 +1,141 @@
+/* Kshatriya / Psycommu orbital cockpit. Every selector stays inside this unit theme. */
+body[data-theme="kshatriya"] {
+  --kshatriya-line: #34846b;
+}
+
+body[data-theme="kshatriya"] #root .hud-app.hud-app > main {
+  background: linear-gradient(#0609089e, #060807e8), url('/assets/backgrounds/kshatriya-colony-cockpit.webp') center top / cover fixed !important;
+}
+body[data-theme="kshatriya"] #root .hud-app .launch-home { background: #060707 !important; }
+body[data-theme="kshatriya"] .orbital-cockpit {
+  padding: 32px 30px 30px;
+  background: linear-gradient(0deg, #060707 0%, #06070700 38%), url('/assets/backgrounds/kshatriya-colony-cockpit.webp') center top / 100% auto no-repeat;
+}
+body[data-theme="kshatriya"] .orbital-flight-deck { grid-template-columns: 200px minmax(0, 1fr) 210px; gap: 28px; min-height: 510px; }
+body[data-theme="kshatriya"] .orbital-panel {
+  border: 1px solid var(--kshatriya-line);
+  border-top-color: #7be5c2;
+  border-radius: 0;
+  background: linear-gradient(135deg, #071b17f2, #030b0af7 60%);
+  box-shadow: 0 0 0 3px #07100f, 0 0 0 5px #384b45, 0 0 0 6px #091614, 0 8px 22px #000a, inset 0 1px #a1ead34d, 0 0 12px #26e9a51a;
+}
+/* Recessed Psycommu light strips and segmented instrument rails. */
+body[data-theme="kshatriya"] .orbital-panel::before { inset: -5px 18px auto; height: 3px; background: linear-gradient(90deg, #173c31 0 8%, #53f3bc 8% 38%, #173c31 38% 66%, #53f3bc 66% 86%, #173c31 86%); box-shadow: 0 0 9px #2ceda94d; }
+body[data-theme="kshatriya"] .orbital-panel::after { inset: auto 18px -5px; height: 2px; background: repeating-linear-gradient(90deg, #69e6ba 0 12px, transparent 12px 18px); opacity: .65; box-shadow: none; }
+body[data-theme="kshatriya"] .orbital-panel-title { border-bottom-color: #38866d80; color: #c3ffec; font-size: 14px; letter-spacing: .07em; }
+body[data-theme="kshatriya"] #root .hud-app .orbital-panel-title h2 { color: #d3fff1; text-shadow: none; }
+body[data-theme="kshatriya"] .orbital-panel-title > span:last-child:not(:first-child) { color: #7df9d2; }
+body[data-theme="kshatriya"] .orbital-panel-title img { filter: brightness(1.15); }
+body[data-theme="kshatriya"] .orbital-menu,
+body[data-theme="kshatriya"] .orbital-status { margin-block: 10px; }
+body[data-theme="kshatriya"] #root .hud-app .orbital-menu > button { min-height: 45px; border-bottom: 1px solid #3a5a5066; color: #badbd1; font-size: 14px; }
+body[data-theme="kshatriya"] .orbital-menu svg { color: #69fecf; }
+body[data-theme="kshatriya"] #root .hud-app .orbital-menu > button:is(.is-active, :hover) { color: #f0fffa; border-color: #5efdcb; background: linear-gradient(105deg, #18a377b3, #133027c7); box-shadow: inset 3px 0 #acfee4, inset 0 0 22px #36e4ad3b, 0 0 12px #24fcb82b; }
+body[data-theme="kshatriya"] .orbital-menu__signature { color: #8efdda; }
+body[data-theme="kshatriya"] .orbital-menu__signature small { color: #6fe0bc; }
+
+body[data-theme="kshatriya"] .orbital-window { position: relative; isolation: isolate; padding: 26px 4px 24px; }
+/* Decorative targeting glass; the controls and data remain real HTML. */
+body[data-theme="kshatriya"] .orbital-window::before { content: ""; position: absolute; z-index: -1; pointer-events: none; width: min(46%, 280px); aspect-ratio: 1; top: 16%; left: 47%; border: 1px solid #6dffc699; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #bcffdf 0 2px, transparent 3px), radial-gradient(circle at 16% 27%, #75ffc9 0 3px, transparent 4px), radial-gradient(circle at 86% 73%, #75ffc9 0 3px, transparent 4px), repeating-radial-gradient(circle at center, transparent 0 21%, #61e7b744 21.3% 21.8%, transparent 22% 31%), linear-gradient(90deg, transparent calc(50% - .5px), #78ffd455 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), #78ffd455 50%, transparent calc(50% + .5px)); box-shadow: 0 0 0 12px #55efaa0d, 0 0 22px #48eeb314; }
+body[data-theme="kshatriya"] .orbital-window::after { content: ""; position: absolute; z-index: -1; pointer-events: none; inset: 80px auto 38% 0; width: 7px; border-left: 1px solid #65eeb980; background: repeating-linear-gradient(0deg, #65eeb966 0 1px, transparent 1px 20px); }
+body[data-theme="kshatriya"] .orbital-window__coordinates { color: #d4fff1; font-size: 10px; }
+body[data-theme="kshatriya"] .orbital-welcome { align-self: flex-start; width: min(380px, 70%); margin: auto 0 0; padding: 20px 14px 14px; text-align: left; background: linear-gradient(90deg, #060908ee, #060908b3 75%, transparent); }
+body[data-theme="kshatriya"] .orbital-welcome__eyebrow { padding: 0 0 8px; border: 0; color: #92fedc; background: transparent; letter-spacing: .16em; }
+body[data-theme="kshatriya"] #root .hud-app .orbital-welcome h1 { margin: 10px 0 16px; font: 600 clamp(28px, 2.7vw, 42px)/1.08 "Rajdhani", sans-serif; letter-spacing: .05em; color: #f0fffa; text-shadow: 0 2px 12px #000000; }
+body[data-theme="kshatriya"] #root .hud-app .orbital-welcome p { max-width: 32ch; margin: 0; font-size: 16px; line-height: 1.45; letter-spacing: .02em; color: #d8ece6; }
+body[data-theme="kshatriya"] .orbital-welcome__insignia { display: none; }
+body[data-theme="kshatriya"] #root .hud-app .orbital-launch { margin-top: 20px; padding: 12px 16px; gap: 16px; font-size: 14px; border-color: #61fdcc; color: #f0fffa; background: linear-gradient(110deg, #235c4adc, #101514ed); box-shadow: inset 0 0 12px #48fdc42b, 0 0 14px #24fcb825; }
+body[data-theme="kshatriya"] #root .hud-app .orbital-launch:hover { background: #28795f; box-shadow: 0 0 18px #26fcb860; }
+
+body[data-theme="kshatriya"] .orbital-status__unit { height: 205px; border-color: #3e7161; background: repeating-linear-gradient(0deg, transparent 0 23px, #49fdc417 24px), repeating-linear-gradient(90deg, transparent 0 23px, #49fdc417 24px), #070808; }
+body[data-theme="kshatriya"] .orbital-status__unit > img { object-fit: contain; padding: 6px 6px 27px; opacity: .85; mix-blend-mode: screen; }
+body[data-theme="kshatriya"] .orbital-status__unit > span { background: #0a0e0de8; color: #9bfdde; }
+body[data-theme="kshatriya"] #root .hud-app .orbital-status h2 { font-size: 22px; letter-spacing: .1em; color: #6bfecf; }
+body[data-theme="kshatriya"] .orbital-status__readouts > div { border-top-color: #385d51; }
+body[data-theme="kshatriya"] .orbital-status__readouts dt { color: #a5c6bc; }
+body[data-theme="kshatriya"] .orbital-status__readouts dd { color: #c1feeb; }
+body[data-theme="kshatriya"] #root .hud-app :is(.orbital-status > button, .orbital-radar__body button, .orbital-panel-title > button) { color: #ddfef4; border-color: #42aa89; background: linear-gradient(#18342b, #0e1211); }
+body[data-theme="kshatriya"] .orbital-instruments { gap: 22px; margin-top: 26px; }
+body[data-theme="kshatriya"] .orbital-instruments .orbital-panel { background: linear-gradient(135deg, #071b17f5, #030b0af7); }
+body[data-theme="kshatriya"] .orbital-radar__body > svg { stroke: #67deb8; filter: drop-shadow(0 0 4px #24fcb855); }
+body[data-theme="kshatriya"] .orbital-radar__body .orbital-radar__orbit { stroke: #bdfeea; }
+body[data-theme="kshatriya"] .orbital-radar__node { fill: #4bfdc4; stroke: #dbfef3; }
+body[data-theme="kshatriya"] .orbital-radar__body strong { color: #d4fff1; }
+body[data-theme="kshatriya"] .orbital-radar__body :is(small, div > span) { color: #a9d5c7; }
+body[data-theme="kshatriya"] #root .hud-app :is(.orbital-feed__entry, .orbital-signals__entry) { color: #c9f9ea; border-bottom-color: #395c51; }
+body[data-theme="kshatriya"] #root .hud-app :is(.orbital-feed__entry, .orbital-signals__entry):hover { background: #24ac8128; }
+body[data-theme="kshatriya"] .orbital-feed__entry > span:first-child { color: #8efdda; }
+body[data-theme="kshatriya"] :is(.orbital-feed__entry strong, .orbital-signals__entry strong) { color: #e1f2ed; }
+body[data-theme="kshatriya"] :is(.orbital-feed__entry small, .orbital-feed__entry em, .orbital-signals__entry small) { color: #9ccebe; }
+body[data-theme="kshatriya"] .orbital-signals__entry img { border-color: #449078; }
+body[data-theme="kshatriya"] .orbital-signals__scope { color: #88f7d4; }
+
+/* Carry the Kshatriya palette across every route, including the deck exports. */
+body[data-theme="kshatriya"] .hud-header { background: #070808; border-bottom-color: #3a9679; box-shadow: 0 3px #040605, 0 5px #23322d, 0 8px #070808, 0 10px 18px #26fdb91c; }
+body[data-theme="kshatriya"] .hud-header__command { background: linear-gradient(110deg, #0f1513, #070808 45%, #0d1211); border-bottom-color: #32574b; }
+body[data-theme="kshatriya"] .hud-header__bus { background: #080b0a; }
+body[data-theme="kshatriya"] .hud-brand > img { filter: sepia(.5) saturate(1.8) hue-rotate(95deg); }
+body[data-theme="kshatriya"] .hud-search { background: #0b0e0d; border-color: #357f67; box-shadow: none; }
+body[data-theme="kshatriya"] .hud-header .hud-primary-nav button { color: #bad7ce; border-left-color: #38605366; }
+body[data-theme="kshatriya"] .hud-header .hud-primary-nav button:is(.is-active, :hover) { color: #f0fffa; border-bottom-color: #54fdc7; background: linear-gradient(0deg, #1e5946aa, #0d1311); box-shadow: inset 0 -2px #59f8c6, inset 0 -10px 24px #25fcb826; text-shadow: 0 0 10px #3cf6bb55; }
+body[data-theme="kshatriya"] .hud-header .hud-controls select { border-color: #3b6e5e; background-color: #0f1413; color: #cdefe4; }
+body[data-theme="kshatriya"] .hud-header .hud-controls.is-open { background: #0c100ffa; border-color: #43ad8b; box-shadow: 0 16px 40px #000000bb; }
+body[data-theme="kshatriya"] .hud-sidebar { background: #090c0bf5; border-right-color: #3b685a; box-shadow: inset -4px 0 #141d1a, inset -5px 0 #386154; }
+body[data-theme="kshatriya"] .hud-sidebar .hud-sidebar__group button.is-active { border-color: #5aeabd; color: #e1fff5; background: linear-gradient(90deg, #235e4b, #121c19); box-shadow: inset 0 0 12px #36fdbe29; }
+body[data-theme="kshatriya"] .hud-sidebar__status { background: #16211d99; }
+body[data-theme="kshatriya"] #root .hud-app .module-heading { background: linear-gradient(110deg, #16201def, #0a0e0df5) !important; border-color: #416f60 !important; border-left-color: #84fed7 !important; box-shadow: 0 3px #040605, inset 0 1px #c1feeb26 !important; }
+body[data-theme="kshatriya"] #root .hud-app .module-heading h1 { color: #e4fff6 !important; text-shadow: none !important; }
+body[data-theme="kshatriya"] #root .hud-app :is(.tactical-data-panel, .react-data-card, .network-module, .react-card-results, .react-filter-panel, .auth-terminal-card, .synergy-panel) { background: linear-gradient(120deg, #0e1714f5, #090d0cf5) !important; border-color: #396758 !important; border-top-color: #5dc4a3 !important; box-shadow: 0 3px #040605, inset 0 1px #76ceb226 !important; }
+body[data-theme="kshatriya"] #root .hud-app :is(.panel-head, .tactical-panel-header) { border-bottom-color: #396859 !important; }
+body[data-theme="kshatriya"] #root .hud-app .hud-metrics { background: #0e1412f5 !important; border-color: #4da88b; box-shadow: none; }
+body[data-theme="kshatriya"] #root .hud-app .hud-metric > strong { color: #d1fff0 !important; text-shadow: none !important; }
+body[data-theme="kshatriya"] #root .hud-app :is(.react-table, .tactical-table, .data-table) th { background: #172b25 !important; }
+body[data-theme="kshatriya"] #root .hud-app .institutional-page { background: #0e1211ed !important; }
+body[data-theme="kshatriya"] #root .hud-app .zero-forge { --forge-bg: #090d0c; --forge-panel: #101916; --forge-panel-strong: #1a2f29; --forge-cyan: #89fed9; }
+body[data-theme="kshatriya"] #root .hud-app :is(.bridge-mission, .launch-paths > button, .launch-community-band, .bridge-mission__stage) { background: linear-gradient(120deg, #151e1b, #0a0e0d); border-color: #3a6a5b; box-shadow: none; }
+body[data-theme="kshatriya"] #root .hud-app .bridge-mission__tabs { border-bottom-color: #3a6a5b; }
+body[data-theme="kshatriya"] #root .hud-app .bridge-mission__tabs button { background: #111715; border-color: #3a6a5b; color: #c6e6dc; }
+body[data-theme="kshatriya"] #root .hud-app .bridge-mission__tabs button.is-active { background: linear-gradient(#19362d, #25604d); box-shadow: inset 0 -2px #9cfdde; }
+body[data-theme="kshatriya"] #root .hud-app :is(.bridge-mission__tabs button span, .bridge-mission__signal strong, .bridge-mission__copy > small, .bridge-dock-heading > span) { color: #a3fee1; }
+body[data-theme="kshatriya"] .deck-dossier-exports { background: linear-gradient(110deg, #153128ed, #0c1110ed); border-color: #4a9d83; border-left-color: #65fdcd; }
+body[data-theme="kshatriya"] .deck-dossier-exports__actions button { border-color: #5dd5af; background: #1c3d33; color: #dbfef3; }
+body[data-theme="kshatriya"] .deck-dossier-export-modal .deck-export-layer__dialog { border-color: #61cfac; background: linear-gradient(135deg, #172420, #0a0e0d 60%); box-shadow: 0 0 40px #20dca126; }
+body[data-theme="kshatriya"] #root .hud-app .site-footer { background: #070a09; border-top-color: #32554a; }
+
+/* Instrument controls and dossier glass keep the same emerald instrument glass. */
+body[data-theme="kshatriya"] #root .hud-app :is(.hud-search input, .hud-controls select, .react-filter-panel input, .react-filter-panel select, .card-results-toolbar select) { background-color: #0d100f; color: #d9f2ea; border-color: #4a7b6c; }
+body[data-theme="kshatriya"] #root .hud-app .hud-controls-toggle { background: #101312; color: #a5f8de; border-color: #4ac59e; }
+body[data-theme="kshatriya"] #root .hud-app :is(.react-card-detail, .cards-terminal-side-stack) { background: #0d100ff5 !important; border-color: #4a7b6c !important; }
+body[data-theme="kshatriya"] #root .hud-app :is(.card-detail-actions, .card-detail-navigator) button { background: #1a2a25; border-color: #489a80; color: #c4f6e6; }
+body[data-theme="kshatriya"] #root .hud-app :is(.bridge-mission__copy h3, .panel-head h2) { color: #d5f5eb; }
+body[data-theme="kshatriya"] #root .hud-app :is(.bridge-mission__copy p, .bridge-mission__signal small, .hud-sidebar__label) { color: #92bdaf; }
+body[data-theme="kshatriya"] #root .hud-app .hud-search input::placeholder { color: #92bdaf; }
+body[data-theme="kshatriya"] #root .hud-app .bridge-mission__signal { border-left-color: #4a7b6c; }
+
+@media (min-width: 1600px) {
+  body[data-theme="kshatriya"] .orbital-flight-deck { grid-template-columns: 220px minmax(0, 1fr) 225px; gap: 30px; min-height: 520px; }
+  body[data-theme="kshatriya"] .orbital-cockpit { padding-inline: 36px; }
+  body[data-theme="kshatriya"] .orbital-welcome { width: min(380px, 60%); margin-bottom: 10px; }
+}
+@media (min-width: 821px) and (max-width: 1199px) {
+  body[data-theme="kshatriya"] .orbital-flight-deck { grid-template-columns: 160px minmax(0, 1fr) 180px; gap: 18px; }
+  body[data-theme="kshatriya"] .orbital-cockpit { padding-inline: 22px; background-size: auto 730px; }
+  body[data-theme="kshatriya"] .orbital-welcome { width: 90%; padding-inline: 6px; }
+  body[data-theme="kshatriya"] .orbital-status__unit { height: 180px; }
+}
+@media (max-width: 820px) {
+  body[data-theme="kshatriya"] #root .hud-app.hud-app > main { background-attachment: scroll !important; }
+  body[data-theme="kshatriya"] .orbital-cockpit { padding: 20px 22px 28px; background-size: auto 610px; background-position: 50% top; }
+  body[data-theme="kshatriya"] .orbital-flight-deck { grid-template-columns: minmax(0, 1fr); gap: 24px; min-height: 0; }
+  body[data-theme="kshatriya"] .orbital-window { min-height: 490px; padding: 8px 0 16px; }
+  body[data-theme="kshatriya"] .orbital-window::before { width: 55%; left: 36%; top: 65px; }
+  body[data-theme="kshatriya"] .orbital-window__coordinates { font-size: 8px; gap: 12px; }
+  body[data-theme="kshatriya"] .orbital-welcome { width: 100%; max-width: 360px; margin: auto 0 0; padding: 20px 10px 10px; background: linear-gradient(90deg, #070a09e8, #090f0da6 75%, transparent); }
+  body[data-theme="kshatriya"] #root .hud-app .orbital-welcome h1 { font-size: clamp(30px, 9vw, 40px); }
+  body[data-theme="kshatriya"] #root .hud-app .orbital-welcome p { font-size: 15px; }
+  body[data-theme="kshatriya"] #root .hud-app .orbital-launch { justify-content: space-between; }
+  body[data-theme="kshatriya"] .orbital-status { margin: 0; }
+  body[data-theme="kshatriya"] .orbital-status__unit { height: 100%; min-height: 185px; }
+  body[data-theme="kshatriya"] .orbital-instruments { gap: 26px; }
+  body[data-theme="kshatriya"] .hud-primary-nav { background: #0b0f0efa; border-top-color: #4eaa8d; box-shadow: 0 -3px #142e26, 0 -5px #050807; }
+}

@@ -1,0 +1,141 @@
+/* Barbatos / Arbrau industrial cockpit. Every selector stays inside this unit theme. */
+body[data-theme="barbatos"] {
+  --barbatos-line: #7f5d39;
+}
+
+body[data-theme="barbatos"] #root .hud-app.hud-app > main {
+  background: linear-gradient(#0908069e, #080706e8), url('/assets/backgrounds/barbatos-arbrau-cockpit.webp') center top / cover fixed !important;
+}
+body[data-theme="barbatos"] #root .hud-app .launch-home { background: #070706 !important; }
+body[data-theme="barbatos"] .orbital-cockpit {
+  padding: 32px 30px 30px;
+  background: linear-gradient(0deg, #070706 0%, #07070600 38%), url('/assets/backgrounds/barbatos-arbrau-cockpit.webp') center top / 100% auto no-repeat;
+}
+body[data-theme="barbatos"] .orbital-flight-deck { grid-template-columns: 200px minmax(0, 1fr) 210px; gap: 28px; min-height: 510px; }
+body[data-theme="barbatos"] .orbital-panel {
+  border: 1px solid var(--barbatos-line);
+  border-top-color: #d2b08c;
+  border-radius: 2px;
+  background: linear-gradient(120deg, #171714f5, #080807f7 55%);
+  box-shadow: 0 0 0 3px #090a09, 0 0 0 5px #45413b, 0 0 0 7px #131412, 0 10px 20px #000a, inset 0 1px #e5c8a64d;
+}
+/* Riveted armor strips, interrupted amber lamps and restrained Tekkadan red. */
+body[data-theme="barbatos"] .orbital-panel::before { inset: -6px 10px auto; height: 5px; background: radial-gradient(circle at 3px 2px, #b5a18a 0 1px, #151511 1.5px 3px, transparent 3.5px) left / 12px 5px repeat-x, linear-gradient(90deg, #312e29, #6e5c45 45%, #22221f); box-shadow: 0 1px #080908; }
+body[data-theme="barbatos"] .orbital-panel::after { inset: auto 18px -5px; height: 3px; background: linear-gradient(90deg, #ed9f4e 0 16%, #22231e 16% 86%, #b73d32 86%); box-shadow: 0 3px 8px #ee943433; }
+body[data-theme="barbatos"] .orbital-panel-title { border-bottom-color: #81603d80; color: #fbe2c7; font-size: 14px; letter-spacing: .07em; }
+body[data-theme="barbatos"] #root .hud-app .orbital-panel-title h2 { color: #fcead6; text-shadow: none; }
+body[data-theme="barbatos"] .orbital-panel-title > span:last-child:not(:first-child) { color: #f1bd85; }
+body[data-theme="barbatos"] .orbital-panel-title img { filter: brightness(1.15); }
+body[data-theme="barbatos"] .orbital-menu,
+body[data-theme="barbatos"] .orbital-status { margin-block: 10px; }
+body[data-theme="barbatos"] #root .hud-app .orbital-menu > button { min-height: 45px; border-bottom: 1px solid #584a3c66; color: #d9cbbc; font-size: 14px; }
+body[data-theme="barbatos"] .orbital-menu svg { color: #f4b673; }
+body[data-theme="barbatos"] #root .hud-app .orbital-menu > button:is(.is-active, :hover) { color: #fef8f1; border-color: #f3b068; background: linear-gradient(105deg, #9a6021b3, #2e2215c7); box-shadow: inset 3px 0 #f9d6b1, inset 0 0 22px #d990413b, 0 0 12px #ee93322b; }
+body[data-theme="barbatos"] .orbital-menu__signature { color: #f6c795; }
+body[data-theme="barbatos"] .orbital-menu__signature small { color: #d98b76; }
+
+body[data-theme="barbatos"] .orbital-window { position: relative; isolation: isolate; padding: 26px 4px 24px; }
+/* Decorative targeting glass; the controls and data remain real HTML. */
+body[data-theme="barbatos"] .orbital-window::before { content: ""; position: absolute; z-index: -1; pointer-events: none; width: min(28%, 165px); aspect-ratio: 1; top: 24%; left: 58%; border: 1px solid #ffe2b780; border-radius: 50%; background: linear-gradient(90deg, transparent calc(50% - .5px), #ffe2b766 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), #ffe2b766 50%, transparent calc(50% + .5px)); box-shadow: 0 0 0 9px #ffe0ab0c; }
+body[data-theme="barbatos"] .orbital-window::after { content: ""; position: absolute; z-index: -1; pointer-events: none; inset: 80px auto 30% 0; width: 8px; border-left: 1px solid #ffc78780; background: repeating-linear-gradient(0deg, #ffc78766 0 1px, transparent 1px 16px); }
+body[data-theme="barbatos"] .orbital-window__coordinates { color: #fcead7; font-size: 10px; }
+body[data-theme="barbatos"] .orbital-welcome { align-self: flex-start; width: min(380px, 70%); margin: auto 0 0; padding: 20px 14px 14px; text-align: left; background: linear-gradient(90deg, #090806ee, #090806b3 75%, transparent); }
+body[data-theme="barbatos"] .orbital-welcome__eyebrow { padding: 0 0 8px; border: 0; color: #f7ca99; background: transparent; letter-spacing: .16em; }
+body[data-theme="barbatos"] #root .hud-app .orbital-welcome h1 { margin: 10px 0 16px; font: 600 clamp(28px, 2.7vw, 42px)/1.08 "Rajdhani", sans-serif; letter-spacing: .05em; color: #fef8f1; text-shadow: 0 2px 12px #000000; }
+body[data-theme="barbatos"] #root .hud-app .orbital-welcome p { max-width: 32ch; margin: 0; font-size: 16px; line-height: 1.45; letter-spacing: .02em; color: #ebe2d9; }
+body[data-theme="barbatos"] .orbital-welcome__insignia { display: none; }
+body[data-theme="barbatos"] #root .hud-app .orbital-launch { margin-top: 20px; padding: 12px 16px; gap: 16px; font-size: 14px; border-color: #f3b16b; color: #fef8f1; background: linear-gradient(110deg, #584027dc, #151310ed); box-shadow: inset 0 0 12px #f1a5542b, 0 0 14px #ee933225; }
+body[data-theme="barbatos"] #root .hud-app .orbital-launch:hover { background: #74522d; box-shadow: 0 0 18px #ee943460; }
+
+body[data-theme="barbatos"] .orbital-status__unit { height: 205px; border-color: #6e5841; background: repeating-linear-gradient(0deg, transparent 0 23px, #f1a65517 24px), repeating-linear-gradient(90deg, transparent 0 23px, #f1a65517 24px), #080807; }
+body[data-theme="barbatos"] .orbital-status__unit > img { object-fit: contain; padding: 6px 6px 27px; opacity: .85; mix-blend-mode: screen; }
+body[data-theme="barbatos"] .orbital-status__unit > span { background: #0e0c0ae8; color: #f7cda1; }
+body[data-theme="barbatos"] #root .hud-app .orbital-status h2 { font-size: 22px; letter-spacing: .1em; color: #f4b775; }
+body[data-theme="barbatos"] .orbital-status__readouts > div { border-top-color: #5b4b3a; }
+body[data-theme="barbatos"] .orbital-status__readouts dt { color: #c4b6a7; }
+body[data-theme="barbatos"] .orbital-status__readouts dd { color: #fae0c5; }
+body[data-theme="barbatos"] #root .hud-app :is(.orbital-status > button, .orbital-radar__body button, .orbital-panel-title > button) { color: #fceedf; border-color: #a37849; background: linear-gradient(#32261a, #12100e); }
+body[data-theme="barbatos"] .orbital-instruments { gap: 22px; margin-top: 26px; }
+body[data-theme="barbatos"] .orbital-instruments .orbital-panel { background: linear-gradient(120deg, #171714f5, #080807f7); }
+body[data-theme="barbatos"] .orbital-radar__body > svg { stroke: #d6a46f; filter: drop-shadow(0 0 4px #ee933255); }
+body[data-theme="barbatos"] .orbital-radar__body .orbital-radar__orbit { stroke: #fadec1; }
+body[data-theme="barbatos"] .orbital-radar__node { fill: #f1a757; stroke: #fceddd; }
+body[data-theme="barbatos"] .orbital-radar__body strong { color: #fcead7; }
+body[data-theme="barbatos"] .orbital-radar__body :is(small, div > span) { color: #d2c0ac; }
+body[data-theme="barbatos"] #root .hud-app :is(.orbital-feed__entry, .orbital-signals__entry) { color: #f6e2cc; border-bottom-color: #5a4b3b; }
+body[data-theme="barbatos"] #root .hud-app :is(.orbital-feed__entry, .orbital-signals__entry):hover { background: #a36a2d28; }
+body[data-theme="barbatos"] .orbital-feed__entry > span:first-child { color: #f6c795; }
+body[data-theme="barbatos"] :is(.orbital-feed__entry strong, .orbital-signals__entry strong) { color: #f1eae2; }
+body[data-theme="barbatos"] :is(.orbital-feed__entry small, .orbital-feed__entry em, .orbital-signals__entry small) { color: #cbb69f; }
+body[data-theme="barbatos"] .orbital-signals__entry img { border-color: #8b6b49; }
+body[data-theme="barbatos"] .orbital-signals__scope { color: #f0c18f; }
+
+/* Carry the Barbatos palette across every route, including the deck exports. */
+body[data-theme="barbatos"] .hud-header { background: #080807; border-bottom-color: #906940; box-shadow: 0 3px #060504, 0 5px #312b24, 0 8px #080807, 0 10px 18px #ef95341c; }
+body[data-theme="barbatos"] .hud-header__command { background: linear-gradient(110deg, #15120f, #080807 45%, #12100d); border-bottom-color: #554534; }
+body[data-theme="barbatos"] .hud-header__bus { background: #0b0a08; }
+body[data-theme="barbatos"] .hud-brand > img { filter: sepia(.7) saturate(1.5); }
+body[data-theme="barbatos"] .hud-search { background: #0e0d0b; border-color: #7a5b3a; box-shadow: none; }
+body[data-theme="barbatos"] .hud-header .hud-primary-nav button { color: #d5c9bc; border-left-color: #5d4d3b66; }
+body[data-theme="barbatos"] .hud-header .hud-primary-nav button:is(.is-active, :hover) { color: #fef8f1; border-bottom-color: #f2ab5f; background: linear-gradient(0deg, #553c22aa, #13100d); box-shadow: inset 0 -2px #eeab63, inset 0 -10px 24px #ee943326; text-shadow: 0 0 10px #ea9c4855; }
+body[data-theme="barbatos"] .hud-header .hud-controls select { border-color: #6b553e; background-color: #14120f; color: #eddfcf; }
+body[data-theme="barbatos"] .hud-header .hud-controls.is-open { background: #100e0cfa; border-color: #a67a4a; box-shadow: 0 16px 40px #000000bb; }
+body[data-theme="barbatos"] .hud-sidebar { background: #0c0b09f5; border-right-color: #65523e; box-shadow: inset -4px 0 #1c1915, inset -5px 0 #5e4d3b; }
+body[data-theme="barbatos"] .hud-sidebar .hud-sidebar__group button.is-active { border-color: #e1a463; color: #fdf0e3; background: linear-gradient(90deg, #5a4127, #1b1713); box-shadow: inset 0 0 12px #f09c4329; }
+body[data-theme="barbatos"] .hud-sidebar__status { background: #201c1799; }
+body[data-theme="barbatos"] #root .hud-app .module-heading { background: linear-gradient(110deg, #1f1b17ef, #0e0c0af5) !important; border-color: #6c5944 !important; border-left-color: #f6c38c !important; box-shadow: 0 3px #060504, inset 0 1px #fae0c526 !important; }
+body[data-theme="barbatos"] #root .hud-app .module-heading h1 { color: #fdf2e6 !important; text-shadow: none !important; }
+body[data-theme="barbatos"] #root .hud-app :is(.tactical-data-panel, .react-data-card, .network-module, .react-card-results, .react-filter-panel, .auth-terminal-card, .synergy-panel) { background: linear-gradient(120deg, #16130ff5, #0d0b09f5) !important; border-color: #64513c !important; border-top-color: #bd9264 !important; box-shadow: 0 3px #060504, inset 0 1px #c8a37c26 !important; }
+body[data-theme="barbatos"] #root .hud-app :is(.panel-head, .tactical-panel-header) { border-bottom-color: #65513c !important; }
+body[data-theme="barbatos"] #root .hud-app .hud-metrics { background: #14110ef5 !important; border-color: #a27c53; box-shadow: none; }
+body[data-theme="barbatos"] #root .hud-app .hud-metric > strong { color: #fce9d4 !important; text-shadow: none !important; }
+body[data-theme="barbatos"] #root .hud-app :is(.react-table, .tactical-table, .data-table) th { background: #2a2118 !important; }
+body[data-theme="barbatos"] #root .hud-app .institutional-page { background: #12100eed !important; }
+body[data-theme="barbatos"] #root .hud-app .zero-forge { --forge-bg: #0d0b09; --forge-panel: #181511; --forge-panel-strong: #2e251b; --forge-cyan: #f6c591; }
+body[data-theme="barbatos"] #root .hud-app :is(.bridge-mission, .launch-paths > button, .launch-community-band, .bridge-mission__stage) { background: linear-gradient(120deg, #1d1a16, #0e0c0a); border-color: #67533d; box-shadow: none; }
+body[data-theme="barbatos"] #root .hud-app .bridge-mission__tabs { border-bottom-color: #67533d; }
+body[data-theme="barbatos"] #root .hud-app .bridge-mission__tabs button { background: #171411; border-color: #67533d; color: #e4d6c8; }
+body[data-theme="barbatos"] #root .hud-app .bridge-mission__tabs button.is-active { background: linear-gradient(#34281b, #5c4329); box-shadow: inset 0 -2px #f7cea2; }
+body[data-theme="barbatos"] #root .hud-app :is(.bridge-mission__tabs button span, .bridge-mission__signal strong, .bridge-mission__copy > small, .bridge-dock-heading > span) { color: #f8d2a9; }
+body[data-theme="barbatos"] .deck-dossier-exports { background: linear-gradient(110deg, #2f2317ed, #110f0ced); border-color: #98754f; border-left-color: #f3b36f; }
+body[data-theme="barbatos"] .deck-dossier-exports__actions button { border-color: #cd9b65; background: #3b2d1e; color: #fceddd; }
+body[data-theme="barbatos"] .deck-dossier-export-modal .deck-export-layer__dialog { border-color: #c89a68; background: linear-gradient(135deg, #231e18, #0e0c0a 60%); box-shadow: 0 0 40px #d0812c26; }
+body[data-theme="barbatos"] #root .hud-app .site-footer { background: #0a0907; border-top-color: #534434; }
+
+/* Instrument controls and dossier glass keep the same warm, neutral materials. */
+body[data-theme="barbatos"] #root .hud-app :is(.hud-search input, .hud-controls select, .react-filter-panel input, .react-filter-panel select, .card-results-toolbar select) { background-color: #100f0d; color: #f0e7db; border-color: #78654d; }
+body[data-theme="barbatos"] #root .hud-app .hud-controls-toggle { background: #131310; color: #f3d3aa; border-color: #bd8a52; }
+body[data-theme="barbatos"] #root .hud-app :is(.react-card-detail, .cards-terminal-side-stack) { background: #100f0df5 !important; border-color: #78654d !important; }
+body[data-theme="barbatos"] #root .hud-app :is(.card-detail-actions, .card-detail-navigator) button { background: #29231b; border-color: #95734d; color: #f3dfc7; }
+body[data-theme="barbatos"] #root .hud-app :is(.bridge-mission__copy h3, .panel-head h2) { color: #f3e7d7; }
+body[data-theme="barbatos"] #root .hud-app :is(.bridge-mission__copy p, .bridge-mission__signal small, .hud-sidebar__label) { color: #baa995; }
+body[data-theme="barbatos"] #root .hud-app .hud-search input::placeholder { color: #baa995; }
+body[data-theme="barbatos"] #root .hud-app .bridge-mission__signal { border-left-color: #78654d; }
+
+@media (min-width: 1600px) {
+  body[data-theme="barbatos"] .orbital-flight-deck { grid-template-columns: 220px minmax(0, 1fr) 225px; gap: 30px; min-height: 520px; }
+  body[data-theme="barbatos"] .orbital-cockpit { padding-inline: 36px; }
+  body[data-theme="barbatos"] .orbital-welcome { width: min(380px, 60%); margin-bottom: 10px; }
+}
+@media (min-width: 821px) and (max-width: 1199px) {
+  body[data-theme="barbatos"] .orbital-flight-deck { grid-template-columns: 160px minmax(0, 1fr) 180px; gap: 18px; }
+  body[data-theme="barbatos"] .orbital-cockpit { padding-inline: 22px; background-size: auto 730px; }
+  body[data-theme="barbatos"] .orbital-welcome { width: 90%; padding-inline: 6px; }
+  body[data-theme="barbatos"] .orbital-status__unit { height: 180px; }
+}
+@media (max-width: 820px) {
+  body[data-theme="barbatos"] #root .hud-app.hud-app > main { background-attachment: scroll !important; }
+  body[data-theme="barbatos"] .orbital-cockpit { padding: 20px 22px 28px; background-size: auto 610px; background-position: 50% top; }
+  body[data-theme="barbatos"] .orbital-flight-deck { grid-template-columns: minmax(0, 1fr); gap: 24px; min-height: 0; }
+  body[data-theme="barbatos"] .orbital-window { min-height: 490px; padding: 8px 0 16px; }
+  body[data-theme="barbatos"] .orbital-window::before { width: 38%; left: 52%; top: 65px; }
+  body[data-theme="barbatos"] .orbital-window__coordinates { font-size: 8px; gap: 12px; }
+  body[data-theme="barbatos"] .orbital-welcome { width: 100%; max-width: 360px; margin: auto 0 0; padding: 20px 10px 10px; background: linear-gradient(90deg, #0a0907e8, #0f0c09a6 75%, transparent); }
+  body[data-theme="barbatos"] #root .hud-app .orbital-welcome h1 { font-size: clamp(30px, 9vw, 40px); }
+  body[data-theme="barbatos"] #root .hud-app .orbital-welcome p { font-size: 15px; }
+  body[data-theme="barbatos"] #root .hud-app .orbital-launch { justify-content: space-between; }
+  body[data-theme="barbatos"] .orbital-status { margin: 0; }
+  body[data-theme="barbatos"] .orbital-status__unit { height: 100%; min-height: 185px; }
+  body[data-theme="barbatos"] .orbital-instruments { gap: 26px; }
+  body[data-theme="barbatos"] .hud-primary-nav { background: #0f0d0bfa; border-top-color: #a47d54; box-shadow: 0 -3px #2c2116, 0 -5px #080705; }
+}

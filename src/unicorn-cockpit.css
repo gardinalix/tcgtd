@@ -6,9 +6,9 @@ body[data-theme="unicorn"] .orbital-cockpit { padding: 32px 30px 30px; backgroun
 body[data-theme="unicorn"] .orbital-flight-deck { grid-template-columns: 200px minmax(0, 1fr) 210px; gap: 28px; min-height: 510px; }
 
 /* White armor edges, dark instrument glass, red Psycho-Frame insets. */
-body[data-theme="unicorn"] .orbital-panel { border: 1px solid #d1e5f4; border-radius: 0; background: linear-gradient(125deg, #0b1c2ff2, #030b16f7); box-shadow: 0 0 0 3px #131b29, 0 0 0 5px #7a8b9c, 0 0 0 6px #17212f, 0 8px 20px #0009, inset 0 1px #e9f6ff66; }
-body[data-theme="unicorn"] .orbital-panel::before { inset: -4px 16px auto; height: 2px; background: linear-gradient(90deg, #ecf8ff 0 25%, #66829d 60%, transparent); box-shadow: 0 0 8px #9ecef266; }
-body[data-theme="unicorn"] .orbital-panel::after { inset: auto 18px -5px; height: 3px; background: linear-gradient(90deg, #ff4a69 0 12%, transparent 12% 86%, #ff4a69 86%); box-shadow: 0 4px 12px #ff34532b; }
+body[data-theme="unicorn"] .orbital-panel { border: 1px solid var(--unicorn-ice); border-radius: 0; background: linear-gradient(125deg, #091526f2, #030913f7); box-shadow: 0 0 0 3px #171e2b, 0 0 0 5px #a5b0bc, 0 0 0 7px #121b28, 0 10px 22px #000a, inset 0 1px #f3faff80; }
+body[data-theme="unicorn"] .orbital-panel::before { inset: -6px 14px auto; height: 4px; background: linear-gradient(90deg, #e8f4ff 0 17%, #303a4c 17% 30%, #ff4560 30% 56%, #303a4c 56% 85%, #e8f4ff 85%); box-shadow: 0 0 9px #ff345344; }
+body[data-theme="unicorn"] .orbital-panel::after { inset: auto 18px -6px; height: 3px; background: linear-gradient(90deg, #ff4560 0 13%, #303a4c 13% 84%, #ff4560 84%); box-shadow: 0 3px 10px #ff345344; }
 body[data-theme="unicorn"] .orbital-panel-title { border-bottom-color: #587e9b99; color: #e7f4ff; font-size: 14px; letter-spacing: .07em; }
 body[data-theme="unicorn"] #root .hud-app .orbital-panel-title h2 { color: #edf7ff; text-shadow: none; }
 body[data-theme="unicorn"] .orbital-panel-title > span:last-child:not(:first-child) { color: #aacfe9; }
@@ -23,10 +23,10 @@ body[data-theme="unicorn"] .orbital-menu__signature img { filter: grayscale(1) b
 body[data-theme="unicorn"] .orbital-menu__signature small { color: #ff8a9e; }
 
 body[data-theme="unicorn"] .orbital-window { position: relative; isolation: isolate; padding: 26px 4px 24px; }
-/* Decorative scan brackets, without fabricated telemetry. */
-body[data-theme="unicorn"] .orbital-window::before { content: ""; pointer-events: none; position: absolute; z-index: -1; top: 20px; left: 8%; right: 5%; height: 52%; border-inline: 1px solid #ff5b7880; border-radius: 30%; background: linear-gradient(90deg, transparent 49.9%, #ff7e8b33 50%, transparent 50.1%); }
+/* Decorative acquisition ring and range marks, without fabricated telemetry. */
+body[data-theme="unicorn"] .orbital-window::before { content: ""; pointer-events: none; position: absolute; z-index: -1; top: 18%; left: 51%; width: min(39%, 250px); aspect-ratio: 1; border: 1px solid #ff5b788c; border-right-color: #edf7ff80; border-radius: 50%; background: radial-gradient(circle at center, transparent 0 37%, #ff688444 37.3% 37.8%, transparent 38%), linear-gradient(90deg, transparent calc(50% - .5px), #ff7e8b55 50%, transparent calc(50% + .5px)); box-shadow: 0 0 0 12px #ff4a6910; }
 body[data-theme="unicorn"] .orbital-window__coordinates { color: #dcefff; font-size: 10px; }
-body[data-theme="unicorn"] .orbital-welcome { align-self: flex-start; width: min(380px, 70%); margin: auto 0 0; padding: 20px 14px 14px; text-align: left; background: linear-gradient(90deg, #041022e6, #04102288 75%, transparent); }
+body[data-theme="unicorn"] .orbital-welcome { align-self: flex-start; width: min(380px, 70%); margin: auto 0 0; padding: 20px 14px 14px; text-align: left; background: linear-gradient(90deg, #061021ed, #061021b3 75%, transparent); }
 body[data-theme="unicorn"] .orbital-welcome__eyebrow { padding: 0 0 8px; border: 0; color: #ff8ba3; background: transparent; letter-spacing: .16em; }
 body[data-theme="unicorn"] #root .hud-app .orbital-welcome h1 { margin: 10px 0 16px; font: 600 clamp(28px, 2.7vw, 42px)/1.08 "Rajdhani", sans-serif; letter-spacing: .05em; color: #f4faff; text-shadow: 0 2px 12px #000; }
 body[data-theme="unicorn"] #root .hud-app .orbital-welcome p { max-width: 32ch; margin: 0; font-size: 16px; line-height: 1.45; letter-spacing: .02em; color: #dae8f6; }
@@ -34,8 +34,8 @@ body[data-theme="unicorn"] .orbital-welcome__insignia { display: none; }
 body[data-theme="unicorn"] #root .hud-app .orbital-launch { margin-top: 20px; padding: 12px 16px; gap: 16px; font-size: 14px; border-color: #d9edff; border-bottom-color: #ff738d; color: #f1f8ff; background: linear-gradient(110deg, #203b59e0, #061225ee); box-shadow: inset 0 0 12px #badfff26, 0 3px 12px #ff3c5c20; }
 body[data-theme="unicorn"] #root .hud-app .orbital-launch:hover { background: #304f70; box-shadow: 0 0 18px #b1dfff55; }
 
-body[data-theme="unicorn"] .orbital-status__unit { height: 205px; border-color: #af4b64; background: repeating-linear-gradient(0deg, transparent 0 23px, #ff607c13 24px), repeating-linear-gradient(90deg, transparent 0 23px, #ff607c13 24px), #060b15; }
-body[data-theme="unicorn"] .orbital-status__unit > img { object-fit: contain; padding: 6px 6px 27px; opacity: .85; mix-blend-mode: screen; }
+body[data-theme="unicorn"] .orbital-status__unit { height: 230px; border-color: #c14d64; background: repeating-linear-gradient(0deg, transparent 0 23px, #ff607c13 24px), repeating-linear-gradient(90deg, transparent 0 23px, #ff607c13 24px), #050912; }
+body[data-theme="unicorn"] .orbital-status__unit > img { object-fit: contain; padding: 6px 14px 27px 6px; opacity: 1; mix-blend-mode: screen; }
 body[data-theme="unicorn"] .orbital-status__unit > span { background: #0c1122e8; color: #ff9db2; }
 body[data-theme="unicorn"] #root .hud-app .orbital-status h2 { font-size: 22px; letter-spacing: .1em; color: #edf7ff; }
 body[data-theme="unicorn"] .orbital-status__readouts > div { border-top-color: #41617a; }
@@ -44,7 +44,7 @@ body[data-theme="unicorn"] .orbital-status__readouts dd { color: #edf7ff; }
 body[data-theme="unicorn"] .orbital-status__readouts > div:nth-child(2) dd { color: #ff8b9f; }
 body[data-theme="unicorn"] #root .hud-app :is(.orbital-status > button, .orbital-radar__body button, .orbital-panel-title > button) { color: #e5f2ff; border-color: #96bad5; background: linear-gradient(#18344f, #081629); }
 body[data-theme="unicorn"] .orbital-instruments { gap: 22px; margin-top: 26px; }
-body[data-theme="unicorn"] .orbital-instruments .orbital-panel { background: linear-gradient(120deg, #0a1b2df5, #030b16f7); }
+body[data-theme="unicorn"] .orbital-instruments .orbital-panel { background: linear-gradient(120deg, #091728f5, #030913f7); }
 body[data-theme="unicorn"] .orbital-radar__body > svg { stroke: #b2d1eb; filter: drop-shadow(0 0 3px #c0dfff33); }
 body[data-theme="unicorn"] .orbital-radar__body .orbital-radar__orbit { stroke: #ff758f; }
 body[data-theme="unicorn"] .orbital-radar__node { fill: #ff4968; stroke: #ffe3e9; }
@@ -53,18 +53,18 @@ body[data-theme="unicorn"] #root .hud-app :is(.orbital-feed__entry, .orbital-sig
 body[data-theme="unicorn"] .orbital-signals__scope { color: #ff95ac; }
 
 /* Selected-unit armor and glass continue through the site's data routes. */
-body[data-theme="unicorn"] .hud-header { background: #06101d; border-bottom-color: #d6e8f5; box-shadow: 0 3px #152337, 0 5px #8d9eaf, 0 8px #0b1523; }
-body[data-theme="unicorn"] .hud-header__command { background: linear-gradient(110deg, #1c2e41, #060f1b 45%, #0d1e31); border-bottom-color: #657d95; }
-body[data-theme="unicorn"] .hud-header__bus { background: #06101d; }
+body[data-theme="unicorn"] .hud-header { background: #040b15; border-bottom-color: #d6e8f5; box-shadow: 0 3px #192234, 0 5px #a4b1bf, 0 8px #0b1523; }
+body[data-theme="unicorn"] .hud-header__command { background: linear-gradient(110deg, #161f2d, #040a13 45%, #0b1728); border-bottom-color: #657d95; }
+body[data-theme="unicorn"] .hud-header__bus { background: #050c17; }
 body[data-theme="unicorn"] .hud-brand > img { filter: grayscale(1) brightness(1.65); }
 body[data-theme="unicorn"] .hud-search { background: #061222; border-color: #809ab5; border-radius: 24px; box-shadow: none; }
 body[data-theme="unicorn"] .hud-header .hud-primary-nav button:is(.is-active, :hover) { color: #fff; border-bottom-color: #f1faff; background: linear-gradient(0deg, #3f567d9c, #101e32); box-shadow: inset 0 -2px #fff, inset 0 -10px 20px #b8d9ff26; text-shadow: 0 0 10px #c1e1ff66; }
 body[data-theme="unicorn"] .hud-header .hud-controls select { border-color: #738fa9; background-color: #0b1b2e; color: #dfecfa; }
-body[data-theme="unicorn"] .hud-sidebar { background: #071322f5; border-right-color: #a3bdd2; box-shadow: inset -4px 0 #25384c, inset -5px 0 #c8dbe9; }
+body[data-theme="unicorn"] .hud-sidebar { background: #050e1bf5; border-right-color: #a3bdd2; box-shadow: inset -4px 0 #25384c, inset -5px 0 #c8dbe9; }
 body[data-theme="unicorn"] .hud-sidebar .hud-sidebar__group button.is-active { border-color: #c9e2f5; color: #f7fbff; background: linear-gradient(90deg, #354769, #0d2238); box-shadow: inset 3px 0 #ff748c; }
-body[data-theme="unicorn"] #root .hud-app .module-heading { background: linear-gradient(110deg, #1c344beb, #071322f5) !important; border-color: #95b1c8 !important; border-left-color: #f0f8ff !important; box-shadow: 0 3px #050c17, inset 0 -2px #ff4e6d55 !important; }
+body[data-theme="unicorn"] #root .hud-app .module-heading { background: linear-gradient(110deg, #152539ed, #050e1bf5) !important; border-color: #95b1c8 !important; border-left-color: #f0f8ff !important; box-shadow: 0 3px #050c17, inset 0 -2px #ff4e6d80 !important; }
 body[data-theme="unicorn"] #root .hud-app .module-heading h1 { color: #f0f8ff !important; text-shadow: none !important; }
-body[data-theme="unicorn"] #root .hud-app :is(.tactical-data-panel, .react-data-card, .network-module, .react-card-results, .react-filter-panel, .auth-terminal-card, .synergy-panel) { background: linear-gradient(120deg, #0d2034f5, #050f1df5) !important; border-color: #7b9bb6 !important; border-top-color: #d4e9f8 !important; box-shadow: 0 3px #050b14, inset 0 1px #c6e5ff40 !important; }
+body[data-theme="unicorn"] #root .hud-app :is(.tactical-data-panel, .react-data-card, .network-module, .react-card-results, .react-filter-panel, .auth-terminal-card, .synergy-panel) { background: linear-gradient(120deg, #0b192af5, #040b16f5) !important; border-color: #7b9bb6 !important; border-top-color: #d4e9f8 !important; box-shadow: 0 3px #050b14, inset 0 1px #c6e5ff40 !important; }
 body[data-theme="unicorn"] #root .hud-app :is(.panel-head, .tactical-panel-header) { border-bottom-color: #6b8ba8 !important; }
 body[data-theme="unicorn"] #root .hud-app .hud-metrics { background: #10253bf5 !important; border-color: #9ab7ce; box-shadow: none; }
 body[data-theme="unicorn"] #root .hud-app .hud-metric > strong { color: #eff8ff !important; text-shadow: none !important; }
@@ -72,9 +72,28 @@ body[data-theme="unicorn"] #root .hud-app :is(.react-table, .tactical-table, .da
 body[data-theme="unicorn"] #root .hud-app .zero-forge { --forge-bg: #050f1c; --forge-panel: #0d2035; --forge-panel-strong: #263f58; --forge-cyan: #e2f3ff; }
 body[data-theme="unicorn"] #root .hud-app :is(.bridge-mission, .launch-paths > button, .launch-community-band, .bridge-mission__stage) { background: linear-gradient(120deg, #172d43, #071324); border-color: #8ca8c0; box-shadow: none; }
 body[data-theme="unicorn"] #root .hud-app .bridge-mission__tabs button.is-active { background: linear-gradient(#243950, #344d69); box-shadow: inset 0 -2px #ff6b88; }
-body[data-theme="unicorn"] .deck-dossier-exports { background: linear-gradient(110deg, #263c54ed, #0a182aed); border-color: #adc6de; border-left-color: #ff829d; }
+body[data-theme="unicorn"] .deck-dossier-exports { background: linear-gradient(110deg, #192a40ed, #071221ed); border-color: #adc6de; border-left-color: #ff657f; }
 body[data-theme="unicorn"] .deck-dossier-exports__actions button { border-color: #c9e2f7; background: #29425d; color: #f4faff; }
 body[data-theme="unicorn"] #root .hud-app .site-footer { background: #060f1c; border-top-color: #8aa6bf; }
+
+/* Psycho-Frame inserts belong to the frame, never to fictional live readings. */
+body[data-theme="unicorn"] .orbital-status__unit::after { content: ""; pointer-events: none; position: absolute; right: 4px; top: 12px; bottom: 36px; width: 3px; background: repeating-linear-gradient(0deg, var(--unicorn-red) 0 6px, transparent 6px 10px); box-shadow: 0 0 8px #ff4a6944; }
+body[data-theme="unicorn"] .orbital-window::after { content: ""; pointer-events: none; position: absolute; z-index: -1; inset: 80px auto 38% 0; width: 7px; border-left: 1px solid #ff6b8680; background: repeating-linear-gradient(0deg, #ff6b8666 0 1px, transparent 1px 20px); }
+body[data-theme="unicorn"] .orbital-feed__entry > span:first-child { color: #ff97ac; }
+body[data-theme="unicorn"] .orbital-radar__body :is(small, div > span) { color: #b3cadf; }
+body[data-theme="unicorn"] #root .hud-app :is(.orbital-feed__entry, .orbital-signals__entry):hover { background: #f8759617; }
+
+/* Complete the selected unit's materials in menus, dossiers and export dialogs. */
+body[data-theme="unicorn"] .hud-header .hud-controls.is-open { background: #06101ffa; border-color: #9fbcd4; box-shadow: 0 16px 40px #000b; }
+body[data-theme="unicorn"] #root .hud-app .hud-controls-toggle { color: #edf7ff; border-color: #b5cde2; border-bottom-color: #ff708b; background: #0c1829; }
+body[data-theme="unicorn"] #root .hud-app :is(.hud-search input, .hud-controls select, .react-filter-panel input, .react-filter-panel select, .card-results-toolbar select) { background-color: #081322; color: #e8f2fc; border-color: var(--unicorn-line); }
+body[data-theme="unicorn"] #root .hud-app :is(.react-card-detail, .cards-terminal-side-stack) { background: #081422f5 !important; border-color: var(--unicorn-line) !important; }
+body[data-theme="unicorn"] #root .hud-app :is(.card-detail-actions, .card-detail-navigator) button { background: #1b2e43; color: #edf7ff; border-color: #9cb7ce; }
+body[data-theme="unicorn"] #root .hud-app .institutional-page { background: #081422ed !important; }
+body[data-theme="unicorn"] #root .hud-app .bridge-mission__tabs { border-bottom-color: #8ca8c0; }
+body[data-theme="unicorn"] #root .hud-app .bridge-mission__tabs button { border-color: #617e99; }
+body[data-theme="unicorn"] #root .hud-app .bridge-mission__tabs button.is-active { border-bottom-color: #ff6984; }
+body[data-theme="unicorn"] .deck-dossier-export-modal .deck-export-layer__dialog { border-color: #bccfe1; border-top-color: #ff718c; background: linear-gradient(135deg, #1c2a40, #07101d 60%); box-shadow: 0 0 40px #ff345322; }
 
 @media (min-width: 1600px) {
   body[data-theme="unicorn"] .orbital-flight-deck { grid-template-columns: 220px minmax(0, 1fr) 225px; gap: 30px; min-height: 520px; }
@@ -92,7 +111,7 @@ body[data-theme="unicorn"] #root .hud-app .site-footer { background: #060f1c; bo
   body[data-theme="unicorn"] .orbital-cockpit { padding: 20px 22px 28px; background-size: auto 610px; background-position: 50% top; }
   body[data-theme="unicorn"] .orbital-flight-deck { grid-template-columns: minmax(0, 1fr); gap: 24px; min-height: 0; }
   body[data-theme="unicorn"] .orbital-window { min-height: 490px; padding: 8px 0 16px; }
-  body[data-theme="unicorn"] .orbital-window::before { left: 2%; right: 2%; top: 40px; }
+  body[data-theme="unicorn"] .orbital-window::before { width: 55%; left: 36%; top: 65px; }
   body[data-theme="unicorn"] .orbital-window__coordinates { font-size: 8px; gap: 12px; }
   body[data-theme="unicorn"] .orbital-welcome { width: 100%; max-width: 360px; margin: auto 0 0; padding: 20px 10px 10px; background: linear-gradient(90deg, #041022eb, #041022b3 75%, transparent); }
   body[data-theme="unicorn"] #root .hud-app .orbital-welcome h1 { font-size: clamp(30px, 9vw, 40px); }
