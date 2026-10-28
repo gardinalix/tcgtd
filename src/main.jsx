@@ -16,6 +16,7 @@ import "./epyon-cockpit.css";
 import "./unicorn-cockpit.css";
 import "./barbatos-cockpit.css";
 import "./kshatriya-cockpit.css";
+import "./gquuuuuux-cockpit.css";
 import { App } from "./App";
 import { LocaleProvider } from "./i18n/LocaleProvider";
 
