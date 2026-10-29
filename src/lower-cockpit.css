@@ -1,4 +1,4 @@
-/* One illustrated instrument bench, directly attached to the existing cockpit.
+/* Unit-specific instrument housings share the calibrated glass geometry.
    All controls are HTML. The artwork supplies only the physical housing. */
 body[data-theme] #root .hud-app .launch-home {
   min-height: 0;
@@ -6,12 +6,7 @@ body[data-theme] #root .hud-app .launch-home {
   --bench-secondary: var(--hud-secondary);
   --bench-line: color-mix(in srgb, var(--bench-light) 35%, transparent);
   --bench-muted: color-mix(in srgb, var(--bench-light) 25%, #b7c1cb);
-  --bench-tint: transparent;
 }
-body[data-theme="barbatos"] #root .hud-app .launch-home { --bench-tint: #b9813820; }
-body[data-theme="kshatriya"] #root .hud-app .launch-home { --bench-tint: #2c997518; }
-body[data-theme="epyon"] #root .hud-app .launch-home { --bench-tint: #ac23321c; }
-body[data-theme="gquuuuuux"] #root .hud-app .launch-home { --bench-tint: #8f377315; }
 body[data-theme] #root .hud-app .launch-home .cockpit-bench {
   --bench-height: clamp(460px, 33vw, 620px);
   position: relative; isolation: isolate; margin: 12px -34px -30px;
@@ -20,7 +15,7 @@ body[data-theme] #root .hud-app .launch-home .cockpit-bench {
 }
 body[data-theme] #root .hud-app .launch-home .cockpit-bench__hull {
   position: absolute; z-index: -2; inset: 0 0 auto; height: var(--bench-height); pointer-events: none;
-  background: linear-gradient(var(--bench-tint), var(--bench-tint)), url('/assets/backgrounds/instrument-bench.webp') center top / 100% 100% no-repeat;
+  background: var(--bench-hull-image, url('/assets/backgrounds/instrument-bench.webp')) center top / 100% 100% no-repeat;
   mask-image: linear-gradient(transparent, #000 5%, #000 88%, transparent);
 }
 body[data-theme] #root .hud-app .launch-home .bench-instruments {
@@ -105,7 +100,7 @@ body[data-theme] #root .hud-app .launch-home .cockpit-bench button:focus-visible
 }
 @media (max-width: 820px) {
   body[data-theme] #root .hud-app .launch-home .cockpit-bench { --bench-height: 580px; margin: 24px -22px -28px; padding-top: 48px; }
-  body[data-theme] #root .hud-app .launch-home .cockpit-bench__hull { background-size: auto, 300% 100%; background-position: center, center; mask-image: linear-gradient(transparent, #000 3%, #000 88%, transparent); }
+  body[data-theme] #root .hud-app .launch-home .cockpit-bench__hull { background-size: 300% 100%; background-position: center; mask-image: linear-gradient(transparent, #000 3%, #000 88%, transparent); }
   body[data-theme] #root .hud-app .launch-home .bench-selector { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 0 9%; margin-bottom: 10px; }
   body[data-theme] #root .hud-app .launch-home .bench-selector button { min-height: 40px; padding: 6px; border: 1px solid var(--bench-line); color: var(--bench-muted); background: #060d14; font: 600 11px/1.2 'Rajdhani', sans-serif; }
   body[data-theme] #root .hud-app .launch-home .bench-selector button[aria-pressed="true"] { color: var(--bench-light); border-bottom: 2px solid var(--bench-light); }

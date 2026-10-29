@@ -110,14 +110,14 @@ async function buildRightsManifest(source) {
     assets: files.map((assetPath) => {
       const isCardImage = assetPath.startsWith("assets/card-images/");
       const isProjectBrand = assetPath.startsWith("assets/brand/");
-      const generatedUnit = ["assets/backgrounds/wing-zero-dawn-cockpit.webp", "assets/gundams/wing-zero-blueprint.webp"].includes(assetPath)
+      const generatedUnit = ["assets/backgrounds/wing-zero-dawn-cockpit.webp", "assets/backgrounds/wing-zero-instrument-bench.webp", "assets/gundams/wing-zero-blueprint.webp"].includes(assetPath)
         ? "Wing Zero"
-        : ["assets/backgrounds/epyon-libra-cockpit.webp", "assets/gundams/epyon-blueprint.webp"].includes(assetPath) ? "Epyon"
-        : ["assets/backgrounds/unicorn-industrial-cockpit.webp", "assets/gundams/unicorn-blueprint.webp"].includes(assetPath) ? "Unicorn"
-        : ["assets/backgrounds/barbatos-arbrau-cockpit.webp", "assets/gundams/barbatos-blueprint.webp"].includes(assetPath) ? "Barbatos"
-        : ["assets/backgrounds/kshatriya-colony-cockpit.webp", "assets/gundams/kshatriya-blueprint.webp"].includes(assetPath) ? "Kshatriya"
-        : ["assets/backgrounds/gquuuuuux-izuma-cockpit.webp", "assets/gundams/gquuuuuux-blueprint.webp"].includes(assetPath) ? "GQuuuuuuX"
-        : ["assets/backgrounds/aile-archangel-cockpit.webp", "assets/gundams/aile-blueprint.webp"].includes(assetPath) ? "Aile Strike" : "";
+        : ["assets/backgrounds/epyon-libra-cockpit.webp", "assets/backgrounds/epyon-instrument-bench.webp", "assets/gundams/epyon-blueprint.webp"].includes(assetPath) ? "Epyon"
+        : ["assets/backgrounds/unicorn-industrial-cockpit.webp", "assets/backgrounds/unicorn-instrument-bench.webp", "assets/gundams/unicorn-blueprint.webp"].includes(assetPath) ? "Unicorn"
+        : ["assets/backgrounds/barbatos-arbrau-cockpit.webp", "assets/backgrounds/barbatos-instrument-bench.webp", "assets/gundams/barbatos-blueprint.webp"].includes(assetPath) ? "Barbatos"
+        : ["assets/backgrounds/kshatriya-colony-cockpit.webp", "assets/backgrounds/kshatriya-instrument-bench.webp", "assets/gundams/kshatriya-blueprint.webp"].includes(assetPath) ? "Kshatriya"
+        : ["assets/backgrounds/gquuuuuux-izuma-cockpit.webp", "assets/backgrounds/gquuuuuux-instrument-bench.webp", "assets/gundams/gquuuuuux-blueprint.webp"].includes(assetPath) ? "GQuuuuuuX"
+        : ["assets/backgrounds/aile-archangel-cockpit.webp", "assets/backgrounds/aile-instrument-bench.webp", "assets/gundams/aile-blueprint.webp"].includes(assetPath) ? "Aile Strike" : "";
       const isGeneratedCockpit = ["assets/backgrounds/orbital-cockpit.webp", "assets/backgrounds/instrument-bench.webp"].includes(assetPath) || Boolean(generatedUnit);
       const sourceUrl = isCardImage ? (cardOrigins.get(assetPath) || "") : "";
       if (isProjectBrand || isGeneratedCockpit) {

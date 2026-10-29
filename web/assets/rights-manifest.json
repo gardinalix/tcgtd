@@ -20,6 +20,21 @@
       "reviewStatus": "approved"
     },
     {
+      "path": "/assets/backgrounds/aile-instrument-bench.webp",
+      "kind": "project_interface_asset",
+      "game": "platform",
+      "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+      "sourceUrl": "",
+      "rightsHolder": "TCG Tactical Database project",
+      "copyrightOwner": "Generated composition for TCGTD; Gundam characters and designs belong to their respective rights holders",
+      "licenseStatus": "project_asset",
+      "license": "Reserved for TCG Tactical Database product and brand use",
+      "attribution": "AI-generated Aile Strike theme artwork for TCGTD. Gundam belongs to its respective rights holders.",
+      "permittedUse": "TCG Tactical Database product surfaces, metadata and community communications",
+      "usageNotes": "Do not reuse as a third-party Trading Card Game publisher mark.",
+      "reviewStatus": "approved"
+    },
+    {
       "path": "/assets/backgrounds/aile-space-extension.png",
       "kind": "background_art",
       "game": "platform",
@@ -36,6 +51,21 @@
     },
     {
       "path": "/assets/backgrounds/barbatos-arbrau-cockpit.webp",
+      "kind": "project_interface_asset",
+      "game": "platform",
+      "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+      "sourceUrl": "",
+      "rightsHolder": "TCG Tactical Database project",
+      "copyrightOwner": "Generated composition for TCGTD; Gundam characters and designs belong to their respective rights holders",
+      "licenseStatus": "project_asset",
+      "license": "Reserved for TCG Tactical Database product and brand use",
+      "attribution": "AI-generated Barbatos theme artwork for TCGTD. Gundam belongs to its respective rights holders.",
+      "permittedUse": "TCG Tactical Database product surfaces, metadata and community communications",
+      "usageNotes": "Do not reuse as a third-party Trading Card Game publisher mark.",
+      "reviewStatus": "approved"
+    },
+    {
+      "path": "/assets/backgrounds/barbatos-instrument-bench.webp",
       "kind": "project_interface_asset",
       "game": "platform",
       "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
@@ -80,6 +110,21 @@
       "reviewStatus": "review_required"
     },
     {
+      "path": "/assets/backgrounds/epyon-instrument-bench.webp",
+      "kind": "project_interface_asset",
+      "game": "platform",
+      "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+      "sourceUrl": "",
+      "rightsHolder": "TCG Tactical Database project",
+      "copyrightOwner": "Generated composition for TCGTD; Gundam characters and designs belong to their respective rights holders",
+      "licenseStatus": "project_asset",
+      "license": "Reserved for TCG Tactical Database product and brand use",
+      "attribution": "AI-generated Epyon theme artwork for TCGTD. Gundam belongs to its respective rights holders.",
+      "permittedUse": "TCG Tactical Database product surfaces, metadata and community communications",
+      "usageNotes": "Do not reuse as a third-party Trading Card Game publisher mark.",
+      "reviewStatus": "approved"
+    },
+    {
       "path": "/assets/backgrounds/epyon-libra-cockpit.webp",
       "kind": "project_interface_asset",
       "game": "platform",
@@ -108,6 +153,21 @@
       "permittedUse": "Private staging only pending rights review",
       "usageNotes": "Do not enable general public access while reviewStatus remains review_required.",
       "reviewStatus": "review_required"
+    },
+    {
+      "path": "/assets/backgrounds/gquuuuuux-instrument-bench.webp",
+      "kind": "project_interface_asset",
+      "game": "platform",
+      "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+      "sourceUrl": "",
+      "rightsHolder": "TCG Tactical Database project",
+      "copyrightOwner": "Generated composition for TCGTD; Gundam characters and designs belong to their respective rights holders",
+      "licenseStatus": "project_asset",
+      "license": "Reserved for TCG Tactical Database product and brand use",
+      "attribution": "AI-generated GQuuuuuuX theme artwork for TCGTD. Gundam belongs to its respective rights holders.",
+      "permittedUse": "TCG Tactical Database product surfaces, metadata and community communications",
+      "usageNotes": "Do not reuse as a third-party Trading Card Game publisher mark.",
+      "reviewStatus": "approved"
     },
     {
       "path": "/assets/backgrounds/gquuuuuux-izuma-cockpit.webp",
@@ -170,6 +230,21 @@
       "reviewStatus": "approved"
     },
     {
+      "path": "/assets/backgrounds/kshatriya-instrument-bench.webp",
+      "kind": "project_interface_asset",
+      "game": "platform",
+      "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+      "sourceUrl": "",
+      "rightsHolder": "TCG Tactical Database project",
+      "copyrightOwner": "Generated composition for TCGTD; Gundam characters and designs belong to their respective rights holders",
+      "licenseStatus": "project_asset",
+      "license": "Reserved for TCG Tactical Database product and brand use",
+      "attribution": "AI-generated Kshatriya theme artwork for TCGTD. Gundam belongs to its respective rights holders.",
+      "permittedUse": "TCG Tactical Database product surfaces, metadata and community communications",
+      "usageNotes": "Do not reuse as a third-party Trading Card Game publisher mark.",
+      "reviewStatus": "approved"
+    },
+    {
       "path": "/assets/backgrounds/kshatriya-space-extension.png",
       "kind": "background_art",
       "game": "platform",
@@ -215,6 +290,21 @@
       "reviewStatus": "approved"
     },
     {
+      "path": "/assets/backgrounds/unicorn-instrument-bench.webp",
+      "kind": "project_interface_asset",
+      "game": "platform",
+      "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+      "sourceUrl": "",
+      "rightsHolder": "TCG Tactical Database project",
+      "copyrightOwner": "Generated composition for TCGTD; Gundam characters and designs belong to their respective rights holders",
+      "licenseStatus": "project_asset",
+      "license": "Reserved for TCG Tactical Database product and brand use",
+      "attribution": "AI-generated Unicorn theme artwork for TCGTD. Gundam belongs to its respective rights holders.",
+      "permittedUse": "TCG Tactical Database product surfaces, metadata and community communications",
+      "usageNotes": "Do not reuse as a third-party Trading Card Game publisher mark.",
+      "reviewStatus": "approved"
+    },
+    {
       "path": "/assets/backgrounds/unicorn-space-extension.png",
       "kind": "background_art",
       "game": "platform",
@@ -231,6 +321,21 @@
     },
     {
       "path": "/assets/backgrounds/wing-zero-dawn-cockpit.webp",
+      "kind": "project_interface_asset",
+      "game": "platform",
+      "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+      "sourceUrl": "",
+      "rightsHolder": "TCG Tactical Database project",
+      "copyrightOwner": "Generated composition for TCGTD; Gundam characters and designs belong to their respective rights holders",
+      "licenseStatus": "project_asset",
+      "license": "Reserved for TCG Tactical Database product and brand use",
+      "attribution": "AI-generated Wing Zero theme artwork for TCGTD. Gundam belongs to its respective rights holders.",
+      "permittedUse": "TCG Tactical Database product surfaces, metadata and community communications",
+      "usageNotes": "Do not reuse as a third-party Trading Card Game publisher mark.",
+      "reviewStatus": "approved"
+    },
+    {
+      "path": "/assets/backgrounds/wing-zero-instrument-bench.webp",
       "kind": "project_interface_asset",
       "game": "platform",
       "source": "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",

@@ -109,7 +109,7 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
             <button type="button" onClick={() => setView(user ? "profile" : "login")}>{user ? (pt ? "ABRIR PERFIL" : "OPEN PROFILE") : (pt ? "IDENTIFICAR PILOTO" : "IDENTIFY PILOT")}<span aria-hidden="true">›</span></button>
           </aside>
         </div>
-        <div className="cockpit-bench" data-motion-paused={motionPaused} aria-label={pt ? "Console de instrumentos" : "Instrument console"}>
+        <div className="cockpit-bench" style={{ "--bench-hull-image": `url("${theme.cockpitBenchImage || "/assets/backgrounds/instrument-bench.webp"}")` }} data-motion-paused={motionPaused} aria-label={pt ? "Console de instrumentos" : "Instrument console"}>
           <div className="cockpit-bench__hull" aria-hidden="true" />
           <div className="bench-selector" aria-label={pt ? "Selecionar instrumento" : "Select instrument"}>
             {[["radar", pt ? "MAPA" : "MAP"], ["feed", pt ? "TRANSMISSÕES" : "TRANSMISSIONS"], ["signals", pt ? "SINAIS" : "SIGNALS"]].map(([id, label]) => (

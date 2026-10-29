@@ -1,6 +1,7 @@
 export const THEME_CONFIG = {
   "wing-zero": {
     id: "wing-zero",
+    cockpitBenchImage: "/assets/backgrounds/wing-zero-instrument-bench.webp",
     label: "Wing Zero",
     mode: "Zero System / Analysis Mode",
     headerSystem: "Zero System Active",
@@ -30,6 +31,7 @@ export const THEME_CONFIG = {
   },
   epyon: {
     id: "epyon",
+    cockpitBenchImage: "/assets/backgrounds/epyon-instrument-bench.webp",
     label: "Epyon",
     mode: "Epyon / Combat Mode",
     headerSystem: "Combat Prediction Active",
@@ -59,6 +61,7 @@ export const THEME_CONFIG = {
   },
   unicorn: {
     id: "unicorn",
+    cockpitBenchImage: "/assets/backgrounds/unicorn-instrument-bench.webp",
     label: "Unicorn",
     mode: "Unicorn / Psycho-Frame Mode",
     headerSystem: "Psycho-Frame Active",
@@ -88,6 +91,7 @@ export const THEME_CONFIG = {
   },
   barbatos: {
     id: "barbatos",
+    cockpitBenchImage: "/assets/backgrounds/barbatos-instrument-bench.webp",
     label: "Barbatos",
     mode: "Barbatos / Alaya-Vijnana Mode",
     headerSystem: "Alaya-Vijnana Active",
@@ -117,6 +121,7 @@ export const THEME_CONFIG = {
   },
   kshatriya: {
     id: "kshatriya",
+    cockpitBenchImage: "/assets/backgrounds/kshatriya-instrument-bench.webp",
     label: "Kshatriya",
     mode: "Kshatriya / Funnel Control",
     headerSystem: "Funnel Control Active",
@@ -146,6 +151,7 @@ export const THEME_CONFIG = {
   },
   gquuuuuux: {
     id: "gquuuuuux",
+    cockpitBenchImage: "/assets/backgrounds/gquuuuuux-instrument-bench.webp",
     label: "GQuuuuuuX",
     mode: "GQuuuuuuX / Prototype Mode",
     headerSystem: "Prototype System Active",
@@ -175,6 +181,7 @@ export const THEME_CONFIG = {
   },
   aile: {
     id: "aile",
+    cockpitBenchImage: "/assets/backgrounds/aile-instrument-bench.webp",
     label: "Aile Strike",
     mode: "Aile Strike / Seed Mode",
     headerSystem: "Seed / Omni Link Active",
