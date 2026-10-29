@@ -118,7 +118,7 @@ async function buildRightsManifest(source) {
         : ["assets/backgrounds/kshatriya-colony-cockpit.webp", "assets/gundams/kshatriya-blueprint.webp"].includes(assetPath) ? "Kshatriya"
         : ["assets/backgrounds/gquuuuuux-izuma-cockpit.webp", "assets/gundams/gquuuuuux-blueprint.webp"].includes(assetPath) ? "GQuuuuuuX"
         : ["assets/backgrounds/aile-archangel-cockpit.webp", "assets/gundams/aile-blueprint.webp"].includes(assetPath) ? "Aile Strike" : "";
-      const isGeneratedCockpit = assetPath === "assets/backgrounds/orbital-cockpit.webp" || Boolean(generatedUnit);
+      const isGeneratedCockpit = ["assets/backgrounds/orbital-cockpit.webp", "assets/backgrounds/instrument-bench.webp"].includes(assetPath) || Boolean(generatedUnit);
       const sourceUrl = isCardImage ? (cardOrigins.get(assetPath) || "") : "";
       if (isProjectBrand || isGeneratedCockpit) {
         return {

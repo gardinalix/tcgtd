@@ -1,178 +1,134 @@
-/* Lower home console: physical chassis around live, accessible HTML instruments.
-   Scoped to launch-home so card/deck tools and the upper cockpit keep their layout. */
+/* One illustrated instrument bench, directly attached to the existing cockpit.
+   All controls are HTML. The artwork supplies only the physical housing. */
 body[data-theme] #root .hud-app .launch-home {
-  --console-light: var(--hud-primary, #8acbff);
-  --console-command: var(--hud-secondary, #69caff);
-  --console-metal: #63778d;
-  --console-edge: #b2c9df;
-  --console-hull: #151e2b;
-  --console-glass: #06111c;
-  --console-line: color-mix(in srgb, var(--console-light) 32%, #13202b);
-  --console-muted: color-mix(in srgb, var(--console-light) 24%, #b0bdc7);
-  --console-cut: polygon(18px 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 18px 100%, 0 calc(100% - 18px), 0 18px);
+  min-height: 0;
+  --bench-light: var(--hud-primary);
+  --bench-secondary: var(--hud-secondary);
+  --bench-line: color-mix(in srgb, var(--bench-light) 35%, transparent);
+  --bench-muted: color-mix(in srgb, var(--bench-light) 25%, #b7c1cb);
+  --bench-tint: transparent;
 }
-body[data-theme="epyon"] #root .hud-app .launch-home { --console-metal: #452b38; --console-edge: #c17481; --console-hull: #1e1018; --console-glass: #10070e; }
-body[data-theme="unicorn"] #root .hud-app .launch-home { --console-metal: #8b9aa9; --console-edge: #e0e7ef; --console-hull: #252e3b; --console-glass: #070f1b; }
-body[data-theme="barbatos"] #root .hud-app .launch-home { --console-metal: #665342; --console-edge: #bcaa8e; --console-hull: #29231e; --console-glass: #100e0a; }
-body[data-theme="kshatriya"] #root .hud-app .launch-home { --console-metal: #3f5b53; --console-edge: #8aa99a; --console-hull: #14241f; --console-glass: #05130e; }
-body[data-theme="gquuuuuux"] #root .hud-app .launch-home { --console-metal: #484a63; --console-edge: #b2bfd9; --console-hull: #191a2c; --console-glass: #070e19; }
-body[data-theme="aile"] #root .hud-app .launch-home { --console-metal: #8995a6; --console-edge: #d5e3ef; --console-hull: #232d3d; --console-glass: #050f1b; }
-body[data-theme] #root .hud-app .launch-home .console-deck-label {
-  display: flex; align-items: center; justify-content: space-between; gap: 20px;
-  position: relative; margin: 26px 4px 0; padding: 15px 18px 13px;
-  color: var(--console-muted); font: 10px/1.5 monospace; letter-spacing: .12em;
-  border-top: 3px solid var(--console-metal); background: linear-gradient(180deg, var(--console-hull), #05090e);
-  box-shadow: 0 -2px #020407, inset 0 1px var(--console-edge);
-  clip-path: polygon(0 0, 29% 0, 30% 5px, 70% 5px, 71% 0, 100% 0, 100% 100%, 0 100%);
+body[data-theme="barbatos"] #root .hud-app .launch-home { --bench-tint: #b9813820; }
+body[data-theme="kshatriya"] #root .hud-app .launch-home { --bench-tint: #2c997518; }
+body[data-theme="epyon"] #root .hud-app .launch-home { --bench-tint: #ac23321c; }
+body[data-theme="gquuuuuux"] #root .hud-app .launch-home { --bench-tint: #8f377315; }
+body[data-theme] #root .hud-app .launch-home .cockpit-bench {
+  --bench-height: clamp(460px, 33vw, 620px);
+  position: relative; isolation: isolate; margin: 12px -34px -30px;
+  padding-top: calc(var(--bench-height) * .16); color: #e4edf5;
+  min-height: var(--bench-height);
 }
-body[data-theme] #root .hud-app .launch-home .console-deck-label > span:first-child { color: var(--console-light); font-weight: 700; }
-body[data-theme] #root .hud-app .launch-home .orbital-instruments { gap: 14px; margin-top: 0; grid-template-columns: 1fr 1.18fr 1fr; align-items: stretch; }
-/* Thick chamfered housing, recessed screen and separate light strips. */
-body[data-theme] #root .hud-app .launch-home :is(.orbital-instruments > .orbital-panel, .bridge-mission) {
-  position: relative; padding: 15px 12px 19px; border: 0; border-radius: 0; clip-path: var(--console-cut);
-  background: linear-gradient(135deg, var(--console-edge) 0, var(--console-metal) 2%, #10151e 3%, var(--console-hull) 38%, var(--console-metal) 49%, #0a0d12 50%, var(--console-hull) 94%, var(--console-edge) 99%);
-  box-shadow: inset 0 2px var(--console-edge), inset 0 -3px #030508; min-width: 0;
+body[data-theme] #root .hud-app .launch-home .cockpit-bench__hull {
+  position: absolute; z-index: -2; inset: 0 0 auto; height: var(--bench-height); pointer-events: none;
+  background: linear-gradient(var(--bench-tint), var(--bench-tint)), url('/assets/backgrounds/instrument-bench.webp') center top / 100% 100% no-repeat;
+  mask-image: linear-gradient(transparent, #000 5%, #000 88%, transparent);
 }
-body[data-theme] #root .hud-app .launch-home .orbital-instruments > .orbital-panel::before {
-  inset: 5px 40px auto; height: 3px; background: linear-gradient(90deg, var(--console-command) 0 12%, #04070a 12% 39%, var(--console-light) 39% 66%, #04070a 66% 89%, var(--console-command) 89%);
-  box-shadow: 0 0 9px color-mix(in srgb, var(--console-light) 60%, transparent);
+body[data-theme] #root .hud-app .launch-home .bench-instruments {
+  display: grid; grid-template-columns: 1fr 1.12fr 1fr; gap: 6%;
+  height: calc(var(--bench-height) * .44); margin: 0 5.4%;
 }
-body[data-theme] #root .hud-app .launch-home .orbital-instruments > .orbital-panel::after {
-  inset: auto 26px 6px; height: 5px; opacity: 1; box-shadow: none;
-  background: repeating-linear-gradient(90deg, #020408 0 4px, #39434d 4px 5px, transparent 5px 9px) left / 52px 5px no-repeat, linear-gradient(90deg, var(--console-command), var(--console-light)) right / 48px 3px no-repeat;
+body[data-theme] #root .hud-app .launch-home .bench-screen {
+  display: flex; flex-direction: column; position: relative; min-width: 0; padding: 8px 10px;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--bench-light) 6%, #050b11ed), #03080de8);
+  box-shadow: inset 0 1px var(--bench-line), inset 0 -1px var(--bench-line), 0 0 15px #0009;
 }
-body[data-theme] #root .hud-app .launch-home .console-screen {
-  display: flex; flex-direction: column; height: 100%; min-width: 0; padding: 10px 12px;
-  border: 1px solid var(--console-line); clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%, 0 8px);
-  background: linear-gradient(115deg, color-mix(in srgb, var(--console-light) 7%, transparent), transparent 45%), repeating-linear-gradient(0deg, #0000 0 3px, #0002 3px 4px), var(--console-glass);
-  box-shadow: inset 0 0 24px #0008, inset 0 1px color-mix(in srgb, var(--console-light) 60%, transparent);
+@media (min-width: 1200px) {
+  body[data-theme] #root .hud-app .launch-home .bench-radar { transform: perspective(1200px) rotateY(4deg) rotateZ(1deg); transform-origin: right center; }
+  body[data-theme] #root .hud-app .launch-home .bench-signals { transform: perspective(1200px) rotateY(-4deg) rotateZ(-1deg); transform-origin: left center; }
 }
-body[data-theme] #root .hud-app .launch-home .orbital-instruments .orbital-panel-title { min-height: 38px; padding: 3px 0 11px; color: #eff6fc; border-color: var(--console-line); font-size: 15px; letter-spacing: .06em; }
-body[data-theme] #root .hud-app .launch-home .orbital-instruments .orbital-panel-title h2 { color: inherit; text-shadow: none; }
-body[data-theme] #root .hud-app .launch-home .orbital-instruments .orbital-panel-title > span { color: var(--console-light); font-size: 9px; }
-body[data-theme] #root .hud-app .launch-home .orbital-instruments .orbital-panel-title > button { min-height: 34px; padding: 5px 10px; font-size: 11px; color: var(--console-light); background: #0005; border: 1px solid var(--console-line); }
-body[data-theme] #root .hud-app .launch-home .orbital-radar__body { flex: 1; min-height: 216px; grid-template-columns: minmax(0, 1fr) 115px; gap: 10px; }
-body[data-theme] #root .hud-app .launch-home .orbital-radar__body > svg { max-height: 218px; stroke: var(--console-light); filter: drop-shadow(0 0 3px color-mix(in srgb, var(--console-light) 25%, transparent)); }
-body[data-theme] #root .hud-app .launch-home .orbital-radar__body .console-radar__ticks path { stroke-dasharray: none; opacity: .85; }
-body[data-theme] #root .hud-app .launch-home .console-radar__outer { stroke-width: 2px; stroke-dasharray: 120 12 40 12; }
-body[data-theme] #root .hud-app .launch-home .orbital-radar__body .console-radar__sweep { fill: color-mix(in srgb, var(--console-light) 12%, transparent); stroke: none; }
-body[data-theme] #root .hud-app .launch-home .orbital-radar__body strong { font-size: 36px; color: #edf5fc; }
-body[data-theme] #root .hud-app .launch-home .orbital-radar__body :is(small, div > span) { color: var(--console-muted); }
-body[data-theme] #root .hud-app .launch-home .orbital-radar__body div > span { font-size: 9px; }
-body[data-theme] #root .hud-app .launch-home .orbital-radar__body button { min-height: 42px; padding: 8px; color: var(--console-light); border-color: var(--console-line); background: linear-gradient(color-mix(in srgb, var(--console-light) 16%, #081018), #05090d); }
-body[data-theme] #root .hud-app .launch-home :is(.orbital-feed__entry, .orbital-signals__entry) { flex: 1; min-height: 72px; padding: 10px 3px; gap: 12px; color: var(--console-light); border-color: var(--console-line); }
-body[data-theme] #root .hud-app .launch-home .orbital-feed__entry { grid-template-columns: 38px minmax(0, 1fr) 10px; }
-body[data-theme] #root .hud-app .launch-home .console-ranking { display: grid; align-content: center; justify-items: center; align-self: stretch; background: color-mix(in srgb, var(--console-light) 7%, #03070a); border: 1px solid var(--console-line); border-left: 2px solid var(--console-command); color: var(--console-light); font-size: 24px; }
-body[data-theme] #root .hud-app .launch-home .console-ranking small { margin: 0 0 4px; font: 8px/1 monospace; color: var(--console-muted); }
-body[data-theme] #root .hud-app .launch-home :is(.orbital-feed__entry, .orbital-signals__entry) strong { color: #edf5fc; font-size: 16px; }
-body[data-theme] #root .hud-app .launch-home :is(.orbital-feed__entry, .orbital-signals__entry) small { color: var(--console-muted); }
-body[data-theme] #root .hud-app .launch-home .orbital-feed__entry em { color: var(--console-muted); font-size: 12px; }
-body[data-theme] #root .hud-app .launch-home .orbital-signals { display: block; grid-column: auto; }
-body[data-theme] #root .hud-app .launch-home .orbital-signals__entry { grid-template-columns: 39px minmax(0, 1fr) 10px; }
-body[data-theme] #root .hud-app .launch-home .orbital-signals__entry img { width: 36px; height: 49px; object-fit: contain; border-color: var(--console-line); }
-body[data-theme] #root .hud-app .launch-home :is(.orbital-feed__entry, .orbital-signals__entry):hover { background: color-mix(in srgb, var(--console-light) 12%, transparent); }
-body[data-theme] #root .hud-app .launch-home .console-readout { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding: 12px 0 2px; color: var(--console-muted); font: 9px/1.5 monospace; letter-spacing: .035em; }
-body[data-theme] #root .hud-app .launch-home .console-readout strong { color: var(--console-light); font: inherit; }
-body[data-theme] #root .hud-app .launch-home .console-readout i { display: inline-block; width: 5px; height: 5px; margin-right: 7px; background: var(--console-command); box-shadow: 0 0 6px var(--console-command); }
-body[data-theme] #root .hud-app .launch-home .console-empty { flex: 1; padding: 25px 0; color: var(--console-muted); }
-/* Mission switch bank and unit schematic share one chassis. */
-body[data-theme] #root .hud-app .launch-home .launch-section { padding: 22px 10px !important; border-top: 0; }
-body[data-theme] #root .hud-app .launch-home .bridge-dock-heading { margin-bottom: 12px; padding-inline: 6px; }
-body[data-theme] #root .hud-app .launch-home .bridge-dock-heading h2 { color: var(--console-light); font-size: 15px !important; }
-body[data-theme] #root .hud-app .launch-home .bridge-dock-heading > span { color: var(--console-muted); }
-body[data-theme] #root .hud-app .launch-home .bridge-mission { display: grid; grid-template-columns: 236px minmax(0, 1fr); gap: 10px; padding: 15px; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 2px; border: 0; background: #030609; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs button { position: relative; display: grid; grid-template-columns: 23px 25px minmax(0, 1fr); min-height: 52px; padding: 10px 12px; gap: 10px; border: 1px solid var(--console-metal); border-bottom: 3px solid #020407; background: linear-gradient(var(--console-hull), #080d14); box-shadow: inset 0 1px #ffffff26, 0 2px 3px #000; color: var(--console-muted); }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs button span { color: var(--console-muted); font-size: 10px; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs button svg { width: 23px; height: 23px; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs button strong { font-size: 13px; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs button.is-active { color: #f7fcff; border-color: var(--console-light); background: linear-gradient(110deg, color-mix(in srgb, var(--console-light) 23%, #04090f), #071019); box-shadow: inset 3px 0 var(--console-light), inset 0 0 16px color-mix(in srgb, var(--console-light) 12%, transparent); }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__stage { display: grid; grid-template-columns: 155px minmax(0, 1fr) minmax(120px, 160px); grid-template-rows: 1fr auto; gap: 18px 25px; padding: 22px; border: 1px solid var(--console-line); background: radial-gradient(ellipse at 10% 50%, color-mix(in srgb, var(--console-light) 10%, transparent), transparent 65%), var(--console-glass); }
-body[data-theme] #root .hud-app .launch-home .console-mission-display { position: relative; display: grid; grid-row: 1 / 3; align-self: stretch; min-height: 190px; border: 1px solid var(--console-line); background: repeating-linear-gradient(0deg, transparent 0 24px, #a8d6ff0d 24px 25px), repeating-linear-gradient(90deg, transparent 0 24px, #a8d6ff0d 24px 25px), #03090f; }
-body[data-theme] #root .hud-app .launch-home .console-mission-display img { width: 100%; height: 200px; object-fit: contain; padding: 6px 3px 22px; mix-blend-mode: screen; }
-body[data-theme] #root .hud-app .launch-home .console-mission-display span { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font: 10px/1 monospace; color: var(--console-light); }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__copy { align-self: center; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__copy > small { color: var(--console-light); font-size: 10px; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__copy h3 { max-width: 28ch; font-size: clamp(23px, 2.1vw, 32px); color: #edf5fc; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__copy p { max-width: 65ch; font-size: 15px; color: var(--console-muted); }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__signal { grid-column: 3; grid-row: 1 / 3; align-self: stretch; align-content: center; padding: 16px; border: 1px solid var(--console-line); border-top: 3px solid var(--console-command); background: #0004; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__signal small { color: var(--console-muted); font-size: 11px; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__signal strong { color: var(--console-light); font-size: 36px; }
-body[data-theme] #root .hud-app .launch-home .bridge-mission__stage > button { grid-column: 2; justify-self: start; min-height: 44px; font-size: 12px; }
-/* Three physical shortcut keys; each still leads to a real tool.
-   Important declarations replace the legacy tactical-system flat-strip rules. */
-body[data-theme] #root .hud-app .launch-home .launch-section-heading { grid-template-columns: 38px minmax(0, 1fr) minmax(180px, .7fr); margin-bottom: 16px; }
-body[data-theme] #root .hud-app .launch-home .launch-section-heading > span { color: var(--console-light); border: 1px solid var(--console-line); padding: 7px; font-size: 18px; }
-body[data-theme] #root .hud-app .launch-home .launch-section-heading small { color: var(--console-light); }
-body[data-theme] #root .hud-app .launch-home .launch-section-heading h2 { font-size: 25px; }
-body[data-theme] #root .hud-app .launch-home .launch-section-heading > p { font-size: 13px; color: var(--console-muted); }
-body[data-theme] #root .hud-app .launch-home .launch-paths { gap: 16px !important; border: 0; }
-body[data-theme] #root .hud-app .launch-home .launch-paths > button { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr); grid-template-rows: auto auto auto; align-content: center; column-gap: 16px; row-gap: 8px; padding: 24px !important; min-height: 156px !important; border: 1px solid var(--console-metal) !important; border-top: 3px solid var(--console-edge) !important; border-bottom: 7px solid #020508 !important; background: linear-gradient(125deg, var(--console-hull), var(--console-glass) 65%) !important; box-shadow: inset 0 0 0 4px #05090e, inset 0 0 0 5px var(--console-line), 0 4px 0 var(--console-hull); clip-path: var(--console-cut); }
-body[data-theme] #root .hud-app .launch-home .launch-paths > button::after { content: '›'; display: block; position: absolute; inset: 15px 17px auto auto; width: auto; height: auto; background: none; color: var(--console-light); font: 26px/1 monospace; }
-body[data-theme] #root .hud-app .launch-home .launch-paths > button > svg { grid-row: 1 / 4; align-self: center; width: 40px; height: 40px; color: var(--console-light); filter: drop-shadow(0 0 8px color-mix(in srgb, var(--console-light) 30%, transparent)); }
-body[data-theme] #root .hud-app .launch-home .launch-paths > button small { padding-right: 12px; font: 10px/1.4 monospace; color: var(--console-light); letter-spacing: .04em; }
-body[data-theme] #root .hud-app .launch-home .launch-paths > button strong { margin: 0; align-self: auto; font-size: 21px; line-height: 1.2; }
-body[data-theme] #root .hud-app .launch-home .launch-paths > button span { margin: 0; font-size: 14px; color: var(--console-muted); }
-body[data-theme] #root .hud-app .launch-home .launch-paths > button:hover { border-color: var(--console-light) !important; background: linear-gradient(125deg, color-mix(in srgb, var(--console-light) 15%, var(--console-hull)), var(--console-glass)) !important; transform: none; }
-body[data-theme] #root .hud-app .launch-home .launch-community-band { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 22px; width: auto; margin: 20px 10px 8px; padding: 24px 28px; border: 1px solid var(--console-metal) !important; border-block-width: 5px !important; background: linear-gradient(110deg, var(--console-hull), var(--console-glass)) !important; box-shadow: inset 0 1px var(--console-edge); clip-path: var(--console-cut); }
-body[data-theme] #root .hud-app .launch-home .launch-community-band > svg { width: 40px; height: 40px; color: var(--console-light); }
-body[data-theme] #root .hud-app .launch-home .launch-community-band small { color: var(--console-light); font: 10px/1.4 monospace; }
-body[data-theme] #root .hud-app .launch-home .launch-community-band h2 { font-size: 24px; }
-body[data-theme] #root .hud-app .launch-home .launch-community-band p { color: var(--console-muted); font-size: 14px; }
-body[data-theme] #root .hud-app .launch-home .launch-community-band > button { min-height: 44px; border-color: var(--console-line); color: var(--console-light); background: #0005; }
-body[data-theme] #root .hud-app .launch-home :is(.orbital-instruments, .bridge-mission, .launch-paths, .launch-community-band) button:focus-visible { outline: 2px solid #fff; outline-offset: -4px; box-shadow: inset 0 0 0 5px #030609; }
+body[data-theme] #root .hud-app .launch-home .bench-screen::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, #0000 0 3px, #0002 3px 4px);
+}
+body[data-theme] #root .hud-app .launch-home .bench-screen > header {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 30px;
+  padding-bottom: 7px; border-bottom: 1px solid var(--bench-line);
+}
+body[data-theme] #root .hud-app .launch-home .bench-screen h2 { margin: 0; color: #e8f4ff; font: 600 14px/1.2 'Rajdhani', sans-serif; letter-spacing: .05em; }
+body[data-theme] #root .hud-app .launch-home .bench-screen header > span { color: var(--bench-light); font: 9px/1.2 monospace; }
+body[data-theme] #root .hud-app .launch-home .cockpit-bench button { border-radius: 0; clip-path: none; text-shadow: none; transform: none; }
+body[data-theme] #root .hud-app .launch-home .cockpit-bench button::before,
+body[data-theme] #root .hud-app .launch-home .cockpit-bench button::after { display: none; }
+body[data-theme] #root .hud-app .launch-home .bench-screen header > button { padding: 4px; min-height: 28px; border: 0; color: var(--bench-light); background: transparent; font: 10px/1.3 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home .bench-radar__display { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 65px; gap: 6px; align-items: center; }
+body[data-theme] #root .hud-app .launch-home .bench-radar__display > svg { width: 100%; height: 100%; max-height: 198px; stroke: var(--bench-light); stroke-width: .7; filter: drop-shadow(0 0 3px color-mix(in srgb, var(--bench-light) 20%, transparent)); }
+body[data-theme] #root .hud-app .launch-home .bench-radar__grid { opacity: .6; }
+body[data-theme] #root .hud-app .launch-home .bench-radar__sector { fill: color-mix(in srgb, var(--bench-light) 12%, transparent); stroke: none; }
+body[data-theme] #root .hud-app .launch-home .bench-radar__contact { fill: var(--bench-secondary); stroke: #fff; }
+body[data-theme] #root .hud-app .launch-home .bench-radar__links { stroke: var(--bench-secondary); }
+body[data-theme] #root .hud-app .launch-home .bench-radar__display > div { display: grid; gap: 7px; }
+body[data-theme] #root .hud-app .launch-home .bench-radar__display strong { font: 600 27px/1 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home .bench-radar__display :is(small, span) { color: var(--bench-muted); font: 10px/1.3 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home .bench-inline-action { display: flex; justify-content: space-between; align-items: center; padding: 6px; min-height: 30px; border: 1px solid var(--bench-line); color: var(--bench-light); background: color-mix(in srgb, var(--bench-light) 8%, transparent); font: 600 11px/1.2 'Rajdhani', sans-serif; letter-spacing: .04em; }
+body[data-theme] #root .hud-app .launch-home :is(.bench-feed__results, .bench-signals__results) { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+body[data-theme] #root .hud-app .launch-home :is(.bench-result, .bench-card) { display: grid; grid-template-columns: 24px minmax(0, 1fr) 8px; align-items: center; flex: 1; gap: 10px; width: 100%; min-height: 50px; padding: 5px 2px; border: 0; border-bottom: 1px solid var(--bench-line); color: var(--bench-light); background: transparent; text-align: left; box-shadow: none; }
+body[data-theme] #root .hud-app .launch-home :is(.bench-result, .bench-card) > span { min-width: 0; }
+body[data-theme] #root .hud-app .launch-home .bench-result__position { font: 600 25px/1 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home :is(.bench-result, .bench-card) strong { display: block; color: #e6f0fa; font: 600 14px/1.2 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home :is(.bench-result, .bench-card) small { display: block; margin-bottom: 3px; color: var(--bench-muted); font: 9px/1.3 monospace; }
+body[data-theme] #root .hud-app .launch-home .bench-result em { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-top: 3px; color: var(--bench-muted); font: 11px/1.3 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home .bench-card { grid-template-columns: 32px minmax(0, 1fr) 8px; }
+body[data-theme] #root .hud-app .launch-home .bench-card img { width: 30px; height: 40px; object-fit: contain; }
+body[data-theme] #root .hud-app .launch-home .bench-card small { margin: 4px 0 0; }
+body[data-theme] #root .hud-app .launch-home .bench-screen__readout { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px; padding-top: 8px; color: var(--bench-muted); font: 8px/1.3 monospace; }
+body[data-theme] #root .hud-app .launch-home .bench-screen__readout strong { color: var(--bench-light); font: inherit; }
+body[data-theme] #root .hud-app .launch-home .bench-screen p { color: var(--bench-muted); font-size: 14px; }
+body[data-theme] #root .hud-app .launch-home :is(.bench-result, .bench-card, .bench-inline-action):hover { background: color-mix(in srgb, var(--bench-light) 12%, transparent); }
+/* A single compact control rail replaces the repeated mission and onboarding cards. */
+body[data-theme] #root .hud-app .launch-home .bench-command-rail { display: grid; grid-template-columns: 36px minmax(0, 1fr) 130px; gap: 22px; align-items: center; margin: calc(var(--bench-height) * .15) 14% 0; min-height: 44px; }
+body[data-theme] #root .hud-app .launch-home .bench-command-rail > img { width: 36px; height: 32px; object-fit: contain; }
+body[data-theme] #root .hud-app .launch-home .bench-missions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
+body[data-theme] #root .hud-app .launch-home :is(.bench-missions button, .bench-community) { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px; color: #bacbd9; border: 1px solid #52606e; border-bottom: 3px solid #000; background: linear-gradient(#18222c, #05090d); box-shadow: inset 0 1px #ffffff21, 0 2px 5px #000c; font: 600 11px/1.2 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home .bench-command-rail svg { width: 19px; height: 19px; flex: 0 0 19px; }
+body[data-theme] #root .hud-app .launch-home .bench-missions button[aria-selected="true"] { border-color: var(--bench-light); color: #fff; background: linear-gradient(color-mix(in srgb, var(--bench-light) 20%, #070c11), #060c12); box-shadow: inset 0 -2px var(--bench-light), 0 0 9px color-mix(in srgb, var(--bench-light) 30%, transparent); }
+body[data-theme] #root .hud-app .launch-home .bench-mission-brief { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; padding: 20px 5.4% 24px; margin-top: calc(var(--bench-height) * .10); background: linear-gradient(#03070bc9, #03070b); border-top: 1px solid #24303a; }
+body[data-theme] #root .hud-app .launch-home .bench-mission-brief p { flex: 1 1 420px; margin: 0; color: var(--bench-muted); font: 500 14px/1.5 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home .bench-mission-brief > span { color: var(--bench-muted); font: 11px/1.5 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home .bench-mission-brief strong { margin-right: 8px; color: var(--bench-light); font-size: 20px; }
+body[data-theme] #root .hud-app .launch-home .bench-mission-brief > button { min-height: 44px; padding: 10px 16px; border: 1px solid var(--bench-line); color: var(--bench-light); background: #101923; box-shadow: none; font: 600 12px/1.3 'Rajdhani', sans-serif; }
+body[data-theme] #root .hud-app .launch-home .bench-selector { display: none; }
+body[data-theme] #root .hud-app .launch-home .cockpit-bench button:focus-visible { outline: 2px solid var(--bench-light); outline-offset: 2px; }
 @media (min-width: 1900px) {
-  body[data-theme] #root .hud-app .launch-home .orbital-radar__body { grid-template-columns: minmax(0, 1fr) minmax(115px, .6fr); }
-  body[data-theme] #root .hud-app .launch-home .console-screen { padding-inline: 20px; }
+  body[data-theme] #root .hud-app .launch-home .bench-screen { padding: 12px 18px; }
+  body[data-theme] #root .hud-app .launch-home .bench-screen h2 { font-size: 17px; }
+  body[data-theme] #root .hud-app .launch-home :is(.bench-result, .bench-card) strong { font-size: 17px; }
+  body[data-theme] #root .hud-app .launch-home .bench-card { grid-template-columns: 40px minmax(0, 1fr) 8px; }
+  body[data-theme] #root .hud-app .launch-home .bench-card img { width: 38px; height: 51px; }
 }
-@media (max-width: 1199px) {
-  body[data-theme] #root .hud-app .launch-home .orbital-instruments { grid-template-columns: 1fr 1fr; }
-  body[data-theme] #root .hud-app .launch-home .orbital-signals { grid-column: 1 / -1; }
-  body[data-theme] #root .hud-app .launch-home .orbital-signals .console-screen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 20px; }
-  body[data-theme] #root .hud-app .launch-home .orbital-signals :is(.orbital-panel-title, .console-readout, .console-empty) { grid-column: 1 / -1; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission { grid-template-columns: 190px minmax(0, 1fr); }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs button { grid-template-columns: 20px minmax(0, 1fr); }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs button svg { display: none; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__stage { grid-template-columns: 110px minmax(0, 1fr); gap: 18px; padding: 18px; }
-  body[data-theme] #root .hud-app .launch-home .console-mission-display { grid-row: 1 / 3; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__signal { grid-column: 2; grid-row: 2; display: flex; align-items: center; gap: 16px; padding: 10px; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__signal strong { font-size: 28px; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__stage > button { grid-column: 1 / -1; }
-  body[data-theme] #root .hud-app .launch-home .launch-paths > button { grid-template-columns: 1fr; padding: 22px !important; }
-  body[data-theme] #root .hud-app .launch-home .launch-paths > button > svg { grid-row: auto; width: 28px; height: 28px; margin-bottom: 8px; }
+@media (min-width: 821px) and (max-width: 1199px) {
+  body[data-theme] #root .hud-app .launch-home .cockpit-bench { --bench-height: 500px; margin-inline: -22px; }
+  body[data-theme] #root .hud-app .launch-home .bench-instruments { gap: 5.4%; margin-inline: 5%; }
+  body[data-theme] #root .hud-app .launch-home .bench-screen { padding-inline: 6px; }
+  body[data-theme] #root .hud-app .launch-home .bench-screen h2 { font-size: 12px; }
+  body[data-theme] #root .hud-app .launch-home .bench-radar__display { grid-template-columns: 1fr; position: relative; }
+  body[data-theme] #root .hud-app .launch-home .bench-radar__display > div { position: absolute; bottom: 8px; right: 0; padding: 5px; gap: 2px; background: #02080cbb; }
+  body[data-theme] #root .hud-app .launch-home .bench-radar__display strong { font-size: 22px; }
+  body[data-theme] #root .hud-app .launch-home :is(.bench-result, .bench-card) { gap: 6px; }
+  body[data-theme] #root .hud-app .launch-home .bench-command-rail { margin-inline: 8%; grid-template-columns: 26px minmax(0, 1fr) 100px; gap: 10px; }
+  body[data-theme] #root .hud-app .launch-home .bench-command-rail svg { display: none; }
 }
 @media (max-width: 820px) {
-  body[data-theme] #root .hud-app .launch-home .console-deck-label { flex-wrap: wrap; gap: 6px; font-size: 9px; padding: 14px 10px 10px; }
-  body[data-theme] #root .hud-app .launch-home .orbital-instruments { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  body[data-theme] #root .hud-app .launch-home .orbital-signals { grid-column: auto; }
-  body[data-theme] #root .hud-app .launch-home .orbital-signals .console-screen { display: flex; }
-  body[data-theme] #root .hud-app .launch-home .orbital-radar__body { grid-template-columns: minmax(0, 1fr) 100px; min-height: 185px; }
-  body[data-theme] #root .hud-app .launch-home .orbital-instruments .orbital-panel-title { font-size: 13px; }
-  body[data-theme] #root .hud-app .launch-home .orbital-instruments .orbital-panel-title > button { min-height: 44px; }
-  body[data-theme] #root .hud-app .launch-home .console-screen { padding: 10px; }
-  body[data-theme] #root .hud-app .launch-home .launch-section { padding: 18px 4px !important; }
-  body[data-theme] #root .hud-app .launch-home .bridge-dock-heading > span { font-size: 9px; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission { grid-template-columns: 1fr; gap: 12px; padding: 12px; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs { grid-template-columns: 1fr 1fr; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs button { padding: 10px 8px; gap: 7px; min-height: 60px; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__tabs button strong { font-size: 12px; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__stage { grid-template-columns: minmax(0, 1fr) 84px; gap: 18px 12px; padding: 16px; }
-  body[data-theme] #root .hud-app .launch-home .console-mission-display { grid-column: 2; grid-row: 1; min-height: 140px; align-self: start; }
-  body[data-theme] #root .hud-app .launch-home .console-mission-display img { height: 140px; }
-  body[data-theme] #root .hud-app .launch-home .console-mission-display span { font-size: 8px; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__copy { grid-column: 1; grid-row: 1; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__copy > small { font-size: 9px; overflow-wrap: anywhere; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__copy h3 { font-size: 24px; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__copy p { font-size: 14px; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__signal { grid-column: 1 / -1; grid-row: 2; justify-content: space-between; }
-  body[data-theme] #root .hud-app .launch-home .bridge-mission__stage > button { grid-column: 1 / -1; width: 100%; justify-content: center; }
-  body[data-theme] #root .hud-app .launch-home .launch-section-heading { grid-template-columns: 38px minmax(0, 1fr); gap: 12px; }
-  body[data-theme] #root .hud-app .launch-home .launch-section-heading > p { grid-column: 2; }
-  body[data-theme] #root .hud-app .launch-home .launch-section-heading h2 { font-size: 23px; }
-  body[data-theme] #root .hud-app .launch-home .launch-paths { grid-template-columns: 1fr; }
-  body[data-theme] #root .hud-app .launch-home .launch-paths > button { grid-template-columns: 36px minmax(0, 1fr); min-height: 142px !important; }
-  body[data-theme] #root .hud-app .launch-home .launch-paths > button > svg { grid-row: 1 / 4; margin: 0; width: 32px; height: 32px; }
-  body[data-theme] #root .hud-app .launch-home .launch-community-band { grid-template-columns: 30px minmax(0, 1fr); gap: 16px; margin: 18px 4px 12px; padding: 22px; }
-  body[data-theme] #root .hud-app .launch-home .launch-community-band > svg { width: 30px; height: 30px; }
-  body[data-theme] #root .hud-app .launch-home .launch-community-band > button { grid-column: 1 / -1; width: 100%; }
+  body[data-theme] #root .hud-app .launch-home .cockpit-bench { --bench-height: 580px; margin: 24px -22px -28px; padding-top: 48px; }
+  body[data-theme] #root .hud-app .launch-home .cockpit-bench__hull { background-size: auto, 300% 100%; background-position: center, center; mask-image: linear-gradient(transparent, #000 3%, #000 88%, transparent); }
+  body[data-theme] #root .hud-app .launch-home .bench-selector { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 0 9%; margin-bottom: 10px; }
+  body[data-theme] #root .hud-app .launch-home .bench-selector button { min-height: 40px; padding: 6px; border: 1px solid var(--bench-line); color: var(--bench-muted); background: #060d14; font: 600 11px/1.2 'Rajdhani', sans-serif; }
+  body[data-theme] #root .hud-app .launch-home .bench-selector button[aria-pressed="true"] { color: var(--bench-light); border-bottom: 2px solid var(--bench-light); }
+  body[data-theme] #root .hud-app .launch-home .bench-instruments { display: block; height: 248px; margin: 0 9%; }
+  body[data-theme] #root .hud-app .launch-home .bench-screen { height: 100%; padding: 10px 12px; }
+  body[data-theme] #root .hud-app .launch-home .bench-screen[data-selected="false"] { display: none; }
+  body[data-theme] #root .hud-app .launch-home .bench-screen header > button { min-height: 36px; padding-inline: 10px; }
+  body[data-theme] #root .hud-app .launch-home .bench-screen h2 { font-size: 14px; }
+  body[data-theme] #root .hud-app .launch-home .bench-radar__display { grid-template-columns: minmax(0, 1fr) 65px; }
+  body[data-theme] #root .hud-app .launch-home .bench-command-rail { display: grid; grid-template-columns: minmax(0, 1fr) 42px; margin: 70px 9% 0; gap: 8px; }
+  body[data-theme] #root .hud-app .launch-home .bench-command-rail > img { display: none; }
+  body[data-theme] #root .hud-app .launch-home .bench-missions { grid-template-columns: 1fr 1fr; gap: 6px; }
+  body[data-theme] #root .hud-app .launch-home .bench-missions button { font-size: 10px; min-height: 42px; padding: 7px; }
+  body[data-theme] #root .hud-app .launch-home .bench-missions svg { display: none; }
+  body[data-theme] #root .hud-app .launch-home .bench-community { height: 100%; min-height: 44px; }
+  body[data-theme] #root .hud-app .launch-home .bench-community span { display: none; }
+  body[data-theme] #root .hud-app .launch-home .bench-community svg { display: block; }
+  body[data-theme] #root .hud-app .launch-home .bench-mission-brief { margin-top: 44px; padding: 16px 9% 24px; gap: 12px; }
+  body[data-theme] #root .hud-app .launch-home .bench-mission-brief p { flex-basis: 100%; font-size: 13px; }
+  body[data-theme] #root .hud-app .launch-home .bench-mission-brief > span { flex: 1; }
+  body[data-theme] #root .hud-app .launch-home .bench-mission-brief > button { font-size: 11px; }
 }
