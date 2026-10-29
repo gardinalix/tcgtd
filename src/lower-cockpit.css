@@ -32,10 +32,6 @@ body[data-theme] #root .hud-app .launch-home .bench-screen {
   background: radial-gradient(ellipse at center, color-mix(in srgb, var(--bench-light) 6%, #050b11ed), #03080de8);
   box-shadow: inset 0 1px var(--bench-line), inset 0 -1px var(--bench-line), 0 0 15px #0009;
 }
-@media (min-width: 1200px) {
-  body[data-theme] #root .hud-app .launch-home .bench-radar { transform: perspective(1200px) rotateY(4deg) rotateZ(1deg); transform-origin: right center; }
-  body[data-theme] #root .hud-app .launch-home .bench-signals { transform: perspective(1200px) rotateY(-4deg) rotateZ(-1deg); transform-origin: left center; }
-}
 body[data-theme] #root .hud-app .launch-home .bench-screen::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background: repeating-linear-gradient(0deg, #0000 0 3px, #0002 3px 4px);
@@ -131,4 +127,47 @@ body[data-theme] #root .hud-app .launch-home .cockpit-bench button:focus-visible
   body[data-theme] #root .hud-app .launch-home .bench-mission-brief p { flex-basis: 100%; font-size: 13px; }
   body[data-theme] #root .hud-app .launch-home .bench-mission-brief > span { flex: 1; }
   body[data-theme] #root .hud-app .launch-home .bench-mission-brief > button { font-size: 11px; }
+}
+
+/* The inset glass follows the artwork's four corners rather than rotating a
+   floating rectangular panel. Mobile keeps its straight, single-screen layout. */
+@media (min-width: 821px) {
+  body[data-theme] #root .hud-app .launch-home .bench-instruments { position: relative; display: block; margin-inline: 0; }
+  body[data-theme] #root .hud-app .launch-home .bench-screen {
+    position: absolute; left: 0; top: 0; width: var(--pane-width); height: var(--pane-height);
+    transform: var(--pane-projection); transform-origin: 0 0;
+    padding-inline: 15px;
+    background: radial-gradient(ellipse at center, color-mix(in srgb, var(--bench-light) 6%, #050b11ed), #03080de0);
+    clip-path: polygon(4% 0, 96% 0, 100% 5%, 100% 94%, 96% 100%, 4% 100%, 0 94%, 0 5%);
+  }
+}
+/* Decorative motion never changes real numbers or moves interactive targets. */
+body[data-theme] #root .hud-app .launch-home .bench-radar__sector {
+  transform-box: view-box; transform-origin: 130px 105px;
+  animation: bench-sweep 12s linear infinite;
+}
+body[data-theme] #root .hud-app .launch-home .bench-radar__echo {
+  transform-box: fill-box; transform-origin: center;
+  animation: bench-echo 5s ease-out infinite;
+}
+body[data-theme] #root .hud-app .launch-home .bench-screen::before {
+  content: ''; position: absolute; z-index: 2; pointer-events: none;
+  inset: 0 12% auto; height: 1px; background: var(--bench-light);
+  box-shadow: 0 0 8px var(--bench-light); opacity: .35;
+  animation: bench-lamp 7s ease-in-out infinite;
+}
+body[data-theme] #root .hud-app .launch-home .bench-signals::before { animation-delay: -3s; }
+body[data-theme] #root .hud-app .launch-home .bench-feed::before { animation-delay: -5s; }
+body[data-theme] #root .hud-app .launch-home .bench-mission-brief > .bench-motion-toggle {
+  padding: 8px; border-color: transparent; background: transparent; color: var(--bench-muted); font-size: 10px;
+}
+body[data-theme] #root .hud-app .launch-home .cockpit-bench[data-motion-paused="true"] :is(.bench-radar__sector, .bench-radar__echo),
+body[data-theme] #root .hud-app .launch-home .cockpit-bench[data-motion-paused="true"] .bench-screen::before { animation-play-state: paused; }
+@keyframes bench-sweep { to { transform: rotate(360deg); } }
+@keyframes bench-echo { 0%, 65%, 100% { opacity: .35; transform: scale(1); } 35% { opacity: 0; transform: scale(1.65); } }
+@keyframes bench-lamp { 0%, 100% { opacity: .25; } 50% { opacity: .65; } }
+@media (prefers-reduced-motion: reduce) {
+  body[data-theme] #root .hud-app .launch-home :is(.bench-radar__sector, .bench-radar__echo),
+  body[data-theme] #root .hud-app .launch-home .bench-screen::before { animation: none; }
+  body[data-theme] #root .hud-app .launch-home .bench-motion-toggle { display: none; }
 }

@@ -1,9 +1,13 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { useBenchProjection } from "../hooks/useBenchProjection";
 import { useLocale } from "../i18n/LocaleProvider";
 import { buildMetaWindows, buildScopedMetaSignal } from "../domain/meta";
 
 export function HomePage({ data, theme, user, selectedMetaId = "current", setView }) {
   const { locale } = useLocale();
+  const instrumentsRef = useRef(null);
+  const [motionPaused, setMotionPaused] = useState(false);
+  useBenchProjection(instrumentsRef);
   const pt = locale === "pt-BR";
   const [activeMissionCode, setActiveMissionCode] = useState("01");
   const [activeInstrument, setActiveInstrument] = useState("feed");
@@ -105,14 +109,14 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
             <button type="button" onClick={() => setView(user ? "profile" : "login")}>{user ? (pt ? "ABRIR PERFIL" : "OPEN PROFILE") : (pt ? "IDENTIFICAR PILOTO" : "IDENTIFY PILOT")}<span aria-hidden="true">›</span></button>
           </aside>
         </div>
-        <div className="cockpit-bench" aria-label={pt ? "Console de instrumentos" : "Instrument console"}>
+        <div className="cockpit-bench" data-motion-paused={motionPaused} aria-label={pt ? "Console de instrumentos" : "Instrument console"}>
           <div className="cockpit-bench__hull" aria-hidden="true" />
           <div className="bench-selector" aria-label={pt ? "Selecionar instrumento" : "Select instrument"}>
             {[["radar", pt ? "MAPA" : "MAP"], ["feed", pt ? "TRANSMISSÕES" : "TRANSMISSIONS"], ["signals", pt ? "SINAIS" : "SIGNALS"]].map(([id, label]) => (
               <button type="button" key={id} aria-pressed={activeInstrument === id} aria-controls={`bench-${id}`} onClick={() => setActiveInstrument(id)}>{label}</button>
             ))}
           </div>
-          <div className="bench-instruments">
+          <div className="bench-instruments" ref={instrumentsRef}>
             <section className="bench-screen bench-radar" id="bench-radar" data-selected={activeInstrument === "radar"} aria-labelledby="bench-radar-title">
               <header><h2 id="bench-radar-title">{pt ? "MAPA TÁTICO" : "TACTICAL MAP"}</h2><span>{overview.format}</span></header>
               <div className="bench-radar__display">
@@ -162,6 +166,7 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
           </div>
           <div className="bench-mission-brief" id="bench-mission-brief" role="tabpanel" aria-labelledby={`mission-tab-${activeMission.code}`}>
             <p>{activeMission.description}</p>
+            <button className="bench-motion-toggle" type="button" aria-pressed={motionPaused} onClick={() => setMotionPaused((paused) => !paused)}>{motionPaused ? (pt ? "RETOMAR ANIMAÇÕES" : "RESUME ANIMATIONS") : (pt ? "PAUSAR ANIMAÇÕES" : "PAUSE ANIMATIONS")}</button>
             <span><strong>{activeMission.metric}</strong> {activeMission.metricLabel}</span>
             <button type="button" onClick={() => setView(activeMission.action)}>{activeMission.cta}<span aria-hidden="true"> ›</span></button>
           </div>
@@ -182,7 +187,7 @@ function BenchRadar() {
       </g>
       <path className="bench-radar__sector" d="M130 105L185 28A95 95 0 0 1 224 105Z" />
       <path className="bench-radar__links" d="M70 76L130 105L198 130L146 169L70 76" />
-      {[[70, 76], [130, 105], [198, 130], [146, 169]].map(([cx, cy]) => <g key={cx}><circle className="bench-radar__contact" cx={cx} cy={cy} r="3" /><circle cx={cx} cy={cy} r="8" /></g>)}
+      {[[70, 76], [130, 105], [198, 130], [146, 169]].map(([cx, cy]) => <g key={cx}><circle className="bench-radar__contact" cx={cx} cy={cy} r="3" /><circle className="bench-radar__echo" style={{ animationDelay: `${cx / 70}s` }} cx={cx} cy={cy} r="8" /></g>)}
     </svg>
   );
 }
