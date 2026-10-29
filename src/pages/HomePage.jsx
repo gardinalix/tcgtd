@@ -1,11 +1,16 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { useBenchProjection } from "../hooks/useBenchProjection";
 import { useLocale } from "../i18n/LocaleProvider";
 import { buildMetaWindows, buildScopedMetaSignal } from "../domain/meta";
 
 export function HomePage({ data, theme, user, selectedMetaId = "current", setView }) {
   const { locale } = useLocale();
+  const instrumentsRef = useRef(null);
+  const [motionPaused, setMotionPaused] = useState(false);
+  useBenchProjection(instrumentsRef);
   const pt = locale === "pt-BR";
   const [activeMissionCode, setActiveMissionCode] = useState("01");
+  const [activeInstrument, setActiveInstrument] = useState("feed");
   const overview = useMemo(() => buildOverview(scopeHomeData(data, selectedMetaId)), [data, selectedMetaId]);
   const modules = [
     {
@@ -104,113 +109,86 @@ export function HomePage({ data, theme, user, selectedMetaId = "current", setVie
             <button type="button" onClick={() => setView(user ? "profile" : "login")}>{user ? (pt ? "ABRIR PERFIL" : "OPEN PROFILE") : (pt ? "IDENTIFICAR PILOTO" : "IDENTIFY PILOT")}<span aria-hidden="true">›</span></button>
           </aside>
         </div>
-        <div className="orbital-instruments">
-          <section className="orbital-radar orbital-panel" aria-labelledby="orbital-radar-title">
-            <div className="orbital-panel-title"><h2 id="orbital-radar-title">{pt ? "MAPA TÁTICO" : "TACTICAL MAP"}</h2><span>SYNERGY / GCG</span></div>
-            <div className="orbital-radar__body"><svg viewBox="0 0 300 220" fill="none" aria-hidden="true"><ellipse cx="150" cy="110" rx="126" ry="83" /><ellipse cx="150" cy="110" rx="100" ry="65" /><circle cx="150" cy="110" r="65" /><ellipse cx="150" cy="110" rx="30" ry="65" /><ellipse cx="150" cy="110" rx="65" ry="24" /><path d="M20 110H280 M150 12V208 M47 35L253 185 M48 183L252 37" /><path className="orbital-radar__orbit" d="M39 142Q160 4 264 94Q180 212 39 142Z" /><circle className="orbital-radar__node" cx="150" cy="110" r="5" /><circle className="orbital-radar__node" cx="82" cy="94" r="4" /><circle className="orbital-radar__node" cx="231" cy="115" r="4" /></svg><div><span>{pt ? "RELAÇÕES ENTRE CARTAS" : "CARD RELATIONSHIPS"}</span><strong>{formatNumber(overview.cards, locale)}</strong><small>{pt ? "cartas no arsenal" : "cards in the arsenal"}</small><button type="button" onClick={() => setView(overview.metaLeaders[0] ? "synergyMap" : "cards", overview.metaLeaders[0]?.cardNumber || "")}>{pt ? "ABRIR MAPA" : "OPEN MAP"} <span aria-hidden="true">›</span></button></div></div>
-          </section>
-          <section className="orbital-feed orbital-panel" aria-labelledby="orbital-feed-title">
-            <div className="orbital-panel-title"><h2 id="orbital-feed-title">{pt ? "TRANSMISSÕES DO CAMPO" : "FIELD TRANSMISSIONS"}</h2><button type="button" onClick={() => setView("events")}>{pt ? "TODAS" : "ALL"} ›</button></div>
-            {overview.latestDecks.slice(0, 3).map((deck, index) => <button className="orbital-feed__entry" type="button" key={`${deck.deckId}-${index}`} onClick={() => setView("deckView", deck.deckId)}><span>{deck.placingLabel || String(index + 1).padStart(2, "0")}</span><span><small>{formatDate(deck.eventDate, locale)} / {deck.formatName || overview.format}</small><strong>{deck.archetype || deck.eventName}</strong><em>{deck.eventName}</em></span><b aria-hidden="true">›</b></button>)}
-            {!overview.latestDecks.length && <p>{pt ? "Nenhum resultado neste recorte." : "No results in this scope."}</p>}
-          </section>
-          <section className="orbital-signals orbital-panel" aria-labelledby="orbital-signals-title">
-            <div className="orbital-panel-title"><h2 id="orbital-signals-title">{pt ? "SINAIS DO META" : "META SIGNALS"}</h2><span>{overview.format}</span></div>
-            {overview.metaLeaders.slice(0, 3).map((card) => <button className="orbital-signals__entry" key={card.cardNumber} type="button" onClick={() => setView("card", card.cardNumber)}><img src={assetUrl(card.imageUrl)} alt="" /><span><strong>{card.cardName}</strong><small>{card.cardNumber}</small></span><span aria-hidden="true">›</span></button>)}
-            <div className="orbital-signals__scope"><span>{formatNumber(overview.decklists, locale)} {pt ? "LISTAS" : "LISTS"}</span><span>{formatNumber(overview.events, locale)} {pt ? "EVENTOS" : "EVENTS"}</span></div>
-          </section>
-        </div>
-      </section>
-
-      <section className="launch-section launch-mission" aria-labelledby="mission-title">
-        <div className="bridge-dock-heading"><h2 id="mission-title">{pt ? "SELECIONAR OPERAÇÃO" : "SELECT OPERATION"}</h2><span>04 / MISSION SELECT</span></div>
-        <div className="bridge-mission">
-          <div className="bridge-mission__tabs" role="tablist" aria-label={pt ? "Selecionar missão" : "Select mission"}>
-            {modules.map((module, index) => (
-              <button
-                key={module.code}
-                type="button"
-                role="tab"
-                aria-selected={module.code === activeMission.code}
-                id={`mission-tab-${module.code}`}
-                aria-controls="launch-mission-stage"
-                tabIndex={module.code === activeMission.code ? 0 : -1}
-                className={module.code === activeMission.code ? "is-active" : ""}
-                onClick={() => setActiveMissionCode(module.code)}
-                onKeyDown={(event) => navigateMissionTabs(event, index)}
-              >
-                <span>{module.code}</span>
-                <strong>{module.label}</strong>
-              </button>
+        <div className="cockpit-bench" style={{ "--bench-hull-image": `url("${theme.cockpitBenchImage || "/assets/backgrounds/instrument-bench.webp"}")` }} data-motion-paused={motionPaused} aria-label={pt ? "Console de instrumentos" : "Instrument console"}>
+          <div className="cockpit-bench__hull" aria-hidden="true" />
+          <div className="bench-selector" aria-label={pt ? "Selecionar instrumento" : "Select instrument"}>
+            {[["radar", pt ? "MAPA" : "MAP"], ["feed", pt ? "TRANSMISSÕES" : "TRANSMISSIONS"], ["signals", pt ? "SINAIS" : "SIGNALS"]].map(([id, label]) => (
+              <button type="button" key={id} aria-pressed={activeInstrument === id} aria-controls={`bench-${id}`} onClick={() => setActiveInstrument(id)}>{label}</button>
             ))}
           </div>
-          <article
-            className={`bridge-mission__stage${activeMission.featured ? " is-primary" : ""}`}
-            id="launch-mission-stage"
-            role="tabpanel"
-            aria-labelledby={`mission-tab-${activeMission.code}`}
-            key={activeMission.code}
-          >
-
-            <div className="bridge-mission__copy">
-              <small>{activeMission.label} // MISSION PATH</small>
-              <h3>{activeMission.title}</h3>
-              <p>{activeMission.description}</p>
+          <div className="bench-instruments" ref={instrumentsRef}>
+            <section className="bench-screen bench-radar" id="bench-radar" data-selected={activeInstrument === "radar"} aria-labelledby="bench-radar-title">
+              <header><h2 id="bench-radar-title">{pt ? "MAPA TÁTICO" : "TACTICAL MAP"}</h2><span>{overview.format}</span></header>
+              <div className="bench-radar__display">
+                <BenchRadar />
+                <div><small>{pt ? "ARSENAL" : "ARSENAL"}</small><strong>{formatNumber(overview.cards, locale)}</strong><span>{pt ? "cartas" : "cards"}</span></div>
+              </div>
+              <button className="bench-inline-action" type="button" onClick={() => setView(overview.metaLeaders[0] ? "synergyMap" : "cards", overview.metaLeaders[0]?.cardNumber || "")}>{pt ? "EXPLORAR SINERGIAS" : "EXPLORE SYNERGIES"}<span aria-hidden="true">›</span></button>
+            </section>
+            <section className="bench-screen bench-feed" id="bench-feed" data-selected={activeInstrument === "feed"} aria-labelledby="bench-feed-title">
+              <header><h2 id="bench-feed-title">{pt ? "TRANSMISSÕES DO CAMPO" : "FIELD TRANSMISSIONS"}</h2><button type="button" onClick={() => setView("events")}>{pt ? "TODAS" : "ALL"} ›</button></header>
+              <div className="bench-feed__results">
+                {overview.latestDecks.slice(0, 3).map((deck, index) => (
+                  <button type="button" className="bench-result" key={`${deck.deckId}-${index}`} onClick={() => setView("deckView", deck.deckId)}>
+                    <span className="bench-result__position">{deck.placingLabel || "—"}</span>
+                    <span><small>{formatDate(deck.eventDate, locale)}</small><strong>{deck.archetype || deck.eventName}</strong><em>{deck.eventName}</em></span>
+                    <span aria-hidden="true">›</span>
+                  </button>
+                ))}
+                {!overview.latestDecks.length && <p>{pt ? "Nenhum resultado neste recorte." : "No results in this scope."}</p>}
+              </div>
+              <div className="bench-screen__readout"><span>{pt ? "RECORTE ATIVO" : "ACTIVE SCOPE"}</span><strong>{formatNumber(overview.decklists, locale)} {pt ? "LISTAS" : "LISTS"}</strong></div>
+            </section>
+            <section className="bench-screen bench-signals" id="bench-signals" data-selected={activeInstrument === "signals"} aria-labelledby="bench-signals-title">
+              <header><h2 id="bench-signals-title">{pt ? "SINAIS DO META" : "META SIGNALS"}</h2><span>{overview.format}</span></header>
+              <div className="bench-signals__results">
+                {overview.metaLeaders.slice(0, 3).map((card) => (
+                  <button className="bench-card" key={card.cardNumber} type="button" onClick={() => setView("card", card.cardNumber)}>
+                    <img src={assetUrl(card.imageUrl)} alt="" />
+                    <span><strong>{card.cardName}</strong><small>{card.cardNumber}</small></span><span aria-hidden="true">›</span>
+                  </button>
+                ))}
+                {!overview.metaLeaders.length && <p>{pt ? "Nenhum sinal neste recorte." : "No signals in this scope."}</p>}
+              </div>
+              <div className="bench-screen__readout"><span>{pt ? "RADAR COMPETITIVO" : "COMPETITIVE RADAR"}</span><strong>{formatNumber(overview.events, locale)} {pt ? "EVENTOS" : "EVENTS"}</strong></div>
+            </section>
+          </div>
+          <div className="bench-command-rail">
+            <img src={theme.factionLogo} alt="" />
+            <div className="bench-missions" role="tablist" aria-label={pt ? "Selecionar operação" : "Select operation"}>
+              {modules.map((module, index) => (
+                <button key={module.code} type="button" role="tab" aria-selected={module.code === activeMission.code} id={`mission-tab-${module.code}`} aria-controls="bench-mission-brief" tabIndex={module.code === activeMission.code ? 0 : -1} onClick={() => setActiveMissionCode(module.code)} onKeyDown={(event) => navigateMissionTabs(event, index)}>
+                  <CockpitIcon kind={module.action} /><span>{module.label}</span>
+                </button>
+              ))}
             </div>
-            <div className="bridge-mission__signal">
-              <small>{activeMission.metricLabel}</small>
-              <strong>{activeMission.metric}</strong>
-              <span><i /> {pt ? "CANAL PRONTO" : "CHANNEL READY"}</span>
-            </div>
-            <button className="launch-button launch-button--primary" type="button" onClick={() => setView(activeMission.action)}>
-              {activeMission.cta} →
-            </button>
-          </article>
+            <button className="bench-community" type="button" onClick={() => setView("community")} aria-label={pt ? "Acessar comunidade" : "Open community"}><CockpitIcon kind="community" /><span>{pt ? "COMUNIDADE" : "COMMUNITY"}</span></button>
+          </div>
+          <div className="bench-mission-brief" id="bench-mission-brief" role="tabpanel" aria-labelledby={`mission-tab-${activeMission.code}`}>
+            <p>{activeMission.description}</p>
+            <button className="bench-motion-toggle" type="button" aria-pressed={motionPaused} onClick={() => setMotionPaused((paused) => !paused)}>{motionPaused ? (pt ? "RETOMAR ANIMAÇÕES" : "RESUME ANIMATIONS") : (pt ? "PAUSAR ANIMAÇÕES" : "PAUSE ANIMATIONS")}</button>
+            <span><strong>{activeMission.metric}</strong> {activeMission.metricLabel}</span>
+            <button type="button" onClick={() => setView(activeMission.action)}>{activeMission.cta}<span aria-hidden="true"> ›</span></button>
+          </div>
         </div>
-      </section>
-
-      <section className="launch-section launch-onboarding" aria-labelledby="onboarding-title">
-        <SectionHeading
-          id="onboarding-title"
-          index="03"
-          eyebrow={pt ? "INICIAR OPERAÇÃO" : "START OPERATION"}
-          title={pt ? "Seu próximo passo depende da missão" : "Your next step depends on the mission"}
-          description={pt
-            ? "A consulta pública permanece livre. Conta e recursos assistidos entram somente quando agregam valor real."
-            : "Public research stays free. Accounts and assisted features enter only where they add real value."}
-        />
-        <div className="launch-paths">
-          <button type="button" onClick={() => setView("cards")}>
-            <small>01 // {pt ? "NOVO NO JOGO" : "NEW TO THE GAME"}</small>
-            <strong>{pt ? "Conhecer cartas e coleções" : "Discover cards and sets"}</strong>
-            <span>{pt ? "Comece pela base de cartas e use filtros táticos." : "Start with the card database and tactical filters."}</span>
-          </button>
-          <button type="button" onClick={() => setView("meta")}>
-            <small>02 // {pt ? "JOGADOR COMPETITIVO" : "COMPETITIVE PLAYER"}</small>
-            <strong>{pt ? "Ler o meta e os resultados" : "Read the meta and results"}</strong>
-            <span>{pt ? "Compare arquétipos, listas e desempenho recente." : "Compare archetypes, lists and recent performance."}</span>
-          </button>
-          <button type="button" onClick={() => setView("decks")}>
-            <small>03 // {pt ? "DECK EM EVOLUÇÃO" : "EVOLVING DECK"}</small>
-            <strong>{pt ? "Levar a lista para a Forja" : "Take the list to the Forge"}</strong>
-            <span>{pt ? "Valide, diagnostique e refine sem perder autoria." : "Validate, diagnose and refine without losing authorship."}</span>
-          </button>
-        </div>
-      </section>
-
-      <section className="launch-community-band" aria-label={pt ? "Comunidade" : "Community"}>
-        <div>
-          <small>COMMUNITY UPLINK // {pt ? "CANAL ABERTO" : "CHANNEL OPEN"}</small>
-          <h2>{pt ? "Um sistema construído com a comunidade." : "A system built with the community."}</h2>
-          <p>{pt
-            ? "Acompanhe eventos, jogadores, lojas e as próximas expansões do banco tático."
-            : "Follow events, players, stores and the next expansions of the tactical database."}</p>
-        </div>
-        <button className="launch-button launch-button--ghost" type="button" onClick={() => setView("community")}>
-          {pt ? "ACESSAR COMUNIDADE" : "OPEN COMMUNITY"}
-        </button>
       </section>
     </div>
+  );
+}
+
+function BenchRadar() {
+  return (
+    <svg viewBox="0 0 260 210" fill="none" aria-hidden="true">
+      <g className="bench-radar__grid">
+        {[30, 55, 80, 96].map((r) => <circle key={r} cx="130" cy="105" r={r} />)}
+        {Array.from({ length: 48 }, (_, i) => <path key={i} d={`M130 9V${i % 4 === 0 ? 19 : 13}`} transform={`rotate(${i * 7.5} 130 105)`} />)}
+        <path d="M25 105H235M130 0V210M54 29L206 181M54 181L206 29" />
+        <ellipse cx="130" cy="105" rx="36" ry="80" /><ellipse cx="130" cy="105" rx="80" ry="30" />
+      </g>
+      <path className="bench-radar__sector" d="M130 105L185 28A95 95 0 0 1 224 105Z" />
+      <path className="bench-radar__links" d="M70 76L130 105L198 130L146 169L70 76" />
+      {[[70, 76], [130, 105], [198, 130], [146, 169]].map(([cx, cy]) => <g key={cx}><circle className="bench-radar__contact" cx={cx} cy={cy} r="3" /><circle className="bench-radar__echo" style={{ animationDelay: `${cx / 70}s` }} cx={cx} cy={cy} r="8" /></g>)}
+    </svg>
   );
 }
 
@@ -225,16 +203,6 @@ function CockpitIcon({ kind }) {
     previews: "M3 21L12 3L21 21M7 15H17M5 10C1 7 1 4 4 1M19 10C23 7 23 4 20 1",
   };
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[kind] || paths.cards} /></svg>;
-}
-
-function SectionHeading({ id, index, eyebrow, title, description }) {
-  return (
-    <header className="launch-section-heading">
-      <span>{index}</span>
-      <div><small>{eyebrow}</small><h2 id={id}>{title}</h2></div>
-      <p>{description}</p>
-    </header>
-  );
 }
 
 function buildOverview(data = {}) {
