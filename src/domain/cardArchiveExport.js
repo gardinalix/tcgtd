@@ -35,7 +35,8 @@ function numberOrBlank(value) {
 function cardRow(card, printing, isCanonical) {
   const id = isCanonical ? card.cardNumber : (printing.detailSearchId || card.detailSearchId || card.cardNumber);
   const src = isCanonical ? card : printing;
-  const price = isCanonical || id === card.cardNumber ? card : printing;
+  // Printed editions may have a different price from the canonical card (including the base printing).
+  const price = isCanonical ? card : printing;
   const variant = isCanonical ? "Canonical" : (printing.isParallelVariant || String(printing.rarity || "").includes("+") ? "Parallel / Alt" : id === card.cardNumber ? "Base" : "Reprint / Variant");
   return {
     cardNumber: card.cardNumber,
