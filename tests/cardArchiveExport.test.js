@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   ARCHIVE_COLUMNS,
+  ARCHIVE_COLOR_RULES,
   buildCardArchiveRows,
   buildCardArchiveXlsx,
 } from "../src/domain/cardArchiveExport.js";
@@ -92,4 +93,31 @@ test("spreadsheet values escape XML and stay inline strings rather than formulas
   const xml = entries.get("xl/worksheets/sheet1.xml");
   assert(xml.includes("X&amp;&lt;Y&gt;&quot;=SUM(1,1)"));
   assert(xml.includes('t="inlineStr"'));
+});
+
+test("Color column has real Excel conditional formatting, including neutral and reserved colors", () => {
+  const rows = buildCardArchiveRows(cards, { includeVariants: true });
+  const entries = unzipStored(buildCardArchiveXlsx(rows));
+  const sheet = entries.get("xl/worksheets/sheet1.xml");
+  const about = entries.get("xl/worksheets/sheet2.xml");
+  const styles = entries.get("xl/styles.xml");
+  assert(sheet.includes('<conditionalFormatting sqref="E2:E' + (rows.length + 1) + '">'));
+  assert(styles.includes('<dxfs count="' + ARCHIVE_COLOR_RULES.length + '">'));
+  assert.equal((sheet.match(/<cfRule /g) || []).length, ARCHIVE_COLOR_RULES.length);
+  assert.equal((styles.match(/<dxf>/g) || []).length, ARCHIVE_COLOR_RULES.length);
+  for (const [index, { value, fill, font }] of ARCHIVE_COLOR_RULES.entries()) {
+    assert(sheet.includes('dxfId="' + index + '" priority="' + (index + 1) + '"'), value);
+    assert(sheet.includes('UPPER(TRIM($E2))=&quot;' + value + '&quot;'), value);
+    assert(styles.includes('<fgColor rgb="' + fill + '"/>'), value + " fill");
+    assert(styles.includes('<color rgb="' + font + '"/>'), value + " text");
+  }
+  assert(!about.includes('<conditionalFormatting'), "Only the Color column on Cards should be conditional");
+});
+
+test("filtered and canonical workbooks also color the exact exported range", () => {
+  const rows = buildCardArchiveRows(cards.slice(0, 3), { includeVariants: false });
+  const sheet = unzipStored(buildCardArchiveXlsx(rows)).get("xl/worksheets/sheet1.xml");
+  assert(sheet.includes('<conditionalFormatting sqref="E2:E4">'));
+  const empty = unzipStored(buildCardArchiveXlsx([])).get("xl/worksheets/sheet1.xml");
+  assert(!empty.includes('<conditionalFormatting'));
 });
