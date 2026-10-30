@@ -114,7 +114,38 @@ function columnLetter(index) {
   return text;
 }
 
-function worksheetXml(header, data, widths, moneyColumns = {}) {
+// Palette for the public GCG card colors. Includes reserved colors for future releases.
+// The differential formats are true Excel conditional-formatting rules, not static fills.
+export const ARCHIVE_COLOR_RULES = [
+  { value: "BLUE", fill: "FF1D4ED8", font: "FFFFFFFF" },
+  { value: "GREEN", fill: "FF15803D", font: "FFFFFFFF" },
+  { value: "RED", fill: "FFB91C1C", font: "FFFFFFFF" },
+  { value: "PURPLE", fill: "FF7E22CE", font: "FFFFFFFF" },
+  { value: "WHITE", fill: "FFF8FAFC", font: "FF0F172A" },
+  { value: "NEUTRAL", fill: "FFCBD5E1", font: "FF0F172A" },
+  { value: "YELLOW", fill: "FFFDE047", font: "FF0F172A" },
+  { value: "BLACK", fill: "FF1E293B", font: "FFFFFFFF" },
+];
+
+function colorConditionalFormatting(lastRow) {
+  if (lastRow < 2) return "";
+  const rules = ARCHIVE_COLOR_RULES.map(({ value }, index) =>
+    '<cfRule type="expression" dxfId="' + index + '" priority="' + (index + 1)
+    + '" stopIfTrue="1"><formula>UPPER(TRIM($E2))=&quot;' + value + '&quot;</formula></cfRule>'
+  ).join("");
+  return '<conditionalFormatting sqref="E2:E' + lastRow + '">' + rules + '</conditionalFormatting>';
+}
+
+function colorDifferentialStyles() {
+  return '<dxfs count="' + ARCHIVE_COLOR_RULES.length + '">'
+    + ARCHIVE_COLOR_RULES.map(({ fill, font }) =>
+      '<dxf><font><color rgb="' + font + '"/></font>'
+      + '<fill><patternFill patternType="solid"><fgColor rgb="' + fill
+      + '"/><bgColor indexed="64"/></patternFill></fill></dxf>'
+    ).join("") + '</dxfs>';
+}
+
+function worksheetXml(header, data, widths, moneyColumns = {}, withColorRules = false) {
   const endCell = columnLetter(header.length - 1) + String(data.length + 1);
   const columns = widths.map((width, i) => '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + width + '" customWidth="1"/>').join("");
   const rows = [header, ...data].map((values, rowIndex) => {
@@ -139,7 +170,9 @@ function worksheetXml(header, data, widths, moneyColumns = {}) {
     + '<selection pane="bottomLeft" activeCell="A2" sqref="A2"/></sheetView></sheetViews>'
     + '<sheetFormatPr defaultRowHeight="21"/>'
     + '<cols>' + columns + '</cols><sheetData>' + rows + '</sheetData>'
-    + '<autoFilter ref="A1:' + endCell + '"/></worksheet>';
+    + '<autoFilter ref="A1:' + endCell + '"/>'
+    + (withColorRules ? colorConditionalFormatting(data.length + 1) : "")
+    + '</worksheet>';
 }
 
 const STYLES_XML = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
@@ -162,7 +195,8 @@ const STYLES_XML = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
   + '<xf numFmtId="164" fontId="0" fillId="3" borderId="0" xfId="0" applyNumberFormat="1" applyFill="1"/>'
   + '<xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>'
   + '<xf numFmtId="165" fontId="0" fillId="3" borderId="0" xfId="0" applyNumberFormat="1" applyFill="1"/>'
-  + '</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>';
+  + '</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'
+  + colorDifferentialStyles() + '</styleSheet>';
 
 function crc32(buffer) {
   let crc = -1;
@@ -244,7 +278,7 @@ export function buildCardArchiveXlsx(rows, options = {}) {
     ["Notes", "Blank price cells mean that no printing-specific price was synchronized."],
     ["License", "Card images and card names belong to their respective rights holders."],
   ];
-  const cardsXml = worksheetXml(header, data, ARCHIVE_COLUMNS.map((column) => column[2]), { 17: "USD", 18: "BRL", 19: "BRL" });
+  const cardsXml = worksheetXml(header, data, ARCHIVE_COLUMNS.map((column) => column[2]), { 17: "USD", 18: "BRL", 19: "BRL" }, true);
   const guideXml = worksheetXml(guide[0], guide.slice(1), [33, 90]);
   const entries = [
     ["[Content_Types].xml", '<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
