@@ -6,6 +6,7 @@ on:
     paths:
       - .github/workflows/export-card-archive.yml
       - scripts/export-card-archive.mjs
+      - src/domain/cardArchiveExport.js
   workflow_dispatch:
 
 permissions:
