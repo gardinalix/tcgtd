@@ -1,0 +1,56 @@
+name: Export public card archive Excel
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/export-card-archive.yml
+      - scripts/export-card-archive.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Generate complete workbook
+        run: node scripts/export-card-archive.mjs
+      - name: Verify XLSX structure
+        run: |
+          python - <<'PY'
+          import zipfile
+          import xml.etree.ElementTree as ET
+          path = 'downloads/tcgtd-card-archive-all-printings.xlsx'
+          with zipfile.ZipFile(path) as z:
+              assert z.testzip() is None
+              for name in z.namelist():
+                  if name.endswith(('.xml','.rels')):
+                      ET.fromstring(z.read(name))
+              print('ZIP CRC and XML validation passed')
+          PY
+      - name: Upload Excel as downloadable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tcgtd-card-archive-all-printings
+          path: downloads/tcgtd-card-archive-all-printings.xlsx
+          retention-days: 30
+      - name: Publish downloadable Excel in public repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f downloads/tcgtd-card-archive-all-printings.xlsx
+          if git diff --cached --quiet; then
+            echo "Workbook is unchanged."
+          else
+            git commit -m "data: export public card archive Excel [skip ci]"
+            git push
+          fi
