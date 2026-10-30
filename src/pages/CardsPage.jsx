@@ -9,6 +9,7 @@ import {
 } from "../components/tactical/TacticalPageShell";
 import { DEFAULT_FILTERS as DEFAULT_CARD_FILTERS, filterCards, uniqueValues } from "../utils/cardFilters";
 import { sortCards } from "../domain/cards";
+import { buildCardArchiveRows, downloadCardArchive } from "../domain/cardArchiveExport";
 
 const INITIAL_CARD_BATCH = 24;
 
@@ -19,6 +20,10 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   const [printMode, setPrintMode] = useState("all");
   const [resultLimit, setResultLimit] = useState(INITIAL_CARD_BATCH);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportVariants, setExportVariants] = useState(true);
+  const [exportFiltered, setExportFiltered] = useState(false);
+  const [exportError, setExportError] = useState("");
   const [filterDraft, setFilterDraft] = useState(filters);
   const [dossierOpen, setDossierOpen] = useState(false);
   const [isMobileLayout, setIsMobileLayout] = useState(() => window.matchMedia?.("(max-width: 820px)").matches ?? false);
@@ -77,6 +82,25 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
     };
   }, [filtersOpen, dossierOpen]);
 
+  function exportCards() {
+    try {
+      const rows = buildCardArchiveRows(allCards, {
+        includeVariants: exportVariants,
+        visibleIds: exportFiltered && exportVariants ? visibleCards.map((card) => card.displayId || card.detailSearchId || card.cardNumber) : null,
+        visibleNumbers: exportFiltered && !exportVariants ? visibleCards.map((card) => card.cardNumber) : null,
+      });
+      downloadCardArchive(rows, {
+        includeVariants: exportVariants,
+        scope: exportFiltered ? "Current archive filters" : "Complete public card catalog",
+        snapshot: data.cardSnapshotGeneratedAt || data.generatedAt || "",
+      });
+      setExportError("");
+      setExportOpen(false);
+    } catch (error) {
+      setExportError(error?.message || "Unable to generate workbook.");
+    }
+  }
+
   function selectCard(cardId) {
     setSelectedCardId(cardId);
     setDossierOpen(true);
@@ -128,12 +152,29 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
         title="Card Intelligence Archive"
         subtitle="Scan printings, effects, market references and competitive signals without leaving the active dossier."
         actions={(
-          <button className="v3-mobile-filter-trigger" type="button" onClick={openFilters}>
-            <span>FILTERS</span>
-            <strong>{activeFilterCount || "ALL"}</strong>
-          </button>
+          <>
+            <button className="tactical-action-button" type="button" onClick={() => { setExportError(""); setExportOpen(true); }}>EXPORT DATABASE</button>
+            <button className="v3-mobile-filter-trigger" type="button" onClick={openFilters}>
+              <span>FILTERS</span>
+              <strong>{activeFilterCount || "ALL"}</strong>
+            </button>
+          </>
         )}
       />
+      {exportOpen ? (
+        <div className="card-archive-export-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setExportOpen(false); }}>
+          <section className="card-archive-export-panel" role="dialog" aria-modal="true" aria-labelledby="archive-export-title">
+            <div className="card-archive-export-heading"><span>TCGTD // DATA EXPORT</span><button type="button" aria-label="Close export dialog" onClick={() => setExportOpen(false)}>×</button></div>
+            <h2 id="archive-export-title">Export Card Database</h2>
+            <p>Download an Excel workbook containing the official public card catalog, including Resources.</p>
+            <label><input type="checkbox" checked={exportVariants} onChange={(event) => setExportVariants(event.target.checked)} /> Include every printing, alternate art and promotional variant</label>
+            <label><input type="checkbox" checked={exportFiltered} onChange={(event) => setExportFiltered(event.target.checked)} /> Export current filtered results only</label>
+            <p className="card-archive-export-count">{exportFiltered ? (exportVariants ? visibleCards.length : new Set(visibleCards.map((card) => card.cardNumber)).size) : (exportVariants ? searchableCards.length : allCards.length)} rows selected · .xlsx</p>
+            {exportError ? <p role="alert" className="card-archive-export-error">{exportError}</p> : null}
+            <div className="card-archive-export-actions"><button type="button" onClick={() => setExportOpen(false)}>CANCEL</button><button type="button" onClick={exportCards}>DOWNLOAD XLSX</button></div>
+          </section>
+        </div>
+      ) : null}
       <div className="cards-terminal-grid react-cards-page tactical-acquisition-layout">
       <div className="cards-acquisition-axis" aria-hidden="true">
         <span>OBJECT ACQUISITION</span><i /><b>{String(visibleCards.length).padStart(4, "0")}</b>
