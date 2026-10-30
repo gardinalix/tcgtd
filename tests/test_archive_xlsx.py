@@ -37,6 +37,26 @@ process.stdout.write(Buffer.from(buildCardArchiveXlsx(rows, { snapshot: data.car
             self.assertGreater(len(rows), 1000)
             self.assertEqual(len(rows), 2032, "The committed 2026-10-23 snapshot contains 2,031 printings")
 
+            rules = sheet.findall("./" + namespace + "conditionalFormatting")
+            self.assertEqual(len(rules), 1)
+            self.assertEqual(rules[0].get("sqref"), "E2:E2032")
+            conditions = rules[0].findall("./" + namespace + "cfRule")
+            self.assertEqual(len(conditions), 8)
+            required = {"BLUE", "GREEN", "RED", "PURPLE", "WHITE", "NEUTRAL", "YELLOW", "BLACK"}
+            detected = set()
+            for condition in conditions:
+                self.assertEqual(condition.get("type"), "expression")
+                self.assertIsNotNone(condition.get("dxfId"))
+                formula = condition.find("./" + namespace + "formula").text
+                self.assertTrue(formula.startswith('UPPER(TRIM($E2))="'))
+                detected.add(formula.split('"')[1])
+            self.assertEqual(detected, required)
+            styles = ET.fromstring(workbook.read("xl/styles.xml"))
+            styles_dxfs = styles.find("./" + namespace + "dxfs")
+            self.assertEqual(styles_dxfs.get("count"), "8")
+            self.assertEqual(len(styles_dxfs), 8)
+
+
 
 if __name__ == "__main__":
     unittest.main()
