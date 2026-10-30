@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import "../components/cards/cardArchiveExport.css";
 import { CardDetail } from "../components/cards/CardDetail";
 import { CardTable } from "../components/cards/CardTable";
 import { CardTile } from "../components/cards/CardTile";
@@ -169,7 +170,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
             <p>Download an Excel workbook containing the official public card catalog, including Resources.</p>
             <label><input type="checkbox" checked={exportVariants} onChange={(event) => setExportVariants(event.target.checked)} /> Include every printing, alternate art and promotional variant</label>
             <label><input type="checkbox" checked={exportFiltered} onChange={(event) => setExportFiltered(event.target.checked)} /> Export current filtered results only</label>
-            <p className="card-archive-export-count">{exportFiltered ? (exportVariants ? visibleCards.length : new Set(visibleCards.map((card) => card.cardNumber)).size) : (exportVariants ? searchableCards.length : allCards.length)} rows selected · .xlsx</p>
+            <p className="card-archive-export-count">{exportFiltered ? (exportVariants ? new Set(visibleCards.map((card) => card.displayId || card.detailSearchId || card.cardNumber)).size : new Set(visibleCards.map((card) => card.cardNumber)).size) : (exportVariants ? searchableCards.length : new Set(allCards.map((card) => card.cardNumber)).size)} rows selected · .xlsx</p>
             {exportError ? <p role="alert" className="card-archive-export-error">{exportError}</p> : null}
             <div className="card-archive-export-actions"><button type="button" onClick={() => setExportOpen(false)}>CANCEL</button><button type="button" onClick={exportCards}>DOWNLOAD XLSX</button></div>
           </section>
