@@ -363,6 +363,21 @@ def pick_tcgplayer_printing_price(card_number: str, printing: dict, groups: dict
     package_code = normalize_upper(printing.get("packageCode"))
     source = normalize_upper(printing.get("whereToGetIt"))
     is_plus = "+" in rarity
+
+    def product_is_parallel(item: dict) -> bool:
+        product_rarity = normalize_upper(item.get("tcgplayer_rarity"))
+        name = normalize_upper(item.get("tcgplayer_product_name"))
+        return "+" in product_rarity or bool(re.search(r"\([A-Z]{1,3}\+{1,2}\)", name))
+
+    # Edition identity is required; ranking must not compensate for a different
+    # set or turn an unavailable parallel printing into the base card's price.
+    candidates = [
+        item for item in candidates
+        if product_is_parallel(item) == is_plus
+        and (not package_code or normalize_upper(item.get("tcgplayer_group_abbreviation")).removesuffix("_B") == package_code)
+    ]
+    if not candidates:
+        return None
     event_markers = [
         marker
         for marker in (
@@ -393,9 +408,9 @@ def pick_tcgplayer_printing_price(card_number: str, printing: dict, groups: dict
     def candidate_score(item: dict) -> tuple[int, float, str]:
         name = normalize_upper(item.get("tcgplayer_product_name"))
         group_name = normalize_upper(item.get("tcgplayer_group_name"))
-        group_code = normalize_upper(item.get("tcgplayer_group_abbreviation"))
+        group_code = normalize_upper(item.get("tcgplayer_group_abbreviation")).removesuffix("_B")
         product_rarity = normalize_upper(item.get("tcgplayer_rarity")).replace(" ", "")
-        product_plus = "+" in product_rarity or bool(re.search(r"\([A-Z]{1,3}\+{1,2}\)", name))
+        product_plus = product_is_parallel(item)
         score = 0
 
         if package_code:

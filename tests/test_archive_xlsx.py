@@ -1,5 +1,6 @@
 """Cross-runtime smoke test: the browser-side XLSX must open as a real ZIP of valid XML."""
 import io
+import json
 import subprocess
 import unittest
 import xml.etree.ElementTree as ET
@@ -35,7 +36,16 @@ process.stdout.write(Buffer.from(buildCardArchiveXlsx(rows, { snapshot: data.car
             namespace = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
             rows = sheet.findall("./" + namespace + "sheetData/" + namespace + "row")
             self.assertGreater(len(rows), 1000)
-            self.assertEqual(len(rows), 2032, "The committed 2026-10-23 snapshot contains 2,031 printings")
+            catalog = json.loads((ROOT / "web/app-data.json").read_text(encoding="utf-8"))
+            expected_ids = {
+                printing.get("detailSearchId") or card["cardNumber"]
+                for card in catalog["cards"] + catalog["resourceCards"]
+                for printing in (card.get("printings") or [card])
+            }
+            actual_ids = [row.findall(namespace + "c")[1].find(namespace + "is/" + namespace + "t").text
+                          for row in rows[1:]]
+            self.assertEqual(len(actual_ids), len(expected_ids), "Every current printing must appear exactly once")
+            self.assertEqual(set(actual_ids), expected_ids, "Workbook IDs must match the current catalog")
 
 
 if __name__ == "__main__":

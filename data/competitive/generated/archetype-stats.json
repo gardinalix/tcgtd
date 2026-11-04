@@ -163,13 +163,6 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "other",
-      "display_name": "Other",
-      "decklists": 8,
-      "wins": 0,
-      "best_finish": 2
-    },
-    {
       "archetype_id": "providence-blockers",
       "display_name": "Providence Blockers",
       "decklists": 8,
@@ -205,11 +198,11 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "white-red-zaft",
-      "display_name": "White Red Zaft",
+      "archetype_id": "shining-gundam-master-gundam",
+      "display_name": "Shining Gundam (Master Gundam)",
       "decklists": 7,
-      "wins": 1,
-      "best_finish": 1
+      "wins": 0,
+      "best_finish": 3
     },
     {
       "archetype_id": "aegis-aggro",
@@ -240,13 +233,6 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "shining-gundam-master-gundam",
-      "display_name": "Shining Gundam (Master Gundam)",
-      "decklists": 6,
-      "wins": 0,
-      "best_finish": 3
-    },
-    {
       "archetype_id": "cyber-newtype-aggro",
       "display_name": "Cyber-Newtype (Aggro)",
       "decklists": 5,
@@ -261,11 +247,11 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "strike-freedom-gundam-aile-strike-gundam",
-      "display_name": "Strike Freedom Gundam (Aile Strike Gundam)",
+      "archetype_id": "white-red-zaft",
+      "display_name": "White Red Zaft",
       "decklists": 5,
-      "wins": 0,
-      "best_finish": 5
+      "wins": 1,
+      "best_finish": 1
     },
     {
       "archetype_id": "cb-kyrios",
@@ -275,11 +261,18 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "strike-freedom-gundam-victory-gundam",
-      "display_name": "Strike Freedom Gundam (Victory Gundam)",
+      "archetype_id": "other",
+      "display_name": "Other",
       "decklists": 4,
       "wins": 1,
       "best_finish": 1
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-aile-strike-gundam",
+      "display_name": "Strike Freedom Gundam (Aile Strike Gundam)",
+      "decklists": 4,
+      "wins": 0,
+      "best_finish": 5
     },
     {
       "archetype_id": "strike-tempo",
@@ -308,6 +301,13 @@
       "decklists": 3,
       "wins": 2,
       "best_finish": 1
+    },
+    {
+      "archetype_id": "blue-white-freedom-blockers",
+      "display_name": "Blue White Freedom Blockers",
+      "decklists": 3,
+      "wins": 0,
+      "best_finish": 2
     },
     {
       "archetype_id": "celestial-being",
@@ -359,8 +359,8 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "strike-freedom-gundam-unicorn-gundam-02-banshee-destroy-mode",
-      "display_name": "Strike Freedom Gundam (Unicorn Gundam 02 Banshee [Destroy Mode] )",
+      "archetype_id": "strike-freedom-gundam-victory-gundam",
+      "display_name": "Strike Freedom Gundam (Victory Gundam)",
       "decklists": 3,
       "wins": 1,
       "best_finish": 1
@@ -373,11 +373,11 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "blue-white-freedom-blockers",
-      "display_name": "Blue White Freedom Blockers",
+      "archetype_id": "blue-white-control",
+      "display_name": "Blue White Control",
       "decklists": 2,
       "wins": 0,
-      "best_finish": 3
+      "best_finish": 9
     },
     {
       "archetype_id": "cyber-newtype-jupitris",
@@ -401,11 +401,18 @@
       "best_finish": 4
     },
     {
-      "archetype_id": "nu-gundam",
-      "display_name": "Nu Gundam",
+      "archetype_id": "sazabi-char-s-zaku-ii",
+      "display_name": "Sazabi (Char's Zaku II)",
+      "decklists": 2,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-unicorn-gundam-02-banshee-destroy-mode",
+      "display_name": "Strike Freedom Gundam (Unicorn Gundam 02 Banshee [Destroy Mode] )",
       "decklists": 2,
       "wins": 0,
-      "best_finish": 3
+      "best_finish": 5
     },
     {
       "archetype_id": "strike-tempo-academy",
@@ -462,13 +469,6 @@
       "decklists": 1,
       "wins": 1,
       "best_finish": 1
-    },
-    {
-      "archetype_id": "blue-white-control",
-      "display_name": "Blue White Control",
-      "decklists": 1,
-      "wins": 0,
-      "best_finish": 11
     },
     {
       "archetype_id": "cb-aggro",
@@ -632,6 +632,13 @@
       "best_finish": 4
     },
     {
+      "archetype_id": "nu-gundam",
+      "display_name": "Nu Gundam",
+      "decklists": 1,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
       "archetype_id": "red-green-cb",
       "display_name": "Red Green CB",
       "decklists": 1,
@@ -644,13 +651,6 @@
       "decklists": 1,
       "wins": 0,
       "best_finish": 5
-    },
-    {
-      "archetype_id": "sazabi-char-s-zaku-ii",
-      "display_name": "Sazabi (Char's Zaku II)",
-      "decklists": 1,
-      "wins": 1,
-      "best_finish": 1
     },
     {
       "archetype_id": "strike-freedom-gundam-base",
