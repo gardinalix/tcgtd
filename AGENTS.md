@@ -13,10 +13,18 @@ Estas orientações valem para todos os chats do TCG Tactical Database, inclusiv
 # Modelo padrão para publicações
 
 - Por preferência do usuário, use somente **GPT-6 Astra**, com esforço **High** (`gpt-6-astra`, `high`), para a preparação final, publicação e verificação do live deste projeto.
-- No fluxo GPT Sites, reutilize o chat **Atualizar pool de cartas** (`01a13f42-0ed0-7244-b9ae-30ce60f2f020`) e confira o modelo selecionado antes de enviar a solicitação de publicação. Em ferramentas que aceitam esses parâmetros, informe o modelo e o esforço explicitamente.
+- No fluxo GPT Sites, reutilize o chat **Atualizador Oficial do Site** (antes **Atualizar pool de cartas**, ID estável `01a13f42-0ed0-7244-b9ae-30ce60f2f020`) e confira o modelo selecionado antes de enviar a solicitação de publicação. Em ferramentas que aceitam esses parâmetros, informe o modelo e o esforço explicitamente.
 - Esta é uma preferência do fluxo de publicação. O texto deste arquivo não troca o modelo de uma sessão em execução; a seleção precisa ocorrer no seletor do chat ou nos parâmetros da ferramenta utilizada.
 - Se o modelo estiver indisponível, informe a limitação antes de substituí-lo. As demais tarefas de desenvolvimento e atualização de dados podem continuar com seus modelos atuais.
 - A escolha do modelo não autoriza um deploy: a aprovação da versão e as validações previstas abaixo continuam obrigatórias.
+
+# Ponto único de publicação, independentemente do chat de origem
+
+- O publicador oficial é [Atualizador Oficial do Site](https://chatgpt.com/local/01a13f42-0ed0-7244-b9ae-30ce60f2f020). O ID, e não apenas o título, identifica a conversa. Não crie outro chat por publicação.
+- Antes de preparar uma publicação, leia [o procedimento de publicação](docs/publicacao-oficial.md). Outros chats podem implementar e validar localmente; após a autorização da versão, devem encaminhar o pacote exato e as evidências ao publicador oficial e acompanhar o resultado.
+- Use o acesso direto pelo navegador a esse chat, conforme o fluxo que publicou as versões 125 e 126. A ausência das ferramentas Sites no chat de origem, ou a ausência desse chat antigo na listagem local, não demonstra que o caminho de publicação está indisponível.
+- Consulte a última resposta e o estado da publicação antes de retomar: não envie duas publicações concorrentes, não publique novamente um SHA já concluído e não substitua o pacote aprovado por dados de um refresh posterior.
+- Agendamentos continuam preparando e validando dados localmente. A escolha do publicador não concede aprovação automática a versões futuras. Registre conclusão, falhas e pendências; nunca prometa ausência de falhas nem declare sucesso sem evidência.
 
 # Fluxo obrigatório: local antes do live
 
