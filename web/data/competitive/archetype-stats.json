@@ -135,6 +135,13 @@
       "best_finish": 1
     },
     {
+      "archetype_id": "other",
+      "display_name": "Other",
+      "decklists": 13,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
       "archetype_id": "league-militaire-banshee-norn",
       "display_name": "League Militaire (Banshee Norn)",
       "decklists": 11,
@@ -146,6 +153,13 @@
       "display_name": "Destiny Blockers",
       "decklists": 10,
       "wins": 5,
+      "best_finish": 1
+    },
+    {
+      "archetype_id": "shining-gundam-master-gundam",
+      "display_name": "Shining Gundam (Master Gundam)",
+      "decklists": 9,
+      "wins": 1,
       "best_finish": 1
     },
     {
@@ -198,13 +212,6 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "shining-gundam-master-gundam",
-      "display_name": "Shining Gundam (Master Gundam)",
-      "decklists": 7,
-      "wins": 0,
-      "best_finish": 3
-    },
-    {
       "archetype_id": "aegis-aggro",
       "display_name": "Aegis Aggro",
       "decklists": 6,
@@ -254,15 +261,15 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "cb-kyrios",
-      "display_name": "CB Kyrios",
+      "archetype_id": "blue-white-freedom-blockers",
+      "display_name": "Blue White Freedom Blockers",
       "decklists": 4,
-      "wins": 1,
-      "best_finish": 1
+      "wins": 0,
+      "best_finish": 2
     },
     {
-      "archetype_id": "other",
-      "display_name": "Other",
+      "archetype_id": "cb-kyrios",
+      "display_name": "CB Kyrios",
       "decklists": 4,
       "wins": 1,
       "best_finish": 1
@@ -301,13 +308,6 @@
       "decklists": 3,
       "wins": 2,
       "best_finish": 1
-    },
-    {
-      "archetype_id": "blue-white-freedom-blockers",
-      "display_name": "Blue White Freedom Blockers",
-      "decklists": 3,
-      "wins": 0,
-      "best_finish": 2
     },
     {
       "archetype_id": "celestial-being",
@@ -401,11 +401,25 @@
       "best_finish": 4
     },
     {
+      "archetype_id": "nu-gundam",
+      "display_name": "Nu Gundam",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 3
+    },
+    {
       "archetype_id": "sazabi-char-s-zaku-ii",
       "display_name": "Sazabi (Char's Zaku II)",
       "decklists": 2,
       "wins": 1,
       "best_finish": 1
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-base",
+      "display_name": "Strike Freedom Gundam (Base)",
+      "decklists": 2,
+      "wins": 0,
+      "best_finish": 5
     },
     {
       "archetype_id": "strike-freedom-gundam-unicorn-gundam-02-banshee-destroy-mode",
@@ -632,8 +646,8 @@
       "best_finish": 4
     },
     {
-      "archetype_id": "nu-gundam",
-      "display_name": "Nu Gundam",
+      "archetype_id": "purple-white-destiny",
+      "display_name": "Purple White Destiny",
       "decklists": 1,
       "wins": 0,
       "best_finish": 3
@@ -653,11 +667,11 @@
       "best_finish": 5
     },
     {
-      "archetype_id": "strike-freedom-gundam-base",
-      "display_name": "Strike Freedom Gundam (Base)",
+      "archetype_id": "strike-freedom-gundam-gundam-barbatos-1st-form",
+      "display_name": "Strike Freedom Gundam (Gundam Barbatos 1st Form)",
       "decklists": 1,
       "wins": 0,
-      "best_finish": 5
+      "best_finish": 8
     },
     {
       "archetype_id": "the-o-banshee-norn",

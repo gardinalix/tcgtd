@@ -49,12 +49,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--skip-prices",
         action="store_true",
-        help="Skip TCGCSV and MarketZeon price refresh.",
-    )
-    parser.add_argument(
-        "--skip-marketzeon",
-        action="store_true",
-        help="Skip MarketZeon public BR price comparison refresh.",
+        help="Skip TCGCSV, exchange-rate and LigaGundam price refresh.",
     )
     parser.add_argument(
         "--skip-fx",
@@ -201,13 +196,9 @@ def summarize_outputs(*, gcgapi_audit_skipped: bool = False) -> dict:
     meta_results = read_csv_rows(DATA_DIR / "meta_results.csv")
     meta_events = read_csv_rows(DATA_DIR / "meta_events.csv")
     prices = read_csv_rows(DATA_DIR / "tcgplayer_prices.csv")
-    marketzeon_prices = read_csv_rows(DATA_DIR / "marketzeon_price_comparison.csv")
     ligagundam_prices = read_csv_rows(DATA_DIR / "ligagundam_price_comparison.csv")
     fx_rate = read_json(DATA_DIR / "fx_rates.json") or {}
     priced_rows = [row for row in prices if str(row.get("market_price_usd", "")).strip()]
-    marketzeon_comparable_rows = [
-        row for row in marketzeon_prices if row.get("comparison_status") == "ok"
-    ]
     ligagundam_comparable_rows = [
         row for row in ligagundam_prices if row.get("comparison_status") == "ok"
     ]
@@ -251,12 +242,6 @@ def summarize_outputs(*, gcgapi_audit_skipped: bool = False) -> dict:
             "usd_brl_rate_checked_utc": fx_rate.get("fetched_at_utc"),
             "latest_checked_utc": max(
                 (row.get("price_last_checked_utc", "") for row in prices),
-                default="",
-            ),
-            "marketzeon_rows": len(marketzeon_prices),
-            "marketzeon_comparable_cards": len(marketzeon_comparable_rows),
-            "marketzeon_latest_checked_utc": max(
-                (row.get("price_last_checked_utc", "") for row in marketzeon_prices),
                 default="",
             ),
             "ligagundam_rows": len(ligagundam_prices),
@@ -348,18 +333,6 @@ def main() -> int:
             )
             if not args.skip_fx:
                 steps.append(run_step("USD/BRL exchange-rate refresh", [sys.executable, str(SCRIPTS_DIR / "fetch_usd_brl_rate.py")]))
-            if not args.skip_marketzeon:
-                steps.append(
-                    run_step(
-                        "MarketZeon BR price comparison",
-                        [
-                            sys.executable,
-                            str(SCRIPTS_DIR / "fetch_marketzeon_prices.py"),
-                            "--usd-brl-multiplier",
-                            str(args.usd_brl_multiplier),
-                        ],
-                    )
-                )
             if not args.skip_ligagundam:
                 steps.append(
                     run_step(

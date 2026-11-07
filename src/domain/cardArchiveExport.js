@@ -18,7 +18,6 @@ export const ARCHIVE_COLUMNS = [
   ["image", "Image URL", 75],
   ["detail", "Official Card URL", 75],
   ["tcgUsd", "TCGplayer USD", 19],
-  ["marketBrl", "MarketZeon BRL", 20],
   ["ligaBrl", "LigaGundam BRL", 20],
   ["priceDate", "Price Checked (UTC)", 25],
 ];
@@ -57,7 +56,6 @@ function cardRow(card, printing, isCanonical) {
     image: nonEmpty(src.remoteImageUrl || (isCanonical ? card.printings?.[0]?.remoteImageUrl : "") || src.imageUrl || ""),
     detail: nonEmpty(src.detailUrl || card.detailUrl),
     tcgUsd: numberOrBlank(price.marketPriceUsd),
-    marketBrl: numberOrBlank(price.marketZeonLowPriceBrl),
     ligaBrl: numberOrBlank(price.ligaGundamLowPriceBrl),
     priceDate: nonEmpty(price.priceLastCheckedUtc),
   };

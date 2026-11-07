@@ -5,7 +5,6 @@ const EMPTY_DATA = {
   metaEvents: [],
   metaResults: [],
   metaDeckCards: [],
-  marketListings: [],
   archetypes: [],
   templates: [],
   filters: {},
@@ -53,7 +52,6 @@ function normalizePayload(payload) {
     metaEvents: Array.isArray(payload.metaEvents) ? payload.metaEvents : [],
     metaResults: Array.isArray(payload.metaResults) ? payload.metaResults : [],
     metaDeckCards: Array.isArray(payload.metaDeckCards) ? payload.metaDeckCards : [],
-    marketListings: Array.isArray(payload.marketListings) ? payload.marketListings : [],
     archetypes: Array.isArray(payload.archetypes) ? payload.archetypes : [],
     templates: Array.isArray(payload.templates) ? payload.templates : [],
   };

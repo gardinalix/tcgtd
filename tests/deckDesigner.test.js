@@ -777,7 +777,7 @@ function card(cardNumber, cardName, color, cardType, cost, traits, synergyTags, 
     topArchetypes: [{ label: "Freedom Blockers", count: recentTop8DecksUsing }],
     recentTop8DecksUsing,
     recentMetaScore: recentTop8DecksUsing,
-    marketZeonLowPriceBrl: price,
+    ligaGundamLowPriceBrl: price,
     effectPreview: synergyTags.join(" "),
   };
 }

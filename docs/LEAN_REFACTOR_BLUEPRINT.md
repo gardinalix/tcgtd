@@ -60,7 +60,6 @@ The prices module must own:
 - TCGPlayer USD market/reference
 - live USD-BRL conversion
 - LigaGundam low/average/high
-- MarketZeon low/average/high
 - availability flags
 - source confidence
 

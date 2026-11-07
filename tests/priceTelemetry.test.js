@@ -7,21 +7,21 @@ test("BRL and USD labels use their native decimal conventions", () => {
   assert.equal(formatUsd(1234.5), "US$ 1,234.50");
 });
 
-test("market telemetry prioritizes the lowest synchronized Brazilian listing", () => {
+test("market telemetry ignores retired listings", () => {
   const card = {
     priceStatus: "ok",
     marketPriceBrlFx: 43.34,
     marketPriceUsd: 8.53,
     ligaGundamLowPriceBrl: 1.94,
     ligaGundamBestShop: "Liga marketplace",
-    marketZeonLowPriceBrl: 2,
+    marketZeonLowPriceBrl: 1,
     marketZeonBestShop: "Local store",
   };
   const signal = getPriceTelemetry(card);
   assert.equal(signal.kind, "market");
   assert.equal(signal.sourceCode, "LIGA");
   assert.equal(signal.value, 1.94);
-  assert.deepEqual(signal.comparison.map((item) => item.code), ["LIGA", "MZ", "REF"]);
+  assert.deepEqual(signal.comparison.map((item) => item.code), ["LIGA", "REF"]);
   assert.equal(effectiveBrlPrice(card), 1.94);
 });
 

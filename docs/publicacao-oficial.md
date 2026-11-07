@@ -6,7 +6,7 @@ Referência compartilhada entre os chats do TCG Tactical Database, definida pelo
 - ID estável: `01a13f42-0ed0-7244-b9ae-30ce60f2f020`.
 - Projeto Sites: `appgprj_6a68269688848191accea7675bbb56b3`.
 - Produção: https://tcgtd.com.br.
-- Modelo obrigatório para preparação final, publicação e verificação: GPT-6 Astra High.
+- Qualquer modelo disponível pode preparar, publicar e verificar; não há requisito de modelo ou esforço específico.
 - Fonte canônica: https://github.com/gardinalix/tcgtd.git; `sites-source` é referência de hospedagem, não base de desenvolvimento.
 
 ## Preparar no chat de origem
@@ -20,7 +20,7 @@ Referência compartilhada entre os chats do TCG Tactical Database, definida pelo
 ## Publicar no chat oficial
 
 1. Abra o link acima pelo navegador autenticado e leia a resposta mais recente antes de enviar qualquer solicitação. Se houver publicação em andamento, acompanhe-a. Se o SHA já foi publicado, recupere seu resultado sem repetir o deploy.
-2. Confira GPT-6 Astra High no seletor. Se indisponível, informe a limitação; não substitua o modelo silenciosamente.
+2. Confira o modelo selecionado e registre-o no resultado. Qualquer modelo disponível é aceito.
 3. Encaminhe o pacote aprovado e um pedido com: projeto, domínio, SHA fonte, hashes do pacote, validações, aprovação e ressalvas. Peça publicação direta nessa conversa e verificação do live. A máquina de origem não está necessariamente montada no ambiente do publicador; forneça anexos ou fonte acessível.
 4. Use exatamente o build aprovado, sem novo refresh, META ou regeneração. Preserve audiência, domínios, D1, segredos e configurações. Alterações de infraestrutura ou dados reais precisam de autorização específica. Não faça push no GitHub main apenas como efeito incidental do deploy.
 5. Aguarde conclusão e confira o resultado. Em caso de limite de uso ou interrupção, retome na mesma conversa quando possível, conferindo antes o estado e a integridade do pacote. Não crie outra publicação para contornar a interrupção.
@@ -40,5 +40,5 @@ Lida na resposta final do publicador em 06/11/2026 às 12:17 BRT; este registro 
 - Deployment: `appgdep_6aedeee971f08191bbeb3c6e6cfd9bd4`.
 - Fonte: `8a940ddb8cb8aba6cf842ad6d92fa557c9e201d7`.
 - Relato do publicador: pacote aprovado publicado sem rebuild/refresh; nove rotas, sete temas e 290 hashes conferidos; XLSX com 2.087 edições / 1.195 cartas, 21 colunas e IDs únicos; exports TXT/PNG funcionando.
-- Pendências relatadas: `/card/GD06-001_p1` apresenta Card not found (variante funciona dentro de `/cards`); textos desalinhados no diálogo XLSX. MarketZeon com 52,9% de cobertura e zero erros de mapeamento.
+- Pendências relatadas: `/card/GD06-001_p1` apresenta Card not found (variante funciona dentro de `/cards`); textos desalinhados no diálogo XLSX.
 - Dados gerados depois desse snapshot não fazem parte dessa publicação.

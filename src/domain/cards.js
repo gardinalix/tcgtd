@@ -48,10 +48,6 @@ export function tcgReferenceBrl(card) {
   return null;
 }
 
-export function marketZeonPriceIsTrusted(card) {
-  return isTcgMarketAvailable(card) && Number.isFinite(Number(card?.marketZeonLowPriceBrl)) && Number(card.marketZeonLowPriceBrl) > 0;
-}
-
 export function ligaGundamPriceIsTrusted(card) {
   return isTcgMarketAvailable(card) && Number.isFinite(Number(card?.ligaGundamLowPriceBrl)) && Number(card.ligaGundamLowPriceBrl) > 0;
 }
@@ -70,14 +66,6 @@ export function getPriceTelemetry(card) {
       shop: card.ligaGundamBestShop || "Marketplace",
       url: card.ligaGundamBestUrl || "",
       checkedAt: card.ligaGundamPriceLastCheckedUtc || "",
-    } : null,
-    marketZeonPriceIsTrusted(card) ? {
-      code: "MZ",
-      label: "MarketZeon",
-      value: Number(card.marketZeonLowPriceBrl),
-      shop: card.marketZeonBestShop || "Marketplace",
-      url: card.marketZeonBestUrl || "",
-      checkedAt: card.marketZeonPriceLastCheckedUtc || "",
     } : null,
   ].filter(Boolean).sort((left, right) => left.value - right.value || left.code.localeCompare(right.code));
   const primary = listings[0] || null;

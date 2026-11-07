@@ -69,7 +69,6 @@ export function findCardsByTerms(cards = [], value = "") {
 
 export function cardPriceBrl(card = {}) {
   const candidates = [
-    card.marketZeonLowPriceBrl,
     card.ligaGundamLowPriceBrl,
     card.marketPriceBrlFx,
   ]

@@ -103,7 +103,6 @@ def main() -> int:
     anomalies: list[dict] = []
     tcgp_priced = 0
     liga_priced = 0
-    marketzeon_priced = 0
     deviations = []
 
     for card, printing in printings:
@@ -111,10 +110,8 @@ def main() -> int:
         printing_id = normalize(printing.get("detailSearchId"))
         tcg_price = printing.get("marketPriceBrlFx")
         liga_price = printing.get("ligaGundamLowPriceBrl")
-        marketzeon_price = printing.get("marketZeonLowPriceBrl")
         tcgp_priced += tcg_price is not None
         liga_priced += liga_price is not None
-        marketzeon_priced += marketzeon_price is not None
 
         product_id = normalize(printing.get("tcgplayerProductId"))
         if product_id:
@@ -156,7 +153,7 @@ def main() -> int:
                     }
                 )
 
-        for provider, value in (("ligagundam", liga_price), ("marketzeon", marketzeon_price)):
+        for provider, value in (("ligagundam", liga_price),):
             if tcg_price and value:
                 ratio = float(value) / float(tcg_price)
                 if ratio >= 5 or ratio <= 0.2:
@@ -179,15 +176,12 @@ def main() -> int:
     coverage = {
         "tcgplayer": round(tcgp_priced / total, 4) if total else 0,
         "ligagundam": round(liga_priced / total, 4) if total else 0,
-        "marketzeon": round(marketzeon_priced / total, 4) if total else 0,
     }
     failures = []
     if coverage["tcgplayer"] < 0.85:
         failures.append("TCGPlayer printing coverage below 85%.")
     if coverage["ligagundam"] < 0.50:
         failures.append("LigaGundam printing coverage below 50%.")
-    if coverage["marketzeon"] < 0.70:
-        failures.append("MarketZeon printing coverage below 70%.")
     if any(row["severity"] == "error" for row in anomalies):
         failures.append("TCGPlayer printing mapping errors detected.")
 
@@ -197,7 +191,6 @@ def main() -> int:
         "priced_printings": {
             "tcgplayer": tcgp_priced,
             "ligagundam": liga_priced,
-            "marketzeon": marketzeon_priced,
         },
         "coverage": coverage,
         "errors": sum(row["severity"] == "error" for row in anomalies),

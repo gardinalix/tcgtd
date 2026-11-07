@@ -3534,11 +3534,6 @@ body:has(.zero-system-cockpit:not([hidden])) .cockpit-console-panel--feed .cockp
   border-left-color: color-mix(in srgb, var(--hud-success, #46ffc2) 64%, var(--hud-primary));
 }
 
-.react-price-tag .price-market-chip--marketzeon {
-  border-color: color-mix(in srgb, var(--accent-gold, #f5c400) 22%, transparent);
-  border-left-color: color-mix(in srgb, var(--accent-gold, #f5c400) 68%, var(--hud-primary));
-}
-
 .react-price-tag .price-market-chip strong {
   min-width: 0;
   overflow: hidden;

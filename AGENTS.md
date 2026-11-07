@@ -10,12 +10,9 @@ Estas orientações valem para todos os chats do TCG Tactical Database, inclusiv
 - Antes de sincronizar, verifique o estado do Git e preserve as alterações em andamento. Leia o `AGENTS.md` e as instruções atuais do checkout antes de continuar; instruções de checkpoints antigos não substituem as regras vigentes.
 - A atualização agendada do workflow GitHub `update-tournament-data.yml` continua pausada. Os comandos locais de atualização e validação de dados permanecem disponíveis e inalterados.
 
-# Modelo padrão para publicações
+# Modelo para publicações
 
-- Por preferência do usuário, use somente **GPT-6 Astra**, com esforço **High** (`gpt-6-astra`, `high`), para a preparação final, publicação e verificação do live deste projeto.
-- No fluxo GPT Sites, reutilize o chat **Atualizador Oficial do Site** (antes **Atualizar pool de cartas**, ID estável `01a13f42-0ed0-7244-b9ae-30ce60f2f020`) e confira o modelo selecionado antes de enviar a solicitação de publicação. Em ferramentas que aceitam esses parâmetros, informe o modelo e o esforço explicitamente.
-- Esta é uma preferência do fluxo de publicação. O texto deste arquivo não troca o modelo de uma sessão em execução; a seleção precisa ocorrer no seletor do chat ou nos parâmetros da ferramenta utilizada.
-- Se o modelo estiver indisponível, informe a limitação antes de substituí-lo. As demais tarefas de desenvolvimento e atualização de dados podem continuar com seus modelos atuais.
+- Qualquer modelo disponível pode preparar, publicar e verificar o live. Reutilize o chat **Atualizador Oficial do Site** (ID estável `01a13f42-0ed0-7244-b9ae-30ce60f2f020`) e informe o modelo atual quando encaminhar o pacote.
 - A escolha do modelo não autoriza um deploy: a aprovação da versão e as validações previstas abaixo continuam obrigatórias.
 
 # Ponto único de publicação, independentemente do chat de origem

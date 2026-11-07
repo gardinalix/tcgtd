@@ -96,10 +96,15 @@ class PublicPayloadTests(unittest.TestCase):
         return subprocess.run([sys.executable, str(self.root / "scripts" / "build_gundam_web_data.py")], cwd=self.root, capture_output=True, text=True, check=check)
 
     def test_tracked_only_checkout_keeps_public_cards_prices_and_rules(self):
+        legacy = json.loads(self.path.read_text())
+        legacy["cards"][0]["marketZeonLowPriceBrl"] = 10
+        legacy["cards"][0]["printings"][0]["marketZeonLowPriceBrl"] = 10
+        self.path.write_text(json.dumps(legacy))
         self.build()
         current = json.loads(self.path.read_text())
-        for key in ("cards", "resourceCards", "rules", "defaults", "archetypes", "templates", "previews", "products", "marketListings", "fxRate"):
+        for key in ("cards", "resourceCards", "rules", "defaults", "archetypes", "templates", "previews", "products", "fxRate"):
             self.assertEqual(current[key], self.previous[key], key)
+        self.assertNotIn("marketListings", current)
         self.assertEqual(current["cardSnapshotGeneratedAt"], self.previous["cardSnapshotGeneratedAt"])
         self.assertEqual(current["metaEvents"][0]["eventDate"], "2026-10-14")
         first = self.path.read_bytes()

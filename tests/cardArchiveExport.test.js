@@ -78,11 +78,11 @@ test("Excel workbook is a structurally complete ZIP containing both worksheets",
   ]) assert(entries.has(name), name + " must be present");
   const sheet = entries.get("xl/worksheets/sheet1.xml");
   const about = entries.get("xl/worksheets/sheet2.xml");
-  assert(sheet.includes('autoFilter ref="A1:U' + (rows.length + 1) + '"'));
+  assert(sheet.includes('autoFilter ref="A1:T' + (rows.length + 1) + '"'));
   assert(sheet.includes("Printing ID"));
   assert(sheet.includes("Gundam"));
   assert(about.includes("Card data snapshot (UTC)"));
-  assert.equal(ARCHIVE_COLUMNS.length, 21);
+  assert.equal(ARCHIVE_COLUMNS.length, 20);
   assert.equal((sheet.match(/<row /g) || []).length, rows.length + 1);
 });
 

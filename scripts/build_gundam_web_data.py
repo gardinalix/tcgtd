@@ -22,8 +22,6 @@ OUTPUT_JSON_PATH = WEB_DIR / "app-data.json"
 PRICE_PATH = DATA_DIR / "tcgplayer_prices.csv"
 TCGPLAYER_PRINTING_PRICE_PATH = DATA_DIR / "tcgplayer_printing_prices.csv"
 FX_RATE_PATH = DATA_DIR / "fx_rates.json"
-MARKETZEON_PRICE_PATH = DATA_DIR / "marketzeon_price_comparison.csv"
-MARKETZEON_LISTINGS_PATH = DATA_DIR / "marketzeon_listings.csv"
 LIGAGUNDAM_PRICE_PATH = DATA_DIR / "ligagundam_price_comparison.csv"
 LIGAGUNDAM_LISTINGS_PATH = DATA_DIR / "ligagundam_listings.csv"
 DATABASE_PATH = DATA_DIR / "gundam.db"
@@ -166,34 +164,6 @@ def load_fx_rate() -> dict:
     }
 
 
-def load_marketzeon_price_map() -> dict[str, dict]:
-    if DATABASE_PATH.exists():
-        try:
-            rows: dict[str, dict] = {}
-            with sqlite3.connect(DATABASE_PATH) as conn:
-                for card_number, raw_json in conn.execute("SELECT card_number, raw_json FROM marketzeon_price_comparison"):
-                    normalized_number = normalize_upper(card_number)
-                    if not normalized_number:
-                        continue
-                    rows[normalized_number] = json.loads(raw_json)
-            if rows:
-                return rows
-        except (sqlite3.Error, json.JSONDecodeError):
-            pass
-
-    if not MARKETZEON_PRICE_PATH.exists():
-        return {}
-
-    rows: dict[str, dict] = {}
-    with MARKETZEON_PRICE_PATH.open("r", encoding="utf-8-sig", newline="") as handle:
-        for row in csv.DictReader(handle):
-            card_number = normalize_upper(row.get("card_number"))
-            if not card_number:
-                continue
-            rows[card_number] = row
-    return rows
-
-
 def load_ligagundam_price_map() -> dict[str, dict]:
     if DATABASE_PATH.exists():
         try:
@@ -220,35 +190,6 @@ def load_ligagundam_price_map() -> dict[str, dict]:
                 continue
             rows[card_number] = row
     return rows
-
-
-def load_marketzeon_listing_groups() -> dict[str, list[dict]]:
-    rows: dict[str, list[dict]] = {}
-    if DATABASE_PATH.exists():
-        try:
-            with sqlite3.connect(DATABASE_PATH) as conn:
-                for card_number, raw_json in conn.execute("SELECT card_number, raw_json FROM marketzeon_listings"):
-                    normalized_number = normalize_upper(card_number)
-                    if not normalized_number:
-                        continue
-                    item = json.loads(raw_json)
-                    if listing_is_available(item):
-                        rows.setdefault(normalized_number, []).append(item)
-            if rows:
-                return sort_listing_groups(rows)
-        except (sqlite3.Error, json.JSONDecodeError):
-            pass
-
-    if not MARKETZEON_LISTINGS_PATH.exists():
-        return {}
-
-    with MARKETZEON_LISTINGS_PATH.open("r", encoding="utf-8-sig", newline="") as handle:
-        for row in csv.DictReader(handle):
-            card_number = normalize_upper(row.get("card_number"))
-            if not card_number or not listing_is_available(row):
-                continue
-            rows.setdefault(card_number, []).append(row)
-    return sort_listing_groups(rows)
 
 
 def load_ligagundam_listing_groups() -> dict[str, list[dict]]:
@@ -457,23 +398,6 @@ def tcgplayer_product_matches_event_marker(item: dict, marker: str) -> bool:
     return any(alias in haystack for alias in aliases.get(marker, (marker,)))
 
 
-def apply_marketzeon_price_fields(card: dict, marketzeon_price_map: dict[str, dict], card_number: str) -> None:
-    price = marketzeon_price_map.get(card_number, {})
-    card["marketZeonLowPriceBrl"] = float_or_none(price.get("marketzeon_low_price_brl"))
-    card["marketZeonAvgPriceBrl"] = float_or_none(price.get("marketzeon_avg_price_brl"))
-    card["marketZeonHighPriceBrl"] = float_or_none(price.get("marketzeon_high_price_brl"))
-    card["marketZeonStoreCount"] = int(float_or_none(price.get("marketzeon_store_count")) or 0)
-    card["marketZeonListingCount"] = int(float_or_none(price.get("marketzeon_listing_count")) or 0)
-    card["marketZeonBestShop"] = normalize_text(price.get("marketzeon_best_shop"))
-    card["marketZeonBestUrl"] = normalize_text(price.get("marketzeon_best_url"))
-    card["marketZeonMarkupPct"] = float_or_none(price.get("marketzeon_markup_pct"))
-    card["marketZeonAvgMarkupPct"] = float_or_none(price.get("marketzeon_avg_markup_pct"))
-    card["marketZeonComparisonStatus"] = normalize_text(price.get("comparison_status")) or (
-        "not_found" if marketzeon_price_map else "not_loaded"
-    )
-    card["marketZeonPriceLastCheckedUtc"] = normalize_text(price.get("price_last_checked_utc"))
-
-
 def apply_ligagundam_price_fields(card: dict, ligagundam_price_map: dict[str, dict], card_number: str) -> None:
     price = ligagundam_price_map.get(card_number, {})
     card["ligaGundamLowPriceBrl"] = float_or_none(price.get("ligagundam_low_price_brl"))
@@ -490,20 +414,6 @@ def apply_ligagundam_price_fields(card: dict, ligagundam_price_map: dict[str, di
     card["ligaGundamPriceLastCheckedUtc"] = normalize_text(price.get("price_last_checked_utc"))
 
 
-def apply_marketzeon_listing_fields(printing: dict, listing: dict | None) -> None:
-    if not listing:
-        printing["marketZeonVariantPriceStatus"] = "not_found"
-        return
-    printing["marketZeonLowPriceBrl"] = float_or_none(listing.get("price_brl"))
-    printing["marketZeonBestShop"] = normalize_text(listing.get("shop"))
-    printing["marketZeonBestUrl"] = normalize_text(listing.get("url"))
-    printing["marketZeonListingId"] = normalize_upper(listing.get("listing_id"))
-    printing["marketZeonStoreCount"] = 1
-    printing["marketZeonListingCount"] = 1
-    printing["marketZeonVariantPriceStatus"] = "exact_match" if printing["marketZeonListingId"] == normalize_upper(printing.get("cardNumber")) else "variant_match"
-    printing["marketZeonPriceLastCheckedUtc"] = normalize_text(listing.get("fetched_at_utc"))
-
-
 def apply_ligagundam_listing_fields(printing: dict, listing: dict | None) -> None:
     if not listing:
         printing["ligaGundamVariantPriceStatus"] = "not_found"
@@ -518,120 +428,6 @@ def apply_ligagundam_listing_fields(printing: dict, listing: dict | None) -> Non
     printing["ligaGundamListingCount"] = 1
     printing["ligaGundamVariantPriceStatus"] = "exact_match" if printing["ligaGundamListingId"] == normalize_upper(printing.get("cardNumber")) else "variant_match"
     printing["ligaGundamPriceLastCheckedUtc"] = normalize_text(listing.get("fetched_at_utc"))
-
-
-def pick_marketzeon_listing(card_number: str, printing: dict, marketzeon_listing_groups: dict[str, list[dict]]) -> dict | None:
-    listings = marketzeon_listing_groups.get(card_number, [])
-    if not listings:
-        return None
-
-    rarity = normalize_upper(printing.get("rarity")).replace(" ", "")
-    is_plus = "+" in rarity
-    package_code = normalize_upper(printing.get("packageCode"))
-    source = normalize_upper(printing.get("whereToGetIt"))
-    if is_plus:
-        candidates = [item for item in listings if marketzeon_listing_matches_rarity(item, rarity)]
-    else:
-        candidates = [item for item in listings if not marketzeon_listing_is_parallel(item)]
-    if not candidates:
-        return None
-
-    expected_edition = package_code or ("BETA" if "EDITION BETA" in source else "")
-    event_markers = [
-        marker
-        for marker in (
-            "NEWTYPE CHALLENGE",
-            "CHAMPIONSHIP",
-            "PARTICIPATION",
-            "PARTICIPANT",
-            "WINNER",
-            "LAUNCH EVENT",
-            "RELEASE EVENT",
-            "STORE TOURNAMENT",
-            "WORLD CHAMPIONSHIP",
-            "PREMIUM CARD COLLECTION",
-        )
-        if marker in source
-    ]
-    if event_markers:
-        event_candidates = [
-            item
-            for item in candidates
-            if any(price_listing_matches_event_marker(item, marker) for marker in event_markers)
-        ]
-        if not event_candidates:
-            return None
-        candidates = event_candidates
-
-    def score(item: dict) -> tuple[int, float, str]:
-        listing_id = normalize_upper(item.get("listing_id"))
-        title = normalize_upper(item.get("title"))
-        edition = marketzeon_listing_edition(item)
-        value = 0
-        if expected_edition:
-            value += -120 if edition == expected_edition else 90
-        elif event_markers:
-            value += -35 if edition in {"RP", "EXRP"} else 20
-        for marker in event_markers:
-            value += -70 if marker in title else 24
-        if not is_plus and listing_id == card_number:
-            value -= 12
-        if is_plus and "(SP)" in source:
-            value += -30 if "(SP)" in title else 12
-        price = float_or_none(item.get("price_brl"))
-        return (value, price if price is not None else 999999, listing_id)
-
-    selected = min(candidates, key=score)
-    best_score = score(selected)[0]
-    if expected_edition and best_score >= 70:
-        return None
-    if event_markers and best_score >= 55:
-        return None
-    return selected
-
-
-def marketzeon_listing_is_parallel(item: dict) -> bool:
-    listing_id = normalize_upper(item.get("listing_id"))
-    title = normalize_upper(item.get("title"))
-    return any(token in listing_id for token in ("-LRP", "-LRPP", "-CP", "-CPP", "-RP", "-UP")) or any(
-        token in title for token in ("(LR+)", "(LR++)", "(C+)", "(C++)", "(R+)", "(U+)")
-    )
-
-
-def marketzeon_listing_matches_rarity(item: dict, rarity: str) -> bool:
-    return ligagundam_listing_matches_rarity(item, rarity)
-
-
-def marketzeon_listing_edition(item: dict) -> str:
-    url = normalize_text(item.get("url"))
-    match = re.search(r"(?:[?&])edicao=(\d+)", url, re.IGNORECASE)
-    if match:
-        return {
-            "1": "BETA",
-            "2": "EXBP",
-            "3": "EXRP",
-            "4": "RP",
-            "5": "RP",
-            "6": "ST01",
-            "7": "ST02",
-            "8": "ST03",
-            "9": "ST04",
-            "10": "GD01",
-            "11": "ST05",
-            "12": "GD02",
-            "13": "ST06",
-            "14": "GD03",
-            "15": "ST07",
-            "16": "ST08",
-            "17": "ST09",
-            "18": "GD04",
-        }.get(match.group(1), "")
-
-    listing_id = normalize_upper(item.get("listing_id"))
-    for code in ("GD04", "GD03", "GD02", "GD01", "ST09", "ST08", "ST07", "ST06", "ST05", "ST04", "ST03", "ST02", "ST01"):
-        if f"-{code}" in listing_id:
-            return code
-    return ""
 
 
 def pick_ligagundam_listing(card_number: str, printing: dict, ligagundam_listing_groups: dict[str, list[dict]]) -> dict | None:
@@ -844,7 +640,6 @@ def group_printing_rows(cards: list[dict]) -> dict[str, list[dict]]:
 def build_printings(
     card_number: str,
     rows: list[dict],
-    marketzeon_listing_groups: dict[str, list[dict]] | None = None,
     ligagundam_listing_groups: dict[str, list[dict]] | None = None,
     tcgplayer_printing_price_groups: dict[str, list[dict]] | None = None,
     fx_rate: dict | None = None,
@@ -872,7 +667,6 @@ def build_printings(
             pick_tcgplayer_printing_price(card_number, printing, tcgplayer_printing_price_groups or {}),
             fx_rate or {},
         )
-        apply_marketzeon_listing_fields(printing, pick_marketzeon_listing(card_number, printing, marketzeon_listing_groups or {}))
         apply_ligagundam_listing_fields(printing, pick_ligagundam_listing(card_number, printing, ligagundam_listing_groups or {}))
         printings.append(printing)
     return printings
@@ -884,9 +678,7 @@ def build_main_cards(
     printing_rows: dict[str, list[dict]],
     price_map: dict[str, dict],
     fx_rate: dict,
-    marketzeon_price_map: dict[str, dict],
     ligagundam_price_map: dict[str, dict],
-    marketzeon_listing_groups: dict[str, list[dict]],
     ligagundam_listing_groups: dict[str, list[dict]],
     tcgplayer_printing_price_groups: dict[str, list[dict]],
 ) -> list[dict]:
@@ -900,7 +692,6 @@ def build_main_cards(
         printings = build_printings(
             card_number,
             printing_rows.get(card_number, []),
-            marketzeon_listing_groups,
             ligagundam_listing_groups,
             tcgplayer_printing_price_groups,
             fx_rate,
@@ -941,7 +732,6 @@ def build_main_cards(
             "sourceTitle": normalize_text(canonical.get("source_title")),
         }
         apply_price_fields(card, price_map, fx_rate, card_number)
-        apply_marketzeon_price_fields(card, marketzeon_price_map, card_number)
         apply_ligagundam_price_fields(card, ligagundam_price_map, card_number)
         card["searchText"] = " ".join(
             [
@@ -967,9 +757,7 @@ def build_resource_cards(
     printing_rows: dict[str, list[dict]],
     price_map: dict[str, dict],
     fx_rate: dict,
-    marketzeon_price_map: dict[str, dict],
     ligagundam_price_map: dict[str, dict],
-    marketzeon_listing_groups: dict[str, list[dict]],
     ligagundam_listing_groups: dict[str, list[dict]],
     tcgplayer_printing_price_groups: dict[str, list[dict]],
 ) -> list[dict]:
@@ -983,7 +771,6 @@ def build_resource_cards(
         printings = build_printings(
             card_number,
             printing_rows.get(card_number, []),
-            marketzeon_listing_groups,
             ligagundam_listing_groups,
             tcgplayer_printing_price_groups,
             fx_rate,
@@ -1019,7 +806,6 @@ def build_resource_cards(
             ).lower(),
         }
         apply_price_fields(item, price_map, fx_rate, card_number)
-        apply_marketzeon_price_fields(item, marketzeon_price_map, card_number)
         apply_ligagundam_price_fields(item, ligagundam_price_map, card_number)
         resources.append(item)
     resources.sort(key=lambda item: (item["color"], item["cardName"], item["cardNumber"]))
@@ -1179,33 +965,6 @@ def build_meta_deck_cards() -> list[dict]:
     return load_competitive_frontend().get("metaDeckCards", [])
 
 
-def build_market_listings(groups: dict[str, list[dict]]) -> list[dict]:
-    listings = []
-    for card_number, rows in groups.items():
-        for row in rows:
-            price = float_or_none(row.get("price_brl"))
-            stock = int(float_or_none(row.get("stock")) or 0)
-            if price is None or stock <= 0:
-                continue
-            listings.append(
-                {
-                    "listingId": normalize_upper(row.get("listing_id")),
-                    "cardNumber": card_number,
-                    "shop": normalize_text(row.get("shop")),
-                    "source": normalize_text(row.get("source")),
-                    "title": normalize_text(row.get("title")),
-                    "priceBrl": price,
-                    "stock": stock,
-                    "available": True,
-                    "url": normalize_text(row.get("url")),
-                    "isVariant": normalize_upper(row.get("listing_id")) != card_number,
-                    "fetchedAtUtc": normalize_text(row.get("fetched_at_utc")),
-                }
-            )
-    listings.sort(key=lambda item: (item["cardNumber"], item["listingId"], item["priceBrl"], item["shop"]))
-    return listings
-
-
 def build_rules(advisor_snapshot: dict) -> dict:
     restrictions = []
     for row in advisor_snapshot.get("current_restrictions", []):
@@ -1296,13 +1055,12 @@ def catalog_advisor_rows(snapshot: dict, advisor: dict, previous: dict) -> tuple
     return rows, build_resource_rows(canonical)
 
 
-def preserve_market_fields(cards: list[dict], previous: list[dict], *, tcg: bool, printing_tcg: bool, marketzeon: bool, liga: bool) -> None:
+def preserve_market_fields(cards: list[dict], previous: list[dict], *, tcg: bool, printing_tcg: bool, liga: bool) -> None:
     previous_by_number = {row["cardNumber"]: row for row in previous}
 
     def restore(target: dict, old: dict, keep_tcg: bool) -> None:
         for key, value in old.items():
             if ((keep_tcg and key.startswith(("tcgplayer", "marketPrice", "lowPrice", "midPrice", "highPrice", "price", "usdBrl")))
-                    or (marketzeon and key.startswith("marketZeon"))
                     or (liga and key.startswith("ligaGundam"))):
                 target[key] = value
 
@@ -1314,7 +1072,14 @@ def preserve_market_fields(cards: list[dict], previous: list[dict], *, tcg: bool
             restore(printing, printings.get(printing["detailSearchId"], {}), printing_tcg)
 
 
-def finalize_payload(payload: dict, previous: dict, advisor: dict, catalog: dict, *, preserve_tcg: bool, preserve_printing_tcg: bool, preserve_marketzeon: bool, preserve_liga: bool) -> dict:
+def without_retired_prices(card: dict) -> dict:
+    current = {key: value for key, value in card.items() if not key.startswith("marketZeon")}
+    if "printings" in current:
+        current["printings"] = [without_retired_prices(printing) for printing in current["printings"]]
+    return current
+
+
+def finalize_payload(payload: dict, previous: dict, advisor: dict, catalog: dict, *, preserve_tcg: bool, preserve_printing_tcg: bool, preserve_liga: bool) -> dict:
     if not advisor:
         for key in ("advisorSnapshotGeneratedAt", "metaSnapshotGeneratedAt", "recentWindowDays", "recentCutoffDate",
                     "defaults", "rules", "archetypes", "templates", "colorPairs", "sources", "filters", "counts"):
@@ -1324,6 +1089,9 @@ def finalize_payload(payload: dict, previous: dict, advisor: dict, catalog: dict
         for key in ("cards", "resourceCards", "previews", "products", "packages", "cardSnapshotGeneratedAt"):
             if key in previous:
                 payload[key] = previous[key]
+        # Drop retired price fields from legacy snapshots used without source caches.
+        for key in ("cards", "resourceCards"):
+            payload[key] = [without_retired_prices(card) for card in payload[key]]
         if not payload["cards"]:
             raise ValueError("No official catalog or valid public card payload. Run npm run cards:update first.")
     else:
@@ -1333,7 +1101,7 @@ def finalize_payload(payload: dict, previous: dict, advisor: dict, catalog: dict
         if missing:
             raise ValueError(f"Public catalog lost {len(missing)} card(s); existing payload was preserved.")
         preserve_market_fields(cards, old_cards, tcg=preserve_tcg, printing_tcg=preserve_printing_tcg,
-                               marketzeon=preserve_marketzeon, liga=preserve_liga)
+                               liga=preserve_liga)
         filters = dict(payload.get("filters", {}))
         filters["colors"] = ["Any", *sorted({row["color"] for row in cards})]
         filters["cardTypes"] = ["Any", *sorted({row["cardType"] for row in payload["cards"]})]
@@ -1343,8 +1111,6 @@ def finalize_payload(payload: dict, previous: dict, advisor: dict, catalog: dict
     payload["counts"] = {**payload.get("counts", {}), "main_deck_cards": len(payload["cards"]), "resource_cards": len(payload["resourceCards"])}
     if not payload.get("fxRate"):
         payload["fxRate"] = previous.get("fxRate", {})
-    if preserve_marketzeon:
-        payload["marketListings"] = previous.get("marketListings", [])
     # Repeated builds with identical inputs must not create timestamp-only diffs.
     if {k: v for k, v in payload.items() if k != "generatedAt"} == {k: v for k, v in previous.items() if k != "generatedAt"}:
         payload["generatedAt"] = previous["generatedAt"]
@@ -1360,9 +1126,7 @@ def main() -> None:
         validate_catalog(gcg_snapshot, public=previous)
     price_map = load_price_map()
     fx_rate = load_fx_rate() or previous.get("fxRate", {})
-    marketzeon_price_map = load_marketzeon_price_map()
     ligagundam_price_map = load_ligagundam_price_map()
-    marketzeon_listing_groups = load_marketzeon_listing_groups()
     ligagundam_listing_groups = load_ligagundam_listing_groups()
     tcgplayer_printing_price_groups = load_tcgplayer_printing_price_groups()
 
@@ -1378,9 +1142,7 @@ def main() -> None:
         printing_rows,
         price_map,
         fx_rate,
-        marketzeon_price_map,
         ligagundam_price_map,
-        marketzeon_listing_groups,
         ligagundam_listing_groups,
         tcgplayer_printing_price_groups,
     )
@@ -1390,9 +1152,7 @@ def main() -> None:
         printing_rows,
         price_map,
         fx_rate,
-        marketzeon_price_map,
         ligagundam_price_map,
-        marketzeon_listing_groups,
         ligagundam_listing_groups,
         tcgplayer_printing_price_groups,
     )
@@ -1404,7 +1164,6 @@ def main() -> None:
     meta_events = build_meta_events()
     meta_results = build_meta_results()
     meta_deck_cards = build_meta_deck_cards()
-    market_listings = build_market_listings(marketzeon_listing_groups)
     indexed_event_dates = [
         str(row.get("eventDate", ""))[:10]
         for row in [*meta_events, *meta_results]
@@ -1461,12 +1220,10 @@ def main() -> None:
         "metaEvents": meta_events,
         "metaResults": meta_results,
         "metaDeckCards": meta_deck_cards,
-        "marketListings": market_listings,
     }
 
     payload = finalize_payload(payload, previous, advisor_snapshot, gcg_snapshot,
                                preserve_tcg=not price_map, preserve_printing_tcg=not tcgplayer_printing_price_groups,
-                               preserve_marketzeon=not marketzeon_price_map and not marketzeon_listing_groups,
                                preserve_liga=not ligagundam_price_map and not ligagundam_listing_groups)
     js_payload = "window.GUNDAM_DECK_BUILDER_DATA = " + json.dumps(
         payload,
@@ -1494,7 +1251,6 @@ def main() -> None:
                 "meta_events": len(meta_events),
                 "meta_results": len(meta_results),
                 "meta_deck_cards": len(meta_deck_cards),
-                "market_listings": len(payload["marketListings"]),
             },
             indent=2,
         )
