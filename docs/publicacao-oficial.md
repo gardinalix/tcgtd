@@ -13,7 +13,7 @@ Referência compartilhada entre os chats do TCG Tactical Database, definida pelo
 
 1. Leia o estado atual do Git, preserve alterações de outras tarefas e confira se há refresh em andamento. Não empacote arquivos que ainda estão sendo escritos.
 2. Valide a versão local: testes, build, dados, migração SQLite local, artefatos de hospedagem e funcionalidades afetadas. Registre falhas conhecidas sem ocultá-las.
-3. Identifique precisamente a versão por commit e hashes. Registre a autorização explícita do usuário para esse conjunto; uma aprovação já concedida continua válida para o mesmo pacote.
+3. Identifique precisamente a versão por commit e hashes. A autorização permanente registrada em AGENTS.md cobre as versões do site e dos dados que passarem na validação local, inclusive no refresh agendado.
 4. Prepare pacote imutável com fonte recuperável (commit acessível ou bundle Git com base documentada), dist completo, manifesto SHA256, evidências e limitações. Não inclua segredos. Confira que fonte, dados e build pertencem à mesma versão.
 5. Para a transferência que já funcionou neste chat, divida pacotes grandes em anexos ZIP individuais menores que 32 MiB. Cada ZIP contém uma parte numerada do ZIP original. Informe quantidade, ordem, tamanho e SHA256 final: extrair os membros e concatená-los, nunca concatenar os ZIPs externos.
 
@@ -21,10 +21,10 @@ Referência compartilhada entre os chats do TCG Tactical Database, definida pelo
 
 1. Abra o link acima pelo navegador autenticado e leia a resposta mais recente antes de enviar qualquer solicitação. Se houver publicação em andamento, acompanhe-a. Se o SHA já foi publicado, recupere seu resultado sem repetir o deploy.
 2. Confira o modelo selecionado e registre-o no resultado. Qualquer modelo disponível é aceito.
-3. Encaminhe o pacote aprovado e um pedido com: projeto, domínio, SHA fonte, hashes do pacote, validações, aprovação e ressalvas. Peça publicação direta nessa conversa e verificação do live. A máquina de origem não está necessariamente montada no ambiente do publicador; forneça anexos ou fonte acessível.
-4. Use exatamente o build aprovado, sem novo refresh, META ou regeneração. Preserve audiência, domínios, D1, segredos e configurações. Alterações de infraestrutura ou dados reais precisam de autorização específica. Não faça push no GitHub main apenas como efeito incidental do deploy.
+3. Encaminhe o pacote validado, o projeto, o domínio, o SHA fonte, os hashes, as validações e as ressalvas. Peça publicação direta e verificação do live. Forneça anexos ou uma fonte acessível ao publicador.
+4. Use exatamente o build validado, sem novo refresh, META ou regeneração. Preserve audiência, domínios, D1, segredos e configurações. Alterações exclusivas de produção precisam de autorização específica. Não faça push no GitHub main apenas como efeito incidental do deploy.
 5. Aguarde conclusão e confira o resultado. Em caso de limite de uso ou interrupção, retome na mesma conversa quando possível, conferindo antes o estado e a integridade do pacote. Não crie outra publicação para contornar a interrupção.
-6. Registre separadamente publicação e verificação: URL, versão, deployment ID, SHA, rotas, downloads reais, capturas e pendências. HTTP 200 sozinho não comprova que uma página funciona. Se um teste falhar, registre a falha; correções alteram a versão e precisam de validação e aprovação próprias.
+6. Registre a publicação e a verificação com URL, versão, deployment ID, SHA, rotas, downloads reais, capturas e pendências. HTTP 200 sozinho não comprova que uma página funciona. Registre falhas e valide qualquer versão corrigida antes de publicar.
 
 ## Continuidade entre chats
 

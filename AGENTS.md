@@ -13,15 +13,14 @@ Estas orientações valem para todos os chats do TCG Tactical Database, inclusiv
 # Modelo para publicações
 
 - Qualquer modelo disponível pode preparar, publicar e verificar o live. Reutilize o chat **Atualizador Oficial do Site** (ID estável `01a13f42-0ed0-7244-b9ae-30ce60f2f020`) e informe o modelo atual quando encaminhar o pacote.
-- A escolha do modelo não autoriza um deploy: a aprovação da versão e as validações previstas abaixo continuam obrigatórias.
 
 # Ponto único de publicação, independentemente do chat de origem
 
 - O publicador oficial é [Atualizador Oficial do Site](https://chatgpt.com/local/01a13f42-0ed0-7244-b9ae-30ce60f2f020). O ID, e não apenas o título, identifica a conversa. Não crie outro chat por publicação.
-- Antes de preparar uma publicação, leia [o procedimento de publicação](docs/publicacao-oficial.md). Outros chats podem implementar e validar localmente; após a autorização da versão, devem encaminhar o pacote exato e as evidências ao publicador oficial e acompanhar o resultado.
+- Antes de preparar uma publicação, leia [o procedimento de publicação](docs/publicacao-oficial.md). Após a validação local, encaminhe o pacote exato e as evidências ao publicador oficial e acompanhe o resultado.
 - Use o acesso direto pelo navegador a esse chat, conforme o fluxo que publicou as versões 125 e 126. A ausência das ferramentas Sites no chat de origem, ou a ausência desse chat antigo na listagem local, não demonstra que o caminho de publicação está indisponível.
-- Consulte a última resposta e o estado da publicação antes de retomar: não envie duas publicações concorrentes, não publique novamente um SHA já concluído e não substitua o pacote aprovado por dados de um refresh posterior.
-- Agendamentos continuam preparando e validando dados localmente. A escolha do publicador não concede aprovação automática a versões futuras. Registre conclusão, falhas e pendências; nunca prometa ausência de falhas nem declare sucesso sem evidência.
+- Consulte a última resposta e o estado da publicação antes de retomar. Evite publicações concorrentes, SHAs já publicados e alterações no pacote validado.
+- A autorização permanente de 08/11/2026 cobre a publicação de mudanças no site e de dados gerados localmente, inclusive pelo refresh agendado. Publique quando houver mudanças relevantes e as verificações aplicáveis passarem. Registre a conclusão, as falhas e as pendências.
 
 # Fluxo obrigatório: local antes do live
 
@@ -35,16 +34,9 @@ Este projeto usa um fluxo de publicação em duas etapas. Toda solicitação de 
 - Quando útil, disponibilize ou reutilize a prévia local para o usuário conferir.
 - Não crie uma versão de produção, não faça deploy e não altere o ambiente live nesta etapa.
 
-## 2. Aprovação para publicar
+## 2. Publicação e verificação do live
 
-- Depois da validação local, informe claramente que a alteração está **pronta localmente** e resuma o que foi verificado.
-- Peça confirmação explícita antes de publicar, por exemplo: **“Está pronto localmente. Posso publicar no live?”**
-- Uma solicitação para alterar, corrigir, implementar ou testar não conta como autorização para publicar.
-- Só considere autorizado o deploy quando o usuário responder de forma inequívoca, como “pode publicar”, “publique” ou equivalente.
-
-## 3. Publicação e verificação do live
-
-- Após a autorização, publique exatamente a versão validada localmente, sem acrescentar mudanças não testadas.
+- Publique exatamente a versão validada localmente. A autorização permanente dispensa confirmação por versão. Pedidos expressos de prévia, teste ou trabalho apenas local ficam nessa etapa.
 - Aguarde a conclusão do deploy e faça testes básicos no domínio de produção e nas rotas afetadas.
 - Informe separadamente o resultado da publicação e da verificação no live.
 - Se a publicação falhar, preserve a versão anterior no ar sempre que possível e explique o próximo passo.
