@@ -29,4 +29,6 @@ Qualquer chat do projeto com acesso funcional ao Sites pode executar o mesmo flu
 
 ## Última publicação observada
 
-O Atualizador Oficial confirmou em 08/11/2026 a versão **129**, fonte `7661a48` e deployment `appgdep_6af0a68f14408191bdb391d94f75a702`. O relatório registra `/previews` funcionando, diálogo XLSX alinhado em desktop e celular, 185 testes aprovados e os dois downloads validados. Consulte o Sites antes da próxima publicação.
+- Versão **130**, fonte `8a10ffc68c311fec4d5489da6160b0bdd48fba40`, deployment `appgdep_6af0ccbd44b88191a175e2ee075e170b`.
+- Em produção, os dois XLSX foram baixados e validados: 2.087 edições e 1.195 cartas canônicas, 20 colunas e oito regras de cor na coluna E. A rota `/previews` e o diálogo XLSX em desktop e celular foram verificados. Os hashes dos dados públicos e do bundle de Cartas conferem com o pacote.
+- Pendências desta publicação: **nenhuma**. A v130 preserva as duas correções de interface da v129 e entrega a formatação por cor.
