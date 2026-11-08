@@ -33,6 +33,7 @@ export const ROUTES = {
 };
 
 const ROUTE_ALIASES = {
+  "/previews": "previews",
   "/products": "previews",
   "/forge": "decks",
   "/deck-designer": "decks",

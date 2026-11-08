@@ -1,13 +1,28 @@
 
 /* Card archive public export dialog */
 .card-archive-export-backdrop{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;background:rgba(0,6,19,.84);padding:18px}
-.card-archive-export-panel{width:min(100%,520px);padding:26px;background:#07182b;border:1px solid #55b7d5;box-shadow:0 0 45px rgba(34,189,232,.15);color:#e7f7ff;font-family:inherit}
+.card-archive-export-panel{width:min(100%,520px);max-height:calc(100dvh - 36px);overflow-y:auto;padding:26px;background:#07182b;border:1px solid #55b7d5;box-shadow:0 0 45px rgba(34,189,232,.15);color:#e7f7ff;font-family:inherit}
 .card-archive-export-heading{display:flex;justify-content:space-between;align-items:center;color:#6cdeeb;font-size:.72rem;letter-spacing:.14em}
 .card-archive-export-heading button{border:0;background:transparent;color:#dff6ff;font-size:26px;cursor:pointer}
 .card-archive-export-panel h2{color:#fff;margin:14px 0 8px;font-size:1.55rem}
 .card-archive-export-panel p{font-size:.93rem;line-height:1.55;color:#b0cbd8}
-.card-archive-export-panel label{display:flex;gap:12px;align-items:flex-start;line-height:1.45;margin:20px 0;color:#edfaff;cursor:pointer}
-.card-archive-export-panel label input{accent-color:#42d9ed;flex-shrink:0;margin-top:4px}
+.card-archive-export-panel label{display:flex;gap:12px;align-items:flex-start;min-height:44px;line-height:1.45;margin:20px 0;color:#edfaff;cursor:pointer}
+/* Keep native checkboxes out of the shared full-width text-field sizing. */
+#root .card-archive-export-panel input[type="checkbox"] {
+  flex: 0 0 20px;
+  width: 20px;
+  min-width: 20px;
+  max-width: 20px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0;
+  margin: 2px 0 0;
+  accent-color: #42d9ed;
+}
+#root .card-archive-export-panel input[type="checkbox"]:focus-visible {
+  outline: 2px solid #65dce9;
+  outline-offset: 3px;
+}
 .card-archive-export-panel .card-archive-export-count{color:#65dce9;font-weight:700;font-size:.85rem}
 .card-archive-export-panel .card-archive-export-error{color:#ffb4a9}
 .card-archive-export-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}

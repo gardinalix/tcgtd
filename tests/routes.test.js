@@ -27,6 +27,8 @@ test("route names remain case-insensitive while identifiers preserve their origi
 });
 
 test("published route aliases open their intended application views", () => {
+  assert.deepEqual(parse("/previews"), { view: "previews", id: "" });
+  assert.deepEqual(parse("/PREVIEWS/"), { view: "previews", id: "" });
   assert.deepEqual(parse("/products"), { view: "previews", id: "" });
   assert.deepEqual(parse("/forge"), { view: "decks", id: "" });
   assert.deepEqual(parse("/deck-designer"), { view: "decks", id: "" });
