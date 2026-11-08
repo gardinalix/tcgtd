@@ -36,6 +36,6 @@ Em 06/11/2026, o chat oficial era visível no navegador, mas não constava na li
 
 Verificada em 08/11/2026. Consulte o estado do Sites antes da próxima publicação.
 
-- Versão **127**, deployment `appgdep_6aeff361e28c8191af4259507a14818d`, fonte `fe051df51057f8fd4dcc2d1189b1a3a10bce37b1`.
-- Verificação no domínio em `/meta`, `/prices` e `/cards`. Os hashes de app-data.json e do torneio Eagle’s Nest de 05/11 correspondem ao pacote local. Downloads XLSX com 2.087 edições e 1.195 cartas canônicas, 20 colunas e IDs únicos.
+- Versão **128**, deployment `appgdep_6af064d337c8819180483a5f8bd390e6`, fonte `af0909b777e5ab07691d8794148348cd8375b6de`.
+- Verificação no domínio em `/meta`, `/prices`, `/cards` e `/products`. A rota de prévias definida no código é `/leaks`. Os hashes de app-data.json, home-data.json e do torneio Eagle’s Nest de 05/11 correspondem ao pacote local. Câmbio de R$ 5,503 por dólar e downloads XLSX confirmados.
 - O desalinhamento de texto no diálogo XLSX segue visível. Os downloads estão íntegros.
