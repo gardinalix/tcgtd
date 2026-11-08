@@ -47,6 +47,26 @@ process.stdout.write(Buffer.from(buildCardArchiveXlsx(rows, { snapshot: data.car
             self.assertEqual(len(actual_ids), len(expected_ids), "Every current printing must appear exactly once")
             self.assertEqual(set(actual_ids), expected_ids, "Workbook IDs must match the current catalog")
 
+            rules = sheet.findall("./" + namespace + "conditionalFormatting")
+            self.assertEqual(len(rules), 1)
+            self.assertEqual(rules[0].get("sqref"), f"E2:E{len(rows)}")
+            conditions = rules[0].findall("./" + namespace + "cfRule")
+            self.assertEqual(len(conditions), 8)
+            required = {"BLUE", "GREEN", "RED", "PURPLE", "WHITE", "NEUTRAL", "YELLOW", "BLACK"}
+            detected = set()
+            for condition in conditions:
+                self.assertEqual(condition.get("type"), "expression")
+                self.assertIsNotNone(condition.get("dxfId"))
+                formula = condition.find("./" + namespace + "formula").text
+                self.assertTrue(formula.startswith('UPPER(TRIM($E2))="'))
+                detected.add(formula.split('"')[1])
+            self.assertEqual(detected, required)
+            styles = ET.fromstring(workbook.read("xl/styles.xml"))
+            styles_dxfs = styles.find("./" + namespace + "dxfs")
+            self.assertEqual(styles_dxfs.get("count"), "8")
+            self.assertEqual(len(styles_dxfs), 8)
+
+
 
 if __name__ == "__main__":
     unittest.main()

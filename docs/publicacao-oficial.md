@@ -10,7 +10,7 @@ Qualquer chat do projeto com acesso funcional ao Sites pode executar o mesmo flu
 ## Preparar e validar
 
 1. Confira o Git, o refresh em andamento e o estado do Sites antes de montar o build. Preserve o trabalho em curso. Identifique a versão efetivamente publicada, seu SHA e as versões salvas mais recentes. Um save pode existir sem deploy.
-2. Compare a fonte publicada com o checkout. Se a hospedagem tiver correções ausentes no GitHub ou na branch local, recupere o SHA exato ou o pacote de fonte da publicação, incorpore as correções sem perder o trabalho local e valide o resultado. Em particular, a v129 adicionou a rota `/previews` e corrigiu o diálogo XLSX. Na data do registro, `7661a48` não existia no checkout canônico local. Um refresh de dados também precisa preservar essas correções.
+2. Compare a fonte publicada com o checkout. Se a hospedagem tiver correções ausentes no GitHub ou na branch local, recupere o SHA exato ou o pacote de fonte da publicação, incorpore as correções sem perder o trabalho local e valide o resultado. As correções de `/previews` e do diálogo XLSX da v129 foram incorporadas com o patch de `7661a48` no commit `c863179`.
 3. Valide o código, os dados, as rotas afetadas, o build e, quando aplicável, a migração SQLite em memória, o Worker e os artefatos Sites. Congele o commit completo, o `dist` e o manifesto SHA256. Confira a correspondência entre fonte, dados e build. A autorização permanente cobre as atualizações validadas do site e dos dados gerados. Pedidos expressos de prévia ou trabalho apenas local terminam nessa etapa.
 
 ## Publicar diretamente no chat de origem
