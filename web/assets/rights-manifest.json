@@ -1,6 +1,6 @@
 {
   "schemaVersion": "tcgtd-asset-rights-v1",
-  "generatedAt": "2026-11-07T03:09:21Z",
+  "generatedAt": "2026-11-08T04:02:25Z",
   "policy": "Every visual asset must retain a source, known owner, review status and permitted-use record before public release.",
   "releaseGate": "Entries with reviewStatus=review_required must be cleared, replaced or removed before general public access.",
   "assets": [

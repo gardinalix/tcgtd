@@ -1,6 +1,6 @@
 {
   "schema_version": "tcgtd-competitive-v1",
-  "data_hash": "6b72aa4d270c7d3d1aa076f1b88d4517752e97671e53d6e1124fc715fffbd348",
+  "data_hash": "6f8e0b9645df5873ebd4b0136c980d2ff5589f9bcb316b3f73c1fad4721bde02",
   "counts": {
     "tournaments": 279,
     "results": 1306,
@@ -94,7 +94,6 @@
       "decks",
       "deck_cards",
       "players",
-      "archetypes",
       "cards"
     ],
     "errors": []

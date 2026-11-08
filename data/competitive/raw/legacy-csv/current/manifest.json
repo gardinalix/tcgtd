@@ -6,19 +6,19 @@
       "path": "data/meta_events.csv",
       "content_hash": "3187a68e12b8e3d57d61f35dc4bd5afdef563a5133f877d64ce0c6cc43500c79",
       "bytes": 77702,
-      "retrieved_at": "2026-11-06T14:50:16.340Z"
+      "retrieved_at": "2026-11-08T04:01:53.436Z"
     },
     "results": {
       "path": "data/meta_results.csv",
       "content_hash": "f66fe46363bee83fa4d02988e1608bd0823d72135d68f9c7b34187bccdfaab74",
       "bytes": 585462,
-      "retrieved_at": "2026-11-06T14:50:16.360Z"
+      "retrieved_at": "2026-11-08T04:01:53.472Z"
     },
     "deck_cards": {
       "path": "data/meta_deck_cards.csv",
       "content_hash": "ff9b348ed90f1b6896caf8402a4d9a1fb75856dc4303d99ffc3a1fa9769d0e9a",
       "bytes": 4131936,
-      "retrieved_at": "2026-11-06T14:50:16.548Z"
+      "retrieved_at": "2026-11-08T04:01:53.896Z"
     },
     "tournament_registry": {
       "path": "data/competitive/sources/tournaments.json",
@@ -102,5 +102,5 @@
     }
   ],
   "compressed_payload": "source.json.gz",
-  "content_hash": "1b0b7a2b38fe05166a3fd17475d48023753cebd228d4a135bcb03e7f20b17c74"
+  "content_hash": "fa773f1746781baf9feb753e5aec5cd423986270886e731b57578db515951735"
 }
