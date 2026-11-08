@@ -34,11 +34,8 @@ Em 06/11/2026, o chat oficial era visível no navegador, mas não constava na li
 
 ## Última publicação observada (referência histórica)
 
-Lida na resposta final do publicador em 06/11/2026 às 12:17 BRT; este registro não substitui consultar o estado atual antes da próxima publicação.
+Verificada em 08/11/2026. Consulte o estado do Sites antes da próxima publicação.
 
-- Versão: **126**.
-- Deployment: `appgdep_6aedeee971f08191bbeb3c6e6cfd9bd4`.
-- Fonte: `8a940ddb8cb8aba6cf842ad6d92fa557c9e201d7`.
-- Relato do publicador: pacote aprovado publicado sem rebuild/refresh; nove rotas, sete temas e 290 hashes conferidos; XLSX com 2.087 edições / 1.195 cartas, 21 colunas e IDs únicos; exports TXT/PNG funcionando.
-- Pendências relatadas: `/card/GD06-001_p1` apresenta Card not found (variante funciona dentro de `/cards`); textos desalinhados no diálogo XLSX.
-- Dados gerados depois desse snapshot não fazem parte dessa publicação.
+- Versão **127**, deployment `appgdep_6aeff361e28c8191af4259507a14818d`, fonte `fe051df51057f8fd4dcc2d1189b1a3a10bce37b1`.
+- Verificação no domínio em `/meta`, `/prices` e `/cards`. Os hashes de app-data.json e do torneio Eagle’s Nest de 05/11 correspondem ao pacote local. Downloads XLSX com 2.087 edições e 1.195 cartas canônicas, 20 colunas e IDs únicos.
+- O desalinhamento de texto no diálogo XLSX segue visível. Os downloads estão íntegros.
