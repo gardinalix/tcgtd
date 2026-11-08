@@ -12,14 +12,15 @@ Estas orientações valem para todos os chats do TCG Tactical Database, inclusiv
 
 # Modelo para publicações
 
-- Qualquer modelo disponível pode preparar, publicar e verificar o live. Reutilize o chat **Atualizador Oficial do Site** (ID estável `01a13f42-0ed0-7244-b9ae-30ce60f2f020`) e informe o modelo atual quando encaminhar o pacote.
+- Qualquer modelo disponível pode preparar, publicar e verificar o live. Registre o modelo usado na publicação ou no encaminhamento.
 
-# Ponto único de publicação, independentemente do chat de origem
+# Publicação a partir de qualquer chat
 
-- O publicador oficial é [Atualizador Oficial do Site](https://chatgpt.com/local/01a13f42-0ed0-7244-b9ae-30ce60f2f020). O ID, e não apenas o título, identifica a conversa. Não crie outro chat por publicação.
-- Antes de preparar uma publicação, leia [o procedimento de publicação](docs/publicacao-oficial.md). Após a validação local, encaminhe o pacote exato e as evidências ao publicador oficial e acompanhe o resultado.
-- Use o acesso direto pelo navegador a esse chat, conforme o fluxo que publicou as versões 125 e 126. A ausência das ferramentas Sites no chat de origem, ou a ausência desse chat antigo na listagem local, não demonstra que o caminho de publicação está indisponível.
-- Consulte a última resposta e o estado da publicação antes de retomar. Evite publicações concorrentes, SHAs já publicados e alterações no pacote validado.
+- Leia [o procedimento de publicação](docs/publicacao-oficial.md). O chat de origem publica diretamente quando tiver acesso funcional ao conector Sites do projeto `appgprj_6a68269688848191accea7675bbb56b3`. O destino é `https://tcgtd.com.br`.
+- Consulte a versão live, os deploys em andamento e o SHA da fonte antes de preparar o build e novamente antes de publicar. Incorpore correções publicadas que estejam ausentes no checkout. Para a v129, confirme a presença da fonte `7661a48` ou das duas correções equivalentes já validadas. Se o live avançar, reconcilie as mudanças e valide o novo pacote.
+- Valide e congele o commit e o build. Sincronize o SHA exato na branch de hospedagem indicada pelo Sites. Gere o TAR do build, salve a versão com `save_site_version`, publique o ID retornado com `deploy_site_version`, acompanhe por `get_deployment_status` e verifique as rotas afetadas no domínio. O repositório de hospedagem recebe o deploy. O GitHub continua sendo a fonte de desenvolvimento.
+- Quando o conector estiver indisponível no chat de origem, envie o mesmo pacote validado ao [Atualizador Oficial do Site](https://chatgpt.com/local/01a13f42-0ed0-7244-b9ae-30ce60f2f020), ID `01a13f42-0ed0-7244-b9ae-30ce60f2f020`. Confira o estado da publicação nesse chat antes de encaminhar ou retomar.
+- Retome versões salvas e deploys existentes pelos seus IDs. Se o SHA já estiver no ar, apenas confirme o resultado. Preserve o pacote validado e evite publicação concorrente.
 - A autorização permanente de 08/11/2026 cobre a publicação de mudanças no site e de dados gerados localmente, inclusive pelo refresh agendado. Publique quando houver mudanças relevantes e as verificações aplicáveis passarem. Registre a conclusão, as falhas e as pendências.
 
 # Fluxo obrigatório: local antes do live
