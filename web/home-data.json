@@ -14,15 +14,15 @@
       "shortLabel": "GD06",
       "formatCode": "GD06",
       "startDate": "2026-10-30",
-      "endDate": "2026-11-05"
+      "endDate": "2026-11-12"
     },
     {
       "id": "rolling-30",
       "label": "Rolling field · 30 days",
       "shortLabel": "30D",
       "formatCode": "GD06",
-      "startDate": "2026-10-07",
-      "endDate": "2026-11-05"
+      "startDate": "2026-10-14",
+      "endDate": "2026-11-12"
     },
     {
       "id": "gd05",
@@ -70,25 +70,25 @@
       "shortLabel": "ALL",
       "formatCode": "ALL",
       "startDate": "2025-02-14",
-      "endDate": "2026-11-05"
+      "endDate": "2026-11-12"
     }
   ],
   "metaSnapshots": {
     "current": {
       "activeFormat": "GD06",
       "counts": {
-        "decklists": 16,
-        "events": 1
+        "decklists": 25,
+        "events": 2
       },
       "latestDecks": [
         {
-          "deckId": "f7b0b0971271af38",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "e19a896de799ba13",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "SdotAkuma",
+          "playerName": "xLust",
           "placingLabel": "1",
           "placingRank": 1,
           "archetype": "Shining Gundam (Master Gundam)",
@@ -96,69 +96,69 @@
           "sourceName": "Limitless"
         },
         {
-          "deckId": "968cbeef3c524f3c",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "d4b903933435f5d4",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "BanjoeJo",
+          "playerName": "ExiaTCG",
           "placingLabel": "2",
           "placingRank": 2,
-          "archetype": "Blue White Freedom Blockers",
+          "archetype": "Strike Freedom Gundam (Base)",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "da708a5a3915fc01",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "7964ce08b40b8035",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "Mariamne",
+          "playerName": "AshenTDK",
           "placingLabel": "3",
           "placingRank": 3,
-          "archetype": "Purple White Destiny",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "10dda512cbb0deee",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "its_Philnami",
-          "placingLabel": "4",
-          "placingRank": 4,
           "archetype": "Other",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "b7aeae82cb918e94",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "4035df1387ac893f",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
           "playerName": "Jinzo777",
-          "placingLabel": "5",
-          "placingRank": 5,
+          "placingLabel": "4",
+          "placingRank": 4,
           "archetype": "Shining Gundam (Master Gundam)",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "f77fa5f9fda70fed",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "91582566757713a6",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "BunnyFooFoo998",
+          "playerName": "Ace_Dragn",
+          "placingLabel": "5",
+          "placingRank": 5,
+          "archetype": "Other",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "5105910388e877f4",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "JayUnderwood3",
           "placingLabel": "6",
           "placingRank": 6,
           "archetype": "Other",
@@ -167,6 +167,16 @@
         }
       ],
       "latestEvents": [
+        {
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 9,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6af13821c931f53978d96f33/standings"
+        },
         {
           "eventId": "ed769dabd588854f",
           "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
@@ -184,63 +194,63 @@
           "cardName": "Overflowing Affection",
           "cardType": "COMMAND",
           "color": "White",
-          "recentMetaScore": 62.5,
-          "recentTop8DecksUsing": 10,
+          "recentMetaScore": 64,
+          "recentTop8DecksUsing": 16,
           "imageUrl": "./assets/card-images/GD01-118.webp"
+        },
+        {
+          "cardNumber": "GD05-111",
+          "cardName": "Airframe​ Seizure",
+          "cardType": "COMMAND",
+          "color": "Red",
+          "recentMetaScore": 56.00000000000001,
+          "recentTop8DecksUsing": 14,
+          "imageUrl": "./assets/card-images/GD05-111.webp"
         },
         {
           "cardNumber": "GD04-068",
           "cardName": "Silver Bullet",
           "cardType": "UNIT",
           "color": "White",
-          "recentMetaScore": 56.25,
-          "recentTop8DecksUsing": 9,
+          "recentMetaScore": 56.00000000000001,
+          "recentTop8DecksUsing": 14,
           "imageUrl": "./assets/card-images/GD04-068.webp"
-        },
-        {
-          "cardNumber": "GD06-064",
-          "cardName": "Altron Gundam (EW)",
-          "cardType": "UNIT",
-          "color": "White",
-          "recentMetaScore": 43.75,
-          "recentTop8DecksUsing": 7,
-          "imageUrl": "./assets/card-images/GD06-064.webp"
-        },
-        {
-          "cardNumber": "GD06-097",
-          "cardName": "Harry Ord",
-          "cardType": "PILOT",
-          "color": "White",
-          "recentMetaScore": 43.75,
-          "recentTop8DecksUsing": 7,
-          "imageUrl": "./assets/card-images/GD06-097.webp"
         },
         {
           "cardNumber": "GD06-033",
           "cardName": "ZZ Gundam",
           "cardType": "UNIT",
           "color": "Red",
-          "recentMetaScore": 43.75,
-          "recentTop8DecksUsing": 7,
+          "recentMetaScore": 52,
+          "recentTop8DecksUsing": 13,
           "imageUrl": "./assets/card-images/GD06-033.webp"
+        },
+        {
+          "cardNumber": "GD06-064",
+          "cardName": "Altron Gundam (EW)",
+          "cardType": "UNIT",
+          "color": "White",
+          "recentMetaScore": 44,
+          "recentTop8DecksUsing": 11,
+          "imageUrl": "./assets/card-images/GD06-064.webp"
         }
       ]
     },
     "rolling-30": {
       "activeFormat": "30D",
       "counts": {
-        "decklists": 47,
+        "decklists": 56,
         "events": 6
       },
       "latestDecks": [
         {
-          "deckId": "f7b0b0971271af38",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "e19a896de799ba13",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "SdotAkuma",
+          "playerName": "xLust",
           "placingLabel": "1",
           "placingRank": 1,
           "archetype": "Shining Gundam (Master Gundam)",
@@ -248,69 +258,69 @@
           "sourceName": "Limitless"
         },
         {
-          "deckId": "968cbeef3c524f3c",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "d4b903933435f5d4",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "BanjoeJo",
+          "playerName": "ExiaTCG",
           "placingLabel": "2",
           "placingRank": 2,
-          "archetype": "Blue White Freedom Blockers",
+          "archetype": "Strike Freedom Gundam (Base)",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "da708a5a3915fc01",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "7964ce08b40b8035",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "Mariamne",
+          "playerName": "AshenTDK",
           "placingLabel": "3",
           "placingRank": 3,
-          "archetype": "Purple White Destiny",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "10dda512cbb0deee",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "its_Philnami",
-          "placingLabel": "4",
-          "placingRank": 4,
           "archetype": "Other",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "b7aeae82cb918e94",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "4035df1387ac893f",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
           "playerName": "Jinzo777",
-          "placingLabel": "5",
-          "placingRank": 5,
+          "placingLabel": "4",
+          "placingRank": 4,
           "archetype": "Shining Gundam (Master Gundam)",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "f77fa5f9fda70fed",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "91582566757713a6",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "BunnyFooFoo998",
+          "playerName": "Ace_Dragn",
+          "placingLabel": "5",
+          "placingRank": 5,
+          "archetype": "Other",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "5105910388e877f4",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "JayUnderwood3",
           "placingLabel": "6",
           "placingRank": 6,
           "archetype": "Other",
@@ -319,6 +329,16 @@
         }
       ],
       "latestEvents": [
+        {
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 9,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6af13821c931f53978d96f33/standings"
+        },
         {
           "eventId": "ed769dabd588854f",
           "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
@@ -368,16 +388,6 @@
           "playerCount": 8,
           "sourceName": "Limitless",
           "sourceUrl": "https://play.limitlesstcg.com/tournament/6acafa3f115c12b73a5a110f/standings"
-        },
-        {
-          "eventId": "0b6dad06a31b6f5a",
-          "eventName": "Starlight Hangar - Gundam Weekend Tournament",
-          "eventDate": "2026-10-11",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 11,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6acb47688a8383117e3e944b/standings"
         }
       ],
       "metaLeaders": [
@@ -386,8 +396,8 @@
           "cardName": "Overflowing Affection",
           "cardType": "COMMAND",
           "color": "White",
-          "recentMetaScore": 61.702127659574465,
-          "recentTop8DecksUsing": 29,
+          "recentMetaScore": 62.5,
+          "recentTop8DecksUsing": 35,
           "imageUrl": "./assets/card-images/GD01-118.webp"
         },
         {
@@ -395,8 +405,8 @@
           "cardName": "Silver Bullet",
           "cardType": "UNIT",
           "color": "White",
-          "recentMetaScore": 40.42553191489361,
-          "recentTop8DecksUsing": 19,
+          "recentMetaScore": 42.857142857142854,
+          "recentTop8DecksUsing": 24,
           "imageUrl": "./assets/card-images/GD04-068.webp"
         },
         {
@@ -404,26 +414,26 @@
           "cardName": "Darkness Finger",
           "cardType": "COMMAND",
           "color": "Red",
-          "recentMetaScore": 38.297872340425535,
-          "recentTop8DecksUsing": 18,
+          "recentMetaScore": 42.857142857142854,
+          "recentTop8DecksUsing": 24,
           "imageUrl": "./assets/card-images/GD05-110.webp"
         },
         {
-          "cardNumber": "ST01-014",
-          "cardName": "Unforeseen Incident",
+          "cardNumber": "GD05-111",
+          "cardName": "Airframe​ Seizure",
           "cardType": "COMMAND",
-          "color": "White",
-          "recentMetaScore": 34.04255319148936,
-          "recentTop8DecksUsing": 16,
-          "imageUrl": "./assets/card-images/ST01-014.webp"
+          "color": "Red",
+          "recentMetaScore": 39.285714285714285,
+          "recentTop8DecksUsing": 22,
+          "imageUrl": "./assets/card-images/GD05-111.webp"
         },
         {
           "cardNumber": "GD05-081",
           "cardName": "Kira Yamato",
           "cardType": "PILOT",
           "color": "Blue",
-          "recentMetaScore": 34.04255319148936,
-          "recentTop8DecksUsing": 16,
+          "recentMetaScore": 33.92857142857143,
+          "recentTop8DecksUsing": 19,
           "imageUrl": "./assets/card-images/GD05-081.webp"
         }
       ]
@@ -1441,18 +1451,18 @@
     "all": {
       "activeFormat": "ALL",
       "counts": {
-        "decklists": 1285,
-        "events": 278
+        "decklists": 1294,
+        "events": 279
       },
       "latestDecks": [
         {
-          "deckId": "f7b0b0971271af38",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "e19a896de799ba13",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "SdotAkuma",
+          "playerName": "xLust",
           "placingLabel": "1",
           "placingRank": 1,
           "archetype": "Shining Gundam (Master Gundam)",
@@ -1460,69 +1470,69 @@
           "sourceName": "Limitless"
         },
         {
-          "deckId": "968cbeef3c524f3c",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "d4b903933435f5d4",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "BanjoeJo",
+          "playerName": "ExiaTCG",
           "placingLabel": "2",
           "placingRank": 2,
-          "archetype": "Blue White Freedom Blockers",
+          "archetype": "Strike Freedom Gundam (Base)",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "da708a5a3915fc01",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "7964ce08b40b8035",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "Mariamne",
+          "playerName": "AshenTDK",
           "placingLabel": "3",
           "placingRank": 3,
-          "archetype": "Purple White Destiny",
-          "colorCombination": "",
-          "sourceName": "Limitless"
-        },
-        {
-          "deckId": "10dda512cbb0deee",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerName": "its_Philnami",
-          "placingLabel": "4",
-          "placingRank": 4,
           "archetype": "Other",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "b7aeae82cb918e94",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "4035df1387ac893f",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
           "playerName": "Jinzo777",
-          "placingLabel": "5",
-          "placingRank": 5,
+          "placingLabel": "4",
+          "placingRank": 4,
           "archetype": "Shining Gundam (Master Gundam)",
           "colorCombination": "",
           "sourceName": "Limitless"
         },
         {
-          "deckId": "f77fa5f9fda70fed",
-          "eventId": "ed769dabd588854f",
-          "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-          "eventDate": "2026-11-05",
+          "deckId": "91582566757713a6",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
           "formatName": "",
           "eventType": "partial_results",
-          "playerName": "BunnyFooFoo998",
+          "playerName": "Ace_Dragn",
+          "placingLabel": "5",
+          "placingRank": 5,
+          "archetype": "Other",
+          "colorCombination": "",
+          "sourceName": "Limitless"
+        },
+        {
+          "deckId": "5105910388e877f4",
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerName": "JayUnderwood3",
           "placingLabel": "6",
           "placingRank": 6,
           "archetype": "Other",
@@ -1531,6 +1541,16 @@
         }
       ],
       "latestEvents": [
+        {
+          "eventId": "47e92c95dde0aa2f",
+          "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+          "eventDate": "2026-11-12",
+          "formatName": "",
+          "eventType": "partial_results",
+          "playerCount": 9,
+          "sourceName": "Limitless",
+          "sourceUrl": "https://play.limitlesstcg.com/tournament/6af13821c931f53978d96f33/standings"
+        },
         {
           "eventId": "ed769dabd588854f",
           "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
@@ -1580,16 +1600,6 @@
           "playerCount": 8,
           "sourceName": "Limitless",
           "sourceUrl": "https://play.limitlesstcg.com/tournament/6acafa3f115c12b73a5a110f/standings"
-        },
-        {
-          "eventId": "0b6dad06a31b6f5a",
-          "eventName": "Starlight Hangar - Gundam Weekend Tournament",
-          "eventDate": "2026-10-11",
-          "formatName": "",
-          "eventType": "partial_results",
-          "playerCount": 11,
-          "sourceName": "Limitless",
-          "sourceUrl": "https://play.limitlesstcg.com/tournament/6acb47688a8383117e3e944b/standings"
         }
       ],
       "metaLeaders": [
@@ -1598,7 +1608,7 @@
           "cardName": "Amuro Ray",
           "cardType": "PILOT",
           "color": "Blue",
-          "recentMetaScore": 54.31906614785992,
+          "recentMetaScore": 53.94126738794436,
           "recentTop8DecksUsing": 698,
           "imageUrl": "./assets/card-images/ST01-010.webp"
         },
@@ -1607,7 +1617,7 @@
           "cardName": "Gundam",
           "cardType": "UNIT",
           "color": "Blue",
-          "recentMetaScore": 52.68482490272374,
+          "recentMetaScore": 52.31839258114373,
           "recentTop8DecksUsing": 677,
           "imageUrl": "./assets/card-images/ST01-001.webp"
         },
@@ -1616,8 +1626,8 @@
           "cardName": "Overflowing Affection",
           "cardType": "COMMAND",
           "color": "White",
-          "recentMetaScore": 51.828793774319074,
-          "recentTop8DecksUsing": 666,
+          "recentMetaScore": 51.931993817619784,
+          "recentTop8DecksUsing": 672,
           "imageUrl": "./assets/card-images/GD01-118.webp"
         },
         {
@@ -1625,8 +1635,8 @@
           "cardName": "A Show of Resolve",
           "cardType": "COMMAND",
           "color": "Blue",
-          "recentMetaScore": 51.20622568093385,
-          "recentTop8DecksUsing": 658,
+          "recentMetaScore": 51.08191653786708,
+          "recentTop8DecksUsing": 661,
           "imageUrl": "./assets/card-images/GD01-100.webp"
         },
         {
@@ -1634,22 +1644,32 @@
           "cardName": "Gundam Lfrith",
           "cardType": "UNIT",
           "color": "White",
-          "recentMetaScore": 50.11673151750973,
-          "recentTop8DecksUsing": 644,
+          "recentMetaScore": 49.84544049459041,
+          "recentTop8DecksUsing": 645,
           "imageUrl": "./assets/card-images/GD01-086.webp"
         }
       ]
     }
   },
-  "generatedAt": "2026-11-08T04:02:25Z",
+  "generatedAt": "2026-11-16T04:19:30Z",
   "counts": {
     "cards": 1087,
     "resource_cards": 108,
-    "decklists": 1295,
-    "events": 279,
+    "decklists": 1304,
+    "events": 280,
     "archetypes": 110
   },
   "latestEvents": [
+    {
+      "eventId": "47e92c95dde0aa2f",
+      "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+      "eventDate": "2026-11-12",
+      "formatName": "",
+      "eventType": "partial_results",
+      "playerCount": 9,
+      "sourceName": "Limitless",
+      "sourceUrl": "https://play.limitlesstcg.com/tournament/6af13821c931f53978d96f33/standings"
+    },
     {
       "eventId": "ed769dabd588854f",
       "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
@@ -1699,27 +1719,17 @@
       "playerCount": 8,
       "sourceName": "Limitless",
       "sourceUrl": "https://play.limitlesstcg.com/tournament/6acafa3f115c12b73a5a110f/standings"
-    },
-    {
-      "eventId": "0b6dad06a31b6f5a",
-      "eventName": "Starlight Hangar - Gundam Weekend Tournament",
-      "eventDate": "2026-10-11",
-      "formatName": "",
-      "eventType": "partial_results",
-      "playerCount": 11,
-      "sourceName": "Limitless",
-      "sourceUrl": "https://play.limitlesstcg.com/tournament/6acb47688a8383117e3e944b/standings"
     }
   ],
   "latestDecks": [
     {
-      "deckId": "f7b0b0971271af38",
-      "eventId": "ed769dabd588854f",
-      "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-      "eventDate": "2026-11-05",
+      "deckId": "e19a896de799ba13",
+      "eventId": "47e92c95dde0aa2f",
+      "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+      "eventDate": "2026-11-12",
       "formatName": "",
       "eventType": "partial_results",
-      "playerName": "SdotAkuma",
+      "playerName": "xLust",
       "placingLabel": "1",
       "placingRank": 1,
       "archetype": "Shining Gundam (Master Gundam)",
@@ -1727,69 +1737,69 @@
       "sourceName": "Limitless"
     },
     {
-      "deckId": "968cbeef3c524f3c",
-      "eventId": "ed769dabd588854f",
-      "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-      "eventDate": "2026-11-05",
+      "deckId": "d4b903933435f5d4",
+      "eventId": "47e92c95dde0aa2f",
+      "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+      "eventDate": "2026-11-12",
       "formatName": "",
       "eventType": "partial_results",
-      "playerName": "BanjoeJo",
+      "playerName": "ExiaTCG",
       "placingLabel": "2",
       "placingRank": 2,
-      "archetype": "Blue White Freedom Blockers",
+      "archetype": "Strike Freedom Gundam (Base)",
       "colorCombination": "",
       "sourceName": "Limitless"
     },
     {
-      "deckId": "da708a5a3915fc01",
-      "eventId": "ed769dabd588854f",
-      "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-      "eventDate": "2026-11-05",
+      "deckId": "7964ce08b40b8035",
+      "eventId": "47e92c95dde0aa2f",
+      "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+      "eventDate": "2026-11-12",
       "formatName": "",
       "eventType": "partial_results",
-      "playerName": "Mariamne",
+      "playerName": "AshenTDK",
       "placingLabel": "3",
       "placingRank": 3,
-      "archetype": "Purple White Destiny",
-      "colorCombination": "",
-      "sourceName": "Limitless"
-    },
-    {
-      "deckId": "10dda512cbb0deee",
-      "eventId": "ed769dabd588854f",
-      "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-      "eventDate": "2026-11-05",
-      "formatName": "",
-      "eventType": "partial_results",
-      "playerName": "its_Philnami",
-      "placingLabel": "4",
-      "placingRank": 4,
       "archetype": "Other",
       "colorCombination": "",
       "sourceName": "Limitless"
     },
     {
-      "deckId": "b7aeae82cb918e94",
-      "eventId": "ed769dabd588854f",
-      "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-      "eventDate": "2026-11-05",
+      "deckId": "4035df1387ac893f",
+      "eventId": "47e92c95dde0aa2f",
+      "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+      "eventDate": "2026-11-12",
       "formatName": "",
       "eventType": "partial_results",
       "playerName": "Jinzo777",
-      "placingLabel": "5",
-      "placingRank": 5,
+      "placingLabel": "4",
+      "placingRank": 4,
       "archetype": "Shining Gundam (Master Gundam)",
       "colorCombination": "",
       "sourceName": "Limitless"
     },
     {
-      "deckId": "f77fa5f9fda70fed",
-      "eventId": "ed769dabd588854f",
-      "eventName": "Eagle's Nest S7GW3.0 GD06 MSA Locals",
-      "eventDate": "2026-11-05",
+      "deckId": "91582566757713a6",
+      "eventId": "47e92c95dde0aa2f",
+      "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+      "eventDate": "2026-11-12",
       "formatName": "",
       "eventType": "partial_results",
-      "playerName": "BunnyFooFoo998",
+      "playerName": "Ace_Dragn",
+      "placingLabel": "5",
+      "placingRank": 5,
+      "archetype": "Other",
+      "colorCombination": "",
+      "sourceName": "Limitless"
+    },
+    {
+      "deckId": "5105910388e877f4",
+      "eventId": "47e92c95dde0aa2f",
+      "eventName": "Eagle's Nest S7GW4.0 GD06 Webcam Locals",
+      "eventDate": "2026-11-12",
+      "formatName": "",
+      "eventType": "partial_results",
+      "playerName": "JayUnderwood3",
       "placingLabel": "6",
       "placingRank": 6,
       "archetype": "Other",
@@ -1803,8 +1813,8 @@
       "cardName": "Overflowing Affection",
       "cardType": "COMMAND",
       "color": "White",
-      "recentMetaScore": 55.3,
-      "recentTop8DecksUsing": 29,
+      "recentMetaScore": 58.9,
+      "recentTop8DecksUsing": 35,
       "imageUrl": "./assets/card-images/GD01-118.webp"
     },
     {
@@ -1812,8 +1822,8 @@
       "cardName": "Silver Bullet",
       "cardType": "UNIT",
       "color": "White",
-      "recentMetaScore": 43.5,
-      "recentTop8DecksUsing": 19,
+      "recentMetaScore": 47.7,
+      "recentTop8DecksUsing": 24,
       "imageUrl": "./assets/card-images/GD04-068.webp"
     },
     {
@@ -1821,26 +1831,26 @@
       "cardName": "Darkness Finger",
       "cardType": "COMMAND",
       "color": "Red",
-      "recentMetaScore": 35.3,
-      "recentTop8DecksUsing": 18,
+      "recentMetaScore": 41.9,
+      "recentTop8DecksUsing": 24,
       "imageUrl": "./assets/card-images/GD05-110.webp"
     },
     {
-      "cardNumber": "ST01-014",
-      "cardName": "Unforeseen Incident",
+      "cardNumber": "GD05-111",
+      "cardName": "Airframe​ Seizure",
       "cardType": "COMMAND",
-      "color": "White",
-      "recentMetaScore": 32.9,
-      "recentTop8DecksUsing": 16,
-      "imageUrl": "./assets/card-images/ST01-014.webp"
+      "color": "Red",
+      "recentMetaScore": 34,
+      "recentTop8DecksUsing": 22,
+      "imageUrl": "./assets/card-images/GD05-111.webp"
     },
     {
       "cardNumber": "GD02-079",
       "cardName": "Rick Dias",
       "cardType": "UNIT",
       "color": "White",
-      "recentMetaScore": 31.7,
-      "recentTop8DecksUsing": 15,
+      "recentMetaScore": 28.9,
+      "recentTop8DecksUsing": 17,
       "imageUrl": "./assets/card-images/GD02-079.webp"
     }
   ]

@@ -13,7 +13,7 @@ from datetime import date, datetime, timezone
 from html import unescape
 from pathlib import Path
 from typing import Iterable
-from urllib.parse import parse_qs, urljoin, urlparse
+from urllib.parse import parse_qs, urlencode, urljoin, urlparse
 from urllib.request import Request, urlopen
 
 from lxml import html
@@ -736,6 +736,39 @@ def parse_product_cards(page_number: int, page_html: str) -> tuple[int, list[dic
     return total_pages, products
 
 
+def recover_overlapping_product_pages(products: list[dict]) -> tuple[list[dict], list[dict]]:
+    by_url: dict[str, dict] = {}
+    overlapping_categories: set[str] = set()
+    for row in products:
+        url = row["product_url"]
+        if url in by_url and row["category"]:
+            overlapping_categories.add(row["category"])
+        by_url.setdefault(url, row)
+
+    # Bandai can reorder products with the same release date between pages.
+    # The category view can recover products skipped at a page boundary.
+    sources = []
+    for category in sorted(overlapping_categories):
+        page_number = 1
+        total_pages = 1
+        while page_number <= total_pages:
+            query = urlencode({"subcategory": "product", "tag": category, "page": page_number})
+            page_url = f"{PRODUCTS_LIST_URL}?{query}"
+            page_id = f"{slugify(category)}_{page_number}"
+            cache_path = PRODUCTS_DIR / f"list_{page_id}.html"
+            total_pages, page_products = parse_product_cards(page_number, fetch_text(page_url, cache_path))
+            for row in page_products:
+                by_url.setdefault(row["product_url"], row)
+            sources.append({
+                "record_type": "products_list_page",
+                "record_id": page_id,
+                "source_url": page_url,
+                "cache_file": str(cache_path.relative_to(ROOT)),
+            })
+            page_number += 1
+    return list(by_url.values()), sources
+
+
 def parse_news_index(page_number: int, page_html: str) -> tuple[int, list[NewsPageInfo]]:
     tree = html.fromstring(page_html)
     page_numbers = []
@@ -1237,6 +1270,8 @@ def main() -> int:
             }
         )
 
+    products, recovered_product_sources = recover_overlapping_product_pages(products)
+    source_rows.extend(recovered_product_sources)
     products.sort(key=product_sort_key)
     product_previews, product_detail_source_rows = fetch_product_detail_pages(
         products,

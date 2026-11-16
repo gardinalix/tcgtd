@@ -50,6 +50,20 @@ class CatalogValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "expected 2"):
             validate_package_count("gd06", 2, ["GD06-001"])
 
+    def test_overlapping_product_pages_recover_catalog_entries_by_category(self):
+        starter = {"product_url": "https://example.test/st12", "category": "STARTERDECK"}
+        missing = {"product_url": "https://example.test/st13", "category": "STARTERDECK"}
+        unrelated = {"product_url": "https://example.test/other", "category": "OTHER"}
+        with patch.object(collector, "fetch_text") as fetch, patch.object(
+            collector, "parse_product_cards", side_effect=[(2, [starter]), (2, [missing])]
+        ):
+            products, sources = collector.recover_overlapping_product_pages([starter, starter, unrelated])
+
+        self.assertEqual(products, [starter, unrelated, missing])
+        self.assertEqual(len(sources), 2)
+        self.assertTrue(fetch.call_args_list[0].args[0].endswith("tag=STARTERDECK&page=1"))
+        self.assertTrue(fetch.call_args_list[1].args[0].endswith("tag=STARTERDECK&page=2"))
+
     def test_changed_package_markup_does_not_overwrite_existing_snapshot(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

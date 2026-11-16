@@ -107,6 +107,13 @@
       "best_finish": 1
     },
     {
+      "archetype_id": "other",
+      "display_name": "Other",
+      "decklists": 16,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
       "archetype_id": "wing-zero-breach",
       "display_name": "Wing Zero (Breach)",
       "decklists": 16,
@@ -135,10 +142,10 @@
       "best_finish": 1
     },
     {
-      "archetype_id": "other",
-      "display_name": "Other",
-      "decklists": 13,
-      "wins": 1,
+      "archetype_id": "shining-gundam-master-gundam",
+      "display_name": "Shining Gundam (Master Gundam)",
+      "decklists": 12,
+      "wins": 2,
       "best_finish": 1
     },
     {
@@ -153,13 +160,6 @@
       "display_name": "Destiny Blockers",
       "decklists": 10,
       "wins": 5,
-      "best_finish": 1
-    },
-    {
-      "archetype_id": "shining-gundam-master-gundam",
-      "display_name": "Shining Gundam (Master Gundam)",
-      "decklists": 9,
-      "wins": 1,
       "best_finish": 1
     },
     {
@@ -240,6 +240,13 @@
       "best_finish": 1
     },
     {
+      "archetype_id": "white-red-zaft",
+      "display_name": "White Red Zaft",
+      "decklists": 6,
+      "wins": 1,
+      "best_finish": 1
+    },
+    {
       "archetype_id": "cyber-newtype-aggro",
       "display_name": "Cyber-Newtype (Aggro)",
       "decklists": 5,
@@ -251,13 +258,6 @@
       "display_name": "Justice Blockers (Providence)",
       "decklists": 5,
       "wins": 4,
-      "best_finish": 1
-    },
-    {
-      "archetype_id": "white-red-zaft",
-      "display_name": "White Red Zaft",
-      "decklists": 5,
-      "wins": 1,
       "best_finish": 1
     },
     {
@@ -280,6 +280,13 @@
       "decklists": 4,
       "wins": 0,
       "best_finish": 5
+    },
+    {
+      "archetype_id": "strike-freedom-gundam-base",
+      "display_name": "Strike Freedom Gundam (Base)",
+      "decklists": 4,
+      "wins": 0,
+      "best_finish": 2
     },
     {
       "archetype_id": "strike-tempo",
@@ -413,13 +420,6 @@
       "decklists": 2,
       "wins": 1,
       "best_finish": 1
-    },
-    {
-      "archetype_id": "strike-freedom-gundam-base",
-      "display_name": "Strike Freedom Gundam (Base)",
-      "decklists": 2,
-      "wins": 0,
-      "best_finish": 5
     },
     {
       "archetype_id": "strike-freedom-gundam-unicorn-gundam-02-banshee-destroy-mode",
