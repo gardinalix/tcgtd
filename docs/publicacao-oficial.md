@@ -15,6 +15,8 @@ Qualquer chat do projeto com acesso funcional ao Sites pode executar o mesmo flu
 
 ## Publicar diretamente no chat de origem
 
+Antes de encaminhar a publicação por suposta indisponibilidade, siga o [diagnóstico de acesso](diagnostico-sites.md). Ele usa consultas nativas somente de leitura e não exige preparar um build, emitir credenciais ou abrir o navegador.
+
 1. Descubra as ferramentas do conector Sites. Consulte `get_site`, `list_site_versions` e, quando houver um deployment ID, `get_deployment_status`. Confirme projeto, audiência e estado real antes de qualquer escrita. A presença da ferramenta no catálogo só conta como acesso quando a chamada funciona. Se já houver deploy do SHA em andamento, acompanhe-o. Se o SHA estiver publicado, verifique o live. Se houver versão salva do mesmo SHA com o arquivo correspondente, use seu ID.
 2. Para um SHA novo, chame `create_source_repository_write_credential` para o projeto existente. Use a URL, branch e modo de autenticação retornados. Siga o helper de fonte da skill Sites (`site-workflow.mjs`), com a credencial apenas em memória e por stdin. Em `work_proxy`, use a autenticação fornecida pelo ambiente. Prepare em um checkout isolado quando necessário para preservar a branch de trabalho. Envie o SHA completo validado somente à branch de hospedagem e confira que o HEAD remoto é esse SHA. Se a branch avançar, reconcilie antes de prosseguir.
 3. Empacote o build já validado com o helper do Sites (`package-site.mjs`, também chamado pelo `site-workflow.mjs`). O arquivo de deploy é um TAR com o build, o manifesto de hospedagem e as migrações do artefato. O ZIP de transferência com `source.bundle` e evidências é outro arquivo. Se usar o helper com um build já validado, passe `commands: []` e um `archivePath` absoluto fora do checkout. Confira o SHA e a integridade do artefato devolvido antes de salvá-lo.
@@ -22,6 +24,8 @@ Qualquer chat do projeto com acesso funcional ao Sites pode executar o mesmo flu
 5. Consulte `get_deployment_status` com o deployment ID até um estado terminal. Em interrupções, consulte os IDs existentes antes de qualquer tentativa nova. Após o sucesso, verifique o domínio, o conteúdo real das rotas afetadas, os hashes dos dados e os downloads pertinentes. Registre versão, SHA, deployment ID, resultado dos testes e limitações. Se o deploy falhar, preserve a última versão funcional e registre a etapa que falhou.
 
 ## Encaminhar quando o conector estiver indisponível
+
+O encaminhamento deve incluir a evidência do diagnóstico: cliente, identidade de modelo disponível, data/hora, método de descoberta, nomes exatos das ferramentas, resultado das chamadas e bloqueio específico, sem tokens ou respostas brutas com segredos. Se nenhuma ferramenta estiver exposta após a descoberta suportada pelo cliente, registre essa limitação sem inventar uma chamada ou erro do servidor. Não encaminhe apenas porque o helper de empacotamento ou o arquivo local está ausente.
 
 1. Abra o Atualizador Oficial pelo navegador autenticado e consulte o último resultado para evitar duplicação. Reuse o chat existente. Se o ambiente também não der acesso a ele, preserve o pacote e informe o bloqueio.
 2. Encaminhe o projeto, domínio, SHA completo, modelo usado, hashes, evidências e ressalvas. Inclua uma fonte recuperável e o `dist` exato. Quando o publicador não puder acessar o checkout local, transfira um ZIP com `source.bundle`, commit base, manifesto SHA256, build, AGENTS.md e este procedimento.
