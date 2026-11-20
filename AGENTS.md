@@ -13,6 +13,9 @@ Estas orientações valem para todos os chats do TCG Tactical Database, inclusiv
 # Modelo para publicações
 
 - Qualquer modelo disponível pode preparar, publicar e verificar o live. Registre o modelo usado na publicação ou no encaminhamento.
+- Não atribua indisponibilidade do Sites ao nome do modelo sem evidência. Informe apenas a identidade de modelo exposta pela sessão; não deduza a variante pelo pedido do usuário ou por um encaminhamento.
+- Antes de declarar o conector indisponível, execute o [diagnóstico de acesso ao Sites](docs/diagnostico-sites.md): descoberta na sessão atual e chamadas somente de leitura quando disponíveis. Registre a ferramenta tentada, o resultado e a etapa bloqueada. Uma mensagem de outro chat não comprova indisponibilidade neste chat.
+- Ferramenta não exposta na sessão, erro de argumentos/roteamento, acesso negado, helper local ausente e pacote inacessível são bloqueios distintos. Não os resuma como falha do conector. Um `get_site` bem-sucedido comprova leitura, não sucesso futuro de push/save/deploy.
 
 # Publicação a partir de qualquer chat
 
