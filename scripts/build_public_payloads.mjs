@@ -132,6 +132,7 @@ async function buildRightsManifest(source) {
     assets: files.map((assetPath) => {
       const isCardImage = assetPath.startsWith("assets/card-images/");
       const isProjectBrand = assetPath.startsWith("assets/brand/");
+      const isProjectThemeMark = assetPath === "assets/factions/alphaciders.svg";
       const generatedUnit = ["assets/backgrounds/wing-zero-dawn-cockpit.webp", "assets/backgrounds/wing-zero-instrument-bench.webp", "assets/gundams/wing-zero-blueprint.webp"].includes(assetPath)
         ? "Wing Zero"
         : ["assets/backgrounds/epyon-libra-cockpit.webp", "assets/backgrounds/epyon-instrument-bench.webp", "assets/gundams/epyon-blueprint.webp"].includes(assetPath) ? "Epyon"
@@ -139,15 +140,17 @@ async function buildRightsManifest(source) {
         : ["assets/backgrounds/barbatos-arbrau-cockpit.webp", "assets/backgrounds/barbatos-instrument-bench.webp", "assets/gundams/barbatos-blueprint.webp"].includes(assetPath) ? "Barbatos"
         : ["assets/backgrounds/kshatriya-colony-cockpit.webp", "assets/backgrounds/kshatriya-instrument-bench.webp", "assets/gundams/kshatriya-blueprint.webp"].includes(assetPath) ? "Kshatriya"
         : ["assets/backgrounds/gquuuuuux-izuma-cockpit.webp", "assets/backgrounds/gquuuuuux-instrument-bench.webp", "assets/gundams/gquuuuuux-blueprint.webp"].includes(assetPath) ? "GQuuuuuuX"
-        : ["assets/backgrounds/aile-archangel-cockpit.webp", "assets/backgrounds/aile-instrument-bench.webp", "assets/gundams/aile-blueprint.webp"].includes(assetPath) ? "Aile Strike" : "";
+        : ["assets/backgrounds/aile-archangel-cockpit.webp", "assets/backgrounds/aile-instrument-bench.webp", "assets/gundams/aile-blueprint.webp"].includes(assetPath) ? "Aile Strike"
+        : assetPath === "assets/backgrounds/gfred-alphaciders-cockpit.webp" ? "GFreD" : "";
       const isGeneratedCockpit = ["assets/backgrounds/orbital-cockpit.webp", "assets/backgrounds/instrument-bench.webp"].includes(assetPath) || Boolean(generatedUnit);
-      const sourceUrl = isCardImage ? (cardOrigins.get(assetPath) || "") : "";
-      if (isProjectBrand || isGeneratedCockpit) {
+      const isOfficialGfred = assetPath === "assets/gundams/gfred.png";
+      const sourceUrl = isCardImage ? (cardOrigins.get(assetPath) || "") : isOfficialGfred ? "https://gundam-official.com/gquuuuuux/mecha/31/" : "";
+      if (isProjectBrand || isGeneratedCockpit || isProjectThemeMark) {
         return {
           path: `/${assetPath}`,
           kind: isGeneratedCockpit ? "project_interface_asset" : "project_brand_asset",
           game: "platform",
-          source: "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
+          source: isProjectThemeMark ? "Original geometric SVG theme emblem created for TCGTD; not an official faction mark" : "Created for TCG Tactical Database with OpenAI image generation from the project's approved visual direction",
           sourceUrl: "",
           rightsHolder: "TCG Tactical Database project",
           copyrightOwner: generatedUnit ? "Generated composition for TCGTD; Gundam characters and designs belong to their respective rights holders" : "TCG Tactical Database project",
@@ -165,11 +168,11 @@ async function buildRightsManifest(source) {
         game: isCardImage || assetPath.startsWith("assets/gundams/") || assetPath.startsWith("assets/factions/") ? "gundam-card-game" : "platform",
         source: sourceUrl ? "Imported from the linked source record" : "Repository asset; original source record not yet attached",
         sourceUrl,
-        rightsHolder: isCardImage ? "Respective Trading Card Game rights holder" : "Owner not yet verified",
-        copyrightOwner: isCardImage ? "Respective artwork and game-asset copyright owner" : "Owner not yet verified",
+        rightsHolder: isCardImage ? "Respective Trading Card Game rights holder" : isOfficialGfred ? "Sunrise / respective Gundam rights holders" : "Owner not yet verified",
+        copyrightOwner: isCardImage ? "Respective artwork and game-asset copyright owner" : isOfficialGfred ? "Sunrise / respective Gundam rights holders" : "Owner not yet verified",
         licenseStatus: "unverified",
         license: "No project-owned license recorded",
-        attribution: isCardImage ? "Gundam Card Game and related assets belong to their respective owners." : "Attribution pending source verification.",
+        attribution: isCardImage ? "Gundam Card Game and related assets belong to their respective owners." : isOfficialGfred ? "© Sunrise. GFreD artwork from the official Mobile Suit Gundam GQuuuuuuX website." : "Attribution pending source verification.",
         permittedUse: "Private staging only pending rights review",
         usageNotes: "Do not enable general public access while reviewStatus remains review_required.",
         reviewStatus: "review_required",

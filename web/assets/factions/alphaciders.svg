@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Alphaciders theme emblem">
+  <path d="m64 8 46 26v60l-46 26-46-26V34Z" fill="#10091b" stroke="#c49bff" stroke-width="3"/>
+  <path d="m34 86 30-55 30 55M46 65h36" fill="none" stroke="#e1ccff" stroke-width="7" stroke-linejoin="bevel"/>
+  <path d="m25 39 12 7m54 0 12-7M64 96v13" stroke="#a978f5" stroke-width="3"/>
+  <circle cx="64" cy="80" r="5" fill="#9ce4cb"/>
+</svg>
