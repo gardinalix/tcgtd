@@ -29,11 +29,16 @@ Qualquer chat do projeto com acesso funcional ao Sites pode executar o mesmo flu
 
 ## Última publicação observada
 
+- Versão **133**, fonte `891eaa95d6f7b07a3a4d0cfd5d701aa869739ca8`, deployment `appgdep_6b0040b206948191a0d76a05ea802aab`. Publicada diretamente pelo conector Sites neste chat. Modelo Codex baseado em GPT-6, variante exata não identificada.
+- Refresh de 20/11 validado com 188 testes Node, build, migração SQLite em memória, integridade do banco e dos XLSX e validação do TAR. O reinício do aplicativo interrompeu a primeira execução após cartas e preços. A retomada reutilizou essas etapas concluídas e executou META, relatórios, workbooks e build.
+- No domínio, os quatro JSONs públicos conferiram por SHA256 com o pacote. As rotas `/cards`, `/previews` e `/community/events/cd5b3a1bb3d33c25` responderam com o bundle validado. O Eagle’s Nest de 19/11 está disponível, e o catálogo conserva as 1.195 cartas canônicas e todos os torneios anteriormente publicados.
+- LigaGundam continua bloqueando o coletor com um desafio Cloudflare. Os preços de 13/11 foram mantidos com suas datas originais. TCGCSV e USD/BRL foram atualizados em 20/11. Evidências e TAR em `.local/tcgtd-release-891eaa9`.
+
+## Publicações anteriores
+
 - Versão **132**, fonte `6fce667f5fb11e28a122f84869e378e3aa3364fb`, deployment `appgdep_6afafc3b2d348191a4eafdd5f4079b4a`. Publicada pelo Atualizador Oficial do Site. Modelo exibido no publicador GPT-6 Astra High.
 - O TAR validado passou por 188 testes Node, 19 testes Python, build e migração SQLite em memória. Conferimos em produção os hashes dos três JSONs públicos e as rotas `/cards`, `/previews` e `/community/events/47e92c95dde0aa2f` do Eagle’s Nest de 12/11.
 - ST12 e ST13 estão no catálogo. PB04 está nos dados publicados e o filtro de `/previews` exclui o prefixo PB. Os preços da LigaGundam continuam com data de 13/11 após o bloqueio da coleta.
-
-## Publicações anteriores
 
 - Versão **131**, fonte `a398dafe446bec974ff2b5768b26a5c11ecacbb2`, deployment `appgdep_6af737a4b568819197e5d54eec16934e`. Publicada pelo Atualizador Oficial do Site com Codex baseado em GPT-6, sem variante identificada na sessão.
 - O build passou nos 188 testes Node, na migração SQLite em memória e na validação do artefato Sites. Em produção, `/cards` retornou os mesmos 184 resultados para `GD 06` e `GD06` e duas impressões de ZZ Gundam para `GD 06-033`. Pendências desta publicação: **nenhuma**.
