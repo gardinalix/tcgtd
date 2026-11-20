@@ -191,7 +191,7 @@ export const THEME_CONFIG = {
     operation: "Alphaciders / Psycommu Link",
     gundamName: "GFreD",
     gundamImage: "/assets/gundams/gfred.png",
-    cockpitUnitImage: "/assets/gundams/gfred.png",
+    cockpitUnitImage: "/assets/gundams/gfred-blueprint.webp",
     backdropImage: "/assets/backgrounds/gfred-alphaciders-cockpit.webp",
     backgroundPosition: "78% 10%",
     backgroundSize: "min(1160px, 96vw) auto",

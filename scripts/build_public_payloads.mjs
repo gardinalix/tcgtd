@@ -141,7 +141,7 @@ async function buildRightsManifest(source) {
         : ["assets/backgrounds/kshatriya-colony-cockpit.webp", "assets/backgrounds/kshatriya-instrument-bench.webp", "assets/gundams/kshatriya-blueprint.webp"].includes(assetPath) ? "Kshatriya"
         : ["assets/backgrounds/gquuuuuux-izuma-cockpit.webp", "assets/backgrounds/gquuuuuux-instrument-bench.webp", "assets/gundams/gquuuuuux-blueprint.webp"].includes(assetPath) ? "GQuuuuuuX"
         : ["assets/backgrounds/aile-archangel-cockpit.webp", "assets/backgrounds/aile-instrument-bench.webp", "assets/gundams/aile-blueprint.webp"].includes(assetPath) ? "Aile Strike"
-        : assetPath === "assets/backgrounds/gfred-alphaciders-cockpit.webp" ? "GFreD" : "";
+        : ["assets/backgrounds/gfred-alphaciders-cockpit.webp", "assets/gundams/gfred-blueprint.webp"].includes(assetPath) ? "GFreD" : "";
       const isGeneratedCockpit = ["assets/backgrounds/orbital-cockpit.webp", "assets/backgrounds/instrument-bench.webp"].includes(assetPath) || Boolean(generatedUnit);
       const isOfficialGfred = assetPath === "assets/gundams/gfred.png";
       const sourceUrl = isCardImage ? (cardOrigins.get(assetPath) || "") : isOfficialGfred ? "https://gundam-official.com/gquuuuuux/mecha/31/" : "";

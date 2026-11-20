@@ -48,7 +48,7 @@ body[data-theme="gfred"] #root .hud-app .orbital-launch { margin-top: 20px; padd
 body[data-theme="gfred"] #root .hud-app .orbital-launch:hover { background: #49286a; box-shadow: 0 0 18px #a55ded55; }
 
 body[data-theme="gfred"] .orbital-status__unit { height: 205px; border-color: #664a81; background: repeating-linear-gradient(0deg, transparent 0 23px, #a55ded13 24px), repeating-linear-gradient(90deg, transparent 0 23px, #af74ea13 24px), #0e0814; }
-body[data-theme="gfred"] .orbital-status__unit > img { object-fit: contain; padding: 6px 6px 27px; opacity: 1; mix-blend-mode: normal; }
+body[data-theme="gfred"] .orbital-status__unit > img { object-fit: contain; padding: 6px 6px 27px; opacity: .85; mix-blend-mode: screen; }
 body[data-theme="gfred"] .orbital-status__unit > span { background: #0c0810e8; color: #ccaaee; }
 body[data-theme="gfred"] #root .hud-app .orbital-status h2 { font-size: 22px; letter-spacing: .1em; color: #c392f3; }
 body[data-theme="gfred"] .orbital-status__readouts > div { border-top-color: #4b3e57; }
@@ -141,10 +141,7 @@ body[data-theme="gfred"] #root .hud-app .bridge-mission__signal { border-left-co
   body[data-theme="gfred"] .hud-primary-nav { background: #0d0911fa; border-top-color: #7c5d9b; box-shadow: 0 -3px #21162c, 0 -5px #070409; }
 }
 
-/* The illustration stays in its original colors; only the physical console housing is tinted. */
+/* Tint only the physical console housing; the schematic owns its violet linework. */
 body[data-theme="gfred"] #root .hud-app .launch-home .cockpit-bench__hull { filter: hue-rotate(65deg) saturate(.75); }
-body[data-theme="gfred"] .orbital-status__unit { height: 270px; }
-body[data-theme="gfred"] .orbital-status__unit > img { object-fit: contain; }
 body[data-theme="gfred"] .orbital-window::before { border-radius: 38% 62% 48% 52%; border-left-color: #9ce4cb; }
 body[data-theme="gfred"] #root .hud-app :is(button, a, select, input):focus-visible { outline: 2px solid #e1ccff; outline-offset: 3px; }
-@media (max-width: 820px) { body[data-theme="gfred"] .orbital-status__unit { height: 290px; } }
