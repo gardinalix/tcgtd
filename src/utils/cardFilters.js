@@ -13,7 +13,7 @@ export function uniqueValues(cards, selector) {
 }
 
 export function filterCards(cards, filters) {
-  const query = normalize(filters.search).replace(/^(gd|st|eb|sc)\s+(\d{2})(?=$|-)/, "$1$2");
+  const query = normalize(filters.search).replace(/^(gd|st|eb|sc|pb)\s+(\d{2})(?=$|-)/, "$1$2");
   const traitQuery = normalize(filters.trait);
   const costQuery = normalize(filters.cost);
 
@@ -234,6 +234,7 @@ function setRank(value) {
 }
 
 function matchesNumericFilter(value, filter) {
+  if (value === undefined || value === null || String(value).trim() === "" || value === "-") return false;
   const numeric = Number(String(value || "").replace(/[^0-9.-]/g, ""));
   if (!Number.isFinite(numeric)) {
     return false;

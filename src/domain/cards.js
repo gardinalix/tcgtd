@@ -1,4 +1,5 @@
 export function getMetaSignal(card) {
+  if (card.archivePreview) return { value: "preview", label: "PREVIEW", tone: "gold", reason: "Reveal awaiting an official catalog entry. Details may change before release." };
   const recentMeta = Number(card.recentMetaScore || 0);
   const overallMeta = Number(card.overallMetaScore || 0);
   const recentUse = Number(card.recentTop8DecksUsing || 0);

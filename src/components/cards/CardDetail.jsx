@@ -3,8 +3,11 @@ import { Badge } from "./Badge";
 import { CardArt } from "./CardArt";
 import { PartnerOffer } from "./PartnerOffer";
 import { PriceTag } from "./PriceTag";
+import { useLocale } from "../../i18n/LocaleProvider";
 
 export function CardDetail({ card, onOpenCard, onOpenSynergyMap, onPrevious, onNext, positionLabel = "" }) {
+  const { locale } = useLocale();
+  const pt = locale === "pt-BR";
   if (!card) {
     return (
       <aside className="panel react-card-detail">
@@ -32,16 +35,21 @@ export function CardDetail({ card, onOpenCard, onOpenSynergyMap, onPrevious, onN
           </nav>
         ) : null}
         <div className="button-row card-detail-actions">
-          {onOpenCard ? <button type="button" onClick={() => onOpenCard(card.cardNumber)}>Open dossier page</button> : null}
-          {onOpenSynergyMap ? <button type="button" onClick={() => onOpenSynergyMap(card.cardNumber)}>Synergy map</button> : null}
+          {onOpenCard && !card.archivePreview ? <button type="button" onClick={() => onOpenCard(card.cardNumber)}>Open dossier page</button> : null}
+          {onOpenSynergyMap && !card.archivePreview ? <button type="button" onClick={() => onOpenSynergyMap(card.cardNumber)}>Synergy map</button> : null}
+          {card.archivePreview ? <a href={card.previewSourceUrl} target="_blank" rel="noopener noreferrer">Open reveal source</a> : null}
         </div>
         <div className="badge-row">
           <Badge tone={signal.tone}>{signal.label}</Badge>
           <Badge tone="blue">{card.cardType}</Badge>
           {card.hasAltArt ? <Badge tone="purple">Alt art</Badge> : null}
         </div>
-        <PriceTag card={card} compact />
-        <PartnerOffer card={card} />
+        {card.archivePreview ? <p role="note">
+          {card.previewConfidence === "reported" ? (pt ? "Revelação reportada / aguardando verificação." : "Reported reveal / awaiting verification.") : (pt ? "Prévia oficial." : "Official preview.")}{" "}
+          {pt ? "Aguardando inclusão no catálogo oficial." : "Awaiting an official catalog entry."}{" "}
+          {card.previewContext?.startsWith("Artwork reveal only") ? (pt ? "Somente a arte foi revelada; os detalhes completos ainda não foram mostrados." : card.previewContext) : ""}{" "}
+          {card.previewSourceDate ? `${pt ? "Fonte" : "Source"}: ${card.previewSourceDate}.` : ""}
+        </p> : <><PriceTag card={card} compact /><PartnerOffer card={card} /></>}
         <dl className="detail-grid">
           <div><dt>Color</dt><dd>{card.color}</dd></div>
           <div><dt>Rarity</dt><dd>{card.rarity || "-"}</dd></div>

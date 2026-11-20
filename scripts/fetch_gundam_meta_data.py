@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import gzip
 import hashlib
 import json
 import re
@@ -26,6 +27,7 @@ EGMAN_DIR = SCRATCH_DIR / "egman"
 LIMITLESS_DIR = SCRATCH_DIR / "limitless"
 
 META_SNAPSHOT_PATH = DATA_DIR / "gundam_meta_snapshot.json"
+LEGACY_ARCHIVE_PATH = DATA_DIR / "competitive" / "raw" / "legacy-csv" / "current" / "source.json.gz"
 CARD_SNAPSHOT_PATH = DATA_DIR / "gundam_gcg_snapshot.json"
 
 USER_AGENT = (
@@ -833,6 +835,34 @@ def write_csv(path: Path, rows: list[dict], fieldnames: Iterable[str]) -> None:
             writer.writerow(row)
 
 
+def retain_limitless_history(
+    previous: dict, events: list[dict], results: list[dict], deck_cards: list[dict]
+) -> None:
+    """Keep archived tournaments when they disappear from the completed feed."""
+    current_urls = {row["source_url"] for row in events}
+    missing = [
+        row for row in previous.get("events", [])
+        if row["source_name"] == "Limitless" and row["source_url"] not in current_urls
+    ]
+    retained_ids = {row["event_id"] for row in missing}
+    for target, rows, numeric_fields in (
+        (events, missing, ("player_count", "event_instance")),
+        (results, previous.get("results", []), ("player_count", "placing_rank")),
+        (deck_cards, previous.get("deck_cards", []), ("placing_rank", "quantity")),
+    ):
+        for row in rows:
+            if row["event_id"] not in retained_ids:
+                continue
+            restored = dict(row)
+            for field in numeric_fields:
+                if field in restored:
+                    value = restored[field]
+                    restored[field] = int(value) if value not in ("", None) else None
+            target.append(restored)
+    if retained_ids:
+        print(f"Retained {len(retained_ids)} archived Limitless tournaments.", flush=True)
+
+
 def main() -> int:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     EGMAN_DIR.mkdir(parents=True, exist_ok=True)
@@ -868,6 +898,13 @@ def main() -> int:
         fetch_limitless_data(card_lookup)
     )
     source_rows.extend(limitless_source_rows)
+    if META_SNAPSHOT_PATH.is_file():
+        previous = json.loads(META_SNAPSHOT_PATH.read_text(encoding="utf-8"))
+        retain_limitless_history(previous, limitless_events, limitless_results, limitless_deck_cards)
+    if LEGACY_ARCHIVE_PATH.is_file():
+        with gzip.open(LEGACY_ARCHIVE_PATH, "rt", encoding="utf-8") as archive:
+            previous = json.load(archive)
+        retain_limitless_history(previous, limitless_events, limitless_results, limitless_deck_cards)
 
     events_by_id = {row["event_id"]: row for row in egman_events + limitless_events}
     results_by_id = {row["result_id"]: row for row in egman_results + limitless_results}

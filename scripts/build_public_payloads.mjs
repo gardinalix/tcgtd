@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { mergePreviewSignals } from "../src/domain/archivePreviews.js";
 import { buildMetaWindows, buildScopedMetaSignal } from "../src/domain/meta.js";
 
 const ROOT = process.cwd();
@@ -9,8 +10,29 @@ const ASSET_ROOT = path.join(ROOT, "web", "assets");
 const RIGHTS_MANIFEST_PATH = path.join(ASSET_ROOT, "rights-manifest.json");
 
 const data = JSON.parse(await fs.readFile(APP_DATA_PATH, "utf8"));
+const registry = JSON.parse(await fs.readFile(path.join(ROOT, "data/competitive/sources/reported_preview_registry.json"), "utf8"));
+data.previews = mergePreviewSignals(data, registry);
+try {
+  const report = JSON.parse(await fs.readFile(path.join(ROOT, "data/ligagundam_scan_report.json"), "utf8"));
+  data.priceSources = { ...data.priceSources, ligagundam: {
+    status: report.status, attemptedAt: report.attempted_at_utc,
+    lastObservationAt: report.last_observation_utc,
+    automaticStatus: report.automatic_status,
+    observedListings: report.observed_listings,
+    retainedListings: report.retained_listings,
+    oldestObservationAt: report.oldest_observation_utc,
+  } };
+} catch (error) { if (error.code !== "ENOENT") throw error; }
+await replacePayload(APP_DATA_PATH, `${JSON.stringify(data)}\n`);
+await replacePayload(path.join(ROOT, "web/app-data.js"), `window.GUNDAM_DECK_BUILDER_DATA = ${JSON.stringify(data)};\n`);
 await fs.writeFile(HOME_DATA_PATH, `${JSON.stringify(buildHomePayload(data), null, 2)}\n`, "utf8");
 await fs.writeFile(RIGHTS_MANIFEST_PATH, `${JSON.stringify(await buildRightsManifest(data), null, 2)}\n`, "utf8");
+
+async function replacePayload(target, content) {
+  const temporary = `${target}.tmp`;
+  await fs.writeFile(temporary, content, "utf8");
+  await fs.rename(temporary, target);
+}
 
 function buildHomePayload(source) {
   const metaResults = [...(source.metaResults || [])].sort(byNewestEvent);

@@ -1,5 +1,6 @@
 import { CardArt } from "../components/cards/CardArt";
 import { PriceTag } from "../components/cards/PriceTag";
+import { LigaPriceStatus } from "../components/cards/LigaPriceStatus";
 import { formatBrl, formatUsd, getPriceTelemetry, tcgReferenceBrl } from "../domain/cards";
 import {
   TacticalDataPanel,
@@ -35,6 +36,7 @@ export function PricesPage({ data }) {
         <TacticalSummaryCard label="TCG coverage" value={`${coverage}%`} />
         <TacticalSummaryCard label="LigaGundam coverage" value={`${brCoverage}%`} tone="gold" />
       </TacticalSummaryStrip>
+      <LigaPriceStatus status={data.priceSources?.ligagundam} />
       <TacticalDataPanel title="LigaGundam price watchlist" subtitle="Cards with the highest LigaGundam markup versus TCGPlayer BRL reference.">
         <div className="react-table-wrap" tabIndex={0} role="region" aria-label="Market price comparison">
         <table className="data-table react-card-table">

@@ -11,6 +11,8 @@ import {
 import { DEFAULT_FILTERS as DEFAULT_CARD_FILTERS, filterCards, uniqueValues } from "../utils/cardFilters";
 import { sortCards } from "../domain/cards";
 import { buildCardArchiveRows, downloadCardArchive } from "../domain/cardArchiveExport";
+import { buildArchivePreviewCards } from "../domain/archivePreviews";
+import { LigaPriceStatus } from "../components/cards/LigaPriceStatus";
 
 const INITIAL_CARD_BATCH = 24;
 
@@ -19,6 +21,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   const [viewMode, setViewMode] = useState("grid");
   const [sortMode, setSortMode] = useState("recent-meta");
   const [printMode, setPrintMode] = useState("all");
+  const [availability, setAvailability] = useState("all");
   const [resultLimit, setResultLimit] = useState(INITIAL_CARD_BATCH);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
@@ -32,16 +35,18 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
   const cards = data.cards || [];
   const resourceCards = data.resourceCards || [];
   const allCards = useMemo(() => [...cards, ...resourceCards], [cards, resourceCards]);
-  const searchableCards = useMemo(() => expandCardsByPrinting(allCards), [allCards]);
+  const searchableCards = useMemo(() => [...expandCardsByPrinting(allCards), ...buildArchivePreviewCards(data)], [allCards, data]);
   const visibleCards = useMemo(() => {
     const filtered = filterCards(searchableCards, filters).filter((card) => {
+      if (availability === "catalog" && card.archivePreview) return false;
+      if (availability === "previews" && !card.archivePreview) return false;
       if (printMode === "base") return !card.hasAltArt;
       if (printMode === "alts") return card.hasAltArt;
       return true;
     });
     return sortCards(filtered, sortMode);
-  }, [searchableCards, filters, sortMode, printMode]);
-  const selectedCard = searchableCards.find((card) => card.displayId === selectedCardId) || visibleCards[0] || null;
+  }, [searchableCards, filters, sortMode, printMode, availability]);
+  const selectedCard = visibleCards.find((card) => card.displayId === selectedCardId) || visibleCards[0] || null;
   const pageCards = visibleCards.slice(0, resultLimit);
   const activeFilterCount = Object.values(filters).filter((value) => value && value !== "Any").length;
   const options = {
@@ -58,7 +63,7 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
 
   useEffect(() => {
     setResultLimit(INITIAL_CARD_BATCH);
-  }, [filters, sortMode, printMode]);
+  }, [filters, sortMode, printMode, availability]);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 820px)");
@@ -162,15 +167,17 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
           </>
         )}
       />
+      <LigaPriceStatus status={data.priceSources?.ligagundam} />
       {exportOpen ? (
         <div className="card-archive-export-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setExportOpen(false); }}>
           <section className="card-archive-export-panel" role="dialog" aria-modal="true" aria-labelledby="archive-export-title">
             <div className="card-archive-export-heading"><span>TCGTD // DATA EXPORT</span><button type="button" aria-label="Close export dialog" onClick={() => setExportOpen(false)}>×</button></div>
             <h2 id="archive-export-title">Export Card Database</h2>
             <p>Download an Excel workbook containing the official public card catalog, including Resources.</p>
+            <p>Preview-only reveals are excluded from this catalog export.</p>
             <label><input type="checkbox" checked={exportVariants} onChange={(event) => setExportVariants(event.target.checked)} /> Include every printing, alternate art and promotional variant</label>
             <label><input type="checkbox" checked={exportFiltered} onChange={(event) => setExportFiltered(event.target.checked)} /> Export current filtered results only</label>
-            <p className="card-archive-export-count">{exportFiltered ? (exportVariants ? new Set(visibleCards.map((card) => card.displayId || card.detailSearchId || card.cardNumber)).size : new Set(visibleCards.map((card) => card.cardNumber)).size) : (exportVariants ? searchableCards.length : new Set(allCards.map((card) => card.cardNumber)).size)} rows selected · .xlsx</p>
+            <p className="card-archive-export-count">{exportFiltered ? (exportVariants ? new Set(visibleCards.filter((card) => !card.archivePreview).map((card) => card.displayId || card.detailSearchId || card.cardNumber)).size : new Set(visibleCards.filter((card) => !card.archivePreview).map((card) => card.cardNumber)).size) : (exportVariants ? searchableCards.filter((card) => !card.archivePreview).length : new Set(allCards.map((card) => card.cardNumber)).size)} rows selected · .xlsx</p>
             {exportError ? <p role="alert" className="card-archive-export-error">{exportError}</p> : null}
             <div className="card-archive-export-actions"><button type="button" onClick={() => setExportOpen(false)}>CANCEL</button><button type="button" onClick={exportCards}>DOWNLOAD XLSX</button></div>
           </section>
@@ -233,6 +240,14 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
           <button type="button" onClick={openFilters}>FILTERS {activeFilterCount ? `· ${activeFilterCount}` : ""}</button>
         </div>
         <div className="card-results-toolbar" role="toolbar" aria-label="Card result controls">
+          <label className="card-results-toolbar__availability">
+            <span>Availability</span>
+            <select value={availability} onChange={(event) => setAvailability(event.target.value)}>
+              <option value="all">Catalog + previews</option>
+              <option value="catalog">Catalog only</option>
+              <option value="previews">Previews / leaks</option>
+            </select>
+          </label>
           <label className="card-results-toolbar__sort">
             <span>Sort</span>
             <select value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
@@ -302,14 +317,14 @@ export function CardsPage({ data, filters, setFilter, onOpenCard, onOpenSynergy,
           onNext={visibleCards.length > 1 ? () => selectRelativeCard(1) : undefined}
           positionLabel={selectedCardIndex >= 0 ? `${selectedCardIndex + 1} / ${visibleCards.length}` : ""}
         />
-        <SynergyPanel
+        {!selectedCard?.archivePreview ? <SynergyPanel
           sourceCard={selectedCard}
           data={data}
           limit={3}
           compact
           onOpenCard={onOpenCard}
           onOpenFull={onOpenSynergy}
-        />
+        /> : null}
       </aside>
       </div>
     </TacticalPageShell>

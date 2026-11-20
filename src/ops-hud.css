@@ -4826,3 +4826,18 @@ body[data-view="decks"] .deck-designer:not(.is-engaged) .deck-designer__launch {
       "counter" !important;
   }
 }
+#root .hud-app .card-results-toolbar__availability {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: .75rem;
+  flex: 1 1 100%;
+  min-width: 0;
+  font-size: .875rem;
+}
+#root .hud-app .card-results-toolbar__availability select {
+  width: 100% !important;
+  min-width: 0;
+  min-height: 32px !important;
+  font-size: .875rem;
+}

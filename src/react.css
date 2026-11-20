@@ -20562,3 +20562,18 @@ body[data-view="home"]:has(.zero-system-cockpit:not([hidden])) .military-hud-loa
     scroll-behavior: auto !important;
   }
 }
+.liga-price-status {
+  margin: 0 0 1rem;
+  padding: .85rem 1rem;
+  border: 1px solid #d9aa49;
+  border-radius: .4rem;
+  color: var(--text-primary, #e9edf4);
+  background: rgba(110, 76, 20, .2);
+  font-size: .9rem;
+  line-height: 1.5;
+}
+
+.market-readout__checked {
+  display: block;
+  font-size: .85rem;
+}

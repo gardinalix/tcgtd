@@ -4,6 +4,15 @@ export const SUPPORTED_LOCALES = ["pt-BR", "en"];
 let runtimeLocale = DEFAULT_LOCALE;
 
 const PT_BR = {
+  "Availability": "Disponibilidade",
+  "Catalog + previews": "Catálogo + prévias",
+  "Catalog only": "Somente catálogo",
+  "Previews / leaks": "Prévias / leaks",
+  "PREVIEW": "PRÉVIA",
+  "Open reveal source": "Abrir fonte da revelação",
+  "See the linked reveal for provisional card text.": "Consulte a revelação na fonte para ver o texto provisório da carta.",
+  "Reveal awaiting an official catalog entry. Details may change before release.": "Revelação aguardando inclusão no catálogo oficial. Os detalhes podem mudar até o lançamento.",
+  "Preview-only reveals are excluded from this catalog export.": "Revelações disponíveis apenas como prévia não entram na exportação do catálogo.",
   "No comparable previous period": "Sem período anterior comparável",
   "Conflicting first-place records. Source review required.": "Primeiros lugares conflitantes. A fonte precisa de revisão.",
   "Contribute results": "Contribuir com resultados",

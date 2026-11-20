@@ -1080,6 +1080,8 @@ def without_retired_prices(card: dict) -> dict:
 
 
 def finalize_payload(payload: dict, previous: dict, advisor: dict, catalog: dict, *, preserve_tcg: bool, preserve_printing_tcg: bool, preserve_liga: bool) -> dict:
+    if "priceSources" in previous:
+        payload["priceSources"] = previous["priceSources"]
     if not advisor:
         for key in ("advisorSnapshotGeneratedAt", "metaSnapshotGeneratedAt", "recentWindowDays", "recentCutoffDate",
                     "defaults", "rules", "archetypes", "templates", "colorPairs", "sources", "filters", "counts"):

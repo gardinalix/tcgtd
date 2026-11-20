@@ -1,7 +1,10 @@
 import { formatBrl, getPriceTelemetry } from "../../domain/cards";
+import { useLocale } from "../../i18n/LocaleProvider";
 
 export function PriceTag({ card, compact = false }) {
+  const { locale } = useLocale();
   const signal = getPriceTelemetry(card);
+  if (card.archivePreview) return <span>{locale === "pt-BR" ? "Prévia · sem preço confirmado" : "Preview · no confirmed price"}</span>;
   const deltaLabel = Number.isFinite(signal.deltaPct)
     ? `${signal.deltaPct >= 0 ? "+" : ""}${signal.deltaPct.toFixed(0)}% vs REF`
     : "";
@@ -30,6 +33,7 @@ export function PriceTag({ card, compact = false }) {
         <span className="market-readout__empty">NO SYNCHRONIZED LISTING</span>
       )}
       {deltaLabel ? <small className={`market-readout__delta${signal.deltaPct > 20 ? " is-hot" : signal.deltaPct < -20 ? " is-low" : ""}`}>{deltaLabel}</small> : null}
+      {signal.sourceCode === "LIGA" && signal.checkedAt ? <small className="market-readout__checked">{locale === "pt-BR" ? "Observado em" : "Observed on"} {new Date(signal.checkedAt).toLocaleDateString(locale)}</small> : null}
     </span>
   );
 }

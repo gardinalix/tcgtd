@@ -18,15 +18,15 @@ export function CardTile({ card, onSelect, onOpenSynergyMap }) {
       >
         <CardArt card={card} className="art-frame" compact />
         <span className="card-gallery-tile__badges">
-          {card.hasAltArt ? <b>ALT</b> : card.rarity ? <b>{card.rarity}</b> : null}
+          {card.archivePreview ? <b>PREVIEW</b> : card.hasAltArt ? <b>ALT</b> : card.rarity ? <b>{card.rarity}</b> : null}
         </span>
-        <MarketPriceBadge card={card} />
+        {!card.archivePreview ? <MarketPriceBadge card={card} /> : null}
       </button>
       <div className="library-card__body">
         <span className="card-gallery-tile__number">{card.displayCardNumber || card.cardNumber}</span>
         <h3>{card.cardName}</h3>
         <p>{[card.color, card.cardType, card.rarity].filter(Boolean).join(" / ")}</p>
-        {onOpenSynergyMap ? (
+        {onOpenSynergyMap && !card.archivePreview ? (
           <button
             type="button"
             className="card-map-button"
