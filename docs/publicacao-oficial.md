@@ -29,12 +29,17 @@ Qualquer chat do projeto com acesso funcional ao Sites pode executar o mesmo flu
 
 ## Última publicação observada
 
+- Versão **134**, fonte `a5aa94e2be7dcb7864890548fb3457a899220485`, versão salva `appgprj_6a68269688848191accea7675bbb56b3~appgver_0cb7dcc42144819192a6c4a0a23a4106`, deployment `appgdep_6b0045966308819199bc835d4b4c67ac`. Publicada diretamente pelo conector Sites neste chat. Modelo Codex baseado em GPT-6, variante exata não identificada.
+- **Publicação:** concluída. O pacote contém o SHA validado, reconcilia a v133 e passou por 192 testes Node, 25 testes Python, build e migração SQLite em memória. Os 2.632 arquivos do build congelado conferiram com o TAR antes do envio.
+- **Verificação live:** os quatro JSONs públicos conferiram por SHA256; `/cards`, `/previews`, `/prices` e o evento de 19/11 responderam com o bundle validado. No navegador, `GD 07` retornou 23 revelações e `EB02` retornou Destiny Gundam com fonte. Os três preços de Infinite Justice Gundam conferiram nas respectivas impressões. A busca também passou na prévia móvel de 390 px.
+- **LigaGundam:** bloqueio do transporte HTTP identificado e tratado, sem renovar datas do cache. Três anúncios foram conferidos pelo navegador e importados; 1.579 mantêm as datas anteriores. A coleta automática completa continua dependente do acesso permitido pela fonte. Diagnóstico em `docs/diagnostico-ligagundam.md`; evidências em `.local/tcgtd-release-a5aa94e`; TAR preservado em `E:/Codex/tcgtd-releases/archive-liga-a5aa94e.tar`.
+
+## Publicações anteriores
+
 - Versão **133**, fonte `891eaa95d6f7b07a3a4d0cfd5d701aa869739ca8`, deployment `appgdep_6b0040b206948191a0d76a05ea802aab`. Publicada diretamente pelo conector Sites neste chat. Modelo Codex baseado em GPT-6, variante exata não identificada.
 - Refresh de 20/11 validado com 188 testes Node, build, migração SQLite em memória, integridade do banco e dos XLSX e validação do TAR. O reinício do aplicativo interrompeu a primeira execução após cartas e preços. A retomada reutilizou essas etapas concluídas e executou META, relatórios, workbooks e build.
 - No domínio, os quatro JSONs públicos conferiram por SHA256 com o pacote. As rotas `/cards`, `/previews` e `/community/events/cd5b3a1bb3d33c25` responderam com o bundle validado. O Eagle’s Nest de 19/11 está disponível, e o catálogo conserva as 1.195 cartas canônicas e todos os torneios anteriormente publicados.
 - LigaGundam continua bloqueando o coletor com um desafio Cloudflare. Os preços de 13/11 foram mantidos com suas datas originais. TCGCSV e USD/BRL foram atualizados em 20/11. Evidências e TAR em `.local/tcgtd-release-891eaa9`.
-
-## Publicações anteriores
 
 - Versão **132**, fonte `6fce667f5fb11e28a122f84869e378e3aa3364fb`, deployment `appgdep_6afafc3b2d348191a4eafdd5f4079b4a`. Publicada pelo Atualizador Oficial do Site. Modelo exibido no publicador GPT-6 Astra High.
 - O TAR validado passou por 188 testes Node, 19 testes Python, build e migração SQLite em memória. Conferimos em produção os hashes dos três JSONs públicos e as rotas `/cards`, `/previews` e `/community/events/47e92c95dde0aa2f` do Eagle’s Nest de 12/11.
