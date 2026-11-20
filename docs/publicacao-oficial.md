@@ -29,12 +29,16 @@ Qualquer chat do projeto com acesso funcional ao Sites pode executar o mesmo flu
 
 ## Última publicação observada
 
+- Versão **136**, fonte `636cd65865c542885ae294e7024ecaff54d557f3`, versão salva `appgprj_6a68269688848191accea7675bbb56b3~appgver_a5ad956a969881919770cdc5d3968936`, deployment `appgdep_6b00a7dc3c348191b8ed6be425d1d830`. Publicada diretamente pelo conector Sites. Modelo Codex baseado em GPT-6, variante exata não identificada.
+- **Publicação:** concluída. Miniatura GFreD padronizada como esquemático de corpo inteiro em violeta/lilás, com transparência, quadro de 205 px e composição luminosa iguais aos temas existentes. Cinco testes de temas, build e conferência local em 1440/390 px passaram. Os 2.636 arquivos do build foram conferidos por SHA256 dentro do TAR; fonte sincronizada no GitHub e na hospedagem.
+- **Verificação live:** a página inicial, o JavaScript, o CSS, o manifesto de assets e `gfred-blueprint.webp` conferiram com o build. A miniatura carregou no domínio público, com o quadro de 205 px e a preferência GFreD preservada. Evidências em `.local/tcgtd-release-636cd65`; TAR em `E:/Codex/tcgtd-releases/archive-gfred-blueprint-636cd65.tar` (SHA256 `7ab983817c9ff09c1a335382ba9cdbefc0ec3969739a9b7c63593386b082fce2`). Pendências desta correção: **nenhuma**.
+
+## Publicações anteriores
+
 - Versão **135**, fonte `eddcb1f54d2c75e8118d8ba66c8eab8bf1d07682`, versão salva `appgprj_6a68269688848191accea7675bbb56b3~appgver_6dbb3fa4aad081918c5e3174926b620f`, deployment `appgdep_6b00a555faac81918db22cfb50e24a7a`. Publicada diretamente pelo conector Sites. Modelo Codex baseado em GPT-6, variante exata não identificada.
 - **Publicação:** concluída. Tema opcional GFreD / Alphaciders com paleta violeta, arte da unidade, cockpit próprio e seleção persistente. Passou em 192 testes Node, build e migração SQLite em memória. Os 2.635 arquivos do build congelado conferiram com o TAR antes do envio. Fonte sincronizada no GitHub `main` e na branch de hospedagem.
 - **Verificação live:** cockpit e seletor conferidos no domínio; preferência GFreD preservada ao navegar para `/cards` e voltar. `/`, `/cards`, `/previews` e `/settings` responderam como navegação HTML com o bundle validado. Os hashes dos dados JSON públicos, do JavaScript, do CSS e das três imagens/emblema do tema conferiram com o build. Desktop de 1440 px e celular de 390 px foram verificados localmente.
 - Evidências em `.local/tcgtd-release-eddcb1f`; TAR preservado em `E:/Codex/tcgtd-releases/archive-gfred-eddcb1f.tar` (gzip, SHA256 `903b9017b4a526becde5b95bffdf7d94fba9de95b0ed238992b35447e2138741`). O Sites reempacotou o arquivo recebido em TAR, com hash `d921ffbbdc7a170a3eab7ef1bfb24688d31d996e9a4f75be9a35be8ffc0a4235` e os mesmos 2.636 arquivos do artefato. A correspondência do conteúdo foi verificada nos arquivos publicados. Pendências desta mudança: **nenhuma**.
-
-## Publicações anteriores
 
 - Versão **134**, fonte `a5aa94e2be7dcb7864890548fb3457a899220485`, versão salva `appgprj_6a68269688848191accea7675bbb56b3~appgver_0cb7dcc42144819192a6c4a0a23a4106`, deployment `appgdep_6b0045966308819199bc835d4b4c67ac`. Publicada diretamente pelo conector Sites neste chat. Modelo Codex baseado em GPT-6, variante exata não identificada.
 - **Publicação:** concluída. O pacote contém o SHA validado, reconcilia a v133 e passou por 192 testes Node, 25 testes Python, build e migração SQLite em memória. Os 2.632 arquivos do build congelado conferiram com o TAR antes do envio.
