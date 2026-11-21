@@ -29,12 +29,17 @@ Qualquer chat do projeto com acesso funcional ao Sites pode executar o mesmo flu
 
 ## Última publicação observada
 
+- Versão **138**, fonte `944b6f913b6dc47f3d70f2c25ba676dd6a4db793`, versão salva `appgprj_6a68269688848191accea7675bbb56b3~appgver_2224eb603c788191b5557d45566fd8bc`, deployment `appgdep_6b01131cde2c8191bba0573623cfcaab`. Publicada diretamente pelo conector Sites em **21/11/2026**. Modelo Codex baseado em GPT-6, variante exata não identificada.
+- **Publicação:** concluída. Corrigida a grade do cabeçalho para os nomes longos dos temas, com espaço real para o seletor e margem de 10 px entre campos. Em telas de até 480 px, os dois seletores ocupam linhas próprias. Removidas as miras decorativas dos cenários dos cockpits. Passaram 28 testes de interface/temas e build; 2.644 arquivos do build conferiram por SHA256 dentro do TAR. Fonte sincronizada no GitHub `main` e na hospedagem.
+- **Verificação live:** Shining e Master conferidos sem círculos ou losangos sobre o cenário. Em desktop de 1200 px, o seletor Shining ocupa os limites da própria coluna e mantém 10 px de separação do formato; em celular de 390 px, os campos ocupam linhas separadas de 332 px. Dez checks HTTP confirmaram dados, cenários, JavaScript/CSS e as rotas `/` e `/cards`. Localmente foram conferidas as larguras 320/390/1200/1440 px e ausência dos pseudo-elementos decorativos nos dez temas.
+- Evidências em `.local/tcgtd-release-944b6f9`; TAR em `E:/Codex/tcgtd-releases/archive-cockpit-cleanup-944b6f9.tar` (SHA256 `8c07c4c16d9dc0826b9f27996cbf166e2553a68bb33b5d1f73d5d739779547a9`). Pendências desta correção: **nenhuma**.
+
+## Publicações anteriores
+
 - Versão **137**, fonte `165c63ba26c62bf180e72354bd4af70ff7396be9`, versão salva `appgprj_6a68269688848191accea7675bbb56b3~appgver_9d6503ca417c8191bb23226a86122006`, deployment `appgdep_6b0109e17a9c81919c1c10b0c9a17d7a`. Publicada diretamente pelo conector Sites em **21/11/2026**. Modelo Codex baseado em GPT-6, variante exata não identificada.
 - **Publicação:** concluída em uma única versão. Temas Shining Gundam (dourado/verde, montanhas ao amanhecer) e Master Gundam (rubi/violeta, arena urbana ao entardecer), ambos com miniaturas esquemáticas transparentes e emblemas próprios. Passaram 192 testes Node, build final, migração SQLite em memória e transparência dos dois esquemáticos. Os 2.644 arquivos do build congelado conferiram com o TAR; fonte sincronizada no GitHub `main` e na hospedagem.
 - **Verificação live:** os dois temas foram selecionados e seus cockpits e esquemáticos conferidos no domínio público. Os 19 checks HTTP confirmaram os hashes dos quatro JSONs de referência, do manifesto de assets, de JavaScript/CSS e dos oito assets dos temas; `/`, `/cards`, `/previews` e `/settings` retornaram o bundle validado em navegação HTML. Localmente foram conferidos os dois temas em desktop de 1440 px e celular de 390 px, além de persistência ao navegar e recarregar `/cards`.
 - Evidências em `.local/tcgtd-release-165c63b`, com as duas capturas live. TAR preservado em `E:/Codex/tcgtd-releases/archive-mobile-fighter-165c63b.tar` (SHA256 `e467c00e1d2ae6c70bb58ab49aba140bc59872fc1cf234b5601738b247737894`). Pendências desta publicação: **nenhuma**.
-
-## Publicações anteriores
 
 - Versão **136**, fonte `636cd65865c542885ae294e7024ecaff54d557f3`, versão salva `appgprj_6a68269688848191accea7675bbb56b3~appgver_a5ad956a969881919770cdc5d3968936`, deployment `appgdep_6b00a7dc3c348191b8ed6be425d1d830`. Publicada diretamente pelo conector Sites. Modelo Codex baseado em GPT-6, variante exata não identificada.
 - **Publicação:** concluída. Miniatura GFreD padronizada como esquemático de corpo inteiro em violeta/lilás, com transparência, quadro de 205 px e composição luminosa iguais aos temas existentes. Cinco testes de temas, build e conferência local em 1440/390 px passaram. Os 2.636 arquivos do build foram conferidos por SHA256 dentro do TAR; fonte sincronizada no GitHub e na hospedagem.
