@@ -34,8 +34,6 @@ body[data-theme="epyon"] #root .hud-app .orbital-menu > button:is(.is-active, :h
 body[data-theme="epyon"] .orbital-menu__signature { color: #ff8c9f; }
 
 body[data-theme="epyon"] .orbital-window { position: relative; isolation: isolate; padding: 26px 4px 24px; }
-/* Decorative targeting glass; the controls and data remain real HTML. */
-body[data-theme="epyon"] .orbital-window::before { content: ""; position: absolute; z-index: -1; pointer-events: none; width: min(64%, 400px); aspect-ratio: 1; top: 22px; left: 24%; border: 1px solid #ff476a66; border-radius: 50%; background: linear-gradient(90deg, transparent calc(50% - .5px), #ff4b5c55 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), #ff4b5c55 50%, transparent calc(50% + .5px)); box-shadow: 0 0 0 18px #ff3b4e08, inset 0 0 0 12px #f0384d08; }
 body[data-theme="epyon"] .orbital-window__coordinates { color: #ffd4dc; font-size: 10px; }
 body[data-theme="epyon"] .orbital-welcome { align-self: flex-start; width: min(380px, 70%); margin: auto 0 0; padding: 20px 14px 14px; text-align: left; background: linear-gradient(90deg, #09040bd9, #09040b80 75%, transparent); }
 body[data-theme="epyon"] .orbital-welcome__eyebrow { padding: 0 0 8px; border: 0; color: #ff91a5; background: transparent; letter-spacing: .16em; }
@@ -116,7 +114,6 @@ body[data-theme="epyon"] #root .hud-app .site-footer { background: #08050c; bord
   body[data-theme="epyon"] .orbital-cockpit { padding: 20px 22px 28px; background-size: auto 610px; background-position: 50% top; }
   body[data-theme="epyon"] .orbital-flight-deck { grid-template-columns: minmax(0, 1fr); gap: 24px; min-height: 0; }
   body[data-theme="epyon"] .orbital-window { min-height: 490px; padding: 8px 0 16px; }
-  body[data-theme="epyon"] .orbital-window::before { width: 75%; left: 12%; top: 45px; }
   body[data-theme="epyon"] .orbital-window__coordinates { font-size: 8px; gap: 12px; }
   body[data-theme="epyon"] .orbital-welcome { width: 100%; max-width: 360px; margin: auto 0 0; padding: 20px 10px 10px; background: linear-gradient(90deg, #0b040de8, #100414a6 75%, transparent); }
   body[data-theme="epyon"] #root .hud-app .orbital-welcome h1 { font-size: clamp(30px, 9vw, 40px); }
