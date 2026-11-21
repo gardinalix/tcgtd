@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Shining Gundam theme emblem">
+  <path d="m64 8 46 26v60l-46 26-46-26V34Z" fill="#141108" stroke="#ffd166" stroke-width="3"/>
+  <path d="m64 29 17 25 20 9-20 10-17 26-17-26-20-10 20-9Z" fill="none" stroke="#fff0bd" stroke-width="5"/>
+  <path d="M64 12v13m0 78v13M20 39l13 7m62 0 13-7" stroke="#ffd166" stroke-width="3"/>
+  <circle cx="64" cy="63" r="11" fill="#69e6b3"/>
+</svg>

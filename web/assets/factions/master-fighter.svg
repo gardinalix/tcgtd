@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Master Gundam theme emblem">
+  <path d="m64 8 46 26v60l-46 26-46-26V34Z" fill="#140b13" stroke="#ff667a" stroke-width="3"/>
+  <path d="m26 32 20 40 18 24 18-24 20-40-26 17-12-13-12 13Z" fill="none" stroke="#ff9cab" stroke-width="5" stroke-linejoin="bevel"/>
+  <path d="m48 67 16 12 16-12M64 13v15m0 75v12" fill="none" stroke="#bd9aff" stroke-width="4"/>
+</svg>

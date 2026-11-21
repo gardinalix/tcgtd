@@ -19,6 +19,7 @@ import "./kshatriya-cockpit.css";
 import "./gquuuuuux-cockpit.css";
 import "./aile-cockpit.css";
 import "./gfred-cockpit.css";
+import "./mobile-fighter-cockpit.css";
 import "./lower-cockpit.css";
 import { App } from "./App";
 import { LocaleProvider } from "./i18n/LocaleProvider";
